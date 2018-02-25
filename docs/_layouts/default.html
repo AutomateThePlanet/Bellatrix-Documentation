@@ -1,0 +1,50 @@
+{% include header.html %}
+
+{% if site.posts.size > 0 %}
+
+<nav id="features-nav" class="tat-u-lg-1-3 padding-30 lightblue text-blue">
+	<ul id="menu-features" class="">
+		
+		<li class="menu-item current-menu-item"><a href="#">{{ page.title | escape }}</a>
+			<ul class="sub-features">
+				<li class="sub-feature"><a href="#subfeature_lazy-loading-of-elements" class="js-scroll" data-scrollto="subfeature_lazy-loading-of-elements">Lazy Loading of Elements</a></li>
+				<li class="sub-feature"><a href="#subfeature_handle-all-synchronization-issues" class="js-scroll" data-scrollto="subfeature_handle-all-synchronization-issues">Handle All Synchronization Issues</a></li>
+			</ul>	
+		</li>
+		{% for post in site.posts %}
+			{% if post.id != page.id %}
+				<li class="menu-item"><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></li>
+			{% endif %}
+		{% endfor %}
+	</ul>	
+</nav>
+
+{% endif %}
+
+<main id="documentation">
+	
+	<div id="documentation-heading" class="gray">
+		<div class="container tat-g">
+
+			<div class="tat-u-1 tat-u-lg-2-3 padded-100">
+				<h1 id="feature-title" class="text-white">{{ page.title }}</h1>
+				{% if page.excerpt %}
+					<h4 id="feature-subtitle">{{ page.excerpt }}</h4>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	
+	<section class="padded-40 container">
+		
+		<section id="subfeature_lazy-loading-of-elements" class="tat-u-1 tat-u-lg-2-3 feature-section padded-40">
+			
+			{{ content }}
+				
+		</section>
+		
+	</section>
+</main>
+
+
+{% include footer.html %}
