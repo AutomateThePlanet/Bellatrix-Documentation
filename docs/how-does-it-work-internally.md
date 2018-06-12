@@ -1,11 +1,13 @@
 ---
 layout: default
 title:  "How Does It Work Internally?"
-excerpt: "We have many moving parts- server, test agents, runner and so on. All of them use single command-line-interface; there are no separate installers or executables."
-date:   2018-02-21 23:50:17 +0200
+excerpt: "Are you curious how the magic happens? Read a full description of how all moving parts work together."
+date:   2018-02-20 06:50:17 +0200
+permalink: /how-does-it-work-internally/
+anchors:
+  meissa-test-agent-mode: Test Agent
+  meissa-test-runner-mode: Meissa Test Runner Mode
 ---
-# How Does It Work Internally? #
-
 ![High Overview](https://i.imgur.com/dqJlM0f.png)
 
 We have many moving parts- server, test agents, runner and so on. All of them use single command-line-interface; there are no separate installers or executables.

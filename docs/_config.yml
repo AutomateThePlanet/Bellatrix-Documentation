@@ -40,3 +40,6 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+navigation: 
+    "how-does-it-work-internally":
+        title: How Does It Works?
