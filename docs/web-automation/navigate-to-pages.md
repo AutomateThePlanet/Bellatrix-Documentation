@@ -29,8 +29,10 @@ public class NavigateToPagesTests : WebTest
     }
 }
 ```
+
 Explanations
 ------------
+
 ```
 App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 ```
