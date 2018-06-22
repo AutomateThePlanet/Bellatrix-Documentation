@@ -101,7 +101,8 @@ public void PurchaseRocket()
     TextField billingCity = App.ElementCreateService.CreateById<TextField>("billing_city");
     billingCity.SetText("Sofia");
 
-    Select billingState = App.ElementCreateService.CreateById<Select>("billing_state").ToBeVisible().ToBeClickable();
+    Select billingState = 
+    App.ElementCreateService.CreateById<Select>("billing_state").ToBeVisible().ToBeClickable();
     billingState.SelectByText("Sofia-Grad");
 
     TextField billingZip = App.ElementCreateService.CreateById<TextField>("billing_postcode");
@@ -171,7 +172,8 @@ Locate elements by custom attribute. Bellatrix waits till the anchor is clickabl
 <a href="http://demos.bellatrix.solutions/cart/" class="added_to_cart wc-forward" title="View cart">View cart</a>
 ```
 ```
-Anchor viewCartButton = App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+Anchor viewCartButton = 
+App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
 viewCartButton.Click();
 ```
 Find the anchor by class 'added_to_cart wc-forward' and wait for the element again to be clickable.
