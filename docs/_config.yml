@@ -45,5 +45,11 @@ navigation:
         title: Overview
     "system-requirements":
         title: System Requirements
+    "installation":
+        title: Installation
+    "activation":
+        title: Activation
+    "how-to-use-starter-kits":
+        title: How to Use Starter Kits?
     "how-does-it-work-internally":
         title: How Does It Works2?
