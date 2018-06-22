@@ -133,6 +133,7 @@ public void CheckAllAddToCartButtons()
     var blogLink = App.ElementCreateService.CreateAllByXpath<Anchor>("//*[@title='Add to cart']");
 }
 ```
+
 Available CreateAll Methods
 ------------------------
 ### CreateAllByIdEndingWith ###
@@ -200,6 +201,7 @@ Searches the elements by its name containing the specified text.
 App.ElementCreateService.CreateAllByAttributesContaining<Anchor>("data-product_id", "31");
 ```
 Searches the elements by some of its attribute containing the specifed value. 
+
 Find Nested Elements
 ----------------------
 Sometimes it is easier to locate one element and then find the next one that you need, inside it. For example in this test we want to locate the Sale! button inside the product's description. To do it you can use the element's Create methods.
@@ -218,7 +220,9 @@ public void OpenSalesPage_When_LocatedSaleButtonInsideProductImage()
 }
 ```
 The first products row is located. Then search inside it for the first product image, inside it search for the Sale! Span element.
+
 **Note**: *It is entirely legal to create a Button instead of Span. Bellatrix library does not care about the real type of the HTML elements. The proxy types are convenience wrappers so to say. Meaning they give you a better interface of predefined properties and methods to make your tests more readable.*
+
 Available Create Methods for Finding Nested Elements
 ----------------------------------------------------
 ### CreateByIdEndingWith ###
