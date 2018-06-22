@@ -60,10 +60,11 @@ This is the attribute for automatic start/control of WebDriver browsers by Bella
 - Firefox in headless mode.
 
 **Note**: *Headless mode = executed in the browser but the browser's UI is not rendered, in theory, should be faster. In practice the time gain is little.*
+
 **BrowserBehavior** enum controls when the browser is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs. However you need to be careful because in case of tests failures the browser may need to be restarted.
 Available options:
 - **RestartEveryTime**- for each test a separate WebDriver instance is created and the previous browser is closed. The new browser comes with new cookies and cache.
-- RestartOnFail- the browser is only restarted if the previous test failed. Alternatively, if the previous test's browser was different.
+- **RestartOnFail**- the browser is only restarted if the previous test failed. Alternatively, if the previous test's browser was different.
 - **ReuseIfStarted**- the browser is only restarted if the previous test's browser was different. In all other cases, the browser is reused if possible.
 
 **Note**: *However, use this option with caution since in some rare cases if you have not properly setup your tests you may need to restart the browser if the test fails otherwise all other tests may fail too.*
