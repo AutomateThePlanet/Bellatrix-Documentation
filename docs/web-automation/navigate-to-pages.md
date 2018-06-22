@@ -3,27 +3,60 @@ layout: default
 title:  "Navigate to Pages"
 feature-title: "Web Automation"
 excerpt: "Learn how to navigate to web pages with Bellatrix web module."
-date:   2018-02-20 06:50:17 +0200
+date:   2018-06-22 06:50:17 +0200
 permalink: /navigate-to-pages/
 anchors:
-  meissa-test-agent-mode: Test Agent
-  meissa-test-runner-mode: Meissa Test Runner Mode
+  example: Example
+  explanations: Explanations
 ---
-![High Overview](https://i.imgur.com/dqJlM0f.png)
+Example
+-------
+```
+[TestClass]
+[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
+public class NavigateToPagesTests : WebTest
+{
+    [TestMethod]
+    public void PromotionsPageOpened_When_PromotionsButtonClicked()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-We have many moving parts- server, test agents, runner and so on. All of them use single command-line-interface; there are no separate installers or executables.
-First, we need to start the server. Its job is to synchronise the work between the runner and all agents. The first time we start it, a portable SQLite database is created. There are stored various kind of information, such as tests execution times, test output files, logs, exceptions, etc. The web service is self-hosted using the ASPNET.Core portable web server- Kestrel. All agents and runners communicate with the server via HTTP. 
-## Meissa Test Agent Mode ##
-![Test Agent Internal](https://i.imgur.com/6WtrVMN.png)
-When you start a test agent, it registers itself as active. Then, it continuously asks the server whether there are scheduled test agent runs to be executed on the machine.
-Then the so-called extensibility points plugins are loaded. They offer a way to plug in your logic at various points of the execution pipeline of Meissa runner and test agents. For example- run code before, after a test run or on abortion. At this point, the code from all plugins will be executed before proceeding. Then the specific test technology plugins are loaded. Based on the parallel options, the agent creates multiple tests batches. Then it starts and waits to finish all the processes.
-## Meissa Test Runner Mode ##
-![Test Runner Internal](https://i.imgur.com/O5h80ge.png)
-The test runner doesn’t have a local database. Because of that, it requires the server to be up all the time; otherwise, it cannot function properly.
-First, the so-called extensibility points plugins are loaded. At this point, the code from all plugins will be executed before proceeding. Then the test technology plugin is loaded.
-Using it the runner gets all active test agents from the API. After that it uses some logic from the plugins to extract and filter the test cases from the tests files. Based on the available test agents, it distributes the tests on each of them. It zips the test output files and sends them to the server, so each agent can download them before tests execution.
-The second part of the run is to wait for all test agents to finish. At the same time, a parallel process is started where the runner continually checks whether there are new messages to be printed sent by the agents. Also, one more thread is triggered that the runner verifies its health and one more for agents’ ones . If some of the agents don’t confirm its health on time, the test run is aborted. 
-At the end of the process, it merges all test results into a single file and completes the run.
-After all, processes finish the results files are merged. 
-If Meissa retry option is turned-on and there are any failed tests the whole procedure is repeated for them. At the end of the retry cycle, the test results are updated if any of the tests succeeded. 
-After this important step, the agent saves the merged results and completes the test agent run. After that, it waits for the test run to finish before starting to wait for new jobs.
+        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+
+        promotionsLink.Click();
+
+        App.BrowserService.WaitUntilReady();
+    }
+}
+```
+Explanations
+------------
+```
+App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+```
+You can always navigate in each separate tests, but if all of them go to the same page, you can use the above techniques for code reuse.
+```
+App.BrowserService.WaitUntilReady();
+```
+Sometimes, some AJAX async calls are not caught natively by WebDriver. So you can use the Bellatrix browser service's method. **WaitUntilReady** which waits for these calls automatically to finish. Keep in mind that usually this is not necessary since Bellatrix has a complex built-in mechanism for handling element waits.
+
+Depending on the types of tests you want to write there are a couple of ways to navigate to specific pages.
+In later chapters, there are more details about the different test workflow hooks. Find here two of them.
+```
+public override void TestsAct() => App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+```
+If you reuse your browser and want to navigate once to a specific page. You can use the **TestsAct** method.
+It executes once for all tests in the class.
+```
+public override void TestInit() => App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+```
+If you need each test to navigate each time to the same page, you can use the TestInit method.
+```
+App.NavigationService.WaitForPartialUrl("/blog/");
+```
+Sometimes before proceeding with searching and making actions on the next page, we need to wait for something.
+It is useful in some cases to wait for a partial URL instead hard-coding the whole URL since it can change depending on the environment. Keep in mind that usually this is not necessary since Bellatrix has a complex built-in mechanism for handling element waits.
+```
+App.NavigationService.NavigateToLocalPage("testPage.html");
+```
+Sometimes you may need to navigate to a local HTML file. We make it easier for you since it is complicated depending on the different browsers. Make sure to copy the file to the folder with your tests files. To do it, include it in the project and mark it as Copy Always.
