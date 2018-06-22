@@ -14,7 +14,7 @@ anchors:
 ---
 Introduction
 ------------
-Exception analysis or failed tests analysis is a Bellatrix feature that can provide you meaningful information why your tests failed, instead of viewing some native ugly exception messages like not found elements and so on. Here is how the system works. Always when some of your tests fail Bellatrix goes through so-called global ExceptionHandlers if some of their rules match a beatified message is displayed. Bellatrix comes with few global handlers such as file not found, generic .NET exception page, service unavailable. Also, we have created for your convenience a few base classes that you can derive from to create your global exception handlers.
+Exception analysis or failed tests analysis is a Bellatrix feature that can provide you meaningful information why your tests failed, instead of viewing some native ugly exception messages like not found elements and so on. Here is how the system works. Always when some of your tests fail Bellatrix goes through so-called global **ExceptionHandlers** if some of their rules match a beatified message is displayed. Bellatrix comes with few global handlers such as file not found, generic .NET exception page, service unavailable. Also, we have created for your convenience a few base classes that you can derive from to create your global exception handlers.
 ```
 public class OppsExceptionHandler : CustomHtmlExceptionHandler
 {
