@@ -32,7 +32,7 @@ public void PromotionsPageOpened_When_PromotionsButtonClicked()
 }
 ```
 Explanations
-------------
+-------
 ```
 var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
 ```

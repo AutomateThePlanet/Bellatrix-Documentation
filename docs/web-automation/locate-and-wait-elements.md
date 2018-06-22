@@ -3,27 +3,101 @@ layout: default
 title:  "Locate And Wait Elements"
 feature-title: "Web Automation"
 excerpt: "Learn how to locate and wait web elements with Bellatrix web module."
-date:   2018-02-20 06:50:17 +0200
+date:   2018-06-22 06:50:17 +0200
 permalink: /locate-and-wait-elements/
 anchors:
-  meissa-test-agent-mode: Test Agent
-  meissa-test-runner-mode: Meissa Test Runner Mode
+  example: Example
+  explanations: Explanations
+  all-available-tobe-methods: All Available ToBe Methods
 ---
-![High Overview](https://i.imgur.com/dqJlM0f.png)
+Example
+-------
+```
+[TestMethod]
+[Browser(BrowserType.Chrome, BrowserBehavior.RestartOnFail)]
+public void BlogPageOpened_When_PromotionsButtonClicked()
+{
+    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-We have many moving parts- server, test agents, runner and so on. All of them use single command-line-interface; there are no separate installers or executables.
-First, we need to start the server. Its job is to synchronise the work between the runner and all agents. The first time we start it, a portable SQLite database is created. There are stored various kind of information, such as tests execution times, test output files, logs, exceptions, etc. The web service is self-hosted using the ASPNET.Core portable web server- Kestrel. All agents and runners communicate with the server via HTTP. 
-## Meissa Test Agent Mode ##
-![Test Agent Internal](https://i.imgur.com/6WtrVMN.png)
-When you start a test agent, it registers itself as active. Then, it continuously asks the server whether there are scheduled test agent runs to be executed on the machine.
-Then the so-called extensibility points plugins are loaded. They offer a way to plug in your logic at various points of the execution pipeline of Meissa runner and test agents. For example- run code before, after a test run or on abortion. At this point, the code from all plugins will be executed before proceeding. Then the specific test technology plugins are loaded. Based on the parallel options, the agent creates multiple tests batches. Then it starts and waits to finish all the processes.
-## Meissa Test Runner Mode ##
-![Test Runner Internal](https://i.imgur.com/O5h80ge.png)
-The test runner doesn’t have a local database. Because of that, it requires the server to be up all the time; otherwise, it cannot function properly.
-First, the so-called extensibility points plugins are loaded. At this point, the code from all plugins will be executed before proceeding. Then the test technology plugin is loaded.
-Using it the runner gets all active test agents from the API. After that it uses some logic from the plugins to extract and filter the test cases from the tests files. Based on the available test agents, it distributes the tests on each of them. It zips the test output files and sends them to the server, so each agent can download them before tests execution.
-The second part of the run is to wait for all test agents to finish. At the same time, a parallel process is started where the runner continually checks whether there are new messages to be printed sent by the agents. Also, one more thread is triggered that the runner verifies its health and one more for agents’ ones . If some of the agents don’t confirm its health on time, the test run is aborted. 
-At the end of the process, it merges all test results into a single file and completes the run.
-After all, processes finish the results files are merged. 
-If Meissa retry option is turned-on and there are any failed tests the whole procedure is repeated for them. At the end of the retry cycle, the test results are updated if any of the tests succeeded. 
-After this important step, the agent saves the merged results and completes the test agent run. After that, it waits for the test run to finish before starting to wait for new jobs.
+    var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog").ToBeClickable().ToBeVisible();
+
+    blogLink.Click();
+
+    var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions").ToHasContent(40, 1);
+
+    promotionsLink.Click();
+}
+```
+Explanations
+------------
+```
+var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog").ToBeClickable().ToBeVisible();
+```
+Sometimes you need to perform an action against an element only when a specific condition is true. As mentioned in previous part of the guide, Bellatrix by default always waits for elements to exist.
+However, sometimes this may not be enough. For example, you may want to click on a button once it is clickable.
+It may be disabled at the beginning of the tests because some validation is not met. Your test fulfill the initial condition and if you use vanilla WebDriver the test most probably fails because WebDriver clicks too fast before your button is enabled by your code. So we created additional syntax sugar methods to help you deal with this. You can use element "**ToBe**" methods after the **Create** and **CreateAll** methods.
+As you can see in the example below you can chain multiple of this methods.
+
+**Note**: *Since Bellatrix, elements creation logic is lazy loading as mentioned before, Bellatrix waits for the conditions to be True on the first action you perform with the element.*
+
+**Note 2**: *Keep in mind that with this syntax these conditions are checked every time you perform an action with the element. Which can lead tо small execution delays.*
+
+The default timeouts that Bellatrix use are placed inside the **testFrameworkSettings.json** file, mentioned in 'Folder and File Structure'. Inside it, is the **timeoutSettings** section. All values are in seconds.
+```
+"timeoutSettings": {
+    "waitForAjaxTimeout": "30",
+    "sleepInterval": "1",
+    "elementToBeVisibleTimeout": "30",
+    "elementToExistTimeout": "30",
+    "elementToNotExistTimeout": "30",
+    "elementToBeClickableTimeout": "30",
+    "elementNotToBeVisibleTimeout": "30",
+    "elementToHaveContentTimeout": "15"
+ }
+```
+```
+var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions").ToHasContent(40, 1);
+```
+You can always override the timeout settings for each method. The first value is the timeout in seconds and the second one controls how often the engine checks the condition.
+All Available ToBe Methods
+--------------------------
+### ToExists ###
+```
+App.ElementCreateService.CreateByLinkText<Anchor>("Blog").ToExists();
+```
+Waits for the element to exist on the page. Bellatrix always does it by default. But if use another ToBe methods you need to add it again since you have to override the default behaviour.
+### ToNotExists ###
+```
+App.ElementCreateService.CreateByLinkText<Anchor>("Blog").ToNotExists();
+```
+Waits for the element to disappear. Usually, we use in assertion methods.
+### ToBeVisible ###
+```
+App.ElementCreateService.CreateByLinkText<Anchor>("Blog").ToBeVisible();
+```
+Waits for the element to be visible.
+### ToNotBeVisible ###
+```
+App.ElementCreateService.CreateByLinkText<Anchor>("Blog").ToNotBeVisible();
+```
+Waits for the element to be invisible.
+### ToBeClickable ###
+```
+App.ElementCreateService.CreateByLinkText<Anchor>("Blog").ToBeClickable();
+```
+Waits for the element to be clickable (may be disabled at first).
+### ToHasContent ###
+```
+App.ElementCreateService.CreateByLinkText<Anchor>("Blog").ToHasContent();
+```
+Waits for the element to has some content in it. For example, some validation DIV or label.
+### ToHasStyle ###
+```
+App.ElementCreateService.CreateByLinkText<Anchor>("Blog").ToHasStyle("disabled");
+```
+Waits for the element to have some content in it. For example, some validation DIV or label.
+### ToBeDisabled ###
+```
+App.ElementCreateService.CreateByLinkText<Anchor>("Blog").ToBeDisabled();
+```
+Waits for the element to be disabled.
