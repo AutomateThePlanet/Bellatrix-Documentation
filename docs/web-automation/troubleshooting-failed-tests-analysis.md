@@ -3,27 +3,92 @@ layout: default
 title:  "Troubleshooting- Failed Tests Analysis"
 feature-title: "Web Automation"
 excerpt: "Learn how to troubleshoot failing tests using Bellatrix failed tests analysis module."
-date:   2018-02-20 06:50:17 +0200
+date:   2018-06-22 06:50:17 +0200
 permalink: /troubleshooting-failed-tests-analysis/
 anchors:
-  meissa-test-agent-mode: Test Agent
-  meissa-test-runner-mode: Meissa Test Runner Mode
+  introduction: Introduction
+  example: Example
+  explanations: Explanations
+  prettified-exception-messages: Prettified Exception Messages
+  new-exception-handlers: New Exception Handlers
 ---
-![High Overview](https://i.imgur.com/dqJlM0f.png)
+Introduction
+------------
+Exception analysis or failed tests analysis is a Bellatrix feature that can provide you meaningful information why your tests failed, instead of viewing some native ugly exception messages like not found elements and so on. Here is how the system works. Always when some of your tests fail Bellatrix goes through so-called global ExceptionHandlers if some of their rules match a beatified message is displayed. Bellatrix comes with few global handlers such as file not found, generic .NET exception page, service unavailable. Also, we have created for your convenience a few base classes that you can derive from to create your global exception handlers.
+```
+public class OppsExceptionHandler : CustomHtmlExceptionHandler
+{
+    public override string DetailedIssueExplanation => "The test navigated to a page that was not present. Maybe someone deleted it?";
 
-We have many moving parts- server, test agents, runner and so on. All of them use single command-line-interface; there are no separate installers or executables.
-First, we need to start the server. Its job is to synchronise the work between the runner and all agents. The first time we start it, a portable SQLite database is created. There are stored various kind of information, such as tests execution times, test output files, logs, exceptions, etc. The web service is self-hosted using the ASPNET.Core portable web server- Kestrel. All agents and runners communicate with the server via HTTP. 
-## Meissa Test Agent Mode ##
-![Test Agent Internal](https://i.imgur.com/6WtrVMN.png)
-When you start a test agent, it registers itself as active. Then, it continuously asks the server whether there are scheduled test agent runs to be executed on the machine.
-Then the so-called extensibility points plugins are loaded. They offer a way to plug in your logic at various points of the execution pipeline of Meissa runner and test agents. For example- run code before, after a test run or on abortion. At this point, the code from all plugins will be executed before proceeding. Then the specific test technology plugins are loaded. Based on the parallel options, the agent creates multiple tests batches. Then it starts and waits to finish all the processes.
-## Meissa Test Runner Mode ##
-![Test Runner Internal](https://i.imgur.com/O5h80ge.png)
-The test runner doesn’t have a local database. Because of that, it requires the server to be up all the time; otherwise, it cannot function properly.
-First, the so-called extensibility points plugins are loaded. At this point, the code from all plugins will be executed before proceeding. Then the test technology plugin is loaded.
-Using it the runner gets all active test agents from the API. After that it uses some logic from the plugins to extract and filter the test cases from the tests files. Based on the available test agents, it distributes the tests on each of them. It zips the test output files and sends them to the server, so each agent can download them before tests execution.
-The second part of the run is to wait for all test agents to finish. At the same time, a parallel process is started where the runner continually checks whether there are new messages to be printed sent by the agents. Also, one more thread is triggered that the runner verifies its health and one more for agents’ ones . If some of the agents don’t confirm its health on time, the test run is aborted. 
-At the end of the process, it merges all test results into a single file and completes the run.
-After all, processes finish the results files are merged. 
-If Meissa retry option is turned-on and there are any failed tests the whole procedure is repeated for them. At the end of the retry cycle, the test results are updated if any of the tests succeeded. 
-After this important step, the agent saves the merged results and completes the test agent run. After that, it waits for the test run to finish before starting to wait for new jobs.
+    protected override string TextToSearchInSource => "Oops! That page can’t be found.";
+}
+```
+ For example we have created **OppsExceptionHandler**. It derives from the base class **CustomHtmlExceptionHandler**. If you navigate to the class, you see that we have specified the beatified message, and more importantly what text should Bellatrix search on the failed web page. If the text is located, your message is displayed. Once the page is created, we use the **AddExceptionHandler** to register the global exception handler.
+Usually we call this method once per test run so you can do it in the **AssemblyInitialize** method located in the **TestInialize**.cs
+Example
+-------
+```
+public class OppsUrlExceptionHandler : UrlExceptionHandler
+{
+    protected override string TextToSearchInUrl => "oops";
+
+    public override string DetailedIssueExplanation => "The test navigated to a page that was not present. Maybe someone deleted it?";
+}
+```
+```
+[TestClass]
+[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
+public class FailedTestsAnalysisTests : WebTest
+{
+    public override void TestsArrange()
+    {
+        App.AddExceptionHandler<OppsExceptionHandler>();
+        App.AddExceptionHandler<OppsUrlExceptionHandler>();
+    }
+
+    [TestMethod]
+    public void NavigateToNonExistingWebPage()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/welco1");
+
+        var couponButton = App.ElementCreateService.CreateById<Button>("couponBtn");
+        couponButton.Click();
+    }
+}
+```
+Explanations
+------------
+```
+App.AddExceptionHandler<OppsUrlExceptionHandler>();
+```
+Another class you can derive from is **OppsUrlExceptionHandler** instead of searching in the HTML source of the failed web page, this one checks parts of the URL which you specify in an override property.
+```
+var couponButton = App.ElementCreateService.CreateById<Button>("couponBtn");
+couponButton.Click();
+```
+Prettified Exception Messages
+----------------------------------
+If the custom handlers above are present, this is how the exception is printed:
+
+Message: Test method Bellatrix.Web.GettingStarted.ExceptionAnalysationTests.NavigateToNonExistingWebPage threw exception:
+Bellatrix.ExceptionAnalysation.AnalyzedTestException:
+
+########################################
+
+            The test navigated to a page that was not present. Maybe someone deleted it?
+
+########################################
+    ---> OpenQA.Selenium.WebDriverTimeoutException: Timed out after 30 seconds
+
+When the exception handlers are not present the exception is:
+
+Message: Test method Bellatrix.Web.GettingStarted.ExceptionAnalysationTests.NavigateToNonExistingWebPage threw exception:
+System.TimeoutException:
+
+The element with Name = control (ID = couponBtn) Locator couponBtn was not found on the page or didn't fulfill the specified conditions.
+
+As you can see the first message is more meaningful, and you directly know what is the exact problem even without rerunning the failed test.
+
+New Exception Handlers
+----------------------
+You can create your custom exception handlers without deriving from our base classes. Implement the IExceptionAnalysationHandler interface.
