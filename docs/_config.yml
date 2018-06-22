@@ -51,25 +51,25 @@ navigation:
         title: Activation
     "how-to-use-starter-kits":
         title: How to Use Starter Kits?
-    "web-automation\control-browser":
+    "control-browser":
         title: Control Browser
-    "web-automation\navigate-to-pages":
+    "navigate-to-pages":
         title: Navigate to Pages
-    "web-automation\locate-elements":
+    "locate-elements":
         title: Locate Elements
-    "web-automation\locate-and-wait-elements":
+    "locate-and-wait-elements":
         title: Locate and Wait Elements
-    "web-automation\wait-for-elements":
+    "wait-for-elements":
         title: Wait for Elements
-    "web-automation\browser-service":
+    "browser-service":
         title: BrowserService
-    "web-automation\dialog-service":
+    "dialog-service":
         title: DialogService
-    "web-automation\cookies-service":
+    "cookies-service":
         title: CookiesService
-    "web-automation\javascript-service":
+    "javascript-service":
         title: JavaScriptService
-    "web-automation\common-controls":
+    "common-controls":
         title: Common Controls
         
         
