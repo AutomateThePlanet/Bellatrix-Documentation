@@ -3,27 +3,67 @@ layout: default
 title:  "Troubleshooting- Video Recording"
 feature-title: "Web Automation"
 excerpt: "Learn how to use Bellatrix cross-platform video recording."
-date:   2018-02-20 06:50:17 +0200
+date:   2018-06-22 06:50:17 +0200
 permalink: /troubleshooting-video-recording/
 anchors:
-  meissa-test-agent-mode: Test Agent
-  meissa-test-runner-mode: Meissa Test Runner Mode
+  example: Example
+  explanations: Explanations
+  configuration: Configuration
 ---
-![High Overview](https://i.imgur.com/dqJlM0f.png)
+Example
+-------
+```
+[TestClass]
+[VideoRecording(VideoRecordingMode.OnlyFail)]
+[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
+public class VideoRecordingTests : WebTest
+{
+    [TestMethod]
+    public void PromotionsPageOpened_When_PromotionsButtonClicked()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+        promotionsLink.Click();
+    }
 
-We have many moving parts- server, test agents, runner and so on. All of them use single command-line-interface; there are no separate installers or executables.
-First, we need to start the server. Its job is to synchronise the work between the runner and all agents. The first time we start it, a portable SQLite database is created. There are stored various kind of information, such as tests execution times, test output files, logs, exceptions, etc. The web service is self-hosted using the ASPNET.Core portable web server- Kestrel. All agents and runners communicate with the server via HTTP. 
-## Meissa Test Agent Mode ##
-![Test Agent Internal](https://i.imgur.com/6WtrVMN.png)
-When you start a test agent, it registers itself as active. Then, it continuously asks the server whether there are scheduled test agent runs to be executed on the machine.
-Then the so-called extensibility points plugins are loaded. They offer a way to plug in your logic at various points of the execution pipeline of Meissa runner and test agents. For example- run code before, after a test run or on abortion. At this point, the code from all plugins will be executed before proceeding. Then the specific test technology plugins are loaded. Based on the parallel options, the agent creates multiple tests batches. Then it starts and waits to finish all the processes.
-## Meissa Test Runner Mode ##
-![Test Runner Internal](https://i.imgur.com/O5h80ge.png)
-The test runner doesn’t have a local database. Because of that, it requires the server to be up all the time; otherwise, it cannot function properly.
-First, the so-called extensibility points plugins are loaded. At this point, the code from all plugins will be executed before proceeding. Then the test technology plugin is loaded.
-Using it the runner gets all active test agents from the API. After that it uses some logic from the plugins to extract and filter the test cases from the tests files. Based on the available test agents, it distributes the tests on each of them. It zips the test output files and sends them to the server, so each agent can download them before tests execution.
-The second part of the run is to wait for all test agents to finish. At the same time, a parallel process is started where the runner continually checks whether there are new messages to be printed sent by the agents. Also, one more thread is triggered that the runner verifies its health and one more for agents’ ones . If some of the agents don’t confirm its health on time, the test run is aborted. 
-At the end of the process, it merges all test results into a single file and completes the run.
-After all, processes finish the results files are merged. 
-If Meissa retry option is turned-on and there are any failed tests the whole procedure is repeated for them. At the end of the retry cycle, the test results are updated if any of the tests succeeded. 
-After this important step, the agent saves the merged results and completes the test agent run. After that, it waits for the test run to finish before starting to wait for new jobs.
+    [TestMethod]
+    [VideoRecording(VideoRecordingMode.DoNotRecord)]
+    public void BlogPageOpened_When_PromotionsButtonClicked()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+
+        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
+
+        blogLink.Click();
+    }
+}
+```
+Explanations
+------------
+```
+[VideoRecording(VideoRecordingMode.OnlyFail)]
+```
+This is the attribute for cross-platform video recording by Bellatrix. The engine checks after each test, its result, depending on the specified video saves the video.
+All video recording modes:
+- **Always** - records and save video for all tests.
+- **DoNotRecord** - wont' record any videos.
+- **Ignore** - ignores the tests.
+- **OnlyPass** - saves the videos only for pass tests.
+- **OnlyFail** - saves the videos only for failed tests.
+If you place attribute over the class all tests inherit the behaviour. It is possible to put it over each test and this way you override the class behaviour only for this particular test.
+```
+[TestMethod]
+[VideoRecording(VideoRecordingMode.DoNotRecord)]
+```
+As mentioned above we can override the video behaviour for a particular test. The global behaviour for all tests in the class is to save the videos only for failed tests. Only for this particular test, we tell Bellatrix not to make a video.
+Configuration
+-------------
+If you open the **testFrameworkSettings.json** file, you find the **videoRecordingSettings** section that controls this behaviour.
+```
+"videoRecordingSettings": {
+       "isEnabled": "true",
+        "waitAfterFinishRecordingMilliseconds": "500",
+        "filePath": "C:\\Troubleshooting\\Videos"
+}
+```
+You can turn off the making of videos for all tests and specify where the videos to be saved. **waitAfterFinishRecordingMilliseconds** adds some time to the end of the test, making the video not going black immediately. In the extensibility chapters read more about how you can create custom video recorder or change the saving strategy.
