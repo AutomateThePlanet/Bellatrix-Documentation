@@ -3,27 +3,422 @@ layout: default
 title:  "Layout Testing"
 feature-title: "Web Automation"
 excerpt: "Learn how to use the Bellatrix layout testing library."
-date:   2018-02-20 06:50:17 +0200
+date:   2018-06-22 06:50:17 +0200
 permalink: /layout-testing/
 anchors:
-  meissa-test-agent-mode: Test Agent
-  meissa-test-runner-mode: Meissa Test Runner Mode
+  example: Example
+  explanations: Explanations
+  bdd-logging: BDD Logging
+  all-available-layout-assertion-methods: All Available Methods
 ---
-![High Overview](https://i.imgur.com/dqJlM0f.png)
+Example
+-------
+```
+[Browser(BrowserType.Chrome, DesktopWindowSize._1280_1024,  BrowserBehavior.RestartEveryTime)]
+[TestClass]
+public class LayoutTestingTests : WebTest
+{
+    [TestMethod]
+    public void TestPageLayout()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-We have many moving parts- server, test agents, runner and so on. All of them use single command-line-interface; there are no separate installers or executables.
-First, we need to start the server. Its job is to synchronise the work between the runner and all agents. The first time we start it, a portable SQLite database is created. There are stored various kind of information, such as tests execution times, test output files, logs, exceptions, etc. The web service is self-hosted using the ASPNET.Core portable web server- Kestrel. All agents and runners communicate with the server via HTTP. 
-## Meissa Test Agent Mode ##
-![Test Agent Internal](https://i.imgur.com/6WtrVMN.png)
-When you start a test agent, it registers itself as active. Then, it continuously asks the server whether there are scheduled test agent runs to be executed on the machine.
-Then the so-called extensibility points plugins are loaded. They offer a way to plug in your logic at various points of the execution pipeline of Meissa runner and test agents. For example- run code before, after a test run or on abortion. At this point, the code from all plugins will be executed before proceeding. Then the specific test technology plugins are loaded. Based on the parallel options, the agent creates multiple tests batches. Then it starts and waits to finish all the processes.
-## Meissa Test Runner Mode ##
-![Test Runner Internal](https://i.imgur.com/O5h80ge.png)
-The test runner doesn’t have a local database. Because of that, it requires the server to be up all the time; otherwise, it cannot function properly.
-First, the so-called extensibility points plugins are loaded. At this point, the code from all plugins will be executed before proceeding. Then the test technology plugin is loaded.
-Using it the runner gets all active test agents from the API. After that it uses some logic from the plugins to extract and filter the test cases from the tests files. Based on the available test agents, it distributes the tests on each of them. It zips the test output files and sends them to the server, so each agent can download them before tests execution.
-The second part of the run is to wait for all test agents to finish. At the same time, a parallel process is started where the runner continually checks whether there are new messages to be printed sent by the agents. Also, one more thread is triggered that the runner verifies its health and one more for agents’ ones . If some of the agents don’t confirm its health on time, the test run is aborted. 
-At the end of the process, it merges all test results into a single file and completes the run.
-After all, processes finish the results files are merged. 
-If Meissa retry option is turned-on and there are any failed tests the whole procedure is repeated for them. At the end of the retry cycle, the test results are updated if any of the tests succeeded. 
-After this important step, the agent saves the merged results and completes the test agent run. After that, it waits for the test run to finish before starting to wait for new jobs.
+        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
+        Anchor protonRocketAnchor = 
+		App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/proton-rocket/");
+        Anchor protonMAnchor = 
+		App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/proton-m/");
+        Anchor saturnVAnchor = 
+		App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/saturn-v/");
+        Anchor falconHeavyAnchor = 
+		App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/falcon-heavy/");
+        Anchor falcon9Anchor = 
+		App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/falcon-9/");
+        Div saturnVRating = saturnVAnchor.CreateByClassContaining<Div>("star-rating");
+
+        sortDropDown.AssertAboveOf(protonRocketAnchor);
+
+        sortDropDown.AssertAboveOf(protonRocketAnchor, 41);
+
+        sortDropDown.AssertAboveOfGreaterThan(protonRocketAnchor, 40);
+        sortDropDown.AssertAboveOfGreaterThanOrEqual(protonRocketAnchor, 41);
+        sortDropDown.AssertAboveOfLessThan(protonRocketAnchor, 50);
+        sortDropDown.AssertAboveOfLessThanOrEqual(protonRocketAnchor, 43);
+
+        sortDropDown.AssertNearTopOfGreaterThan(protonRocketAnchor, 40);
+        sortDropDown.AssertNearTopOfGreaterThanOrEqual(protonRocketAnchor, 41);
+        sortDropDown.AssertNearTopOfLessThan(protonRocketAnchor, 50);
+        sortDropDown.AssertNearTopOfLessThanOrEqual(protonRocketAnchor, 43);
+
+        sortDropDown.AssertAboveOfApproximate(protonRocketAnchor, 40, percent: 10);
+
+        sortDropDown.AssertAboveOfBetween(protonRocketAnchor, 30, 50);
+
+        saturnVAnchor.AssertNearBottomRightOf(sortDropDown);
+        sortDropDown.AssertNearTopLeftOf(saturnVAnchor);
+
+        LayoutAssert.AssertAlignedHorizontallyAll(protonRocketAnchor, protonMAnchor);
+
+        LayoutAssert.AssertAlignedHorizontallyTop(protonRocketAnchor, protonMAnchor, saturnVAnchor);
+        LayoutAssert.AssertAlignedHorizontallyCentered(protonRocketAnchor, protonMAnchor, saturnVAnchor);
+        LayoutAssert.AssertAlignedHorizontallyBottom(protonRocketAnchor, protonMAnchor, saturnVAnchor);
+
+        LayoutAssert.AssertAlignedVerticallyAll(falcon9Anchor, falconHeavyAnchor);
+
+        LayoutAssert.AssertAlignedVerticallyLeft(falcon9Anchor, falconHeavyAnchor);
+        LayoutAssert.AssertAlignedVerticallyCentered(falcon9Anchor, falconHeavyAnchor);
+        LayoutAssert.AssertAlignedVerticallyRight(falcon9Anchor, falconHeavyAnchor);
+
+        saturnVRating.AssertInsideOf(saturnVAnchor);
+
+        saturnVRating.AssertHeightLessThan(100);
+        saturnVRating.AssertWidthBetween(50, 70);
+
+        saturnVRating.AssertInsideOf(SpecialElements.Viewport);
+        saturnVRating.AssertInsideOf(SpecialElements.Screen);
+    }
+}
+```
+Explanations
+------------
+Layout testing is a module from Bellatrix that allows you to test the responsiveness of your website.
+```
+using Bellatrix.Layout;
+```
+You need to add a using statement to Bellatrix.Layout
+```
+[Browser(BrowserType.Chrome, DesktopWindowSize._1280_1024,  BrowserBehavior.RestartEveryTime)]
+```
+```
+[Browser(BrowserType.Firefox, MobileWindowSize._360_640,  BrowserBehavior.RestartEveryTime)]
+```
+```
+[Browser(BrowserType.Firefox, TabletWindowSize._600_1024,  BrowserBehavior.RestartEveryTime)]
+```
+```
+[Browser(BrowserType.Firefox, width: 600, height: 900, behavior: BrowserBehavior.RestartEveryTime)]
+```
+After that 100 assertion extensions methods are available to you to check the exact position of your web elements. Browser attribute gives you the option to resize your browser window so that you can test the rearrangement of the web elements on your pages. To make it, even more, easier for you, we included a couple of enums containing the most popular desktop, mobile and tablet resolutions. Of course, you always have the option to set a custom size.
+```
+sortDropDown.AssertAboveOf(protonRocketAnchor);
+```
+Depending on what you want to check, Bellatrix gives lots of options. You can test px perfect or just that some element is below another. Check that the popularity sort dropdown is above the proton rocket image.
+```
+sortDropDown.AssertAboveOf(protonRocketAnchor, 41);
+```
+Assert with the exact distance between them.
+
+All layout assertion methods throw LayoutAssertFailedException if the check is not successful with beatified troubleshooting message:
+########################################
+
+control (Name ending with orderby) should be 41 px above of control (href = /proton-rocket/) but was 42 px.
+
+########################################
+```
+sortDropDown.AssertAboveOfGreaterThan(protonRocketAnchor, 40);
+sortDropDown.AssertAboveOfGreaterThanOrEqual(protonRocketAnchor, 41);
+sortDropDown.AssertAboveOfLessThan(protonRocketAnchor, 50);
+sortDropDown.AssertAboveOfLessThanOrEqual(protonRocketAnchor, 43);
+```
+For each available method you have variations of it such as, >, >=, <, <=, between and approximate to some expected value by specified %.
+```
+sortDropDown.AssertNearTopOfGreaterThan(protonRocketAnchor, 40);
+sortDropDown.AssertNearTopOfGreaterThanOrEqual(protonRocketAnchor, 41);
+sortDropDown.AssertNearTopOfLessThan(protonRocketAnchor, 50);
+sortDropDown.AssertNearTopOfLessThanOrEqual(protonRocketAnchor, 43);
+```
+All assertions have alternative names containing the word 'Near'. We added them to make your tests more readable depending on your preference.
+```
+sortDropDown.AssertAboveOfApproximate(protonRocketAnchor, 40, percent: 10);
+```
+The expected distance is ~40px with 10% tolerance
+```
+sortDropDown.AssertAboveOfBetween(protonRocketAnchor, 30, 50);
+```
+The expected px distance is between 30 and 50 px
+```
+saturnVAnchor.AssertNearBottomRightOf(sortDropDown);
+sortDropDown.AssertNearTopLeftOf(saturnVAnchor);
+```
+You can assert the position of elements again each other in all directions- above, below, right, left, top right, top left, below left, below right. Assert that the sort dropdown is positioned near the top right of the Saturn B link.
+```
+LayoutAssert.AssertAlignedHorizontallyAll(protonRocketAnchor, protonMAnchor);
+```
+You can tests whether different web elements are aligned correctly.
+```
+LayoutAssert.AssertAlignedHorizontallyTop(protonRocketAnchor, protonMAnchor, saturnVAnchor);
+LayoutAssert.AssertAlignedHorizontallyCentered(protonRocketAnchor, protonMAnchor, saturnVAnchor);
+LayoutAssert.AssertAlignedHorizontallyBottom(protonRocketAnchor, protonMAnchor, saturnVAnchor);
+```
+You can pass as many elements as you like.
+```
+LayoutAssert.AssertAlignedVerticallyAll(falcon9Anchor, falconHeavyAnchor);
+```
+You can check vertical alignment as well.
+```
+LayoutAssert.AssertAlignedVerticallyLeft(falcon9Anchor, falconHeavyAnchor);
+LayoutAssert.AssertAlignedVerticallyCentered(falcon9Anchor, falconHeavyAnchor);
+LayoutAssert.AssertAlignedVerticallyRight(falcon9Anchor, falconHeavyAnchor);
+```
+Assert that the elements are aligned vertically only from the left side.
+```
+saturnVRating.AssertInsideOf(saturnVAnchor);
+```
+You can check that some element is inside in another. Assert that the rating div is present in the Saturn V anchor.
+```
+saturnVRating.AssertHeightLessThan(100);
+saturnVRating.AssertWidthBetween(50, 70);
+```
+Verify the height and width of elements.
+```
+saturnVRating.AssertInsideOf(SpecialElements.Viewport);
+saturnVRating.AssertInsideOf(SpecialElements.Screen);
+```
+You can use for all layout assertions the special web elements- Viewport and Screen.
+- **Screen** - represents the whole page area inside browser even that which is not visible.
+- **Viewport** - it takes the browsers client window.
+It is useful if you want to check some fixed element on the screen which sticks to viewport even when you scroll.
+
+BDD Logging
+-----------
+All layout assertion methods have full BDD logging support. Below you can find the generated BDD log. Of course if you use Bellatrix page objects the log looks even better as mentioned in previous chapters.
+
+Start Test
+Class = LayoutTestingTests Name = TestPageLayout
+Assert control (Name ending with orderby) is above of control (href = /proton-rocket/).
+Assert control (Name ending with orderby) is 42 px above of control (href = /proton-rocket/).
+Assert control (Name ending with orderby) is >40 px above of control (href = /proton-rocket/).
+Assert control (Name ending with orderby) is >=41 px above of control (href = /proton-rocket/).
+Assert control (Name ending with orderby) is <50 px above of control (href = /proton-rocket/).
+Assert control (Name ending with orderby) is <=43 px above of control (href = /proton-rocket/).
+Assert control (Name ending with orderby) is >40 px near top of control (href = /proton-rocket/).
+Assert control (Name ending with orderby) is >=41 px near top of control (href = /proton-rocket/).
+Assert control (Name ending with orderby) is <50 px near top of control (href = /proton-rocket/).
+Assert control (Name ending with orderby) is <=43 px near top of control (href = /proton-rocket/).
+Assert control (Name ending with orderby) is 40 px above of control (href = /proton-rocket/). (10% tolerance)
+Assert control (Name ending with orderby) is 30-50 px above of control (href = /proton-rocket/).
+Assert control (href = /saturn-v/) is near bottom of control (Name ending with orderby).
+Assert control (Name ending with orderby) is near right of control (href = /saturn-v/).
+Assert control (Name ending with orderby) is near top of control (href = /saturn-v/).
+Assert control (href = /saturn-v/) is near left of control (Name ending with orderby).
+Assert control (Class = star-rating) is left inside of control (href = /saturn-v/).
+Assert control (Class = star-rating) is right inside of control (href = /saturn-v/).
+Assert control (Class = star-rating) is top inside of control (href = /saturn-v/).
+Assert control (Class = star-rating) is bottom inside of control (href = /saturn-v/).
+Assert control (Class = star-rating) height is <100 px.
+Assert control (Class = star-rating) width is 50-70 px.
+
+All Available Layout Assertion Methods
+--------------------------------------
+
+AssertWidth
+AssertWidthBetween
+AssertWidthGreaterThan
+AssertWidthGreaterThanOrEqual
+AssertWidthLessThan
+AssertWidthLessThanOrEqual
+AssertWidthApproximate
+
+AssertHeight
+AssertHeightBetween
+AssertHeightGreaterThan
+AssertHeightGreaterThanOrEqual
+AssertHeightLessThan
+AssertHeightLessThanOrEqual
+AssertHeightApproximate
+
+AssertAboveOf
+AssertAboveOf
+AssertAboveOfBetween
+AssertAboveOfGreaterThan
+AssertAboveOfGreaterThanOrEqual
+AssertAboveOfLessThan
+AssertAboveOfLessThanOrEqual
+AssertAboveOfApproximate
+
+AssertBelowOf
+AssertBelowOf
+AssertBelowOfBetween
+AssertBelowOfGreaterThan
+AssertBelowOfGreaterThanOrEqual
+AssertBelowOfLessThan
+AssertBelowOfLessThanOrEqual
+AssertBelowOfApproximate
+
+AssertRightOf
+AssertRightOf
+AssertRightOfBetween
+AssertRightOfGreaterThan
+AssertRightOfGreaterThanOrEqual
+AssertRightOfLessThan
+AssertRightOfLessThanOrEqual
+AssertRightOfApproximate
+
+AssertLeftOf
+AssertLeftOfBetween
+AssertLeftOfGreaterThan
+AssertLeftOfGreaterThanOrEqual
+AssertLeftOfLessThan
+AssertLeftOfLessThanOrEqual
+AssertLeftOfApproximate
+
+AssertNearTopOf
+AssertNearTopOf
+AssertNearTopOfBetween
+AssertNearTopOfGreaterThan
+AssertNearTopOfGreaterThanOrEqual
+AssertNearTopOfLessThan
+AssertNearTopOfLessThanOrEqual
+AssertNearTopOfApproximate
+
+AssertNearLeftOf
+AssertNearLeftOf
+AssertNearLeftOfBetween
+AssertNearLeftOfGreaterThan
+AssertNearLeftOfGreaterThanOrEqual
+AssertNearLeftOfLessThan
+AssertNearLeftOfLessThanOrEqual
+AssertNearLeftOfApproximate
+
+AssertNearRightOf
+AssertNearRightOf
+AssertNearRightOfBetween
+AssertNearRightOfGreaterThan
+AssertNearRightOfGreaterThanOrEqual
+AssertNearRightOfLessThan
+AssertNearRightOfLessThanOrEqual
+AssertNearRightOfApproximate
+
+AssertNearTopLeftOf
+AssertNearTopLeftOf
+AssertNearTopLeftOfBetween
+AssertNearTopLeftOfGreaterThan
+AssertNearTopLeftOfGreaterThanOrEqual
+AssertNearTopLeftOfLessThan
+AssertNearTopLeftOfLessThanOrEqual
+AssertNearTopLeftOfApproximate
+
+AssertNearTopRightOf
+AssertNearTopRightOf
+AssertNearTopRightOfBetween
+AssertNearTopRightOfGreaterThan
+AssertNearTopRightOfGreaterThanOrEqual
+AssertNearTopRightOfLessThan
+AssertNearTopRightOfLessThanOrEqual
+AssertNearTopRightOfApproximate
+
+AssertNearBottomOf
+AssertNearBottomOf
+AssertNearBottomOfBetween
+AssertNearBottomOfGreaterThan
+AssertNearBottomOfGreaterThanOrEqual
+AssertNearBottomOfLessThan
+AssertNearBottomOfLessThanOrEqual
+AssertNearBottomOfApproximate
+
+AssertNearBottomLeftOf
+AssertNearBottomLeftOfBetween
+AssertNearBottomLeftOfGreaterThan
+AssertNearBottomLeftOfGreaterThanOrEqual
+AssertNearBottomLeftOfLessThan
+AssertNearBottomLeftOfLessThanOrEqual
+AssertNearBottomLeftOfApproximate
+
+AssertNearBottomRightOf
+AssertNearBottomRightOf
+AssertNearBottomRightOfBetween
+AssertNearBottomRightOfGreaterThan
+AssertNearBottomRightOfGreaterThanOrEqual
+AssertNearBottomRightOfLessThan
+AssertNearBottomRightOfLessThanOrEqual
+AssertNearBottomRightOfApproximate
+
+AssertInsideOf
+
+AssertTopInsideOf
+AssertTopInsideOf
+AssertTopInsideOfBetween
+AssertTopInsideOfGreaterThan
+AssertTopInsideOfGreaterThanOrEqual
+AssertTopInsideOfLessThan
+AssertTopInsideOfLessThanOrEqual
+AssertTopInsideOfApproximate
+
+AssertBottomInsideOf
+AssertBottomInsideOf
+AssertBottomInsideOfBetween
+AssertBottomInsideOfGreaterThan
+AssertBottomInsideOfGreaterThanOrEqual
+AssertBottomInsideOfLessThan
+AssertBottomInsideOfLessThanOrEqual
+AssertBottomInsideOfApproximate
+
+AssertRightInsideOf
+AssertRightInsideOf
+AssertRightInsideOfBetween
+AssertRightInsideOfGreaterThan
+AssertRightInsideOfGreaterThanOrEqual
+AssertRightInsideOfLessThan
+AssertRightInsideOfLessThanOrEqual
+AssertRightInsideOfApproximate
+
+AssertLeftInsideOf
+AssertLeftInsideOf
+AssertLeftInsideOfBetween
+AssertLeftInsideOfGreaterThan
+AssertLeftInsideOfGreaterThanOrEqual
+AssertLeftInsideOfLessThan
+AssertLeftInsideOfLessThanOrEqual
+AssertLeftInsideOfApproximate
+
+AssertTopLeftInsideOf
+AssertTopLeftInsideOf
+AssertTopLeftInsideOfBetween
+AssertTopLeftInsideOfGreaterThan
+AssertTopLeftInsideOfGreaterThanOrEqual
+AssertTopLeftInsideOfLessThan
+AssertTopLeftInsideOfLessThanOrEqual
+AssertTopLeftInsideOfApproximate
+
+AssertTopRightInsideOf
+AssertTopRightInsideOf
+AssertTopRightInsideOfBetween
+AssertTopRightInsideOfGreaterThan
+AssertTopRightInsideOfGreaterThanOrEqual
+AssertTopRightInsideOfLessThan
+AssertTopRightInsideOfLessThanOrEqual
+AssertTopRightInsideOfApproximate
+
+AssertBottomLeftInsideOf
+AssertBottomLeftInsideOfBetween
+AssertBottomLeftInsideOfGreaterThan
+AssertBottomLeftInsideOfGreaterThanOrEqual
+AssertBottomLeftInsideOfLessThan
+AssertBottomLeftInsideOfLessThanOrEqual
+AssertBottomLeftInsideOfApproximate
+
+AssertBottomRightInsideOf
+AssertBottomRightInsideOfLessThan
+AssertBottomRightInsideOfLessThanOrEqual
+AssertBottomRightInsideOfApproximate
+AssertBottomRightInsideOfBetween
+AssertBottomRightInsideOfGreaterThan
+AssertBottomRightInsideOfGreaterThanOrEqual
+
+AssertCenteredInsideOf
+AssertCenteredInsideOf
+AssertCenteredInsideOfBetween
+AssertCenteredInsideOfGreaterThan
+AssertCenteredInsideOfGreaterThanOrEqual
+AssertCenteredInsideOfLessThan
+AssertCenteredInsideOfLessThanOrEqual
+AssertCenteredInsideOfApproximate
+
+AssertAlignedVerticallyAll
+AssertAlignedVerticallyCentered
+AssertAlignedVerticallyRight
+AssertAlignedVerticallyLeft
+AssertAlignedHorizontallyAll
+AssertAlignedHorizontallyCentered
+AssertAlignedHorizontallyTop
+AssertAlignedHorizontallyBottom
