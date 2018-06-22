@@ -31,6 +31,7 @@ public void PromotionsPageOpened_When_PromotionsButtonClicked()
     Console.WriteLine(promotionsLink.WrappedElement.TagName);
 }
 ```
+
 Explanations
 -------
 ```
