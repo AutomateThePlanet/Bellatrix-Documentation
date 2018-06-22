@@ -3,27 +3,104 @@ layout: default
 title:  "Control Browser"
 feature-title: "Web Automation"
 excerpt: "Learn how to control browsers with Bellatrix web module."
-date:   2018-02-20 06:50:17 +0200
+date:   2018-06-22 06:50:17 +0200
 permalink: /control-browser/
 anchors:
-  meissa-test-agent-mode: Test Agent
-  meissa-test-runner-mode: Meissa Test Runner Mode
+  overview: Overview
+  explanations: Explanations
 ---
-![High Overview](https://i.imgur.com/dqJlM0f.png)
+Overview
+--------
 
-We have many moving parts- server, test agents, runner and so on. All of them use single command-line-interface; there are no separate installers or executables.
-First, we need to start the server. Its job is to synchronise the work between the runner and all agents. The first time we start it, a portable SQLite database is created. There are stored various kind of information, such as tests execution times, test output files, logs, exceptions, etc. The web service is self-hosted using the ASPNET.Core portable web server- Kestrel. All agents and runners communicate with the server via HTTP. 
-## Meissa Test Agent Mode ##
-![Test Agent Internal](https://i.imgur.com/6WtrVMN.png)
-When you start a test agent, it registers itself as active. Then, it continuously asks the server whether there are scheduled test agent runs to be executed on the machine.
-Then the so-called extensibility points plugins are loaded. They offer a way to plug in your logic at various points of the execution pipeline of Meissa runner and test agents. For example- run code before, after a test run or on abortion. At this point, the code from all plugins will be executed before proceeding. Then the specific test technology plugins are loaded. Based on the parallel options, the agent creates multiple tests batches. Then it starts and waits to finish all the processes.
-## Meissa Test Runner Mode ##
-![Test Runner Internal](https://i.imgur.com/O5h80ge.png)
-The test runner doesn’t have a local database. Because of that, it requires the server to be up all the time; otherwise, it cannot function properly.
-First, the so-called extensibility points plugins are loaded. At this point, the code from all plugins will be executed before proceeding. Then the test technology plugin is loaded.
-Using it the runner gets all active test agents from the API. After that it uses some logic from the plugins to extract and filter the test cases from the tests files. Based on the available test agents, it distributes the tests on each of them. It zips the test output files and sends them to the server, so each agent can download them before tests execution.
-The second part of the run is to wait for all test agents to finish. At the same time, a parallel process is started where the runner continually checks whether there are new messages to be printed sent by the agents. Also, one more thread is triggered that the runner verifies its health and one more for agents’ ones . If some of the agents don’t confirm its health on time, the test run is aborted. 
-At the end of the process, it merges all test results into a single file and completes the run.
-After all, processes finish the results files are merged. 
-If Meissa retry option is turned-on and there are any failed tests the whole procedure is repeated for them. At the end of the retry cycle, the test results are updated if any of the tests succeeded. 
-After this important step, the agent saves the merged results and completes the test agent run. After that, it waits for the test run to finish before starting to wait for new jobs.
+This is how one Bellatrix test class looks like.
+```
+[TestClass]
+[Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
+public class BellatrixBrowserBehaviourTests : WebTest
+{
+    [TestMethod]
+    public void PromotionsPageOpened_When_PromotionsButtonClicked()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+
+        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+
+        promotionsLink.Click();
+    }
+
+    [TestMethod]
+    [Browser(BrowserType.Chrome, BrowserBehavior.RestartOnFail)]
+    public void BlogPageOpened_When_PromotionsButtonClicked()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+
+        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
+
+        blogLink.Click();
+    }
+}
+```
+Explanations
+------------
+```
+[TestClass]
+```
+This is the main attribute that you need to mark each class that contains MSTest tests.
+```
+[Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
+```
+This is the attribute for automatic start/control of WebDriver browsers by Bellatrix. If you have to do it manually properly, you will need thousands of lines of code. 
+**BrowserType** controls which browser is used. Available options are:
+- Chrome
+- Firefox
+- Edge
+- InternetExplorer
+- Opera
+- Chrome in headless mode
+- Firefox in headless mode.
+
+**Note**: *Headless mode = executed in the browser but the browser's UI is not rendered, in theory, should be faster. In practice the time gain is little.*
+**BrowserBehavior** enum controls when the browser is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs. However you need to be careful because in case of tests failures the browser may need to be restarted.
+Available options:
+- **RestartEveryTime**- for each test a separate WebDriver instance is created and the previous browser is closed. The new browser comes with new cookies and cache.
+- RestartOnFail- the browser is only restarted if the previous test failed. Alternatively, if the previous test's browser was different.
+- **ReuseIfStarted**- the browser is only restarted if the previous test's browser was different. In all other cases, the browser is reused if possible.
+
+**Note**: *However, use this option with caution since in some rare cases if you have not properly setup your tests you may need to restart the browser if the test fails otherwise all other tests may fail too.*
+
+```
+public class BellatrixBrowserBehaviourTests : WebTest
+```
+All web Bellatrix test classes should inherit from the WebTest base class. This way you can use all built-in Bellatrix tools and functionalities.
+```
+[Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
+public class BellatrixBrowserBehaviourTests : WebTest
+```
+If you place attribute over the class all tests inherit the behaviour. It is possible to place it over each test and this way it overrides the class behaviour only for this particular test.
+```
+[TestMethod]
+public void PromotionsPageOpened_When_PromotionsButtonClicked()
+```
+All MSTest tests should be marked with the TestMethod attribute.
+```
+App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+```
+There is more about the App class in the next sections.However, it is the primary point where you access the Bellatrix services. It comes from the WebTest class as a property.Here we use the Bellatrix navigation service to navigate to the demo page.
+```
+var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+```
+Use the element creation service to create an instance of the anchor. There are much more details about this process in the next sections.
+```
+[TestMethod]
+[Browser(BrowserType.Chrome, BrowserBehavior.RestartOnFail)]
+public void BlogPageOpened_When_PromotionsButtonClicked()
+{
+    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+
+    var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
+
+    blogLink.Click();
+}
+```
+As mentioned above you can override the browser behaviour for a particular test. The global behaviour for all tests in the class is to reuse an instance of Edge browser. Only for this particular test, Bellatrix opens Chrome and restarts it only on fail.
+

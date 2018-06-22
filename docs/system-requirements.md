@@ -1,9 +1,9 @@
 ---
 layout: default
-title:  "How Does It Work Internally?"
-excerpt: "Are you curious how the magic happens? Read a full description of how all moving parts work together."
+title:  "System Requirements"
+excerpt: "What do you need to install and run all Bellatrix libraries and tools?"
 date:   2018-02-20 06:50:17 +0200
-permalink: /how-does-it-work-internally/
+permalink: /system-requirements/
 anchors:
   meissa-test-agent-mode: Test Agent
   meissa-test-runner-mode: Meissa Test Runner Mode
