@@ -13,61 +13,58 @@ Example
 -------
 ```csharp
 [TestMethod]
-public void AssertCartPageFields()
+public void CommonActionsWithDesktopControls_Wpf()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/?add-to-cart=26");
+    var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
 
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/cart/");
+    Assert.AreEqual(false, calendar.IsDisabled);
 
-    TextField couponCodeTextField = App.ElementCreateService.CreateById<TextField>("coupon_code");
+    var checkBox = App.ElementCreateService.CreateByName<CheckBox>("BellaCheckBox");
 
-    Assert.AreEqual("Coupon code", couponCodeTextField.Placeholder);
+    checkBox.Check();
 
-    Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
+    Assert.IsTrue(checkBox.IsChecked);
 
-    Assert.IsTrue(applyCouponButton.IsPresent);
-    Assert.IsTrue(applyCouponButton.IsVisible);
+    var comboBox = App.ElementCreateService.CreateByAutomationId<ComboBox>("select");
 
-    Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
+    comboBox.SelectByText("Item2");
 
-    Assert.IsFalse(messageAlert.IsVisible);
+    Assert.AreEqual("Item2", comboBox.InnerText);
 
-    Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart");
+    var label = App.ElementCreateService.CreateByName<Label>("Result Label");
 
-    Assert.IsTrue(updateCart.IsDisabled);
+    Assert.IsTrue(label.IsPresent);
 
-    Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
+    var radioButton = App.ElementCreateService.CreateByName<RadioButton>("RadioButton");
 
-    Assert.AreEqual("120.00€", totalSpan.InnerText);
+    radioButton.Click();
+
+    Assert.IsTrue(radioButton.IsChecked);
 }
 ```
 
 Explanations
 ------------
 ```csharp
-Assert.AreEqual("Coupon code", couponCodeTextField.Placeholder);
+Assert.AreEqual(false, calendar.IsDisabled);
 ```
-We can assert the default text in the coupon text fiend through the Bellatrix element Placeholder property. The different Bellatrix web elements classes contain lots of these properties which are a representation of the most important HTML element attributes. The biggest drawback of using vanilla assertions is that the messages displayed on failure are not meaningful at all. This is so because most unit testing frameworks are created for much simpler and shorter unit tests. In next chapter, there is information how Bellatrix solves the problems with the introduction of Ensure methods. If the bellow assertion fails the following message is displayed: "*Message: Assert.AreEqual failed. Expected:<Coupon code >. Actual:<Coupon code>.*"
-You can guess what happened, but you do not have information which element failed and on which page.
+We can assert weather the control is disabled. The different Bellatrix desktop elements classes contain lots of these properties which are a representation of the most important app element attributes.The biggest drawback of using vanilla assertions is that the messages displayed on failure are not meaningful at all. This is so because most unit testing frameworks are created for much simpler and shorter unit tests. In next chapter, there is information how Bellatrix solves the problems with the introduction of Ensure methods. 
+If the bellow assertion fails the following message is displayed: "*Message: Assert.AreEqual failed. Expected:<false>. Actual:<true>.*" You can guess what happened, but you do not have information which element failed and on which page.
 ```csharp
-Assert.IsTrue(applyCouponButton.IsPresent);
-Assert.IsTrue(applyCouponButton.IsVisible);
+Assert.IsTrue(checkBox.IsChecked);
 ```
-Here we assert that the apply coupon button exists and is visible on the page. On fail the following message is displayed: "*Message: Assert.IsTrue failed.*" Cannot learn much about what happened.
+Here we assert that the checkbox is checked. On fail the following message is displayed: "*Message: Assert.IsTrue failed.*" Cannot learn much about what happened.
 ```csharp
-Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
-Assert.IsFalse(messageAlert.IsVisible);
+Assert.AreEqual("Item2", comboBox.InnerText);
 ```
-Since there are no validation errors, verify that the message div is not visible.
+Assert that the proper item is selected from the combobox items.
 ```csharp
-Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart");
-Assert.IsTrue(updateCart.IsDisabled);
+Assert.IsTrue(label.IsPresent);
 ```
-We have not made any changes to the added products so the update cart button should be disabled.
+See if the element is present or not using the IsPresent property.
 ```csharp
-Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
-Assert.AreEqual("120.00€", totalSpan.InnerText);
+Assert.IsTrue(radioButton.IsChecked);
 ```
-We check the total price contained in the order-total span HTML element.
+Assert that the radio button is clicked.
 
 One more thing you need to keep in mind is that normal assertion methods do not include BDD logging and any available hooks. Bellatrix provides you with a full BDD logging support for ensure assertions and gives you a way to hook your logic in multiple places.
