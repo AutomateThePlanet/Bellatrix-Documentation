@@ -13,7 +13,7 @@ Overview
 --------
 
 This is how one Bellatrix test class looks like.
-```
+```csharp
 [TestClass]
 [Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
 public class BellatrixBrowserBehaviourTests : WebTest
@@ -43,11 +43,11 @@ public class BellatrixBrowserBehaviourTests : WebTest
 
 Explanations
 ------------
-```
+```csharp
 [TestClass]
 ```
 This is the main attribute that you need to mark each class that contains MSTest tests.
-```
+```csharp
 [Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
 ```
 This is the attribute for automatic start/control of WebDriver browsers by Bellatrix. If you have to do it manually properly, you will need thousands of lines of code. 
@@ -70,29 +70,29 @@ Available options:
 
 **Note**: *However, use this option with caution since in some rare cases if you have not properly setup your tests you may need to restart the browser if the test fails otherwise all other tests may fail too.*
 
-```
+```csharp
 public class BellatrixBrowserBehaviourTests : WebTest
 ```
 All web Bellatrix test classes should inherit from the WebTest base class. This way you can use all built-in Bellatrix tools and functionalities.
-```
+```csharp
 [Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
 public class BellatrixBrowserBehaviourTests : WebTest
 ```
 If you place attribute over the class all tests inherit the behaviour. It is possible to place it over each test and this way it overrides the class behaviour only for this particular test.
-```
+```csharp
 [TestMethod]
 public void PromotionsPageOpened_When_PromotionsButtonClicked()
 ```
 All MSTest tests should be marked with the TestMethod attribute.
-```
+```csharp
 App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 ```
 There is more about the App class in the next sections.However, it is the primary point where you access the Bellatrix services. It comes from the WebTest class as a property.Here we use the Bellatrix navigation service to navigate to the demo page.
-```
+```csharp
 var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
 ```
 Use the element creation service to create an instance of the anchor. There are much more details about this process in the next sections.
-```
+```csharp
 [TestMethod]
 [Browser(BrowserType.Chrome, BrowserBehavior.RestartOnFail)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
