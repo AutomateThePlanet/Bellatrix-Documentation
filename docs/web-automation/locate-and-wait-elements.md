@@ -9,6 +9,7 @@ anchors:
   example: Example
   explanations: Explanations
   all-available-tobe-methods: All Available ToBe Methods
+  configuration: Configuration
 ---
 Example
 -------
@@ -41,21 +42,8 @@ As you can see in the example below you can chain multiple of this methods.
 
 **Note**: *Since Bellatrix, elements creation logic is lazy loading as mentioned before, Bellatrix waits for the conditions to be True on the first action you perform with the element.*
 
-**Note 2**: *Keep in mind that with this syntax these conditions are checked every time you perform an action with the element. Which can lead tо small execution delays.*
+**Note**: *Keep in mind that with this syntax these conditions are checked every time you perform an action with the element. Which can lead tо small execution delays.*
 
-The default timeouts that Bellatrix use are placed inside the **testFrameworkSettings.json** file, mentioned in 'Folder and File Structure'. Inside it, is the **timeoutSettings** section. All values are in seconds.
-```json
-"timeoutSettings": {
-    "waitForAjaxTimeout": "30",
-    "sleepInterval": "1",
-    "elementToBeVisibleTimeout": "30",
-    "elementToExistTimeout": "30",
-    "elementToNotExistTimeout": "30",
-    "elementToBeClickableTimeout": "30",
-    "elementNotToBeVisibleTimeout": "30",
-    "elementToHaveContentTimeout": "15"
- }
-```
 ```csharp
 var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions").ToHasContent(40, 1);
 ```
@@ -103,3 +91,19 @@ Waits for the element to have some content in it. For example, some validation D
 App.ElementCreateService.CreateByLinkText<Anchor>("Blog").ToBeDisabled();
 ```
 Waits for the element to be disabled.
+
+Configuration
+-------------
+The default timeouts that Bellatrix use are placed inside the **testFrameworkSettings.json** file, mentioned in 'Folder and File Structure'. Inside it, is the **timeoutSettings** section. All values are in seconds.
+```json
+"timeoutSettings": {
+    "waitForAjaxTimeout": "30",
+    "sleepInterval": "1",
+    "elementToBeVisibleTimeout": "30",
+    "elementToExistTimeout": "30",
+    "elementToNotExistTimeout": "30",
+    "elementToBeClickableTimeout": "30",
+    "elementNotToBeVisibleTimeout": "30",
+    "elementToHaveContentTimeout": "15"
+ }
+```
