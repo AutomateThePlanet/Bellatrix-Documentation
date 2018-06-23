@@ -135,7 +135,7 @@ Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("o
 ```
 Create methods accept a generic parameter the type of the web control. Then only the methods for this specific control are accessible. Here we tell Bellatrix to find your element by name attribute ending with 'orderby'.
 
-```
+```html
 <select name="orderby" class="orderby">
    <option value="popularity" selected="selected">Sort by popularity</option>
    <option value="rating">Sort by average rating</option>
@@ -148,7 +148,7 @@ Create methods accept a generic parameter the type of the web control. Then only
 sortDropDown.SelectByText("Sort by price: low to high");
 ```
 You can select from select inputs by text (SelectByText) or index (SelectByIndex)). Also, you can get the selected option through GetSelected method.
-```
+```html
 <a href='http://demos.bellatrix.solutions/product/proton-m/'>Read more</a>
 ```
 ```
@@ -159,7 +159,7 @@ Here Bellatrix finds the first anchor element which has inner text containing th
 protonMReadMoreButton.Hover();
 ```
 You can Hover and Focus on most web elements. Also, can invoke Click on anchors.
-```
+```html
 <a href="/?add-to-cart=28" data-product_id="28">Add to cart</a>
 ```
 ```
@@ -168,7 +168,7 @@ addToCartFalcon9.Focus();
 addToCartFalcon9.Click();
 ```
 Locate elements by custom attribute. Bellatrix waits till the anchor is clickable before doing any actions.
-```
+```html
 <a href="http://demos.bellatrix.solutions/cart/" class="added_to_cart wc-forward" title="View cart">View cart</a>
 ```
 ```
