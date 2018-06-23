@@ -11,7 +11,7 @@ anchors:
 ---
 Example
 -------
-```
+```csharp
 [TestClass]
 [Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
 public class CookiesServiceTests : WebTest
@@ -76,23 +76,23 @@ public class CookiesServiceTests : WebTest
 Explanations
 ------------
 Bellatrix gives you an interface for easier work with cookies using the CookiesService. You need to make sure that you have navigated to the desired web page.
-```
+```csharp
 var cookies = App.CookieService.GetAllCookies();
 ```
 Get all cookies.
-```
+```csharp
 var itemsInCartCookie = App.CookieService.GetCookie("woocommerce_items_in_cart");
 ```
 Get a specific cookie by name.
-```
+```csharp
 App.CookieService.DeleteAllCookies();
 ```
 Delete all cookies.
-```
+```csharp
 App.CookieService.DeleteCookie("woocommerce_items_in_cart");
 ```
 Delete a specific cookie by name.
-```
+```csharp
 App.CookieService.AddCookie("woocommerce_items_in_cart", "3");
 ```
 Add a new cookie.

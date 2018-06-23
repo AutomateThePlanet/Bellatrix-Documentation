@@ -12,7 +12,7 @@ anchors:
 ---
 Example
 -------
-```
+```csharp
 [TestClass]
 [BrowserStack(BrowserType.Chrome,
     "62",
@@ -53,7 +53,7 @@ public class BrowserStackTests : WebTest
 
 Explanations
 ------------
-```
+```csharp
 [BrowserStack(BrowserType.Chrome,
     "62",
     "Windows",
@@ -66,7 +66,7 @@ Explanations
     build: "myUniqueBuildName")]
 ```
 To execute Bellatrix tests in BrowserStack cloud, you should use the BrowserStack attribute instead of Browser. BrowserStack has the same parameters as Browser but adds to additional ones- browser version, platform type, platform version, captureNetworkLogs, consoleLogType, build and debug. The last five are optional and have default values. As with the Browser attribute you can override the class behaviour on Test level.
-```
+```csharp
 [TestMethod]
 [BrowserStack(BrowserType.Chrome, "62", "Windows", "10", DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
@@ -79,20 +79,20 @@ public void BlogPageOpened_When_PromotionsButtonClicked()
 }
 ```
 As mentioned if you use the BrowserStack attribute on method level it overrides the class settings.
-```
+```csharp
 [BrowserStack(BrowserType.Chrome, "62", "Windows", "10", 1000, 500, BrowserBehavior.ReuseIfStarted)]
 ```
-```
+```csharp
 [BrowserStack(BrowserType.Chrome, "62", "Windows", "10", MobileWindowSize._320_568, BrowserBehavior.ReuseIfStarted)]
 ```
-```
+```csharp
 [BrowserStack(BrowserType.Chrome, "62", "Windows", "10", TabletWindowSize._600_1024, BrowserBehavior.ReuseIfStarted)]
 ```
 As you can see with the BrowserStack attribute we can change the browser window size again.
 
 Configuration
 -------------
-```
+```json
 "browserStack": {
 	"pageLoadTimeout": "30",
 	"scriptTimeout": "1",

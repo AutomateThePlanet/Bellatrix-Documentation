@@ -11,7 +11,7 @@ anchors:
 ---
 Example
 -------
-```
+```csharp
 [TestMethod]
 public void PurchaseRocketWithLogs()
 {
@@ -91,7 +91,7 @@ public void PurchaseRocketWithLogs()
 Explanations
 ------------
 There cases when you need to show your colleagues or managers what tests do you have. Sometimes you may have manual test cases, but their maintenance and up-to-date state are questionable. Also, many times you need additional work to associate the tests with the test cases. Some frameworks give you a way to write human readable tests through the Gherkin language. The main idea is non-technical people to write these tests. However, we believe this approach is doomed. Or it is doable only for simple tests. This is why in Bellatrix we built a feature that generates the test cases after the tests execution. After each action or assertion, a new entry is logged.
-```
+```json
 "logging": {
        "isEnabled": "true",
        "isConsoleLoggingEnabled": "true",

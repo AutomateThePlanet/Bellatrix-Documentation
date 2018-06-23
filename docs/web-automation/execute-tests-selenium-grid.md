@@ -12,7 +12,7 @@ anchors:
 ---
 Example
 -------
-```
+```csharp
 [TestClass]
 [Remote(BrowserType.Chrome, "62", PlatformType.Windows, BrowserBehavior.ReuseIfStarted)]
 public class SeleniumGridTests : WebTest
@@ -42,11 +42,11 @@ public class SeleniumGridTests : WebTest
 
 Explanations
 ------------
-```
+```csharp
 [Remote(BrowserType.Chrome, "62", PlatformType.Windows, BrowserBehavior.ReuseIfStarted)]
 ```
 To use Bellatrix with Selenium Grid, you should use the Remote attribute instead of Browser. Remote has the same parameters as Browser but adds to additional ones- browser version and platform type. As with the Browser attribute you can override the class behavior on Test level.
-```
+```csharp
 [TestMethod]
 [Remote(BrowserType.Chrome, "62", PlatformType.Windows, DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
@@ -59,20 +59,20 @@ public void BlogPageOpened_When_PromotionsButtonClicked()
 }
 ```
 As mentioned if you use the Remote attribute on method level it overrides the class settings.
-```
+```csharp
 [Remote(BrowserType.Chrome, "62", PlatformType.Windows, 1000, 500, BrowserBehavior.ReuseIfStarted)]
 ```
-```
+```csharp
 [Remote(BrowserType.Chrome, "62", PlatformType.Windows, MobileWindowSize._320_568, BrowserBehavior.ReuseIfStarted)]
 ```
-```
+```csharp
 [Remote(BrowserType.Chrome, "62", PlatformType.Windows, TabletWindowSize._600_1024, BrowserBehavior.ReuseIfStarted)]
 ```
 As you can see with the Remote attribute we can change the browser window size again.
 
 Configuration
 -------------
-```
+```json
 "remote": {
      "pageLoadTimeout": "30",
      "scriptTimeout": "1",

@@ -11,7 +11,7 @@ anchors:
 ---
 Example
 -------
-```
+```csharp
 [TestClass]
 [Browser(BrowserType.Firefox, BrowserBehavior.RestartEveryTime)]
 public class OverrideLocallyElementActionsTests : WebTest
@@ -79,7 +79,7 @@ public class OverrideLocallyElementActionsTests : WebTest
 Explanations
 ------------
 Extendability and customisation are one of the biggest advantages of Bellatrix. So, each Bellatrix web control gives you the possibility to override its behaviour locally for current test only. You need to initialise the static delegates- **Override{MethodName}Locally**. This may be useful to make a temporary fix only for certain page where the default behaviour is not working as expected.
-```
+```csharp
 Button.OverrideClickLocally = (e) =>
 {
     e.ToExists().ToBeClickable().WaitToBe();
@@ -87,7 +87,7 @@ Button.OverrideClickLocally = (e) =>
 };
 ```
 Below we override the behaviour of the button control with an anonymous lambda function. Instead of using the default webDriverElement.Click() method, we click via JavaScript code.
-```
+```csharp
 Anchor.OverrideFocusLocally = CustomFocus;
 
 private void CustomFocus(Anchor anchor)

@@ -15,7 +15,7 @@ anchors:
 Introduction
 ------------
 Exception analysis or failed tests analysis is a Bellatrix feature that can provide you meaningful information why your tests failed, instead of viewing some native ugly exception messages like not found elements and so on. Here is how the system works. Always when some of your tests fail Bellatrix goes through so-called global **ExceptionHandlers** if some of their rules match a beatified message is displayed. Bellatrix comes with few global handlers such as file not found, generic .NET exception page, service unavailable. Also, we have created for your convenience a few base classes that you can derive from to create your global exception handlers.
-```
+```csharp
 public class OppsExceptionHandler : CustomHtmlExceptionHandler
 {
     public override string DetailedIssueExplanation => "The test navigated to a page that was not present. Maybe someone deleted it?";
@@ -27,7 +27,7 @@ public class OppsExceptionHandler : CustomHtmlExceptionHandler
 Usually we call this method once per test run so you can do it in the **AssemblyInitialize** method located in the **TestInialize**.cs
 Example
 -------
-```
+```csharp
 public class OppsUrlExceptionHandler : UrlExceptionHandler
 {
     protected override string TextToSearchInUrl => "oops";
@@ -35,7 +35,7 @@ public class OppsUrlExceptionHandler : UrlExceptionHandler
     public override string DetailedIssueExplanation => "The test navigated to a page that was not present. Maybe someone deleted it?";
 }
 ```
-```
+```csharp
 [TestClass]
 [Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
 public class FailedTestsAnalysisTests : WebTest
@@ -56,13 +56,14 @@ public class FailedTestsAnalysisTests : WebTest
     }
 }
 ```
+
 Explanations
 ------------
-```
+```csharp
 App.AddExceptionHandler<OppsUrlExceptionHandler>();
 ```
 Another class you can derive from is **OppsUrlExceptionHandler** instead of searching in the HTML source of the failed web page, this one checks parts of the URL which you specify in an override property.
-```
+```csharp
 var couponButton = App.ElementCreateService.CreateById<Button>("couponBtn");
 couponButton.Click();
 ```
@@ -73,11 +74,11 @@ If the custom handlers above are present, this is how the exception is printed:
 Message: Test method Bellatrix.Web.GettingStarted.ExceptionAnalysationTests.NavigateToNonExistingWebPage threw exception:
 Bellatrix.ExceptionAnalysation.AnalyzedTestException:
 
-########################################
+\########################################
 
             The test navigated to a page that was not present. Maybe someone deleted it?
 
-########################################
+\########################################
     ---> OpenQA.Selenium.WebDriverTimeoutException: Timed out after 30 seconds
 
 When the exception handlers are not present the exception is:

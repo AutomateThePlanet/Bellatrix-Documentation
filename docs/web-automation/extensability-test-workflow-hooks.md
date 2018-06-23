@@ -11,7 +11,7 @@ anchors:
 ---
 Example
 -------
-```
+```csharp
 [TestClass]
 [Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
 public class TestWorkflowHooksTests : WebTest
@@ -103,7 +103,7 @@ You can add some logic that is executed after each test instead of copy pasting 
 
 **Note**: ***TestsArrange** and **TestsAct** are similar to MSTest **TestClassInitialize** and **OneTimeSetup** in NUnit. We decided to split them into two methods to make the code more readable and two allow customization of the workflow.*
 
-```
+```csharp
 public override void TestsArrange()
 {
     _sortDropDown = 
@@ -120,14 +120,14 @@ public override void TestsAct()
 }
 ```
 This is one of the ways you can use **TestsArrange** and **TestsAct**. You can find create all elements in the **TestsArrange** and create all necessary data for the tests. Then in the **TestsAct** execute the actual tests logic but without asserting anything. Then in each separate test execute single assert or ensure method. Following the best testing practices- having a single assertion in a test. If you execute multiple assertions and if one of them fails, the next ones are not executed which may lead to missing some major clue about a bug in your product. Anyhow, Bellatrix allows you to write your tests the standard way of executing the primary logic in the tests or reuse some of it through the usage of **TestInit** and **TestCleanup** methods.
-```
+```csharp
 public override void TestInit()
 {
     // ...
 }
 ```
 Executes a logic before each test in the test class.
-```
+```csharp
 public override void TestCleanup()
 {
     // ...

@@ -11,7 +11,7 @@ anchors:
 ---
 Example
 -------
-```
+```csharp
 [TestClass]
 [Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
 public class ExtendExistingElementWithExtensionMethodsTests : WebTest
@@ -59,7 +59,7 @@ public class ExtendExistingElementWithExtensionMethodsTests : WebTest
 
 Explanations
 ------------
-```
+```csharp
 public static class ButtonExtensions
 {
     public static void SubmitButtonWithEnter(this Button button)
@@ -76,14 +76,14 @@ One way to extend an existing element is to create an extension method for the a
 4. Access the native element through the WrappedElement property and the driver via WrappedDriver.
 
 Later to use the method in your tests, add a using statement containing this class's namespace.
-```
+```csharp
 using Bellatrix.Web.GettingStarted.Advanced.Elements.Extension.Methods;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bellatrix.Web.GettingStarted
 ```
 To use the additional method you created, add a using statement to the extension methods' namespace.
-```
+```csharp
 proceedToCheckout.SubmitButtonWithEnter();
 ```
 Use the custom added submit button behaviour through 'Enter' key.

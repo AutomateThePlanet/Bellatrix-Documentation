@@ -11,7 +11,7 @@ anchors:
 ---
 Example
 -------
-```
+```csharp
 [TestClass]
 [Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
 public class DialogServiceTests : WebTest
@@ -54,15 +54,15 @@ public class DialogServiceTests : WebTest
 Explanations
 ------------
 Bellatrix gives you some methods for handling dialogs.
-```
+```csharp
 App.DialogService.Handle();
 ```
 You can click on the OK button and handle the alert.
-```
+```csharp
 App.DialogService.Handle((a) => Assert.AreEqual("Try the coupon- happybirthday", a.Text));
 ```
 You can pass an anonymous lambda function and do something with the alert.
-```
+```csharp
 App.DialogService.Handle(dialogButton: DialogButton.Cancel);
 ```
 You can tell the dialog service to click a different button.

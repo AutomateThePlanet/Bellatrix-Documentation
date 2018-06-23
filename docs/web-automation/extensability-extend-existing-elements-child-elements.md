@@ -11,7 +11,7 @@ anchors:
 ---
 Example
 -------
-```
+```csharp
 [TestClass]
 [Browser(BrowserType.Firefox, BrowserBehavior.RestartEveryTime)]
 public class ExtendExistingElementWithChildElementsTests : WebTest
@@ -64,7 +64,7 @@ public class ExtendExistingElementWithChildElementsTests : WebTest
 ```
 Explanations
 ------------
-```
+```csharp
 public class ExtendedButton : Button
 {
     public void SubmitButtonWithEnter()
@@ -82,12 +82,12 @@ public class ExtendedButton : Button
 ```
 The second way of extending an existing element is to create a child element. Inherit the element you want to extend. In this case, two methods are added to the standard Button element. Next in your tests, use the ExtendedButton instead of regular Button to have access to these methods.
 The same strategy can be used to create a completely new element that Bellatrix does not provide. You need to extend the 'Element' as a base class.
-```
+```csharp
  ExtendedButton proceedToCheckout = 
  App.ElementCreateService.CreateByClassContaining<ExtendedButton>("checkout-button button alt wc-forward");
 ```
 Instead of the regular button, we create the ExtendedButton, this way we can use its new methods.
-```
+```csharp
 proceedToCheckout.SubmitButtonWithEnter();
 ```
 Use the new custom method provided by the ExtendedButton class.

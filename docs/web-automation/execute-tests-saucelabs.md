@@ -12,7 +12,7 @@ anchors:
 ---
 Example
 -------
-```
+```csharp
 [TestClass]
 [SauceLabs(BrowserType.Chrome,
     "62",
@@ -47,7 +47,7 @@ public class SauceLabsTests : WebTest
 
 Explanations
 ------------
-```
+```csharp
 [SauceLabs(BrowserType.Chrome,
     "62",
     "Windows",
@@ -56,7 +56,7 @@ Explanations
     recordVideo: true)]
 ```
 To execute Bellatrix tests in SauceLabs cloud you should use the SauceLabs attribute instead of Browser. SauceLabs has the same parameters as Browser but adds to additional ones- browser version, platform type, recordVideo and recordScreenshots. As with the Browser attribute you can override the class behavior on Test level.
-```
+```csharp
 [TestMethod]
 [SauceLabs(BrowserType.Chrome, "62", "Windows", DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
@@ -69,20 +69,20 @@ public void BlogPageOpened_When_PromotionsButtonClicked()
 }
 ```
 As mentioned if you use the SauceLabs attribute on method level it overrides the class settings.
-```
+```csharp
 [SauceLabs(BrowserType.Chrome, "62", "Windows", 1000, 500, BrowserBehavior.ReuseIfStarted)]
 ```
-```
+```csharp
 [SauceLabs(BrowserType.Chrome, "62", "Windows", MobileWindowSize._320_568, BrowserBehavior.ReuseIfStarted)]
 ```
-```
+```csharp
 [SauceLabs(BrowserType.Chrome, "62", "Windows", TabletWindowSize._600_1024, BrowserBehavior.ReuseIfStarted)]
 ```
 As you can see with the SauceLabs attribute we can change the browser window size again.
 
 Configuration
 -------------
-```
+```json
 "sauceLabs": {
     "pageLoadTimeout": "30",
     "scriptTimeout": "1",

@@ -13,7 +13,7 @@ anchors:
 ---
 Example
 -------
-```
+```csharp
 [Browser(BrowserType.Chrome, DesktopWindowSize._1280_1024,  BrowserBehavior.RestartEveryTime)]
 [TestClass]
 public class LayoutTestingTests : WebTest
@@ -82,28 +82,28 @@ public class LayoutTestingTests : WebTest
 Explanations
 ------------
 Layout testing is a module from Bellatrix that allows you to test the responsiveness of your website.
-```
+```csharp
 using Bellatrix.Layout;
 ```
 You need to add a using statement to Bellatrix.Layout
-```
+```csharp
 [Browser(BrowserType.Chrome, DesktopWindowSize._1280_1024,  BrowserBehavior.RestartEveryTime)]
 ```
-```
+```csharp
 [Browser(BrowserType.Firefox, MobileWindowSize._360_640,  BrowserBehavior.RestartEveryTime)]
 ```
-```
+```csharp
 [Browser(BrowserType.Firefox, TabletWindowSize._600_1024,  BrowserBehavior.RestartEveryTime)]
 ```
-```
+```csharp
 [Browser(BrowserType.Firefox, width: 600, height: 900, behavior: BrowserBehavior.RestartEveryTime)]
 ```
 After that 100 assertion extensions methods are available to you to check the exact position of your web elements. Browser attribute gives you the option to resize your browser window so that you can test the rearrangement of the web elements on your pages. To make it, even more, easier for you, we included a couple of enums containing the most popular desktop, mobile and tablet resolutions. Of course, you always have the option to set a custom size.
-```
+```csharp
 sortDropDown.AssertAboveOf(protonRocketAnchor);
 ```
 Depending on what you want to check, Bellatrix gives lots of options. You can test px perfect or just that some element is below another. Check that the popularity sort dropdown is above the proton rocket image.
-```
+```csharp
 sortDropDown.AssertAboveOf(protonRocketAnchor, 41);
 ```
 Assert with the exact distance between them.
@@ -114,63 +114,63 @@ All layout assertion methods throw LayoutAssertFailedException if the check is n
 control (Name ending with orderby) should be 41 px above of control (href = /proton-rocket/) but was 42 px.
 
 ########################################
-```
+```csharp
 sortDropDown.AssertAboveOfGreaterThan(protonRocketAnchor, 40);
 sortDropDown.AssertAboveOfGreaterThanOrEqual(protonRocketAnchor, 41);
 sortDropDown.AssertAboveOfLessThan(protonRocketAnchor, 50);
 sortDropDown.AssertAboveOfLessThanOrEqual(protonRocketAnchor, 43);
 ```
 For each available method you have variations of it such as, >, >=, <, <=, between and approximate to some expected value by specified %.
-```
+```csharp
 sortDropDown.AssertNearTopOfGreaterThan(protonRocketAnchor, 40);
 sortDropDown.AssertNearTopOfGreaterThanOrEqual(protonRocketAnchor, 41);
 sortDropDown.AssertNearTopOfLessThan(protonRocketAnchor, 50);
 sortDropDown.AssertNearTopOfLessThanOrEqual(protonRocketAnchor, 43);
 ```
 All assertions have alternative names containing the word 'Near'. We added them to make your tests more readable depending on your preference.
-```
+```csharp
 sortDropDown.AssertAboveOfApproximate(protonRocketAnchor, 40, percent: 10);
 ```
 The expected distance is ~40px with 10% tolerance
-```
+```csharp
 sortDropDown.AssertAboveOfBetween(protonRocketAnchor, 30, 50);
 ```
 The expected px distance is between 30 and 50 px
-```
+```csharp
 saturnVAnchor.AssertNearBottomRightOf(sortDropDown);
 sortDropDown.AssertNearTopLeftOf(saturnVAnchor);
 ```
 You can assert the position of elements again each other in all directions- above, below, right, left, top right, top left, below left, below right. Assert that the sort dropdown is positioned near the top right of the Saturn B link.
-```
+```csharp
 LayoutAssert.AssertAlignedHorizontallyAll(protonRocketAnchor, protonMAnchor);
 ```
 You can tests whether different web elements are aligned correctly.
-```
+```csharp
 LayoutAssert.AssertAlignedHorizontallyTop(protonRocketAnchor, protonMAnchor, saturnVAnchor);
 LayoutAssert.AssertAlignedHorizontallyCentered(protonRocketAnchor, protonMAnchor, saturnVAnchor);
 LayoutAssert.AssertAlignedHorizontallyBottom(protonRocketAnchor, protonMAnchor, saturnVAnchor);
 ```
 You can pass as many elements as you like.
-```
+```csharp
 LayoutAssert.AssertAlignedVerticallyAll(falcon9Anchor, falconHeavyAnchor);
 ```
 You can check vertical alignment as well.
-```
+```csharp
 LayoutAssert.AssertAlignedVerticallyLeft(falcon9Anchor, falconHeavyAnchor);
 LayoutAssert.AssertAlignedVerticallyCentered(falcon9Anchor, falconHeavyAnchor);
 LayoutAssert.AssertAlignedVerticallyRight(falcon9Anchor, falconHeavyAnchor);
 ```
 Assert that the elements are aligned vertically only from the left side.
-```
+```csharp
 saturnVRating.AssertInsideOf(saturnVAnchor);
 ```
 You can check that some element is inside in another. Assert that the rating div is present in the Saturn V anchor.
-```
+```csharp
 saturnVRating.AssertHeightLessThan(100);
 saturnVRating.AssertWidthBetween(50, 70);
 ```
 Verify the height and width of elements.
-```
+```csharp
 saturnVRating.AssertInsideOf(SpecialElements.Viewport);
 saturnVRating.AssertInsideOf(SpecialElements.Screen);
 ```

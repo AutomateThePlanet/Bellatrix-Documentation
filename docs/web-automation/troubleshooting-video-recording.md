@@ -12,7 +12,7 @@ anchors:
 ---
 Example
 -------
-```
+```csharp
 [TestClass]
 [VideoRecording(VideoRecordingMode.OnlyFail)]
 [Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
@@ -38,9 +38,10 @@ public class VideoRecordingTests : WebTest
     }
 }
 ```
+
 Explanations
 ------------
-```
+```csharp
 [VideoRecording(VideoRecordingMode.OnlyFail)]
 ```
 This is the attribute for cross-platform video recording by Bellatrix. The engine checks after each test, its result, depending on the specified video saves the video.
@@ -51,7 +52,7 @@ All video recording modes:
 - **OnlyPass** - saves the videos only for pass tests.
 - **OnlyFail** - saves the videos only for failed tests.
 If you place attribute over the class all tests inherit the behaviour. It is possible to put it over each test and this way you override the class behaviour only for this particular test.
-```
+```csharp
 [TestMethod]
 [VideoRecording(VideoRecordingMode.DoNotRecord)]
 ```
@@ -59,7 +60,7 @@ As mentioned above we can override the video behaviour for a particular test. Th
 Configuration
 -------------
 If you open the **testFrameworkSettings.json** file, you find the **videoRecordingSettings** section that controls this behaviour.
-```
+```json
 "videoRecordingSettings": {
        "isEnabled": "true",
         "waitAfterFinishRecordingMilliseconds": "500",

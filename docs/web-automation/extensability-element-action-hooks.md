@@ -25,7 +25,7 @@ In the example, **DebugLogger** is called for each button event printing to Debu
 
 Example
 -------
-```
+```csharp
 public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
 {
     protected override void ClickingEventHandler(object sender, ElementActionEventArgs arg)
@@ -59,7 +59,7 @@ public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
     }
 }
 ```
-```
+```csharp
 [TestClass]
 [Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
 public class ElementActionHooksTests : WebTest
@@ -116,7 +116,7 @@ public class ElementActionHooksTests : WebTest
 ```
 Explanations
 ------------
-```
+```csharp
 public override void TestsArrange()
 {
     App.AddElementEventHandler<DebugLoggingButtonEventHandlers>();
@@ -126,7 +126,7 @@ Once you have created the **EventHandlers** class, you need to tell Bellatrix to
 
 **Note**: *Usually, we add element event handlers in the **AssemblyInitialize** method which is called once for a test run.*
 
-```
+```csharp
  App.RemoveElementEventHandler<DebugLoggingButtonEventHandlers>();
 ```
 If you need to remove it during the run you can use the method bellow.

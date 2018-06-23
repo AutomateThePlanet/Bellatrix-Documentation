@@ -11,7 +11,7 @@ anchors:
 ---
 Example
 -------
-```
+```csharp
 [TestClass]
 [Browser(BrowserType.Firefox, BrowserBehavior.RestartEveryTime)]
 public class ExtendExistingCommonServicesTests : WebTest
@@ -65,7 +65,7 @@ public class ExtendExistingCommonServicesTests : WebTest
 
 Explanations
 ------------
-```
+```csharp
 public static class NavigationServiceExtensions
 {
     public static void NavigateViaJavaScript(this NavigationService navigationService, string url)
@@ -95,14 +95,14 @@ One way to extend the Bellatrix common services is to create an extension method
 4. Access the native driver via WrappedDriver.
 
 Later to use the method in your tests, add a using statement containing this class's namespace.
-```
+```csharp
 using Bellatrix.Web.GettingStarted.Advanced.Elements.Extension.Methods;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bellatrix.Web.GettingStarted
 ```
 To use the additional method you created, add a using statement to the extension methods' namespace.
-```
+```csharp
 App.NavigationService.NavigateViaJavaScript("http://demos.bellatrix.solutions/");
 ```
 Use newly added navigation though JavaScript which is not part of the original implementation of the common service.

@@ -21,7 +21,7 @@ As you most probably noticed this is like the 4th time we use almost the same el
 Because of that people use the so-called Page Object design pattern to reuse their elements and pages' logic. Bellatrix comes with powerful built-in page objects which are much more readable and maintainable than regular vanilla WebDriver ones.
 Non-page-object Test Example
 ----------------------------
-```
+```csharp
 [TestMethod]
 public void PurchaseRocketWithoutPageObjects()
 {
@@ -117,7 +117,7 @@ There are navigatable, and non-navigatable page objects since some pages are onl
 Page Object Example
 -------------------
 ### Methods File ###
-```
+```csharp
 public partial class CartPage : AssertedNavigatablePage
 {
     private const string CouponSuccessfullyAdded = @"Coupon code applied successfully.";
@@ -165,7 +165,7 @@ public partial class CartPage : AssertedNavigatablePage
 }
 ```
 ### Elements File ###
-```
+```csharp
 public partial class CartPage
 {
     public TextField CouponCode => Element.CreateById<TextField>("coupon_code");
@@ -178,7 +178,7 @@ public partial class CartPage
 }
 ```
 ### Assertions File ###
-```
+```csharp
 public partial class CartPage
 {
     public void AssertTotalPrice(string price)
@@ -189,15 +189,15 @@ public partial class CartPage
 ```
 Page Object Example Explanations
 --------------------------------
-```
+```csharp
 public partial class CartPage : AssertedNavigatablePage
 ```
 All Bellatrix page objects are implemented as partial classes which means that you have separate files for different parts of it- actions, elements, assertions but at the end, they are all built into a single type. This makes the maintainability and readability of these classes much better. Also, you can easier locate what you need. You can always create Bellatrix page objects yourself inherit one of the 3 classes- AssertedNavigatablePage, NavigatablePage, Page. We advise you to follow the convention with partial classes, but you are always free to put all pieces in a single file.
-```
+```csharp
 public override string Url => "http://demos.bellatrix.solutions/cart/";
 ```
 Overriding the Url property that comes from the base page object you can later you the Open method to go to the page.
-```
+```csharp
 public void ApplyCoupon(string coupon)
 {
     CouponCode.SetText(coupon);
@@ -209,7 +209,7 @@ public void ApplyCoupon(string coupon)
 ```
 These elements are always used together when coupon is applied. There are many test cases where you need to apply different coupons and so on. This way you reuse the code instead of copy-paste it. If there is a change in the way how the coupon is applied, change the workflow only here. Even single line of code is changed in your tests.
 Usually, it is not entirely correct to make assertions inside action methods. However, ensure methods are just waiting for something to happen.
-```
+```csharp
 public void UpdateProductQuantity(int productNumber, int newQuantity)
 {
     if (productNumber > QuantityBoxes.Count())
@@ -226,7 +226,7 @@ public void UpdateProductQuantity(int productNumber, int newQuantity)
 ```
 Another method that we can add here is the one for updating the quantity of a product. This is an excellent place to put validations in your code. Here we make sure that the specified number of products that we want to update exists.
 CreateAll method returns a special Bellatrix collection called ElementsList<TElementType> in this case ElementList<Number>. The collection has a couple of useful methods- Count, implements index which we use here.
-```
+```csharp
 foreach (var currentQuantityBox in QuantityBoxes)
 {
     currentQuantityBox.SetNumber(0);
@@ -234,15 +234,15 @@ foreach (var currentQuantityBox in QuantityBoxes)
 }
 ```
 Also, you can use ElementList<T> directly in foreach statements since it implements IEnumerator interface.
-```
+```csharp
 public TextField CouponCode => Element.CreateById<TextField>("coupon_code");
 ```
 All elements are placed inside the file **PageName.Elements** so that the declarations of your elements to be in a single place. It is convenient since if there is a change in some of the locators or elements types you can apply the fix only here. All elements are implements as properties. Here we use the short syntax for declaring properties, but you can always use the old one. **Elements** property is actually a shorter version of **ElementCreateService**.
-```
+```csharp
 public ElementsList<Number> QuantityBoxes => Element.CreateAllByClassContaining<Number>("input-text qty text");
 ```
 If you want to find multiple elements, you can use the special Bellatrix collection ElementsList<TElementType>. You can read more about it in the actions file.
-```
+```csharp
 public void AssertTotalPrice(string price)
 {
     TotalSpan.EnsureInnerTextIs($"{price}€", 15000);
@@ -251,7 +251,7 @@ public void AssertTotalPrice(string price)
 With this Assert, reuse the formatting of the currency and the timeout. Also, since the method is called from the page it makes your tests a little bit more readable.If there is a change what needs to be checked --> for example, not span but different element you can change it in a single place.
 Page Object Test Example
 ------------------------
-```
+```csharp
 [TestMethod]
 public void PurchaseRocketWithPageObjects()
 {
@@ -292,28 +292,28 @@ checkoutPage.CheckPaymentsRadioButton.Click();
 ```
 Page Object Test Example Explanations
 -------------------------------------
-```
+```csharp
 var homePage = App.GoTo<HomePage>();
 ```
 You can use the App GoTo method to navigate to the page and gets an instance of it.
-```
+```csharp
 homePage.FilterProducts(ProductFilter.Popularity);
 homePage.AddProductById(28);
 homePage.ViewCartButton.Click();
 ```
 After you have the instance, you can directly start using the action methods of the page. As you can see the test became much shorter and more readable. The additional code pays off in future when changes are made to the page, or you need to reuse some of the methods.
-```
+```csharp
 var cartPage = App.Create<CartPage>();
 ```
 Navigate to the shopping cart page by clicking the view cart button, so we do not have to call the GoTo method. But we still need an instance. We can get only an instance of the page through the App Create method.
-```
+```csharp
 cartPage.ApplyCoupon("happybirthday");
 cartPage.UpdateProductQuantity(1, 2);
 cartPage.AssertTotalPrice("95.00");
 cartPage.ProceedToCheckout.Click();
 ```
 Removing all elements and some implementation details from the test made it much more clear and readable. This is one of the strategies to follow for long-term successful automated testing.
-```
+```csharp
 var billingInfo = new BillingInfo
                   {
                       FirstName = "In",
