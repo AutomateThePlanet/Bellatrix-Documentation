@@ -1,7 +1,6 @@
 ---
 layout: default
 title:  "Troubleshooting- Video Recording"
-feature-title: "Web Automation"
 excerpt: "Learn how to use Bellatrix cross-platform video recording."
 date:   2018-06-22 06:50:17 +0200
 parent: web-automation

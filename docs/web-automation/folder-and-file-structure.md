@@ -2,15 +2,9 @@
 layout: default
 title:  "Folder and File Structure"
 excerpt: "Learn what each Bellatrix project templates includes."
-<<<<<<< HEAD
-date:   2018-06-23 06:50:17 +0200
-parent: /web-automation
-permalink: /folder-and-file-structure/
-=======
 date:   2018-02-20 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/folder-and-file-structure/
->>>>>>> 3eeb2e2a9eb31b957bebad37b7460c080ca5d39a
 anchors:
   nuget-dependencies: NuGet Dependencies
   editorconfig: EditorConfig

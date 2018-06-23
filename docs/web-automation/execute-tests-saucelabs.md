@@ -1,7 +1,6 @@
 ---
 layout: default
 title:  "Execute Tests in SauceLabs"
-feature-title: "Web Automation"
 excerpt: "Learn to use Bellatrix to execute web tests in SauceLabs."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation

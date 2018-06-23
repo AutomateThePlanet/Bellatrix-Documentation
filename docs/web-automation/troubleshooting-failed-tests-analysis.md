@@ -1,7 +1,6 @@
 ---
 layout: default
 title:  "Troubleshooting- Failed Tests Analysis"
-feature-title: "Web Automation"
 excerpt: "Learn how to troubleshoot failing tests using Bellatrix failed tests analysis module."
 date:   2018-06-22 06:50:17 +0200
 parent: web-automation

@@ -1,7 +1,6 @@
 ---
 layout: default
 title:  "Locate And Wait Elements"
-feature-title: "Web Automation"
 excerpt: "Learn how to locate and wait web elements with Bellatrix web module."
 date:   2018-06-22 06:50:17 +0200
 parent: web-automation

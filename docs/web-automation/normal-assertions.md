@@ -1,7 +1,6 @@
 ---
 layout: default
 title:  "Normal Assertions"
-feature-title: "Web Automation"
 excerpt: "Learn how to use normal assertion methods in Bellatrix tests."
 date:   2018-06-22 06:50:17 +0200
 parent: web-automation

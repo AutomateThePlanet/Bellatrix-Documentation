@@ -1,7 +1,6 @@
 ---
 layout: default
 title:  "Navigate to Pages"
-feature-title: "Web Automation"
 excerpt: "Learn how to navigate to web pages with Bellatrix web module."
 date:   2018-06-22 06:50:17 +0200
 parent: web-automation

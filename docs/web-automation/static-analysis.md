@@ -1,7 +1,6 @@
 ---
 layout: default
 title:  "Static Analysis"
-feature-title: "Web Automation"
 excerpt: "Learn how to use the Bellatrix Static Analysis."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation
