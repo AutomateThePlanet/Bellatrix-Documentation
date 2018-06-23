@@ -91,8 +91,6 @@ navigation:
                 title: Page Objects
             "layout-testing":
                 title: Layout Testing
-            "layout-testing":
-                title: Layout Testing
             "troubleshooting-full-page-screenshots-on-fail":
                 title: Troubleshooting- Full Page Screenshots on Fail
             "troubleshooting-video-recording":
@@ -113,6 +111,65 @@ navigation:
                 title: Execute Tests in CrossBrowserTesting
             "add-custom-webdriver-capabilities-options":
                 title: Add Custom WebDriver Capabilities and Options
+            "static-analysis":
+                title: Static Analysis
+            "logging":
+                title: Logging
+            "extensability-test-workflow-hooks":
+                title: Extensability- Test Workflow Hooks
+            "extensability-custom-test-workflow-plugins":
+                title: Extensability- Custom Test Workflow Plugins
+            "extensability-override-globally-element-actions":
+                title: Extensability- Override Globally Element Actions
+            "extensability-override-locally-element-actions":
+                title: Extensability- Override Locally Element Actions
+            "extensability-element-action-hooks":
+                title: Extensability- Element Action Hooks
+            "extensability-common-services-action-hooks":
+                title: Extensability- Common Services Action Hooks
+            "extensability-extend-existing-elements-extension-methods":
+                title: Extensability- Extend Elements Extension Methods
+            "extensability-extend-existing-elements-child-elements":
+                title: Extensability- Extend Elements Child Elements
+            "extensability-extend-common-services":
+                title: Extensability- Extend Common Services
+            "templates":
+                title: Templates
+            "folder-and-file-structure":
+                title: Folder and File Structure
+    "desktop-automation":
+        title: Desktop Automation
+        submenu:
+            "control-app":
+                title: Control App
+            "locate-elements":
+                title: Locate Elements
+            "locate-and-wait-elements":
+                title: Locate and Wait Elements
+            "wait-for-elements":
+                title: Wait for Elements
+            "app-service":
+                title: AppService
+            "common-controls":
+                title: Common Controls
+            "normal-assertions":
+                title: Normal Assertions
+            "ensure-assertions":
+                title: Ensure Assertions
+            "bdd-logging":
+                title: BDD Logging
+            "page-objects":
+                title: Page Objects
+            "layout-testing":
+                title: Layout Testing
+            "troubleshooting-screenshots-on-fail":
+                title: Troubleshooting- Screenshots on Fail
+            "troubleshooting-video-recording":
+                title: Troubleshooting- Video Recording
+            "elements-snippets":
+                title: Elements Snippets
+            "add-custom-webdriver-capabilities":
+                title: Add Custom WebDriver Capabilities
             "static-analysis":
                 title: Static Analysis
             "logging":
