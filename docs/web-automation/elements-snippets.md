@@ -19,7 +19,7 @@ Code snippets are small blocks of reusable code that can be inserted in a code f
 Bellatrix gives you expansion snippets. You can read more how you can write your snippets in the [following blog post](https://www.automatetheplanet.com/visual-studio-code-snippets/).
 How to Use Bellatrix Code Snippets?
 ------------
-```C#
+```csharp
 public TextField CouponCode => Element.CreateById<TextField>("coupon_code");
 ```
 For each proxy element in Bellatrix, we give you a corresponding snippet. For example to generate a **TextField** property, you need to type somewhere in you class **wtextfield** and press Tab.
