@@ -2,12 +2,14 @@
 layout: default
 title:  "Activation"
 excerpt: "Learn how to activate Bellatrix products."
-date:   2018-02-20 06:50:17 +0200
+date:   2018-06-23 06:50:17 +0200
 parent: /general-information
 permalink: /activation/
 anchors:
-  meissa-test-agent-mode: Test Agent
-  meissa-test-runner-mode: Meissa Test Runner Mode
+  overview: Overview
+  how-to-activate-bellatrix: How to Activate Bellatrix?
+  deactivate: Deactivate
+  display-installed-license-information: Display Installed License Information
 ---
 Overview
 --------
@@ -23,6 +25,30 @@ bellatrix activateLicense --email=bellatrixTest@yahoo.com --licenseKey=2v99d5bb-
 ```
 This is how you activate the product if your OS is Windows 10 and have installed Bellatrix.
 ```
-C:\Users\youUserName\Documents\bellatrix-installer-win-x64\bellatrix activateLicense --email=bellatrixTest@yahoo.com --licenseKey=2v99d5bb-f0bd-64a3-bg26-1b12517cc05c
+C:\Users\youUserName\Documents\bellatrix-installer-win-x64\bellatrix.exe activateLicense --email=bellatrixTest@yahoo.com --licenseKey=2v99d5bb-f0bd-64a3-bg26-1b12517cc05c
 ```
 This is the command if Bellatrix is not installed. This is sometimes useful if you want to activate a license on a remote machine.
+
+**Note**: All license keys are floating. This means you can activate and deactivate them on different machines as many times as you want till they are active.
+
+Deactivate
+---------- 
+```
+bellatrix deactivateLicense
+```
+This is how you deactivate the product if your OS is Windows 10 and have installed Bellatrix.
+```
+C:\Users\youUserName\Documents\bellatrix-installer-win-x64\bellatrix.exe deactivateLicense
+```
+This is the command if Bellatrix is not installed. This is sometimes useful if you want to deactivate a license on a remote machine.
+
+Display Installed License Information
+---------- 
+```
+bellatrix statusLicense
+```
+This is how you view information about your currently installed license if your OS is Windows 10 and have installed Bellatrix.
+```
+C:\Users\youUserName\Documents\bellatrix-installer-win-x64\bellatrix.exe statusLicense
+```
+This is the command if Bellatrix is not installed.
