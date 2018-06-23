@@ -126,6 +126,7 @@ public void PurchaseRocket()
     checkPaymentsRadioButton.Click();
 }
 ```
+
 Explanations
 ------------
 As mentioned before Bellatrix exposes 30+ web controls. All of them implement Proxy design pattern which means that they are not located immediately when they are created. Another benefit is that each of them includes only the actions that you should be able to do with the specific control and nothing more.
@@ -273,6 +274,7 @@ App.ElementCreateService.CreateByAttributesContaining<RadioButton>("for", "payme
 checkPaymentsRadioButton.Click();
 ```
 Bellatrix finds the first RadioButton with attribute 'for' containing the value 'payment_method_cheque'. The radio buttons compared to checkboxes cannot be unchecked/unselected.
+
 Full List of All Supported Web Controls
 ---------------------------------------
 ### Element ###

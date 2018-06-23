@@ -28,6 +28,7 @@ public void BlogPageOpened_When_PromotionsButtonClicked()
     promotionsLink.Click();
 }
 ```
+
 Explanations
 ------------
 ```csharp
@@ -59,6 +60,7 @@ The default timeouts that Bellatrix use are placed inside the **testFrameworkSet
 var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions").ToHasContent(40, 1);
 ```
 You can always override the timeout settings for each method. The first value is the timeout in seconds and the second one controls how often the engine checks the condition.
+
 All Available ToBe Methods
 --------------------------
 ### ToExists ###

@@ -289,6 +289,7 @@ Searches the element by its name containing the specified text.
 ```csharp
 element.CreateByAttributesContaining<Anchor>("data-product_id", "31");
 ```
+
 Available CreateAll Methods for Finding Nested Elements
 ----------------------------------------------------
 ### CreateAllByIdEndingWith ###

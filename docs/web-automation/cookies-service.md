@@ -73,6 +73,7 @@ public class CookiesServiceTests : WebTest
     }
 }
 ```
+
 Explanations
 ------------
 Bellatrix gives you an interface for easier work with cookies using the CookiesService. You need to make sure that you have navigated to the desired web page.

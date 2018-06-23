@@ -40,6 +40,7 @@ public void AssertEnsureCartPageFields()
     totalSpan.EnsureInnerTextIs("120.00€", timeout: 30, sleepInterval: 2);
 }
 ```
+
 Explanations
 ------------
 ```csharp

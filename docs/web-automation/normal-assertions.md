@@ -41,6 +41,7 @@ public void AssertCartPageFields()
     Assert.AreEqual("120.00€", totalSpan.InnerText);
 }
 ```
+
 Explanations
 ------------
 ```csharp

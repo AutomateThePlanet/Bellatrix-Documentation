@@ -79,6 +79,7 @@ public class LayoutTestingTests : WebTest
     }
 }
 ```
+
 Explanations
 ------------
 Layout testing is a module from Bellatrix that allows you to test the responsiveness of your website.

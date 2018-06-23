@@ -51,6 +51,7 @@ public class DialogServiceTests : WebTest
     }
 }
 ```
+
 Explanations
 ------------
 Bellatrix gives you some methods for handling dialogs.

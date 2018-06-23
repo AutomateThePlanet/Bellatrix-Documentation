@@ -43,6 +43,7 @@ public class JavaScriptServiceTests : WebTest
     }
 }
 ```
+
 Explanations
 ------------
 Bellatrix gives you an interface for easier execution of JavaScript code using the JavaScriptService. You need to make sure that you have navigated to the desired web page.

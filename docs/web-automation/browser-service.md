@@ -71,6 +71,7 @@ public class BrowserServiceTests : WebTest
     }
 }
 ```
+
 Explanations
 ------------
 Bellatrix gives you an interface to most common operations for controlling the started browser through the **BrowserService** class.

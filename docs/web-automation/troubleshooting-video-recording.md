@@ -57,6 +57,7 @@ If you place attribute over the class all tests inherit the behaviour. It is pos
 [VideoRecording(VideoRecordingMode.DoNotRecord)]
 ```
 As mentioned above we can override the video behaviour for a particular test. The global behaviour for all tests in the class is to save the videos only for failed tests. Only for this particular test, we tell Bellatrix not to make a video.
+
 Configuration
 -------------
 If you open the **testFrameworkSettings.json** file, you find the **videoRecordingSettings** section that controls this behaviour.

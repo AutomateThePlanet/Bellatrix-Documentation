@@ -25,6 +25,7 @@ public class OppsExceptionHandler : CustomHtmlExceptionHandler
 ```
  For example we have created **OppsExceptionHandler**. It derives from the base class **CustomHtmlExceptionHandler**. If you navigate to the class, you see that we have specified the beatified message, and more importantly what text should Bellatrix search on the failed web page. If the text is located, your message is displayed. Once the page is created, we use the **AddExceptionHandler** to register the global exception handler.
 Usually we call this method once per test run so you can do it in the **AssemblyInitialize** method located in the **TestInialize**.cs
+
 Example
 -------
 ```csharp

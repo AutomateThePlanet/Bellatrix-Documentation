@@ -19,6 +19,7 @@ Introduction
 ------------
 As you most probably noticed this is like the 4th time we use almost the same elements and logic inside our tests. Similar test writing approach leads to unreadable and hard to maintain tests.
 Because of that people use the so-called Page Object design pattern to reuse their elements and pages' logic. Bellatrix comes with powerful built-in page objects which are much more readable and maintainable than regular vanilla WebDriver ones.
+
 Non-page-object Test Example
 ----------------------------
 ```csharp
@@ -101,6 +102,7 @@ public void PurchaseRocketWithoutPageObjects()
     checkPaymentsRadioButton.Click();
 }
 ```
+
 How to Create Bellatrix Page Object
 -----------------------------------
 To create a new page object, you have a couple of options. You can create it manually. However, why wasting time? Bellatrix comes with ready-to-go page object templates.
@@ -114,6 +116,7 @@ To create a new page object, you have a couple of options. You can create it man
 - In the assertions file, we may place some predefined ensure methods. For example, if you always check the same email or title of a page, there is no need to hardcode the string in each test. Later if the title is changed, you can do it in a single place. The same is true about most of the things you can assert in your tests.
 
 There are navigatable, and non-navigatable page objects since some pages are only part of a workflow, and you access them not via URL but after clicking some link or button. The same is valid if you work with single page applications.
+
 Page Object Example
 -------------------
 ### Methods File ###
@@ -187,6 +190,7 @@ public partial class CartPage
     }
 }
 ```
+
 Page Object Example Explanations
 --------------------------------
 ```csharp
@@ -249,6 +253,7 @@ public void AssertTotalPrice(string price)
 }
 ```
 With this Assert, reuse the formatting of the currency and the timeout. Also, since the method is called from the page it makes your tests a little bit more readable.If there is a change what needs to be checked --> for example, not span but different element you can change it in a single place.
+
 Page Object Test Example
 ------------------------
 ```csharp
@@ -290,6 +295,7 @@ checkoutPage.FillBillingInfo(billingInfo);
 checkoutPage.CheckPaymentsRadioButton.Click();
 }
 ```
+
 Page Object Test Example Explanations
 -------------------------------------
 ```csharp
