@@ -13,107 +13,47 @@ Example
 -------
 ```csharp
 [TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
-public class BrowserServiceTests : WebTest
+[App(@"C:\demo-apps\WPFSampleApp.exe", AppBehavior.RestartEveryTime)]
+public class AppServiceTests : DesktopTest
 {
     [TestMethod]
-    public void GetCurrentUri()
+    public void MessageChanged_When_ButtonHovered_Wpf()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var button = App.ElementCreateService.CreateByName<Button>("E Button");
 
-        Debug.WriteLine(App.BrowserService.Url);
-    }
+        button.Click();
+        
+        Debug.WriteLine(App.AppService.Title);
 
-    [TestMethod]
-    public void ControlBrowser()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        App.BrowserService.Maximize();
-
-        App.BrowserService.Back();
-
-        App.BrowserService.Forward();
-
-        App.BrowserService.Refresh();
-    }
-
-    [TestMethod]
-    public void GetTabTitle()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        Assert.AreEqual("Bellatrix .NET test automation framework", App.BrowserService.Title);
-    }
-
-    [TestMethod]
-    public void PrintCurrentPageHtml()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        Debug.WriteLine(App.BrowserService.HtmlSource);
-    }
-
-    [TestMethod]
-    [Ignore]
-    public void SwitchToFrame()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        var frame = App.ElementCreateService.CreateById<Frame>("myFrameId");
-        App.BrowserService.SwitchToFrame(frame);
-
-        var myButton = frame.CreateById<Button>("purchaseBtnId");
-
-        myButton.Click();
-
-        App.BrowserService.SwitchToDefault();
+        App.AppService.Maximize();
+        App.AppService.Forward();
+        App.AppService.Back();
+        App.AppService.Refresh();
     }
 }
 ```
 
 Explanations
 ------------
-Bellatrix gives you an interface to most common operations for controlling the started browser through the **BrowserService** class.
+With the Bellatrix desktop library, you can test various Windows applications written in different technologies such as- WPF, WinForms or UWP (Universal Windows Platform).
 ```csharp
-App.BrowserService.WaitUntilReady();
+[App(@"C:\demo-apps\WPFSampleApp.exe", AppBehavior.RestartEveryTime)]
 ```
-Sometimes, some AJAX async calls are not caught natively by WebDriver. So you can use the Bellatrix browser service's method. **WaitUntilReady** which waits for these calls automatically to finish. Keep in mind that usually this is not necessary since Bellatrix has a complex built-in mechanism for handling element waits.
+For the first two, you need to pass the path to your application's executable.
 ```csharp
-Debug.WriteLine(App.BrowserService.Url);
+[App(@"C:\demo-apps\WindowsFormsSampleApp.exe", AppBehavior.RestartEveryTime)] 
 ```
-Get the current tab URL.
+Starts WinForms app.
 ```csharp
-App.BrowserService.Maximize();
+[App("369ede42-bebe-41ea-a02a-0da04991478e_q6s448gyj2xsw!App", AppBehavior.RestartEveryTime)]
 ```
-Maximizes the browser.
+For UWP applications you need to set the application's installation GUID.
 ```csharp
-App.BrowserService.Back();
+Debug.WriteLine(App.AppService.Title);
+
+App.AppService.Maximize();
+App.AppService.Forward();
+App.AppService.Back();
+App.AppService.Refresh();
 ```
-Simulates clicking the browser's Back button.
-```csharp
-App.BrowserService.Forward();
-```
-Simulates clicking the browser's Forward button.
-```csharp
-App.BrowserService.Refresh();
-```
-Simulates clicking the browser's Refresh button.
-```csharp
-Assert.AreEqual("Bellatrix .NET test automation framework", App.BrowserService.Title);
-```
-Get the current tab Title.
-```csharp
-Debug.WriteLine(App.BrowserService.HtmlSource);
-```
-Get the current page HTML.
-```csharp
-var frame = App.ElementCreateService.CreateById<Frame>("myFrameId");
-App.BrowserService.SwitchToFrame(frame);
-var myButton = frame.CreateById<Button>("purchaseBtnId");
-```
-To work with elements inside a frame, you should switch to it first. Search for the button inside the frame element. Of course, once you switched to frame, you can create the element through ElementCreateService too.
-```csharp
-App.BrowserService.SwitchToDefault();
-```
-To continue searching in the whole page, you need to switch to default again. It is the same process of how you work with WebDriver.
+Through AppService you can control the certain aspects of your application such as getting its title, maximise it or going backwards or forward.
