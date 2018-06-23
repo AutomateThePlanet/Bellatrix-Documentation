@@ -4,8 +4,8 @@ title:  "Page Objects"
 feature-title: "Web Automation"
 excerpt: "Learn how to use the Bellatrix page objects."
 date:   2018-06-22 06:50:17 +0200
-parent: /web-automation
-permalink: /page-objects/
+parent: web-automation
+permalink: /web-automation/page-objects/
 anchors:
   introduction: Introduction
   non-page-object-test-example: Non-page-object Test Example

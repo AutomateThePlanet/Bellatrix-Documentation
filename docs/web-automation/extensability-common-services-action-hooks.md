@@ -4,8 +4,8 @@ title:  "Extensability- Common Services Action Hooks"
 feature-title: "Web Automation"
 excerpt: "Learn how to extend Bellatrix common services using action hooks."
 date:   2018-06-23 06:50:17 +0200
-parent: /web-automation
-permalink: /extensability-common-services-action-hooks/
+parent: web-automation
+permalink: /web-automation/extensability-common-services-action-hooks/
 anchors:
   explanations: Explanations
 ---

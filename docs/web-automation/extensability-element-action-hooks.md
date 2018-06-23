@@ -4,8 +4,8 @@ title:  "Extensability- Element Action Hooks"
 feature-title: "Web Automation"
 excerpt: "Learn how to extend Bellatrix web element controls using element action hooks."
 date:   2018-06-23 06:50:17 +0200
-parent: /web-automation
-permalink: /extensability-element-action-hooks/
+parent: web-automation
+permalink: /web-automation/extensability-element-action-hooks/
 anchors:
   introduction: Introduction
   example: Example

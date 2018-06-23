@@ -4,8 +4,8 @@ title:  "Behaviour Driver Development BDD Logging"
 feature-title: "Web Automation"
 excerpt: "Learn the Bellatrix Behaviour Driver Development BDD Logging works and how to use it."
 date:   2018-06-2s 06:50:17 +0200
-parent: /web-automation
-permalink: /bdd-logging/
+parent: web-automation
+permalink: /web-automation/bdd-logging/
 anchors:
   example: Example
   explanations: Explanations

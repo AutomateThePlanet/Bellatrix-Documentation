@@ -4,8 +4,8 @@ title:  "DialogService"
 feature-title: "Web Automation"
 excerpt: "Learn how to use Bellatrix DialogService."
 date:   2018-06-22 06:50:17 +0200
-parent: /web-automation
-permalink: /dialog-service/
+parent: web-automation
+permalink: /web-automation/dialog-service/
 anchors:
   example: Example
   explanations: Explanations

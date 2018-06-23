@@ -4,8 +4,8 @@ title:  "Extensability- Extend Common Services"
 feature-title: "Web Automation"
 excerpt: "Learn how to extend Bellatrix common services."
 date:   2018-06-23 06:50:17 +0200
-parent: /web-automation
-permalink: /extensability-extend-common-services/
+parent: web-automation
+permalink: /web-automation/extensability-extend-common-services/
 anchors:
   example: Example
   explanations: Explanations

@@ -4,8 +4,8 @@ title:  "Common Controls"
 feature-title: "Web Automation"
 excerpt: "Learn how to use Bellatrix common web control."
 date:   2018-06-22 06:50:17 +0200
-parent: /web-automation
-permalink: /common-controls/
+parent: web-automation
+permalink: /web-automation/common-controls/
 anchors:
   example: Example
   explanations: Explanations

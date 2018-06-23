@@ -4,8 +4,8 @@ title:  "Troubleshooting- Full Page Screenshots on Fail"
 feature-title: "Web Automation"
 excerpt: "Learn how to generate full page screenshots on test's fail."
 date:   2018-06-22 06:50:17 +0200
-parent: /web-automation
-permalink: /troubleshooting-full-page-screenshots-on-fail/
+parent: web-automation
+permalink: /web-automation/troubleshooting-full-page-screenshots-on-fail/
 anchors:
   example: Example
   explanations: Explanations

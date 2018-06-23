@@ -4,8 +4,8 @@ title:  "Execute Tests in SauceLabs"
 feature-title: "Web Automation"
 excerpt: "Learn to use Bellatrix to execute web tests in SauceLabs."
 date:   2018-06-23 06:50:17 +0200
-parent: /web-automation
-permalink: /execute-tests-saucelabs/
+parent: web-automation
+permalink: /web-automation/execute-tests-saucelabs/
 anchors:
   example: Example
   explanations: Explanations

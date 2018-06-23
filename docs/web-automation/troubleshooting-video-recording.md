@@ -4,8 +4,8 @@ title:  "Troubleshooting- Video Recording"
 feature-title: "Web Automation"
 excerpt: "Learn how to use Bellatrix cross-platform video recording."
 date:   2018-06-22 06:50:17 +0200
-parent: /web-automation
-permalink: /troubleshooting-video-recording/
+parent: web-automation
+permalink: /web-automation/troubleshooting-video-recording/
 anchors:
   example: Example
   explanations: Explanations
