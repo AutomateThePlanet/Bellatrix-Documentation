@@ -9,14 +9,16 @@
 		<select id="features-nav-mobile" name="features_nav" onChange="window.location.href=this.value">
 			{% for post in site.navigation %}	
 				{% assign navurl = '/' | append: post[0] | append: '/' %}
+				{% assign parenturl = '/' | append: post[0] %}
+				
 				<option value="{{ site.url }}/{{ post[0] }}/" {% if navurl == page.permalink %}selected{% endif %}>
 					{{ post[1].title | escape }}
 				</option>		
-				{% if post.submenu.size > 0 %}
-					{% for subpost in post.submenu %}
-						{% assign navurl = '/' | append: subpost[0] | append: '/' %}
-						<option value="{{ site.url }}/{{ subpost[0] }}/" {% if navurl == page.permalink %}selected{% endif %}>
-							- {{ post[1].title | escape }}
+				{% if post[1].submenu.size > 0 and page.parent is not empty and page.parent == parenturl %}
+					{% for subpost in post[1].submenu %}
+						{% assign subnavurl = '/' | append: subpost[0] | append: '/' %}
+						<option value="{{ site.url }}/{{ post[0] }}/{{ subpost[0] }}/" {% if subnavurl == page.permalink %}selected{% endif %}>
+							- {{ subpost[1].title | escape }}
 						</option>	
 					{% endfor %}		
 				{% endif %}
@@ -24,7 +26,11 @@
 		</select>
 		
 		
+<<<<<<< HEAD
 		
+=======
+			
+>>>>>>> ce6bc361b8b43e445576573c60f3a250ff0d53d1
 	</nav>
 	
 	{% endif %}
@@ -33,7 +39,7 @@
 		<div class="container tat-g">
 
 			<div class="tat-u-1 tat-u-xl-3-5 tat-u-xxl-2-3 padded-80">
-				<h1 id="feature-title" class="text-white">{{ page.title }}</h1>
+				<h1 id="feature-title" class="text-white">444{{ page.title }}</h1>
 				{% if page.excerpt %}
 					<h4 id="feature-subtitle">{{ page.excerpt }}</h4>
 				{% endif %}
