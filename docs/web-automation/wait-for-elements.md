@@ -4,6 +4,7 @@ title:  "Wait for Elements"
 feature-title: "Web Automation"
 excerpt: "Learn how to wait for web elements with Bellatrix web module."
 date:   2018-06-22 06:50:17 +0200
+parent: /web-automation
 permalink: /wait-for-elements/
 anchors:
   example: Example

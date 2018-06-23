@@ -4,6 +4,7 @@ title:  "Execute Tests in CrossBrowserTesting"
 feature-title: "Web Automation"
 excerpt: "Learn to use Bellatrix to execute web tests in CrossBrowserTesting."
 date:   2018-06-23 06:50:17 +0200
+parent: /web-automation
 permalink: /execute-tests-crossbrowsertesting/
 anchors:
   example: Example

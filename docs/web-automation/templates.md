@@ -1,9 +1,9 @@
 ---
 layout: default
 title:  "Templates"
-feature-title: "Web Automation"
 excerpt: "Learn how to use pre-built Bellatrix templates."
-date:   2018-06-23 06:50:17 +0200
+date:   2018-02-20 06:50:17 +0200
+parent: /web-automation
 permalink: /templates/
 anchors:
   create-projects-from-visual-studio: Create Projects from Visual Studio

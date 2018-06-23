@@ -4,6 +4,7 @@ title:  "Extensability- Test Workflow Hooks"
 feature-title: "Web Automation"
 excerpt: "Learn how to extend the Bellatrix test workflow using hooks."
 date:   2018-06-23 06:50:17 +0200
+parent: /web-automation
 permalink: /extensability-test-workflow-hooks/
 anchors:
   example: Example

@@ -4,6 +4,7 @@ title:  "Extensability- Override Locally Element Actions"
 feature-title: "Web Automation"
 excerpt: "Learn how to override temporary some web elements actions/properties."
 date:   2018-02-20 06:50:17 +0200
+parent: /web-automation
 permalink: /extensability-override-locally-element-actions/
 anchors:
   example: Example
