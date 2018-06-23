@@ -23,7 +23,7 @@ public class BellatrixBrowserBehaviourTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
 
         promotionsLink.Click();
     }
