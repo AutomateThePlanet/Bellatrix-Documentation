@@ -4,7 +4,7 @@ title:  "Installation"
 excerpt: "Learn how to install Bellatrix."
 date:   2018-02-20 06:50:17 +0200
 parent: /general-information
-permalink: /general-information/general-information/installation/
+permalink: /general-information/installation/
 anchors:
   overview: Overview
   installation-steps: Installation Steps

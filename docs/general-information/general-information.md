@@ -3,6 +3,7 @@ layout: default
 title:  "General Information"
 excerpt: "Learn how to install and activate Bellatrix. Read the system requirements."
 date:   2018-02-20 06:50:17 +0200
+parent: general-information
 permalink: /general-information/
 anchors:
   overview: Overview
