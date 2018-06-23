@@ -42,14 +42,17 @@ plugins:
 #   - vendor/ruby/
 navigation: 
     "overview":
-        title: Overview
-    "system-requirements":
+        title: Overview    
+    "general-information":
+        title: General Information
+        submenu:
+        "system-requirements":
         title: System Requirements
-    "installation":
+        "installation":
         title: Installation
-    "activation":
+        "activation":
         title: Activation
-    "how-to-use-starter-kits":
+        "how-to-use-starter-kits":
         title: How to Use Starter Kits?
     "web-automation":
         title: Web Automation
