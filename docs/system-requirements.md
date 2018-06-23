@@ -3,6 +3,7 @@ layout: default
 title:  "System Requirements"
 excerpt: "What do you need to install and run all Bellatrix libraries and tools?"
 date:   2018-02-20 06:50:17 +0200
+parent: /general-information
 permalink: /system-requirements/
 anchors:
   overview: Overview

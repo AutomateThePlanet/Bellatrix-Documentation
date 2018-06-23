@@ -3,6 +3,7 @@ layout: default
 title:  "How to Use Starter Kits?"
 excerpt: "Learn what are the Bellatrix starter kit and how to use them."
 date:   2018-02-20 06:50:17 +0200
+parent: /general-information
 permalink: /how-to-use-starter-kits/
 anchors:
   create-starter-kit-from-visual-studio: Create Starter Kit from Visual Studio

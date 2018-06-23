@@ -1,7 +1,6 @@
 ---
 layout: default
 title:  "Folder and File Structure"
-feature-title: "Web Automation"
 excerpt: "Learn what each Bellatrix project templates includes."
 date:   2018-06-23 06:50:17 +0200
 parent: /web-automation

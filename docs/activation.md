@@ -3,6 +3,7 @@ layout: default
 title:  "Activation"
 excerpt: "Learn how to activate Bellatrix products."
 date:   2018-02-20 06:50:17 +0200
+parent: /general-information
 permalink: /activation/
 anchors:
   meissa-test-agent-mode: Test Agent
