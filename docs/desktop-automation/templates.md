@@ -22,7 +22,7 @@ You can create an empty tests project with all required files through bellatrix 
 3. Create an empty project depending on the desired unit test framework and technology
 
 ```
-bellatrix create --template=Bellatrix.Web.MSTest.Tests --name=YourProjectsName --location="PathWhereToCreate"
+bellatrix create --template=Bellatrix.Desktop.MSTest.Tests --name=YourProjectsName --location="PathWhereToCreate"
 ```
 
 **All available templates:**
