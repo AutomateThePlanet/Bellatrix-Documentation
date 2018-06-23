@@ -4,7 +4,7 @@ title:  "Control App"
 excerpt: "Learn how to desktop application with Bellatrix desktop module."
 date:   2018-06-22 06:50:17 +0200
 parent: desktop-automation
-permalink: /desktop-automation/control-browser/
+permalink: /desktop-automation/control-app/
 anchors:
   overview: Overview
   explanations: Explanations
