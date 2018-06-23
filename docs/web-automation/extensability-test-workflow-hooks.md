@@ -3,27 +3,134 @@ layout: default
 title:  "Extensability- Test Workflow Hooks"
 feature-title: "Web Automation"
 excerpt: "Learn how to extend the Bellatrix test workflow using hooks."
-date:   2018-02-20 06:50:17 +0200
+date:   2018-06-23 06:50:17 +0200
 permalink: /extensability-test-workflow-hooks/
 anchors:
-  meissa-test-agent-mode: Test Agent
-  meissa-test-runner-mode: Meissa Test Runner Mode
+  example: Example
+  explanations: Explanations
 ---
-![High Overview](https://i.imgur.com/dqJlM0f.png)
+Example
+-------
+```
+[TestClass]
+[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
+public class TestWorkflowHooksTests : WebTest
+{
+    private static Select _sortDropDown;
+    private static Anchor _protonRocketAnchor;
 
-We have many moving parts- server, test agents, runner and so on. All of them use single command-line-interface; there are no separate installers or executables.
-First, we need to start the server. Its job is to synchronise the work between the runner and all agents. The first time we start it, a portable SQLite database is created. There are stored various kind of information, such as tests execution times, test output files, logs, exceptions, etc. The web service is self-hosted using the ASPNET.Core portable web server- Kestrel. All agents and runners communicate with the server via HTTP. 
-## Meissa Test Agent Mode ##
-![Test Agent Internal](https://i.imgur.com/6WtrVMN.png)
-When you start a test agent, it registers itself as active. Then, it continuously asks the server whether there are scheduled test agent runs to be executed on the machine.
-Then the so-called extensibility points plugins are loaded. They offer a way to plug in your logic at various points of the execution pipeline of Meissa runner and test agents. For example- run code before, after a test run or on abortion. At this point, the code from all plugins will be executed before proceeding. Then the specific test technology plugins are loaded. Based on the parallel options, the agent creates multiple tests batches. Then it starts and waits to finish all the processes.
-## Meissa Test Runner Mode ##
-![Test Runner Internal](https://i.imgur.com/O5h80ge.png)
-The test runner doesn’t have a local database. Because of that, it requires the server to be up all the time; otherwise, it cannot function properly.
-First, the so-called extensibility points plugins are loaded. At this point, the code from all plugins will be executed before proceeding. Then the test technology plugin is loaded.
-Using it the runner gets all active test agents from the API. After that it uses some logic from the plugins to extract and filter the test cases from the tests files. Based on the available test agents, it distributes the tests on each of them. It zips the test output files and sends them to the server, so each agent can download them before tests execution.
-The second part of the run is to wait for all test agents to finish. At the same time, a parallel process is started where the runner continually checks whether there are new messages to be printed sent by the agents. Also, one more thread is triggered that the runner verifies its health and one more for agents’ ones . If some of the agents don’t confirm its health on time, the test run is aborted. 
-At the end of the process, it merges all test results into a single file and completes the run.
-After all, processes finish the results files are merged. 
-If Meissa retry option is turned-on and there are any failed tests the whole procedure is repeated for them. At the end of the retry cycle, the test results are updated if any of the tests succeeded. 
-After this important step, the agent saves the merged results and completes the test agent run. After that, it waits for the test run to finish before starting to wait for new jobs.
+    public override void TestsArrange()
+    {
+        _sortDropDown = 
+		App.ElementCreateService.CreateByXpath<Select>("//*[@id='main']/div[1]/form/select");
+        _protonRocketAnchor = 
+		App.ElementCreateService.CreateByXpath<Anchor>("//*[@id='main']/div[2]/ul/li[1]/a[1]");
+    }
+
+    public override void TestsAct()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+
+        _sortDropDown.SelectByText("Sort by price: low to high");
+    }
+
+    public override void TestInit()
+    {
+        // Executes a logic before each test in the test class.
+    }
+
+    public override void TestCleanup()
+    {
+        // Executes a logic after each test in the test class.
+    }
+
+    [TestMethod]
+    public void SortDropDownIsAboveOfProtonRocketAnchor()
+    {
+        _sortDropDown.AssertAboveOf(_protonRocketAnchor);
+    }
+
+    [TestMethod]
+    public void SortDropDownIsAboveOfProtonRocketAnchor_41px()
+    {
+        _sortDropDown.AssertAboveOf(_protonRocketAnchor, 41);
+    }
+
+    [TestMethod]
+    public void SortDropDownIsAboveOfProtonRocketAnchor_GreaterThan40px()
+    {
+        _sortDropDown.AssertAboveOfGreaterThan(_protonRocketAnchor, 40);
+    }
+
+    [TestMethod]
+    public void SortDropDownIsAboveOfProtonRocketAnchor_GreaterThanOrEqual41px()
+    {
+        _sortDropDown.AssertAboveOfGreaterThanOrEqual(_protonRocketAnchor, 41);
+    }
+
+    [TestMethod]
+    public void SortDropDownIsNearTopOfProtonRocketAnchor_GreaterThan40px()
+    {
+        _sortDropDown.AssertNearTopOfGreaterThan(_protonRocketAnchor, 40);
+    }
+}
+```
+
+Explanations
+------------
+One of the greatest features of Bellatrix is test workflow hooks. It gives you the possibility to execute your logic in every part of the test workflow. Also, as you can read in the next chapter write plug-ins that execute code in different places of the workflow every time. This is happening no matter what test framework you use- MSTest or NUnit. As you know, MSTest is not extension friendly.
+
+Bellatrix Default Test Workflow.
+
+The following methods are called once for test class:
+
+1. All plug-ins **PreTestsArrange** logic executes.
+2. Current class **TestsArrange** method executes. By default it is empty, but you can override it in each class and execute your logic. This is the place where you can set up data for your tests, call internal API services, SQL scripts and so on.
+3. All plug-ins **PostTestsArrange** logic executes.
+4. All plug-ins **PreTestsAct** logic executes.
+5. Current class **TestsAct** method executes. By default it is empty, but you can override it in each class and execute your logic. This is the place where you can execute the primary actions for your test case. This is useful if you want later include only assertions in the tests.
+6. All plug-ins **PostTestsAct** logic executes.
+
+The following methods are called once for each test in the class:
+
+7. All plug-ins **PreTestInit** logic executes.
+8. Current class **TestInit** method executes. By default it is empty, but you can override it in each class and execute your logic. You can add some logic that is executed for each test instead of copy pasting it for each test. For example- navigating to a specific web page.
+9. All plug-ins **PostTestInit** logic executes.
+10. All plug-ins **PreTestCleanup** logic executes.
+11. Current class **TestCleanup** method executes. By default it is empty, but you can override it in each class and execute your logic.
+You can add some logic that is executed after each test instead of copy pasting it. For example- deleting some entity from DB.
+12. All plug-ins **PostTestCleanup** logic executes.
+
+**Note**: ***TestsArrange** and **TestsAct** are similar to MSTest **TestClassInitialize** and **OneTimeSetup** in NUnit. We decided to split them into two methods to make the code more readable and two allow customization of the workflow.*
+
+```
+public override void TestsArrange()
+{
+    _sortDropDown = 
+    App.ElementCreateService.CreateByXpath<Select>("//*[@id='main']/div[1]/form/select");
+    _protonRocketAnchor = 
+    App.ElementCreateService.CreateByXpath<Anchor>("//*[@id='main']/div[2]/ul/li[1]/a[1]");
+}
+
+public override void TestsAct()
+{
+    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+
+    _sortDropDown.SelectByText("Sort by price: low to high");
+}
+```
+This is one of the ways you can use **TestsArrange** and **TestsAct**. You can find create all elements in the **TestsArrange** and create all necessary data for the tests. Then in the **TestsAct** execute the actual tests logic but without asserting anything. Then in each separate test execute single assert or ensure method. Following the best testing practices- having a single assertion in a test. If you execute multiple assertions and if one of them fails, the next ones are not executed which may lead to missing some major clue about a bug in your product. Anyhow, Bellatrix allows you to write your tests the standard way of executing the primary logic in the tests or reuse some of it through the usage of **TestInit** and **TestCleanup** methods.
+```
+public override void TestInit()
+{
+    // ...
+}
+```
+Executes a logic before each test in the test class.
+```
+public override void TestCleanup()
+{
+    // ...
+}
+```
+Executes a logic after each test in the test class.
