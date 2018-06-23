@@ -4,6 +4,7 @@ title:  "Add Custom WebDriver Capabilities and Options"
 feature-title: "Web Automation"
 excerpt: "Learn how to add custom WebDriver capabilities and/or options."
 date:   2018-02-20 06:50:17 +0200
+parent: /web-automation
 permalink: /add-custom-webdriver-capabilities-options/
 anchors:
   example: Example

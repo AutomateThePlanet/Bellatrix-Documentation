@@ -4,6 +4,7 @@ title:  "Extensability- Extend Common Services"
 feature-title: "Web Automation"
 excerpt: "Learn how to extend Bellatrix common services."
 date:   2018-02-20 06:50:17 +0200
+parent: /web-automation
 permalink: /extensability-extend-common-services/
 anchors:
   meissa-test-agent-mode: Test Agent

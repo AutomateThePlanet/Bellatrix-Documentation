@@ -4,6 +4,7 @@ title:  "Elements Snippets"
 feature-title: "Web Automation"
 excerpt: "Learn to generate Bellatrix web element properties using VS snippets."
 date:   2018-06-22 06:50:17 +0200
+parent: /web-automation
 permalink: /elements-snippets/
 anchors:
   introduction: Introduction

@@ -4,6 +4,7 @@ title:  "Extensability- Override Globally Element Actions"
 feature-title: "Web Automation"
 excerpt: "Learn how to override some web elements actions/properties for the whole tests execution."
 date:   2018-02-20 06:50:17 +0200
+parent: /web-automation
 permalink: /extensability-override-globally-element-actions/
 anchors:
   meissa-test-agent-mode: Test Agent

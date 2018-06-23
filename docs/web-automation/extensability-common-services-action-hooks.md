@@ -4,6 +4,7 @@ title:  "Extensability- Common Services Action Hooks"
 feature-title: "Web Automation"
 excerpt: "Learn how to extend Bellatrix common services using action hooks."
 date:   2018-02-20 06:50:17 +0200
+parent: /web-automation
 permalink: /extensability-common-services-action-hooks/
 anchors:
   meissa-test-agent-mode: Test Agent
