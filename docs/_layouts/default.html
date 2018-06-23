@@ -24,57 +24,7 @@
 		</select>
 		
 		
-		<ul id="menu-features" class="">
-			{% for post in site.navigation %}
-				
-				{% assign navurl = '/' | append: post[0] | append: '/' %}
-				{% assign parenturl = '/' | append: post[0] %}
-				
-				{% if navurl != page.permalink and ( page.parent is empty or page.parent != parenturl %}
-					<li class="menu-item"><a href="{{ site.url }}/{{ post[0] }}/">{{ post[1].title | escape }}</a></li>
-				{% else %}
-					
-					<li class="menu-item {% if navurl == page.permalink %}current-menu-item{%endif%}{% if page.parent is defined and page.parent == parenturl %}current-menu-parent{% endif %}">
-						
-						<a href="{{ site.url }}/{{ post[0] }}/">{{ post[1].title | escape }}</a>
-						
-						{% if post.submenu.size > 0 %}
-							
-							<ul class="sub-menu">
-							{% for subpost in post.submenu %}
-								
-								{% assign subnavurl = '/' | append: subpost[0] | append: '/' %}	
-								<li class="sub-feature {% if subnavurl == page.permalink %}current-menu-item{% endif %}">
-									<a href="{{ site.url }}/{{ post[0] }}/{{ subpost[0] }}/">{{ subpost[1].title | escape }}</a>
-									
-									{% if page.anchors.size > 0 %}
-										<ul class="sub-menu">
-											{% for anchor in page.anchors %}
-											<li class="sub-feature"><a href="#{{ anchor[0] }}" class="js-scroll" data-scrollto="{{ anchor[0] }}">{{ anchor[1] }}</a></li>
-											{% endfor %}
-										</ul>	
-									{% endif %}	
-									
-								</li>
-								
-							{% endfor %}
-							</ul>
-							
-						{% else %}
-						
-							{% if page.anchors.size > 0 %}
-								<ul class="sub-menu">
-									{% for anchor in page.anchors %}
-									<li class="sub-feature"><a href="#{{ anchor[0] }}" class="js-scroll" data-scrollto="{{ anchor[0] }}">{{ anchor[1] }}</a></li>
-									{% endfor %}
-								</ul>	
-							{% endif %}	
-							
-						{% endif %}	
-					</li>	
-				{% endif %}
-			{% endfor %}
-		</ul>	
+		
 	</nav>
 	
 	{% endif %}
