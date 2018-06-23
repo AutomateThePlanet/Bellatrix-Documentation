@@ -4,8 +4,8 @@ title:  "CookiesService"
 feature-title: "Web Automation"
 excerpt: "Learn how to use Bellatrix CookiesService."
 date:   2018-06-22 06:50:17 +0200
-parent: /web-automation
-permalink: /cookies-service/
+parent: web-automation
+permalink: /web-automation/cookies-service/
 anchors:
   example: Example
   explanations: Explanations

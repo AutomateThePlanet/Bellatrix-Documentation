@@ -4,8 +4,8 @@ title:  "Logging"
 feature-title: "Web Automation"
 excerpt: "Learn how to use the Bellatrix logging library."
 date:   2018-06-23 06:50:17 +0200
-parent: /web-automation
-permalink: /logging/
+parent: web-automation
+permalink: /web-automation/logging/
 anchors:
   example: Example
   explanations: Explanations

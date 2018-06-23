@@ -4,8 +4,8 @@ title:  "Folder and File Structure"
 feature-title: "Web Automation"
 excerpt: "Learn what each Bellatrix project templates includes."
 date:   2018-02-20 06:50:17 +0200
-parent: /web-automation
-permalink: /folder-and-file-structure/
+parent: web-automation
+permalink: /web-automation/folder-and-file-structure/
 anchors:
   meissa-test-agent-mode: Test Agent
   meissa-test-runner-mode: Meissa Test Runner Mode

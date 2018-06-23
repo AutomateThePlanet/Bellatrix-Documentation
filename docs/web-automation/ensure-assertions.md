@@ -4,8 +4,8 @@ title:  "Ensure Assertions"
 feature-title: "Web Automation"
 excerpt: "Learn how to use Bellatrix ensure assertion methods."
 date:   2018-06-22 06:50:17 +0200
-parent: /web-automation
-permalink: /ensure-assertions/
+parent: web-automation
+permalink: /web-automation/ensure-assertions/
 anchors:
   example: Example
   explanations: Explanations

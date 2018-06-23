@@ -4,8 +4,8 @@ title:  "Navigate to Pages"
 feature-title: "Web Automation"
 excerpt: "Learn how to navigate to web pages with Bellatrix web module."
 date:   2018-06-22 06:50:17 +0200
-parent: /web-automation
-permalink: /navigate-to-pages/
+parent: web-automation
+permalink: /web-automation/navigate-to-pages/
 anchors:
   example: Example
   explanations: Explanations

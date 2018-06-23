@@ -9,14 +9,16 @@
 		<select id="features-nav-mobile" name="features_nav" onChange="window.location.href=this.value">
 			{% for post in site.navigation %}	
 				{% assign navurl = '/' | append: post[0] | append: '/' %}
+				{% assign parenturl = post[0] %}
+				
 				<option value="{{ site.url }}/{{ post[0] }}/" {% if navurl == page.permalink %}selected{% endif %}>
 					{{ post[1].title | escape }}
 				</option>		
-				{% if post.submenu.size > 0 %}
-					{% for subpost in post.submenu %}
-						{% assign navurl = '/' | append: subpost[0] | append: '/' %}
-						<option value="{{ site.url }}/{{ subpost[0] }}/" {% if navurl == page.permalink %}selected{% endif %}>
-							- {{ post[1].title | escape }}
+				{% if post[1].submenu.size > 0 and page.parent == parenturl %}
+					{% for subpost in post[1].submenu %}
+						{% assign subnavurl = '/' | append: parenturl | append: '/' | append: subpost[0] | append: '/' %}
+						<option value="{{ site.url }}/{{ post[0] }}/{{ subpost[0] }}/" {% if subnavurl == page.permalink %}selected{% endif %}>
+							- {{ subpost[1].title | escape }}
 						</option>	
 					{% endfor %}		
 				{% endif %}
@@ -28,31 +30,33 @@
 			{% for post in site.navigation %}
 				
 				{% assign navurl = '/' | append: post[0] | append: '/' %}
-				{% assign parenturl = '/' | append: post[0] %}
+				{% assign parenturl = post[0] %}
 				
-				{% if navurl != page.permalink and ( page.parent is empty or page.parent != parenturl %}
+				{% if navurl != page.permalink and parenturl != page.parent %}
 					<li class="menu-item"><a href="{{ site.url }}/{{ post[0] }}/">{{ post[1].title | escape }}</a></li>
 				{% else %}
 					
-					<li class="menu-item {% if navurl == page.permalink %}current-menu-item{%endif%}{% if page.parent is defined and page.parent == parenturl %}current-menu-parent{% endif %}">
+					<li class="menu-item {% if navurl == page.permalink %}current-menu-item{% endif %}{% if page.parent == parenturl %}current-menu-parent{% endif %}">
 						
 						<a href="{{ site.url }}/{{ post[0] }}/">{{ post[1].title | escape }}</a>
 						
-						{% if post.submenu.size > 0 %}
+						{% if post[1].submenu.size > 0 %}
 							
 							<ul class="sub-menu">
-							{% for subpost in post.submenu %}
+							{% for subpost in post[1].submenu %}
 								
-								{% assign subnavurl = '/' | append: subpost[0] | append: '/' %}	
+								{% assign subnavurl = '/' | append: parenturl | append: '/' | append: subpost[0] | append: '/' %}	
 								<li class="sub-feature {% if subnavurl == page.permalink %}current-menu-item{% endif %}">
 									<a href="{{ site.url }}/{{ post[0] }}/{{ subpost[0] }}/">{{ subpost[1].title | escape }}</a>
 									
-									{% if page.anchors.size > 0 %}
-										<ul class="sub-menu">
-											{% for anchor in page.anchors %}
-											<li class="sub-feature"><a href="#{{ anchor[0] }}" class="js-scroll" data-scrollto="{{ anchor[0] }}">{{ anchor[1] }}</a></li>
-											{% endfor %}
-										</ul>	
+									{% if subnavurl == page.permalink %}
+										{% if page.anchors.size > 0 %}
+											<ul class="sub-menu">
+												{% for anchor in page.anchors %}
+												<li class="sub-feature"><a href="#{{ anchor[0] }}" class="js-scroll" data-scrollto="{{ anchor[0] }}">{{ anchor[1] }}</a></li>
+												{% endfor %}
+											</ul>	
+										{% endif %}	
 									{% endif %}	
 									
 								</li>
@@ -61,15 +65,15 @@
 							</ul>
 							
 						{% else %}
-						
-							{% if page.anchors.size > 0 %}
-								<ul class="sub-menu">
-									{% for anchor in page.anchors %}
-									<li class="sub-feature"><a href="#{{ anchor[0] }}" class="js-scroll" data-scrollto="{{ anchor[0] }}">{{ anchor[1] }}</a></li>
-									{% endfor %}
-								</ul>	
-							{% endif %}	
-							
+							{% if navurl == page.permalink %}
+								{% if page.anchors.size > 0 %}
+									<ul class="sub-menu">
+										{% for anchor in page.anchors %}
+										<li class="sub-feature"><a href="#{{ anchor[0] }}" class="js-scroll" data-scrollto="{{ anchor[0] }}">{{ anchor[1] }}</a></li>
+										{% endfor %}
+									</ul>	
+								{% endif %}	
+							{% endif %}
 						{% endif %}	
 					</li>	
 				{% endif %}

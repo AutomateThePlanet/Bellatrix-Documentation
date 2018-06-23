@@ -4,8 +4,8 @@ title:  "Locate Elements"
 feature-title: "Web Automation"
 excerpt: "Learn how to locate web elements with Bellatrix web module."
 date:   2018-06-22 06:50:17 +0200
-parent: /web-automation
-permalink: /locate-elements/
+parent: web-automation
+permalink: /web-automation/locate-elements/
 anchors:
   example: Example
   explanations: Explanations

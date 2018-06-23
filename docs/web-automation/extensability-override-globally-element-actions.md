@@ -4,8 +4,8 @@ title:  "Extensability- Override Globally Element Actions"
 feature-title: "Web Automation"
 excerpt: "Learn how to override some web elements actions/properties for the whole tests execution."
 date:   2018-06-23 06:50:17 +0200
-parent: /web-automation
-permalink: /extensability-override-globally-element-actions/
+parent: web-automation
+permalink: /web-automation/extensability-override-globally-element-actions/
 anchors:
   example: Example
   explanations: Explanations

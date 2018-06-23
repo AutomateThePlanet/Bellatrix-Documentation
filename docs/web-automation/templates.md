@@ -4,8 +4,8 @@ title:  "Templates"
 feature-title: "Web Automation"
 excerpt: "Learn how to use pre-built Bellatrix templates."
 date:   2018-02-20 06:50:17 +0200
-parent: /web-automation
-permalink: /templates/
+parent: web-automation
+permalink: /web-automation/templates/
 anchors:
   meissa-test-agent-mode: Test Agent
   meissa-test-runner-mode: Meissa Test Runner Mode
