@@ -11,7 +11,7 @@ anchors:
 ---
 Introduction
 ------------
-The test workflow plugins are way to execute your logic before each test. For example- taking screenshots or videos on test failures, creating custom logs and so on. In the example you can find a plugin that integrates a **ManualTestCase** attribute for the automated tests, containing the ID to the corresponding manual test case. The main purpose of the test workflow is to fail the test if the **ManualTestCase** attribute is not set.
+The test workflow plugins are way to execute your logic before each test. For example- log something in 3rd party system on test failures, creating custom logs and so on. In the example you can find a plugin that integrates a **ManualTestCase** attribute for the automated tests, containing the ID to the corresponding manual test case. The main purpose of the test workflow is to fail the test if the **ManualTestCase** attribute is not set.
  
 Example
 -------
@@ -78,8 +78,7 @@ protected override void PreTestInit(object sender, TestWorkflowPluginEventArgs e
 You can override all mentioned test workflow method hooks in your custom handlers. The method uses reflection to find out if the ManualTestCase attribute is set to the run test. If the attribute is not set or is set more than once an exception is thrown. The logic executes before the actual test run, during the **PreTestInit** phase.
 ```csharp
 [TestClass]
-[Browser(BrowserType.Firefox, BrowserBehavior.RestartEveryTime)]
-public class CustomTestCaseExtensionTests : WebTest
+public class CustomTestCaseExtensionTests : APITest
 {
     public override void TestInit()
     {
