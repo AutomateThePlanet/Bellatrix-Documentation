@@ -9,128 +9,71 @@ anchors:
   example: Example
   explanations: Explanations
 ---
+Introduction
+------------
+Another way to extend Bellatrix is to use the assertions hooks. This is how the BDD logging is implemented. For example, some of the available hooks are:
+- **AssertExecutionTimeUnderEvent** - an event executed before **AssertExecutionTimeUnder** method
+- **AssertContentContainsEvent** - an event executed before **AssertContentContains** method
+- **AssertContentTypeEvent** - an event executed before **AssertContentType** method
+
+You need to implement the event handlers for these events and subscribe them. Bellatrix gives you again a shortcut- you need to create a class and inherit the **AssertExtensionsEventHandlers** class
+In the example, **DebugLogger** is called for each assertion event printing to Debug window what the method is verifying. You can call external logging provider, modify the response, etc. The options are limitless.
+
 Example
 -------
 ```csharp
-[TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
-public class TestWorkflowHooksTests : WebTest
+public class DebugLoggerAssertExtensions : AssertExtensionsEventHandlers
 {
-    private static Select _sortDropDown;
-    private static Anchor _protonRocketAnchor;
+    protected override void AssertContentContainsEventHandler(object sender, ApiAssertEventArgs arg) => DebugLogger.LogInformation($"Assert response content contains {arg.ActionValue}.");
 
-    public override void TestsArrange()
-    {
-        _sortDropDown = 
-		App.ElementCreateService.CreateByXpath<Select>("//*[@id='main']/div[1]/form/select");
-        _protonRocketAnchor = 
-		App.ElementCreateService.CreateByXpath<Anchor>("//*[@id='main']/div[2]/ul/li[1]/a[1]");
-    }
+    protected override void AssertContentEncodingEventHandler(object sender, ApiAssertEventArgs arg) => DebugLogger.LogInformation($"Assert response Cache-Info header is equal to {arg.ActionValue}.");
 
-    public override void TestsAct()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    protected override void AssertContentEqualsEventHandler(object sender, ApiAssertEventArgs arg) => DebugLogger.LogInformation($"Assert response content is equal to {arg.ActionValue}.");
 
-        _sortDropDown.SelectByText("Sort by price: low to high");
-    }
+    protected override void AssertContentNotContainsEventHandler(object sender, ApiAssertEventArgs arg) => DebugLogger.LogInformation($"Assert response content does not contain {arg.ActionValue}.");
 
-    public override void TestInit()
-    {
-        // Executes a logic before each test in the test class.
-    }
+    protected override void AssertContentNotEqualsEventHandler(object sender, ApiAssertEventArgs arg) => DebugLogger.LogInformation($"Assert response content is not equal to {arg.ActionValue}.");
 
-    public override void TestCleanup()
-    {
-        // Executes a logic after each test in the test class.
-    }
+    protected override void AssertContentTypeEventHandler(object sender, ApiAssertEventArgs arg) => DebugLogger.LogInformation($"Assert response Content-Type is equal to {arg.ActionValue}.");
 
-    [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor()
-    {
-        _sortDropDown.AssertAboveOf(_protonRocketAnchor);
-    }
+    protected override void AssertCookieEventHandler(object sender, ApiAssertEventArgs arg) => DebugLogger.LogInformation($"Assert response cookie is equal to {arg.ActionValue}.");
 
-    [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor_41px()
-    {
-        _sortDropDown.AssertAboveOf(_protonRocketAnchor, 41);
-    }
+    protected override void AssertCookieExistsEventHandler(object sender, ApiAssertEventArgs arg) => DebugLogger.LogInformation($"Assert response cookie {arg.ActionValue} exists.");
 
-    [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor_GreaterThan40px()
-    {
-        _sortDropDown.AssertAboveOfGreaterThan(_protonRocketAnchor, 40);
-    }
+    protected override void AssertExecutionTimeUnderEventHandler(object sender, ApiAssertEventArgs arg) => DebugLogger.LogInformation($"Assert response execution time is under {arg.ActionValue}.");
 
-    [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor_GreaterThanOrEqual41px()
-    {
-        _sortDropDown.AssertAboveOfGreaterThanOrEqual(_protonRocketAnchor, 41);
-    }
+    protected override void AssertResponseHeaderEventHandler(object sender, ApiAssertEventArgs arg) => DebugLogger.LogInformation($"Assert response header is equal to {arg.ActionValue}.");
 
-    [TestMethod]
-    public void SortDropDownIsNearTopOfProtonRocketAnchor_GreaterThan40px()
-    {
-        _sortDropDown.AssertNearTopOfGreaterThan(_protonRocketAnchor, 40);
-    }
+    protected override void AssertResultEqualsEventHandler(object sender, ApiAssertEventArgs arg) => DebugLogger.LogInformation($"Assert response content is equal to {arg.ActionValue}.");
+
+    protected override void AssertResultNotEqualsEventHandler(object sender, ApiAssertEventArgs arg) => DebugLogger.LogInformation($"Assert response content is not equal to {arg.ActionValue}.");
+
+    protected override void AssertStatusCodeEventHandler(object sender, ApiAssertEventArgs arg) => DebugLogger.LogInformation($"Assert response status code is equal to {arg.ActionValue}.");
+
+    protected override void AssertSuccessStatusCodeEventHandler(object sender, ApiAssertEventArgs arg) => DebugLogger.LogInformation($"Assert response status code is successfull.");
+
+    protected override void AssertSchemaEventHandler(object sender, ApiAssertEventArgs arg) => DebugLogger.LogInformation($"Assert response is compatible to specified schema.");
 }
 ```
 
 Explanations
 ------------
-One of the greatest features of Bellatrix is test workflow hooks. It gives you the possibility to execute your logic in every part of the test workflow. Also, as you can read in the next chapter write plug-ins that execute code in different places of the workflow every time. This is happening no matter what test framework you use- MSTest or NUnit. As you know, MSTest is not extension friendly.
-
-Bellatrix Default Test Workflow.
-
-The following methods are called once for test class:
-
-1. All plug-ins **PreTestsArrange** logic executes.
-2. Current class **TestsArrange** method executes. By default it is empty, but you can override it in each class and execute your logic. This is the place where you can set up data for your tests, call internal API services, SQL scripts and so on.
-3. All plug-ins **PostTestsArrange** logic executes.
-4. All plug-ins **PreTestsAct** logic executes.
-5. Current class **TestsAct** method executes. By default it is empty, but you can override it in each class and execute your logic. This is the place where you can execute the primary actions for your test case. This is useful if you want later include only assertions in the tests.
-6. All plug-ins **PostTestsAct** logic executes.
-
-The following methods are called once for each test in the class:
-
-7. All plug-ins **PreTestInit** logic executes.
-8. Current class **TestInit** method executes. By default it is empty, but you can override it in each class and execute your logic. You can add some logic that is executed for each test instead of copy pasting it for each test. For example- navigating to a specific web page.
-9. All plug-ins **PostTestInit** logic executes.
-10. All plug-ins **PreTestCleanup** logic executes.
-11. Current class **TestCleanup** method executes. By default it is empty, but you can override it in each class and execute your logic.
-You can add some logic that is executed after each test instead of copy pasting it. For example- deleting some entity from DB.
-12. All plug-ins **PostTestCleanup** logic executes.
-
-**Note**: ***TestsArrange** and **TestsAct** are similar to MSTest **TestClassInitialize** and **OneTimeSetup** in NUnit. We decided to split them into two methods to make the code more readable and two allow customization of the workflow.*
-
 ```csharp
 public override void TestsArrange()
 {
-    _sortDropDown = 
-    App.ElementCreateService.CreateByXpath<Select>("//*[@id='main']/div[1]/form/select");
-    _protonRocketAnchor = 
-    App.ElementCreateService.CreateByXpath<Anchor>("//*[@id='main']/div[2]/ul/li[1]/a[1]");
-}
-
-public override void TestsAct()
-{
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-    _sortDropDown.SelectByText("Sort by price: low to high");
+    App.AddAssertionsEventHandler<DebugLoggerAssertExtensions>();
 }
 ```
-This is one of the ways you can use **TestsArrange** and **TestsAct**. You can find create all elements in the **TestsArrange** and create all necessary data for the tests. Then in the **TestsAct** execute the actual tests logic but without asserting anything. Then in each separate test execute single assert or ensure method. Following the best testing practices- having a single assertion in a test. If you execute multiple assertions and if one of them fails, the next ones are not executed which may lead to missing some major clue about a bug in your product. Anyhow, Bellatrix allows you to write your tests the standard way of executing the primary logic in the tests or reuse some of it through the usage of **TestInit** and **TestCleanup** methods.
+Once you have created the EventHandlers class, you need to tell Bellatrix to use it. To do so call the App service method **AddAssertionsEventHandler**.
 ```csharp
-public override void TestInit()
+[AssemblyInitialize]
+public static void AssemblyInitialize(TestContext testContext)
 {
-    // ...
+    App.AddAssertionsEventHandler<DebugLoggerAssertExtensions>();
 }
 ```
-Executes a logic before each test in the test class.
+Usually, we add the assertions event handlers in the **AssemblyInitialize** method which is called once for a test run.
 ```csharp
-public override void TestCleanup()
-{
-    // ...
-}
+App.RemoveAssertionsEventHandler<DebugLoggerAssertExtensions>();
 ```
-Executes a logic after each test in the test class.
+If you need to remove it during the run you can use the method **RemoveAssertionsEventHandler**.
