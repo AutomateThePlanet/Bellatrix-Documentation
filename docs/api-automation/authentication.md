@@ -8,7 +8,6 @@ permalink: /api-automation/authentication/
 anchors:
   example: Example
   explanations: Explanations
-  configuration: Configuration
 ---
 Example
 -------
