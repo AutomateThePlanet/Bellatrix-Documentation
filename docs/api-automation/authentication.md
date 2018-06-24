@@ -14,62 +14,34 @@ Example
 -------
 ```csharp
 [TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
-public class LoggingTests : WebTest
+[JwtAuthenticationStrategy(GlobalConstants.JwtToken)]
+public class AuthenticationTests : APITest
 {
     [TestMethod]
-    public void AddCustomMessagesToLog()
+    public void GetAlbumById()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var request = new RestRequest("api/Albums/10");
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-        Anchor addToCartFalcon9 = App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-        Anchor viewCartButton = App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+        var client = App.GetApiClientService();
 
-        sortDropDown.SelectByText("Sort by price: low to high");
-        protonMReadMoreButton.Hover();
+        var response = client.Get<Albums>(request);
 
-        App.Logger.LogInformation("Before adding Falcon 9 rocket to cart.");
-
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        viewCartButton.Click();
+        Assert.AreEqual(10, response.Data.AlbumId);
     }
 }
 ```
 
 Explanations
 ------------
-By default, you can see the logs in the output window of each test. Also, a file called logs.txt is generated in the folder with the DLLs of your tests. If you execute your tests in CI with some CLI test runner the logs are printed there as well. **outputTemplate** - controls how the message is formatted. You can add additional info such as timestamp and much more. For more info visit- [https://github.com/serilog/serilog/wiki/Formatting-Output](https://github.com/serilog/serilog/wiki/Formatting-Output)
+Bellatrix provides an easy way to authenticate through the usage of few attributes.
 ```csharp
-App.Logger.LogInformation("Before adding Falcon 9 rocket to cart.");
+[JwtAuthenticationStrategy(GlobalConstants.JwtToken)]
 ```
-Sometimes is useful to add information to the generated test log. To do it you can use the Bellatrix built-in logger through accessing it via App service.
+We use [JwtToken authentication]( https://tools.ietf.org/html/draft-ietf-oauth-json-web-token). The attribute accepts your text tocken.
+Other authentication strategy attributes:
 
-Generated Log, as you can see the above custom message is added to the log.
-
-\#\#\#\# Start Chrome on PORT = 53153
-Start Test
-Class = LoggingTests Name = AddCustomMessagesToLog
-Select 'Sort by price: low to high' from control (Name ending with orderby)
-Hover control (InnerText containing Read more)
-Before adding Falcon 9 rocket to cart.
-Focus control (data-product_id = 28)
-Click control (data-product_id = 28)
-Click control (Class = added_to_cart wc-forward)
-
-Configuration
--------------
-```json
-"logging": {
-    "isEnabled": "true",
-    "isConsoleLoggingEnabled": "true",
-    "isDebugLoggingEnabled": "true",
-    "isEventLoggingEnabled": "false",
-    "isFileLoggingEnabled": "true",
-    "outputTemplate":  "{Message:lj}{NewLine}",
-    "addUrlToBddLogging": "false"
-}
-```
-In the **testFrameworkSettings.json** file find a section called **logging**, responsible for controlling the logs generation. You can disable the logs entirely. There are different places where the logs are populated.
+- **HttpBasicAuthenticationStrategy** - user and password.
+- **NtlmAuthenticationStrategy** - authenticate with the credentials of the currently logged in user, or impersonate a user.
+- **OAuth2AuthorizationRequestHeaderAuthenticationStrategy** - OAuth 2 authenticator using the authorization request header field.
+- **OAuth2UriQueryParameterAuthenticationStrategy** - OAuth 2 authenticator using URI query parameter.
+- **SimpleAuthenticationStrategy** - userKey, user, passwordKey, password.
