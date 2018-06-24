@@ -13,25 +13,22 @@ Example
 -------
 ```csharp
 [TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
-public class TestWorkflowHooksTests : WebTest
+[VideoRecording(VideoRecordingMode.OnlyFail)]
+[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+public class TestWorkflowHooksTests : DesktopTest
 {
-    private static Select _sortDropDown;
-    private static Anchor _protonRocketAnchor;
-
+    private static Button _mainButton;
+    private static Label _resultsLabel;
+    
     public override void TestsArrange()
     {
-        _sortDropDown = 
-		App.ElementCreateService.CreateByXpath<Select>("//*[@id='main']/div[1]/form/select");
-        _protonRocketAnchor = 
-		App.ElementCreateService.CreateByXpath<Anchor>("//*[@id='main']/div[2]/ul/li[1]/a[1]");
+        _mainButton = App.ElementCreateService.CreateByName<Button>("E Button");
+        _resultsLabel = App.ElementCreateService.CreateByName<Label>("ebuttonHovered");
     }
 
     public override void TestsAct()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        _sortDropDown.SelectByText("Sort by price: low to high");
+        _mainButton.Hover();
     }
 
     public override void TestInit()
@@ -45,33 +42,17 @@ public class TestWorkflowHooksTests : WebTest
     }
 
     [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor()
+    public void MessageChanged_When_ButtonHovered_Wpf()
     {
-        _sortDropDown.AssertAboveOf(_protonRocketAnchor);
+        Assert.AreEqual("ebuttonHovered", _resultsLabel.InnerText);
     }
 
     [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor_41px()
+    [App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
+    [VideoRecording(VideoRecordingMode.DoNotRecord)]
+    public void ResultsLabelVisible_When_ButtonClicked_Wpf()
     {
-        _sortDropDown.AssertAboveOf(_protonRocketAnchor, 41);
-    }
-
-    [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor_GreaterThan40px()
-    {
-        _sortDropDown.AssertAboveOfGreaterThan(_protonRocketAnchor, 40);
-    }
-
-    [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor_GreaterThanOrEqual41px()
-    {
-        _sortDropDown.AssertAboveOfGreaterThanOrEqual(_protonRocketAnchor, 41);
-    }
-
-    [TestMethod]
-    public void SortDropDownIsNearTopOfProtonRocketAnchor_GreaterThan40px()
-    {
-        _sortDropDown.AssertNearTopOfGreaterThan(_protonRocketAnchor, 40);
+        _resultsLabel.EnsureIsVisible();
     }
 }
 ```
@@ -80,7 +61,7 @@ Explanations
 ------------
 One of the greatest features of Bellatrix is test workflow hooks. It gives you the possibility to execute your logic in every part of the test workflow. Also, as you can read in the next chapter write plug-ins that execute code in different places of the workflow every time. This is happening no matter what test framework you use- MSTest or NUnit. As you know, MSTest is not extension friendly.
 
-Bellatrix Default Test Workflow.
+**Bellatrix Default Test Workflow.**
 
 The following methods are called once for test class:
 
@@ -106,17 +87,13 @@ You can add some logic that is executed after each test instead of copy pasting 
 ```csharp
 public override void TestsArrange()
 {
-    _sortDropDown = 
-    App.ElementCreateService.CreateByXpath<Select>("//*[@id='main']/div[1]/form/select");
-    _protonRocketAnchor = 
-    App.ElementCreateService.CreateByXpath<Anchor>("//*[@id='main']/div[2]/ul/li[1]/a[1]");
+    _mainButton = App.ElementCreateService.CreateByName<Button>("E Button");
+    _resultsLabel = App.ElementCreateService.CreateByName<Label>("ebuttonHovered");
 }
 
 public override void TestsAct()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-    _sortDropDown.SelectByText("Sort by price: low to high");
+    _mainButton.Hover();
 }
 ```
 This is one of the ways you can use **TestsArrange** and **TestsAct**. You can find create all elements in the **TestsArrange** and create all necessary data for the tests. Then in the **TestsAct** execute the actual tests logic but without asserting anything. Then in each separate test execute single assert or ensure method. Following the best testing practices- having a single assertion in a test. If you execute multiple assertions and if one of them fails, the next ones are not executed which may lead to missing some major clue about a bug in your product. Anyhow, Bellatrix allows you to write your tests the standard way of executing the primary logic in the tests or reuse some of it through the usage of **TestInit** and **TestCleanup** methods.
