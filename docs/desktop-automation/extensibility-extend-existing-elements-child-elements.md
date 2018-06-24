@@ -13,52 +13,20 @@ Example
 -------
 ```csharp
 [TestClass]
-[Browser(BrowserType.Firefox, BrowserBehavior.RestartEveryTime)]
-public class ExtendExistingElementWithChildElementsTests : WebTest
+[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+public class ExtendExistingElementWithChildElementsTests : DesktopTest
 {
     [TestMethod]
-    public void PurchaseRocket()
+    [App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
+    [ScreenshotOnFail(false)]
+    public void MessageChanged_When_ButtonClicked_Wpf()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var button = App.ElementCreateService.CreateByName<ExtendedButton>("E Button");
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = 
-        App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-        Anchor addToCartFalcon9 = 
-        App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-        Anchor viewCartButton = 
-        App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
-        TextField couponCodeTextField = App.ElementCreateService.CreateById<TextField>("coupon_code");
-        Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
-        Number quantityBox = App.ElementCreateService.CreateByClassContaining<Number>("input-text qty text");
-        Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
-        Button updateCart = 
-        App.ElementCreateService.CreateByValueContaining<Button>("Update cart").ToBeClickable();
+        button.SubmitButtonWithEnter();
 
-        ExtendedButton proceedToCheckout = 
-        App.ElementCreateService.CreateByClassContaining<ExtendedButton>("checkout alt wc-forward");
-        Heading billingDetailsHeading = 
-        App.ElementCreateService.CreateByInnerTextContaining<Heading>("Billing details");
-        Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
-
-        sortDropDown.SelectByText("Sort by price: low to high");
-        protonMReadMoreButton.Hover();
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        viewCartButton.Click();
-        couponCodeTextField.SetText("happybirthday");
-        applyCouponButton.Click();
-
-        messageAlert.ToHasContent().ToBeVisible().WaitToBe();
-        messageAlert.EnsureInnerTextIs("Coupon code applied successfully.");
-        quantityBox.SetNumber(0);
-        quantityBox.SetNumber(2);
-        updateCart.Click();
-
-        totalSpan.EnsureInnerTextIs("95.00€", 15000);
-
-        proceedToCheckout.SubmitButtonWithEnter();
-        billingDetailsHeading.ToBeVisible().WaitToBe();
+        var label = App.ElementCreateService.CreateByName<Button>("ebuttonClicked");
+        Assert.AreEqual("ebuttonClicked", label.InnerText);
     }
 }
 ```
@@ -73,22 +41,14 @@ public class ExtendedButton : Button
         var action = new Actions(WrappedDriver);
         action.MoveToElement(WrappedElement).SendKeys(Keys.Enter).Perform();
     }
-
-    public void JavaScriptFocus()
-    {
-        JavaScriptService.Execute("window.focus();");
-        JavaScriptService.Execute("arguments[0].focus();", this);
-    }
 }
 ```
-The second way of extending an existing element is to create a child element. Inherit the element you want to extend. In this case, two methods are added to the standard Button element. Next in your tests, use the ExtendedButton instead of regular Button to have access to these methods.
-The same strategy can be used to create a completely new element that Bellatrix does not provide. You need to extend the 'Element' as a base class.
+The second way of extending an existing element is to create a child element. Inherit the element you want to extend. In this case, two methods are added to the standard Button element. Next in your tests, use the ** ** instead of regular Button to have access to these methods. The same strategy can be used to create a completely new element that Bellatrix does not provide. You need to extend the '**Element**' as a base class.
 ```csharp
- ExtendedButton proceedToCheckout = 
- App.ElementCreateService.CreateByClassContaining<ExtendedButton>("checkout-button button alt wc-forward");
+var button = App.ElementCreateService.CreateByName<ExtendedButton>("E Button");
 ```
-Instead of the regular button, we create the ExtendedButton, this way we can use its new methods.
+Instead of the regular button, we create the **ExtendedButton**, this way we can use its new methods.
 ```csharp
-proceedToCheckout.SubmitButtonWithEnter();
+button.SubmitButtonWithEnter();
 ```
-Use the new custom method provided by the ExtendedButton class.
+Use the new custom method provided by the **ExtendedButton** class.
