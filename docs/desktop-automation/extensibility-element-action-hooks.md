@@ -1,10 +1,10 @@
 ---
 layout: default
-title:  "Extensability- Element Action Hooks"
-excerpt: "Learn how to extend Bellatrix web element controls using element action hooks."
+title:  "Extensibility- Element Action Hooks"
+excerpt: "Learn how to extend Bellatrix desktop element controls using element action hooks."
 date:   2018-06-23 06:50:17 +0200
 parent: desktop-automation
-permalink: /desktop-automation/extensability-element-action-hooks/
+permalink: /desktop-automation/extensibility-element-action-hooks/
 anchors:
   introduction: Introduction
   example: Example
@@ -12,16 +12,13 @@ anchors:
 ---
 Introduction
 ------------
-Another way to extend Bellatrix is to use the controls hooks. This is how the BDD logging and highlighting are implemented. For each method of the control, there are two hooks- one that is called before the action and one after. For example, the available hooks for the button are:
+Another way to extend Bellatrix is to use the controls hooks. This is how the BDD logging is implemented. For each method of the control, there are two hooks- one that is called before the action and one after. For example, the available hooks for the button are:
 - **Clicking** - an event executed before button click
 - **Clicked** - an event executed after the button is clicked
 - **Hovering** - an event executed before button hover
 - **Hovered** - an event executed after the button is hovered
-- **Focusing** - an event executed before button focus
-- **Focused** - an event executed after the button is focused
 
-You need to implement the event handlers for these events and subscribe them. Bellatrix gives you again a shortcut- you need to create a class and inherit the **{ControlName}EventHandlers**.
-In the example, **DebugLogger** is called for each button event printing to Debug window the coordinates of the button. You can call external logging provider, making screenshots before or after each action, the possibilities are limitless.
+You need to implement the event handlers for these events and subscribe them. Bellatrix gives you again a shortcut- you need to create a class and inherit the **{ControlName}EventHandlers** In the example, **DebugLogger** is called for each button event printing to Debug window the coordinates of the button. You can call external logging provider, making screenshots before or after each action, the possibilities are limitless.
 
 Example
 -------
@@ -47,22 +44,12 @@ public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
     {
         DebugLogger.LogInfo($"After button hovered. Coordinates: X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
     }
-
-    protected override void FocusingEventHandler(object sender, ElementActionEventArgs arg)
-    {
-        DebugLogger.LogInfo($"Before focusing button. Coordinates: X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
-    }
-
-    protected override void FocusedEventHandler(object sender, ElementActionEventArgs arg)
-    {
-        DebugLogger.LogInfo($"After button focused. Coordinates: X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
-    }
 }
 ```
 ```csharp
 [TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
-public class ElementActionHooksTests : WebTest
+[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+public class ElementActionHooksTests : DesktopTest
 {
     public override void TestsArrange()
     {
@@ -70,47 +57,33 @@ public class ElementActionHooksTests : WebTest
     }
 
     [TestMethod]
-    public void PurchaseRocketWithGloballyOverridenMethods()
+    public void CommonActionsWithDesktopControls_Wpf()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = 
-        App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-        Anchor addToCartFalcon9 = 
-        App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-        Anchor viewCartButton = 
-        App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
-        TextField couponCodeTextField = App.ElementCreateService.CreateById<TextField>("coupon_code");
-        Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
-        Number quantityBox = App.ElementCreateService.CreateByClassContaining<Number>("input-text qty text");
-        Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
-        Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart").ToBeClickable();
-        Anchor proceedToCheckout = 
-        App.ElementCreateService.CreateByClassContaining<Anchor>("checkout-button button alt wc-forward");
-        Heading billingDetailsHeading = 
-        App.ElementCreateService.CreateByInnerTextContaining<Heading>("Billing details");
-        Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
+        Assert.AreEqual(false, calendar.IsDisabled);
 
-        sortDropDown.SelectByText("Sort by price: low to high");
-        protonMReadMoreButton.Hover();
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        viewCartButton.Click();
-        couponCodeTextField.SetText("happybirthday");
-        applyCouponButton.Click();
+        var checkBox = App.ElementCreateService.CreateByName<CheckBox>("BellaCheckBox");
 
-        messageAlert.ToHasContent().ToBeVisible().WaitToBe();
-        messageAlert.EnsureInnerTextIs("Coupon code applied successfully.");
-        quantityBox.SetNumber(0);
-        quantityBox.SetNumber(2);
+        checkBox.Check();
 
-        updateCart.Click();
+        Assert.IsTrue(checkBox.IsChecked);
 
-        totalSpan.EnsureInnerTextIs("95.00€", 15000);
+        var comboBox = App.ElementCreateService.CreateByAutomationId<ComboBox>("select");
 
-        proceedToCheckout.Click();
-        billingDetailsHeading.ToBeVisible().WaitToBe();
+        comboBox.SelectByText("Item2");
+
+        Assert.AreEqual("Item2", comboBox.InnerText);
+
+        var label = App.ElementCreateService.CreateByName<Label>("Result Label");
+
+        Assert.IsTrue(label.IsPresent);
+
+        var radioButton = App.ElementCreateService.CreateByName<RadioButton>("RadioButton");
+
+        radioButton.Click();
+
+        Assert.IsTrue(radioButton.IsChecked);
     }
 }
 ```
