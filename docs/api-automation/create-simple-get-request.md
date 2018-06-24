@@ -8,7 +8,6 @@ permalink: /api-automation/create-simple-get-request/
 anchors:
   example: Example
   explanations: Explanations
-  configuration: Configuration
 ---
 Example
 -------
