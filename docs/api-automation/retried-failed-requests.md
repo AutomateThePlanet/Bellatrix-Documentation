@@ -12,27 +12,45 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
-[RetryFailedRequests(3, 200, TimeUnit.Milliseconds)]
-public class RetryFailedRequestsTests : APITest
+[TestMethod]
+public void AssertJsonSchema()
 {
-    [TestMethod]
-    public void GetAlbumById()
-    {
-        var request = new RestRequest("api/Albums/10");
+    var request = new RestRequest("api/Albums/10");
 
-        var client = App.GetApiClientService();
+    var response = App.GetApiClientService().Get<Albums>(request);
 
-        var response = client.Get<Albums>(request);
+    // http://json-schema.org/examples.html
+    var expectedSchema = @"{
+                            ""title"": ""Albums"",
+                            ""type"": ""object"",
+                            ""properties"": {
+                                        ""albumId"": {
+                                            ""type"": ""integer""
+                                        },
+                                ""title"": {
+                                            ""type"": ""string""
+                                },
+                                ""artistId"": {
+                                            ""type"": ""integer""
+                                },
+                          ""artist"": {
+                                            ""type"": ""object""
+                                },
+                         ""tracks"": {
+                                            ""type"": ""object""
+                                }
+                                    },
+                            ""required"": [""albumId""]
+                          }";
 
-        Assert.AreEqual(10, response.Data.AlbumId);
-    }
+    response.AssertSchema(expectedSchema);
+}
 }
 ```
 
 Explanations
 ------------
 ```csharp
-[RetryFailedRequests(3, 200, TimeUnit.Milliseconds)]
+response.AssertSchema(expectedSchema);
 ```
-Bellatrix provides an easy way to retry failed request through the **RetryFailedRequests**. If you place it over you class the rules will be applied to all tests in it. Provide how many times your tests to be retried and what should be the pause between retries and the time unit.
+Use the Bellatrix **AssertSchema** method to validate the schema. The same method can be used for XML responses as well.
