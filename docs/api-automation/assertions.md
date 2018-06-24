@@ -12,62 +12,222 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
-public void AssertCartPageFields()
+[TestClass]
+public class ApiAssertionsTests : APITest
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/?add-to-cart=26");
+    private ApiClientService _apiClientService;
 
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/cart/");
+    public override void TestInit()
+    {
+        _apiClientService = App.GetApiClientService();
+    }
 
-    TextField couponCodeTextField = App.ElementCreateService.CreateById<TextField>("coupon_code");
+    [TestMethod]
+    public void AssertSuccessStatusCode()
+    {
+        var request = new RestRequest("api/Albums");
 
-    Assert.AreEqual("Coupon code", couponCodeTextField.Placeholder);
+        var response = _apiClientService.Get(request);
 
-    Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
+        response.AssertSuccessStatusCode();
+    }
 
-    Assert.IsTrue(applyCouponButton.IsPresent);
-    Assert.IsTrue(applyCouponButton.IsVisible);
+    [TestMethod]
+    public void AssertStatusCodeOk()
+    {
+        var request = new RestRequest("api/Albums");
 
-    Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
+        var response = _apiClientService.Get(request);
 
-    Assert.IsFalse(messageAlert.IsVisible);
+        response.AssertStatusCode(HttpStatusCode.OK);
+    }
 
-    Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart");
+    [TestMethod]
+    public void AssertResponseHeaderServerIsEqualToKestrel()
+    {
+        var request = new RestRequest("api/Albums");
 
-    Assert.IsTrue(updateCart.IsDisabled);
+        var response = _apiClientService.Get(request);
 
-    Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
+        response.AssertResponseHeader("server", "Kestrel");
+    }
 
-    Assert.AreEqual("120.00€", totalSpan.InnerText);
+    [TestMethod]
+    public void AssertExecutionTimeUnderIsUnderOneSecond()
+    {
+        var request = new RestRequest("api/Albums");
+
+        var response = _apiClientService.Get(request);
+
+        response.AssertExecutionTimeUnder(1);
+    }
+
+    [TestMethod]
+    public async Task AssertContentTypeJson()
+    {
+        var request = new RestRequest("api/Albums/10");
+
+        var response = await _apiClientService.GetAsync<Albums>(request);
+
+        response.AssertContentType("application/json; charset=utf-8");
+    }
+
+    [TestMethod]
+    public async Task AssertContentContainsAudioslave()
+    {
+        var request = new RestRequest("api/Albums/10");
+
+        var response = await _apiClientService.GetAsync<Albums>(request);
+
+        response.AssertContentContains("Audioslave");
+    }
+
+    [TestMethod]
+    public async Task AssertContentEncodingUtf8()
+    {
+        var request = new RestRequest("api/Albums/10");
+
+        var response = await _apiClientService.GetAsync<Albums>(request);
+
+        response.AssertContentEncoding("gzip");
+    }
+
+    [TestMethod]
+    public async Task AssertContentEquals()
+    {
+        var request = new RestRequest("api/Albums/10");
+
+        var response = await _apiClientService.GetAsync<Albums>(request);
+
+        response.AssertContentEquals("{\"albumId\":10,\"title\":\"Audioslave\",\"artistId\":8,\"artist\":null,\"tracks\":[]}");
+    }
+
+    [TestMethod]
+    public async Task AssertContentNotContainsRammstein()
+    {
+        var request = new RestRequest("api/Albums/10");
+
+        var response = await _apiClientService.GetAsync<Albums>(request);
+
+        response.AssertContentNotContains("Rammstein");
+    }
+
+    [TestMethod]
+    public async Task AssertContentNotEqualsRammstein()
+    {
+        var request = new RestRequest("api/Albums/10");
+
+        var response = await _apiClientService.GetAsync<Albums>(request);
+
+        response.AssertContentNotEquals("Rammstein");
+    }
+
+    [TestMethod]
+    public async Task AssertResultEquals()
+    {
+        var expectedAlbum = new Albums
+                            {
+                                AlbumId = 10,
+                            };
+        var request = new RestRequest("api/Albums/10");
+
+        var response = await _apiClientService.GetAsync<Albums>(request);
+
+        response.AssertResultEquals(expectedAlbum);
+    }
+
+    [TestMethod]
+    public async Task AssertResultNotEquals()
+    {
+        var expectedAlbum = new Albums
+                            {
+                                AlbumId = 11,
+                            };
+        var request = new RestRequest("api/Albums/10");
+
+        var response = await _apiClientService.GetAsync<Albums>(request);
+
+        response.AssertResultNotEquals(expectedAlbum);
+    }
+
+    [TestMethod]
+    public async Task AssertCookieExists()
+    {
+        var request = new RestRequest("api/Albums/10");
+
+        var response = await _apiClientService.GetAsync<Albums>(request);
+
+        response.AssertCookieExists("whoIs");
+    }
+
+    [TestMethod]
+    public async Task AssertCookieWhoIsBella()
+    {
+        var request = new RestRequest("api/Albums/10");
+
+        var response = await _apiClientService.GetAsync<Albums>(request);
+
+        response.AssertCookie("whoIs", "Bella");
+    }
 }
 ```
 
 Explanations
 ------------
+Bellatrix API library brings many convenient assertion methods on top of RestSharp. Of course, you can write similar methods yourself using MSTest or NUnit. All Bellatrix assertions comes with full BDD logging and extensibility hooks.
 ```csharp
-Assert.AreEqual("Coupon code", couponCodeTextField.Placeholder);
+response.AssertSuccessStatusCode();
 ```
-We can assert the default text in the coupon text fiend through the Bellatrix element Placeholder property. The different Bellatrix web elements classes contain lots of these properties which are a representation of the most important HTML element attributes. The biggest drawback of using vanilla assertions is that the messages displayed on failure are not meaningful at all. This is so because most unit testing frameworks are created for much simpler and shorter unit tests. In next chapter, there is information how Bellatrix solves the problems with the introduction of Ensure methods. If the bellow assertion fails the following message is displayed: "*Message: Assert.AreEqual failed. Expected:<Coupon code >. Actual:<Coupon code>.*"
-You can guess what happened, but you do not have information which element failed and on which page.
+Assert that the status code is successful.
 ```csharp
-Assert.IsTrue(applyCouponButton.IsPresent);
-Assert.IsTrue(applyCouponButton.IsVisible);
+response.AssertStatusCode(HttpStatusCode.OK);
 ```
-Here we assert that the apply coupon button exists and is visible on the page. On fail the following message is displayed: "*Message: Assert.IsTrue failed.*" Cannot learn much about what happened.
+Assert that the status code is OK.
 ```csharp
-Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
-Assert.IsFalse(messageAlert.IsVisible);
+response.AssertResponseHeader("server", "Kestrel");
 ```
-Since there are no validation errors, verify that the message div is not visible.
+Assert that the header named 'server' has the value 'Kestrel'.
 ```csharp
-Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart");
-Assert.IsTrue(updateCart.IsDisabled);
+response.AssertExecutionTimeUnder(1);
 ```
-We have not made any changes to the added products so the update cart button should be disabled.
+Assert that the execution time of the GET request is under 1 second.
 ```csharp
-Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
-Assert.AreEqual("120.00€", totalSpan.InnerText);
+response.AssertContentType("application/json; charset=utf-8");
 ```
-We check the total price contained in the order-total span HTML element.
-
-One more thing you need to keep in mind is that normal assertion methods do not include BDD logging and any available hooks. Bellatrix provides you with a full BDD logging support for ensure assertions and gives you a way to hook your logic in multiple places.
+Assert that the content type is of the specified type.
+```csharp
+response.AssertContentContains("Audioslave");
+```
+Assert that the native text content (JSON or XML) contains the specified value.
+```csharp
+response.AssertContentEncoding("gzip");
+```
+Assert the response's content encoding.
+```csharp
+response.AssertContentEquals("{\"albumId\":10,\"title\":\"Audioslave\",\"artistId\":8,\"artist\":null,\"tracks\":[]}");
+```
+Assert the native text content.
+```csharp
+response.AssertContentNotContains("Rammstein");
+```
+Assert that the native text content doesn't contain specific text.
+```csharp
+response.AssertContentNotEquals("Rammstein");
+```
+Assert that the native text content is not equal to a specific text.
+```csharp
+response.AssertResultEquals(expectedAlbum);
+```
+Assert C# collections directly.
+```csharp
+response.AssertResultNotEquals(expectedAlbum);
+```
+Assert response is not equal to an object.
+```csharp
+response.AssertCookieExists("whoIs");
+```
+Assert that a specific cookie exists.
+```csharp
+response.AssertCookie("whoIs", "Bella");
+```
+Assert that a cookie's value is equal to a specific value.
