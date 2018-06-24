@@ -21,45 +21,31 @@ Bellatrix gives you expansion snippets. You can read more how you can write your
 How to Use Bellatrix Code Snippets?
 ------------
 ```csharp
-public TextField CouponCode => Element.CreateById<TextField>("coupon_code");
+public CheckBox PermanentTransfer => Element.CreateByName<CheckBox>("BellaCheckBox");
 ```
-For each proxy element in Bellatrix, we give you a corresponding snippet. For example to generate a **TextField** property, you need to type somewhere in you class **wtextfield** and press Tab.
-(w comes from web since you have snippets for other Bellatrix modules- desktop and mobile)
-On the first press of tab, the below code is generated. The first placeholder that is selected is the name of the property. Once you change it, you can press Tab. Then, the second placeholder is chosen- the By locator's type, by default, it is set to Id, press again Tab and change the actual locator.
+For each proxy element in Bellatrix, we give you a corresponding snippet. For example to generate a **TextField** property, you need to type somewhere in you class **dtextfield** and press Tab. (d comes from desktop since you have snippets for other Bellatrix modules- web and mobile). On the first press of tab, the below code is generated. The first placeholder that is selected is the name of the property. Once you change it, you can press Tab. Then, the second placeholder is chosen- the By locator's type, by default, it is set to Id, press again Tab and change the actual locator.
 
 **Note**: *Snippets are available for Visual Studio installations only on Windows. You need to make sure you have used the Bellatrix installer to get them.*
 
 List of All Available Snippets
 ------------------------------
 Here is the list of all available snippets for Bellatrix Web module:
-**wanchor** - generates Anchor
-**wbutton** - generates Button
-**wcheckbox** - generates CheckBox
-**wcolor** - generates Color
-**wdate** - generates Date
-**wdatetimelocal** - generates DateTimeLocal
-**wdiv** - generates Div
-**welement** - generates Element
-**wemail** - generates Email
-**wheading** - generates Heading
-**wimage** - generates Image
-**winputfile** - generates InputFile
-**wlabel** - generates Label
-**wmonth** - generates Month
-**wnumber** - generates Number
-**woption** - generates Option
-**woutput** - generates Output
-**wpassword** - generates Password
-**wphone** - generates Phone
-**wprogress** - generates Progress
-**wradiobutton** - generates RadioButton
-**wrange** - generates Range
-**wreset** - generates Reset
-**wsearch** - generates Search
-**wselect** - generates Select
-**wspan** - generates Span
-**wtextarea** - generates TextArea
-**wtextfield** - generates TextField
-**wtime** - generates Time
-**wurl** - generates Url
-**wweek** - generates Week
+**dbutton** - generates Button
+**dcalendar** - generates Calendar
+**dcheckbox** - generates CheckBox
+**dcombobox** - generates ComboBox
+**ddate** - generates Date
+**delement** - generates Element
+**dexpander** - generates Expander
+**dimage** - generates Image
+**dlabel** - generates Label
+**dlistbox** - generates ListBox
+**dmenu** - generates Menu
+**dpassword** - generates Password
+**dprogress** - generates Progress
+**dradioButton** - generates RadioButton
+**dtabs** - generates Tabs
+**dtextArea** - generates TextArea
+**dtextField** - generates TextField
+**dtime** - generates Time
+
