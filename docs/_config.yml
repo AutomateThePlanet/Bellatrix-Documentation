@@ -196,7 +196,7 @@ navigation:
                 title: Templates
             "folder-and-file-structure":
                 title: Folder and File Structure
-     "api-automation":
+    "api-automation":
         title: API Automation
         submenu:
             "create-simple-get-request":
