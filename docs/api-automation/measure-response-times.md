@@ -6,37 +6,86 @@ date:   2018-06-22 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/measure-response-times/
 anchors:
-  overview: Overview
+  example: Example
   explanations: Explanations
 ---
-Overview
+Example
 --------
-
-This is how one Bellatrix test class looks like.
 ```csharp
 [TestClass]
-[Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
-public class BellatrixBrowserBehaviourTests : WebTest
+[ExecutionTimeUnder(2)]
+public class MeasuredResponseTimesTests : APITest
 {
-    [TestMethod]
-    public void PromotionsPageOpened_When_PromotionsButtonClicked()
+    private ApiClientService _apiClientService;
+
+    public override void TestInit()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
-
-        promotionsLink.Click();
+        _apiClientService = App.GetApiClientService();
     }
 
     [TestMethod]
-    [Browser(BrowserType.Chrome, BrowserBehavior.RestartOnFail)]
-    public void BlogPageOpened_When_PromotionsButtonClicked()
+    public void ContentPopulated_When_GetAlbums()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var request = new RestRequest("api/Albums");
 
-        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
+        var response = _apiClientService.Get(request);
 
-        blogLink.Click();
+        Assert.IsNotNull(response.Content);
+        
+        response.AssertExecutionTimeUnder(2);
+    }
+
+    [TestMethod]
+    public void DataPopulatedAsList_When_GetGenericAlbums()
+    {
+        var request = new RestRequest("api/Albums");
+
+        var response = _apiClientService.Get<List<Albums>>(request);
+
+        Assert.AreEqual(347, response.Data.Count);
+    }
+
+    [TestMethod]
+    [TestCategory(Categories.CI)]
+    [TestCategory(Categories.API)]
+    public void DataPopulatedAsList_When_GetGenericAlbumsById()
+    {
+        var request = new RestRequest("api/Albums/10");
+
+        var response = _apiClientService.Get<Albums>(request);
+
+        Assert.AreEqual(10, response.Data.AlbumId);
+    }
+
+    [TestMethod]
+    public void ContentPopulated_When_GetGenericAlbumsById()
+    {
+        var request = new RestRequest("api/Albums/10");
+
+        var response = _apiClientService.Get<Albums>(request);
+
+        Assert.IsNotNull(response.Content);
+    }
+
+    [TestMethod]
+    public void DataPopulatedAsGenres_When_PutModifiedContent()
+    {
+        var request = new RestRequest("api/Albums/11");
+
+        var getResponse = _apiClientService.Get<Albums>(request);
+
+        var putRequest = new RestRequest("api/Albums/11");
+
+        string updatedTitle = Guid.NewGuid().ToString();
+        getResponse.Data.Title = updatedTitle;
+
+        putRequest.AddJsonBody(getResponse.Data);
+
+        _apiClientService.Put<Albums>(putRequest);
+
+        var getUpdatedResponse = _apiClientService.Get<Albums>(request);
+
+        Assert.AreEqual(updatedTitle, getUpdatedResponse.Data.Title);
     }
 }
 ```
@@ -45,64 +94,11 @@ Explanations
 ------------
 ```csharp
 [TestClass]
+[ExecutionTimeUnder(2)]
+public class MeasuredResponseTimesTests : APITest
 ```
-This is the main attribute that you need to mark each class that contains MSTest tests.
+Sometimes it is useful to use your functional tests to measure performance. Or to just make sure that your app is not slow. To do that Bellatrix libraries offer the **ExecutionTimeUnder** attribute. You specify a timeout and if the test is executed over it the test will fail.
 ```csharp
-[Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
+response.AssertExecutionTimeUnder(2);
 ```
-This is the attribute for automatic start/control of WebDriver browsers by Bellatrix. If you have to do it manually properly, you will need thousands of lines of code. 
-**BrowserType** controls which browser is used. Available options are:
-- Chrome
-- Firefox
-- Edge
-- InternetExplorer
-- Opera
-- Chrome in headless mode
-- Firefox in headless mode.
-
-**Note**: *Headless mode = executed in the browser but the browser's UI is not rendered, in theory, should be faster. In practice the time gain is little.*
-
-**BrowserBehavior** enum controls when the browser is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs. However you need to be careful because in case of tests failures the browser may need to be restarted.
-Available options:
-- **RestartEveryTime**- for each test a separate WebDriver instance is created and the previous browser is closed. The new browser comes with new cookies and cache.
-- **RestartOnFail**- the browser is only restarted if the previous test failed. Alternatively, if the previous test's browser was different.
-- **ReuseIfStarted**- the browser is only restarted if the previous test's browser was different. In all other cases, the browser is reused if possible.
-
-**Note**: *However, use this option with caution since in some rare cases if you have not properly setup your tests you may need to restart the browser if the test fails otherwise all other tests may fail too.*
-
-```csharp
-public class BellatrixBrowserBehaviourTests : WebTest
-```
-All web Bellatrix test classes should inherit from the WebTest base class. This way you can use all built-in Bellatrix tools and functionalities.
-```csharp
-[Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
-public class BellatrixBrowserBehaviourTests : WebTest
-```
-If you place attribute over the class all tests inherit the behaviour. It is possible to place it over each test and this way it overrides the class behaviour only for this particular test.
-```csharp
-[TestMethod]
-public void PromotionsPageOpened_When_PromotionsButtonClicked()
-```
-All MSTest tests should be marked with the TestMethod attribute.
-```csharp
-App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-```
-There is more about the App class in the next sections.However, it is the primary point where you access the Bellatrix services. It comes from the WebTest class as a property.Here we use the Bellatrix navigation service to navigate to the demo page.
-```csharp
-var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
-```
-Use the element creation service to create an instance of the anchor. There are much more details about this process in the next sections.
-```csharp
-[TestMethod]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartOnFail)]
-public void BlogPageOpened_When_PromotionsButtonClicked()
-{
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-    var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
-
-    blogLink.Click();
-}
-```
-As mentioned above you can override the browser behaviour for a particular test. The global behaviour for all tests in the class is to reuse an instance of Edge browser. Only for this particular test, Bellatrix opens Chrome and restarts it only on fail.
-
+Another way to measure performance is to use the **AssertExecutionTimeUnder** method. If the request took longer to execute the test will fail again. You can use the method approach in case the speed of all request is not so important. In all other cases, you can use the global attribute.
