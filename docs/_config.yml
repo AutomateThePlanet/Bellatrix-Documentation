@@ -196,5 +196,41 @@ navigation:
                 title: Templates
             "folder-and-file-structure":
                 title: Folder and File Structure
-        
+     "api-automation":
+        title: API Automation
+        submenu:
+            "create-simple-get-request":
+                title: Create Simple Get Request
+            "all-request-types":
+                title: All Request Types
+            "assertions":
+                title: Assertions
+            "bdd-logging":
+                title: BDD Logging
+            "authentication":
+                title: Authentication
+            "retry-failed-requests":
+                title: Retry Failed Requests
+            "validate-json-and-xml-schema":
+                title: Validate JSON and XML Schema
+            "static-analysis":
+                title: Static Analysis
+            "logging":
+                title: Logging
+            "extensibility-test-workflow-hooks":
+                title: Extensibility- Test Workflow Hooks
+            "extensibility-custom-test-workflow-plugins":
+                title: Extensibility- Custom Test Workflow Plugins
+            "extensibility-api-client-hooks":
+                title: Extensibility- API Client Hooks
+            "extensibility-assertion-hooks":
+                title: Extensibility- Assertion Hooks
+            "load-testing":
+                title: Load Testing
+            "measure-response-times":
+                title: Measure Response Times
+            "templates":
+                title: Templates
+            "folder-and-file-structure":
+                title: Folder and File Structure    
         
