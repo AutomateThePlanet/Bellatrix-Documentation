@@ -13,29 +13,17 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
-public class LoggingTests : WebTest
+[TestMethod]
+public void GetAlbumById()
 {
-    [TestMethod]
-    public void AddCustomMessagesToLog()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    var request = new RestRequest("api/Albums/10");
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-        Anchor addToCartFalcon9 = App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-        Anchor viewCartButton = App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+    var client = App.GetApiClientService();
+    
+    App.Logger.LogInformation("Before GET request. CUSTOM MESSAGE ###");
+    var response = client.Get<Albums>(request);
 
-        sortDropDown.SelectByText("Sort by price: low to high");
-        protonMReadMoreButton.Hover();
-
-        App.Logger.LogInformation("Before adding Falcon 9 rocket to cart.");
-
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        viewCartButton.Click();
-    }
+    Assert.AreEqual(10, response.Data.AlbumId);
 }
 ```
 
@@ -43,21 +31,17 @@ Explanations
 ------------
 By default, you can see the logs in the output window of each test. Also, a file called logs.txt is generated in the folder with the DLLs of your tests. If you execute your tests in CI with some CLI test runner the logs are printed there as well. **outputTemplate** - controls how the message is formatted. You can add additional info such as timestamp and much more. For more info visit- [https://github.com/serilog/serilog/wiki/Formatting-Output](https://github.com/serilog/serilog/wiki/Formatting-Output)
 ```csharp
-App.Logger.LogInformation("Before adding Falcon 9 rocket to cart.");
+App.Logger.LogInformation("Before GET request. CUSTOM MESSAGE ###");
 ```
 Sometimes is useful to add information to the generated test log. To do it you can use the Bellatrix built-in logger through accessing it via App service.
 
 Generated Log, as you can see the above custom message is added to the log.
 
-\#\#\#\# Start Chrome on PORT = 53153
-Start Test
-Class = LoggingTests Name = AddCustomMessagesToLog
-Select 'Sort by price: low to high' from control (Name ending with orderby)
-Hover control (InnerText containing Read more)
-Before adding Falcon 9 rocket to cart.
-Focus control (data-product_id = 28)
-Click control (data-product_id = 28)
-Click control (Class = added_to_cart wc-forward)
+[11:14:08] Start Test
+[11:14:08] Class = LoggingTests Name = GetAlbumById
+[11:14:09] Before GET request. CUSTOM MESSAGE ###
+[11:14:09] Making GET request against resource api/Albums/10
+[11:14:09] Response of request GET against resource api/Albums/10 - Completed
 
 Configuration
 -------------
