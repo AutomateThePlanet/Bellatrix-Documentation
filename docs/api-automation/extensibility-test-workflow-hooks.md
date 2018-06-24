@@ -13,25 +13,31 @@ Example
 -------
 ```csharp
 [TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
-public class TestWorkflowHooksTests : WebTest
+public class TestWorkflowHooksTests : APITest
 {
-    private static Select _sortDropDown;
-    private static Anchor _protonRocketAnchor;
-
+    private ApiClientService _apiClientService;
+    private RestRequest _getRequest;
+    private RestRequest _putRequest;
+    private IMeasuredResponse _putResponse;
+    
     public override void TestsArrange()
     {
-        _sortDropDown = 
-		App.ElementCreateService.CreateByXpath<Select>("//*[@id='main']/div[1]/form/select");
-        _protonRocketAnchor = 
-		App.ElementCreateService.CreateByXpath<Anchor>("//*[@id='main']/div[2]/ul/li[1]/a[1]");
+        _apiClientService = App.GetApiClientService();
+        _getRequest = new RestRequest("api/Albums/11");
+        _putRequest = new RestRequest("api/Albums/11");
     }
 
     public override void TestsAct()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var getResponse = _apiClientService.Get<Albums>(_getRequest);
 
-        _sortDropDown.SelectByText("Sort by price: low to high");
+        getResponse.Data.Title = "Unique Title";
+
+        _putRequest.AddJsonBody(getResponse.Data);
+
+        _apiClientService.Put<Albums>(_putRequest);
+
+        _putResponse = _apiClientService.Get<Albums>(_getRequest);
     }
 
     public override void TestInit()
@@ -45,33 +51,27 @@ public class TestWorkflowHooksTests : WebTest
     }
 
     [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor()
+    public void UpdatedContentContainsUpdatedTitle()
     {
-        _sortDropDown.AssertAboveOf(_protonRocketAnchor);
+        _putResponse.AssertContentContains("Unique Title");
     }
 
     [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor_41px()
+    public void UpdatedRequestUnder2Seconds()
     {
-        _sortDropDown.AssertAboveOf(_protonRocketAnchor, 41);
+        _putResponse.AssertExecutionTimeUnder(2);
     }
 
     [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor_GreaterThan40px()
+    public void PutResponseNotNull()
     {
-        _sortDropDown.AssertAboveOfGreaterThan(_protonRocketAnchor, 40);
+        Assert.IsNotNull(_putResponse.Content);
     }
 
     [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor_GreaterThanOrEqual41px()
+    public void PutResponseStatusCodeIsOk()
     {
-        _sortDropDown.AssertAboveOfGreaterThanOrEqual(_protonRocketAnchor, 41);
-    }
-
-    [TestMethod]
-    public void SortDropDownIsNearTopOfProtonRocketAnchor_GreaterThan40px()
-    {
-        _sortDropDown.AssertNearTopOfGreaterThan(_protonRocketAnchor, 40);
+        _putResponse.AssertStatusCode(System.Net.HttpStatusCode.OK);
     }
 }
 ```
@@ -106,17 +106,22 @@ You can add some logic that is executed after each test instead of copy pasting 
 ```csharp
 public override void TestsArrange()
 {
-    _sortDropDown = 
-    App.ElementCreateService.CreateByXpath<Select>("//*[@id='main']/div[1]/form/select");
-    _protonRocketAnchor = 
-    App.ElementCreateService.CreateByXpath<Anchor>("//*[@id='main']/div[2]/ul/li[1]/a[1]");
+    _apiClientService = App.GetApiClientService();
+    _getRequest = new RestRequest("api/Albums/11");
+    _putRequest = new RestRequest("api/Albums/11");
 }
 
 public override void TestsAct()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    var getResponse = _apiClientService.Get<Albums>(_getRequest);
 
-    _sortDropDown.SelectByText("Sort by price: low to high");
+    getResponse.Data.Title = "Unique Title";
+
+    _putRequest.AddJsonBody(getResponse.Data);
+
+    _apiClientService.Put<Albums>(_putRequest);
+
+    _putResponse = _apiClientService.Get<Albums>(_getRequest);
 }
 ```
 This is one of the ways you can use **TestsArrange** and **TestsAct**. You can find create all elements in the **TestsArrange** and create all necessary data for the tests. Then in the **TestsAct** execute the actual tests logic but without asserting anything. Then in each separate test execute single assert or ensure method. Following the best testing practices- having a single assertion in a test. If you execute multiple assertions and if one of them fails, the next ones are not executed which may lead to missing some major clue about a bug in your product. Anyhow, Bellatrix allows you to write your tests the standard way of executing the primary logic in the tests or reuse some of it through the usage of **TestInit** and **TestCleanup** methods.
