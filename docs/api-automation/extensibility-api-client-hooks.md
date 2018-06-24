@@ -6,131 +6,80 @@ date:   2018-06-23 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/extensibility-api-client-hooks/
 anchors:
+  introduction: Introduction
   example: Example
   explanations: Explanations
 ---
+Introduction
+------------
+Another way to execute Bellatrix is to create an API client plugin. You can execute your logic in various points such as:
+- **OnClientInitialized** - executed after the API client is initialized. Here you can fine-tune the client.
+- **OnRequestTimeout** - executed if some of the requests timeout.
+- **OnMakingRequest** - executed before making request.
+- **OnRequestMade** - executed after the request is made.
+- **OnRequestFailed** - executed in case of request failure.
+
+To create a custom plugin, you need to derive the class- **ApiClientExecutionPlugin**. Then you can override some of its protected methods. You can create plugins for logging the request failures, modifying the requests. The possibilities are limitless.
+
 Example
 -------
 ```csharp
-[TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
-public class TestWorkflowHooksTests : WebTest
+public class LogRequestTimeApiClientExecutionPlugin : ApiClientExecutionPlugin
 {
-    private static Select _sortDropDown;
-    private static Anchor _protonRocketAnchor;
+    private Stopwatch _requestStopwatch = Stopwatch.StartNew();
 
-    public override void TestsArrange()
+    protected override void OnMakingRequest(object sender, RequestEventArgs client) => _requestStopwatch = Stopwatch.StartNew();
+
+    protected override void OnRequestMade(object sender, ResponseEventArgs client)
     {
-        _sortDropDown = 
-		App.ElementCreateService.CreateByXpath<Select>("//*[@id='main']/div[1]/form/select");
-        _protonRocketAnchor = 
-		App.ElementCreateService.CreateByXpath<Anchor>("//*[@id='main']/div[2]/ul/li[1]/a[1]");
+        _requestStopwatch.Stop();
+        Console.WriteLine($"Request made for {_requestStopwatch.ElapsedMilliseconds}");
     }
+}
+```
+```csharp
+public class ApiClientHooksTests : APITest
+{
+    public override void TestsArrange() => App.AddApiClientExecutionPlugin<LogRequestTimeApiClientExecutionPlugin>();
 
-    public override void TestsAct()
+    [TestMethod]
+    public void GetAlbumById()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var request = new RestRequest("api/Albums/10");
 
-        _sortDropDown.SelectByText("Sort by price: low to high");
-    }
+        var client = App.GetApiClientService();
 
-    public override void TestInit()
-    {
-        // Executes a logic before each test in the test class.
-    }
+        var response = client.Get<Albums>(request);
 
-    public override void TestCleanup()
-    {
-        // Executes a logic after each test in the test class.
+        Assert.AreEqual(10, response.Data.AlbumId);
     }
 
     [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor()
+    public void SecondGetAlbumById()
     {
-        _sortDropDown.AssertAboveOf(_protonRocketAnchor);
-    }
+        var request = new RestRequest("api/Albums/10");
 
-    [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor_41px()
-    {
-        _sortDropDown.AssertAboveOf(_protonRocketAnchor, 41);
-    }
+        var client = App.GetApiClientService();
 
-    [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor_GreaterThan40px()
-    {
-        _sortDropDown.AssertAboveOfGreaterThan(_protonRocketAnchor, 40);
-    }
+        var response = client.Get<Albums>(request);
 
-    [TestMethod]
-    public void SortDropDownIsAboveOfProtonRocketAnchor_GreaterThanOrEqual41px()
-    {
-        _sortDropDown.AssertAboveOfGreaterThanOrEqual(_protonRocketAnchor, 41);
-    }
-
-    [TestMethod]
-    public void SortDropDownIsNearTopOfProtonRocketAnchor_GreaterThan40px()
-    {
-        _sortDropDown.AssertNearTopOfGreaterThan(_protonRocketAnchor, 40);
+        Assert.AreEqual(10, response.Data.AlbumId);
     }
 }
 ```
 
 Explanations
 ------------
-One of the greatest features of Bellatrix is test workflow hooks. It gives you the possibility to execute your logic in every part of the test workflow. Also, as you can read in the next chapter write plug-ins that execute code in different places of the workflow every time. This is happening no matter what test framework you use- MSTest or NUnit. As you know, MSTest is not extension friendly.
-
-Bellatrix Default Test Workflow.
-
-The following methods are called once for test class:
-
-1. All plug-ins **PreTestsArrange** logic executes.
-2. Current class **TestsArrange** method executes. By default it is empty, but you can override it in each class and execute your logic. This is the place where you can set up data for your tests, call internal API services, SQL scripts and so on.
-3. All plug-ins **PostTestsArrange** logic executes.
-4. All plug-ins **PreTestsAct** logic executes.
-5. Current class **TestsAct** method executes. By default it is empty, but you can override it in each class and execute your logic. This is the place where you can execute the primary actions for your test case. This is useful if you want later include only assertions in the tests.
-6. All plug-ins **PostTestsAct** logic executes.
-
-The following methods are called once for each test in the class:
-
-7. All plug-ins **PreTestInit** logic executes.
-8. Current class **TestInit** method executes. By default it is empty, but you can override it in each class and execute your logic. You can add some logic that is executed for each test instead of copy pasting it for each test. For example- navigating to a specific web page.
-9. All plug-ins **PostTestInit** logic executes.
-10. All plug-ins **PreTestCleanup** logic executes.
-11. Current class **TestCleanup** method executes. By default it is empty, but you can override it in each class and execute your logic.
-You can add some logic that is executed after each test instead of copy pasting it. For example- deleting some entity from DB.
-12. All plug-ins **PostTestCleanup** logic executes.
-
-**Note**: ***TestsArrange** and **TestsAct** are similar to MSTest **TestClassInitialize** and **OneTimeSetup** in NUnit. We decided to split them into two methods to make the code more readable and two allow customization of the workflow.*
-
 ```csharp
-public override void TestsArrange()
+public override void TestsArrange() => 
+  App.AddApiClientExecutionPlugin<LogRequestTimeApiClientExecutionPlugin>();
+```
+The plugin needs to be registered through App service method **AddApiClientExecutionPlugin**.
+```csharp
+[AssemblyInitialize]
+public static void AssemblyInitialize(TestContext testContext)
 {
-    _sortDropDown = 
-    App.ElementCreateService.CreateByXpath<Select>("//*[@id='main']/div[1]/form/select");
-    _protonRocketAnchor = 
-    App.ElementCreateService.CreateByXpath<Anchor>("//*[@id='main']/div[2]/ul/li[1]/a[1]");
-}
-
-public override void TestsAct()
-{
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-    _sortDropDown.SelectByText("Sort by price: low to high");
+    App.AddApiClientExecutionPlugin<LogRequestTimeApiClientExecutionPlugin>();
 }
 ```
-This is one of the ways you can use **TestsArrange** and **TestsAct**. You can find create all elements in the **TestsArrange** and create all necessary data for the tests. Then in the **TestsAct** execute the actual tests logic but without asserting anything. Then in each separate test execute single assert or ensure method. Following the best testing practices- having a single assertion in a test. If you execute multiple assertions and if one of them fails, the next ones are not executed which may lead to missing some major clue about a bug in your product. Anyhow, Bellatrix allows you to write your tests the standard way of executing the primary logic in the tests or reuse some of it through the usage of **TestInit** and **TestCleanup** methods.
-```csharp
-public override void TestInit()
-{
-    // ...
-}
-```
-Executes a logic before each test in the test class.
-```csharp
-public override void TestCleanup()
-{
-    // ...
-}
-```
-Executes a logic after each test in the test class.
+Usually, this happens in the **AssemblyInitialize** method so that it is executed once before all tests.
