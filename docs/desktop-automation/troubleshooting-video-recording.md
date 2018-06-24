@@ -15,27 +15,32 @@ Example
 ```csharp
 [TestClass]
 [VideoRecording(VideoRecordingMode.OnlyFail)]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
-public class VideoRecordingTests : WebTest
+[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+public class VideoRecordingTests : DesktopTest
 {
-    [TestMethod]
-    public void PromotionsPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
-        promotionsLink.Click();
-    }
+[TestMethod]
+public void MessageChanged_When_ButtonHovered_Wpf()
+{
+    var button = App.ElementCreateService.CreateByName<Button>("E Button");
 
-    [TestMethod]
-    [VideoRecording(VideoRecordingMode.DoNotRecord)]
-    public void BlogPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    button.Hover();
 
-        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
+    var label = App.ElementCreateService.CreateByName<Button>("ebuttonHovered");
+    Assert.AreEqual("ebuttonHovered", label.InnerText);
+}
 
-        blogLink.Click();
-    }
+[TestMethod]
+[App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
+[VideoRecording(VideoRecordingMode.DoNotRecord)]
+public void MessageChanged_When_ButtonClicked_Wpf()
+{
+    var button = App.ElementCreateService.CreateByName<Button>("E Button");
+
+    button.Click();
+
+    var label = App.ElementCreateService.CreateByName<Button>("ebuttonClicked");
+    Assert.AreEqual("ebuttonClicked", label.InnerText);
+}
 }
 ```
 
