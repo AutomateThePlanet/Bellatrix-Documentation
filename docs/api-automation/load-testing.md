@@ -14,62 +14,74 @@ Example
 -------
 ```csharp
 [TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
-public class LoggingTests : WebTest
+public class ApiLoadTests : APITest
 {
-    [TestMethod]
-    public void AddCustomMessagesToLog()
+    private ApiClientService _apiClientService;
+
+    public override void TestInit()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        FixtureFactory.Create();
+        _apiClientService = App.GetApiClientService();
+    }
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-        Anchor addToCartFalcon9 = App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-        Anchor viewCartButton = App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+    [TestMethod]
+    public void LoadTest_ExecuteForTime()
+    {
+        var request = new RestRequest("api/Albums");
+        
+        App.LoadTestService.ExecuteForTime(
+            numberOfProcesses: 10,
+            pauseBetweenStartSeconds: 1,
+            secondsToBeExecuted: 30,
+            testBody: () =>
+        {
+            var response = _apiClientService.Get(request);
 
-        sortDropDown.SelectByText("Sort by price: low to high");
-        protonMReadMoreButton.Hover();
+            response.AssertSuccessStatusCode();
+            response.AssertExecutionTimeUnder(1);
+        });
+    }
 
-        App.Logger.LogInformation("Before adding Falcon 9 rocket to cart.");
+    [TestMethod]
+    public void LoadTest_ExecuteNumberOfTimes()
+    {
+        var request = new RestRequest("api/Albums");
 
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        viewCartButton.Click();
+        App.LoadTestService.ExecuteNumberOfTimes(5, 1, 5, () =>
+        {
+            var response = _apiClientService.Get(request);
+
+            response.AssertSuccessStatusCode();
+            response.AssertExecutionTimeUnder(1);
+        });
     }
 }
 ```
 
 Explanations
 ------------
-By default, you can see the logs in the output window of each test. Also, a file called logs.txt is generated in the folder with the DLLs of your tests. If you execute your tests in CI with some CLI test runner the logs are printed there as well. **outputTemplate** - controls how the message is formatted. You can add additional info such as timestamp and much more. For more info visit- [https://github.com/serilog/serilog/wiki/Formatting-Output](https://github.com/serilog/serilog/wiki/Formatting-Output)
+Bellatrix offers a module for making load tests.
 ```csharp
-App.Logger.LogInformation("Before adding Falcon 9 rocket to cart.");
+App.LoadTestService.ExecuteForTime(
+    numberOfProcesses: 10,
+    pauseBetweenStartSeconds: 1,
+    secondsToBeExecuted: 30,
+    testBody: () =>
+{
+    var response = _apiClientService.Get(request);
+
+    response.AssertSuccessStatusCode();
+    response.AssertExecutionTimeUnder(1);
+});
 ```
-Sometimes is useful to add information to the generated test log. To do it you can use the Bellatrix built-in logger through accessing it via App service.
+The first type of load tests is time-based. 10 parallel processes will run for 30 seconds, and the engine makes a pause of 1 sec between requests. As an anonymous method or existing method you can specify the code to be executed in each thread.
+```csharp
+App.LoadTestService.ExecuteNumberOfTimes(5, 1, 5, () =>
+{
+    var response = _apiClientService.Get(request);
 
-Generated Log, as you can see the above custom message is added to the log.
-
-\#\#\#\# Start Chrome on PORT = 53153
-Start Test
-Class = LoggingTests Name = AddCustomMessagesToLog
-Select 'Sort by price: low to high' from control (Name ending with orderby)
-Hover control (InnerText containing Read more)
-Before adding Falcon 9 rocket to cart.
-Focus control (data-product_id = 28)
-Click control (data-product_id = 28)
-Click control (Class = added_to_cart wc-forward)
-
-Configuration
--------------
-```json
-"logging": {
-    "isEnabled": "true",
-    "isConsoleLoggingEnabled": "true",
-    "isDebugLoggingEnabled": "true",
-    "isEventLoggingEnabled": "false",
-    "isFileLoggingEnabled": "true",
-    "outputTemplate":  "{Message:lj}{NewLine}",
-    "addUrlToBddLogging": "false"
-}
+    response.AssertSuccessStatusCode();
+    response.AssertExecutionTimeUnder(1);
+});
 ```
-In the **testFrameworkSettings.json** file find a section called **logging**, responsible for controlling the logs generation. You can disable the logs entirely. There are different places where the logs are populated.
+The second type of load tests is number-of-times-based. Your code executes the specified number of times between the specified number of processes.

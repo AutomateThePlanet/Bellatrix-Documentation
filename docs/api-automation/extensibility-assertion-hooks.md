@@ -6,6 +6,7 @@ date:   2018-06-23 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/extensibility-assertion-hooks/
 anchors:
+  introduction: Introduction
   example: Example
   explanations: Explanations
 ---
