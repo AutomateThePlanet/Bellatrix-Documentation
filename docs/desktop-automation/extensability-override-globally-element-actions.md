@@ -13,92 +13,65 @@ Example
 -------
 ```csharp
 [TestClass]
-[Browser(BrowserType.Firefox, BrowserBehavior.RestartEveryTime)]
-public class OverrideGloballyElementActionsTests : WebTest
+[VideoRecording(VideoRecordingMode.OnlyFail)]
+[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+public class OverrideGloballyElementActionsTests : DesktopTest
 {
     public override void TestsArrange()
     {
         Button.OverrideClickGlobally = (e) =>
         {
             e.ToExists().ToBeClickable().WaitToBe();
-            App.JavaScriptService.Execute("arguments[0].click();", e);
+            e.ScrollToVisible();
+            e.Click();
         };
 
-        Anchor.OverrideFocusGlobally = CustomFocus;
+        Expander.OverrideClickGlobally = CustomFocus;
     }
 
-    private void CustomFocus(Anchor anchor)
+    private void CustomFocus(Expander expander)
     {
-        App.JavaScriptService.Execute("window.focus();");
-        App.JavaScriptService.Execute("arguments[0].focus();", anchor);
+        expander.ScrollToVisible();
+        Thread.Sleep(100);
+        expander.Click();
     }
 
     [TestMethod]
-    public void PurchaseRocketWithGloballyOverridenMethods()
+    public void MessageChanged_When_ButtonHovered_Wpf()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var button = App.ElementCreateService.CreateByName<Button>("E Button");
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-        Anchor addToCartFalcon9 = 
-        App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-        Anchor viewCartButton = 
-        App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
-        TextField couponCodeTextField = App.ElementCreateService.CreateById<TextField>("coupon_code");
-        Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
-        Number quantityBox = App.ElementCreateService.CreateByClassContaining<Number>("input-text qty text");
-        Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
-        Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart").ToBeClickable();
-        Anchor proceedToCheckout = 
-        App.ElementCreateService.CreateByClassContaining<Anchor>("checkout-button button alt wc-forward");
-        Heading billingDetailsHeading = 
-        App.ElementCreateService.CreateByInnerTextContaining<Heading>("Billing details");
-        Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
+        button.Hover();
 
-        sortDropDown.SelectByText("Sort by price: low to high");
-        protonMReadMoreButton.Hover();
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        viewCartButton.Click();
-        couponCodeTextField.SetText("happybirthday");
-        applyCouponButton.Click();
-
-        messageAlert.ToHasContent().ToBeVisible().WaitToBe();
-        messageAlert.EnsureInnerTextIs("Coupon code applied successfully.");
-        quantityBox.SetNumber(0);
-        quantityBox.SetNumber(2);
-
-        updateCart.Click();
-
-        totalSpan.EnsureInnerTextIs("95.00€", 15000);
-
-        proceedToCheckout.Click();
-        billingDetailsHeading.ToBeVisible().WaitToBe();
+        var label = App.ElementCreateService.CreateByName<Button>("ebuttonHovered");
+        Assert.AreEqual("ebuttonHovered", label.InnerText);
     }
 }
 ```
 
 Explanations
 ------------
-Extendability and customisation are one of the biggest advantages of Bellatrix. So, each Bellatrix web control gives you the possibility to override its behaviour for the whole test run. You need to initialise the static delegates- **Override{MethodName}Globally**.
+Extensibility and customisation are one of the biggest advantages of Bellatrix. So, each Bellatrix desktop control gives you the possibility to override its behaviour for the whole test run. You need to initialise the static delegates- **Override{MethodName}Globally**.
 ```csharp
 Button.OverrideClickGlobally = (e) =>
 {
     e.ToExists().ToBeClickable().WaitToBe();
-    App.JavaScriptService.Execute("arguments[0].click();", e);
+    e.ScrollToVisible();
+    e.Click();
 };
 ```
-We override the behaviour of the button control with an anonymous lambda function. Instead of using the default **webDriverElement.Click()** method, we click via JavaScript code.
+We override the behaviour of the button control with an anonymous lambda function. Instead of using clicking the button directly first wait to be clickable and scroll to be visible.
 ```csharp
-Anchor.OverrideFocusGlobally = CustomFocus;
+Expander.OverrideClickGlobally = CustomFocus;
 
-private void CustomFocus(Anchor anchor)
+private void CustomFocus(Expander expander)
 {
-    App.JavaScriptService.Execute("window.focus();");
-    App.JavaScriptService.Execute("arguments[0].focus();", anchor);
+    expander.ScrollToVisible();
+    Thread.Sleep(100);
+    expander.Click();
 }
 ```
-Override the anchor Focus method by assigning a local private function to the global delegate.
+Override the expander Click method by assigning a local private function to the global delegate.
 
 **Note:** *Keep in mind that once the control is overridden globally, all tests call your custom logic, the default behaviour is gone.*
 
@@ -106,8 +79,6 @@ Override the anchor Focus method by assigning a local private function to the gl
 
 Here is a list of all global override **Button** delegates:
 - OverrideClickGlobally
-- OverrideFocusGlobally
 - OverrideHoverGlobally
 - OverrideInnerTextGlobally
 - OverrideIsDisabledGlobally
-- OverrideValueGlobally
