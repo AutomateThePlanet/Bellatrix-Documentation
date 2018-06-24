@@ -1,10 +1,10 @@
 ---
 layout: default
-title:  "Extensability- Override Globally Element Actions"
+title:  "Extensibility- Override Globally Element Actions"
 excerpt: "Learn how to override some desktop elements actions/properties for the whole tests execution."
 date:   2018-06-23 06:50:17 +0200
 parent: desktop-automation
-permalink: /desktop-automation/extensability-override-globally-element-actions/
+permalink: /desktop-automation/extensibility-override-globally-element-actions/
 anchors:
   example: Example
   explanations: Explanations

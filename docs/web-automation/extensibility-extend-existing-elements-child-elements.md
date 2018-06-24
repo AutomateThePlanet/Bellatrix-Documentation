@@ -1,10 +1,10 @@
 ---
 layout: default
-title:  "Extensability- Extend Common Services"
-excerpt: "Learn how to extend Bellatrix common services."
+title:  "Extensibility- Extend Existing Elements- Child Elements"
+excerpt: "Learn how to extend Bellatrix web elements using child elements."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation
-permalink: /web-automation/extensability-extend-common-services/
+permalink: /web-automation/extensibility-extend-existing-elements-child-elements/
 anchors:
   example: Example
   explanations: Explanations
@@ -14,13 +14,12 @@ Example
 ```csharp
 [TestClass]
 [Browser(BrowserType.Firefox, BrowserBehavior.RestartEveryTime)]
-public class ExtendExistingCommonServicesTests : WebTest
+public class ExtendExistingElementWithChildElementsTests : WebTest
 {
     [TestMethod]
-    [Ignore]
     public void PurchaseRocket()
     {
-        App.NavigationService.NavigateViaJavaScript("http://demos.bellatrix.solutions/");
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
         Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
         Anchor protonMReadMoreButton = 
@@ -33,9 +32,11 @@ public class ExtendExistingCommonServicesTests : WebTest
         Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
         Number quantityBox = App.ElementCreateService.CreateByClassContaining<Number>("input-text qty text");
         Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
-        Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart").ToBeClickable();
-        Button proceedToCheckout = 
-        App.ElementCreateService.CreateByClassContaining<Button>("checkout-button button alt wc-forward");
+        Button updateCart = 
+        App.ElementCreateService.CreateByValueContaining<Button>("Update cart").ToBeClickable();
+
+        ExtendedButton proceedToCheckout = 
+        App.ElementCreateService.CreateByClassContaining<ExtendedButton>("checkout alt wc-forward");
         Heading billingDetailsHeading = 
         App.ElementCreateService.CreateByInnerTextContaining<Heading>("Billing details");
         Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
@@ -52,7 +53,6 @@ public class ExtendExistingCommonServicesTests : WebTest
         messageAlert.EnsureInnerTextIs("Coupon code applied successfully.");
         quantityBox.SetNumber(0);
         quantityBox.SetNumber(2);
-
         updateCart.Click();
 
         totalSpan.EnsureInnerTextIs("95.00€", 15000);
@@ -66,43 +66,29 @@ public class ExtendExistingCommonServicesTests : WebTest
 Explanations
 ------------
 ```csharp
-public static class NavigationServiceExtensions
+public class ExtendedButton : Button
 {
-    public static void NavigateViaJavaScript(this NavigationService navigationService, string url)
+    public void SubmitButtonWithEnter()
     {
-        var javaScriptService = new JavaScriptService();
-
-        if (!navigationService.IsUrlValid(url))
-        {
-            throw new ArgumentException($"The specified URL- {url} is not in a valid format!");
-        }
-
-        javaScriptService.Execute($"window.location.href = '{url}';");
+        var action = new Actions(WrappedDriver);
+        action.MoveToElement(WrappedElement).SendKeys(Keys.Enter).Perform();
     }
 
-    public static bool IsUrlValid(this NavigationService navigationService, string url)
+    public void JavaScriptFocus()
     {
-        bool result = Uri.TryCreate(url, UriKind.Absolute, out var uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
-
-        return result;
+        JavaScriptService.Execute("window.focus();");
+        JavaScriptService.Execute("arguments[0].focus();", this);
     }
 }
 ```
-One way to extend the Bellatrix common services is to create an extension method for the additional action.
-1. Place it in a static class like this one.
-2. Create a static method for the action.
-3. Pass the common service as a parameter with the keyword 'this'.
-4. Access the native driver via WrappedDriver.
-
-Later to use the method in your tests, add a using statement containing this class's namespace.
+The second way of extending an existing element is to create a child element. Inherit the element you want to extend. In this case, two methods are added to the standard Button element. Next in your tests, use the ExtendedButton instead of regular Button to have access to these methods.
+The same strategy can be used to create a completely new element that Bellatrix does not provide. You need to extend the 'Element' as a base class.
 ```csharp
-using Bellatrix.Web.GettingStarted.Advanced.Elements.Extension.Methods;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace Bellatrix.Web.GettingStarted
+ ExtendedButton proceedToCheckout = 
+ App.ElementCreateService.CreateByClassContaining<ExtendedButton>("checkout-button button alt wc-forward");
 ```
-To use the additional method you created, add a using statement to the extension methods' namespace.
+Instead of the regular button, we create the ExtendedButton, this way we can use its new methods.
 ```csharp
-App.NavigationService.NavigateViaJavaScript("http://demos.bellatrix.solutions/");
+proceedToCheckout.SubmitButtonWithEnter();
 ```
-Use newly added navigation though JavaScript which is not part of the original implementation of the common service.
+Use the new custom method provided by the ExtendedButton class.

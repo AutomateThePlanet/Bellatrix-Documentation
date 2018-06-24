@@ -1,10 +1,10 @@
 ---
 layout: default
-title:  "Extensability- Override Locally Element Actions"
-excerpt: "Learn how to override temporary some desktop elements actions/properties."
-date:   2018-02-20 06:50:17 +0200
-parent: desktop-automation
-permalink: /desktop-automation/extensability-override-locally-element-actions/
+title:  "Extensibility- Override Globally Element Actions"
+excerpt: "Learn how to override some web elements actions/properties for the whole tests execution."
+date:   2018-06-23 06:50:17 +0200
+parent: web-automation
+permalink: /web-automation/extensibility-override-globally-element-actions/
 anchors:
   example: Example
   explanations: Explanations
@@ -14,24 +14,32 @@ Example
 ```csharp
 [TestClass]
 [Browser(BrowserType.Firefox, BrowserBehavior.RestartEveryTime)]
-public class OverrideLocallyElementActionsTests : WebTest
+public class OverrideGloballyElementActionsTests : WebTest
 {
-    [TestMethod]
-    public void PurchaseRocketWithGloballyOverridenMethods()
+    public override void TestsArrange()
     {
-        Button.OverrideClickLocally = (e) =>
+        Button.OverrideClickGlobally = (e) =>
         {
             e.ToExists().ToBeClickable().WaitToBe();
             App.JavaScriptService.Execute("arguments[0].click();", e);
         };
 
-        Anchor.OverrideFocusLocally = CustomFocus;
+        Anchor.OverrideFocusGlobally = CustomFocus;
+    }
 
+    private void CustomFocus(Anchor anchor)
+    {
+        App.JavaScriptService.Execute("window.focus();");
+        App.JavaScriptService.Execute("arguments[0].focus();", anchor);
+    }
+
+    [TestMethod]
+    public void PurchaseRocketWithGloballyOverridenMethods()
+    {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
         Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = 
-        App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
+        Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
         Anchor addToCartFalcon9 = 
         App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
         Anchor viewCartButton = 
@@ -67,28 +75,22 @@ public class OverrideLocallyElementActionsTests : WebTest
         proceedToCheckout.Click();
         billingDetailsHeading.ToBeVisible().WaitToBe();
     }
-
-    private void CustomFocus(Anchor anchor)
-    {
-        App.JavaScriptService.Execute("window.focus();");
-        App.JavaScriptService.Execute("arguments[0].focus();", anchor);
-    }
 }
 ```
 
 Explanations
 ------------
-Extendability and customisation are one of the biggest advantages of Bellatrix. So, each Bellatrix web control gives you the possibility to override its behaviour locally for current test only. You need to initialise the static delegates- **Override{MethodName}Locally**. This may be useful to make a temporary fix only for certain page where the default behaviour is not working as expected.
+Extensibility and customisation are one of the biggest advantages of Bellatrix. So, each Bellatrix web control gives you the possibility to override its behaviour for the whole test run. You need to initialise the static delegates- **Override{MethodName}Globally**.
 ```csharp
-Button.OverrideClickLocally = (e) =>
+Button.OverrideClickGlobally = (e) =>
 {
     e.ToExists().ToBeClickable().WaitToBe();
     App.JavaScriptService.Execute("arguments[0].click();", e);
 };
 ```
-Below we override the behaviour of the button control with an anonymous lambda function. Instead of using the default webDriverElement.Click() method, we click via JavaScript code.
+We override the behaviour of the button control with an anonymous lambda function. Instead of using the default **webDriverElement.Click()** method, we click via JavaScript code.
 ```csharp
-Anchor.OverrideFocusLocally = CustomFocus;
+Anchor.OverrideFocusGlobally = CustomFocus;
 
 private void CustomFocus(Anchor anchor)
 {
@@ -96,18 +98,16 @@ private void CustomFocus(Anchor anchor)
     App.JavaScriptService.Execute("arguments[0].focus();", anchor);
 }
 ```
-Override the anchor Focus method by assigning a local private function to the local delegate.
+Override the anchor Focus method by assigning a local private function to the global delegate.
 
-**Note**: *Keep in mind that once the control is overridden locally, after the test's execution the default behaviour is restored.*
+**Note:** *Keep in mind that once the control is overridden globally, all tests call your custom logic, the default behaviour is gone.*
 
-**Note**: *In most cases, you can call the local override in some page object, directly in the test or in the TestInit method.*
+**Note:** *Usually, we assign the control overrides in the AssemblyInitialize method which is called once for a test run.*
 
-**Note**: *The local override has precedence over the global override.*
-
-Here is a list of all local override Button delegates:
-- OverrideClickLocally
-- OverrideFocusLocally
-- OverrideHoverLocally
-- OverrideInnerTextLocally
-- OverrideIsDisabledLocally
-- OverrideValueLocally
+Here is a list of all global override **Button** delegates:
+- OverrideClickGlobally
+- OverrideFocusGlobally
+- OverrideHoverGlobally
+- OverrideInnerTextGlobally
+- OverrideIsDisabledGlobally
+- OverrideValueGlobally

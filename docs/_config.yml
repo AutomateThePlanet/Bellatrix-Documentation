@@ -115,24 +115,24 @@ navigation:
                 title: Static Analysis
             "logging":
                 title: Logging
-            "extensability-test-workflow-hooks":
-                title: Extensability- Test Workflow Hooks
-            "extensability-custom-test-workflow-plugins":
-                title: Extensability- Custom Test Workflow Plugins
-            "extensability-override-globally-element-actions":
-                title: Extensability- Override Globally Element Actions
-            "extensability-override-locally-element-actions":
-                title: Extensability- Override Locally Element Actions
-            "extensability-element-action-hooks":
-                title: Extensability- Element Action Hooks
-            "extensability-common-services-action-hooks":
-                title: Extensability- Common Services Action Hooks
-            "extensability-extend-existing-elements-extension-methods":
-                title: Extensability- Extend Elements Extension Methods
-            "extensability-extend-existing-elements-child-elements":
-                title: Extensability- Extend Elements Child Elements
-            "extensability-extend-common-services":
-                title: Extensability- Extend Common Services
+            "extensibility-test-workflow-hooks":
+                title: Extensibility- Test Workflow Hooks
+            "extensibility-custom-test-workflow-plugins":
+                title: Extensibility- Custom Test Workflow Plugins
+            "extensibility-override-globally-element-actions":
+                title: Extensibility- Override Globally Element Actions
+            "extensibility-override-locally-element-actions":
+                title: Extensibility- Override Locally Element Actions
+            "extensibility-element-action-hooks":
+                title: Extensibility- Element Action Hooks
+            "extensibility-common-services-action-hooks":
+                title: Extensibility- Common Services Action Hooks
+            "extensibility-extend-existing-elements-extension-methods":
+                title: Extensibility- Extend Elements Extension Methods
+            "extensibility-extend-existing-elements-child-elements":
+                title: Extensibility- Extend Elements Child Elements
+            "extensibility-extend-common-services":
+                title: Extensibility- Extend Common Services
             "templates":
                 title: Templates
             "folder-and-file-structure":
@@ -174,24 +174,24 @@ navigation:
                 title: Static Analysis
             "logging":
                 title: Logging
-            "extensability-test-workflow-hooks":
-                title: Extensability- Test Workflow Hooks
-            "extensability-custom-test-workflow-plugins":
-                title: Extensability- Custom Test Workflow Plugins
-            "extensability-override-globally-element-actions":
-                title: Extensability- Override Globally Element Actions
-            "extensability-override-locally-element-actions":
-                title: Extensability- Override Locally Element Actions
-            "extensability-element-action-hooks":
-                title: Extensability- Element Action Hooks
-            "extensability-common-services-action-hooks":
-                title: Extensability- Common Services Action Hooks
-            "extensability-extend-existing-elements-extension-methods":
-                title: Extensability- Extend Elements Extension Methods
-            "extensability-extend-existing-elements-child-elements":
-                title: Extensability- Extend Elements Child Elements
-            "extensability-extend-common-services":
-                title: Extensability- Extend Common Services
+            "extensibility-test-workflow-hooks":
+                title: Extensibility- Test Workflow Hooks
+            "extensibility-custom-test-workflow-plugins":
+                title: Extensibility- Custom Test Workflow Plugins
+            "extensibility-override-globally-element-actions":
+                title: Extensibility- Override Globally Element Actions
+            "extensibility-override-locally-element-actions":
+                title: Extensibility- Override Locally Element Actions
+            "extensibility-element-action-hooks":
+                title: Extensibility- Element Action Hooks
+            "extensibility-common-services-action-hooks":
+                title: Extensibility- Common Services Action Hooks
+            "extensibility-extend-existing-elements-extension-methods":
+                title: Extensibility- Extend Elements Extension Methods
+            "extensibility-extend-existing-elements-child-elements":
+                title: Extensibility- Extend Elements Child Elements
+            "extensibility-extend-common-services":
+                title: Extensibility- Extend Common Services
             "templates":
                 title: Templates
             "folder-and-file-structure":

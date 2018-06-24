@@ -1,10 +1,10 @@
 ---
 layout: default
-title:  "Extensability- Custom Test Workflow Plugins"
+title:  "Extensibility- Custom Test Workflow Plugins"
 excerpt: "Learn how to plugin your logic in Bellatrix test workflow using custom test workflow plugins."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation
-permalink: /web-automation/extensability-custom-test-workflow-plugins/
+permalink: /web-automation/extensibility-custom-test-workflow-plugins/
 anchors:
   example: Example
   explanations: Explanations
