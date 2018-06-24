@@ -12,53 +12,47 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
-[Browser(BrowserType.Firefox, BrowserBehavior.RestartEveryTime)]
-public class ExtendExistingCommonServicesTests : WebTest
+using Bellatrix.Desktop.GettingStarted.AppService.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Bellatrix.Desktop.GettingStarted
 {
-    [TestMethod]
-    [Ignore]
-    public void PurchaseRocket()
+    [TestClass]
+    [App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+    public class ExtendExistingCommonServicesTests : DesktopTest
     {
-        App.NavigationService.NavigateViaJavaScript("http://demos.bellatrix.solutions/");
+        [TestMethod]
+        public void CommonActionsWithDesktopControls_Wpf()
+        {
+            // 2. Use newly added login method which is not part of the original implementation of the common service.
+            App.AppService.LoginToApp("bellatrix", "topSecret");
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = 
-        App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-        Anchor addToCartFalcon9 = 
-        App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-        Anchor viewCartButton = 
-        App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
-        TextField couponCodeTextField = App.ElementCreateService.CreateById<TextField>("coupon_code");
-        Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
-        Number quantityBox = App.ElementCreateService.CreateByClassContaining<Number>("input-text qty text");
-        Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
-        Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart").ToBeClickable();
-        Button proceedToCheckout = 
-        App.ElementCreateService.CreateByClassContaining<Button>("checkout-button button alt wc-forward");
-        Heading billingDetailsHeading = 
-        App.ElementCreateService.CreateByInnerTextContaining<Heading>("Billing details");
-        Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
+            var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
 
-        sortDropDown.SelectByText("Sort by price: low to high");
-        protonMReadMoreButton.Hover();
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        viewCartButton.Click();
-        couponCodeTextField.SetText("happybirthday");
-        applyCouponButton.Click();
+            Assert.AreEqual(false, calendar.IsDisabled);
 
-        messageAlert.ToHasContent().ToBeVisible().WaitToBe();
-        messageAlert.EnsureInnerTextIs("Coupon code applied successfully.");
-        quantityBox.SetNumber(0);
-        quantityBox.SetNumber(2);
+            var checkBox = App.ElementCreateService.CreateByName<CheckBox>("BellaCheckBox");
 
-        updateCart.Click();
+            checkBox.Check();
 
-        totalSpan.EnsureInnerTextIs("95.00€", 15000);
+            Assert.IsTrue(checkBox.IsChecked);
 
-        proceedToCheckout.SubmitButtonWithEnter();
-        billingDetailsHeading.ToBeVisible().WaitToBe();
+            var comboBox = App.ElementCreateService.CreateByAutomationId<ComboBox>("select");
+
+            comboBox.SelectByText("Item2");
+
+            Assert.AreEqual("Item2", comboBox.InnerText);
+
+            var label = App.ElementCreateService.CreateByName<Label>("Result Label");
+
+            Assert.IsTrue(label.IsPresent);
+
+            var radioButton = App.ElementCreateService.CreateByName<RadioButton>("RadioButton");
+
+            radioButton.Click();
+
+            Assert.IsTrue(radioButton.IsChecked);
+        }
     }
 }
 ```
@@ -68,23 +62,16 @@ Explanations
 ```csharp
 public static class NavigationServiceExtensions
 {
-    public static void NavigateViaJavaScript(this NavigationService navigationService, string url)
+    public static void LoginToApp(this Services.AppService appService, string userName, string password)
     {
-        var javaScriptService = new JavaScriptService();
+        var elementCreateService = new ElementCreateService();
+        var userNameField = elementCreateService.CreateByAutomationId<TextField>("textBox");
+        var passwordField = elementCreateService.CreateByAutomationId<Password>("passwordBox");
+        var loginButton = elementCreateService.CreateByName<Button>("E Button");
 
-        if (!navigationService.IsUrlValid(url))
-        {
-            throw new ArgumentException($"The specified URL- {url} is not in a valid format!");
-        }
-
-        javaScriptService.Execute($"window.location.href = '{url}';");
-    }
-
-    public static bool IsUrlValid(this NavigationService navigationService, string url)
-    {
-        bool result = Uri.TryCreate(url, UriKind.Absolute, out var uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
-
-        return result;
+        userNameField.SetText(userName);
+        passwordField.SetPassword(password);
+        loginButton.Click();
     }
 }
 ```
@@ -96,13 +83,13 @@ One way to extend the Bellatrix common services is to create an extension method
 
 Later to use the method in your tests, add a using statement containing this class's namespace.
 ```csharp
-using Bellatrix.Web.GettingStarted.Advanced.Elements.Extension.Methods;
+using Bellatrix.Desktop.GettingStarted.AppService.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Bellatrix.Web.GettingStarted
+namespace Bellatrix.Desktop.GettingStarted
 ```
 To use the additional method you created, add a using statement to the extension methods' namespace.
 ```csharp
-App.NavigationService.NavigateViaJavaScript("http://demos.bellatrix.solutions/");
+App.AppService.LoginToApp("bellatrix", "topSecret");
 ```
-Use newly added navigation though JavaScript which is not part of the original implementation of the common service.
+Use newly added login method which is not part of the original implementation of the common service.
