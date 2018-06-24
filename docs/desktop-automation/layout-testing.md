@@ -14,171 +14,136 @@ anchors:
 Example
 -------
 ```csharp
-[Browser(BrowserType.Chrome, DesktopWindowSize._1280_1024,  BrowserBehavior.RestartEveryTime)]
-[TestClass]
-public class LayoutTestingTests : WebTest
+[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+public class LayoutTestingTests : DesktopTest
 {
     [TestMethod]
-    public void TestPageLayout()
+    public void CommonActionsWithDesktopControls_Wpf()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var button = App.ElementCreateService.CreateByName<Button>("E Button");
+        var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
+        var radioButton = App.ElementCreateService.CreateByName<RadioButton>("RadioButton");
+        var selectedRadioButton = App.ElementCreateService.CreateByName<RadioButton>("SelectedRadioButton");
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonRocketAnchor = 
-		App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/proton-rocket/");
-        Anchor protonMAnchor = 
-		App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/proton-m/");
-        Anchor saturnVAnchor = 
-		App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/saturn-v/");
-        Anchor falconHeavyAnchor = 
-		App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/falcon-heavy/");
-        Anchor falcon9Anchor = 
-		App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/falcon-9/");
-        Div saturnVRating = saturnVAnchor.CreateByClassContaining<Div>("star-rating");
+        button.AssertAboveOf(calendar);
 
-        sortDropDown.AssertAboveOf(protonRocketAnchor);
+        button.AssertAboveOf(calendar, 106);
+        button.AssertAboveOfGreaterThan(calendar, 100);
+        button.AssertAboveOfGreaterThanOrEqual(calendar, 106);
+        button.AssertAboveOfLessThan(calendar, 110);
+        button.AssertAboveOfLessThanOrEqual(calendar, 106);
 
-        sortDropDown.AssertAboveOf(protonRocketAnchor, 41);
+        button.AssertNearTopOfGreaterThan(calendar, 100);
+        button.AssertNearTopOfGreaterThanOrEqual(calendar, 106);
+        button.AssertNearTopOfLessThan(calendar, 107);
+        button.AssertNearTopOfLessThanOrEqual(calendar, 106);
 
-        sortDropDown.AssertAboveOfGreaterThan(protonRocketAnchor, 40);
-        sortDropDown.AssertAboveOfGreaterThanOrEqual(protonRocketAnchor, 41);
-        sortDropDown.AssertAboveOfLessThan(protonRocketAnchor, 50);
-        sortDropDown.AssertAboveOfLessThanOrEqual(protonRocketAnchor, 43);
+        button.AssertAboveOfApproximate(calendar, 105, percent: 10);
 
-        sortDropDown.AssertNearTopOfGreaterThan(protonRocketAnchor, 40);
-        sortDropDown.AssertNearTopOfGreaterThanOrEqual(protonRocketAnchor, 41);
-        sortDropDown.AssertNearTopOfLessThan(protonRocketAnchor, 50);
-        sortDropDown.AssertNearTopOfLessThanOrEqual(protonRocketAnchor, 43);
-
-        sortDropDown.AssertAboveOfApproximate(protonRocketAnchor, 40, percent: 10);
-
-        sortDropDown.AssertAboveOfBetween(protonRocketAnchor, 30, 50);
+        button.AssertAboveOfBetween(calendar, 100, 115);
 
         saturnVAnchor.AssertNearBottomRightOf(sortDropDown);
         sortDropDown.AssertNearTopLeftOf(saturnVAnchor);
 
-        LayoutAssert.AssertAlignedHorizontallyAll(protonRocketAnchor, protonMAnchor);
-
-        LayoutAssert.AssertAlignedHorizontallyTop(protonRocketAnchor, protonMAnchor, saturnVAnchor);
+        LayoutAssert.AssertAlignedHorizontallyAll(button, button1);
         LayoutAssert.AssertAlignedHorizontallyCentered(protonRocketAnchor, protonMAnchor, saturnVAnchor);
         LayoutAssert.AssertAlignedHorizontallyBottom(protonRocketAnchor, protonMAnchor, saturnVAnchor);
+        
+        LayoutAssert.AssertAlignedVerticallyLeft(radioButton, selectedRadioButton);
 
-        LayoutAssert.AssertAlignedVerticallyAll(falcon9Anchor, falconHeavyAnchor);
+        LayoutAssert.AssertAlignedVerticallyCentered(radioButton, selectedRadioButton);
+        LayoutAssert.AssertAlignedVerticallyRight(radioButton, selectedRadioButton);
 
-        LayoutAssert.AssertAlignedVerticallyLeft(falcon9Anchor, falconHeavyAnchor);
-        LayoutAssert.AssertAlignedVerticallyCentered(falcon9Anchor, falconHeavyAnchor);
-        LayoutAssert.AssertAlignedVerticallyRight(falcon9Anchor, falconHeavyAnchor);
+        firstNumber.AssertInsideOf(calendar);
 
-        saturnVRating.AssertInsideOf(saturnVAnchor);
-
-        saturnVRating.AssertHeightLessThan(100);
-        saturnVRating.AssertWidthBetween(50, 70);
-
-        saturnVRating.AssertInsideOf(SpecialElements.Viewport);
-        saturnVRating.AssertInsideOf(SpecialElements.Screen);
+        button.AssertHeightLessThan(100);
+        button.AssertWidthBetween(70, 80);
     }
 }
 ```
 
 Explanations
 ------------
-Layout testing is a module from Bellatrix that allows you to test the responsiveness of your website.
+Layout testing is a module from Bellatrix that allows you to test the responsiveness of your app.
 ```csharp
 using Bellatrix.Layout;
 ```
 You need to add a using statement to Bellatrix.Layout
 ```csharp
-[Browser(BrowserType.Chrome, DesktopWindowSize._1280_1024,  BrowserBehavior.RestartEveryTime)]
+[App(Constants.WpfAppPath, MobileWindowSize._360_640,  AppBehavior.RestartEveryTime)]
 ```
 ```csharp
-[Browser(BrowserType.Firefox, MobileWindowSize._360_640,  BrowserBehavior.RestartEveryTime)]
+[App(Constants.WpfAppPath, TabletWindowSize._600_1024,  AppBehavior.RestartEveryTime)]
 ```
 ```csharp
-[Browser(BrowserType.Firefox, TabletWindowSize._600_1024,  BrowserBehavior.RestartEveryTime)]
+[App(Constants.WpfAppPath, width: 600, height: 900, behavior: AppBehavior.RestartEveryTime)]
 ```
 ```csharp
-[Browser(BrowserType.Firefox, width: 600, height: 900, behavior: BrowserBehavior.RestartEveryTime)]
+[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
 ```
-After that 100 assertion extensions methods are available to you to check the exact position of your web elements. Browser attribute gives you the option to resize your browser window so that you can test the rearrangement of the web elements on your pages. To make it, even more, easier for you, we included a couple of enums containing the most popular desktop, mobile and tablet resolutions. Of course, you always have the option to set a custom size.
+After that 100 assertion extensions methods are available to you to check the exact position of your desktop elements. App attribute gives you the option to resize your browser window so that you can test the rearrangement of the elements on your screens. To make it, even more, easier for you, we included a couple of enums containing the most popular desktop, mobile and tablet resolutions. Of course, you always have the option to set a custom size.
 ```csharp
-sortDropDown.AssertAboveOf(protonRocketAnchor);
+button.AssertAboveOf(calendar);
 ```
-Depending on what you want to check, Bellatrix gives lots of options. You can test px perfect or just that some element is below another. Check that the popularity sort dropdown is above the proton rocket image.
+Depending on what you want to check, Bellatrix gives lots of options. You can test px perfect or just that some element is below another. Check that the button is above the calendar.
 ```csharp
-sortDropDown.AssertAboveOf(protonRocketAnchor, 41);
+button.AssertAboveOf(calendar, 106);
 ```
 Assert with the exact distance between them.
-
 All layout assertion methods throw LayoutAssertFailedException if the check is not successful with beatified troubleshooting message:
-########################################
+/########################################
 
-control (Name ending with orderby) should be 41 px above of control (href = /proton-rocket/) but was 42 px.
+            control (Name = E Button) should be 41 px above of control (name = calendar) but was 42 px.
 
-########################################
+/########################################
 ```csharp
-sortDropDown.AssertAboveOfGreaterThan(protonRocketAnchor, 40);
-sortDropDown.AssertAboveOfGreaterThanOrEqual(protonRocketAnchor, 41);
-sortDropDown.AssertAboveOfLessThan(protonRocketAnchor, 50);
-sortDropDown.AssertAboveOfLessThanOrEqual(protonRocketAnchor, 43);
+button.AssertAboveOfGreaterThan(calendar, 100);
+button.AssertAboveOfGreaterThanOrEqual(calendar, 106);
+button.AssertAboveOfLessThan(calendar, 110);
+button.AssertAboveOfLessThanOrEqual(calendar, 106);
 ```
 For each available method you have variations of it such as, >, >=, <, <=, between and approximate to some expected value by specified %.
 ```csharp
-sortDropDown.AssertNearTopOfGreaterThan(protonRocketAnchor, 40);
-sortDropDown.AssertNearTopOfGreaterThanOrEqual(protonRocketAnchor, 41);
-sortDropDown.AssertNearTopOfLessThan(protonRocketAnchor, 50);
-sortDropDown.AssertNearTopOfLessThanOrEqual(protonRocketAnchor, 43);
+button.AssertNearTopOfGreaterThan(calendar, 100);
+button.AssertNearTopOfGreaterThanOrEqual(calendar, 106);
+button.AssertNearTopOfLessThan(calendar, 107);
+button.AssertNearTopOfLessThanOrEqual(calendar, 106);
 ```
 All assertions have alternative names containing the word 'Near'. We added them to make your tests more readable depending on your preference.
 ```csharp
-sortDropDown.AssertAboveOfApproximate(protonRocketAnchor, 40, percent: 10);
+button.AssertAboveOfApproximate(calendar, 105, percent: 10);
 ```
 The expected distance is ~40px with 10% tolerance
 ```csharp
-sortDropDown.AssertAboveOfBetween(protonRocketAnchor, 30, 50);
+button.AssertAboveOfBetween(calendar, 100, 115);
 ```
-The expected px distance is between 30 and 50 px
+The expected px distance is between 100 and 115 px.
 ```csharp
 saturnVAnchor.AssertNearBottomRightOf(sortDropDown);
 sortDropDown.AssertNearTopLeftOf(saturnVAnchor);
 ```
-You can assert the position of elements again each other in all directions- above, below, right, left, top right, top left, below left, below right. Assert that the sort dropdown is positioned near the top right of the Saturn B link.
+You can assert the position of elements again each other in all directions- above, below, right, left, top right, top left, below left, below right.
 ```csharp
-LayoutAssert.AssertAlignedHorizontallyAll(protonRocketAnchor, protonMAnchor);
-```
-You can tests whether different web elements are aligned correctly.
-```csharp
-LayoutAssert.AssertAlignedHorizontallyTop(protonRocketAnchor, protonMAnchor, saturnVAnchor);
+LayoutAssert.AssertAlignedHorizontallyAll(button, button1);
 LayoutAssert.AssertAlignedHorizontallyCentered(protonRocketAnchor, protonMAnchor, saturnVAnchor);
 LayoutAssert.AssertAlignedHorizontallyBottom(protonRocketAnchor, protonMAnchor, saturnVAnchor);
 ```
-You can pass as many elements as you like.
+You can tests whether different elements are aligned correctly.
 ```csharp
-LayoutAssert.AssertAlignedVerticallyAll(falcon9Anchor, falconHeavyAnchor);
+LayoutAssert.AssertAlignedVerticallyLeft(radioButton, selectedRadioButton);
+LayoutAssert.AssertAlignedVerticallyCentered(radioButton, selectedRadioButton);
+LayoutAssert.AssertAlignedVerticallyRight(radioButton, selectedRadioButton);
 ```
 You can check vertical alignment as well.
 ```csharp
-LayoutAssert.AssertAlignedVerticallyLeft(falcon9Anchor, falconHeavyAnchor);
-LayoutAssert.AssertAlignedVerticallyCentered(falcon9Anchor, falconHeavyAnchor);
-LayoutAssert.AssertAlignedVerticallyRight(falcon9Anchor, falconHeavyAnchor);
+firstNumber.AssertInsideOf(calendar);
 ```
-Assert that the elements are aligned vertically only from the left side.
+You can check that some element is inside in another.
 ```csharp
-saturnVRating.AssertInsideOf(saturnVAnchor);
-```
-You can check that some element is inside in another. Assert that the rating div is present in the Saturn V anchor.
-```csharp
-saturnVRating.AssertHeightLessThan(100);
-saturnVRating.AssertWidthBetween(50, 70);
+button.AssertHeightLessThan(100);
+button.AssertWidthBetween(70, 80);
 ```
 Verify the height and width of elements.
-```csharp
-saturnVRating.AssertInsideOf(SpecialElements.Viewport);
-saturnVRating.AssertInsideOf(SpecialElements.Screen);
-```
-You can use for all layout assertions the special web elements- Viewport and Screen.
-- **Screen** - represents the whole page area inside browser even that which is not visible.
-- **Viewport** - it takes the browsers client window.
-It is useful if you want to check some fixed element on the screen which sticks to viewport even when you scroll.
 
 BDD Logging
 -----------
@@ -186,28 +151,28 @@ All layout assertion methods have full BDD logging support. Below you can find t
 
 Start Test
 Class = LayoutTestingTests Name = TestPageLayout
-Assert control (Name ending with orderby) is above of control (href = /proton-rocket/).
-Assert control (Name ending with orderby) is 42 px above of control (href = /proton-rocket/).
-Assert control (Name ending with orderby) is >40 px above of control (href = /proton-rocket/).
-Assert control (Name ending with orderby) is >=41 px above of control (href = /proton-rocket/).
-Assert control (Name ending with orderby) is <50 px above of control (href = /proton-rocket/).
-Assert control (Name ending with orderby) is <=43 px above of control (href = /proton-rocket/).
-Assert control (Name ending with orderby) is >40 px near top of control (href = /proton-rocket/).
-Assert control (Name ending with orderby) is >=41 px near top of control (href = /proton-rocket/).
-Assert control (Name ending with orderby) is <50 px near top of control (href = /proton-rocket/).
-Assert control (Name ending with orderby) is <=43 px near top of control (href = /proton-rocket/).
-Assert control (Name ending with orderby) is 40 px above of control (href = /proton-rocket/). (10% tolerance)
-Assert control (Name ending with orderby) is 30-50 px above of control (href = /proton-rocket/).
-Assert control (href = /saturn-v/) is near bottom of control (Name ending with orderby).
-Assert control (Name ending with orderby) is near right of control (href = /saturn-v/).
-Assert control (Name ending with orderby) is near top of control (href = /saturn-v/).
-Assert control (href = /saturn-v/) is near left of control (Name ending with orderby).
-Assert control (Class = star-rating) is left inside of control (href = /saturn-v/).
-Assert control (Class = star-rating) is right inside of control (href = /saturn-v/).
-Assert control (Class = star-rating) is top inside of control (href = /saturn-v/).
-Assert control (Class = star-rating) is bottom inside of control (href = /saturn-v/).
-Assert control (Class = star-rating) height is <100 px.
-Assert control (Class = star-rating) width is 50-70 px.
+Assert control (Name = Transfer Button) is above of control (automationId = calendar).
+Assert control (Name = Transfer Button) is 42 px above of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is >40 px above of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is >=41 px above of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is <50 px above of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is <=43 px above of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is >40 px near top of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is >=41 px near top of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is <50 px near top of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is <=43 px near top of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is 40 px above of control (automationId = TransferCalendar). (10% tolerance)
+Assert control (Name = Transfer Button) is 30-50 px above of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is near bottom of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is near right of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is near top of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is near left of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is left inside of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is right inside of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is top inside of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) is bottom inside of control (automationId = TransferCalendar).
+Assert control (Name = Transfer Button) height is <100 px.
+Assert control (Name = Transfer Button) width is 50-70 px.
 
 All Available Layout Assertion Methods
 --------------------------------------
