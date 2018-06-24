@@ -14,62 +14,49 @@ Example
 -------
 ```csharp
 [TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
-public class LoggingTests : WebTest
+public class CreateSimpleRequestTests : APITest
 {
     [TestMethod]
-    public void AddCustomMessagesToLog()
+    public void GetAlbumById()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var request = new RestRequest("api/Albums/10");
+        
+        var client = App.GetApiClientService();
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-        Anchor addToCartFalcon9 = App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-        Anchor viewCartButton = App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+        var response = client.Get<Albums>(request);
 
-        sortDropDown.SelectByText("Sort by price: low to high");
-        protonMReadMoreButton.Hover();
-
-        App.Logger.LogInformation("Before adding Falcon 9 rocket to cart.");
-
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        viewCartButton.Click();
+        Assert.AreEqual(10, response.Data.AlbumId);
     }
 }
 ```
 
 Explanations
 ------------
-By default, you can see the logs in the output window of each test. Also, a file called logs.txt is generated in the folder with the DLLs of your tests. If you execute your tests in CI with some CLI test runner the logs are printed there as well. **outputTemplate** - controls how the message is formatted. You can add additional info such as timestamp and much more. For more info visit- [https://github.com/serilog/serilog/wiki/Formatting-Output](https://github.com/serilog/serilog/wiki/Formatting-Output)
 ```csharp
-App.Logger.LogInformation("Before adding Falcon 9 rocket to cart.");
+[TestClass]
 ```
-Sometimes is useful to add information to the generated test log. To do it you can use the Bellatrix built-in logger through accessing it via App service.
-
-Generated Log, as you can see the above custom message is added to the log.
-
-\#\#\#\# Start Chrome on PORT = 53153
-Start Test
-Class = LoggingTests Name = AddCustomMessagesToLog
-Select 'Sort by price: low to high' from control (Name ending with orderby)
-Hover control (InnerText containing Read more)
-Before adding Falcon 9 rocket to cart.
-Focus control (data-product_id = 28)
-Click control (data-product_id = 28)
-Click control (Class = added_to_cart wc-forward)
-
-Configuration
--------------
-```json
-"logging": {
-    "isEnabled": "true",
-    "isConsoleLoggingEnabled": "true",
-    "isDebugLoggingEnabled": "true",
-    "isEventLoggingEnabled": "false",
-    "isFileLoggingEnabled": "true",
-    "outputTemplate":  "{Message:lj}{NewLine}",
-    "addUrlToBddLogging": "false"
-}
+This is the main attribute that you need to mark each class that contains MSTest tests.
+```csharp
+public class CreateSimpleRequestTests : APITest
 ```
-In the **testFrameworkSettings.json** file find a section called **logging**, responsible for controlling the logs generation. You can disable the logs entirely. There are different places where the logs are populated.
+All API Bellatrix test classes should inherit from the **APItest** base class. This way you can use all built-in Bellatrix tools and functionality.
+```csharp
+[TestMethod]
+```
+All MSTest tests should be marked with the **TestMethod** attribute.
+```csharp
+var request = new RestRequest("api/Albums/10");
+```
+The base URL of your application is set in **testFrameworkSettings.json** under **apiSettings** sections- **baseUrl**. For creating a request you need to point the second part of the URL.
+```csharp
+var client = App.GetApiClientService();
+```
+Use Bellatrix App class to get a web client instance. We use it to make requests.
+```csharp
+var response = client.Get<Albums>(request);
+```
+Use generic **Get** method to make a GET request. In the **<> **brackets we place the type of the response. Bellatrix will automatically convert the JSON or XML response to the specified type.
+```csharp
+Assert.AreEqual(10, response.Data.AlbumId);
+```
+After you have the response object, you can make all kinds of assertions.
