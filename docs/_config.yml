@@ -26,6 +26,10 @@ permalink: /:title/
 #destination: documentation 
 # Build settings
 markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
 # theme: minima
 plugins:
 
@@ -42,94 +46,191 @@ plugins:
 #   - vendor/ruby/
 navigation: 
     "overview":
-        title: Overview
-    "system-requirements":
-        title: System Requirements
-    "installation":
-        title: Installation
-    "activation":
-        title: Activation
-    "how-to-use-starter-kits":
-        title: How to Use Starter Kits?
+        title: Overview    
+    "general-information":
+        title: General Information
+        submenu:
+            "system-requirements":
+                title: System Requirements
+            "installation":
+                title: Installation
+            "activation":
+                title: Activation
+            "how-to-use-starter-kits":
+                title: How to Use Starter Kits?
     "web-automation":
         title: Web Automation
-    "control-browser":
-        title: Control Browser
-    "navigate-to-pages":
-        title: Navigate to Pages
-    "locate-elements":
-        title: Locate Elements
-    "locate-and-wait-elements":
-        title: Locate and Wait Elements
-    "wait-for-elements":
-        title: Wait for Elements
-    "browser-service":
-        title: BrowserService
-    "dialog-service":
-        title: DialogService
-    "cookies-service":
-        title: CookiesService
-    "javascript-service":
-        title: JavaScriptService
-    "common-controls":
-        title: Common Controls
-    "normal-assertions":
-        title: Normal Assertions
-    "ensure-assertions":
-        title: Ensure Assertions
-    "bdd-logging":
-        title: BDD Logging
-    "page-objects":
-        title: Page Objects
-    "layout-testing":
-        title: Layout Testing
-    "layout-testing":
-        title: Layout Testing
-    "troubleshooting-full-page-screenshots-on-fail":
-        title: Troubleshooting- Full Page Screenshots on Fail
-    "troubleshooting-video-recording":
-        title: Troubleshooting- Video Recording
-    "troubleshooting-failed-tests-analysis":
-        title: Troubleshooting- Failed Tests Analysis
-    "elements-snippets":
-        title: Elements Snippets
-    "capture-http-traffic":
-        title: Capture HTTP Traffic
-    "execute-tests-selenium-grid":
-        title: Execute Tests in Selenium Grid
-    "execute-tests-saucelabs":
-        title: Execute Tests in SauceLabs
-    "execute-tests-browserstack":
-        title: Execute Tests in BrowserStack
-    "execute-tests-crossbrowsertesting":
-        title: Execute Tests in CrossBrowserTesting
-    "add-custom-webdriver-capabilities-options":
-        title: Add Custom WebDriver Capabilities and Options
-    "static-analysis":
-        title: Static Analysis
-    "logging":
-        title: Logging
-    "extensability-test-workflow-hooks":
-        title: Extensability- Test Workflow Hooks
-    "extensability-custom-test-workflow-plugins":
-        title: Extensability- Custom Test Workflow Plugins
-    "extensability-override-globally-element-actions":
-        title: Extensability- Override Globally Element Actions
-    "extensability-override-locally-element-actions":
-        title: Extensability- Override Locally Element Actions
-    "extensability-element-action-hooks":
-        title: Extensability- Element Action Hooks
-    "extensability-common-services-action-hooks":
-        title: Extensability- Common Services Action Hooks
-    "extensability-extend-existing-elements-extension-methods":
-        title: Extensability- Extend Elements Extension Methods
-    "extensability-extend-existing-elements-child-elements":
-        title: Extensability- Extend Elements Child Elements
-    "extensability-extend-common-services":
-        title: Extensability- Extend Common Services
-    "templates":
-        title: Templates
-    "folder-and-file-structure":
-        title: Folder and File Structure
-        
+        submenu:
+            "control-browser":
+                title: Control Browser
+            "navigate-to-pages":
+                title: Navigate to Pages
+            "locate-elements":
+                title: Locate Elements
+            "locate-and-wait-elements":
+                title: Locate and Wait Elements
+            "wait-for-elements":
+                title: Wait for Elements
+            "browser-service":
+                title: BrowserService
+            "dialog-service":
+                title: DialogService
+            "cookies-service":
+                title: CookiesService
+            "javascript-service":
+                title: JavaScriptService
+            "common-controls":
+                title: Common Controls
+            "normal-assertions":
+                title: Normal Assertions
+            "ensure-assertions":
+                title: Ensure Assertions
+            "bdd-logging":
+                title: BDD Logging
+            "page-objects":
+                title: Page Objects
+            "layout-testing":
+                title: Layout Testing
+            "troubleshooting-full-page-screenshots-on-fail":
+                title: Troubleshooting- Full Page Screenshots on Fail
+            "troubleshooting-video-recording":
+                title: Troubleshooting- Video Recording
+            "troubleshooting-failed-tests-analysis":
+                title: Troubleshooting- Failed Tests Analysis
+            "elements-snippets":
+                title: Elements Snippets
+            "capture-http-traffic":
+                title: Capture HTTP Traffic
+            "execute-tests-selenium-grid":
+                title: Execute Tests in Selenium Grid
+            "execute-tests-saucelabs":
+                title: Execute Tests in SauceLabs
+            "execute-tests-browserstack":
+                title: Execute Tests in BrowserStack
+            "execute-tests-crossbrowsertesting":
+                title: Execute Tests in CrossBrowserTesting
+            "add-custom-webdriver-capabilities-options":
+                title: Add Custom WebDriver Capabilities and Options
+            "static-analysis":
+                title: Static Analysis
+            "logging":
+                title: Logging
+            "extensibility-test-workflow-hooks":
+                title: Extensibility- Test Workflow Hooks
+            "extensibility-custom-test-workflow-plugins":
+                title: Extensibility- Custom Test Workflow Plugins
+            "extensibility-override-globally-element-actions":
+                title: Extensibility- Override Globally Element Actions
+            "extensibility-override-locally-element-actions":
+                title: Extensibility- Override Locally Element Actions
+            "extensibility-element-action-hooks":
+                title: Extensibility- Element Action Hooks
+            "extensibility-common-services-action-hooks":
+                title: Extensibility- Common Services Action Hooks
+            "extensibility-extend-existing-elements-extension-methods":
+                title: Extensibility- Extend Elements Extension Methods
+            "extensibility-extend-existing-elements-child-elements":
+                title: Extensibility- Extend Elements Child Elements
+            "extensibility-extend-common-services":
+                title: Extensibility- Extend Common Services
+            "templates":
+                title: Templates
+            "folder-and-file-structure":
+                title: Folder and File Structure
+    "desktop-automation":
+        title: Desktop Automation
+        submenu:
+            "control-app":
+                title: Control App
+            "locate-elements":
+                title: Locate Elements
+            "locate-and-wait-elements":
+                title: Locate and Wait Elements
+            "wait-for-elements":
+                title: Wait for Elements
+            "app-service":
+                title: AppService
+            "common-controls":
+                title: Common Controls
+            "normal-assertions":
+                title: Normal Assertions
+            "ensure-assertions":
+                title: Ensure Assertions
+            "bdd-logging":
+                title: BDD Logging
+            "page-objects":
+                title: Page Objects
+            "layout-testing":
+                title: Layout Testing
+            "troubleshooting-screenshots-on-fail":
+                title: Troubleshooting- Screenshots on Fail
+            "troubleshooting-video-recording":
+                title: Troubleshooting- Video Recording
+            "elements-snippets":
+                title: Elements Snippets
+            "add-custom-webdriver-capabilities":
+                title: Add Custom WebDriver Capabilities
+            "static-analysis":
+                title: Static Analysis
+            "logging":
+                title: Logging
+            "extensibility-test-workflow-hooks":
+                title: Extensibility- Test Workflow Hooks
+            "extensibility-custom-test-workflow-plugins":
+                title: Extensibility- Custom Test Workflow Plugins
+            "extensibility-override-globally-element-actions":
+                title: Extensibility- Override Globally Element Actions
+            "extensibility-override-locally-element-actions":
+                title: Extensibility- Override Locally Element Actions
+            "extensibility-element-action-hooks":
+                title: Extensibility- Element Action Hooks
+            "extensibility-common-services-action-hooks":
+                title: Extensibility- Common Services Action Hooks
+            "extensibility-extend-existing-elements-extension-methods":
+                title: Extensibility- Extend Elements Extension Methods
+            "extensibility-extend-existing-elements-child-elements":
+                title: Extensibility- Extend Elements Child Elements
+            "extensibility-extend-common-services":
+                title: Extensibility- Extend Common Services
+            "templates":
+                title: Templates
+            "folder-and-file-structure":
+                title: Folder and File Structure
+    "api-automation":
+        title: API Automation
+        submenu:
+            "create-simple-get-request":
+                title: Create Simple Get Request
+            "all-request-types":
+                title: All Request Types
+            "assertions":
+                title: Assertions
+            "bdd-logging":
+                title: BDD Logging
+            "authentication":
+                title: Authentication
+            "retry-failed-requests":
+                title: Retry Failed Requests
+            "validate-json-and-xml-schema":
+                title: Validate JSON and XML Schema
+            "static-analysis":
+                title: Static Analysis
+            "logging":
+                title: Logging
+            "extensibility-test-workflow-hooks":
+                title: Extensibility- Test Workflow Hooks
+            "extensibility-custom-test-workflow-plugins":
+                title: Extensibility- Custom Test Workflow Plugins
+            "extensibility-api-client-hooks":
+                title: Extensibility- API Client Hooks
+            "extensibility-assertion-hooks":
+                title: Extensibility- Assertion Hooks
+            "load-testing":
+                title: Load Testing
+            "measure-response-times":
+                title: Measure Response Times
+            "templates":
+                title: Templates
+            "folder-and-file-structure":
+                title: Folder and File Structure    
         

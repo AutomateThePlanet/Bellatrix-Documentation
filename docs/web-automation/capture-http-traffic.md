@@ -1,29 +1,136 @@
 ---
 layout: default
 title:  "Capture HTTP Traffic"
-feature-title: "Web Automation"
 excerpt: "Learn to capture HTTP traffic and make assertions using Bellatrix."
-date:   2018-02-20 06:50:17 +0200
-permalink: /capture-http-traffic/
+date:   2018-06-23 06:50:17 +0200
+parent: web-automation
+permalink: /web-automation/capture-http-traffic/
 anchors:
-  meissa-test-agent-mode: Test Agent
-  meissa-test-runner-mode: Meissa Test Runner Mode
+  example: Example
+  explanations: Explanations
+  configuration: Configuration
 ---
-![High Overview](https://i.imgur.com/dqJlM0f.png)
+Example
+-------
+```csharp
+[TestClass]
+[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime, shouldCaptureHttpTraffic: true)]
+public class CaptureHttpTrafficTests : WebTest
+{
+    [TestMethod]
+    public void CaptureTrafficTests()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-We have many moving parts- server, test agents, runner and so on. All of them use single command-line-interface; there are no separate installers or executables.
-First, we need to start the server. Its job is to synchronise the work between the runner and all agents. The first time we start it, a portable SQLite database is created. There are stored various kind of information, such as tests execution times, test output files, logs, exceptions, etc. The web service is self-hosted using the ASPNET.Core portable web server- Kestrel. All agents and runners communicate with the server via HTTP. 
-## Meissa Test Agent Mode ##
-![Test Agent Internal](https://i.imgur.com/6WtrVMN.png)
-When you start a test agent, it registers itself as active. Then, it continuously asks the server whether there are scheduled test agent runs to be executed on the machine.
-Then the so-called extensibility points plugins are loaded. They offer a way to plug in your logic at various points of the execution pipeline of Meissa runner and test agents. For example- run code before, after a test run or on abortion. At this point, the code from all plugins will be executed before proceeding. Then the specific test technology plugins are loaded. Based on the parallel options, the agent creates multiple tests batches. Then it starts and waits to finish all the processes.
-## Meissa Test Runner Mode ##
-![Test Runner Internal](https://i.imgur.com/O5h80ge.png)
-The test runner doesn’t have a local database. Because of that, it requires the server to be up all the time; otherwise, it cannot function properly.
-First, the so-called extensibility points plugins are loaded. At this point, the code from all plugins will be executed before proceeding. Then the test technology plugin is loaded.
-Using it the runner gets all active test agents from the API. After that it uses some logic from the plugins to extract and filter the test cases from the tests files. Based on the available test agents, it distributes the tests on each of them. It zips the test output files and sends them to the server, so each agent can download them before tests execution.
-The second part of the run is to wait for all test agents to finish. At the same time, a parallel process is started where the runner continually checks whether there are new messages to be printed sent by the agents. Also, one more thread is triggered that the runner verifies its health and one more for agents’ ones . If some of the agents don’t confirm its health on time, the test run is aborted. 
-At the end of the process, it merges all test results into a single file and completes the run.
-After all, processes finish the results files are merged. 
-If Meissa retry option is turned-on and there are any failed tests the whole procedure is repeated for them. At the end of the retry cycle, the test results are updated if any of the tests succeeded. 
-After this important step, the agent saves the merged results and completes the test agent run. After that, it waits for the test run to finish before starting to wait for new jobs.
+        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
+        Anchor protonMReadMoreButton = 
+		App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
+        Anchor addToCartFalcon9 = 
+        App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
+        Anchor viewCartButton = 
+		App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+
+        sortDropDown.SelectByText("Sort by price: low to high");
+        protonMReadMoreButton.Hover();
+        addToCartFalcon9.Focus();
+        addToCartFalcon9.Click();
+        viewCartButton.Click();
+
+        App.ProxyService.AssertNoErrorCodes();
+
+        App.ProxyService.AssertNoLargeImagesRequested();
+
+        App.ProxyService.AssertRequestMade("http://demos.bellatrix.solutions/favicon.ico");
+    }
+
+    [TestMethod]
+    public void RedirectRequestsTest()
+    {
+        App.ProxyService.SetUrlToBeRedirectedTo(
+		"http://demos.bellatrix.solutions/favicon.ico", 
+		"https://www.automatetheplanet.com/wp-content/uploads/2016/12/logo.svg");
+
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+
+        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
+        Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
+        Anchor addToCartFalcon9 = 
+		App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
+        Anchor viewCartButton = 
+		App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+
+        sortDropDown.SelectByText("Sort by price: low to high");
+        protonMReadMoreButton.Hover();
+        addToCartFalcon9.Focus();
+        addToCartFalcon9.Click();
+        viewCartButton.Click();
+    }
+
+    [TestMethod]
+    public void BlockRequestsTest()
+    {
+        App.ProxyService.SetUrlToBeBlocked("http://demos.bellatrix.solutions/favicon.ico");
+
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+
+        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
+        Anchor protonMReadMoreButton = 
+		App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
+        Anchor addToCartFalcon9 = 
+		App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
+        Anchor viewCartButton = 
+		App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+
+        sortDropDown.SelectByText("Sort by price: low to high");
+        protonMReadMoreButton.Hover();
+        addToCartFalcon9.Focus();
+        addToCartFalcon9.Click();
+        viewCartButton.Click();
+
+        App.ProxyService.AssertRequestNotMade("http://demos.bellatrix.solutions/welcome");
+    }
+}
+```
+
+Explanations
+------------
+Capture HTTP traffic is one of the most requested features for WebDriver. However by design WebDriver does not include such feature. Happily, for you, we added it to Bellatrix.
+```csharp
+[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime, shouldCaptureHttpTraffic: true)]
+```
+By default, the proxy is not used in your tests even if it is enabled. You need to set the shouldCaptureHttpTraffic to true in the **Browser** attribute. After that, each request and response made by the browser is captured, and you have the option to modify it or make assertions against it.
+```csharp
+App.ProxyService.AssertNoErrorCodes();
+```
+You can access the proxy through the Bellatrix **App** service. The proxy service includes several useful assert methods. The first one asserts that no error codes are present in the requests. This way we can catch problems with not loaded images or CSS files.
+```csharp
+App.ProxyService.AssertNoLargeImagesRequested();
+```
+Make sure that our images size is optimised.
+```csharp
+App.ProxyService.AssertRequestMade("http://demos.bellatrix.solutions/favicon.ico");
+```
+Check if some specific request is made.
+```csharp
+App.ProxyService.SetUrlToBeRedirectedTo(
+		"http://demos.bellatrix.solutions/favicon.ico", 
+		"https://www.automatetheplanet.com/wp-content/uploads/2016/12/logo.svg");
+```
+You can set various URLs to be redirected. This is useful if you do not have access to production code and want to use a mock service instead.
+```csharp
+App.ProxyService.SetUrlToBeBlocked("http://demos.bellatrix.solutions/favicon.ico");
+```
+To make web pages load faster, you can block some not required services- for example analytics scripts, you do not need them in test environments.
+```csharp
+App.ProxyService.AssertRequestNotMade("http://demos.bellatrix.solutions/welcome");
+```
+Check that no request is made to specific URL.
+
+Configuration
+-------------
+```json
+"webProxySettings": {
+     "isEnabled": "true"
+}
+```
+To turn it on you need to **testFrameworkSettings.json** file and set the isEnabled to true.

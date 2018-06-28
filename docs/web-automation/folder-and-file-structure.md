@@ -1,29 +1,84 @@
 ---
 layout: default
 title:  "Folder and File Structure"
-feature-title: "Web Automation"
 excerpt: "Learn what each Bellatrix project templates includes."
 date:   2018-02-20 06:50:17 +0200
-permalink: /folder-and-file-structure/
+parent: web-automation
+permalink: /web-automation/folder-and-file-structure/
 anchors:
-  meissa-test-agent-mode: Test Agent
-  meissa-test-runner-mode: Meissa Test Runner Mode
+  nuget-dependencies: NuGet Dependencies
+  editorconfig: EditorConfig
+  stylecop: StyleCop
+  test-framework-settings: Test Framework Settings
+  testsinitialize: TestsInitialize
+  categories: Categories
 ---
-![High Overview](https://i.imgur.com/dqJlM0f.png)
+Overview
+--------
+Find detailed information about what each empty project contains or should contain if you wish to create it manually.
 
-We have many moving parts- server, test agents, runner and so on. All of them use single command-line-interface; there are no separate installers or executables.
-First, we need to start the server. Its job is to synchronise the work between the runner and all agents. The first time we start it, a portable SQLite database is created. There are stored various kind of information, such as tests execution times, test output files, logs, exceptions, etc. The web service is self-hosted using the ASPNET.Core portable web server- Kestrel. All agents and runners communicate with the server via HTTP. 
-## Meissa Test Agent Mode ##
-![Test Agent Internal](https://i.imgur.com/6WtrVMN.png)
-When you start a test agent, it registers itself as active. Then, it continuously asks the server whether there are scheduled test agent runs to be executed on the machine.
-Then the so-called extensibility points plugins are loaded. They offer a way to plug in your logic at various points of the execution pipeline of Meissa runner and test agents. For example- run code before, after a test run or on abortion. At this point, the code from all plugins will be executed before proceeding. Then the specific test technology plugins are loaded. Based on the parallel options, the agent creates multiple tests batches. Then it starts and waits to finish all the processes.
-## Meissa Test Runner Mode ##
-![Test Runner Internal](https://i.imgur.com/O5h80ge.png)
-The test runner doesn’t have a local database. Because of that, it requires the server to be up all the time; otherwise, it cannot function properly.
-First, the so-called extensibility points plugins are loaded. At this point, the code from all plugins will be executed before proceeding. Then the test technology plugin is loaded.
-Using it the runner gets all active test agents from the API. After that it uses some logic from the plugins to extract and filter the test cases from the tests files. Based on the available test agents, it distributes the tests on each of them. It zips the test output files and sends them to the server, so each agent can download them before tests execution.
-The second part of the run is to wait for all test agents to finish. At the same time, a parallel process is started where the runner continually checks whether there are new messages to be printed sent by the agents. Also, one more thread is triggered that the runner verifies its health and one more for agents’ ones . If some of the agents don’t confirm its health on time, the test run is aborted. 
-At the end of the process, it merges all test results into a single file and completes the run.
-After all, processes finish the results files are merged. 
-If Meissa retry option is turned-on and there are any failed tests the whole procedure is repeated for them. At the end of the retry cycle, the test results are updated if any of the tests succeeded. 
-After this important step, the agent saves the merged results and completes the test agent run. After that, it waits for the test run to finish before starting to wait for new jobs.
+NuGet Dependencies
+------------------
+```
+<PackageReference Include="Bellatrix.Web.Chrome.Win32" Version="1.1.0.2380" />        
+<PackageReference Include="Bellatrix.Web.Firefox.Win64" Version="1.1.0.200" />
+<PackageReference Include="Bellatrix.Web.Opera.Win64" Version="1.1.0.236" />
+<PackageReference Include="Bellatrix.Web.Edge" Version="1.1.0.6299" />
+<PackageReference Include="Bellatrix.Web.InternetExplorer" Version="1.1.0.3120" />
+<PackageReference Include="Bellatrix.Web.MSTest" Version="1.1.0.16" />
+
+<PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
+<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
+<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
+<PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
+<PackageReference Include="MSTest.TestAdapter" Version="1.3.0" />
+<PackageReference Include="MSTest.TestFramework" Version="1.3.0" />
+<PackageReference Include="System.Security.Permissions" Version="4.4.1" />
+<PackageReference Include="Unity" Version="5.8.6" />
+<PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004"/>
+```
+As you can see the most important package that you need is **Bellatrix.Web.MSTest**, it depends on all below packages. This is the bare minimum.  Next you need to install the Bellatrix browser NuGets. Each of them brings the correct version of WebDriver for the specific platform. This way you can install the version you like depending on your needs, making possible to use the latest version of Chrome but have 2 versions old Firefox.
+We reference Microsoft configuration packages so that we can work with configuration files where the different framework settings are placed.
+**Microsoft.NET.Test.Sdk**, **MSTest.TestAdapter**,** MSTest.TestFramework** are prerequisites so that you can execute MSTest framework tests.
+Also, we use Unity inversion of control container inside Bellatrix for many things.  You will not be able to use it directly, but there are a couple of ways that you will use it in your code for some more complex scenarios.
+Lastly, we install StyleCop.Analyzers, we use it to enforce coding standards in the tests code.
+
+EditorConfig
+------------
+**EditorConfig** helps developers define and maintain consistent coding styles between different editors and IDEs. The **EditorConfig** project consists of a file format for defining coding styles and a collection of text editor plugins that enable editors to read the file format and adhere to defined styles. **EditorConfig** files are easily readable, and they work nicely with version control systems. You can override the global Visual Studio settings through a **.editorconfig **file placed on solution level. All projects come with a predefined set of this rules that we advise you to use. You can always change them to follow your company's global coding standards.
+
+**.editorconfig** You can read more about it [here](https://automatetheplanet.com/coding-styles-editorconfig/).
+
+
+**Note**: *The version may vary if you install the template now.*
+
+StyleCop
+--------
+**StyleCop** is an open source static code analysis tool from Microsoft that checks C# code for conformance to **StyleCop**'s recommended coding styles and a subset of Microsoft's .NET Framework Design Guidelines.
+The **StyleCopAnalyzers** open source project is similar to **EditorConfig**. It integrates with all versions of Visual Studio. It contains set of style and consistency rules. The code is checked on a build. If some of the rules are violated warning messaged are displayed. This way you can quickly locate the problems and fix them.
+
+You can find more detailed information [here](https://automatetheplanet.com/style-consistency-rules-stylecop/).
+
+All projects come with predefined StyleCop rules:
+- stylecop.json
+- StyleCopeRules.ruleset
+
+**Note**: *You can reuse both .editorconfig and StyleCop files. Place them in a folder inside your solution and change their paths inside your projects' MSBuild files. As with .editorconfig, you can change the predefined rules to fit your company's standards.*
+
+Test Framework Settings
+-----------------------
+There are three files **testFrameworkSettings**. They are JSON files. These are the main settings files for .NET Core and .NET Standard libraries. Depending on your build configuration the different files are used. For example, if you run your tests in Debug the **testFrameworkSettings.Debug.json** file is used.
+
+**Note**: *There isn't a way as in .NET Framework to reuse the content, so if you want to make changes you need to do it in each file separately. *
+
+There is a separate more detailed section in the guide describing how to use the configuration files.
+
+TestsInitialize
+---------------
+This is the entry point for all tests. The methods here are executed only once per tests execution. You need it to start and stop some Bellatrix services that you can use in your tests.
+
+**Note**: *There are separate sections describing in more details the **WebTest** base class and the **App** class.*
+
+Categories
+----------
+Contains constants that we use to mark our tests for easier filtering.

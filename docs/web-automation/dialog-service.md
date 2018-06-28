@@ -1,17 +1,17 @@
 ---
 layout: default
 title:  "DialogService"
-feature-title: "Web Automation"
 excerpt: "Learn how to use Bellatrix DialogService."
 date:   2018-06-22 06:50:17 +0200
-permalink: /dialog-service/
+parent: web-automation
+permalink: /web-automation/dialog-service/
 anchors:
   example: Example
   explanations: Explanations
 ---
 Example
 -------
-```
+```csharp
 [TestClass]
 [Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
 public class DialogServiceTests : WebTest
@@ -51,18 +51,19 @@ public class DialogServiceTests : WebTest
     }
 }
 ```
+
 Explanations
 ------------
 Bellatrix gives you some methods for handling dialogs.
-```
+```csharp
 App.DialogService.Handle();
 ```
 You can click on the OK button and handle the alert.
-```
+```csharp
 App.DialogService.Handle((a) => Assert.AreEqual("Try the coupon- happybirthday", a.Text));
 ```
 You can pass an anonymous lambda function and do something with the alert.
-```
+```csharp
 App.DialogService.Handle(dialogButton: DialogButton.Cancel);
 ```
 You can tell the dialog service to click a different button.

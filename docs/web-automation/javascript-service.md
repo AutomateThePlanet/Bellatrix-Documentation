@@ -1,17 +1,17 @@
 ---
 layout: default
 title:  "JavaScriptService"
-feature-title: "Web Automation"
 excerpt: "Learn how to use Bellatrix JavaScriptService."
 date:   2018-06-22 06:50:17 +0200
-permalink: /javascript-service/
+parent: web-automation
+permalink: /web-automation/javascript-service/
 anchors:
   example: Example
   explanations: Explanations
 ---
 Example
 -------
-```
+```csharp
 [TestClass]
 [Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
 public class JavaScriptServiceTests : WebTest
@@ -43,18 +43,19 @@ public class JavaScriptServiceTests : WebTest
     }
 }
 ```
+
 Explanations
 ------------
 Bellatrix gives you an interface for easier execution of JavaScript code using the JavaScriptService. You need to make sure that you have navigated to the desired web page.
-```
+```csharp
 App.JavaScriptService.Execute("document.getElementById('username').value = 'Bellatrix';"); 
 ```
 Execute a JavaScript code on the page. Here we find an element with id = 'firstName' and sets its value to 'Bellatrix'.
-```
+```csharp
 App.JavaScriptService.Execute("arguments[0].click();", button);
 ```
 It is possible to pass an element, and the script executes on it.
-```
+```csharp
 string fontSize = App.JavaScriptService.Execute("return arguments[0].style.font-size", resultsCount.WrappedElement);
 ```
 Get the results from a script. After that, get the value for a specific style and assert it.

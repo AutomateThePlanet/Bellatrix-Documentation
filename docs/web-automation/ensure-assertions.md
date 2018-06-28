@@ -1,17 +1,17 @@
 ---
 layout: default
 title:  "Ensure Assertions"
-feature-title: "Web Automation"
 excerpt: "Learn how to use Bellatrix ensure assertion methods."
 date:   2018-06-22 06:50:17 +0200
-permalink: /ensure-assertions/
+parent: web-automation
+permalink: /web-automation/ensure-assertions/
 anchors:
   example: Example
   explanations: Explanations
 ---
 Example
 -------
-```
+```csharp
 [TestMethod]
 public void AssertEnsureCartPageFields()
 {
@@ -40,9 +40,10 @@ public void AssertEnsureCartPageFields()
     totalSpan.EnsureInnerTextIs("120.00€", timeout: 30, sleepInterval: 2);
 }
 ```
+
 Explanations
 ------------
-```
+```csharp
 // Assert.AreEqual("Coupon code ", couponCodeTextField.Placeholder);
 couponCodeTextField.EnsurePlaceholderIs("Coupon code");
 ```
@@ -52,7 +53,7 @@ If the commented assertion fails the following message is displayed:
 "*Message: Assert.AreEqual failed. Expected:<Coupon code >. Actual:<Coupon code>.*"
 You can guess what happened, but you do not have information which element failed and on which page. If we use the Ensure extension methods, Bellatrix waits some time for the condition to pass. After this period if it is not successful, a beatified meaningful exception message is displayed:
 "*The control's placeholder should be 'Coupon code ' but was 'Coupon code'. The test failed on URL: http://demos.bellatrix.solutions/cart/*"
-```
+```csharp
 Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
 
 // Assert.IsTrue(applyCouponButton.IsPresent);
@@ -62,17 +63,17 @@ applyCouponButton.EnsureIsVisible();
 Assert that the apply coupon button exists and is visible on the page. On fail the following message is displayed: "*Message: Assert.IsTrue failed.*" Cannot learn much about what happened.
 Now if we use the **EnsureIsVisible** method and the check does not succeed the following error message is displayed: "*The control should be visible but was NOT. The test failed on URL: http://demos.bellatrix.solutions/cart/*" 
 To all exception messages, the current URL is displayed, which improves the troubleshooting.
-```
+```csharp
 Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
 messageAlert.EnsureIsNotVisible();
 ```
 Since there are no validation errors, verify that the message div is not visible.
-```
+```csharp
 Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart");
 updateCart.EnsureIsDisabled();
 ```
 No changes are made to the added products so the update cart button should be disabled.
-```
+```csharp
 Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
 totalSpan.EnsureInnerTextIs("120.00€", timeout: 30, sleepInterval: 2);
 ```
