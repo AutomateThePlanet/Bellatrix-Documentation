@@ -6,12 +6,11 @@ date:   2018-02-20 06:50:17 +0200
 parent: /general-information
 permalink: /overview/
 anchors:
-  overview: Overview
-  explanations: Explanations
+  about-bellatrix: Bellatrix is Web Desktop and API Test Automated Framework. 
+  meissa-test-runner: Meissa Test Runner
 ---
-Overview
+Bellatrix is Web Desktop and API Test Automated Framework. 
 --------
-Bellatrix is advance and innovative web desktop and API test automated framework. 
 
 ![Bellatrix](http://stage.bellatrix.solutions/content/uploads/Bellatrix_illustration_White-1.png)
 
