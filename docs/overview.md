@@ -6,7 +6,7 @@ date:   2018-02-20 06:50:17 +0200
 parent: /general-information
 permalink: /overview/
 anchors:
-  about-bellatrix: Bellatrix is Web Desktop and API Test Automated Framework. 
+  bellatrix-is-web-desktop-and-api-test-automated-framework: About Bellatrix
   meissa-test-runner: Meissa Test Runner
 ---
 Bellatrix is Web Desktop and API Test Automated Framework. 
