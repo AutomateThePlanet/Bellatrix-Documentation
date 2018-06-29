@@ -123,7 +123,7 @@ There cases when you need to show your colleagues or managers what tests do you 
 
 After the tests are executed the following log is created:
 
-Start Test
+>Start Test
 Class = BDDLoggingTests Name = ContentPopulated_When_GetAlbums
 Making GET request against resource api/Albums
 Response of request GET against resource api/Albums - Completed

@@ -96,7 +96,7 @@ There cases when you need to show your colleagues or managers what tests do you 
 
 After the test is executed the following log is created:
 
-\#### Start Chrome on PORT = 34079
+>Start Chrome on PORT = 34079
 Start Test
 Class = BDDLoggingTests Name = PurchaseRocketWithLogs
 Select 'Sort by price: low to high' from control (Name ending with orderby)

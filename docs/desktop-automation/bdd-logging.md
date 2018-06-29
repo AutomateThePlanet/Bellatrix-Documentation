@@ -50,14 +50,14 @@ There cases when you need to show your colleagues or managers what tests do you 
 
 After the test is executed the following log is created:
 
-Start Test
-Class = EnsureAssertionsTests Name = CommonActionsWithDesktopControls_Wpf
-Ensure control (AutomationId = calendar) is NOT disabled
-Check control (Name = BellaCheckBox) on WPF Sample App
-Ensure control (Name = BellaCheckBox) is checked
-Select 'Item2' from control (AutomationId = select) on WPF Sample App
-Click control (Name = RadioButton) on WPF Sample App
-Ensure control (Name = RadioButton) is checked
+> Start Test
+> Class = EnsureAssertionsTests Name = CommonActionsWithDesktopControls_Wpf
+> Ensure control (AutomationId = calendar) is NOT disabled
+> Check control (Name = BellaCheckBox) on WPF Sample App
+> Ensure control (Name = BellaCheckBox) is checked
+> Select 'Item2' from control (AutomationId = select) on WPF Sample App
+> Click control (Name = RadioButton) on WPF Sample App
+> Ensure control (Name = RadioButton) is checked
 
 Configuration
 -------------
