@@ -177,7 +177,7 @@ All layout assertion methods have full BDD logging support. Below you can find t
 All Available Layout Assertion Methods
 --------------------------------------
 
-#### AssertWidth #### 
+### AssertWidth ###
 - AssertWidthBetween
 - AssertWidthGreaterThan
 - AssertWidthGreaterThanOrEqual
@@ -185,7 +185,7 @@ All Available Layout Assertion Methods
 - AssertWidthLessThanOrEqual
 - AssertWidthApproximate
 
-#### AssertHeight #### 
+### AssertHeight ###
 - AssertHeightBetween
 - AssertHeightGreaterThan
 - AssertHeightGreaterThanOrEqual
@@ -193,7 +193,7 @@ All Available Layout Assertion Methods
 - AssertHeightLessThanOrEqual
 - AssertHeightApproximate
 
-#### AssertAboveOf #### 
+### AssertAboveOf ###
 - AssertAboveOf
 - AssertAboveOfBetween
 - AssertAboveOfGreaterThan
@@ -202,7 +202,7 @@ All Available Layout Assertion Methods
 - AssertAboveOfLessThanOrEqual
 - AssertAboveOfApproximate
 
-#### AssertBelowOf #### 
+### AssertBelowOf ###
 - AssertBelowOf
 - AssertBelowOfBetween
 - AssertBelowOfGreaterThan
@@ -211,7 +211,7 @@ All Available Layout Assertion Methods
 - AssertBelowOfLessThanOrEqual
 - AssertBelowOfApproximate
 
-#### AssertRightOf #### 
+### AssertRightOf ###
 - AssertRightOf
 - AssertRightOfBetween
 - AssertRightOfGreaterThan
@@ -220,7 +220,7 @@ All Available Layout Assertion Methods
 - AssertRightOfLessThanOrEqual
 - AssertRightOfApproximate
 
-#### AssertLeftOf #### 
+### AssertLeftOf ### 
 - AssertLeftOfBetween
 - AssertLeftOfGreaterThan
 - AssertLeftOfGreaterThanOrEqual
@@ -228,7 +228,7 @@ All Available Layout Assertion Methods
 - AssertLeftOfLessThanOrEqual
 - AssertLeftOfApproximate
 
-#### AssertNearTopOf #### 
+### AssertNearTopOf ### 
 - AssertNearTopOf
 - AssertNearTopOfBetween
 - AssertNearTopOfGreaterThan
@@ -237,7 +237,7 @@ All Available Layout Assertion Methods
 - AssertNearTopOfLessThanOrEqual
 - AssertNearTopOfApproximate
 
-#### AssertNearLeftOf #### 
+### AssertNearLeftOf ### 
 - AssertNearLeftOf
 - AssertNearLeftOfBetween
 - AssertNearLeftOfGreaterThan
@@ -246,7 +246,7 @@ All Available Layout Assertion Methods
 - AssertNearLeftOfLessThanOrEqual
 - AssertNearLeftOfApproximate
 
-#### AssertNearRightOf #### 
+### AssertNearRightOf ###
 - AssertNearRightOf
 - AssertNearRightOfBetween
 - AssertNearRightOfGreaterThan
@@ -255,7 +255,7 @@ All Available Layout Assertion Methods
 - AssertNearRightOfLessThanOrEqual
 - AssertNearRightOfApproximate
 
-#### AssertNearTopLeftOf #### 
+### AssertNearTopLeftOf ### 
 - AssertNearTopLeftOf
 - AssertNearTopLeftOfBetween
 - AssertNearTopLeftOfGreaterThan
@@ -264,7 +264,7 @@ All Available Layout Assertion Methods
 - AssertNearTopLeftOfLessThanOrEqual
 - AssertNearTopLeftOfApproximate
 
-#### AssertNearTopRightOf #### 
+### AssertNearTopRightOf ### 
 - AssertNearTopRightOf
 - AssertNearTopRightOfBetween
 - AssertNearTopRightOfGreaterThan
@@ -273,7 +273,7 @@ All Available Layout Assertion Methods
 - AssertNearTopRightOfLessThanOrEqual
 - AssertNearTopRightOfApproximate
 
-#### AssertNearBottomOf #### 
+### AssertNearBottomOf ### 
 - AssertNearBottomOf
 - AssertNearBottomOfBetween
 - AssertNearBottomOfGreaterThan
@@ -282,7 +282,7 @@ All Available Layout Assertion Methods
 - AssertNearBottomOfLessThanOrEqual
 - AssertNearBottomOfApproximate
 
-#### AssertNearBottomLeftOf #### 
+### AssertNearBottomLeftOf ### 
 - AssertNearBottomLeftOfBetween
 - AssertNearBottomLeftOfGreaterThan
 - AssertNearBottomLeftOfGreaterThanOrEqual
@@ -290,7 +290,7 @@ All Available Layout Assertion Methods
 - AssertNearBottomLeftOfLessThanOrEqual
 - AssertNearBottomLeftOfApproximate
 
-#### AssertNearBottomRightOf #### 
+### AssertNearBottomRightOf ### 
 - AssertNearBottomRightOf
 - AssertNearBottomRightOfBetween
 - AssertNearBottomRightOfGreaterThan
@@ -299,7 +299,7 @@ All Available Layout Assertion Methods
 - AssertNearBottomRightOfLessThanOrEqual
 - AssertNearBottomRightOfApproximate
 
-#### AssertTopInsideOf #### 
+### AssertTopInsideOf ### 
 - AssertTopInsideOf
 - AssertTopInsideOfBetween
 - AssertTopInsideOfGreaterThan
@@ -308,7 +308,7 @@ All Available Layout Assertion Methods
 - AssertTopInsideOfLessThanOrEqual
 - AssertTopInsideOfApproximate
 
-#### AssertBottomInsideOf #### 
+### AssertBottomInsideOf ### 
 - AssertBottomInsideOf
 - AssertBottomInsideOfBetween
 - AssertBottomInsideOfGreaterThan
@@ -317,7 +317,7 @@ All Available Layout Assertion Methods
 - AssertBottomInsideOfLessThanOrEqual
 - AssertBottomInsideOfApproximate
 
-#### AssertRightInsideOf #### 
+### AssertRightInsideOf ### 
 - AssertRightInsideOf
 - AssertRightInsideOfBetween
 - AssertRightInsideOfGreaterThan
@@ -326,7 +326,7 @@ All Available Layout Assertion Methods
 - AssertRightInsideOfLessThanOrEqual
 - AssertRightInsideOfApproximate
 
-#### AssertLeftInsideOf #### 
+### AssertLeftInsideOf ### 
 - AssertLeftInsideOf
 - AssertLeftInsideOfBetween
 - AssertLeftInsideOfGreaterThan
@@ -335,7 +335,7 @@ All Available Layout Assertion Methods
 - AssertLeftInsideOfLessThanOrEqual
 - AssertLeftInsideOfApproximate
 
-#### AssertTopLeftInsideOf #### 
+### AssertTopLeftInsideOf ### 
 - AssertTopLeftInsideOf
 - AssertTopLeftInsideOfBetween
 - AssertTopLeftInsideOfGreaterThan
@@ -344,7 +344,7 @@ All Available Layout Assertion Methods
 - AssertTopLeftInsideOfLessThanOrEqual
 - AssertTopLeftInsideOfApproximate
 
-#### AssertTopRightInsideOf #### 
+### AssertTopRightInsideOf ### 
 - AssertTopRightInsideOf
 - AssertTopRightInsideOfBetween
 - AssertTopRightInsideOfGreaterThan
@@ -353,7 +353,7 @@ All Available Layout Assertion Methods
 - AssertTopRightInsideOfLessThanOrEqual
 - AssertTopRightInsideOfApproximate
 
-#### AssertBottomLeftInsideOf #### 
+### AssertBottomLeftInsideOf ### 
 - AssertBottomLeftInsideOfBetween
 - AssertBottomLeftInsideOfGreaterThan
 - AssertBottomLeftInsideOfGreaterThanOrEqual
@@ -361,7 +361,7 @@ All Available Layout Assertion Methods
 - AssertBottomLeftInsideOfLessThanOrEqual
 - AssertBottomLeftInsideOfApproximate
 
-#### AssertBottomRightInsideOf #### 
+### AssertBottomRightInsideOf ### 
 - AssertBottomRightInsideOfLessThan
 - AssertBottomRightInsideOfLessThanOrEqual
 - AssertBottomRightInsideOfApproximate
@@ -369,7 +369,7 @@ All Available Layout Assertion Methods
 - AssertBottomRightInsideOfGreaterThan
 - AssertBottomRightInsideOfGreaterThanOrEqual
 
-#### AssertCenteredInsideOf #### 
+### AssertCenteredInsideOf ### 
 - AssertCenteredInsideOf
 - AssertCenteredInsideOfBetween
 - AssertCenteredInsideOfGreaterThan
@@ -378,7 +378,7 @@ All Available Layout Assertion Methods
 - AssertCenteredInsideOfLessThanOrEqual
 - AssertCenteredInsideOfApproximate
 
-#### AssertAlignedVerticallyAll #### 
+### AssertAlignedVerticallyAll ### 
 - AssertAlignedVerticallyCentered
 - AssertAlignedVerticallyRight
 - AssertAlignedVerticallyLeft

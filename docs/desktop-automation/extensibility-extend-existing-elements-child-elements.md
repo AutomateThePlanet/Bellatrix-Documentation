@@ -4,7 +4,7 @@ title:  "Extensability- Extend Existing Elements- Child Elements"
 excerpt: "Learn how to extend Bellatrix web elements using child elements."
 date:   2018-06-23 06:50:17 +0200
 parent: desktop-automation
-permalink: /desktop-automation/extensability-extend-existing-elements-child-elements/
+permalink: /desktop-automation/extensibility-extend-existing-elements-child-elements/
 anchors:
   example: Example
   explanations: Explanations

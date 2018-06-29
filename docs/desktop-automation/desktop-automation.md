@@ -16,7 +16,7 @@ Bellatrix extends the vanilla WebDriver selectors and give you additional method
 ### Screenshots on Fail ###
 Checks after each test, its result, if failed, makes the screenshots. [Learn more](https://docs.bellatrix.solutions/desktop-automation/troubleshooting-screenshots-on-fail/).
 
-### Screenshots on Fail ###
+### Video recording on Fail ###
 Checks after each test, its result, depending on the specified video saves the video. [Learn more](https://docs.bellatrix.solutions/desktop-automation/troubleshooting-video-recording/).
 
 ### Common Controls ###

@@ -4,7 +4,7 @@ title:  "Extensability- Extend Common Services"
 excerpt: "Learn how to extend Bellatrix common services."
 date:   2018-06-23 06:50:17 +0200
 parent: desktop-automation
-permalink: /desktop-automation/extensability-extend-common-services/
+permalink: /desktop-automation/extensibility-extend-common-services/
 anchors:
   example: Example
   explanations: Explanations
