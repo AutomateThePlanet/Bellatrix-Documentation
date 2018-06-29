@@ -46,7 +46,12 @@ plugins:
 #   - vendor/ruby/
 navigation: 
     "overview":
-        title: Overview    
+        title: Overview
+        submenu:
+            "about-bellatrix":
+                title: About Bellatrix
+            "meissa-test-runner":
+                title: Meissa Test Runner
     "general-information":
         title: General Information
         submenu:

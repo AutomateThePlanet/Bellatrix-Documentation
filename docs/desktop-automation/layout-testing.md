@@ -149,242 +149,240 @@ BDD Logging
 -----------
 All layout assertion methods have full BDD logging support. Below you can find the generated BDD log. Of course if you use Bellatrix page objects the log looks even better as mentioned in previous chapters.
 
-Start Test
-Class = LayoutTestingTests Name = TestPageLayout
-Assert control (Name = Transfer Button) is above of control (automationId = calendar).
-Assert control (Name = Transfer Button) is 42 px above of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is >40 px above of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is >=41 px above of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is <50 px above of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is <=43 px above of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is >40 px near top of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is >=41 px near top of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is <50 px near top of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is <=43 px near top of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is 40 px above of control (automationId = TransferCalendar). (10% tolerance)
-Assert control (Name = Transfer Button) is 30-50 px above of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is near bottom of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is near right of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is near top of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is near left of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is left inside of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is right inside of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is top inside of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) is bottom inside of control (automationId = TransferCalendar).
-Assert control (Name = Transfer Button) height is <100 px.
-Assert control (Name = Transfer Button) width is 50-70 px.
+>Start Test
+>Class = LayoutTestingTests Name = TestPageLayout
+>Assert control (Name = Transfer Button) is above of control (automationId = calendar).
+>Assert control (Name = Transfer Button) is 42 px above of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is >40 px above of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is >=41 px above of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is <50 px above of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is <=43 px above of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is >40 px near top of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is >=41 px near top of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is <50 px near top of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is <=43 px near top of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is 40 px above of control (automationId = TransferCalendar). (10% tolerance)
+>Assert control (Name = Transfer Button) is 30-50 px above of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is near bottom of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is near right of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is near top of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is near left of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is left inside of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is right inside of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is top inside of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) is bottom inside of control (automationId = TransferCalendar).
+>Assert control (Name = Transfer Button) height is <100 px.
+>Assert control (Name = Transfer Button) width is 50-70 px.
 
 All Available Layout Assertion Methods
 --------------------------------------
 
-AssertWidth
-AssertWidthBetween
-AssertWidthGreaterThan
-AssertWidthGreaterThanOrEqual
-AssertWidthLessThan
-AssertWidthLessThanOrEqual
-AssertWidthApproximate
+#### AssertWidth #### 
+- AssertWidthBetween
+- AssertWidthGreaterThan
+- AssertWidthGreaterThanOrEqual
+- AssertWidthLessThan
+- AssertWidthLessThanOrEqual
+- AssertWidthApproximate
 
-AssertHeight
-AssertHeightBetween
-AssertHeightGreaterThan
-AssertHeightGreaterThanOrEqual
-AssertHeightLessThan
-AssertHeightLessThanOrEqual
-AssertHeightApproximate
+#### AssertHeight #### 
+- AssertHeightBetween
+- AssertHeightGreaterThan
+- AssertHeightGreaterThanOrEqual
+- AssertHeightLessThan
+- AssertHeightLessThanOrEqual
+- AssertHeightApproximate
 
-AssertAboveOf
-AssertAboveOf
-AssertAboveOfBetween
-AssertAboveOfGreaterThan
-AssertAboveOfGreaterThanOrEqual
-AssertAboveOfLessThan
-AssertAboveOfLessThanOrEqual
-AssertAboveOfApproximate
+#### AssertAboveOf #### 
+- AssertAboveOf
+- AssertAboveOfBetween
+- AssertAboveOfGreaterThan
+- AssertAboveOfGreaterThanOrEqual
+- AssertAboveOfLessThan
+- AssertAboveOfLessThanOrEqual
+- AssertAboveOfApproximate
 
-AssertBelowOf
-AssertBelowOf
-AssertBelowOfBetween
-AssertBelowOfGreaterThan
-AssertBelowOfGreaterThanOrEqual
-AssertBelowOfLessThan
-AssertBelowOfLessThanOrEqual
-AssertBelowOfApproximate
+#### AssertBelowOf #### 
+- AssertBelowOf
+- AssertBelowOfBetween
+- AssertBelowOfGreaterThan
+- AssertBelowOfGreaterThanOrEqual
+- AssertBelowOfLessThan
+- AssertBelowOfLessThanOrEqual
+- AssertBelowOfApproximate
 
-AssertRightOf
-AssertRightOf
-AssertRightOfBetween
-AssertRightOfGreaterThan
-AssertRightOfGreaterThanOrEqual
-AssertRightOfLessThan
-AssertRightOfLessThanOrEqual
-AssertRightOfApproximate
+#### AssertRightOf #### 
+- AssertRightOf
+- AssertRightOfBetween
+- AssertRightOfGreaterThan
+- AssertRightOfGreaterThanOrEqual
+- AssertRightOfLessThan
+- AssertRightOfLessThanOrEqual
+- AssertRightOfApproximate
 
-AssertLeftOf
-AssertLeftOfBetween
-AssertLeftOfGreaterThan
-AssertLeftOfGreaterThanOrEqual
-AssertLeftOfLessThan
-AssertLeftOfLessThanOrEqual
-AssertLeftOfApproximate
+#### AssertLeftOf #### 
+- AssertLeftOfBetween
+- AssertLeftOfGreaterThan
+- AssertLeftOfGreaterThanOrEqual
+- AssertLeftOfLessThan
+- AssertLeftOfLessThanOrEqual
+- AssertLeftOfApproximate
 
-AssertNearTopOf
-AssertNearTopOf
-AssertNearTopOfBetween
-AssertNearTopOfGreaterThan
-AssertNearTopOfGreaterThanOrEqual
-AssertNearTopOfLessThan
-AssertNearTopOfLessThanOrEqual
-AssertNearTopOfApproximate
+#### AssertNearTopOf #### 
+- AssertNearTopOf
+- AssertNearTopOfBetween
+- AssertNearTopOfGreaterThan
+- AssertNearTopOfGreaterThanOrEqual
+- AssertNearTopOfLessThan
+- AssertNearTopOfLessThanOrEqual
+- AssertNearTopOfApproximate
 
-AssertNearLeftOf
-AssertNearLeftOf
-AssertNearLeftOfBetween
-AssertNearLeftOfGreaterThan
-AssertNearLeftOfGreaterThanOrEqual
-AssertNearLeftOfLessThan
-AssertNearLeftOfLessThanOrEqual
-AssertNearLeftOfApproximate
+#### AssertNearLeftOf #### 
+- AssertNearLeftOf
+- AssertNearLeftOfBetween
+- AssertNearLeftOfGreaterThan
+- AssertNearLeftOfGreaterThanOrEqual
+- AssertNearLeftOfLessThan
+- AssertNearLeftOfLessThanOrEqual
+- AssertNearLeftOfApproximate
 
-AssertNearRightOf
-AssertNearRightOf
-AssertNearRightOfBetween
-AssertNearRightOfGreaterThan
-AssertNearRightOfGreaterThanOrEqual
-AssertNearRightOfLessThan
-AssertNearRightOfLessThanOrEqual
-AssertNearRightOfApproximate
+#### AssertNearRightOf #### 
+- AssertNearRightOf
+- AssertNearRightOfBetween
+- AssertNearRightOfGreaterThan
+- AssertNearRightOfGreaterThanOrEqual
+- AssertNearRightOfLessThan
+- AssertNearRightOfLessThanOrEqual
+- AssertNearRightOfApproximate
 
-AssertNearTopLeftOf
-AssertNearTopLeftOf
-AssertNearTopLeftOfBetween
-AssertNearTopLeftOfGreaterThan
-AssertNearTopLeftOfGreaterThanOrEqual
-AssertNearTopLeftOfLessThan
-AssertNearTopLeftOfLessThanOrEqual
-AssertNearTopLeftOfApproximate
+#### AssertNearTopLeftOf #### 
+- AssertNearTopLeftOf
+- AssertNearTopLeftOfBetween
+- AssertNearTopLeftOfGreaterThan
+- AssertNearTopLeftOfGreaterThanOrEqual
+- AssertNearTopLeftOfLessThan
+- AssertNearTopLeftOfLessThanOrEqual
+- AssertNearTopLeftOfApproximate
 
-AssertNearTopRightOf
-AssertNearTopRightOf
-AssertNearTopRightOfBetween
-AssertNearTopRightOfGreaterThan
-AssertNearTopRightOfGreaterThanOrEqual
-AssertNearTopRightOfLessThan
-AssertNearTopRightOfLessThanOrEqual
-AssertNearTopRightOfApproximate
+#### AssertNearTopRightOf #### 
+- AssertNearTopRightOf
+- AssertNearTopRightOfBetween
+- AssertNearTopRightOfGreaterThan
+- AssertNearTopRightOfGreaterThanOrEqual
+- AssertNearTopRightOfLessThan
+- AssertNearTopRightOfLessThanOrEqual
+- AssertNearTopRightOfApproximate
 
-AssertNearBottomOf
-AssertNearBottomOf
-AssertNearBottomOfBetween
-AssertNearBottomOfGreaterThan
-AssertNearBottomOfGreaterThanOrEqual
-AssertNearBottomOfLessThan
-AssertNearBottomOfLessThanOrEqual
-AssertNearBottomOfApproximate
+#### AssertNearBottomOf #### 
+- AssertNearBottomOf
+- AssertNearBottomOfBetween
+- AssertNearBottomOfGreaterThan
+- AssertNearBottomOfGreaterThanOrEqual
+- AssertNearBottomOfLessThan
+- AssertNearBottomOfLessThanOrEqual
+- AssertNearBottomOfApproximate
 
-AssertNearBottomLeftOf
-AssertNearBottomLeftOfBetween
-AssertNearBottomLeftOfGreaterThan
-AssertNearBottomLeftOfGreaterThanOrEqual
-AssertNearBottomLeftOfLessThan
-AssertNearBottomLeftOfLessThanOrEqual
-AssertNearBottomLeftOfApproximate
+#### AssertNearBottomLeftOf #### 
+- AssertNearBottomLeftOfBetween
+- AssertNearBottomLeftOfGreaterThan
+- AssertNearBottomLeftOfGreaterThanOrEqual
+- AssertNearBottomLeftOfLessThan
+- AssertNearBottomLeftOfLessThanOrEqual
+- AssertNearBottomLeftOfApproximate
 
-AssertNearBottomRightOf
-AssertNearBottomRightOf
-AssertNearBottomRightOfBetween
-AssertNearBottomRightOfGreaterThan
-AssertNearBottomRightOfGreaterThanOrEqual
-AssertNearBottomRightOfLessThan
-AssertNearBottomRightOfLessThanOrEqual
-AssertNearBottomRightOfApproximate
+#### AssertNearBottomRightOf #### 
+- AssertNearBottomRightOf
+- AssertNearBottomRightOfBetween
+- AssertNearBottomRightOfGreaterThan
+- AssertNearBottomRightOfGreaterThanOrEqual
+- AssertNearBottomRightOfLessThan
+- AssertNearBottomRightOfLessThanOrEqual
+- AssertNearBottomRightOfApproximate
 
-AssertInsideOf
+#### AssertTopInsideOf #### 
+- AssertTopInsideOf
+- AssertTopInsideOfBetween
+- AssertTopInsideOfGreaterThan
+- AssertTopInsideOfGreaterThanOrEqual
+- AssertTopInsideOfLessThan
+- AssertTopInsideOfLessThanOrEqual
+- AssertTopInsideOfApproximate
 
-AssertTopInsideOf
-AssertTopInsideOf
-AssertTopInsideOfBetween
-AssertTopInsideOfGreaterThan
-AssertTopInsideOfGreaterThanOrEqual
-AssertTopInsideOfLessThan
-AssertTopInsideOfLessThanOrEqual
-AssertTopInsideOfApproximate
+#### AssertBottomInsideOf #### 
+- AssertBottomInsideOf
+- AssertBottomInsideOfBetween
+- AssertBottomInsideOfGreaterThan
+- AssertBottomInsideOfGreaterThanOrEqual
+- AssertBottomInsideOfLessThan
+- AssertBottomInsideOfLessThanOrEqual
+- AssertBottomInsideOfApproximate
 
-AssertBottomInsideOf
-AssertBottomInsideOf
-AssertBottomInsideOfBetween
-AssertBottomInsideOfGreaterThan
-AssertBottomInsideOfGreaterThanOrEqual
-AssertBottomInsideOfLessThan
-AssertBottomInsideOfLessThanOrEqual
-AssertBottomInsideOfApproximate
+#### AssertRightInsideOf #### 
+- AssertRightInsideOf
+- AssertRightInsideOfBetween
+- AssertRightInsideOfGreaterThan
+- AssertRightInsideOfGreaterThanOrEqual
+- AssertRightInsideOfLessThan
+- AssertRightInsideOfLessThanOrEqual
+- AssertRightInsideOfApproximate
 
-AssertRightInsideOf
-AssertRightInsideOf
-AssertRightInsideOfBetween
-AssertRightInsideOfGreaterThan
-AssertRightInsideOfGreaterThanOrEqual
-AssertRightInsideOfLessThan
-AssertRightInsideOfLessThanOrEqual
-AssertRightInsideOfApproximate
+#### AssertLeftInsideOf #### 
+- AssertLeftInsideOf
+- AssertLeftInsideOfBetween
+- AssertLeftInsideOfGreaterThan
+- AssertLeftInsideOfGreaterThanOrEqual
+- AssertLeftInsideOfLessThan
+- AssertLeftInsideOfLessThanOrEqual
+- AssertLeftInsideOfApproximate
 
-AssertLeftInsideOf
-AssertLeftInsideOf
-AssertLeftInsideOfBetween
-AssertLeftInsideOfGreaterThan
-AssertLeftInsideOfGreaterThanOrEqual
-AssertLeftInsideOfLessThan
-AssertLeftInsideOfLessThanOrEqual
-AssertLeftInsideOfApproximate
+#### AssertTopLeftInsideOf #### 
+- AssertTopLeftInsideOf
+- AssertTopLeftInsideOfBetween
+- AssertTopLeftInsideOfGreaterThan
+- AssertTopLeftInsideOfGreaterThanOrEqual
+- AssertTopLeftInsideOfLessThan
+- AssertTopLeftInsideOfLessThanOrEqual
+- AssertTopLeftInsideOfApproximate
 
-AssertTopLeftInsideOf
-AssertTopLeftInsideOf
-AssertTopLeftInsideOfBetween
-AssertTopLeftInsideOfGreaterThan
-AssertTopLeftInsideOfGreaterThanOrEqual
-AssertTopLeftInsideOfLessThan
-AssertTopLeftInsideOfLessThanOrEqual
-AssertTopLeftInsideOfApproximate
+#### AssertTopRightInsideOf #### 
+- AssertTopRightInsideOf
+- AssertTopRightInsideOfBetween
+- AssertTopRightInsideOfGreaterThan
+- AssertTopRightInsideOfGreaterThanOrEqual
+- AssertTopRightInsideOfLessThan
+- AssertTopRightInsideOfLessThanOrEqual
+- AssertTopRightInsideOfApproximate
 
-AssertTopRightInsideOf
-AssertTopRightInsideOf
-AssertTopRightInsideOfBetween
-AssertTopRightInsideOfGreaterThan
-AssertTopRightInsideOfGreaterThanOrEqual
-AssertTopRightInsideOfLessThan
-AssertTopRightInsideOfLessThanOrEqual
-AssertTopRightInsideOfApproximate
+#### AssertBottomLeftInsideOf #### 
+- AssertBottomLeftInsideOfBetween
+- AssertBottomLeftInsideOfGreaterThan
+- AssertBottomLeftInsideOfGreaterThanOrEqual
+- AssertBottomLeftInsideOfLessThan
+- AssertBottomLeftInsideOfLessThanOrEqual
+- AssertBottomLeftInsideOfApproximate
 
-AssertBottomLeftInsideOf
-AssertBottomLeftInsideOfBetween
-AssertBottomLeftInsideOfGreaterThan
-AssertBottomLeftInsideOfGreaterThanOrEqual
-AssertBottomLeftInsideOfLessThan
-AssertBottomLeftInsideOfLessThanOrEqual
-AssertBottomLeftInsideOfApproximate
+#### AssertBottomRightInsideOf #### 
+- AssertBottomRightInsideOfLessThan
+- AssertBottomRightInsideOfLessThanOrEqual
+- AssertBottomRightInsideOfApproximate
+- AssertBottomRightInsideOfBetween
+- AssertBottomRightInsideOfGreaterThan
+- AssertBottomRightInsideOfGreaterThanOrEqual
 
-AssertBottomRightInsideOf
-AssertBottomRightInsideOfLessThan
-AssertBottomRightInsideOfLessThanOrEqual
-AssertBottomRightInsideOfApproximate
-AssertBottomRightInsideOfBetween
-AssertBottomRightInsideOfGreaterThan
-AssertBottomRightInsideOfGreaterThanOrEqual
+#### AssertCenteredInsideOf #### 
+- AssertCenteredInsideOf
+- AssertCenteredInsideOfBetween
+- AssertCenteredInsideOfGreaterThan
+- AssertCenteredInsideOfGreaterThanOrEqual
+- AssertCenteredInsideOfLessThan
+- AssertCenteredInsideOfLessThanOrEqual
+- AssertCenteredInsideOfApproximate
 
-AssertCenteredInsideOf
-AssertCenteredInsideOf
-AssertCenteredInsideOfBetween
-AssertCenteredInsideOfGreaterThan
-AssertCenteredInsideOfGreaterThanOrEqual
-AssertCenteredInsideOfLessThan
-AssertCenteredInsideOfLessThanOrEqual
-AssertCenteredInsideOfApproximate
-
-AssertAlignedVerticallyAll
-AssertAlignedVerticallyCentered
-AssertAlignedVerticallyRight
-AssertAlignedVerticallyLeft
-AssertAlignedHorizontallyAll
-AssertAlignedHorizontallyCentered
-AssertAlignedHorizontallyTop
-AssertAlignedHorizontallyBottom
+#### AssertAlignedVerticallyAll #### 
+- AssertAlignedVerticallyCentered
+- AssertAlignedVerticallyRight
+- AssertAlignedVerticallyLeft
+- AssertAlignedHorizontallyAll
+- AssertAlignedHorizontallyCentered
+- AssertAlignedHorizontallyTop
+- AssertAlignedHorizontallyBottom

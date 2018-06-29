@@ -21,4 +21,4 @@ Meissa Test Runner
 --------
 ![Meissa](http://stage.bellatrix.solutions/content/uploads/meissa-home-bgr.png)
 
-Our cross-platform distributed test runner that executes tests in parallel, time balanced. Build to extend Bellatrix capabilities by providing Faster Deployments.Free for the community, find out more on [here](https://meissarunner.com/)
+Our cross-platform distributed test runner that executes tests in parallel, time balanced. Build to extend Bellatrix capabilities by providing Faster Deployments.Free for the community, find out more [here](https://meissarunner.com/)

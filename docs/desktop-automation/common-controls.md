@@ -140,37 +140,22 @@ Full List of All Supported Web Controls
 
 **Note**: *All other controls have access to the above methods and properties*
 
-### Button ###
-- Click, Hover, InnerText, IsDisabled
-### Calendar ###
-- Hover, IsDisabled
-### Checkbox ###
-- Check, Uncheck, Hover, IsDisabled, IsChecked
-### ComboBox ###
-- Hover, SelectByText, InnerText, IsDisabled
-### Date ###
-- GetDate, SetDate, Hover, IsDisabled
-### Expander ###
-- Click, Hover, IsDisabled
-### Image ###
-- Hover
-### Label ###
-- Hover, InnerText
-### ListBox ###
-- Hover, IsDisabled
-### Menu ###
-- Hover
-### Password ###
-- GetPassword, SetPassword, Hover, IsDisabled
-### Progress ###
-- Hover
-### RadioButton ###
-- Hover, Click, IsDisabled, IsChecked
-### Tabs ###
-- Hover
-### TextArea ###
-- GetText, SetText, Hover, InnerText, IsDisabled
-### TextField ###
-- SetText, Hover, InnerText, IsDisabled
-### Time ###
-- GetTime, SetTime, Hover, IsDisabled
+Element | Available properties
+------------ | -------------
+Button | Click, Hover, InnerText, IsDisabled
+Calendar | Hover, IsDisabled
+Checkbox | Check, Uncheck, Hover, IsDisabled, IsChecked
+ComboBox | Hover, SelectByText, InnerText, IsDisabled
+Date | GetDate, SetDate, Hover, IsDisabled
+Expander | Click, Hover, IsDisabled
+Image | Hover
+Label | Hover, InnerText
+ListBox | Hover, IsDisabled
+Menu | Hover
+Password | GetPassword, SetPassword, Hover, IsDisabled
+Progress | Hover
+RadioButton | Hover, Click, IsDisabled, IsChecked
+Tabs | Hover
+TextArea | GetText, SetText, Hover, InnerText, IsDisabled
+TextField | SetText, Hover, InnerText, IsDisabled
+Time | GetTime, SetTime, Hover, IsDisabled

@@ -32,34 +32,37 @@ On the first press of tab, the below code is generated. The first placeholder th
 List of All Available Snippets
 ------------------------------
 Here is the list of all available snippets for Bellatrix Web module:
-**wanchor** - generates Anchor
-**wbutton** - generates Button
-**wcheckbox** - generates CheckBox
-**wcolor** - generates Color
-**wdate** - generates Date
-**wdatetimelocal** - generates DateTimeLocal
-**wdiv** - generates Div
-**welement** - generates Element
-**wemail** - generates Email
-**wheading** - generates Heading
-**wimage** - generates Image
-**winputfile** - generates InputFile
-**wlabel** - generates Label
-**wmonth** - generates Month
-**wnumber** - generates Number
-**woption** - generates Option
-**woutput** - generates Output
-**wpassword** - generates Password
-**wphone** - generates Phone
-**wprogress** - generates Progress
-**wradiobutton** - generates RadioButton
-**wrange** - generates Range
-**wreset** - generates Reset
-**wsearch** - generates Search
-**wselect** - generates Select
-**wspan** - generates Span
-**wtextarea** - generates TextArea
-**wtextfield** - generates TextField
-**wtime** - generates Time
-**wurl** - generates Url
-**wweek** - generates Week
+
+Snippet | Generated Element
+------------ | -------------
+wanchor | Anchor
+wbutton | Button
+wcheckbox | CheckBox
+wcolor | Color
+wdate | Date
+wdatetimelocal | DateTimeLocal
+wdiv | Div
+welement | Element
+wemail | Email
+wheading | Heading
+wimage | Image
+winputfile | InputFile
+wlabel | Label
+wmonth | Month
+wnumber | Number
+woption | Option
+woutput | Output
+wpassword | Password
+wphone | Phone
+wprogress | Progress
+wradiobutton | RadioButton
+wrange | Range
+wreset | Reset
+wsearch | Search
+wselect | Select
+wspan | Span
+wtextarea | TextArea
+wtextfield | TextField
+wtime | Time
+wurl | Url
+wweek | Week

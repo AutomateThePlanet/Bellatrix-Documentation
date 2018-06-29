@@ -30,22 +30,24 @@ For each proxy element in Bellatrix, we give you a corresponding snippet. For ex
 List of All Available Snippets
 ------------------------------
 Here is the list of all available snippets for Bellatrix Web module:
-**dbutton** - generates Button
-**dcalendar** - generates Calendar
-**dcheckbox** - generates CheckBox
-**dcombobox** - generates ComboBox
-**ddate** - generates Date
-**delement** - generates Element
-**dexpander** - generates Expander
-**dimage** - generates Image
-**dlabel** - generates Label
-**dlistbox** - generates ListBox
-**dmenu** - generates Menu
-**dpassword** - generates Password
-**dprogress** - generates Progress
-**dradioButton** - generates RadioButton
-**dtabs** - generates Tabs
-**dtextArea** - generates TextArea
-**dtextField** - generates TextField
-**dtime** - generates Time
 
+Snippet | Generated Element
+------------ | -------------
+dbutton | Button
+dcalendar | Calendar
+dcheckbox | CheckBox
+dcombobox | ComboBox
+ddate | Date
+delement | Element
+dexpander | Expander
+dimage | Image
+dlabel | Label
+dlistbox | ListBox
+dmenu | Menu
+dpassword | Password
+dprogress | Progress
+dradioButton | RadioButton
+dtabs | Tabs
+dtextArea | TextArea
+dtextField | TextField
+dtime | Time

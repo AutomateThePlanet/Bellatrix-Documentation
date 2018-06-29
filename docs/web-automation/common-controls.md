@@ -299,66 +299,41 @@ Full List of All Supported Web Controls
 
 **Note**: *All other controls have access to the above methods and properties*
 
-### Anchor ###
- Click, Hover, Focus, Href, InnetText, InnetHtml, Target, Rel
-### Button ###
-- Click, Hover, Focus, InnetText, Value, IsDisabled
-### CheckBox ###
-- Check, Uncheck, Hover, Focus, IsDisabled, Value, IsChecked
-### Div ###
- Hover, InnerText, InnerHtml
-### Headline ###
-- Hover, InnerText
-### Image ###
-- Hover, Src, LongDesc, Alt, SrcSet, Sizes, Height, Width
-### InputFile ###
-- Upload, IsRequired, IsMultiple, Accept
-### Label ###
-- Hover, InnerText, InnerHtml, For
-### Option ###
-- Innertext, IsDisabled, Value, IsSelected
-### RadioButton ###
-- Click, Hover, Value, IsDisabled, IsChecked
-### Reset ###
-- Click, Hover, Focus, InnerText, Value, IsDisabled
-### Select ###
-- Hover, Focus, GetSelected, GetAllOptions, SelectByText, SelectByIndex, IsDisabled, IsRequired
-### Span ###
-- Hover, InnerText, InnerHtml
-### TextArea ###
-- GetText, SetText, Hover, Focus, InnerText, IsDisabled, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLength, MinLength, Rows, Cols, SpellCheck, Wrap
-### TextField ###
-- SetText, Hover, Focus, InnerText, InnerHtml, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLength, MinLength, Size
+Element | Available properties
+------------ | -------------
+Anchor | Click, Hover, Focus, Href, InnetText, InnetHtml, Target, Rel
+Button | Click, Hover, Focus, InnetText, Value, IsDisabled
+CheckBox | Check, Uncheck, Hover, Focus, IsDisabled, Value, IsChecked
+Div | Hover, InnerText, InnerHtml
+Headline | Hover, InnerText
+Image | Hover, Src, LongDesc, Alt, SrcSet, Sizes, Height, Width
+InputFile | Upload, IsRequired, IsMultiple, Accept
+Label | Hover, InnerText, InnerHtml, For
+Option | Innertext, IsDisabled, Value, IsSelected
+RadioButton | Click, Hover, Value, IsDisabled, IsChecked
+Reset | Click, Hover, Focus, InnerText, Value, IsDisabled
+Select | Hover, Focus, GetSelected, GetAllOptions, SelectByText, SelectByIndex, IsDisabled, IsRequired
+Span | Hover, InnerText, InnerHtml
+TextArea | GetText, SetText, Hover, Focus, InnerText, IsDisabled, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLength, MinLength, Rows, Cols, SpellCheck, Wrap
+TextField | SetText, Hover, Focus, InnerText, InnerHtml, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLength, MinLength, Size
 
-Advanced Controls:
 
-### Color ###
-- Hover, Focus, GetColor, SetColor, IsDisabled, IsAutoComplete, IsRequired, Value, List
-### Date ###
-- GetDate, SetDate, Hover, Focus, IsDisabled, IsRequired, Value, IsAutoComplete, IsReadonly, Max, Min, Step
-### DateTimeLocal ###
-- GetTime, SetTime, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, Max, Min, Step
-### Email ###
-- GetEmail, SetEmail, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLength, MinLength, Size
-### Month ###
-- GetMonth, SetMonth, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Max, Min, Step
-### Number ###
-- GetNumber, SetNumber, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, Max, Min, Step
-### Output ###
-- Hover, InnerText, InnerHtml, For
-### Password ###
-- GetPassword, SetPassword, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLenght, MinLenght, Size
-### Phone ###
-- GetPhone, SetPhone, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLenght, MinLenght, Size
-### Progress ###
-- Max, Value, InnerText
-### Range ###
-- GetRange, SetRange, Hover, Focus, IsDisabled, Value, IsAutoComplete, List, IsRequired, Max, Min, Step
-### Search ###
-- GetSearch, SetSearch, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLenght, MinLenght, Size
-### Time ###
-- GetTime, SetTime, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, Max, Min, Step
-### Url ###
- GetUrl, SetUrl, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLenght, MinLenght, Size
-### Week ###
-- GetWeek, SetWeek, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, Max, Min, Step
+### Advanced Controls: ### 
+
+Element | Available properties
+------------ | -------------
+Color | Hover, Focus, GetColor, SetColor, IsDisabled, IsAutoComplete, IsRequired, Value, List
+Date |  GetDate, SetDate, Hover, Focus, IsDisabled, IsRequired, Value, IsAutoComplete, IsReadonly, Max, Min, Step
+DateTimeLocal | GetTime, SetTime, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, Max, Min, Step
+Email | GetEmail, SetEmail, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLength, MinLength, Size
+Month | GetMonth, SetMonth, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Max, Min, Step
+Number | GetNumber, SetNumber, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, Max, Min, Step
+Output | Hover, InnerText, InnerHtml, For
+Password | GetPassword, SetPassword, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLenght, MinLenght, Size
+Phone | GetPhone, SetPhone, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLenght, MinLenght, Size
+Progress | Max, Value, InnerText
+Range | GetRange, SetRange, Hover, Focus, IsDisabled, Value, IsAutoComplete, List, IsRequired, Max, Min, Step
+Search | GetSearch, SetSearch, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLenght, MinLenght, Size
+Time | GetTime, SetTime, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, Max, Min, Step
+Url | GetUrl, SetUrl, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLenght, MinLenght, Size
+Week | GetWeek, SetWeek, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, Max, Min, Step
