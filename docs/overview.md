@@ -5,9 +5,7 @@ excerpt: "Are you curious how the magic happens? Read a full description of how 
 date:   2018-02-20 06:50:17 +0200
 parent: /general-information
 permalink: /overview/
-anchors:
-  bellatrix-is-web-desktop-and-api-test-automated-framework: About Bellatrix
-  meissa-test-runner: Meissa Test Runner
+
 ---
 Bellatrix is Web Desktop and API Test Automated Framework. 
 ---------------------------------------------------------
