@@ -4,7 +4,7 @@ title:  "Validate JSON and XML Schema"
 excerpt: "Learn how to use Bellatrix APi to validate JSON and XML schema of the responses."
 date:   2018-06-23 06:50:17 +0200
 parent: api-automation
-permalink: /api-automation/validate-json-xml-schema/
+permalink: /api-automation/validate-json-and-xml-schema/
 anchors:
   example: Example
   explanations: Explanations
