@@ -45,8 +45,9 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 navigation: 
-    "index":
+    "overview":
         title: Overview
+        submenu:
     "general-information":
         title: General Information
         submenu:
