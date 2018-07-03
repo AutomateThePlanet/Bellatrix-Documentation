@@ -45,13 +45,8 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 navigation: 
-    "overview":
+    "index":
         title: Overview
-        submenu:
-            "about-bellatrix":
-                title: About Bellatrix
-            "meissa-test-runner":
-                title: Meissa Test Runner
     "general-information":
         title: General Information
         submenu:
