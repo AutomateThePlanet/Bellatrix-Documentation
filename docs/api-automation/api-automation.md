@@ -9,7 +9,7 @@ permalink: /api-automation/
 ---
 Overview
 --------
-Speed up by predefined project templates, better API discoverability and go ready-to-go solution. Support advanced test case scenario like authentication strategies and retry failed requests.
+peed up by predefined project templates, better API discoverability and go ready-to-go solution. Support advanced test case scenario like authentication strategies and retry failed requests.
 
 ### Assertions ###
 Bellatrix provide you many convenient assertion methods on top of RestSharp with BDD logging and extensibility hooks support. [Learn more](https://docs.bellatrix.solutions/api-automation/assertions/).
