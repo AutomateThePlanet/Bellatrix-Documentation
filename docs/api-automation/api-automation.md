@@ -20,7 +20,7 @@ Set of rules and guidelines for the formatting of source code. [Learn more](http
 ### Load Testing ###
 Time-based load tests or number of times-based, When your code executes the specified number of times between the specified number of processes. [Learn more](https://docs.bellatrix.solutions/api-automation/load-testing/).
 
-### Functional Testing ###
+### Functional Testing1 ###
 To measure performance you are able to specify a timeout and if the test is executed over it the test will fail. [Learn more](https://docs.bellatrix.solutions/api-automation/measure-response-times/).
 
 ### API Extendability ###
