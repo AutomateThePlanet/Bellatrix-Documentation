@@ -11,7 +11,7 @@ anchors:
 Bellatrix Test Automation Framework 
 ---------------------------------------------------------
 
-![Bellatrix](images/Bellatrix_illustration_White-1.png)
+![Bellatrix](bellatrix_illustration_white.png)
 
 Bellatrix is web, desktop, mobile and API test automation framework. It is cross-platform, easily customizable and extensible, increasing tests’ reliability.
 

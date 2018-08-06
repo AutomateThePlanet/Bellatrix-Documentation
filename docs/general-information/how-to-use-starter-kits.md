@@ -21,6 +21,7 @@ From **File -> New -> Project** you can find all Bellatrix projects too
 ![Create New Project Visual Studio](images/create-new-project-visual-studio.png)
 
 ![Create Getting Started Visual Studio](images/create-getting-started-solution-visual-studio.png)
+
 Create Starter Kit from CLI
 ------------------------
 You can create an empty tests project with all required files through bellatrix CLI
