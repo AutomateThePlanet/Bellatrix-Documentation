@@ -11,7 +11,7 @@ anchors:
 Bellatrix Test Automation Framework 
 ---------------------------------------------------------
 
-![Bellatrix](http://stage.bellatrix.solutions/content/uploads/Bellatrix_illustration_White-1.png)
+![Bellatrix](images/Bellatrix_illustration_White-1.png)
 
 Bellatrix is web, desktop, mobile and API test automation framework. It is cross-platform, easily customizable and extensible, increasing tests’ reliability.
 
@@ -20,6 +20,6 @@ This documentation will walk you through the process [installation](https://docs
 
 Meissa Test Runner
 ------------------
-![Meissa](http://stage.bellatrix.solutions/content/uploads/meissa-home-bgr.png)
+![Meissa](images/meissa-home-bgr.png)
 
 Our cross-platform distributed test runner that executes tests in parallel, time balanced. Build to extend Bellatrix capabilities by providing Faster Deployments. Free for the community, find out more [here](https://meissarunner.com/)
