@@ -41,7 +41,7 @@ public class LoggingTests : WebTest
 
 Explanations
 ------------
-By default, you can see the logs in the output window of each test. Also, a file called logs.txt is generated in the folder with the DLLs of your tests. If you execute your tests in CI with some CLI test runner the logs are printed there as well. **outputTemplate** - controls how the message is formatted. You can add additional info such as timestamp and much more. For more info visit- [https://github.com/serilog/serilog/wiki/Formatting-Output](https://github.com/serilog/serilog/wiki/Formatting-Output)
+By default, you can see the logs in the output window of each test. Also, a file called logs.txt is generated in the folder with the DLLs of your tests. If you execute your tests in CI with some CLI test runner the logs are printed there as well. **outputTemplate** - controls how the message is formatted. You can add additional info such as timestamp and much more. For more info visit- [**https://github.com/serilog/serilog/wiki/Formatting-Output**](https://github.com/serilog/serilog/wiki/Formatting-Output)
 ```csharp
 App.Logger.LogInformation("Before adding Falcon 9 rocket to cart.");
 ```
@@ -49,23 +49,17 @@ Sometimes is useful to add information to the generated test log. To do it you c
 
 Generated Log, as you can see the above custom message is added to the log.
 
+```
 \#\#\#\# Start Chrome on PORT = 53153
-
 Start Test
-
 Class = LoggingTests Name = AddCustomMessagesToLog
-
 Select 'Sort by price: low to high' from control (Name ending with orderby)
-
 Hover control (InnerText containing Read more)
-
 Before adding Falcon 9 rocket to cart.
-
 Focus control (data-product_id = 28)
-
 Click control (data-product_id = 28)
-
 Click control (Class = added_to_cart wc-forward)
+```
 
 Configuration
 -------------

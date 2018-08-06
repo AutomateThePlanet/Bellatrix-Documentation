@@ -113,8 +113,8 @@ Set '2' into control (Class = input-text qty text)
 Click control (Value containing Update cart)
 Ensure control (XPath = //*[@class='order-total']//span) inner text is '95.00€'
 Click control (Class = checkout-button button alt wc-forward)
-Ensure control (InnerText containing Click here to login) href is 'http://demos.bellatrix.solutions/checkout/#'
-Ensure control (InnerText containing Click here to login) CSS class is 'showlogin'
+Ensure control (InnerText containing Click here) href is 'http://demos.bellatrix.solutions/checkout/#'
+Ensure control (InnerText containing Click here) CSS class is 'showlogin'
 Scroll to visible control (ID = order_comments)
 Type 'Please send the rocket to my door step!' into control (ID = order_comments)
 Type 'In' into control (ID = billing_first_name)

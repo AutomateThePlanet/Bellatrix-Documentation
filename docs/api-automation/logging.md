@@ -37,15 +37,13 @@ Sometimes is useful to add information to the generated test log. To do it you c
 
 Generated Log, as you can see the above custom message is added to the log.
 
+```
 [11:14:08] Start Test
-
 [11:14:08] Class = LoggingTests Name = GetAlbumById
-
 [11:14:09] Before GET request. CUSTOM MESSAGE ###
-
 [11:14:09] Making GET request against resource api/Albums/10
-
 [11:14:09] Response of request GET against resource api/Albums/10 - Completed
+```
 
 Configuration
 -------------

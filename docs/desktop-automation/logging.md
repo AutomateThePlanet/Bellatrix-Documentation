@@ -61,6 +61,7 @@ Sometimes is useful to add information to the generated test log. To do it you c
 
 Generated Log, as you can see the above custom message is added to the log.
 
+```
 Start Test
 Class = EnsureAssertionsTests Name = CommonActionsWithDesktopControls_Wpf
 Ensure control (AutomationId = calendar) is NOT disabled
@@ -70,6 +71,7 @@ Ensure control (Name = BellaCheckBox) is checked
 Select 'Item2' from control (AutomationId = select) on WPF Sample App
 Click control (Name = RadioButton) on WPF Sample App
 Ensure control (Name = RadioButton) is checked
+```
 
 Configuration
 -------------
