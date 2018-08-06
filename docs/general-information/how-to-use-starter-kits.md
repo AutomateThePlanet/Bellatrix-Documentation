@@ -18,6 +18,9 @@ Create Starter Kit from Visual Studio
 You can use built-in Visual Studio templates to create Bellatrix test projects.
 From **File -> New -> Project** you can find all Bellatrix projects too
 
+![Create New Project Visual Studio](images/create-new-project-visual-studio.png)
+
+![Create Getting Started Visual Studio](images/create-getting-started-solution-visual-studio.png)
 Create Starter Kit from CLI
 ------------------------
 You can create an empty tests project with all required files through bellatrix CLI
@@ -28,9 +31,10 @@ You can create an empty tests project with all required files through bellatrix 
 ```
 bellatrix create --template=Bellatrix.Web.GettingStarted --name=YourProjectsName --location="PathWhereToCreate"
 ```
+![Create Getting Started CLI](images/create-getting-started-console.png)
 
 **All available templates:**
 
-Bellatrix.Web.GettingStarted
-Bellatrix.API.GettingStarted
-Bellatrix.Desktop.GettingStarted
+- Bellatrix.Web.GettingStarted
+- Bellatrix.API.GettingStarted
+- Bellatrix.Desktop.GettingStarted
