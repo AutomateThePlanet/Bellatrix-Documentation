@@ -96,6 +96,7 @@ There cases when you need to show your colleagues or managers what tests do you 
 
 After the test is executed the following log is created:
 
+```
 >Start Chrome on PORT = 34079
 Start Test
 Class = BDDLoggingTests Name = PurchaseRocketWithLogs
@@ -130,7 +131,7 @@ Type '+00359894646464' into control (ID = billing_phone)
 Type 'info@bellatrix.solutions' into control (ID = billing_email)
 Check control (ID = createaccount)
 Click control (for = payment_method_cheque)
-
+```
 
 You can notice that since we use Ensure assertions not the regular one they also present in the log: *Ensure control (XPath = //*[@class='order-total']//span) inner text is '95.00€'*
 
