@@ -50,13 +50,21 @@ Sometimes is useful to add information to the generated test log. To do it you c
 Generated Log, as you can see the above custom message is added to the log.
 
 \#\#\#\# Start Chrome on PORT = 53153
+
 Start Test
+
 Class = LoggingTests Name = AddCustomMessagesToLog
+
 Select 'Sort by price: low to high' from control (Name ending with orderby)
+
 Hover control (InnerText containing Read more)
+
 Before adding Falcon 9 rocket to cart.
+
 Focus control (data-product_id = 28)
+
 Click control (data-product_id = 28)
+
 Click control (Class = added_to_cart wc-forward)
 
 Configuration
