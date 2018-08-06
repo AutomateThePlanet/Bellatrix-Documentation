@@ -17,7 +17,7 @@ Overview
 
 How to Activate Bellatrix?
 --------------------------
-One you have completed your purchase you will receive a number of keys. You need a unique key for each machine where you will use Bellatrix frameworks and tools. Before you can activate the product you need to install or at least download Bellatrix installer from [https://bellatrix.solutions](https://bellatrix.solutions)
+One you have completed your purchase you will receive a number of keys. You need a unique key for each machine where you will use Bellatrix frameworks and tools. Before you can activate the product you need to install or at least download Bellatrix installer from [**https://bellatrix.solutions**](https://bellatrix.solutions)
 If you have installed the product on Windows you can directly access the installer from CMD with the keyword- **bellatrix**. For all other cases you need to first navigate from CMD to the folder of the installer.
 
 ```

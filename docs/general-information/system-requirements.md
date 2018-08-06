@@ -34,8 +34,8 @@ The recommended code editor for writing Bellatrix tests is Visual Studio 2017 or
 
 SDKs and Frameworks Prerequisites
 -------------------------------- 
-[.NET Core SDK 2.1](https://www.microsoft.com/net/download/windows) or higher (usually comes with Visual Studio installation or updates)
+[**.NET Core SDK 2.1**](https://www.microsoft.com/net/download/windows) or higher (usually comes with Visual Studio installation or updates)
 
-For Bellatrix desktop modules you need to download [WinAppDriver](https://github.com/Microsoft/WinAppDriver/releases). You need to make sure it is started before running any Bellatrix desktop tests.
+For Bellatrix desktop modules you need to download [**WinAppDriver**](https://github.com/Microsoft/WinAppDriver/releases). You need to make sure it is started before running any Bellatrix desktop tests.
 
-For Bellatrix mobile modules you need to download and install [Appium](http://appium.io/). You need to make sure it is started before running any Bellatrix mobile tests.
+For Bellatrix mobile modules you need to download and install [**Appium**](http://appium.io/). You need to make sure it is started before running any Bellatrix mobile tests.
