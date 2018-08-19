@@ -149,6 +149,7 @@ BDD Logging
 -----------
 All layout assertion methods have full BDD logging support. Below you can find the generated BDD log. Of course if you use Bellatrix page objects the log looks even better as mentioned in previous chapters.
 
+```
 >Start Test
 >Class = LayoutTestingTests Name = TestPageLayout
 >Assert control (Name = Transfer Button) is above of control (automationId = calendar).
@@ -173,6 +174,7 @@ All layout assertion methods have full BDD logging support. Below you can find t
 >Assert control (Name = Transfer Button) is bottom inside of control (automationId = TransferCalendar).
 >Assert control (Name = Transfer Button) height is <100 px.
 >Assert control (Name = Transfer Button) width is 50-70 px.
+```
 
 All Available Layout Assertion Methods
 --------------------------------------

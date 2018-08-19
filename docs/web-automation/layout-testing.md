@@ -184,6 +184,7 @@ BDD Logging
 -----------
 All layout assertion methods have full BDD logging support. Below you can find the generated BDD log. Of course if you use Bellatrix page objects the log looks even better as mentioned in previous chapters.
 
+```
 >Start Test
 >Class = LayoutTestingTests Name = TestPageLayout
 >Assert control (Name ending with orderby) is above of control (href = /proton-rocket/).
@@ -208,6 +209,7 @@ All layout assertion methods have full BDD logging support. Below you can find t
 >Assert control (Class = star-rating) is bottom inside of control (href = /saturn-v/).
 >Assert control (Class = star-rating) height is <100 px.
 >Assert control (Class = star-rating) width is 50-70 px.
+```
 
 All Available Layout Assertion Methods
 --------------------------------------
