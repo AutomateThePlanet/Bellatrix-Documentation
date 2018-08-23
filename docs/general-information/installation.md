@@ -22,7 +22,7 @@ Installation Steps
 4. Start bellatrix.exe (as administrator for Windows)
 5. Wait for the installation to complete
 
-After you install the product you need to create a starter kit project to see how to use all features or create an empty Bellatrix tests project. You can read more about starter kits [**here**](how-to-use-starter-kits.md) or how to use templates [**here**](https://docs.bellatrix.solutions/web-automation/templates.md).
+After you install the product you need to create a starter kit project to see how to use all features or create an empty Bellatrix tests project. You can read more about starter kits [**here**](how-to-use-starter-kits.md) or how to use templates [**here**](https://docs.bellatrix.solutions/web-automation/templates).
 
 Testing on Remote Machines
 --------------------------
