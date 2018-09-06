@@ -24,18 +24,26 @@ From **File -> New -> Project** you can find all Bellatrix projects too
 
 Create Starter Kit from CLI
 ------------------------
-You can create an empty tests project with all required files through bellatrix CLI
-1. Open CMD
-2. Using the command "bellatrix listTemplates" you can see all available templates 
-3. Create an empty project depending on the desired unit test framework and technology
+Before you can create a new project, you need to install the template first.
 
-```
-bellatrix create --template=Bellatrix.Web.GettingStarted --name=YourProjectsName --location="PathWhereToCreate"
-```
-![Create Getting Started CLI](images/create-getting-started-console.png)
+**All available getting started templates:**
 
-**All available templates:**
-
-- Bellatrix.Web.GettingStarted
 - Bellatrix.API.GettingStarted
 - Bellatrix.Desktop.GettingStarted
+- Bellatrix.Web.GettingStarted
+
+**Install Template**
+
+```
+dotnet new -i Bellatrix.Web.GettingStarted
+```
+
+**Create Project from Template**
+1. Open the folder where you want the files to be placed
+2. Open CMD
+3. Type the below command for the desired template
+
+```
+dotnet new Bellatrix.Web.GettingStarted
+```
+![Create Getting Started CLI](images/create-getting-started-console.png)

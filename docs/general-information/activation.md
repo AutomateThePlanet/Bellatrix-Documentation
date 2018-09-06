@@ -17,38 +17,47 @@ Overview
 
 How to Activate Bellatrix?
 --------------------------
-One you have completed your purchase you will receive a number of keys. You need a unique key for each machine where you will use Bellatrix frameworks and tools. Before you can activate the product you need to install or at least download Bellatrix installer from [**https://bellatrix.solutions**](https://bellatrix.solutions)
-If you have installed the product on Windows you can directly access the installer from CMD with the keyword- **bellatrix**. For all other cases you need to first navigate from CMD to the folder of the installer.
+One you have completed your purchase you will receive a number of keys. You need a unique key for each machine where you will use Bellatrix frameworks and tools. 
+Before you can activate the product you need to install the latest version of Bellatrix Tools.
 
+1. Create a new empty folder
+2. Open CMD
+3. Install Bellatrix Tools with the bellow two commands depending on the OS
+
+**Windows**
 ```
-bellatrix activateLicense --email=bellatrixTest@yahoo.com --licenseKey=2v99d5bb-f0bd-64a3-bg26-1b12517cc05c
+dotnet new -i Bellatrix.Tools.Windows
+dotnet new Bellatrix.Tools.Windows
 ```
-This is how you activate the product if your OS is Windows 10 and have installed Bellatrix.
+**MacOS**
 ```
-C:\Users\youUserName\Documents\bellatrix-installer-win-x64\bellatrix.exe activateLicense --email=bellatrixTest@yahoo.com --licenseKey=2v99d5bb-f0bd-64a3-bg26-1b12517cc05c
+dotnet new -i Bellatrix.Tools.Mac64
+dotnet new Bellatrix.Tools.Mac64
 ```
-This is the command if Bellatrix is not installed. This is sometimes useful if you want to activate a license on a remote machine.
+**Linux**
+```
+dotnet new -i Bellatrix.Tools.Linux64
+dotnet new Bellatrix.Tools.Linux64
+```
+
+This is how you activate the product.
+```
+dotnet bellatrix.dll activateLicense --email=bellatrixTest@yahoo.com --licenseKey=2v99d5bb-f0bd-64a3-bg26-1b12517cc05c
+```
 
 **Note**: All license keys are floating. This means you can activate and deactivate them on different machines as many times as you want till they are active.
 
 Deactivate
 ---------- 
+This is how you deactivate the product.
 ```
-bellatrix deactivateLicense
+dotnet bellatrix.dll deactivateLicense
 ```
-This is how you deactivate the product if your OS is Windows 10 and have installed Bellatrix.
-```
-C:\Users\youUserName\Documents\bellatrix-installer-win-x64\bellatrix.exe deactivateLicense
-```
-This is the command if Bellatrix is not installed. This is sometimes useful if you want to deactivate a license on a remote machine.
+This is sometimes useful if you want to deactivate a license on a remote machine.
 
 Display Installed License Information
 ---------- 
+View information about currently installed license.
 ```
-bellatrix statusLicense
+dotnet bellatrix.dll statusLicense
 ```
-This is how you view information about your currently installed license if your OS is Windows 10 and have installed Bellatrix.
-```
-C:\Users\youUserName\Documents\bellatrix-installer-win-x64\bellatrix.exe statusLicense
-```
-This is the command if Bellatrix is not installed.
