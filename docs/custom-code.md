@@ -1,12 +1,9 @@
 ---
 layout: default
 title:  "Custom Code"
-excerpt: "All You Need to Write Maintainable Regression Tests"
+excerpt: "Custom Code"
 date:   2018-02-20 06:50:17 +0200
-permalink: /overview/
-anchors:
-  bellatrix-test-automation-framework : Bellatrix Test Automation Framework 
-  meissa-test-runner: Meissa Test Runner
+permalink: /customcode/
 ---
 Bellatrix Test Automation Framework 
 ---------------------------------------------------------
