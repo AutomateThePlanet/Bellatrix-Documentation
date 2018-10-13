@@ -96,3 +96,9 @@ To make web pages load faster, you can block some not required services- for exa
 ```csharp
 App.ProxyService.SetUrlToBeBlocked("http://demos.bellatrix.solutions/favicon.ico");
 ```
+
+
+You can set various URLs to be redirected. This is useful if you do not have access to production code and want to use a mock service instead.
+```csharp
+App.ProxyService.SetUrlToBeRedirectedTo( "http://demos.bellatrix.solutions/favicon.ico", "http://demos.bellatrix.solutions/logo.svg");
+```
