@@ -18,10 +18,9 @@ confirmButton.Click();
 
 Bellatrix example 
 ```csharp
-WebDriver
- var agreeCheckBox = driver.FindElement(By.Id("agreeChB")); // checked by default
-var confirmButton = driver.FindElement(By.Id("confirm"));
-agreeCheckBox.Click(); // disables the button
+var agreeCheckBox = App.ElementCreateService.CreateById<CheckBox>("agreeChB");
+var confirmButton = App.ElementCreateService.CreateById<Button>("confirm");
+agreeCheckBox.Uncheck();
 confirmButton.Click();
 ```
 
