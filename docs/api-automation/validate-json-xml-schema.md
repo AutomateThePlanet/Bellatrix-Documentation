@@ -8,68 +8,89 @@ permalink: /api-automation/validate-json-and-xml-schema/
 anchors:
   example: Example
   explanations: Explanations
-  configuration: Configuration
 ---
 Example
 -------
 ```csharp
 [TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
-public class LoggingTests : WebTest
+public class ValidateSchemaTests : APITest
 {
     [TestMethod]
-    public void AddCustomMessagesToLog()
+    public void AssertJsonSchema()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var request = new RestRequest("api/Albums/10");
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-        Anchor addToCartFalcon9 = App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-        Anchor viewCartButton = App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+        var response = App.GetApiClientService().Get<Albums>(request);
 
-        sortDropDown.SelectByText("Sort by price: low to high");
-        protonMReadMoreButton.Hover();
+        // 1. The expected JSON schema.
+        // http://json-schema.org/examples.html
+        var expectedSchema = @"{
+          ""definitions"": {},
+          ""$schema"": ""http://json-schema.org/draft-07/schema#"",
+          ""$id"": ""http://example.com/root.json"",
+          ""type"": ""object"",
+          ""title"": ""The Root Schema"",
+          ""required"": [
+            ""albumId"",
+            ""title"",
+            ""artistId"",
+            ""artist"",
+            ""tracks""
+          ],
+          ""properties"": {
+            ""albumId"": {
+              ""$id"": ""#/properties/albumId"",
+              ""type"": ""integer"",
+              ""title"": ""The Albumid Schema"",
+              ""default"": 0,
+              ""examples"": [
+                10
+              ]
+            },
+            ""title"": {
+              ""$id"": ""#/properties/title"",
+              ""type"": ""string"",
+              ""title"": ""The Title Schema"",
+              ""default"": """",
+              ""examples"": [
+                ""Audioslave""
+              ],
+              ""pattern"": ""^(.*)$""
+            },
+            ""artistId"": {
+              ""$id"": ""#/properties/artistId"",
+              ""type"": ""integer"",
+              ""title"": ""The Artistid Schema"",
+              ""default"": 0,
+              ""examples"": [
+                8
+              ]
+            },
+            ""artist"": {
+              ""$id"": ""#/properties/artist"",
+              ""type"": ""null"",
+              ""title"": ""The Artist Schema"",
+              ""default"": null,
+              ""examples"": [
+                null
+              ]
+            },
+            ""tracks"": {
+              ""$id"": ""#/properties/tracks"",
+              ""type"": ""array"",
+              ""title"": ""The Tracks Schema""
+            }
+          }
+        }";
 
-        App.Logger.LogInformation("Before adding Falcon 9 rocket to cart.");
-
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        viewCartButton.Click();
+        response.AssertSchema(expectedSchema);
     }
 }
 ```
 
 Explanations
 ------------
-By default, you can see the logs in the output window of each test. Also, a file called logs.txt is generated in the folder with the DLLs of your tests. If you execute your tests in CI with some CLI test runner the logs are printed there as well. **outputTemplate** - controls how the message is formatted. You can add additional info such as timestamp and much more. For more info visit- [https://github.com/serilog/serilog/wiki/Formatting-Output](https://github.com/serilog/serilog/wiki/Formatting-Output)
 ```csharp
-App.Logger.LogInformation("Before adding Falcon 9 rocket to cart.");
+response.AssertSchema(expectedSchema);
 ```
-Sometimes is useful to add information to the generated test log. To do it you can use the Bellatrix built-in logger through accessing it via App service.
-
-Generated Log, as you can see the above custom message is added to the log.
-
-\#\#\#\# Start Chrome on PORT = 53153
-Start Test
-Class = LoggingTests Name = AddCustomMessagesToLog
-Select 'Sort by price: low to high' from control (Name ending with orderby)
-Hover control (InnerText containing Read more)
-Before adding Falcon 9 rocket to cart.
-Focus control (data-product_id = 28)
-Click control (data-product_id = 28)
-Click control (Class = added_to_cart wc-forward)
-
-Configuration
--------------
-```json
-"logging": {
-    "isEnabled": "true",
-    "isConsoleLoggingEnabled": "true",
-    "isDebugLoggingEnabled": "true",
-    "isEventLoggingEnabled": "false",
-    "isFileLoggingEnabled": "true",
-    "outputTemplate":  "{Message:lj}{NewLine}",
-    "addUrlToBddLogging": "false"
-}
-```
-In the **testFrameworkSettings.json** file find a section called **logging**, responsible for controlling the logs generation. You can disable the logs entirely. There are different places where the logs are populated.
+Use the Bellatrix **AssertSchema** method to validate the schema. The method can be used for XML and JSON responses.
