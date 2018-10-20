@@ -30,7 +30,7 @@ For each proxy element in Bellatrix, we give you a corresponding snippet. For ex
 
 List of All Available Snippets
 ------------------------------
-Here is the list of all available snippets for Bellatrix Web module:
+Here is the list of all available snippets for Bellatrix Desktop module:
 
 Snippet | Generated Element
 ------------ | -------------

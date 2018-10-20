@@ -74,11 +74,6 @@ Waits for the element to be clickable (may be disabled at first).
 App.ElementCreateService.CreateByName<Button>("Purchase").ToHasContent();
 ```
 Waits for the element to has some content in it. For example, some validation DIV or label.
-### ToHasStyle ###
-```csharp
-App.ElementCreateService.CreateByName<Button>("Purchase").ToHasStyle("disabled");
-```
-Waits for the element to have some content in it. For example, some validation DIV or label.
 ### ToBeDisabled ###
 ```csharp
 App.ElementCreateService.CreateByName<Anchor>("Purchase").ToBeDisabled();
