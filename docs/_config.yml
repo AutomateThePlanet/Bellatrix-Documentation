@@ -203,6 +203,8 @@ navigation:
                 title: Extensibility- Extend Elements Child Elements
             "extensibility-extend-common-services":
                 title: Extensibility- Extend Common Services
+			"extensibility-add-new-find-locators":
+                title: Extensibility- Add New Find Locators
             "templates":
                 title: Templates
             "folder-and-file-structure":
