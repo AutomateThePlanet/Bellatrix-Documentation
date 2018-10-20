@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Extensibility- Add New Find Locators"
-excerpt: "Learn how to extend Bellatrix add new custom find locators."
+excerpt: "Learn how to extend Bellatrix adding new custom find locators."
 date:   2018-06-23 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/extensibility-add-new-find-locators/
