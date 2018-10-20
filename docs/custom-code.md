@@ -87,6 +87,11 @@ saturnVRating.AssertInsideOf(SpecialElements.Screen);
 
 
 15+ Predefined Resolutions
+
+Desktop
+```csharp
+[Browser(BrowserType.Chrome, DesktopWindowSize._1280_1024,  BrowserBehavior.RestartEveryTime)]
+ ```
 ```csharp
 [Browser(BrowserType.Firefox, MobileWindowSize._360_640,  BrowserBehavior.RestartEveryTime)]
  ```
