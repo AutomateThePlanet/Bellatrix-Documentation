@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Measure Response Times"
-excerpt: "Learn how to measure text execution times using Bellatrix desktop module."
+excerpt: "Learn how to measure text execution times using Bellatrix Android module."
 date:   2018-10-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/measure-test-execution-times/
