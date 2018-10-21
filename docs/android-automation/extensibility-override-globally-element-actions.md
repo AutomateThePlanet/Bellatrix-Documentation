@@ -2,9 +2,9 @@
 layout: default
 title:  "Extensibility- Override Globally Element Actions"
 excerpt: "Learn how to override some desktop elements actions/properties for the whole tests execution."
-date:   2018-06-23 06:50:17 +0200
-parent: desktop-automation
-permalink: /desktop-automation/extensibility-override-globally-element-actions/
+date:   2018-10-23 06:50:17 +0200
+parent: android-automation
+permalink: /android-automation/extensibility-override-globally-element-actions/
 anchors:
   example: Example
   explanations: Explanations
@@ -13,9 +13,13 @@ Example
 -------
 ```csharp
 [TestClass]
-[VideoRecording(VideoRecordingMode.OnlyFail)]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
-public class OverrideGloballyElementActionsTests : DesktopTest
+[Android(Constants.AndroidNativeAppPath,
+    Constants.AndroidDefaultAndroidVersion,
+    Constants.AndroidDefaultDeviceName,
+    Constants.AndroidNativeAppAppExamplePackage,
+    ".view.Controls1",
+    AppBehavior.ReuseIfStarted)]
+public class OverrideGloballyElementActionsTests : AndroidTest
 {
     public override void TestsArrange()
     {
@@ -26,32 +30,29 @@ public class OverrideGloballyElementActionsTests : DesktopTest
             e.Click();
         };
 
-        Expander.OverrideClickGlobally = CustomFocus;
+        RadioButton.OverrideClickGlobally = CustomClick;
     }
 
-    private void CustomFocus(Expander expander)
+    private void CustomClick(RadioButton radioButton)
     {
-        expander.ScrollToVisible();
+        radioButton.ScrollToVisible();
         Thread.Sleep(100);
-        expander.Click();
+        radioButton.Click();
     }
 
     [TestMethod]
-    public void MessageChanged_When_ButtonHovered_Wpf()
+    public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("E Button");
+        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
 
-        button.Hover();
-
-        var label = App.ElementCreateService.CreateByName<Button>("ebuttonHovered");
-        Assert.AreEqual("ebuttonHovered", label.InnerText);
+        button.Click();
     }
 }
 ```
 
 Explanations
 ------------
-Extensibility and customisation are one of the biggest advantages of Bellatrix. So, each Bellatrix desktop control gives you the possibility to override its behaviour for the whole test run. You need to initialise the static delegates- **Override{MethodName}Globally**.
+Extensibility and customization are one of the biggest advantages of Bellatrix. So, each Bellatrix desktop control gives you the possibility to override its behaviour for the whole test run. You need to initialise the static delegates- **Override{MethodName}Globally**.
 ```csharp
 Button.OverrideClickGlobally = (e) =>
 {
@@ -62,16 +63,16 @@ Button.OverrideClickGlobally = (e) =>
 ```
 We override the behaviour of the button control with an anonymous lambda function. Instead of using clicking the button directly first wait to be clickable and scroll to be visible.
 ```csharp
-Expander.OverrideClickGlobally = CustomFocus;
+RadioButton.OverrideClickGlobally = CustomClick;
 
-private void CustomFocus(Expander expander)
+private void CustomClick(RadioButton radioButton)
 {
-    expander.ScrollToVisible();
+    radioButton.ScrollToVisible();
     Thread.Sleep(100);
-    expander.Click();
+    radioButton.Click();
 }
 ```
-Override the expander Click method by assigning a local private function to the global delegate.
+Override the radio button Click method by assigning a local private function to the global delegate.
 
 **Note:** *Keep in mind that once the control is overridden globally, all tests call your custom logic, the default behaviour is gone.*
 
@@ -79,6 +80,5 @@ Override the expander Click method by assigning a local private function to the 
 
 Here is a list of all global override **Button** delegates:
 - OverrideClickGlobally
-- OverrideHoverGlobally
-- OverrideInnerTextGlobally
+- OverrideGetTextGlobally
 - OverrideIsDisabledGlobally
