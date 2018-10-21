@@ -140,7 +140,7 @@ navigation:
                 title: Extensibility- Extend Elements Child Elements
             "extensibility-extend-common-services":
                 title: Extensibility- Extend Common Services
-            "extensibility-add-new-find-locators": 
+            "extensibility-add-new-find-locators":  
                 title: Extensibility- Add New Find Locators
 			"extensibility-add-new-element-wait-methods": 
                 title: Extensibility- Add New Element Wait Methods			
@@ -207,7 +207,7 @@ navigation:
                 title: Extensibility- Extend Common Services
             "extensibility-add-new-find-locators": 
                 title: Extensibility- Add New Find Locators
-			"extensibility-add-new-element-wait-methods": 
+			"extensibility-add-new-element-wait-methods":  
                 title: Extensibility- Add New Element Wait Methods
             "templates":
                 title: Templates
