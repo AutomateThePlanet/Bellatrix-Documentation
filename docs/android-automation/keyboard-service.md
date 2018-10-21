@@ -1,10 +1,10 @@
 ---
 layout: default
-title:  "FileSystemService"
-excerpt: "Learn how to use Bellatrix Android FileSystemService."
+title:  "KeyboardService"
+excerpt: "Learn how to use Bellatrix Android KeyboardService."
 date:   2018-06-22 06:50:17 +0200
 parent: android-automation
-permalink: /android-automation/file-system-service/
+permalink: /android-automation/keyboard-service/
 anchors:
   example: Example
   explanations: Explanations
@@ -17,99 +17,65 @@ Example
     Constants.AndroidDefaultAndroidVersion,
     Constants.AndroidDefaultDeviceName,
     Constants.AndroidNativeAppAppExamplePackage,
-    ".ApiDemos",
+    ".app.CustomTitle",
     AppBehavior.RestartEveryTime)]
-public class FileSystemServiceTests : AndroidTest
+public class KeyboardServiceTests : AndroidTest
 {
     [TestMethod]
-    public void FileSavedToDevice_When_CallPushFile()
+    public void TestHideKeyBoard()
     {
-        string data = "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra";
-        App.FileSystemService.PushFile("/data/local/tmp/remote.txt", data);
+        var textField = App.ElementCreateService.CreateByIdContaining<TextField>("left_text_edit");
+        textField.SetText(string.Empty);
 
-        byte[] returnDataBytes = App.FileSystemService.PullFile("/data/local/tmp/remote.txt");
-        string returnedData = Encoding.UTF8.GetString(returnDataBytes);
-
-        Assert.AreEqual(data, returnedData);
+        App.KeyboardService.HideKeyboard();
     }
 
     [TestMethod]
-    public void FileSavedToDevice_When_CallPushFileFromBytes()
+    public void PressKeyCodeTest()
     {
-        string data = "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra";
-        var bytes = Encoding.UTF8.GetBytes(data);
-
-        App.FileSystemService.PushFile("/data/local/tmp/remote.txt", bytes);
-
-        byte[] returnDataBytes = App.FileSystemService.PullFile("/data/local/tmp/remote.txt");
-        string returnedData = Encoding.UTF8.GetString(returnDataBytes);
-
-        Assert.AreEqual(data, returnedData);
+        App.KeyboardService.PressKeyCode(AndroidKeyCode.Home);
     }
 
     [TestMethod]
-    public void FileSavedToDevice_When_CallPushFileFromFileInfo()
+    public void PressKeyCodeWithMetaStateTest()
     {
-        string filePath = Path.GetTempPath();
-        var fileName = Guid.NewGuid().ToString();
-        string fullPath = Path.Combine(filePath, fileName);
-
-        File.WriteAllText(fullPath,
-            "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra");
-
-        try
-        {
-            var file = new FileInfo(fullPath);
-
-            App.FileSystemService.PushFile("/data/local/tmp/remote.txt", file);
-
-            byte[] returnDataBytes = App.FileSystemService.PullFile("/data/local/tmp/remote.txt");
-            string returnedData = Encoding.UTF8.GetString(returnDataBytes);
-            Assert.AreEqual(
-                "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra",
-                returnedData);
-        }
-        finally
-        {
-            File.Delete(fullPath);
-        }
+        App.KeyboardService.PressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
     }
 
     [TestMethod]
-    public void AllFilesReturned_When_CallPullFolder()
+    public void LongPressKeyCodeTest()
     {
-        string data = "The eventual code is no more than the deposit of your understanding. ~E. W. Dijkstra";
-        App.FileSystemService.PushFile("/data/local/tmp/remote.txt", data);
+        App.KeyboardService.LongPressKeyCode(AndroidKeyCode.Home);
+    }
 
-        byte[] returnDataBytes = App.FileSystemService.PullFolder("/data/local/tmp/");
-
-        Assert.IsTrue(returnDataBytes.Length > 0);
+    [TestMethod]
+    public void LongPressKeyCodeWithMetaStateTest()
+    {
+        App.KeyboardService.LongPressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
     }
 }
 ```
 
 Explanations
 ------------
-Bellatrix gives you an interface for easier work with files using the FileSystemService class.
+Bellatrix gives you an interface for easier work with device's keyboard through KeyboardService class.
 ```csharp
-App.FileSystemService.PushFile("/data/local/tmp/remote.txt", data);
+App.KeyboardService.HideKeyboard();
 ```
-Creates a new file on the device with the specified text.
+Hides the keyboard.
 ```csharp
-byte[] returnDataBytes = App.FileSystemService.PullFile("/data/local/tmp/remote.txt");
+App.KeyboardService.PressKeyCode(AndroidKeyCode.Home);
 ```
-Returns the content of the specified file as a byte array.
+Press the Home button.
 ```csharp
-var bytes = Encoding.UTF8.GetBytes(data);
-App.FileSystemService.PushFile("/data/local/tmp/remote.txt", bytes);
+App.KeyboardService.PressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
 ```
-Creates a new file on the device from the specified byte array.
+Press Space key simulating that the Shift key is ON.
 ```csharp
-var file = new FileInfo(fullPath);
-App.FileSystemService.PushFile("/data/local/tmp/remote.txt", file);
+App.KeyboardService.LongPressKeyCode(AndroidKeyCode.Home);
 ```
-Creates a new file on the device from the specified file info.
+Long press the Home button.
 ```csharp
-byte[] returnDataBytes = App.FileSystemService.PullFolder("/data/local/tmp/");
+App.KeyboardService.LongPressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
 ```
-Returns the content of the specified folder as a byte array.
+Long press Space key simulating that the Shift key is ON.
