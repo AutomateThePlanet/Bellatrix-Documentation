@@ -184,9 +184,7 @@ navigation:
             "static-analysis":
                 title: Static Analysis
             "logging":
-                title: Logging
-			"measure-test-execution-times":
-                title: Measure Response Times
+                title: Logging			
             "extensibility-test-workflow-hooks":
                 title: Extensibility- Test Workflow Hooks
             "extensibility-custom-test-workflow-plugins":
@@ -204,11 +202,7 @@ navigation:
             "extensibility-extend-existing-elements-child-elements":
                 title: Extensibility- Extend Elements Child Elements
             "extensibility-extend-common-services":
-                title: Extensibility- Extend Common Services
-			"extensibility-add-new-find-locators":
-                title: Extensibility- Add New Find Locators
-			"extensibility-add-new-element-wait-methods":
-                title: Extensibility- Add New Element Wait Methods
+                title: Extensibility- Extend Common Services			
             "templates":
                 title: Templates
             "folder-and-file-structure":
