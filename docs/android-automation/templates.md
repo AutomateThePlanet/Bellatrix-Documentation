@@ -2,9 +2,9 @@
 layout: default
 title:  "Templates"
 excerpt: "Learn how to use pre-built Bellatrix templates."
-date:   2018-02-20 06:50:17 +0200
-parent: desktop-automation
-permalink: /desktop-automation/templates/
+date:   2018-10-20 06:50:17 +0200
+parent: android-automation
+permalink: /android-automation/templates/
 anchors:
   create-projects-from-visual-studio: Create Projects from Visual Studio
   create-projects-from-cli: Create Projects from CLI
@@ -37,11 +37,17 @@ Before you can create a new project, you need to install the Bellatrix template 
 - Bellatrix.Web.GettingStarted
 - Bellatrix.Web.MSTest.Tests
 - Bellatrix.Web.NUnit.Tests
+- Bellatrix.Mobile.Android.GettingStarted
+- Bellatrix.Mobile.Android.MSTest.Tests
+- Bellatrix.Mobile.Android.NUnit.Tests
+- Bellatrix.Mobile.IOS.GettingStarted
+- Bellatrix.Mobile.IOS.MSTest.Tests
+- Bellatrix.Mobile.IOS.NUnit.Tests
 
 **Install Template**
 
 ```
-dotnet new -i Bellatrix.Desktop.GettingStarted
+dotnet new -i Bellatrix.Mobile.Android.GettingStarted
 ```
 
 **Create Project from Template**
@@ -50,7 +56,7 @@ dotnet new -i Bellatrix.Desktop.GettingStarted
 3. Type the bellow command for the desired template
 
 ```
-dotnet new Bellatrix.Desktop.GettingStarted
+dotnet new Bellatrix.Mobile.Android.GettingStarted
 ```
 
 ![Create Getting Started CLI](images/create-getting-started-console.png)

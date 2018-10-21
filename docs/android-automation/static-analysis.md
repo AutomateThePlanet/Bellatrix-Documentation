@@ -2,9 +2,9 @@
 layout: default
 title:  "Static Analysis"
 excerpt: "Learn how to use the Bellatrix Static Analysis."
-date:   2018-06-23 06:50:17 +0200
-parent: desktop-automation
-permalink: /desktop-automation/static-analysis/
+date:   2018-10-23 06:50:17 +0200
+parent: android-automation
+permalink: /android-automation/static-analysis/
 anchors:
   introduction: Introduction
   benefits: Benefits
