@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Add New Find Locators"
 excerpt: "Learn how to extend Bellatrix adding new custom find locators."
-date:   2018-06-23 06:50:17 +0200
+date:   2018-10-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/extensibility-add-new-find-locators/
 anchors:
