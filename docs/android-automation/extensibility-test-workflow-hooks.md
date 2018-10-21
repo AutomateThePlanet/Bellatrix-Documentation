@@ -2,9 +2,9 @@
 layout: default
 title:  "Extensibility- Test Workflow Hooks"
 excerpt: "Learn how to extend the Bellatrix test workflow using hooks."
-date:   2018-06-23 06:50:17 +0200
-parent: desktop-automation
-permalink: /desktop-automation/extensibility-test-workflow-hooks/
+date:   2018-10-23 06:50:17 +0200
+parent: android-automation
+permalink: /android-automation/extensibility-test-workflow-hooks/
 anchors:
   example: Example
   explanations: Explanations
@@ -13,22 +13,27 @@ Example
 -------
 ```csharp
 [TestClass]
-[VideoRecording(VideoRecordingMode.OnlyFail)]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
-public class TestWorkflowHooksTests : DesktopTest
+[Android(Constants.AndroidNativeAppPath,
+    Constants.AndroidDefaultAndroidVersion,
+    Constants.AndroidDefaultDeviceName,
+    Constants.AndroidNativeAppAppExamplePackage,
+    ".view.Controls1",
+    AppBehavior.ReuseIfStarted)]
+public class TestWorkflowHooksTests : AndroidTest
 {
-    private static Button _mainButton;
-    private static Label _resultsLabel;
+    private static Button _button;
+    private static CheckBox _checkBox;
     
     public override void TestsArrange()
     {
-        _mainButton = App.ElementCreateService.CreateByName<Button>("E Button");
-        _resultsLabel = App.ElementCreateService.CreateByName<Label>("ebuttonHovered");
+        _button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        _checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
     }
 
     public override void TestsAct()
     {
-        _mainButton.Hover();
+        _button.Click();
+        _checkBox.Check();
     }
 
     public override void TestInit()
@@ -42,17 +47,15 @@ public class TestWorkflowHooksTests : DesktopTest
     }
 
     [TestMethod]
-    public void MessageChanged_When_ButtonHovered_Wpf()
+    public void ButtonIsAboveOfCheckBox_GreaterThanOrEqual105px()
     {
-        Assert.AreEqual("ebuttonHovered", _resultsLabel.InnerText);
+        _button.AssertAboveOfGreaterThanOrEqual(_checkBox, 105);
     }
 
     [TestMethod]
-    [App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
-    [VideoRecording(VideoRecordingMode.DoNotRecord)]
-    public void ResultsLabelVisible_When_ButtonClicked_Wpf()
+    public void ButtonIsNearTopOfCheckBox_GreaterThan100px()
     {
-        _resultsLabel.EnsureIsVisible();
+        _button.AssertNearTopOfGreaterThan(_checkBox, 100);
     }
 }
 ```
@@ -75,7 +78,7 @@ The following methods are called once for test class:
 The following methods are called once for each test in the class:
 
 7. All plug-ins **PreTestInit** logic executes.
-8. Current class **TestInit** method executes. By default it is empty, but you can override it in each class and execute your logic. You can add some logic that is executed for each test instead of copy pasting it for each test. For example- navigating to a specific web page.
+8. Current class **TestInit** method executes. By default it is empty, but you can override it in each class and execute your logic. You can add some logic that is executed for each test instead of copy pasting it for each test. For example- navigating to a specific Android activity.
 9. All plug-ins **PostTestInit** logic executes.
 10. All plug-ins **PreTestCleanup** logic executes.
 11. Current class **TestCleanup** method executes. By default it is empty, but you can override it in each class and execute your logic.
@@ -87,13 +90,14 @@ You can add some logic that is executed after each test instead of copy pasting 
 ```csharp
 public override void TestsArrange()
 {
-    _mainButton = App.ElementCreateService.CreateByName<Button>("E Button");
-    _resultsLabel = App.ElementCreateService.CreateByName<Label>("ebuttonHovered");
+    _button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+	_checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
 }
 
 public override void TestsAct()
 {
-    _mainButton.Hover();
+    _button.Click();
+	_checkBox.Check();
 }
 ```
 This is one of the ways you can use **TestsArrange** and **TestsAct**. You can find create all elements in the **TestsArrange** and create all necessary data for the tests. Then in the **TestsAct** execute the actual tests logic but without asserting anything. Then in each separate test execute single assert or ensure method. Following the best testing practices- having a single assertion in a test. If you execute multiple assertions and if one of them fails, the next ones are not executed which may lead to missing some major clue about a bug in your product. Anyhow, Bellatrix allows you to write your tests the standard way of executing the primary logic in the tests or reuse some of it through the usage of **TestInit** and **TestCleanup** methods.
