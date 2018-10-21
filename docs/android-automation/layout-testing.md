@@ -2,9 +2,9 @@
 layout: default
 title:  "Layout Testing"
 excerpt: "Learn how to use the Bellatrix layout testing library."
-date:   2018-06-22 06:50:17 +0200
-parent: desktop-automation
-permalink: /desktop-automation/layout-testing/
+date:   2018-10-22 06:50:17 +0200
+parent: android-automation
+permalink: /android-automation/layout-testing/
 anchors:
   example: Example
   explanations: Explanations
@@ -14,51 +14,52 @@ anchors:
 Example
 -------
 ```csharp
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
-public class LayoutTestingTests : DesktopTest
+[TestMethod]
+public void TestPageLayout()
 {
-    [TestMethod]
-    public void CommonActionsWithDesktopControls_Wpf()
-    {
-        var button = App.ElementCreateService.CreateByName<Button>("E Button");
-        var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
-        var radioButton = App.ElementCreateService.CreateByName<RadioButton>("RadioButton");
-        var selectedRadioButton = App.ElementCreateService.CreateByName<RadioButton>("SelectedRadioButton");
+    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+    var secondButton = App.ElementCreateService.CreateByIdContaining<Button>("button_disabled");
+    var checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
+    var secondCheckBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check2");
+    var mainElement = App.ElementCreateService.CreateById<Element>("android:id/content");
 
-        button.AssertAboveOf(calendar);
+    button.AssertAboveOf(checkBox);
 
-        button.AssertAboveOf(calendar, 106);
-        button.AssertAboveOfGreaterThan(calendar, 100);
-        button.AssertAboveOfGreaterThanOrEqual(calendar, 106);
-        button.AssertAboveOfLessThan(calendar, 110);
-        button.AssertAboveOfLessThanOrEqual(calendar, 106);
+    button.AssertAboveOf(checkBox, 105);
 
-        button.AssertNearTopOfGreaterThan(calendar, 100);
-        button.AssertNearTopOfGreaterThanOrEqual(calendar, 106);
-        button.AssertNearTopOfLessThan(calendar, 107);
-        button.AssertNearTopOfLessThanOrEqual(calendar, 106);
+    button.AssertAboveOfGreaterThan(checkBox, 100);
+    button.AssertAboveOfGreaterThanOrEqual(checkBox, 105);
+    button.AssertAboveOfLessThan(checkBox, 110);
+    button.AssertAboveOfLessThanOrEqual(checkBox, 105);
 
-        button.AssertAboveOfApproximate(calendar, 105, percent: 10);
+    button.AssertNearTopOfGreaterThan(checkBox, 100);
+    button.AssertNearTopOfGreaterThanOrEqual(checkBox, 105);
+    button.AssertNearTopOfLessThan(checkBox, 106);
+    button.AssertNearTopOfLessThanOrEqual(checkBox, 105);
 
-        button.AssertAboveOfBetween(calendar, 100, 115);
+    button.AssertAboveOfApproximate(checkBox, 104, percent: 10);
 
-        saturnVAnchor.AssertNearBottomRightOf(sortDropDown);
-        sortDropDown.AssertNearTopLeftOf(saturnVAnchor);
+    button.AssertAboveOfBetween(checkBox, 100, 120);
 
-        LayoutAssert.AssertAlignedHorizontallyAll(button, button1);
-        LayoutAssert.AssertAlignedHorizontallyCentered(protonRocketAnchor, protonMAnchor, saturnVAnchor);
-        LayoutAssert.AssertAlignedHorizontallyBottom(protonRocketAnchor, protonMAnchor, saturnVAnchor);
-        
-        LayoutAssert.AssertAlignedVerticallyLeft(radioButton, selectedRadioButton);
+    checkBox.AssertNearBottomRightOf(button);
+    button.AssertNearTopLeftOf(checkBox);
 
-        LayoutAssert.AssertAlignedVerticallyCentered(radioButton, selectedRadioButton);
-        LayoutAssert.AssertAlignedVerticallyRight(radioButton, selectedRadioButton);
+    LayoutAssert.AssertAlignedHorizontallyAll(button, secondButton);
 
-        firstNumber.AssertInsideOf(calendar);
+    LayoutAssert.AssertAlignedHorizontallyTop(button, secondButton);
+    LayoutAssert.AssertAlignedHorizontallyCentered(button, secondButton, secondButton);
+    LayoutAssert.AssertAlignedHorizontallyBottom(button, secondButton, secondButton);
 
-        button.AssertHeightLessThan(100);
-        button.AssertWidthBetween(70, 80);
-    }
+    LayoutAssert.AssertAlignedVerticallyAll(secondCheckBox, checkBox);
+
+    LayoutAssert.AssertAlignedVerticallyLeft(secondCheckBox, checkBox);
+    LayoutAssert.AssertAlignedVerticallyCentered(secondCheckBox, checkBox);
+    LayoutAssert.AssertAlignedVerticallyRight(secondCheckBox, checkBox);
+
+    button.AssertInsideOf(mainElement);
+
+    button.AssertHeightLessThan(100);
+    button.AssertWidthBetween(50, 80);
 }
 ```
 
@@ -68,80 +69,69 @@ Layout testing is a module from Bellatrix that allows you to test the responsive
 ```csharp
 using Bellatrix.Layout;
 ```
-You need to add a using statement to Bellatrix.Layout
+You need to add a using statement to **Bellatrix.Layout**. After that 100 assertion extensions methods are available to you to check the exact position of your Android elements.
 ```csharp
-[App(Constants.WpfAppPath, MobileWindowSize._360_640,  AppBehavior.RestartEveryTime)]
+button.AssertAboveOf(checkBox);
 ```
+Depending on what you want to check, Bellatrix gives lots of options. You can test PX perfect or just that some element is below another. Check that the button is above the CheckBox.
 ```csharp
-[App(Constants.WpfAppPath, TabletWindowSize._600_1024,  AppBehavior.RestartEveryTime)]
-```
-```csharp
-[App(Constants.WpfAppPath, width: 600, height: 900, behavior: AppBehavior.RestartEveryTime)]
-```
-```csharp
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
-```
-After that 100 assertion extensions methods are available to you to check the exact position of your desktop elements. App attribute gives you the option to resize your browser window so that you can test the rearrangement of the elements on your screens. To make it, even more, easier for you, we included a couple of enums containing the most popular desktop, mobile and tablet resolutions. Of course, you always have the option to set a custom size.
-```csharp
-button.AssertAboveOf(calendar);
-```
-Depending on what you want to check, Bellatrix gives lots of options. You can test px perfect or just that some element is below another. Check that the button is above the calendar.
-```csharp
-button.AssertAboveOf(calendar, 106);
+button.AssertAboveOf(checkBox, 105);
 ```
 Assert with the exact distance between them.
-All layout assertion methods throw LayoutAssertFailedException if the check is not successful with beatified troubleshooting message:
+All layout assertion methods throw **LayoutAssertFailedException** if the check is not successful with beautified troubleshooting message:
 /########################################
 
-            control (Name = E Button) should be 41 px above of control (name = calendar) but was 42 px.
+             control (ID = button) should be 41 px above of control (ID = check1) but was 105 px.
 
 /########################################
 ```csharp
-button.AssertAboveOfGreaterThan(calendar, 100);
-button.AssertAboveOfGreaterThanOrEqual(calendar, 106);
-button.AssertAboveOfLessThan(calendar, 110);
-button.AssertAboveOfLessThanOrEqual(calendar, 106);
+button.AssertAboveOfGreaterThan(checkBox, 100);
+    button.AssertAboveOfGreaterThanOrEqual(checkBox, 105);
+    button.AssertAboveOfLessThan(checkBox, 110);
+    button.AssertAboveOfLessThanOrEqual(checkBox, 105);
 ```
 For each available method you have variations of it such as, >, >=, <, <=, between and approximate to some expected value by specified %.
 ```csharp
-button.AssertNearTopOfGreaterThan(calendar, 100);
-button.AssertNearTopOfGreaterThanOrEqual(calendar, 106);
-button.AssertNearTopOfLessThan(calendar, 107);
-button.AssertNearTopOfLessThanOrEqual(calendar, 106);
+button.AssertNearTopOfGreaterThan(checkBox, 100);
+button.AssertNearTopOfGreaterThanOrEqual(checkBox, 105);
+button.AssertNearTopOfLessThan(checkBox, 106);
+button.AssertNearTopOfLessThanOrEqual(checkBox, 105);
 ```
 All assertions have alternative names containing the word 'Near'. We added them to make your tests more readable depending on your preference.
 ```csharp
-button.AssertAboveOfApproximate(calendar, 105, percent: 10);
+button.AssertAboveOfApproximate(checkBox, 104, percent: 10);
 ```
-The expected distance is ~40px with 10% tolerance
+The expected distance is ~40px with 10% tolerance.
 ```csharp
-button.AssertAboveOfBetween(calendar, 100, 115);
+button.AssertAboveOfBetween(checkBox, 100, 120);
 ```
-The expected px distance is between 100 and 115 px.
+The expected px distance is between 30 and 50 px.
 ```csharp
-saturnVAnchor.AssertNearBottomRightOf(sortDropDown);
-sortDropDown.AssertNearTopLeftOf(saturnVAnchor);
+checkBox.AssertNearBottomRightOf(button);
+button.AssertNearTopLeftOf(checkBox);
 ```
-You can assert the position of elements again each other in all directions- above, below, right, left, top right, top left, below left, below right.
+You can assert the position of elements again each other in all directions- above, below, right, left, top right, top left, below left, below right. Assert that the sort dropdown is positioned near the top right of the Saturn B link.
 ```csharp
-LayoutAssert.AssertAlignedHorizontallyAll(button, button1);
-LayoutAssert.AssertAlignedHorizontallyCentered(protonRocketAnchor, protonMAnchor, saturnVAnchor);
-LayoutAssert.AssertAlignedHorizontallyBottom(protonRocketAnchor, protonMAnchor, saturnVAnchor);
+LayoutAssert.AssertAlignedHorizontallyAll(button, secondButton);
+LayoutAssert.AssertAlignedHorizontallyTop(button, secondButton);
+LayoutAssert.AssertAlignedHorizontallyCentered(button, secondButton, secondButton);
+LayoutAssert.AssertAlignedHorizontallyBottom(button, secondButton, secondButton);
 ```
-You can tests whether different elements are aligned correctly.
+You can tests whether different web elements are aligned correctly. You can pass as many elements as you like.
 ```csharp
-LayoutAssert.AssertAlignedVerticallyLeft(radioButton, selectedRadioButton);
-LayoutAssert.AssertAlignedVerticallyCentered(radioButton, selectedRadioButton);
-LayoutAssert.AssertAlignedVerticallyRight(radioButton, selectedRadioButton);
+LayoutAssert.AssertAlignedVerticallyAll(secondCheckBox, checkBox);
+LayoutAssert.AssertAlignedVerticallyLeft(secondCheckBox, checkBox);
+LayoutAssert.AssertAlignedVerticallyCentered(secondCheckBox, checkBox);
+LayoutAssert.AssertAlignedVerticallyRight(secondCheckBox, checkBox);
 ```
-You can check vertical alignment as well.
+Assert that the elements are aligned vertically only from the left side.
 ```csharp
-firstNumber.AssertInsideOf(calendar);
+button.AssertInsideOf(mainElement);
 ```
-You can check that some element is inside in another.
+You can check that some element is inside in another. Assert that the button is present in the main view element.
 ```csharp
 button.AssertHeightLessThan(100);
-button.AssertWidthBetween(70, 80);
+button.AssertWidthBetween(50, 80);
 ```
 Verify the height and width of elements.
 
@@ -150,30 +140,26 @@ BDD Logging
 All layout assertion methods have full BDD logging support. Below you can find the generated BDD log. Of course if you use Bellatrix page objects the log looks even better as mentioned in previous chapters.
 
 ```
->Start Test
->Class = LayoutTestingTests Name = TestPageLayout
->Assert control (Name = Transfer Button) is above of control (automationId = calendar).
->Assert control (Name = Transfer Button) is 42 px above of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is >40 px above of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is >=41 px above of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is <50 px above of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is <=43 px above of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is >40 px near top of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is >=41 px near top of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is <50 px near top of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is <=43 px near top of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is 40 px above of control (automationId = TransferCalendar). (10% tolerance)
->Assert control (Name = Transfer Button) is 30-50 px above of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is near bottom of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is near right of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is near top of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is near left of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is left inside of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is right inside of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is top inside of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) is bottom inside of control (automationId = TransferCalendar).
->Assert control (Name = Transfer Button) height is <100 px.
->Assert control (Name = Transfer Button) width is 50-70 px.
+Start Test
+Class = LayoutTestingTests Name = TestPageLayout
+Assert control(ID = button) is above of control(ID = check1).
+Assert control(ID = button) is 105 px above of control(ID = check1).
+Assert control(ID = button) is > 100 px above of control(ID = check1).
+Assert control(ID = button) is >= 105 px above of control(ID = check1).
+Assert control(ID = button) is < 110 px above of control(ID = check1).
+Assert control(ID = button) is <= 105 px above of control(ID = check1).
+Assert control(ID = button) is > 100 px near top of control(ID = check1).
+Assert control(ID = button) is >= 105 px near top of control(ID = check1).
+Assert control(ID = button) is < 106 px near top of control(ID = check1).
+Assert control(ID = button) is <= 105 px near top of control(ID = check1).
+Assert control(ID = button) is 104 px above of control(ID = check1). (10 % tolerance)
+Assert control(ID = button) is 100 - 120 px above of control(ID = check1).
+Assert control(ID = button) is left inside of control(ID = android:id / content).
+Assert control(ID = button) is right inside of control(ID = android:id / content).
+Assert control(ID = button) is top inside of control(ID = android:id / content).
+Assert control(ID = button) is bottom inside of control(ID = android:id / content).
+Assert control(ID = button) height is < 100 px.
+Assert control(ID = button) width is 50 - 80 px.
 ```
 
 All Available Layout Assertion Methods
