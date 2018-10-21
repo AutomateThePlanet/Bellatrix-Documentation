@@ -98,9 +98,6 @@ Configuration
 -------------
 ```json
 "browserStack": {
-   "pageLoadTimeout": "30",
-   "scriptTimeout": "1",
-   "artificialDelayBeforeAction": "0",
    "gridUri":  "http://hub-cloud.browserstack.com/wd/hub/",
    "user": "soioa1",
    "key":  "pnFG3Ky2yLZ5muB1p46P"
