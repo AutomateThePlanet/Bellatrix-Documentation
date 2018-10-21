@@ -2,9 +2,9 @@
 layout: default
 title:  "Troubleshooting- Screenshots on Fail"
 excerpt: "Learn how to generate screenshots on test's fail."
-date:   2018-06-22 06:50:17 +0200
-parent: desktop-automation
-permalink: /desktop-automation/troubleshooting-screenshots-on-fail/
+date:   2018-10-22 06:50:17 +0200
+parent: android-automation
+permalink: /android-automation/troubleshooting-screenshots-on-fail/
 anchors:
   example: Example
   explanations: Explanations
@@ -15,31 +15,29 @@ Example
 ```csharp
 [TestClass]
 [ScreenshotOnFail(true)]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
-public class AppScreenshotsOnFailTests : DesktopTest
+[Android(Constants.AndroidNativeAppPath,
+    Constants.AndroidDefaultAndroidVersion,
+    Constants.AndroidDefaultDeviceName,
+    Constants.AndroidNativeAppAppExamplePackage,
+    ".view.Controls1",
+    AppBehavior.ReuseIfStarted)]
+public class ScreenshotsOnFailTests : AndroidTest
 {
     [TestMethod]
-    public void MessageChanged_When_ButtonHovered_Wpf()
+    public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("E Button");
-
-        button.Hover();
-
-        var label = App.ElementCreateService.CreateByName<Button>("ebuttonHovered");
-        Assert.AreEqual("ebuttonHovered", label.InnerText);
-    }
-    
-    [TestMethod]
-    [App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
-    [ScreenshotOnFail(false)]
-    public void MessageChanged_When_ButtonClicked_Wpf()
-    {
-        var button = App.ElementCreateService.CreateByName<Button>("E Button");
+        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
 
         button.Click();
+    }
 
-        var label = App.ElementCreateService.CreateByName<Button>("ebuttonClicked");
-        Assert.AreEqual("ebuttonClicked", label.InnerText);
+    [TestMethod]
+    [ScreenshotOnFail(false)]
+    public void ButtonClicked_When_CallClickMethodSecond()
+    {
+        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+
+        button.Click();
     }
 }
 ```
@@ -49,14 +47,13 @@ Explanations
 ```csharp
 [ScreenshotOnFail(true)]
 ```
-This is the attribute for automatic generation of app screenshots by Bellatrix. The engine checks after each test, its result, if failed, makes the screenshots. If you place attribute over the class all tests inherit the behaviour. It is possible to put it over each test and this way you override the class behaviour only for this particular test.
+This is the attribute for automatic generation of app screenshots by Bellatrix. The engine checks after each test, its result, if failed, makes the screenshots. If you place attribute over the class all tests inherit the behaviour.
 ```csharp
 [TestMethod]
-[App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
 [ScreenshotOnFail(false)]
-public void MessageChanged_When_ButtonClicked_Wpf()
+public void ButtonClicked_When_CallClickMethodSecond()
 ```
-As mentioned above we can override the screenshot behaviour for a particular test. The global behaviour for all tests in the class is to make screenshots on fail. Only for this particular test, we tell Bellatrix not to make screenshots.
+It is possible to put it over each test and this way you override the class behaviour only for this particular test. The global behaviour for all tests in the class is to make screenshots on fail. Only for this particular test, we tell Bellatrix not to make screenshots.
 
 Configuration
 -------------
