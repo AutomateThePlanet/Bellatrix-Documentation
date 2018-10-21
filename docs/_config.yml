@@ -142,8 +142,8 @@ navigation:
                 title: Extensibility- Extend Common Services
             "extensibility-add-new-find-locators":  
                 title: Extensibility- Add New Find Locators
-			"extensibility-add-new-element-wait-methods": 
-                title: Extensibility- Add New Element Wait Methods			
+            "extensibility-add-new-element-wait-methods": 
+                title: Extensibility- Add New Element Wait Methods
             "templates":
                 title: Templates
             "folder-and-file-structure":
@@ -207,7 +207,7 @@ navigation:
                 title: Extensibility- Extend Common Services
             "extensibility-add-new-find-locators": 
                 title: Extensibility- Add New Find Locators
-			"extensibility-add-new-element-wait-methods":  
+            "extensibility-add-new-element-wait-methods":
                 title: Extensibility- Add New Element Wait Methods
             "templates":
                 title: Templates
