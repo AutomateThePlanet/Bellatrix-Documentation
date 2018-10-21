@@ -2,9 +2,9 @@
 layout: default
 title:  "Behaviour Driven Development BDD Logging"
 excerpt: "Learn the Bellatrix Behaviour Driven Development BDD Logging works and how to use it."
-date:   2018-06-2s 06:50:17 +0200
-parent: desktop-automation
-permalink: /desktop-automation/bdd-logging/
+date:   2018-10-22 06:50:17 +0200
+parent: android-automation
+permalink: /android-automation/bdd-logging/
 anchors:
   example: Example
   explanations: Explanations
@@ -14,29 +14,29 @@ Example
 -------
 ```csharp
 [TestMethod]
-public void CommonActionsWithDesktopControls_Wpf()
+public void CommonAssertionsAndroidControls()
 {
-    var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
+    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
 
-    calendar.EnsureIsNotDisabled();
+    button.EnsureIsNotDisabled();
 
-    var checkBox = App.ElementCreateService.CreateByName<CheckBox>("BellaCheckBox");
+    var checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
 
     checkBox.Check();
 
     checkBox.EnsureIsChecked();
 
-    var comboBox = App.ElementCreateService.CreateByAutomationId<ComboBox>("select");
+    var comboBox = App.ElementCreateService.CreateByIdContaining<ComboBox>("spinner1");
 
-    comboBox.SelectByText("Item2");
+    comboBox.SelectByText("Jupiter");
 
-    Assert.AreEqual("Item2", comboBox.InnerText);
+    comboBox.EnsureTextIs("Jupiter");
 
-    var label = App.ElementCreateService.CreateByName<Label>("Result Label");
+    var label = App.ElementCreateService.CreateByText<Label>("textColorPrimary");
 
     label.EnsureIsVisible();
 
-    var radioButton = App.ElementCreateService.CreateByName<RadioButton>("RadioButton");
+    var radioButton = App.ElementCreateService.CreateByIdContaining<RadioButton>("radio2");
 
     radioButton.Click();
 
@@ -51,14 +51,17 @@ There cases when you need to show your colleagues or managers what tests do you 
 After the test is executed the following log is created:
 
 ```
-> Start Test
-> Class = EnsureAssertionsTests Name = CommonActionsWithDesktopControls_Wpf
-> Ensure control (AutomationId = calendar) is NOT disabled
-> Check control (Name = BellaCheckBox) on WPF Sample App
-> Ensure control (Name = BellaCheckBox) is checked
-> Select 'Item2' from control (AutomationId = select) on WPF Sample App
-> Click control (Name = RadioButton) on WPF Sample App
-> Ensure control (Name = RadioButton) is checked
+Start Test
+Class = BDDLoggingTests Name = CommonAssertionsAndroidControls
+Ensure control(ID = button) is NOT disabled
+Check control(ID = check1) on
+Ensure control(ID = check1) is checked
+Select 'Jupiter' from control (ID = spinner1) on
+Click control(Text = Jupiter) on
+Ensure control(ID = spinner1) text is 'Jupiter'
+Ensure control(Text = textColorPrimary) is visible
+Click control(ID = radio2) on
+Ensure control(ID = radio2) is checked
 ```
 
 Configuration
