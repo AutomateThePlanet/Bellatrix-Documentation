@@ -2,15 +2,15 @@
 layout: default
 title:  "Folder and File Structure"
 excerpt: "Learn what each Bellatrix project templates includes."
-date:   2018-02-20 06:50:17 +0200
-parent: desktop-automation
-permalink: /desktop-automation/folder-and-file-structure/
+date:   2018-10-20 06:50:17 +0200
+parent: android-automation
+permalink: /android-automation/folder-and-file-structure/
 anchors:
   nuget-dependencies: NuGet Dependencies
   editorconfig: EditorConfig
   stylecop: StyleCop
   test-framework-settings: Test Framework Settings
-  testsinitialize: TestsInitialize
+  mobiletestsglobalinitialize: MobileTestsGlobalInitialize
   categories: Categories
 ---
 Overview
@@ -20,7 +20,10 @@ Find detailed information about what each empty project contains or should conta
 NuGet Dependencies
 ------------------
 ```
-<PackageReference Include="Bellatrix.Desktop.MSTest" Version="1.1.0.15" />
+<PackageReference Include="Bellatrix.Mobile.MSTest" Version="1.1.0.16" />
+
+<PackageReference Include="Bellatrix.Web.MSTest" Version="1.2.8" />
+<PackageReference Include="Bellatrix.Web.Chrome" Version="1.2.2.2410" />
 
 <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
 <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
@@ -30,12 +33,13 @@ NuGet Dependencies
 <PackageReference Include="MSTest.TestFramework" Version="1.3.0" />
 <PackageReference Include="System.Security.Permissions" Version="4.4.1" />
 <PackageReference Include="Unity" Version="5.8.6" />
-<PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" />
+<PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004"/>
 ```
-As you can see the most important package that you need is Bellatrix.Desktop.MSTest, it depends on all below packages. This is the bare minimum. 
+As you can see the most important package that you need is **Bellatrix.Mobile.MSTest**, it depends on all below packages. This is the bare minimum. Next, you need to install the Bellatrix browser package- in this case, Chrome. It brings the correct version of WebDriver for the specific platform. We use the chrome driver for testing mobile web and hybrid application. This is why there is a dependency on **Bellatrix.Web.MSTest** which gives you 
+everything you need to test web apps.
 **Microsoft.NET.Test.Sdk**, **MSTest.TestAdapter**,** MSTest.TestFramework** are prerequisites so that you can execute MSTest framework tests.
 Also, we use Unity inversion of control container inside Bellatrix for many things.  You will not be able to use it directly, but there are a couple of ways that you will use it in your code for some more complex scenarios.
-Lastly, we install StyleCop.Analyzers, we use it to enforce coding standards in the tests code.
+Lastly, we install **StyleCop.Analyzers**, we use it to enforce coding standards in the tests code.
 
 EditorConfig
 ------------
@@ -67,11 +71,11 @@ There are three files **testFrameworkSettings**. They are JSON files. These are 
 
 There is a separate more detailed section in the guide describing how to use the configuration files.
 
-TestsInitialize
+MobileTestsGlobalInitialize
 ---------------
 This is the entry point for all tests. The methods here are executed only once per tests execution. You need it to start and stop some Bellatrix services that you can use in your tests.
 
-**Note**: *There are separate sections describing in more details the **DesktopTest** base class and the **App** class.*
+**Note**: *There are separate sections describing in more details the **AndroidTest** base class and the **App** class.*
 
 Categories
 ----------
