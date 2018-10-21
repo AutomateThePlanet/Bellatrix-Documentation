@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Extensibility- Override Globally Element Actions"
-excerpt: "Learn how to override some desktop elements actions/properties for the whole tests execution."
+excerpt: "Learn how to override some Android elements actions/properties for the whole tests execution."
 date:   2018-10-23 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/extensibility-override-globally-element-actions/
