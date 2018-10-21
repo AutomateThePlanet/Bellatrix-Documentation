@@ -2,9 +2,9 @@
 layout: default
 title:  "Troubleshooting- Video Recording"
 excerpt: "Learn how to use Bellatrix cross-platform video recording."
-date:   2018-06-22 06:50:17 +0200
-parent: desktop-automation
-permalink: /desktop-automation/troubleshooting-video-recording/
+date:   2018-10-22 06:50:17 +0200
+parent: android-automation
+permalink: /android-automation/troubleshooting-video-recording/
 anchors:
   example: Example
   explanations: Explanations
@@ -15,32 +15,30 @@ Example
 ```csharp
 [TestClass]
 [VideoRecording(VideoRecordingMode.OnlyFail)]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
-public class VideoRecordingTests : DesktopTest
+[Android(Constants.AndroidNativeAppPath,
+    Constants.AndroidDefaultAndroidVersion,
+    Constants.AndroidDefaultDeviceName,
+    Constants.AndroidNativeAppAppExamplePackage,
+    ".view.Controls1",
+    AppBehavior.ReuseIfStarted)]
+public class VideoRecordingTests : AndroidTest
 {
-[TestMethod]
-public void MessageChanged_When_ButtonHovered_Wpf()
-{
-    var button = App.ElementCreateService.CreateByName<Button>("E Button");
+    [TestMethod]
+    public void ButtonClicked_When_CallClickMethod()
+    {
+        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
 
-    button.Hover();
+        button.Click();
+    }
 
-    var label = App.ElementCreateService.CreateByName<Button>("ebuttonHovered");
-    Assert.AreEqual("ebuttonHovered", label.InnerText);
-}
+    [TestMethod]
+    [VideoRecording(VideoRecordingMode.DoNotRecord)]
+    public void ButtonClicked_When_CallClickMethodSecond()
+    {
+        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
 
-[TestMethod]
-[App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
-[VideoRecording(VideoRecordingMode.DoNotRecord)]
-public void MessageChanged_When_ButtonClicked_Wpf()
-{
-    var button = App.ElementCreateService.CreateByName<Button>("E Button");
-
-    button.Click();
-
-    var label = App.ElementCreateService.CreateByName<Button>("ebuttonClicked");
-    Assert.AreEqual("ebuttonClicked", label.InnerText);
-}
+        button.Click();
+    }
 }
 ```
 
@@ -56,12 +54,13 @@ All video recording modes:
 - **Ignore** - ignores the tests.
 - **OnlyPass** - saves the videos only for pass tests.
 - **OnlyFail** - saves the videos only for failed tests.
-If you place attribute over the class all tests inherit the behaviour. It is possible to put it over each test and this way you override the class behaviour only for this particular test.
+If you place attribute over the class all tests inherit the behaviour.
 ```csharp
 [TestMethod]
 [VideoRecording(VideoRecordingMode.DoNotRecord)]
+public void ButtonClicked_When_CallClickMethodSecond()
 ```
-As mentioned above we can override the video behaviour for a particular test. The global behaviour for all tests in the class is to save the videos only for failed tests. Only for this particular test, we tell Bellatrix not to make a video.
+It is possible to put it over each test and this way you override the class behaviour only for this particular test. The global behaviour for all tests in the class is to save the videos only for failed tests. Only for this particular test, we tell Bellatrix not to make a video.
 
 Configuration
 -------------
