@@ -1,10 +1,10 @@
 ---
 layout: default
 title:  "Extensability- Extend Existing Elements- Child Elements"
-excerpt: "Learn how to extend Bellatrix web elements using child elements."
-date:   2018-06-23 06:50:17 +0200
-parent: desktop-automation
-permalink: /desktop-automation/extensibility-extend-existing-elements-child-elements/
+excerpt: "Learn how to extend Bellatrix Android elements using child elements."
+date:   2018-10-23 06:50:17 +0200
+parent: android-automation
+permalink: /android-automation/extensibility-extend-existing-elements-child-elements/
 anchors:
   example: Example
   explanations: Explanations
@@ -13,20 +13,20 @@ Example
 -------
 ```csharp
 [TestClass]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
-public class ExtendExistingElementWithChildElementsTests : DesktopTest
+[Android(Constants.AndroidNativeAppPath,
+    Constants.AndroidDefaultAndroidVersion,
+    Constants.AndroidDefaultDeviceName,
+    Constants.AndroidNativeAppAppExamplePackage,
+    ".view.Controls1",
+    AppBehavior.ReuseIfStarted)]
+public class ExtendExistingElementWithChildElementsTests : AndroidTest
 {
     [TestMethod]
-    [App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
-    [ScreenshotOnFail(false)]
-    public void MessageChanged_When_ButtonClicked_Wpf()
+    public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByName<ExtendedButton>("E Button");
+        var button = App.ElementCreateService.CreateByIdContaining<ExtendedButton>("button");
 
-        button.SubmitButtonWithEnter();
-
-        var label = App.ElementCreateService.CreateByName<Button>("ebuttonClicked");
-        Assert.AreEqual("ebuttonClicked", label.InnerText);
+        button.SubmitButtonWithScroll();
     }
 }
 ```
@@ -36,19 +36,21 @@ Explanations
 ```csharp
 public class ExtendedButton : Button
 {
-    public void SubmitButtonWithEnter()
+    public void SubmitButtonWithScroll()
     {
-        var action = new Actions(WrappedDriver);
-        action.MoveToElement(WrappedElement).SendKeys(Keys.Enter).Perform();
+         this.ToExists().ToBeClickable().WaitToBe();
+         ScrollToVisible();
+         Click();
     }
 }
 ```
-The second way of extending an existing element is to create a child element. Inherit the element you want to extend. In this case, two methods are added to the standard Button element. Next in your tests, use the ** ** instead of regular Button to have access to these methods. The same strategy can be used to create a completely new element that Bellatrix does not provide. You need to extend the '**Element**' as a base class.
+The second way of extending an existing element is to create a child element. Inherit the element you want to extend. In this case, a new method is added to the standard **Button** element. Next in your tests, use the **ExtendedButton** instead of regular **Button** to have access to this method. The same strategy can be used to create a completely new element that Bellatrix does not provide.
+    // You need to extend the 'Element' as a base class.
 ```csharp
-var button = App.ElementCreateService.CreateByName<ExtendedButton>("E Button");
+ var button = App.ElementCreateService.CreateByIdContaining<ExtendedButton>("button");
 ```
 Instead of the regular button, we create the **ExtendedButton**, this way we can use its new methods.
 ```csharp
-button.SubmitButtonWithEnter();
+button.SubmitButtonWithScroll();
 ```
 Use the new custom method provided by the **ExtendedButton** class.
