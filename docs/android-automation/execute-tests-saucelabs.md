@@ -23,7 +23,6 @@ Example
 public class SauceLabsTests : AndroidTest
 {
     [TestMethod]
-    [Ignore]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
@@ -38,7 +37,6 @@ public class SauceLabsTests : AndroidTest
         Constants.AndroidNativeAppAppExamplePackage,
         ".view.ControlsMaterialDark",
         AppBehavior.ReuseIfStarted)]
-    [Ignore]
     public void ButtonClicked_When_CallClickMethodSecond()
     {
         var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
