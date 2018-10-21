@@ -2,9 +2,9 @@
 layout: default
 title:  "Extensability- Extend Common Services"
 excerpt: "Learn how to extend Bellatrix common services."
-date:   2018-06-23 06:50:17 +0200
-parent: desktop-automation
-permalink: /desktop-automation/extensibility-extend-common-services/
+date:   2018-10-23 06:50:17 +0200
+parent: android-automation
+permalink: /android-automation/extensibility-extend-common-services/
 anchors:
   example: Example
   explanations: Explanations
@@ -12,46 +12,28 @@ anchors:
 Example
 -------
 ```csharp
-using Bellatrix.Desktop.GettingStarted.AppService.Extensions;
+using Bellatrix.Mobile.Android.GettingStarted.CommonServicesExtensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Bellatrix.Desktop.GettingStarted
+namespace Bellatrix.Mobile.Android.GettingStarted
 {
     [TestClass]
-    [App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
-    public class ExtendExistingCommonServicesTests : DesktopTest
+    [Android(Constants.AndroidNativeAppPath,
+        Constants.AndroidDefaultAndroidVersion,
+        Constants.AndroidDefaultDeviceName,
+        Constants.AndroidNativeAppAppExamplePackage,
+        ".view.Controls1",
+        AppBehavior.ReuseIfStarted)]
+    public class ExtendExistingCommonServicesTests : AndroidTest
     {
         [TestMethod]
-        public void CommonActionsWithDesktopControls_Wpf()
+        public void ButtonClicked_When_CallClickMethod()
         {
-            // 2. Use newly added login method which is not part of the original implementation of the common service.
             App.AppService.LoginToApp("bellatrix", "topSecret");
 
-            var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
+            var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
 
-            Assert.AreEqual(false, calendar.IsDisabled);
-
-            var checkBox = App.ElementCreateService.CreateByName<CheckBox>("BellaCheckBox");
-
-            checkBox.Check();
-
-            Assert.IsTrue(checkBox.IsChecked);
-
-            var comboBox = App.ElementCreateService.CreateByAutomationId<ComboBox>("select");
-
-            comboBox.SelectByText("Item2");
-
-            Assert.AreEqual("Item2", comboBox.InnerText);
-
-            var label = App.ElementCreateService.CreateByName<Label>("Result Label");
-
-            Assert.IsTrue(label.IsPresent);
-
-            var radioButton = App.ElementCreateService.CreateByName<RadioButton>("RadioButton");
-
-            radioButton.Click();
-
-            Assert.IsTrue(radioButton.IsChecked);
+            button.Click();
         }
     }
 }
@@ -62,12 +44,12 @@ Explanations
 ```csharp
 public static class NavigationServiceExtensions
 {
-    public static void LoginToApp(this Services.AppService appService, string userName, string password)
+    public static void LoginToApp(this AndroidAppService appService, string userName, string password)
     {
         var elementCreateService = new ElementCreateService();
-        var userNameField = elementCreateService.CreateByAutomationId<TextField>("textBox");
-        var passwordField = elementCreateService.CreateByAutomationId<Password>("passwordBox");
-        var loginButton = elementCreateService.CreateByName<Button>("E Button");
+        var userNameField = elementCreateService.CreateByIdContaining<TextField>("textBox");
+        var passwordField = elementCreateService.CreateByIdContaining<Password>("passwordBox");
+        var loginButton = elementCreateService.CreateByIdContaining<Button>("loginButton");
 
         userNameField.SetText(userName);
         passwordField.SetPassword(password);
@@ -83,10 +65,10 @@ One way to extend the Bellatrix common services is to create an extension method
 
 Later to use the method in your tests, add a using statement containing this class's namespace.
 ```csharp
-using Bellatrix.Desktop.GettingStarted.AppService.Extensions;
+using Bellatrix.Mobile.Android.GettingStarted.CommonServicesExtensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Bellatrix.Desktop.GettingStarted
+namespace Bellatrix.Mobile.Android.GettingStarted
 ```
 To use the additional method you created, add a using statement to the extension methods' namespace.
 ```csharp
