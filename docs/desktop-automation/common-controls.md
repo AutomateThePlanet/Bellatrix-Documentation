@@ -1,130 +1,139 @@
 ---
 layout: default
 title:  "Common Controls"
-excerpt: "Learn how to use Bellatrix common desktop controls."
-date:   2018-06-22 06:50:17 +0200
-parent: desktop-automation
-permalink: /desktop-automation/common-controls/
+excerpt: "Learn how to use Bellatrix common Android controls."
+date:   2018-10-22 06:50:17 +0200
+parent: android-automation
+permalink: /android-automation/common-controls/
 anchors:
   example: Example
   explanations: Explanations
-  full-list-of-all-supported-desktop-controls: List of All Desktop Controls
+  full-list-of-all-supported-android-controls: List of All Android Controls
 ---
 Example
 -------
 ```csharp
 [TestMethod]
-public void CommonActionsWithDesktopControls_Wpf()
+public void CommonActionsWithAndroidControls()
 {
-    var button = App.ElementCreateService.CreateByName<Button>("E Button");
+    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
 
     button.Click();
 
-    var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
+    var radioButton = App.ElementCreateService.CreateByIdContaining<RadioButton>("radio2");
 
-    Assert.AreEqual(false, calendar.IsDisabled);
+    Assert.AreEqual(false, radioButton.IsDisabled);
 
-    var checkBox = App.ElementCreateService.CreateByName<CheckBox>("BellaCheckBox");
+    var checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
+
     checkBox.Check();
 
     Assert.IsTrue(checkBox.IsChecked);
 
     checkBox.Uncheck();
+
     Assert.IsFalse(checkBox.IsChecked);
 
-    var comboBox = App.ElementCreateService.CreateByAutomationId<ComboBox>("select");
-    comboBox.SelectByText("Item2");
+    var comboBox = App.ElementCreateService.CreateByIdContaining<ComboBox>("spinner1");
 
-    Assert.AreEqual("Item2", comboBox.InnerText);
+    comboBox.SelectByText("Jupiter");
 
-    var datePicker = App.ElementCreateService.CreateByAutomationId<Date>("DatePicker");
-    datePicker.Hover();
+    Assert.AreEqual("Jupiter", comboBox.GetText());
 
-    var element = App.ElementCreateService.CreateByName<Element>("DisappearAfterButton1");
-    element.ToNotExists().WaitToBe();
+    var label = App.ElementCreateService.CreateByText<Label>("textColorPrimary");
 
-    var label = App.ElementCreateService.CreateByName<Label>("Result Label");
     Assert.IsTrue(label.IsPresent);
 
-    var password = App.ElementCreateService.CreateByAutomationId<Password>("passwordBox");
+    var password = App.ElementCreateService.CreateByDescription<Password>("passwordBox");
+
     password.SetPassword("topsecret");
 
-    var textField = App.ElementCreateService.CreateByAutomationId<TextField>("textBox");
-    textField.SetText("Meissa Is Beautiful!");
+    var textField = App.ElementCreateService.CreateByIdContaining<TextField>("edit");
 
-    Assert.AreEqual("Meissa Is Beautiful!", textField.InnerText);
+    textField.SetText("Bellatrix");
 
-    var radioButton = App.ElementCreateService.CreateByName<RadioButton>("RadioButton");
+    Assert.AreEqual("Bellatrix", textField.GetText());
+
     radioButton.Click();
 
     Assert.IsTrue(radioButton.IsChecked);
+
+    App.AppService.StartActivity(Constants.AndroidNativeAppAppExamplePackage, ".view.SeekBar1");
+    var seekBar = App.ElementCreateService.CreateByClass<SeekBar>("android.widget.SeekBar");
+
+    seekBar.Set(9);
+
+    seekBar.ToExists().WaitToBe();
 }
 ```
 
 Explanations
 ------------
-As mentioned before Bellatrix exposes 18+ desktop controls. All of them implement Proxy design pattern which means that they are not located immediately when they are created. Another benefit is that each of them includes only the actions that you should be able to do with the specific control and nothing more. For example, you cannot type into a button. Moreover, this way all of the actions has meaningful names- Type not **SendKeys** as in vanilla WebDriver.
+As mentioned before Bellatrix exposes 18+ Android controls. All of them implement Proxy design pattern which means that they are not located immediately when they are created. Another benefit is that each of them includes only the actions that you should be able to do with the specific control and nothing more. For example, you cannot type into a button. Moreover, this way all of the actions has meaningful names- Type not **SendKeys** as in vanilla WebDriver.
 ```csharp
 var button = App.ElementCreateService.CreateByName<Button>("E Button");
 ```
-Create methods accept a generic parameter the type of the web control. Then only the methods for this specific control are accessible. Here we tell Bellatrix to find your element by name attribute equals to 'E Button'.
+Create methods accept a generic parameter the type of the Android control. Then only the methods for this specific control are accessible. Here we tell Bellatrix to find your element by ID containing the value 'button'.
 ```csharp
 button.Click();
 ```
-Clicking the button. At this moment Bellatrix locates the element.
+Clicks the button. At this moment Bellatrix locates the element.
 ```csharp
-var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
+var radioButton = App.ElementCreateService.CreateByIdContaining<RadioButton>("radio2");
 ```
-Locating the calendar control using automationId = calendar
+Locating the radio button control using ID containing the value 'radio2'.
 ```csharp
- Assert.AreEqual(false, calendar.IsDisabled);
+Assert.AreEqual(false, radioButton.IsDisabled);
 ```
-Most desktop controls have properties such as checking whether the calendar is enabled or not.
+Most Android controls have properties such as checking whether the radio button is enabled or not.
 ```csharp
-var checkBox = App.ElementCreateService.CreateByName<CheckBox>("BellaCheckBox");
+var checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
 checkBox.Check();
 ```
-Checking and unchecking the checkbox with name = 'BellaCheckBox'
+Checking and unchecking the CheckBox with id = 'check1'
 ```csharp
 Assert.IsTrue(checkBox.IsChecked);
 ```
 Asserting whether the check was successful.
 ```csharp
-var comboBox = App.ElementCreateService.CreateByAutomationId<ComboBox>("select");
-comboBox.SelectByText("Item2");
+var comboBox = App.ElementCreateService.CreateByIdContaining<ComboBox>("spinner1");
+comboBox.SelectByText("Jupiter");
 ```
-Select a value in combobox but text.
+Select a value in ComboBox but text.
 ```csharp
-Assert.AreEqual("Item2", comboBox.InnerText);
+Assert.AreEqual("Jupiter", comboBox.GetText());
 ```
-Get the current comboBox text through InnerText property.
+Get the current ComboBox text through **GetText** method.
 ```csharp
-var datePicker = App.ElementCreateService.CreateByAutomationId<Date>("DatePicker");
-datePicker.Hover();
+var seekBar = App.ElementCreateService.CreateByClass<SeekBar>("android.widget.SeekBar");
+seekBar.Set(9);
 ```
-You can hover on most desktop controls or search for elements inside them.
+Moves the SeekBar.
 ```csharp
-var element = App.ElementCreateService.CreateByName<Element>("DisappearAfterButton1");
-element.ToNotExists().WaitToBe();
+seekBar.ToExists().WaitToBe();
 ```
-Wait for the element to disappear.
+Wait for the element to exists.
 ```csharp
-var label = App.ElementCreateService.CreateByName<Label>("Result Label");
+var label = App.ElementCreateService.CreateByText<Label>("textColorPrimary");
 Assert.IsTrue(label.IsPresent);
 ```
 See if the element is present or not using the **IsPresent** property.
 ```csharp
-var password = App.ElementCreateService.CreateByAutomationId<Password>("passwordBox");
+var password = App.ElementCreateService.CreateByDescription<Password>("passwordBox");
 password.SetPassword("topsecret");
+var textField = App.ElementCreateService.CreateByIdContaining<TextField>("edit");
+textField.SetText("Bellatrix");
 ```
 Instead of using the non-meaningful method **SendKeys**, Bellatrix gives you more readable tests through proper methods and properties names. In this case, we set the text in the password field using the **SetPassword** method and **SetText** for regular text fields.
 ```csharp
-var radioButton = App.ElementCreateService.CreateByName<RadioButton>("RadioButton");
+var radioButton = App.ElementCreateService.CreateByIdContaining<RadioButton>("radio2");
 radioButton.Click();
+ Assert.IsTrue(radioButton.IsChecked);
 ```
 Select the radio button.
 
-Full List of All Supported Desktop Controls
+
+Full List of All Supported Android Controls
 ---------------------------------------
 ### Element ###
 - By
@@ -137,25 +146,27 @@ Full List of All Supported Desktop Controls
 - IsVisible
 - ElementName
 - PageName
+- Location
+- Size
 
 **Note**: *All other controls have access to the above methods and properties*
 
 Element | Available properties
 ------------ | -------------
-Button | Click, Hover, InnerText, IsDisabled
-Calendar | Hover, IsDisabled
-Checkbox | Check, Uncheck, Hover, IsDisabled, IsChecked
-ComboBox | Hover, SelectByText, InnerText, IsDisabled
-Date | GetDate, SetDate, Hover, IsDisabled
-Expander | Click, Hover, IsDisabled
-Image | Hover
-Label | Hover, InnerText
-ListBox | Hover, IsDisabled
-Menu | Hover
-Password | GetPassword, SetPassword, Hover, IsDisabled
-Progress | Hover
-RadioButton | Hover, Click, IsDisabled, IsChecked
-Tabs | Hover
-TextArea | GetText, SetText, Hover, InnerText, IsDisabled
-TextField | SetText, Hover, InnerText, IsDisabled
-Time | GetTime, SetTime, Hover, IsDisabled
+Button | Click, GetText, IsDisabled
+CheckBox | Check, Uncheck, GetText, IsDisabled, IsChecked
+ComboBox | SelectByText, GetText, IsDisabled
+Grid<TElement> | GetAll
+Image | *same as element*
+ImageButton | Click, GetText, IsDisabled
+Label | GetText
+Number | SetNumber, GetNumber, IsDisabled
+Password | GetPassword, SetPassword, IsDisabled
+Progress | IsDisabled
+RadioButton | Click, IsDisabled, IsChecked, GetText
+RadioGroup | ClickByText, ClickByIndex, GetChecked, GetAll
+SeekBar | Set, IsDisabled
+Switch | TurnOn, TurnOff, GetText, IsDisabled, IsOn
+Tabs<TElement> | GetAll
+TextField | SetText, GetText, IsDisabled
+ToggleButton | TurnOn, TurnOff, GetText, IsDisabled, IsOn
