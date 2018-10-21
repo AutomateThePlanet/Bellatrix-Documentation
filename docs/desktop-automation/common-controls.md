@@ -1,14 +1,14 @@
 ---
 layout: default
 title:  "Common Controls"
-excerpt: "Learn how to use Bellatrix common desktop control."
+excerpt: "Learn how to use Bellatrix common desktop controls."
 date:   2018-06-22 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/common-controls/
 anchors:
   example: Example
   explanations: Explanations
-  full-list-of-all-supported-web-controls: List of All Web Controls
+  full-list-of-all-supported-desktop-controls: List of All Desktop Controls
 ---
 Example
 -------
@@ -124,7 +124,7 @@ radioButton.Click();
 ```
 Select the radio button.
 
-Full List of All Supported Web Controls
+Full List of All Supported Desktop Controls
 ---------------------------------------
 ### Element ###
 - By
