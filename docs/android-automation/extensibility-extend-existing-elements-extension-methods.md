@@ -1,10 +1,10 @@
 ---
 layout: default
 title:  "Extensibility- Extend Existing Elements- Extension Methods"
-excerpt: "Learn how to extend Bellatrix desktop elements using extension methods."
-date:   2018-06-23 06:50:17 +0200
-parent: desktop-automation
-permalink: /desktop-automation/extensibility-extend-existing-elements-extension-methods/
+excerpt: "Learn how to extend Bellatrix Android elements using extension methods."
+date:   2018-10-23 06:50:17 +0200
+parent: android-automation
+permalink: /android-automation/extensibility-extend-existing-elements-extension-methods/
 anchors:
   example: Example
   explanations: Explanations
@@ -12,26 +12,27 @@ anchors:
 Example
 -------
 ```csharp
-using Bellatrix.Desktop.GettingStarted.Advanced.Elements.Extension.Methods;
+using Bellatrix.Mobile.Android.GettingStarted.Custom;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Bellatrix.Desktop.GettingStarted
+namespace Bellatrix.Mobile.Android.GettingStarted
 {
     [TestClass]
-    [App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
-    public class ExtendExistingElementWithExtensionMethodsTests : DesktopTest
+    [Android(Constants.AndroidNativeAppPath,
+        Constants.AndroidDefaultAndroidVersion,
+        Constants.AndroidDefaultDeviceName,
+        Constants.AndroidNativeAppAppExamplePackage,
+        ".view.Controls1",
+        AppBehavior.ReuseIfStarted)]
+    public class ExtendExistingElementWithExtensionMethodsTests : AndroidTest
     {
         [TestMethod]
-        [App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
-        public void MessageChanged_When_ButtonClicked_Wpf()
+        [Ignore]
+        public void ButtonClicked_When_CallClickMethod()
         {
-            var button = App.ElementCreateService.CreateByName<Button>("E Button");
+            var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
 
-            // 2. Use the custom added submit button behaviour through 'Enter' key.
-            button.SubmitButtonWithEnter();
-
-            var label = App.ElementCreateService.CreateByName<Button>("ebuttonClicked");
-            Assert.AreEqual("ebuttonClicked", label.InnerText);
+            button.SubmitButtonWithScroll();
         }
     }
 }
@@ -40,14 +41,15 @@ namespace Bellatrix.Desktop.GettingStarted
 Explanations
 ------------
 ```csharp
-namespace Bellatrix.Desktop.GettingStarted.Advanced.Elements.Extension.Methods
+namespace Bellatrix.Mobile.Android.GettingStarted.Custom
 {
     public static class ButtonExtensions
     {
-        public static void SubmitButtonWithEnter(this Button button)
+        public static void SubmitButtonWithScroll(this Button button)
         {
-            var action = new Actions(button.WrappedDriver);
-            action.MoveToElement(button.WrappedElement).SendKeys(Keys.Enter).Perform();
+            button.ToExists().ToBeClickable().WaitToBe();
+            button.ScrollToVisible();
+            button.Click();
         }
     }
 }
@@ -60,13 +62,13 @@ One way to extend an existing element is to create an extension method for the a
 
 Later to use the method in your tests, add a using statement containing this class's namespace.
 ```csharp
-using Bellatrix.Desktop.GettingStarted.Advanced.Elements.Extension.Methods;
+using Bellatrix.Mobile.Android.GettingStarted.Custom;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Bellatrix.Desktop.GettingStarted
+namespace Bellatrix.Mobile.Android.GettingStarted
 ```
 To use the additional method you created, add a using statement to the extension methods' namespace.
 ```csharp
-button.SubmitButtonWithEnter();
+button.SubmitButtonWithScroll();
 ```
-Use the custom added submit button behaviour through 'Enter' key.
+Use the custom added submit button  with scroll-to-visible behaviour.
