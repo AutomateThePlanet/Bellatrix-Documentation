@@ -120,6 +120,8 @@ navigation:
                 title: Static Analysis
             "logging":
                 title: Logging
+            "measure-test-execution-times": 
+                title: Measure Response Times
             "extensibility-test-workflow-hooks":
                 title: Extensibility- Test Workflow Hooks
             "extensibility-custom-test-workflow-plugins":
