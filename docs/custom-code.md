@@ -9,21 +9,39 @@ Bellatrix Test Automation Framework
 ---------------------------------------------------------
 
 
-If you use global timeouts such as WebDriver implicit wait.
+Lazy Loading of Elements
 
+Webdriver
 ```csharp
-IWebDriver driver = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"));
-driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+var agreeCheckBox = driver.FindElementById("agreeChB"));
+var confirmButton = driver.FindElementById("confirm"));
+agreeCheckBox.Click(); // disables the button
+confirmButton.Click();
 ```
 
-If you use global timeouts such as WebDriver implicit wait.
-
+Lazy Loading of Elements
+Bellatrix
 ```csharp
-Thread.Sleep(2000);
+var agreeCheckBox = App.ElementCreateService.CreateById<CheckBox>("agreeChB");
+var confirmButton = App.ElementCreateService.CreateById<Button>("confirm");
+agreeCheckBox.Uncheck();
+confirmButton.Click();
+```
+In most cases, if you just call the following code snippet, your test will fail because the content box with a correct message might be displayed asynchronously.
+```csharp
+Assert.AreEqual("Order Completed", successBox.Text);
+```
+Waits for the message alert to disappear.
+```csharp
+updateCart.EnsureIsDisabled();
 ```
 
-Optimized App Lifecycle Control
+Wait for message alert to disappear.
 ```csharp
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
-public class ControlAppTests : DesktopTest
+messageAlert.EnsureIsNotVisible();
+```
+
+You can even fine-tune the timeouts.
+```csharp
+totalContentBox.EnsureInnerTextIs("120.00€", timeout: 30, sleepInterval: 2);
 ```
