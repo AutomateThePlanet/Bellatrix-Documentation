@@ -9,39 +9,207 @@ Bellatrix Test Automation Framework
 ---------------------------------------------------------
 
 
-Lazy Loading of Elements
 
-Webdriver
+This is how we specify the maximal allowed time.
 ```csharp
-var agreeCheckBox = driver.FindElementById("agreeChB"));
-var confirmButton = driver.FindElementById("confirm"));
-agreeCheckBox.Click(); // disables the button
-confirmButton.Click();
-```
+ [ExecutionTimeUnder(2)]
+ public class MeasuredResponseTimesTests : DesktopTest
 
-Lazy Loading of Elements
-Bellatrix
-```csharp
-var agreeCheckBox = App.ElementCreateService.CreateById<CheckBox>("agreeChB");
-var confirmButton = App.ElementCreateService.CreateById<Button>("confirm");
-agreeCheckBox.Uncheck();
-confirmButton.Click();
-```
-In most cases, if you just call the following code snippet, your test will fail because the content box with a correct message might be displayed asynchronously.
-```csharp
-Assert.AreEqual("Order Completed", successBox.Text);
-```
-Waits for the message alert to disappear.
-```csharp
-updateCart.EnsureIsDisabled();
+This is part of the plugin.
+
+public class ExecutionTimeUnderTestWorkflowPlugin : TestWorkflowPlugin
+{
+    protected override void PostTestInit(object sender, TestWorkflowPluginEventArgs e)
+    {
+        // get the start time
+    }
+
+    protected override void PostTestCleanup(object sender, TestWorkflowPluginEventArgs e)
+    {
+        // total time = start time - current time
+        // IF total time > specified time ===> FAIL TEST
+    }
+}
 ```
 
-Wait for message alert to disappear.
+Override Globally Element Actions
+Override{MethodName}Globally.
 ```csharp
-messageAlert.EnsureIsNotVisible();
+[AssemblyInitialize]
+public static void AssemblyInitialize(TestContext testContext)
+{
+    Button.OverrideClickGlobally = (e) =>
+    {
+        e.ToExists().ToBeClickable().WaitToBe();
+        e.ScrollToVisible();
+        e.Click();
+    };
+}
 ```
 
-You can even fine-tune the timeouts.
+Locally Override Element Actions
 ```csharp
-totalContentBox.EnsureInnerTextIs("120.00€", timeout: 30, sleepInterval: 2);
+[AssemblyInitialize]
+Expander.OverrideClickLocally = (e) =>
+{
+    e.ToExists().ToBeClickable().WaitToBe();
+    e.ScrollToVisible();
+    e.Click();
+};
+```
+
+Element Action Hooks
+```csharp
+public void ClickingEventHandler(object sender, ElementActionEventArgs arg)
+{
+    Logger.LogInformation($"Click {arg.Element.ElementName}");
+}
+
+public void HoveringEventHandler(object sender, ElementActionEventArgs arg)
+{
+    Logger.LogInformation($"Hover {arg.Element.ElementName}");
+}
+```
+
+
+
+Extend Existing UI Elements
+
+Extension Methods
+```csharp
+public static class ButtonExtensions
+{
+    public static void SubmitButtonWithEnter(this Button button)
+    {
+        var action = new Actions(button.WrappedDriver);
+        action.MoveToElement(button.WrappedElement).SendKeys(Keys.Enter).Perform();
+    }
+}
+```
+
+To use the new method, add a using statement to the extension methods’ namespace.
+```csharp
+proceedToCheckout.SubmitButtonWithEnter();
+```
+
+Child Elements
+```csharp
+public class ExtendedButton : Button
+{
+    public void SubmitButtonWithEnter()
+    {
+        var action = new Actions(WrappedDriver);
+        action.MoveToElement(WrappedElement).SendKeys(Keys.Enter).Perform();
+    }
+}
+```
+
+```csharp
+ExtendedButton proceedToCheckout = 
+ App.ElementCreateService.CreateByName<ExtendedButton>("checkout-button");
+```
+
+
+Extend Common Services
+```csharp
+public static class NavigationServiceExtensions
+{
+    public static void LoginToApp(this Services.AppService appService, string userName, string password)
+    {
+        var elementCreateService = new ElementCreateService();
+        var userNameField = elementCreateService.CreateByAutomationId<TextField>("textBox");
+        var passwordField = elementCreateService.CreateByAutomationId<Password>("passwordBox");
+        var loginButton = elementCreateService.CreateByName<Button>("loginButton");
+
+        userNameField.SetText(userName);
+        passwordField.SetPassword(password);
+        loginButton.Click();
+    }
+}
+```
+```csharp
+App.AppService.LoginToApp("bellatrix", "topSecret");
+```
+
+Add New Find Locators
+```csharp
+public class ByIdEndingWith : By
+{
+    private const string XpathEndingWithExpression = "//*[ends-with(@id, '{0}')]";
+
+    public ByIdEndingWith(string value)
+        : base(value)
+    {
+    }
+
+    public override WindowsElement FindElement(WindowsDriver<WindowsElement> searchContext)
+        => searchContext.FindElementByXPath(string.Format(XpathEndingWithExpression, Value));
+
+    public override IEnumerable<WindowsElement> FindAllElements(WindowsDriver<WindowsElement> searchContext)
+        => searchContext.FindElementsByXPath(string.Format(XpathEndingWithExpression, Value));
+
+    public override AppiumWebElement FindElement(WindowsElement element)
+        => element.FindElementByXPath(string.Format(XpathEndingWithExpression, Value));
+
+    public override IEnumerable<AppiumWebElement> FindAllElements(WindowsElement element)
+        => element.FindElementsByXPath(string.Format(XpathEndingWithExpression, Value));
+
+    public override string ToString() => $"By ID ending with = {Value}";
+}
+```
+
+To ease the usage of the locator, we need to create an extension method of ElementCreateService.
+
+```csharp
+public static TElement CreateByIdEndingWith<TElement>(this Element element, string idPart)
+    where TElement : Element
+{
+    element.Create<TElement, ByIdEndingWith>(new ByIdEndingWith(idPart));
+}
+```
+
+Add New Element Wait Methods
+```csharp
+public class UntilHasContent : BaseUntil
+{
+    private readonly string _elementStyle;
+
+    public UntilHasContent(string elementStyle, int? timeoutInterval = null, int? sleepInterval = null)
+        : base(timeoutInterval, sleepInterval)
+    {
+        _elementStyle = elementStyle;
+    }
+
+   public override void WaitUntil<TBy>(TBy by) => WaitUntil(ElementHasContent(WrappedWebDriver, by), TimeoutInterval, SleepInterval);
+
+    private Func<IWebDriver, bool> ElementHasContent<TBy>(WindowsDriver<WindowsElement> searchContext, TBy by)
+        where TBy : Locators.By => driver =>
+    {
+        try
+        {
+            var element = by.FindElement(searchContext);
+            return !string.IsNullOrEmpty(element.Text);
+        }
+        catch (NoSuchElementException)
+        {
+            return false;
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
+    };
+}
+```
+
+The next and final step is to create an extension method for all UI elements.
+```csharp
+public static TElementType ToHasContent<TElementType>(this TElementType element, 
+int? timeoutInterval = null, int? sleepInterval = null)
+ where TElementType : Element
+{
+    var until = new UntilHaveContent(timeoutInterval, sleepInterval);
+    element.EnsureState(until);
+    return element;
+}
 ```
