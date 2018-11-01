@@ -9,66 +9,21 @@ Bellatrix Test Automation Framework
 ---------------------------------------------------------
 
 
-Element Snippets
+If you use global timeouts such as WebDriver implicit wait.
 
 ```csharp
-public CheckBox PermanentTransfer => Element.CreateByName<CheckBox>("BellaCheckBox");
+IWebDriver driver = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"));
+driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
 ```
 
-Locate Elements
-
-
-WebDriver Example
+If you use global timeouts such as WebDriver implicit wait.
 
 ```csharp
-IWebElement agreeCheckBox = driver.FindElement(By.Id("agreeChB"));
-agreeCheckBox.Click();
- ```
-
-Bellatrix Example
-```csharp
-CheckBox agreeCheckBox =
-App.ElementCreateService.CreateById<CheckBox>("agreeChB");
-agreeCheckBox.Check();
- ```
-
-API Usability- Wait for Elements
-```csharp
-var purchaseButton = App.ElementCreateService.CreateByName<Button>("Purchase").ToBeVisible().ToBeClickable().ToExists();
-purchaseButton.Click();
+Thread.Sleep(2000);
 ```
 
-150+ Additional Elements  Actions
+Optimized App Lifecycle Control
 ```csharp
-var purchaseButton = App.ElementCreateService.CreateByName<Button>("Purchase");
-purchaseButton.Click();
-
-var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
-Assert.AreEqual(false, calendar.IsDisabled);
-
-var checkBox = App.ElementCreateService.CreateByName<CheckBox>("BellaCheckBox");
-checkBox.Check();
-Assert.IsTrue(checkBox.IsChecked);
-
-var password = App.ElementCreateService.CreateByAutomationId<Password>("passwordBox");
-password.SetPassword("topsecret");
-```
-
-```csharp
-CheckBox agreeCheckBox =
-App.ElementCreateService.CreateById<CheckBox>("agreeChB");
-agreeCheckBox.Check();
- ```
-
-Or we bring new useful methods to default controls such as Focus and Hover.
-```csharp
-var datePicker = App.ElementCreateService.CreateByAutomationId<Date>("DatePicker");
-datePicker.Hover();
-datePicker.Focus();
-```
-The most important attributes of each desktop control are included, as well as their assertion alternatives.
-```csharp
-var label = App.ElementCreateService.CreateByName<Label>("Result Label");
-Assert.IsTrue(label.IsPresent);
-Assert.AreEqual("Rocket", comboBox.InnerText);
+[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+public class ControlAppTests : DesktopTest
 ```
