@@ -9,63 +9,95 @@ Bellatrix Test Automation Framework
 ---------------------------------------------------------
 
 
-
-WebDriver Example
+200+ Assertions
 ```csharp
-WindowsElement agreeCheckBox = driver.FindElementById("agreeChB"));
-agreeCheckBox.Click();
+[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+public class LayoutTestingTests : DesktopTest
+{
+    [TestMethod]
+    public void CommonActionsWithDesktopControls_Wpf()
+    {
+        var button = App.ElementCreateService.CreateByName<Button>("purchaseButton");
+        var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
+        var selectedRadioButton = App.ElementCreateService.CreateByName<RadioButton>("selectedRadioButton");
 
-WindowsElement firstNameTextField = driver.FindElementById("firstName"));
-firstNameTextField.SendKeys("John");
+        button.AssertAboveOf(calendar);
 
-WindowsElement avatarUpload = driver.FindElementById("uploadAvatar"));
-avatarUpload.SendKeys("pathTo\\myAvatar.jpg");
+        saturnVAnchor.AssertNearBottomRightOf(sortDropDown);
+        sortDropDown.AssertNearTopLeftOf(saturnVAnchor);
 
-WindowsElement saveBtn = driver.FindElementById("saveBtn"));
-agreeCheckBox.SendKeys(Keys.Enter);
+        LayoutAssert.AssertAlignedHorizontallyAll(button, bcalendar);
+        
+        LayoutAssert.AssertAlignedVerticallyLeft(radioButton, selectedRadioButton);
+
+        button.AssertHeightLessThan(100);
+        button.AssertWidthBetween(70, 80);
+    }
+}
+```
+
+Depending on what you want to check, Bellatrix gives lots of options. You can test px perfect or just that some element is below another. Check that the purchase button is above the calendar.
+```csharp
+button.AssertAboveOf(calendar);
+```
+
+Assert with the exact distance between them.
+```csharp
+button.AssertAboveOf(calendar, 106);
 ```
 
 
-
-Bellatrix Example
+For each available method, you have variations of it such as, >, >=, <, <=, between and approximate to some expected value by specified %.
 ```csharp
-CheckBox agreeCheckBox = App.ElementCreateService.CreateById<CheckBox>("agreeChB");
-agreeCheckBox.Check();
+button.AssertAboveOfGreaterThan(calendar, 100);
+button.AssertAboveOfGreaterThanOrEqual(calendar, 106);
+button.AssertAboveOfLessThan(calendar, 110);
+button.AssertAboveOfLessThanOrEqual(calendar, 106);
+```
 
-TextField firstNameTextField = App.ElementCreateService.CreateById<TextField>("firstName");
-firstNameTextField.SetText("John");
+The expected distance is ~105px with 10% tolerance.
+```csharp
+button.AssertAboveOfApproximate(calendar, 105, percent: 10);
+```
 
-var comboBox = App.ElementCreateService.CreateByAutomationId<ComboBox>("select");
-comboBox.SelectByText("Item2");
+You can test whether different desktop elements are aligned correctly.
+```csharp
+LayoutAssert.AssertAlignedHorizontallyAll(button, button1);
+LayoutAssert.AssertAlignedHorizontallyCentered(protonRocketAnchor, protonMAnchor, saturnVAnchor);
+LayoutAssert.AssertAlignedHorizontallyBottom(protonRocketAnchor, protonMAnchor, saturnVAnchor);
 
-Button saveBtn = App.ElementCreateService.CreateById<Button>("saveBtn");
-saveBtn.ClickByEnter();
+
+LayoutAssert.AssertAlignedVerticallyAll(falcon9Anchor, falconHeavyAnchor);
 ```
 
 
-page object
+Verify the height and width of elements.
 ```csharp
-var homePage = App.GoTo<HomePage>();
+saturnVRating.AssertHeightLessThan(100);
+saturnVRating.AssertWidthBetween(50, 70);
+```
 
-homePage.FilterProducts(ProductFilter.Popularity);
-homePage.AddProductById(28);
-homePage.ViewCartButton.Click();
+Verify the height and width of elements.
+```csharp
+saturnVRating.AssertHeightLessThan(100);
+saturnVRating.AssertWidthBetween(50, 70);
+```
 
-var cartPage = App.Create<CartPage>();
 
-cartPage.ApplyCoupon("happybirthday");
-cartPage.UpdateProductQuantity(1, 2);
-cartPage.AssertTotalPrice("95.00");
-cartPage.ProceedToCheckout.Click();
+15+ Predefined Resolutions
+
+```csharp
+[App(Constants.WpfAppPath, DesktopWindowSize._1280_1024,  AppBehavior.RestartEveryTime)]
 ```
 
 ```csharp
-Start Test
-Class = BDDLoggingTests Name = PurchaseRocketWithLogs
-Select 'Sort by price: low to high' on CartPage 
-Click ApplyCupon on CartPage 
-Ensure SuccessDiv on CartPage inner text is 'Coupon code applied successfully.'
-Set '0' into QuantityNumber on CartPage 
-Click UpdateCartButton on CartPage 
-Ensure OrderTotalSpan on CartPage inner text is '95.00€'
+[App(Constants.WpfAppPath, MobileWindowSize._360_640, AppBehavior.RestartEveryTime)]
 ```
+
+```csharp
+[App(Constants.WpfAppPath, TabletWindowSize._600_1024,  AppBehavior.RestartEveryTime)]
+```
+
+Custom Resolutions
+```csharp
+[App(Constants.WpfAppPath, width: 600, height: 900, behavior: AppBehavior.RestartEveryTime)]```
