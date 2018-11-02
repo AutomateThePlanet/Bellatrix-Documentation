@@ -58,6 +58,7 @@ cartPage.UpdateProductQuantity(1, 2);
 cartPage.AssertTotalPrice("95.00");
 cartPage.ProceedToCheckout.Click();
 ```
+
 ```csharp
 Start Test
 Class = BDDLoggingTests Name = PurchaseRocketWithLogs
@@ -67,4 +68,4 @@ Ensure SuccessDiv on CartPage inner text is 'Coupon code applied successfully.'
 Set '0' into QuantityNumber on CartPage 
 Click UpdateCartButton on CartPage 
 Ensure OrderTotalSpan on CartPage inner text is '95.00€'
-```csharp
+```
