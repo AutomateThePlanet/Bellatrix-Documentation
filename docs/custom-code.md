@@ -8,56 +8,81 @@ permalink: /customcode/
 Bellatrix Test Automation Framework 
 ---------------------------------------------------------
 
-Predefined Response Assertions
 
-Assert that the status code is successful. 
+Retry Failed Requests
 ```csharp
-response.AssertSuccessStatusCode();
+[RetryFailedRequests(3, 200, TimeUnit.Milliseconds)]
+public class RetryFailedRequestsTests : APITest
+{
+    [TestMethod]
+    public void GetAlbumById()
+    {
+        var request = new RestRequest("api/Albums/10");
+
+        var client = App.GetApiClientService();
+
+        var response = client.Get<Albums>(request);
+
+        Assert.AreEqual(10, response.Data.AlbumId);
+    }
+}
+```
+EXTEND
+
+This is how we specify the maximal allowed time.
+```csharp
+ [ExecutionTimeUnder(2)]
+ public class MeasuredResponseTimesTests : APITest
 ```
 
 
-Assert that the header named ‘server’ has the value ‘Kestrel’.
+This is part of the plugin.
 ```csharp
-response.AssertResponseHeader("server", "Kestrel");
+public class ExecutionTimeUnderTestWorkflowPlugin : TestWorkflowPlugin
+{
+    protected override void PostTestInit(object sender, TestWorkflowPluginEventArgs e)
+    {
+        // get the start time
+    }
+
+    protected override void PostTestCleanup(object sender, TestWorkflowPluginEventArgs e)
+    {
+        // total time = start time - current time
+        // IF total time > specified time ===> FAIL TEST
+    }
+}
 ```
 
-Assert that the native text content (JSON or XML) contains the specified value.
+
+API Client Hooks
 ```csharp
-response.AssertContentContains("Metallica");
+public class LogRequestTimeApiClientExecutionPlugin : ApiClientExecutionPlugin
+{
+    private Stopwatch _requestStopwatch = Stopwatch.StartNew();
+
+    protected override void OnMakingRequest(object sender, RequestEventArgs client)
+    {
+	_requestStopwatch = Stopwatch.StartNew();
+    }
+
+    protected override void OnRequestMade(object sender, ResponseEventArgs client)
+    {
+        _requestStopwatch.Stop();
+        Console.WriteLine($"Request made for {_requestStopwatch.ElapsedMilliseconds}");
+    }
+}
 ```
 
-Assert the response content encoding.
+Assertion Hooks
 ```csharp
-response.AssertContentEncoding("gzip");
+public override void AssertContentContainsEventHandler(object sender, ApiAssertEventArgs arg)
+{
+    Debug.WriteLine($"Assert response content contains {arg.ActionValue}.");
+}
+
+public override void AssertContentEncodingEventHandler(object sender, ApiAssertEventArgs arg)
+{
+    Debug.WriteLine($"Assert response content encoding is equal to {arg.ActionValue}.");
+}
 ```
 
-Assert C# collections directly.
-```csharp
-response.AssertResultEquals(expectedAlbums);
-```
-
-Assert that a specific cookie exists.
-```csharp
-response.AssertCookieExists("whoIs");
-```
-
-Validate JSON and XML Schemas
-```csharp
-
-var expectedSchema = @"{
-    ""definitions"": {},
-    ""$schema"": ""http://json-schema.org/draft-07/schema#"",
-    ""$id"": ""http://example.com/root.json"",
-    ""type"": ""object"",
-    ""title"": ""The Root Schema"",
-    ""required"": [
-    ""albumId"",
-    ""title"",
-    ""artistId"",
-    ""artist"",
-    ""tracks""
-    ]
-}";
-            
-response.AssertSchema(expectedSchema);
-```
