@@ -100,4 +100,5 @@ saturnVRating.AssertWidthBetween(50, 70);
 
 Custom Resolutions
 ```csharp
-[App(Constants.WpfAppPath, width: 600, height: 900, behavior: AppBehavior.RestartEveryTime)]```
+[App(Constants.WpfAppPath, width: 600, height: 900, behavior: AppBehavior.RestartEveryTime)]
+```
