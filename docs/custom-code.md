@@ -9,96 +9,50 @@ Bellatrix Test Automation Framework
 ---------------------------------------------------------
 
 
-200+ Assertions
+ScreenshotOnFail 
 ```csharp
 [App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
 public class LayoutTestingTests : DesktopTest
 {
+[TestClass]
+[ScreenshotOnFail(true)]
+[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+public class AppScreenshotsOnFailTests : DesktopTest
+{
     [TestMethod]
-    public void CommonActionsWithDesktopControls_Wpf()
+    public void MessageChanged_When_ButtonHovered_Wpf()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("purchaseButton");
-        var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
-        var selectedRadioButton = App.ElementCreateService.CreateByName<RadioButton>("selectedRadioButton");
+        var button = App.ElementCreateService.CreateByName<Button>("button");
 
-        button.AssertAboveOf(calendar);
+        button.Hover();
+    }
 
-        saturnVAnchor.AssertNearBottomRightOf(sortDropDown);
-        sortDropDown.AssertNearTopLeftOf(saturnVAnchor);
+}
+```
 
-        LayoutAssert.AssertAlignedHorizontallyAll(button, bcalendar);
-        
-        LayoutAssert.AssertAlignedVerticallyLeft(radioButton, selectedRadioButton);
+Video Record  
+```csharp
+[TestClass]
+[VideoRecording(VideoRecordingMode.OnlyFail)]
+[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+public class VideoRecordingTests : DesktopTest
+{
+    [TestMethod]
+    public void MessageChanged_When_ButtonHovered_Wpf()
+    {
+        var button = App.ElementCreateService.CreateByName<Button>("E Button");
 
-        button.AssertHeightLessThan(100);
-        button.AssertWidthBetween(70, 80);
+        button.Hover();
     }
 }
 ```
 
-Depending on what you want to check, Bellatrix gives lots of options. You can test px perfect or just that some element is below another. Check that the purchase button is above the calendar.
+Measure Test Execution Times
 ```csharp
-button.AssertAboveOf(calendar);
-```
-
-Assert with the exact distance between them.
-```csharp
-button.AssertAboveOf(calendar, 106);
-```
-
-
-For each available method, you have variations of it such as, >, >=, <, <=, between and approximate to some expected value by specified %.
-```csharp
-button.AssertAboveOfGreaterThan(calendar, 100);
-button.AssertAboveOfGreaterThanOrEqual(calendar, 106);
-button.AssertAboveOfLessThan(calendar, 110);
-button.AssertAboveOfLessThanOrEqual(calendar, 106);
-```
-
-The expected distance is ~105px with 10% tolerance.
-```csharp
-button.AssertAboveOfApproximate(calendar, 105, percent: 10);
-```
-
-You can test whether different desktop elements are aligned correctly.
-```csharp
-LayoutAssert.AssertAlignedHorizontallyAll(button, button1);
-LayoutAssert.AssertAlignedHorizontallyCentered(protonRocketAnchor, protonMAnchor, saturnVAnchor);
-LayoutAssert.AssertAlignedHorizontallyBottom(protonRocketAnchor, protonMAnchor, saturnVAnchor);
-
-
-LayoutAssert.AssertAlignedVerticallyAll(falcon9Anchor, falconHeavyAnchor);
-```
-
-
-Verify the height and width of elements.
-```csharp
-saturnVRating.AssertHeightLessThan(100);
-saturnVRating.AssertWidthBetween(50, 70);
-```
-
-Verify the height and width of elements.
-```csharp
-saturnVRating.AssertHeightLessThan(100);
-saturnVRating.AssertWidthBetween(50, 70);
-```
-
-
-15+ Predefined Resolutions888
-
-```csharp
-[App(Constants.WpfAppPath, DesktopWindowSize._1280_1024,  AppBehavior.RestartEveryTime)]
-```
-
-```csharp
-[App(Constants.WpfAppPath, MobileWindowSize._360_640, AppBehavior.RestartEveryTime)]
-```
-
-```csharp
-[App(Constants.WpfAppPath, TabletWindowSize._600_1024,  AppBehavior.RestartEveryTime)]
-```
-
-Custom Resolutions
-```csharp
-[App(Constants.WpfAppPath, width: 600, height: 900, behavior: AppBehavior.RestartEveryTime)]
+[TestClass]
+[VideoRecording(VideoRecordingMode.OnlyFail)]
+[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+public class VideoRecordingTests : DesktopTest
+[ExecutionTimeUnder(2)]
+public class MeasuredResponseTimesTests : DesktopTest
 ```
