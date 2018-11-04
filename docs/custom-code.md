@@ -84,7 +84,7 @@ saturnVRating.AssertWidthBetween(50, 70);
 ```
 
 
-15+ Predefined Resolutions
+15+ Predefined Resolutions888
 
 ```csharp
 [App(Constants.WpfAppPath, DesktopWindowSize._1280_1024,  AppBehavior.RestartEveryTime)]
