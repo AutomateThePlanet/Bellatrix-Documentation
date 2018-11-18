@@ -1,10 +1,10 @@
 ---
 layout: default
 title:  "Extensibility- Override Globally Element Actions"
-excerpt: "Learn how to override some Android elements actions/properties for the whole tests execution."
-date:   2018-10-23 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/extensibility-override-globally-element-actions/
+excerpt: "Learn how to override some iOS elements actions/properties for the whole tests execution."
+date:   2018-11-23 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/extensibility-override-globally-element-actions/
 anchors:
   example: Example
   explanations: Explanations
@@ -13,20 +13,18 @@ Example
 -------
 ```csharp
 [TestClass]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
-public class OverrideGloballyElementActionsTests : AndroidTest
+[IOS(Constants.IOSNativeAppPath,
+    Constants.IOSDefaultVersion,
+    Constants.IOSDefaultDeviceName,
+    AppBehavior.RestartEveryTime)]
+public class OverrideGloballyElementActionsTests : IOSTest
 {
     public override void TestsArrange()
     {
         Button.OverrideClickGlobally = (e) =>
         {
             e.ToExists().ToBeClickable().WaitToBe();
-            e.ScrollToVisible();
+            e.ScrollToVisible(ScrollDirection.Down);
             e.Click();
         };
 
@@ -35,7 +33,7 @@ public class OverrideGloballyElementActionsTests : AndroidTest
 
     private void CustomClick(RadioButton radioButton)
     {
-        radioButton.ScrollToVisible();
+        radioButton.ScrollToVisible(ScrollDirection.Down);
         Thread.Sleep(100);
         radioButton.Click();
     }
@@ -43,7 +41,7 @@ public class OverrideGloballyElementActionsTests : AndroidTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
@@ -57,7 +55,7 @@ Extensibility and customization are one of the biggest advantages of Bellatrix. 
 Button.OverrideClickGlobally = (e) =>
 {
     e.ToExists().ToBeClickable().WaitToBe();
-    e.ScrollToVisible();
+    e.ScrollToVisible(ScrollDirection.Down);
     e.Click();
 };
 ```
@@ -67,7 +65,7 @@ RadioButton.OverrideClickGlobally = CustomClick;
 
 private void CustomClick(RadioButton radioButton)
 {
-    radioButton.ScrollToVisible();
+    radioButton.ScrollToVisible(ScrollDirection.Down);
     Thread.Sleep(100);
     radioButton.Click();
 }
