@@ -1,10 +1,10 @@
 ---
 layout: default
 title:  "AppService"
-excerpt: "Learn how to use Bellatrix Android AppService."
-date:   2018-06-22 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/app-service/
+excerpt: "Learn how to use Bellatrix IOS AppService."
+date:   2018-11-20 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/app-service/
 anchors:
   example: Example
   explanations: Explanations
@@ -13,13 +13,11 @@ Example
 -------
 ```csharp
 [TestClass]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
+[IOS(Constants.IOSNativeAppPath,
+    Constants.IOSDefaultVersion,
+    Constants.IOSDefaultDeviceName,
     AppBehavior.RestartEveryTime)]
-public class AppServiceTests : AndroidTest
+public class AppServiceTests : IOSTest
 {
     [TestMethod]
     public void TestBackgroundApp()
@@ -34,25 +32,32 @@ public class AppServiceTests : AndroidTest
     }
 
     [TestMethod]
+    public void InstallAppInstalledTrue_When_AppIsInstalled()
+    {
+        Assert.IsTrue(App.AppService.IsAppInstalled("com.apple.mobilecal"));
+    }
+
+    [TestMethod]
+    [Ignore]
     public void InstallAppInstalledFalse_When_AppIsUninstalled()
     {
-        string appPath = Path.Combine(ProcessProvider.GetExecutingAssemblyFolder(), "Demos\\ApiDemos.apk");
+        string appPath = Path.Combine(ProcessProvider.GetExecutingAssemblyFolder(), "Demos/TestApp.app.zip");
 
         App.AppService.InstallApp(appPath);
 
-        App.AppService.RemoveApp("com.example.android.apis");
+        App.AppService.RemoveApp("com.apple.mobilecal");
 
-        Assert.IsFalse(App.AppService.IsAppInstalled("com.example.android.apis"));
+        Assert.IsFalse(App.AppService.IsAppInstalled("com.apple.mobilecal"));
 
         App.AppService.InstallApp(appPath);
-        Assert.IsTrue(App.AppService.IsAppInstalled("com.example.android.apis"));
+        Assert.IsTrue(App.AppService.IsAppInstalled("om.apple.mobilecal"));
     }
 }
 ```
 
 Explanations
 ------------
-Bellatrix gives you an interface to most common operations for controlling the Android app through the AppService class. We already saw one of them StartActivity for opening a particular initial activity.
+Bellatrix gives you an interface to most common operations for controlling the iOS app through the AppService class.
 ```csharp
 App.AppService.BackgroundApp(1);
 ```
@@ -62,14 +67,14 @@ App.AppService.ResetApp();
 ```
 Resets the app.
 ```csharp
-Assert.IsTrue(App.AppService.IsAppInstalled("com.example.android.apis"));
+Assert.IsTrue(App.AppService.IsAppInstalled("com.apple.mobilecal"));
 ```
-Checks whether the app with the specified app package is installed.
+Checks whether the app with the specified bundleId is installed.
 ```csharp
 App.AppService.InstallApp(appPath);
 ```
-Installs the APK file on the device.
+Installs the app file on the device.
 ```csharp
-App.AppService.RemoveApp("io.appium.android.apis");
+App.AppService.RemoveApp("com.apple.mobilecal");
 ```
-Uninstalls the app with the specified app package.
+Uninstalls the app with the specified bundleId. You can get your app's bundleId from XCode.
