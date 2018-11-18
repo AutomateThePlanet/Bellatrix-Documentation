@@ -1,10 +1,10 @@
 ---
 layout: default
 title:  "WebService"
-excerpt: "Learn how to use Bellatrix Android WebService."
-date:   2018-10-22 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/web-service/
+excerpt: "Learn how to use Bellatrix iOS WebService."
+date:   2018-11-22 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/web-service/
 anchors:
   example: Example
   explanations: Explanations
@@ -13,11 +13,11 @@ Example
 -------
 ```csharp
 [TestClass]
-[AndroidWeb(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    AppBehavior.RestartEveryTime)]
-public class WebServiceTests : AndroidTest
+[IOSWebAttribute(Constants.IOSNativeAppPath,
+    Constants.IOSDefaultVersion,
+    Constants.IOSDefaultDeviceName,
+    AppBehavior.ReuseIfStarted)]
+public class WebServiceTests : IOSTest
 {
     [TestMethod]
     public void HtmlSourceContainsShop_When_OpenWebPageWithChrome()
@@ -34,13 +34,13 @@ Bellatrix gives you an interface for easier work with web apps. Using it, you ca
 of Bellatrix web APIs.
 ```csharp
 [TestClass]
-[AndroidWeb(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    AppBehavior.RestartEveryTime)]
-public class WebServiceTests : AndroidTest
+[IOSWebAttribute(Constants.IOSNativeAppPath,
+    Constants.IOSDefaultVersion,
+    Constants.IOSDefaultDeviceName,
+    AppBehavior.ReuseIfStarted)]
+public class WebServiceTests : IOSTest
 ```
-To test web apps, you can start Chrome browser using the AndroidWeb attribute.
+To test web apps, you can start Chrome browser using the IOSWeb attribute.
 ```csharp
 App.Web.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 ```
