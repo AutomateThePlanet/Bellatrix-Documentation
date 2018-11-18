@@ -2,9 +2,9 @@
 layout: default
 title:  "Troubleshooting- Video Recording"
 excerpt: "Learn how to use Bellatrix cross-platform video recording."
-date:   2018-10-22 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/troubleshooting-video-recording/
+date:   2018-11-22 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/troubleshooting-video-recording/
 anchors:
   example: Example
   explanations: Explanations
@@ -15,18 +15,16 @@ Example
 ```csharp
 [TestClass]
 [VideoRecording(VideoRecordingMode.OnlyFail)]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
-public class VideoRecordingTests : AndroidTest
+[IOS(Constants.IOSNativeAppPath,
+    Constants.IOSDefaultVersion,
+    Constants.IOSDefaultDeviceName,
+    AppBehavior.RestartEveryTime)]
+public class VideoRecordingTests : IOSTest
 {
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
@@ -35,7 +33,7 @@ public class VideoRecordingTests : AndroidTest
     [VideoRecording(VideoRecordingMode.DoNotRecord)]
     public void ButtonClicked_When_CallClickMethodSecond()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
