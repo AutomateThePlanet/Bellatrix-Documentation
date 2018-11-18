@@ -1,10 +1,10 @@
 ---
 layout: default
-title:  "Desktop Automation"
-excerpt: "Learn how to use Bellatrix Desktop test framework."
+title:  "Android Automation"
+excerpt: "Learn how to use Bellatrix Android test framework."
 date:   2018-06-22 06:50:17 +0200
-parent: desktop-automation
-permalink: /desktop-automation/
+parent: android-automation
+permalink: /android-automation/
 ---
 Overview
 --------
@@ -20,9 +20,9 @@ Checks after each test, its result, if failed, makes the screenshots. [**Learn m
 Checks after each test, its result, depending on the specified video saves the video. [**Learn more**](/troubleshooting-video-recording.md).
 
 ### Common Controls ###
-18+ desktop controls. All of them implement Proxy design pattern which means that they are not located immediately when they are created. Another benefit is that each of them includes only the actions that you should be able to do with the specific control and nothing more.[**Learn more**](/common-controls.md).
+18+ Android controls. All of them implement Proxy design pattern which means that they are not located immediately when they are created. Another benefit is that each of them includes only the actions that you should be able to do with the specific control and nothing more.[**Learn more**](/common-controls.md).
 
-### Desktop Extensibility ###
+### Android Extensibility ###
 - [**Test workflow hooks**](/extensibility-test-workflow-hooks.md).
 - [**Custom test workflow plugins**](/extensibility-custom-test-workflow-plugins.md).
 - [**Override globally element actions**](/extensibility-override-globally-element-actions.md).
