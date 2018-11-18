@@ -1,10 +1,10 @@
 ---
 layout: default
 title:  "Execute Tests in SauceLabs"
-excerpt: "Learn to use Bellatrix to execute Android tests in SauceLabs."
-date:   2018-10-23 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/execute-tests-saucelabs/
+excerpt: "Learn to use Bellatrix to execute iOS tests in SauceLabs."
+date:   2018-11-23 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/execute-tests-saucelabs/
 anchors:
   example: Example
   explanations: Explanations
@@ -14,32 +14,28 @@ Example
 -------
 ```csharp
 [TestClass]
-[AndroidSauceLabs("sauce-storage:ApiDemos.apk",
-    "7.1",
-    "Android GoogleAPI Emulator",
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.ControlsMaterialDark",
+[IOSSauceLabs("sauce-storage:TestApp.app.zip",
+    Constants.IOSDefaultVersion,
+    Constants.IOSDefaultDeviceName,
     AppBehavior.RestartEveryTime)]
-public class SauceLabsTests : AndroidTest
+public class SauceLabsTests : IOSTest
 {
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
 
     [TestMethod]
-    [AndroidSauceLabs("sauce-storage:ApiDemos.apk",
-        "7.1",
-        "Android GoogleAPI Emulator",
-        Constants.AndroidNativeAppAppExamplePackage,
-        ".view.ControlsMaterialDark",
+    [IOSSauceLabs("sauce-storage:TestApp.app.zip",
+        Constants.IOSDefaultVersion,
+        Constants.IOSDefaultDeviceName,
         AppBehavior.ReuseIfStarted)]
     public void ButtonClicked_When_CallClickMethodSecond()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
@@ -49,26 +45,21 @@ public class SauceLabsTests : AndroidTest
 Explanations
 ------------
 ```csharp
-[AndroidSauceLabs("sauce-storage:ApiDemos.apk",
-    "7.1",
-    "Android GoogleAPI Emulator",
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.ControlsMaterialDark",
+[IOSSauceLabs("sauce-storage:TestApp.app.zip",
+    Constants.IOSDefaultVersion,
+    Constants.IOSDefaultDeviceName,
     AppBehavior.RestartEveryTime)]
 ```
-To execute Bellatrix tests in SauceLabs cloud you should use the AndroidSauceLabs attribute instead of Android. SauceLabs has the same parameters as Android but adds to additional ones- device name, recordVideo and recordScreenshots. As with the Android attribute you can override the class behavior on Test level.
+To execute Bellatrix tests in SauceLabs cloud you should use the IOSSauceLabs attribute instead of IOS. SauceLabs has the same parameters as IOS but adds to additional ones- device name, recordVideo and recordScreenshots. As with the IOS attribute you can override the class behavior on Test level.
 ```csharp
 [TestMethod]
-[AndroidSauceLabs("sauce-storage:ApiDemos.apk",
-    "7.1",
-    "Android GoogleAPI Emulator",
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.ControlsMaterialDark",
+[IOSSauceLabs("sauce-storage:TestApp.app.zip",
+    Constants.IOSDefaultVersion,
+    Constants.IOSDefaultDeviceName,
     AppBehavior.ReuseIfStarted)]
-[Ignore]
 public void ButtonClicked_When_CallClickMethodSecond()
 {
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+    var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
     button.Click();
 }
