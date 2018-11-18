@@ -2,9 +2,9 @@
 layout: default
 title:  "Extensibility- Add New Element Wait Methods"
 excerpt: "Learn how to extend Bellatrix adding new element wait methods."
-date:   2018-06-23 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/extensibility-add-new-element-wait-methods/
+date:   2018-11-23 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/extensibility-add-new-element-wait-methods/
 anchors:
   introduction: Introduction
   example: Example
@@ -18,7 +18,7 @@ Example
 -------
 ```csharp
 public class UntilHaveSpecificContent<TDriver, TDriverElement> : BaseUntil<TDriver, TDriverElement>
-    where TDriver : AppiumDriver<TDriverElement>
+    where TDriver : IOSDriver<TDriverElement>
     where TDriverElement : AppiumWebElement
 {
     private readonly string _elementContent;
@@ -60,14 +60,15 @@ Find the element and check the current value in the Text attribute. The internal
 The next and final step is to create an extension method for all UI elements.
 
 ```csharp
-namespace Bellatrix.Mobile.Android.GettingStarted.ExtensionMethodsWaitMethods
+namespace Bellatrix.Mobile.IOS.GettingStarted.ExtensionMethodsWaitMethods
 {
     public static class UntilElementsExtensions
     {
-        public static TElementType ToHaveSpecificContent<TElementType>(this TElementType element, string content, int? timeoutInterval = null, int? sleepInterval = null)
+        public static TElementType ToHaveSpecificContent<TElementType>(
+            this TElementType element, string content, int? timeoutInterval = null, int? sleepInterval = null)
          where TElementType : Element
         {
-            var until = new UntilHaveSpecificContent<AndroidDriver<AndroidElement>, AndroidElement>(content, timeoutInterval, sleepInterval);
+            var until = new UntilHaveSpecificContent<IOSDriver<IOSElement>, IOSElement>(content, timeoutInterval, sleepInterval);
             element.EnsureState(until);
             return element;
         }
@@ -79,25 +80,24 @@ After **UntilHaveSpecificContent** is created, it is important to be passed on t
 Usage
 ------------
 ```csharp
-using Bellatrix.Mobile.Android.GettingStarted.ExtensionMethodsWaitMethods;
+using Bellatrix.Mobile.IOS.GettingStarted.ExtensionMethodsWaitMethods;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Bellatrix.Mobile.Android.GettingStarted
+namespace Bellatrix.Mobile.IOS.GettingStarted
 {
     [TestClass]
-    [Android(Constants.AndroidNativeAppPath,
-        Constants.AndroidDefaultAndroidVersion,
-        Constants.AndroidDefaultDeviceName,
-        Constants.AndroidNativeAppAppExamplePackage,
-        ".view.Controls1",
-        AppBehavior.ReuseIfStarted)]
-    public class AddNewElementWaitMethodsTests : AndroidTest
+    [IOS(Constants.IOSNativeAppPath,
+        Constants.IOSDefaultVersion,
+        Constants.IOSDefaultDeviceName,
+        AppBehavior.RestartEveryTime)]
+    public class AddNewElementWaitMethodsTests : IOSTest
     {
         [TestMethod]
         [Ignore]
         public void MessageChanged_When_ButtonHovered_Wpf()
         {
-            var button = App.ElementCreateService.CreateByIdContaining<Button>("button").ToHaveSpecificContent("button");
+            var button = 
+				App.ElementCreateService.CreateByName<Button>("ComputeSumButton").ToHaveSpecificContent("button");
 
             button.Click();
         }
@@ -107,9 +107,9 @@ namespace Bellatrix.Mobile.Android.GettingStarted
 You need to add a using statement to the namespace where the new wait extension methods are situated.
 
 ```csharp
-using Bellatrix.Mobile.Android.GettingStarted.ExtensionMethodsWaitMethods;
+using Bellatrix.Mobile.IOS.GettingStarted.ExtensionMethodsWaitMethods;
 ```
 After that, you can use the new wait method as it was originally part of Bellatrix.
 ```csharp
-var button = App.ElementCreateService.CreateByIdContaining<Button>("button").ToHaveSpecificContent("button");
+var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton").ToHaveSpecificContent("button");
 ```
