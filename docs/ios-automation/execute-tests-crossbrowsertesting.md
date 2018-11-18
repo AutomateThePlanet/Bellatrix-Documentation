@@ -1,10 +1,10 @@
 ---
 layout: default
 title:  "Execute Tests in CrossBrowserTesting"
-excerpt: "Learn to use Bellatrix to execute Android tests in CrossBrowserTesting."
-date:   2018-10-23 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/execute-tests-crossbrowsertesting/
+excerpt: "Learn to use Bellatrix to execute iOS tests in CrossBrowserTesting."
+date:   2018-11-23 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/execute-tests-crossbrowsertesting/
 anchors:
   example: Example
   explanations: Explanations
@@ -14,38 +14,34 @@ Example
 -------
 ```csharp
 [TestClass]
-[AndroidCrossBrowserTesting("crossBrowser-storage:ApiDemos.apk",
-    "7.1",
-    "Android GoogleAPI Emulator",
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.ControlsMaterialDark",
+[IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
+    "11.3",
+    "iPhone 6",
     AppBehavior.RestartEveryTime,
     recordVideo: true,
     recordNetwork: true,
     build: "CI Execution")]
-public class CrossBrowserTesting : AndroidTest
+public class CrossBrowserTesting : IOSTest
 {
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
 
     [TestMethod]
-    [AndroidCrossBrowserTesting("crossBrowser-storage:ApiDemos.apk",
-        "7.1",
-        "Android GoogleAPI Emulator",
-        Constants.AndroidNativeAppAppExamplePackage,
-        ".view.ControlsMaterialDark",
+    [IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
+        "11.3",
+        "iPhone 6",
         AppBehavior.ReuseIfStarted,
         recordVideo: true,
         recordNetwork: true,
         build: "CI Execution")]
     public void ButtonClicked_When_CallClickMethodSecond()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
@@ -55,31 +51,27 @@ public class CrossBrowserTesting : AndroidTest
 Explanations
 ------------
 ```csharp
-[AndroidCrossBrowserTesting("crossBrowser-storage:ApiDemos.apk",
-    "7.1",
-    "Android GoogleAPI Emulator",
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.ControlsMaterialDark",
+[IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
+    "11.3",
+    "iPhone 6",
     AppBehavior.RestartEveryTime,
     recordVideo: true,
     recordNetwork: true,
     build: "CI Execution")]
 ```
-To execute Bellatrix tests in CrossBrowserTesting cloud, you should use the CrossBrowserTesting attribute instead of Android. CrossBrowserTesting has the same parameters as Android but adds to additional ones- deviceName, recordVideo, recordNetwork and build. The last three are optional and have default values. As with the Android attribute you can override the class behaviour on Test level.
+To execute Bellatrix tests in CrossBrowserTesting cloud, you should use the CrossBrowserTesting attribute instead of IOS. CrossBrowserTesting has the same parameters as IOS but adds to additional ones- deviceName, recordVideo, recordNetwork and build. The last three are optional and have default values. As with the IOS attribute you can override the class behaviour on Test level.
 ```csharp
 [TestMethod]
-[AndroidCrossBrowserTesting("crossBrowser-storage:ApiDemos.apk",
-    "7.1",
-    "Android GoogleAPI Emulator",
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.ControlsMaterialDark",
+[IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
+    "11.3",
+    "iPhone 6",
     AppBehavior.ReuseIfStarted,
     recordVideo: true,
     recordNetwork: true,
     build: "CI Execution")]
 public void ButtonClicked_When_CallClickMethodSecond()
 {
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+    var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
     button.Click();
 }
