@@ -2,9 +2,9 @@
 layout: default
 title:  "Extensibility- Custom Test Workflow Plugins"
 excerpt: "Learn how to plugin your logic in Bellatrix test workflow using custom test workflow plugins."
-date:   2018-10-23 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/extensibility-custom-test-workflow-plugins/
+date:   2018-11-23 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/extensibility-custom-test-workflow-plugins/
 anchors:
   example: Example
   explanations: Explanations
@@ -78,24 +78,22 @@ protected override void PreTestInit(object sender, TestWorkflowPluginEventArgs e
 You can override all mentioned test workflow method hooks in your custom handlers. The method uses reflection to find out if the ManualTestCase attribute is set to the run test. If the attribute is not set or is set more than once an exception is thrown. The logic executes before the actual test run, during the **PreTestInit** phase.
 ```csharp
 [TestClass]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
-public class CustomTestCaseExtensionTests : AndroidTest
+[IOS(Constants.IOSNativeAppPath,
+    Constants.IOSDefaultVersion,
+    Constants.IOSDefaultDeviceName,
+    AppBehavior.RestartEveryTime)]
+public class CustomTestCaseExtensionTests : IOSTest
 {
     public override void TestInit()
     {
-        App.AddTestWorkflowPlugin<AssociatedTestCaseExtension>();
+         App.AddTestWorkflowPlugin<AssociatedTestWorkflowPlugin>();
     }
 
     [TestMethod]
     [ManualTestCase(1532)]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
