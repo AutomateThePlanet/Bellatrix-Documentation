@@ -2,9 +2,9 @@
 layout: default
 title:  "Extensibility- Add New Find Locators"
 excerpt: "Learn how to extend Bellatrix adding new custom find locators."
-date:   2018-10-23 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/extensibility-add-new-find-locators/
+date:   2018-11-23 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/extensibility-add-new-find-locators/
 anchors:
   introduction: Introduction
   example: Example
@@ -12,80 +12,74 @@ anchors:
 ---
 Introduction
 ------------
-Imagine that you want to create a new locator for finding all elements with ID starting with specific value. First, you need to create a new 'By' class.
+Imagine that you want to create a new locator for finding all elements with name starting with specific value. First, you need to create a new 'By' class.
 
 Example
 -------
 ```csharp
-public class ByIdStartingWith : By<AndroidDriver<AndroidElement>, AndroidElement>
+public class ByNameStartingWith : By<IOSDriver<IOSElement>, IOSElement>
 {
     private readonly string _locatorValue;
 
-    public ByIdStartingWith(string name)
-        : base(name) => _locatorValue = $"new UiSelector().resourceIdMatches(\"{Value}.*\");";
+    public ByNameStartingWith(string name)
+        : base(name) => _locatorValue = $"//*[starts-with(@name, '{Value}')]";
 
-    public override AndroidElement FindElement(AndroidDriver<AndroidElement> searchContext) 
-        => searchContext.FindElementByAndroidUIAutomator(_locatorValue);
+    public override IOSElement FindElement(IOSDriver<IOSElement> searchContext) => searchContext.FindElementByXPath(_locatorValue);
 
-    public override IEnumerable<AndroidElement> FindAllElements(AndroidDriver<AndroidElement> searchContext) 
-        => searchContext.FindElementsByAndroidUIAutomator(_locatorValue);
+    public override IEnumerable<IOSElement> FindAllElements(IOSDriver<IOSElement> searchContext) => searchContext.FindElementsByXPath(_locatorValue);
 
-    public override AppiumWebElement FindElement(AndroidElement element) 
-        => element.FindElementByAndroidUIAutomator(_locatorValue);
+    public override AppiumWebElement FindElement(IOSElement element) => element.FindElementByXPath(_locatorValue);
 
-    public override IEnumerable<AppiumWebElement> FindAllElements(AndroidElement element) 
-        => element.FindElementsByAndroidUIAutomator(_locatorValue);
+    public override IEnumerable<AppiumWebElement> FindAllElements(IOSElement element) => element.FindElementsByXPath(_locatorValue);
 
-    public override string ToString() => $"ID starting with = {Value}";
+    public override string ToString() => $"Name starting with = {Value}";
 }
 ```
-We override all available methods and use UIAutomator regular expression for finding an element with ID starting with.
+We override all available methods and use XPath expression for finding an element with name starting with.
 
 To ease the usage of the locator, we need to create an extension methods for ElementCreateService and Element classes.
 
 ```csharp
 public static class ElementRepositoryExtensions
 {
-    public static TElement CreateByIdStartingWith<TElement>(this ElementCreateService repo, string id)
-        where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => repo.Create<TElement, ByIdStartingWith, AndroidDriver<AndroidElement>, AndroidElement>(new ByIdStartingWith(id));
+    public static TElement CreateByNameStartingWith<TElement>(this ElementCreateService repo, string id)
+        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => repo.Create<TElement, ByNameStartingWith, IOSDriver<IOSElement>, IOSElement>(new ByNameStartingWith(id));
 
-    public static ElementsList<TElement, ByIdStartingWith, AndroidDriver<AndroidElement>, AndroidElement> CreateAllByIdStartingWith<TElement>(this ElementCreateService repo, string id)
-        where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => new ElementsList<TElement, ByIdStartingWith, AndroidDriver<AndroidElement>, AndroidElement>(new ByIdStartingWith(id), null);
+    public static ElementsList<TElement, ByNameStartingWith, IOSDriver<IOSElement>, IOSElement> CreateAllByNameStartingWith<TElement>(this ElementCreateService repo, string id)
+        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => new ElementsList<TElement, ByNameStartingWith, IOSDriver<IOSElement>, IOSElement>(new ByNameStartingWith(id), null);
 }
 ```
 
 ```csharp
 public static class ElementCreateExtensions
 {
-    public static TElement CreateByIdStartingWith<TElement>(this Element<AndroidDriver<AndroidElement>, AndroidElement> element, string id)
-         where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => element.Create<TElement, ByIdStartingWith>(new ByIdStartingWith(id));
+    public static TElement CreateByNameStartingWith<TElement>(this Element<IOSDriver<IOSElement>, IOSElement> element, string id)
+        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => element.Create<TElement, ByNameStartingWith>(new ByNameStartingWith(id));
 
-    public static ElementsList<TElement, ByIdStartingWith, AndroidDriver<AndroidElement>, AndroidElement> CreateAllByIdStartingWith<TElement>(this Element<AndroidDriver<AndroidElement>, AndroidElement> element, string id)
-        where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => new ElementsList<TElement, ByIdStartingWith, AndroidDriver<AndroidElement>, AndroidElement>(new ByIdStartingWith(id), element.WrappedElement);
+    public static ElementsList<TElement, ByNameStartingWith, IOSDriver<IOSElement>, IOSElement> CreateAllByNameStartingWith<TElement>(this Element<IOSDriver<IOSElement>, IOSElement> element, string id)
+        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => new ElementsList<TElement, ByNameStartingWith, IOSDriver<IOSElement>, IOSElement>(new ByNameStartingWith(id), element.WrappedElement);
 }
 ```
 
 Usage
 ------------
 ```csharp
-using Bellatrix.Mobile.Android.GettingStarted.ExtensionMethodsLocators;
+using Bellatrix.Mobile.IOS.GettingStarted.ExtensionMethodsLocators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Bellatrix.Mobile.Android.GettingStarted
+namespace Bellatrix.Mobile.IOS.GettingStarted
 {
     [TestClass]
-    [Android(Constants.AndroidNativeAppPath,
-        Constants.AndroidDefaultAndroidVersion,
-        Constants.AndroidDefaultDeviceName,
-        Constants.AndroidNativeAppAppExamplePackage,
-        ".view.Controls1",
-        AppBehavior.ReuseIfStarted)]
-    public class AddNewFindLocatorsTests : AndroidTest
+    [IOS(Constants.IOSNativeAppPath,
+        Constants.IOSDefaultVersion,
+        Constants.IOSDefaultDeviceName,
+        AppBehavior.RestartEveryTime)]
+    public class AddNewFindLocatorsTests : IOSTest
     {
         [TestMethod]
         public void ButtonClicked_When_CallClickMethod()
         {
-            var button = App.ElementCreateService.CreateByIdStaringWith<Button>("button");
+            var button = App.ElementCreateService.CreateByNameStartingWith<Button>("Compute");
 
             button.Click();
         }
@@ -95,9 +89,9 @@ namespace Bellatrix.Mobile.Android.GettingStarted
 You need to add a using statement to the namespace where the extension methods for new locator are situated.
 
 ```csharp
-using Bellatrix.Mobile.Android.GettingStarted.ExtensionMethodsLocators;
+using Bellatrix.Mobile.IOS.GettingStarted.ExtensionMethodsLocators;
 ```
 After that, you can use the new locator as it was originally part of Bellatrix.
 ```csharp
-var button = App.ElementCreateService.CreateByIdStaringWith<Button>("button");
+var button = App.ElementCreateService.CreateByNameStartingWith<Button>("Compute");
 ```
