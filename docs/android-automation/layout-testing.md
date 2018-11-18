@@ -86,9 +86,9 @@ All layout assertion methods throw **LayoutAssertFailedException** if the check 
 /########################################
 ```csharp
 button.AssertAboveOfGreaterThan(checkBox, 100);
-    button.AssertAboveOfGreaterThanOrEqual(checkBox, 105);
-    button.AssertAboveOfLessThan(checkBox, 110);
-    button.AssertAboveOfLessThanOrEqual(checkBox, 105);
+button.AssertAboveOfGreaterThanOrEqual(checkBox, 105);
+button.AssertAboveOfLessThan(checkBox, 110);
+button.AssertAboveOfLessThanOrEqual(checkBox, 105);
 ```
 For each available method you have variations of it such as, >, >=, <, <=, between and approximate to some expected value by specified %.
 ```csharp
@@ -110,14 +110,14 @@ The expected px distance is between 30 and 50 px.
 checkBox.AssertNearBottomRightOf(button);
 button.AssertNearTopLeftOf(checkBox);
 ```
-You can assert the position of elements again each other in all directions- above, below, right, left, top right, top left, below left, below right. Assert that the sort dropdown is positioned near the top right of the Saturn B link.
+You can assert the position of elements again each other in all directions- above, below, right, left, top right, top left, below left, below right. Assert that the checkbox is positioned near the top right of the button.
 ```csharp
 LayoutAssert.AssertAlignedHorizontallyAll(button, secondButton);
 LayoutAssert.AssertAlignedHorizontallyTop(button, secondButton);
 LayoutAssert.AssertAlignedHorizontallyCentered(button, secondButton, secondButton);
 LayoutAssert.AssertAlignedHorizontallyBottom(button, secondButton, secondButton);
 ```
-You can tests whether different web elements are aligned correctly. You can pass as many elements as you like.
+You can tests whether different Android elements are aligned correctly. You can pass as many elements as you like.
 ```csharp
 LayoutAssert.AssertAlignedVerticallyAll(secondCheckBox, checkBox);
 LayoutAssert.AssertAlignedVerticallyLeft(secondCheckBox, checkBox);
