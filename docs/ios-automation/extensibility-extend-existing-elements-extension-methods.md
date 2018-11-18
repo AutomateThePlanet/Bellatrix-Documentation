@@ -1,10 +1,10 @@
 ---
 layout: default
 title:  "Extensibility- Extend Existing Elements- Extension Methods"
-excerpt: "Learn how to extend Bellatrix Android elements using extension methods."
+excerpt: "Learn how to extend Bellatrix iOS elements using extension methods."
 date:   2018-10-23 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/extensibility-extend-existing-elements-extension-methods/
+parent: ios-automation
+permalink: /ios-automation/extensibility-extend-existing-elements-extension-methods/
 anchors:
   example: Example
   explanations: Explanations
@@ -12,25 +12,22 @@ anchors:
 Example
 -------
 ```csharp
-using Bellatrix.Mobile.Android.GettingStarted.Custom;
+using Bellatrix.Mobile.IOS.GettingStarted.Custom;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Bellatrix.Mobile.Android.GettingStarted
+namespace Bellatrix.Mobile.IOS.GettingStarted
 {
     [TestClass]
-    [Android(Constants.AndroidNativeAppPath,
-        Constants.AndroidDefaultAndroidVersion,
-        Constants.AndroidDefaultDeviceName,
-        Constants.AndroidNativeAppAppExamplePackage,
-        ".view.Controls1",
-        AppBehavior.ReuseIfStarted)]
-    public class ExtendExistingElementWithExtensionMethodsTests : AndroidTest
+    [IOS(Constants.IOSNativeAppPath,
+        Constants.IOSDefaultVersion,
+        Constants.IOSDefaultDeviceName,
+        AppBehavior.RestartEveryTime)]
+    public class ExtendExistingElementWithExtensionMethodsTests : IOSTest
     {
         [TestMethod]
-        [Ignore]
         public void ButtonClicked_When_CallClickMethod()
         {
-            var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+            var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
             button.SubmitButtonWithScroll();
         }
@@ -41,14 +38,14 @@ namespace Bellatrix.Mobile.Android.GettingStarted
 Explanations
 ------------
 ```csharp
-namespace Bellatrix.Mobile.Android.GettingStarted.Custom
+namespace Bellatrix.Mobile.IOS.GettingStarted.Custom
 {
     public static class ButtonExtensions
     {
         public static void SubmitButtonWithScroll(this Button button)
         {
             button.ToExists().ToBeClickable().WaitToBe();
-            button.ScrollToVisible();
+            button.ScrollToVisible(ScrollDirection.Down);
             button.Click();
         }
     }
@@ -62,10 +59,10 @@ One way to extend an existing element is to create an extension method for the a
 
 Later to use the method in your tests, add a using statement containing this class's namespace.
 ```csharp
-using Bellatrix.Mobile.Android.GettingStarted.Custom;
+using Bellatrix.Mobile.IOS.GettingStarted.Custom;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Bellatrix.Mobile.Android.GettingStarted
+namespace Bellatrix.Mobile.IOS.GettingStarted
 ```
 To use the additional method you created, add a using statement to the extension methods' namespace.
 ```csharp
