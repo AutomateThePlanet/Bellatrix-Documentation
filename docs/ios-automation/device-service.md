@@ -42,7 +42,6 @@ public class DeviceServiceTests : IOSTest
     }
 
     [TestMethod]
-    [Ignore]
     public void TestShakeDevice()
     {
         App.DeviceService.ShakeDevice();

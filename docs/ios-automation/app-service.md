@@ -38,7 +38,6 @@ public class AppServiceTests : IOSTest
     }
 
     [TestMethod]
-    [Ignore]
     public void InstallAppInstalledFalse_When_AppIsUninstalled()
     {
         string appPath = Path.Combine(ProcessProvider.GetExecutingAssemblyFolder(), "Demos/TestApp.app.zip");

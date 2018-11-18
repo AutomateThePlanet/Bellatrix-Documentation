@@ -27,7 +27,6 @@ public class CustomWebDriverCapabilitiesTests : IOSTest
     }
 
     [TestMethod]
-    [Ignore]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
