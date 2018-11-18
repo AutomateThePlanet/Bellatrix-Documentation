@@ -1,10 +1,10 @@
 ---
 layout: default
 title:  "Extensibility- Override Locally Element Actions"
-excerpt: "Learn how to override temporary some Android elements actions/properties."
-date:   2018-10-20 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/extensibility-override-locally-element-actions/
+excerpt: "Learn how to override temporary some iOS elements actions/properties."
+date:   2018-11-20 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/extensibility-override-locally-element-actions/
 anchors:
   example: Example
   explanations: Explanations
@@ -13,13 +13,12 @@ Example
 -------
 ```csharp
 [TestClass]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
-public class OverrideLocallyElementActionsTests : AndroidTest
+[TestClass]
+[IOS(Constants.IOSNativeAppPath,
+    Constants.IOSDefaultVersion,
+    Constants.IOSDefaultDeviceName,
+    AppBehavior.RestartEveryTime)]
+public class OverrideLocallyElementActionsTests : IOSTest
 {
     [TestMethod]
     public void MessageChanged_When_ButtonHovered_Wpf()
@@ -27,20 +26,20 @@ public class OverrideLocallyElementActionsTests : AndroidTest
         Button.OverrideClickLocally = (e) =>
         {
             e.ToExists().ToBeClickable().WaitToBe();
-            e.ScrollToVisible();
+            e.ScrollToVisible(ScrollDirection.Down);
             e.Click();
         };
 
         RadioButton.OverrideClickLocally = CustomClick;
 
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
 
     private void CustomClick(RadioButton radioButton)
     {
-        radioButton.ScrollToVisible();
+        radioButton.ScrollToVisible(ScrollDirection.Down);
         Thread.Sleep(100);
         radioButton.Click();
     }
@@ -49,12 +48,12 @@ public class OverrideLocallyElementActionsTests : AndroidTest
 
 Explanations
 ------------
-Extensibility and customisation are one of the biggest advantages of Bellatrix. So, each Bellatrix Android control gives you the possibility to override its behaviour locally for current test only. You need to initialise the static delegates- **Override{MethodName}Locally**. This may be useful to make a temporary fix only for certain page where the default behaviour is not working as expected.
+Extensibility and customisation are one of the biggest advantages of Bellatrix. So, each Bellatrix iOS control gives you the possibility to override its behaviour locally for current test only. You need to initialise the static delegates- **Override{MethodName}Locally**. This may be useful to make a temporary fix only for certain page where the default behaviour is not working as expected.
 ```csharp
 Button.OverrideClickLocally = (e) =>
 {
     e.ToExists().ToBeClickable().WaitToBe();
-    e.ScrollToVisible();
+    e.ScrollToVisible(ScrollDirection.Down);
     e.Click();
 };
 ```
@@ -64,7 +63,7 @@ RadioButton.OverrideClickLocally = CustomClick;
 
 private void CustomClick(RadioButton radioButton)
 {
-    radioButton.ScrollToVisible();
+    radioButton.ScrollToVisible(ScrollDirection.Down);
     Thread.Sleep(100);
     radioButton.Click();
 }
