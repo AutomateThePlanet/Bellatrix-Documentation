@@ -42,7 +42,7 @@ namespace Bellatrix.Mobile.Android.GettingStarted
 Explanations
 ------------
 ```csharp
-public static class NavigationServiceExtensions
+public static class AppServiceExtensions
 {
     public static void LoginToApp(this AndroidAppService appService, string userName, string password)
     {
