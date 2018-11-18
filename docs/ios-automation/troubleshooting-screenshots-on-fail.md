@@ -2,9 +2,9 @@
 layout: default
 title:  "Troubleshooting- Screenshots on Fail"
 excerpt: "Learn how to generate screenshots on test's fail."
-date:   2018-10-22 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/troubleshooting-screenshots-on-fail/
+date:   2018-11-22 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/troubleshooting-screenshots-on-fail/
 anchors:
   example: Example
   explanations: Explanations
@@ -15,18 +15,16 @@ Example
 ```csharp
 [TestClass]
 [ScreenshotOnFail(true)]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
-public class ScreenshotsOnFailTests : AndroidTest
+[IOS(Constants.IOSNativeAppPath,
+    Constants.IOSDefaultVersion,
+    Constants.IOSDefaultDeviceName,
+    AppBehavior.RestartEveryTime)]
+public class ScreenshotsOnFailTests : IOSTest
 {
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
@@ -35,7 +33,7 @@ public class ScreenshotsOnFailTests : AndroidTest
     [ScreenshotOnFail(false)]
     public void ButtonClicked_When_CallClickMethodSecond()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
