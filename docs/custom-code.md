@@ -51,9 +51,10 @@ Assert.IsTrue(checkBox.IsChecked);
 
 var password = App.ElementCreateService.CreateById<Password>("passwordBox");
 password.SetPassword("topsecret");
+```
 
 Or we bring new useful methods to default controls such as ScrollToVisible.
-
+```csharp
 var textField = App.ElementCreateService.CreateById<TextField>("IntegerA");
 textField .ScrollToVisible(ScrollDirection.Down);
 ```
