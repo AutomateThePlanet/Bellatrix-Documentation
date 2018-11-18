@@ -1,10 +1,10 @@
 ---
 layout: default
 title:  "Elements Snippets"
-excerpt: "Learn to generate Bellatrix Android element properties using VS snippets."
-date:   2018-10-22 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/elements-snippets/
+excerpt: "Learn to generate Bellatrix iOS element properties using VS snippets."
+date:   2018-11-22 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/elements-snippets/
 anchors:
   introduction: Introduction
   what-is-a-code-snippet: What is a Code Snippet?
@@ -22,33 +22,32 @@ Bellatrix gives you expansion snippets. You can read more how you can write your
 How to Use Bellatrix Code Snippets?
 -----------------------------------
 ```csharp
-public TextField UserName => Element.CreateByIdContaining<TextField>("edit");
+public TextField NumberOne => Element.CreateById<TextField>("IntegerA");
 ```
-For each proxy element in Bellatrix, we give you a corresponding snippet. For example to generate a **TextField** property, you need to type somewhere in you class **atextfield** and press Tab. (a comes from Android since you have snippets for other Bellatrix modules- web and desktop) On the first press of tab, the below code is generated. The first placeholder that is selected is the name of the property. Once you change it, you can press Tab. Then, the second placeholder is chosen- the By locator's type, by default, it is set to Id, press again Tab and change the actual locator.
+For each proxy element in Bellatrix, we give you a corresponding snippet. For example to generate a **TextField** property, you need to type somewhere in you class **itextfield** and press Tab. (i comes from iOS since you have snippets for other Bellatrix modules- web, desktop, Android) On the first press of tab, the below code is generated. The first placeholder that is selected is the name of the property. Once you change it, you can press Tab. Then, the second placeholder is chosen- the By locator's type, by default, it is set to Id, press again Tab and change the actual locator.
 
 **Note**: *Snippets are available for Visual Studio installations only on Windows. You need to make sure you have used the Bellatrix installer to get them.*
 
 List of All Available Snippets
 ------------------------------
-Here is the list of all available snippets for Bellatrix Android module:
+Here is the list of all available snippets for Bellatrix iOS module:
 
 Snippet | Generated Element
 ------------ | -------------
-abutton | Button
-acheckbox | CheckBox
-acombobox | ComboBox
-aelement | Element
-agrid | Grid
-aimage | Image
-aimagebutton | ImageButton
-alabel | Label
-anumber | Number
-apassword | Password
-aprogress | Progress
-aradiobutton | RadioButton
-aradiogroup | RadioGroup
-aseekbar | SeekBar
-aswitch | Switch
-atabs | Tabs
-atextfield | TextField
-atogglebutton | ToggleButton
+ibutton | Button
+icheckbox | CheckBox
+icombobox | ComboBox
+ielement | Element
+igrid | Grid
+iimage | Image
+iimagebutton | ImageButton
+ilabel | Label
+inumber | Number
+ipassword | Password
+iprogress | Progress
+iradiobutton | RadioButton
+iradiogroup | RadioGroup
+iseekbar | SeekBar
+itabs | Tabs
+itextfield | TextField
+itogglebutton | ToggleButton
