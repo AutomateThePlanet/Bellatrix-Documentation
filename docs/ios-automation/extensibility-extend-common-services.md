@@ -40,7 +40,7 @@ namespace Bellatrix.Mobile.IOS.GettingStarted
 Explanations
 ------------
 ```csharp
-public static class NavigationServiceExtensions
+public static class AppServiceExtensions
 {
     public static void LoginToApp(this IOSAppService appService, string userName, string password)
     {
