@@ -2,9 +2,9 @@
 layout: default
 title:  "Layout Testing"
 excerpt: "Learn how to use the Bellatrix layout testing library."
-date:   2018-10-22 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/layout-testing/
+date:   2018-11-22 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/layout-testing/
 anchors:
   example: Example
   explanations: Explanations
@@ -17,49 +17,48 @@ Example
 [TestMethod]
 public void TestPageLayout()
 {
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
-    var secondButton = App.ElementCreateService.CreateByIdContaining<Button>("button_disabled");
-    var checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
-    var secondCheckBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check2");
-    var mainElement = App.ElementCreateService.CreateById<Element>("android:id/content");
+    var numberOneTextField = App.ElementCreateService.CreateById<TextField>("IntegerA");
+    var computeButton = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+    var answerLabel = App.ElementCreateService.CreateByName<Label>("Answer");
+    var mainElement = App.ElementCreateService.CreateByIOSNsPredicate<Element>("type == \"XCUIElementTypeApplication\" AND name == \"TestApp\"");
 
-    button.AssertAboveOf(checkBox);
+    numberOneTextField.AssertAboveOf(computeButton);
 
-    button.AssertAboveOf(checkBox, 105);
+    numberOneTextField.AssertAboveOf(computeButton, 61);
 
-    button.AssertAboveOfGreaterThan(checkBox, 100);
-    button.AssertAboveOfGreaterThanOrEqual(checkBox, 105);
-    button.AssertAboveOfLessThan(checkBox, 110);
-    button.AssertAboveOfLessThanOrEqual(checkBox, 105);
+    numberOneTextField.AssertAboveOfGreaterThan(computeButton, 60);
+    numberOneTextField.AssertAboveOfGreaterThanOrEqual(computeButton, 61);
+    numberOneTextField.AssertAboveOfLessThan(computeButton, 70);
+    numberOneTextField.AssertAboveOfLessThanOrEqual(computeButton, 61);
 
-    button.AssertNearTopOfGreaterThan(checkBox, 100);
-    button.AssertNearTopOfGreaterThanOrEqual(checkBox, 105);
-    button.AssertNearTopOfLessThan(checkBox, 106);
-    button.AssertNearTopOfLessThanOrEqual(checkBox, 105);
+    numberOneTextField.AssertNearTopOfGreaterThan(computeButton, 60);
+    numberOneTextField.AssertNearTopOfGreaterThanOrEqual(computeButton, 61);
+    numberOneTextField.AssertNearTopOfLessThan(computeButton, 70);
+    numberOneTextField.AssertNearTopOfLessThanOrEqual(computeButton, 61);
 
-    button.AssertAboveOfApproximate(checkBox, 104, percent: 10);
+    numberOneTextField.AssertAboveOfApproximate(computeButton, 60, percent: 10);
 
-    button.AssertAboveOfBetween(checkBox, 100, 120);
+    numberOneTextField.AssertAboveOfBetween(computeButton, 60, 70);
 
-    checkBox.AssertNearBottomRightOf(button);
-    button.AssertNearTopLeftOf(checkBox);
+    numberOneTextField.AssertNearBottomRightOf(computeButton);
+    computeButton.AssertNearTopLeftOf(numberOneTextField);
 
-    LayoutAssert.AssertAlignedHorizontallyAll(button, secondButton);
+    LayoutAssert.AssertAlignedHorizontallyAll(numberOneTextField, numberTwoTextField);
 
-    LayoutAssert.AssertAlignedHorizontallyTop(button, secondButton);
-    LayoutAssert.AssertAlignedHorizontallyCentered(button, secondButton, secondButton);
-    LayoutAssert.AssertAlignedHorizontallyBottom(button, secondButton, secondButton);
+    LayoutAssert.AssertAlignedHorizontallyTop(numberOneTextField, numberTwoTextField);
+    LayoutAssert.AssertAlignedHorizontallyCentered(numberOneTextField, numberTwoTextField, numberTwoTextField);
+    LayoutAssert.AssertAlignedHorizontallyBottom(numberOneTextField, numberTwoTextField, numberTwoTextField);
 
-    LayoutAssert.AssertAlignedVerticallyAll(secondCheckBox, checkBox);
+    LayoutAssert.AssertAlignedVerticallyAll(answerLabel, computeButton);
 
-    LayoutAssert.AssertAlignedVerticallyLeft(secondCheckBox, checkBox);
-    LayoutAssert.AssertAlignedVerticallyCentered(secondCheckBox, checkBox);
-    LayoutAssert.AssertAlignedVerticallyRight(secondCheckBox, checkBox);
+    LayoutAssert.AssertAlignedVerticallyLeft(answerLabel, computeButton);
+    LayoutAssert.AssertAlignedVerticallyCentered(answerLabel, computeButton);
+    LayoutAssert.AssertAlignedVerticallyRight(answerLabel, computeButton);
 
-    button.AssertInsideOf(mainElement);
+    numberOneTextField.AssertInsideOf(mainElement);
 
-    button.AssertHeightLessThan(100);
-    button.AssertWidthBetween(50, 80);
+    numberOneTextField.AssertHeightLessThan(100);
+    numberOneTextField.AssertWidthBetween(50, 80);
 }
 ```
 
@@ -69,69 +68,69 @@ Layout testing is a module from Bellatrix that allows you to test the responsive
 ```csharp
 using Bellatrix.Layout;
 ```
-You need to add a using statement to **Bellatrix.Layout**. After that 100 assertion extensions methods are available to you to check the exact position of your Android elements.
+You need to add a using statement to **Bellatrix.Layout**. After that 100 assertion extensions methods are available to you to check the exact position of your iOS elements.
 ```csharp
-button.AssertAboveOf(checkBox);
+numberOneTextField.AssertAboveOf(computeButton);
 ```
-Depending on what you want to check, Bellatrix gives lots of options. You can test PX perfect or just that some element is below another. Check that the button is above the CheckBox.
+Depending on what you want to check, Bellatrix gives lots of options. You can test px perfect or just that some element is below another. Check that the text field is above the button.
 ```csharp
-button.AssertAboveOf(checkBox, 105);
+numberOneTextField.AssertAboveOf(computeButton, 61);
 ```
 Assert with the exact distance between them.
 All layout assertion methods throw **LayoutAssertFailedException** if the check is not successful with beautified troubleshooting message:
 /########################################
 
-             control (ID = button) should be 41 px above of control (ID = check1) but was 105 px.
+            control (Id = IntegerA) should be 60 px above of control (Name = button) but was 61 px.
 
 /########################################
 ```csharp
-button.AssertAboveOfGreaterThan(checkBox, 100);
-    button.AssertAboveOfGreaterThanOrEqual(checkBox, 105);
-    button.AssertAboveOfLessThan(checkBox, 110);
-    button.AssertAboveOfLessThanOrEqual(checkBox, 105);
+numberOneTextField.AssertAboveOfGreaterThan(computeButton, 60);
+numberOneTextField.AssertAboveOfGreaterThanOrEqual(computeButton, 61);
+numberOneTextField.AssertAboveOfLessThan(computeButton, 70);
+numberOneTextField.AssertAboveOfLessThanOrEqual(computeButton, 61);
 ```
 For each available method you have variations of it such as, >, >=, <, <=, between and approximate to some expected value by specified %.
 ```csharp
-button.AssertNearTopOfGreaterThan(checkBox, 100);
-button.AssertNearTopOfGreaterThanOrEqual(checkBox, 105);
-button.AssertNearTopOfLessThan(checkBox, 106);
-button.AssertNearTopOfLessThanOrEqual(checkBox, 105);
+numberOneTextField.AssertNearTopOfGreaterThan(computeButton, 60);
+numberOneTextField.AssertNearTopOfGreaterThanOrEqual(computeButton, 61);
+numberOneTextField.AssertNearTopOfLessThan(computeButton, 70);
+numberOneTextField.AssertNearTopOfLessThanOrEqual(computeButton, 61);
 ```
 All assertions have alternative names containing the word 'Near'. We added them to make your tests more readable depending on your preference.
 ```csharp
-button.AssertAboveOfApproximate(checkBox, 104, percent: 10);
+numberOneTextField.AssertAboveOfApproximate(computeButton, 60, percent: 10);
 ```
-The expected distance is ~40px with 10% tolerance.
+The expected distance is ~60px with 10% tolerance.
 ```csharp
-button.AssertAboveOfBetween(checkBox, 100, 120);
+numberOneTextField.AssertAboveOfBetween(computeButton, 60, 70);
 ```
-The expected px distance is between 30 and 50 px.
+The expected px distance is between 60 and 70 px.
 ```csharp
-checkBox.AssertNearBottomRightOf(button);
-button.AssertNearTopLeftOf(checkBox);
+numberOneTextField.AssertNearBottomRightOf(computeButton);
+computeButton.AssertNearTopLeftOf(numberOneTextField);
 ```
-You can assert the position of elements again each other in all directions- above, below, right, left, top right, top left, below left, below right. Assert that the sort dropdown is positioned near the top right of the Saturn B link.
+You can assert the position of elements again each other in all directions- above, below, right, left, top right, top left, below left, below right. Assert that the text field is positioned near the top right of the button.
 ```csharp
-LayoutAssert.AssertAlignedHorizontallyAll(button, secondButton);
-LayoutAssert.AssertAlignedHorizontallyTop(button, secondButton);
-LayoutAssert.AssertAlignedHorizontallyCentered(button, secondButton, secondButton);
-LayoutAssert.AssertAlignedHorizontallyBottom(button, secondButton, secondButton);
+LayoutAssert.AssertAlignedHorizontallyAll(numberOneTextField, numberTwoTextField);
+LayoutAssert.AssertAlignedHorizontallyTop(numberOneTextField, numberTwoTextField);
+LayoutAssert.AssertAlignedHorizontallyCentered(numberOneTextField, numberTwoTextField, secondButton);
+LayoutAssert.AssertAlignedHorizontallyBottom(numberOneTextField, numberTwoTextField, secondButton);
 ```
-You can tests whether different web elements are aligned correctly. You can pass as many elements as you like.
+You can tests whether different iOS elements are aligned correctly. You can pass as many elements as you like.
 ```csharp
-LayoutAssert.AssertAlignedVerticallyAll(secondCheckBox, checkBox);
-LayoutAssert.AssertAlignedVerticallyLeft(secondCheckBox, checkBox);
-LayoutAssert.AssertAlignedVerticallyCentered(secondCheckBox, checkBox);
-LayoutAssert.AssertAlignedVerticallyRight(secondCheckBox, checkBox);
+LayoutAssert.AssertAlignedVerticallyAll(numberOneTextField, numberTwoTextField);
+LayoutAssert.AssertAlignedVerticallyLeft(numberOneTextField, numberTwoTextField);
+LayoutAssert.AssertAlignedVerticallyCentered(numberOneTextField, numberTwoTextField);
+LayoutAssert.AssertAlignedVerticallyRight(numberOneTextField, numberTwoTextField);
 ```
 Assert that the elements are aligned vertically only from the left side.
 ```csharp
-button.AssertInsideOf(mainElement);
+numberOneTextField.AssertInsideOf(mainElement);
 ```
-You can check that some element is inside in another. Assert that the button is present in the main view element.
+You can check that some element is inside in another. Assert that the text field is present in the main view element.
 ```csharp
-button.AssertHeightLessThan(100);
-button.AssertWidthBetween(50, 80);
+numberOneTextField.AssertHeightLessThan(100);
+numberOneTextField.AssertWidthBetween(50, 80);
 ```
 Verify the height and width of elements.
 
@@ -142,24 +141,24 @@ All layout assertion methods have full BDD logging support. Below you can find t
 ```
 Start Test
 Class = LayoutTestingTests Name = TestPageLayout
-Assert control(ID = button) is above of control(ID = check1).
-Assert control(ID = button) is 105 px above of control(ID = check1).
-Assert control(ID = button) is > 100 px above of control(ID = check1).
-Assert control(ID = button) is >= 105 px above of control(ID = check1).
-Assert control(ID = button) is < 110 px above of control(ID = check1).
-Assert control(ID = button) is <= 105 px above of control(ID = check1).
-Assert control(ID = button) is > 100 px near top of control(ID = check1).
-Assert control(ID = button) is >= 105 px near top of control(ID = check1).
-Assert control(ID = button) is < 106 px near top of control(ID = check1).
-Assert control(ID = button) is <= 105 px near top of control(ID = check1).
-Assert control(ID = button) is 104 px above of control(ID = check1). (10 % tolerance)
-Assert control(ID = button) is 100 - 120 px above of control(ID = check1).
-Assert control(ID = button) is left inside of control(ID = android:id / content).
-Assert control(ID = button) is right inside of control(ID = android:id / content).
-Assert control(ID = button) is top inside of control(ID = android:id / content).
-Assert control(ID = button) is bottom inside of control(ID = android:id / content).
-Assert control(ID = button) height is < 100 px.
-Assert control(ID = button) width is 50 - 80 px.
+Assert control(Id = IntegerA) is above of control(Name = button).
+Assert control(Id = IntegerA) is 105 px above of control(Name = button).
+Assert control(Id = IntegerA) is > 100 px above of control(Name = button).
+Assert control(Id = IntegerA) is >= 105 px above of control(Name = button).
+Assert control(Id = IntegerA) is < 110 px above of control(Name = button).
+Assert control(Id = IntegerA) is <= 105 px above of control(Name = button).
+Assert control(Id = IntegerA) is > 100 px near top of control(Name = button).
+Assert control(Id = IntegerA) is >= 105 px near top of control(Name = button).
+Assert control(Id = IntegerA) is < 106 px near top of control(Name = button).
+Assert control(Id = IntegerA) is <= 105 px near top of control(Name = button).
+Assert control(Id = IntegerA) is 104 px above of control(Name = button). (10 % tolerance)
+Assert control(Id = IntegerA) is 100 - 120 px above of control(Name = button).
+Assert control(Id = IntegerA) is left inside of control(IName = button).
+Assert control(Id = IntegerA) is right inside of control(Name = button).
+Assert control(Id = IntegerA) is top inside of control(Name = button).
+Assert control(Id = IntegerA) is bottom inside of control(Name = button).
+Assert control(Id = IntegerA) height is < 100 px.
+Assert control(Id = IntegerA) width is 50 - 80 px.
 ```
 
 All Available Layout Assertion Methods
