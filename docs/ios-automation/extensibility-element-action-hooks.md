@@ -1,10 +1,10 @@
 ---
 layout: default
 title:  "Extensibility- Element Action Hooks"
-excerpt: "Learn how to extend Bellatrix Android element controls using element action hooks."
-date:   2018-06-23 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/extensibility-element-action-hooks/
+excerpt: "Learn how to extend Bellatrix iOS element controls using element action hooks."
+date:   2018-11-23 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/extensibility-element-action-hooks/
 anchors:
   introduction: Introduction
   example: Example
@@ -23,26 +23,26 @@ Example
 ```csharp
 public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
 {
-    protected override void ClickingEventHandler(object sender, ElementActionEventArgs<AndroidElement> arg)
+    protected override void ClickingEventHandler(object sender, ElementActionEventArgs<IOSElement> arg)
     {
-        DebugLogger.LogInfo($"Before clicking button. Coordinates: X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
+        DebugLogger.LogInfo($"Before clicking button. Coordinates: 
+				X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
     }
 
-    protected override void ClickedEventHandler(object sender, ElementActionEventArgs<AndroidElement> arg)
+    protected override void ClickedEventHandler(object sender, ElementActionEventArgs<IOSElement> arg)
     {
-        DebugLogger.LogInfo($"After button clicked. Coordinates: X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
+        DebugLogger.LogInfo($"After button clicked. Coordinates: 
+				X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
     }
 }
 ```
 ```csharp
 [TestClass]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
-public class ElementActionHooksTests : AndroidTest
+[IOS(Constants.IOSNativeAppPath,
+    Constants.IOSDefaultVersion,
+    Constants.IOSDefaultDeviceName,
+    AppBehavior.RestartEveryTime)]
+public class ElementActionHooksTests : IOSTest
 {
     public override void TestsArrange()
     {
@@ -54,7 +54,7 @@ public class ElementActionHooksTests : AndroidTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
