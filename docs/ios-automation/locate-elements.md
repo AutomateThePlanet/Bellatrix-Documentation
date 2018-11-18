@@ -1,10 +1,10 @@
 ---
 layout: default
 title:  "Locate Elements"
-excerpt: "Learn how to locate Android elements with Bellatrix mobile module."
+excerpt: "Learn how to locate iOS elements with Bellatrix mobile module."
 date:   2018-10-20 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/locate-elements/
+parent: ios-automation
+permalink: /ios-automation/locate-elements/
 anchors:
   example: Example
   explanations: Explanations
@@ -19,9 +19,9 @@ Example
 -------
 ```csharp
 [TestMethod]
-public void ElementFound_When_CreateByIdContaining_And_ElementIsOnScreen()
+public void ElementFound_When_CreateById_And_ElementIsOnScreen()
 {
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+    var button = App.ElementCreateService.CreateById<Button>("ComputeSumButton");
 
     button.EnsureIsVisible();
 
@@ -29,30 +29,32 @@ public void ElementFound_When_CreateByIdContaining_And_ElementIsOnScreen()
 
     Console.WriteLine(button.WrappedElement.TagName);
 
-	var textField = App.ElementCreateService.CreateByIdContaining<TextField>("edit");
+    var answerLabel = App.ElementCreateService.CreateById<Button>("Bellatrix");
+    answerLabel.ScrollToVisible(ScrollDirection.Up);
 
-	textField.EnsureIsVisible();
+    answerLabel.Click();
 }
 ```
 
 Explanations
 -------
 ```csharp
-var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+var button = App.ElementCreateService.CreateById<Button>("ComputeSumButton");
 ```
 There are different ways to locate elements on the screen. To do it you use the element create service. You need to know that Bellatrix has a built-in complex mechanism for waiting for elements, so you do not need to worry about this anymore. Keep in mind that when you use the Create methods, the element is not searched on the screen. All elements use lazy loading. Which means that they are searched once you perform an action or assertion on them. By default on each new action, the element is searched again and be refreshed.
 ```csharp
 Console.WriteLine(button.By.Value);
 ```
-Because of the proxy element mechanism (we have a separate type of element instead of single WebDriver IWebElement interface or Appium AndroidElement) we have several benefits. Each control (element type- ComboBox, TextField and so on) contains only the actions you can do with it, and the methods are named properly. In vanilla WebDriver to type the text you call **SendKeys** method. Also, we have some additional properties in the proxy web control such as- By. Now you can get the locator with which you element was found.
+Because of the proxy element mechanism (we have a separate type of element instead of single WebDriver IWebElement interface or Appium IOSElement) we have several benefits. Each control (element type- ComboBox, TextField and so on) contains only the actions you can do with it, and the methods are named properly. In vanilla WebDriver to type the text you call **SendKeys** method. Also, we have some additional properties in the proxy web control such as- By. Now you can get the locator with which you element was found.
 ```csharp
 Console.WriteLine(button.WrappedElement.TagName);
 ```
 You can access the WebDriver wrapped element through **WrappedElement** and the current AppiumDriver instance through- **WrappedDriver**.
 ```csharp
-var textField = App.ElementCreateService.CreateByIdContaining<TextField>("edit");
+var answerLabel = App.ElementCreateService.CreateById<Button>("Bellatrix, from 11:00 PM to Monday, November 12, 12:00 AM");
+answerLabel.ScrollToVisible(ScrollDirection.Up);
 ```
-Sometimes, the elements you need to perform operations on are not in the visible part of the screen. In order Appium to be able to locate them, you need to scroll to them first. To do so for Android, you need to use complex **AndroidUIAutomator** expressions. To save you lots of trouble and complex code, most of Bellatrix locators contains the scroll logic built-in. The below element is initially not visible on the screen. Bellatrix automatically scrolls down till the element is visible and then searches for it.
+Sometimes, the elements you need to perform operations on are not in the visible part of the screen. In order Appium to be able to locate them, you need to scroll to them first. To do so for iOS, you need to use **ScrollToVisible** method.
 
 Available Create Methods
 ------------------------
@@ -62,44 +64,34 @@ Bellatrix extends the vanilla WebDriver selectors and give you additional ones.
 App.ElementCreateService.CreateById<Button>("myId");
 ```
 Searches the element by its ID.
-### CreateByIdContaining ###
+### CreateByName ###
 ```csharp
-App.ElementCreateService.CreateByIdContaining<Button>("myIdMiddle");
+App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 ```
-Searches the element by ID containing the specified value.
-### CreateByDescription ###
+Searches the element by its name.
+### CreateByValueContaining ###
 ```csharp
-App.ElementCreateService.CreateByDescription<Button>("myDescription");
+App.ElementCreateService.CreateByValueContaining<Label>("SumLabel");
 ```
-Searches the element by ID ending with the locator.
-### CreateByDescriptionContaining ###
+Searches the element by its value if it contains specified value.
+### CreateByIOSUIAutomation ###
 ```csharp
-App.ElementCreateService.CreateByDescriptionContaining<Button>("description");
+App.ElementCreateService.CreateByIOSUIAutomation<TextField>(".textFields().withPredicate("value == 'Search eBay'")");
 ```
-Searches the element by its description if it contains specified value.
-### CreateByText ###
+Searches the element by iOS UIAutomation expressions.
+### CreateByIOSNsPredicate ###
 ```csharp
-App.ElementCreateService.CreateByText<Button>("text");
+App.ElementCreateService.CreateByIOSNsPredicateCreateByIOSNsPredicate<RadioButton>("type == \"XCUIElementTypeSwitch\" AND name == \"All-day\"");
 ```
-Searches the element by its text.
-### CreateByTextContaining ###
-```csharp
-App.ElementCreateService.CreateByTextContaining<Button>("partOfText");
-```
-Searches the element by its text if it contains specified value.
+Searches the element by iOS NsPredicate expression.
 ### CreateByClass ###
 ```csharp
-App.ElementCreateService.CreateByClass<Button>("myClass");
+App.ElementCreateService.CreateByClass<TextField>("XCUIElementTypeTextField");
 ```
 Searches the element by its class.
-### CreateByAndroidUIAutomator ###
-```csharp
-App.ElementCreateService.CreateByAndroidUIAutomator<Button>("ui-automator-expression");
-```
-Searches the element by Android UIAutomator expression.
 ### CreateByXPath ###
 ```csharp
-App.ElementCreateService.CreateByXPath<Button>("//*[@title='Add to cart']");
+App.ElementCreateService.CreateByXPath<Button>("//XCUIElementTypeButton[@name=\"ComputeSumButton\"]");
 ```
 Searches the element by XPath locator.
  
@@ -107,13 +99,13 @@ Searches the element by XPath locator.
 Find Multiple Elements
 ----------------------
 Sometimes we need to find more than one element. For example, in this test we want to locate all Add to Cart buttons.
-To do it you can use the element create service CreateAll method.
+To do it you can use the element create service **CreateAll** method.
 
 ```csharp
 [TestMethod]
-public void ElementFound_When_CreateAllByIdContaining_And_ElementIsOnScreen()
+public void ElementFound_When_CreateAllById_And_ElementIsOnScreen()
 {
-    var buttons = App.ElementCreateService.CreateAllByIdContaining<Button>("button");
+	var buttons = App.ElementCreateService.CreateAllById<Button>("ComputeSumButton");
 
 	buttons[0].EnsureIsVisible();
 }
@@ -125,45 +117,35 @@ Available CreateAll Methods
 ```csharp
 App.ElementCreateService.CreateAllById<Button>("myId");
 ```
-Searches the elements by its ID.
-### CreateAllByIdContaining ###
+Searches the elements by their ID.
+### CreateAllByName ###
 ```csharp
-App.ElementCreateService.CreateAllByIdContaining<Button>("myIdMiddle");
+App.ElementCreateService.CreateAllByName<Button>("ComputeSumButton");
 ```
-Searches the elements by ID containing the specified value.
-### CreateAllByDescription ###
+Searches the elements by their name.
+### CreateAllByValueContaining ###
 ```csharp
-App.ElementCreateService.CreateAllByDescription<Button>("myDescription");
+App.ElementCreateService.CreateAllByValueContaining<Label>("SumLabel");
 ```
-Searches the elements by ID ending with the locator.
-### CreateAllByDescriptionContaining ###
+Searches the elements by their value if it contains specified value.
+### CreateAllByIOSUIAutomation ###
 ```csharp
-App.ElementCreateService.CreateAllByDescriptionContaining<Button>("description");
+App.ElementCreateService.CreateAllByIOSUIAutomation<TextField>(".textFields().withPredicate("value == 'Search eBay'")");
 ```
-Searches the elements by its description if it contains specified value.
-### CreateAllByText ###
+Searches the elements by iOS UIAutomation expressions.
+### CreateAllByIOSNsPredicate ###
 ```csharp
-App.ElementCreateService.CreateAllByText<Button>("text");
+App.ElementCreateService.CreateByAllIOSNsPredicate<RadioButton>("type == \"XCUIElementTypeSwitch\" AND name == \"All-day\"");
 ```
-Searches the elements by its text.
-### CreateAllByTextContaining ###
-```csharp
-App.ElementCreateService.CreateAllByTextContaining<Button>("partOfText");
-```
-Searches the elements by its text if it contains specified value.
+Searches the elements by iOS NsPredicate expression.
 ### CreateAllByClass ###
 ```csharp
-App.ElementCreateService.CreateAllByClass<Button>("myClass");
+App.ElementCreateService.CreateAllByClass<TextField>("XCUIElementTypeTextField");
 ```
-Searches the elements by its class.
-### CreateAllByAndroidUIAutomator ###
-```csharp
-App.ElementCreateService.CreateAllByAndroidUIAutomator<Button>("ui-automator-expression");
-```
-Searches the elements by Android UIAutomator expression.
+Searches the elements by their class.
 ### CreateAllByXPath ###
 ```csharp
-App.ElementCreateService.CreateAllByXPath<Button>("//*[@title='Add to cart']");
+App.ElementCreateService.CreateAllByXPath<Button>("//XCUIElementTypeButton[@name=\"ComputeSumButton\"]");
 ```
 Searches the elements by XPath locator.
 
@@ -172,15 +154,16 @@ Find Nested Elements
 Sometimes it is easier to locate one element and then find the next one that you need, inside it. For example in this test we want to locate the button inside the main view element. To do it you can use the element's Create methods.
 
 ```csharp
-public void ElementFound_When_CreateByIdContaining_And_ElementIsOnScreen_NestedElement()
+public void ElementFound_When_CreateById_And_ElementIsOnScreen_NestedElement()
 {
-    var mainElement = App.ElementCreateService.CreateByIdContaining<Element>("decor_content_parent");
-	var button = mainElement.CreateByIdContaining<Button>("button");
+	var mainElement = App.ElementCreateService.CreateByIOSNsPredicate<Element>(
+								"type == \"XCUIElementTypeApplication\" AND name == \"TestApp\"");
+    var button = mainElement.CreateById<RadioButton>("ComputeSumButton");
     button.EnsureIsVisible();
 }
 ```
 
-**Note**: *it is entirely legal to create a **Button** instead of **ToggleButton**. Bellatrix library does not care about the real type of the Android elements. The proxy types are convenience wrappers so to say. Meaning they give you a better interface of predefined properties and methods to make your tests more readable.*
+**Note**: *it is entirely legal to create a **Button** instead of **ToggleButton**. Bellatrix library does not care about the real type of the iOS elements. The proxy types are convenience wrappers so to say. Meaning they give you a better interface of predefined properties and methods to make your tests more readable.*
 
 Available Create Methods for Finding Nested Elements
 ----------------------------------------------------
@@ -189,91 +172,58 @@ Available Create Methods for Finding Nested Elements
 element.CreateById<Button>("myId");
 ```
 Searches the element by its ID.
-### CreateByIdContaining ###
+### CreateByName ###
 ```csharp
-element.CreateByIdContaining<Button>("myIdMiddle");
+element.CreateByName<Button>("ComputeSumButton");
 ```
-Searches the element by ID containing the specified value.
-### CreateByDescription ###
+Searches the element by its name.
+### CreateByValueContaining ###
 ```csharp
-element.CreateByDescription<Button>("myDescription");
+element.CreateByValueContaining<Label>("SumLabel");
 ```
-Searches the element by ID ending with the locator.
-### CreateByDescriptionContaining ###
+Searches the element by its value if it contains specified value.
+### CreateByIOSUIAutomation ###
 ```csharp
-element.CreateByDescriptionContaining<Button>("description");
+element.CreateByIOSUIAutomation<TextField>(".textFields().withPredicate("value == 'Search eBay'")");
 ```
-Searches the element by its description if it contains specified value.
-### CreateByText ###
-```csharp
-element.CreateByText<Button>("text");
-```
-Searches the element by its text.
-### CreateByTextContaining ###
-```csharp
-element.CreateByTextContaining<Button>("partOfText");
-```
-Searches the element by its text if it contains specified value.
+Searches the element by iOS UIAutomation expressions.
 ### CreateByClass ###
 ```csharp
-element.CreateByClass<Button>("myClass");
+element.CreateByClass<TextField>("XCUIElementTypeTextField");
 ```
 Searches the element by its class.
-### CreateByAndroidUIAutomator ###
-```csharp
-element.CreateByAndroidUIAutomator<Button>("ui-automator-expression");
-```
-Searches the element by Android UIAutomator expression.
 ### CreateByXPath ###
 ```csharp
-element.CreateByXPath<Button>("//*[@title='Add to cart']");
+element.CreateByXPath<Button>("//XCUIElementTypeButton[@name=\"ComputeSumButton\"]");
 ```
 Searches the element by XPath locator.
-
-Available CreateAll Methods for Finding Nested Elements
-----------------------------------------------------
 ### CreateAllById ###
 ```csharp
 element.CreateAllById<Button>("myId");
 ```
-Searches the elements by its ID.
-### CreateAllByIdContaining ###
+Searches the elements by their ID.
+### CreateAllByName ###
 ```csharp
-element.CreateAllByIdContaining<Button>("myIdMiddle");
+element.CreateAllByName<Button>("ComputeSumButton");
 ```
-Searches the elements by ID containing the specified value.
-### CreateAllByDescription ###
+Searches the elements by their name.
+### CreateAllByValueContaining ###
 ```csharp
-element.CreateAllByDescription<Button>("myDescription");
+element.CreateAllByValueContaining<Label>("SumLabel");
 ```
-Searches the elements by ID ending with the locator.
-### CreateAllByDescriptionContaining ###
+Searches the elements by their value if it contains specified value.
+### CreateAllByIOSUIAutomation ###
 ```csharp
-element.CreateAllByDescriptionContaining<Button>("description");
+element.CreateAllByIOSUIAutomation<TextField>(".textFields().withPredicate("value == 'Search eBay'")");
 ```
-Searches the elements by its description if it contains specified value.
-### CreateAllByText ###
-```csharp
-element.CreateAllByText<Button>("text");
-```
-Searches the elements by its text.
-### CreateAllByTextContaining ###
-```csharp
-element.CreateAllByTextContaining<Button>("partOfText");
-```
-Searches the elements by its text if it contains specified value.
+Searches the elements by iOS UIAutomation expressions.
 ### CreateAllByClass ###
 ```csharp
-element.CreateAllByClass<Button>("myClass");
+element.CreateAllByClass<TextField>("XCUIElementTypeTextField");
 ```
-Searches the elements by its class.
-### CreateAllByAndroidUIAutomator ###
-```csharp
-element.CreateAllByAndroidUIAutomator<Button>("ui-automator-expression");
-```
-Searches the elements by Android UIAutomator expression.
+Searches the elements by their class.
 ### CreateAllByXPath ###
 ```csharp
-element.CreateAllByXPath<Button>("//*[@title='Add to cart']");
+element.CreateAllByXPath<Button>("//XCUIElementTypeButton[@name=\"ComputeSumButton\"]");
 ```
 Searches the elements by XPath locator.
