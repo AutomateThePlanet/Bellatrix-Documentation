@@ -2,9 +2,9 @@
 layout: default
 title:  "Logging"
 excerpt: "Learn how to use the Bellatrix logging library."
-date:   2018-10-23 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/logging/
+date:   2018-11-23 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/logging/
 anchors:
   example: Example
   explanations: Explanations
@@ -14,19 +14,17 @@ Example
 -------
 ```csharp
 [TestClass]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
-public class LoggingTests : AndroidTest
+[IOS(Constants.IOSNativeAppPath,
+    Constants.IOSDefaultVersion,
+    Constants.IOSDefaultDeviceName,
+    AppBehavior.RestartEveryTime)]
+public class LoggingTests : IOSTest
 {
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
         App.Logger.LogInformation("$$$ Before clicking the button $$$");
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
@@ -47,7 +45,7 @@ Generated Log, as you can see the above custom message is added to the log.
 Start Test
 Class = LoggingTests Name = ButtonClicked_When_CallClickMethod
 $$$ Before clicking the button $$$
-Click control(ID = button)
+Click control(Name = ComputeSumButton)
 ```
 
 Configuration
