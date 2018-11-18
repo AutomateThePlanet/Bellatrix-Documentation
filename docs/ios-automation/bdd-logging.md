@@ -2,9 +2,9 @@
 layout: default
 title:  "Behaviour Driven Development BDD Logging"
 excerpt: "Learn the Bellatrix Behaviour Driven Development BDD Logging works and how to use it."
-date:   2018-10-22 06:50:17 +0200
-parent: android-automation
-permalink: /android-automation/bdd-logging/
+date:   2018-11-22 06:50:17 +0200
+parent: ios-automation
+permalink: /ios-automation/bdd-logging/
 anchors:
   example: Example
   explanations: Explanations
@@ -14,33 +14,27 @@ Example
 -------
 ```csharp
 [TestMethod]
-public void CommonAssertionsAndroidControls()
+public void CommonAssertionsIOSControls()
 {
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+    var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+
+    button.Click();
 
     button.EnsureIsNotDisabled();
 
-    var checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
+    var answerLabel = App.ElementCreateService.CreateByValueContaining<Label>("Label");
 
-    checkBox.Check();
+    answerLabel.EnsureIsVisible();
 
-    checkBox.EnsureIsChecked();
+    var password = App.ElementCreateService.CreateById<Password>("IntegerB");
 
-    var comboBox = App.ElementCreateService.CreateByIdContaining<ComboBox>("spinner1");
+    password.SetPassword("9");
 
-    comboBox.SelectByText("Jupiter");
+    var textField = App.ElementCreateService.CreateById<TextField>("IntegerA");
 
-    comboBox.EnsureTextIs("Jupiter");
+    textField.SetText("1");
 
-    var label = App.ElementCreateService.CreateByText<Label>("textColorPrimary");
-
-    label.EnsureIsVisible();
-
-    var radioButton = App.ElementCreateService.CreateByIdContaining<RadioButton>("radio2");
-
-    radioButton.Click();
-
-    radioButton.EnsureIsChecked(timeout: 30, sleepInterval: 2);
+    textField.EnsureTextIs("1");
 }
 ```
 
@@ -52,16 +46,13 @@ After the test is executed the following log is created:
 
 ```
 Start Test
-Class = BDDLoggingTests Name = CommonAssertionsAndroidControls
-Ensure control(ID = button) is NOT disabled
-Check control(ID = check1) on
-Ensure control(ID = check1) is checked
-Select 'Jupiter' from control (ID = spinner1) on
-Click control(Text = Jupiter) on
-Ensure control(ID = spinner1) text is 'Jupiter'
-Ensure control(Text = textColorPrimary) is visible
-Click control(ID = radio2) on
-Ensure control(ID = radio2) is checked
+Start Test
+Class = BDDLoggingTests Name = CommonAssertionsIOSControls
+Ensure control(Name = ComputeSumButton) is NOT disabled
+Ensure control(Value containing Label) is visible
+Set password '9' in control(Id = IntegerB)
+Set text '1' in control(Id = IntegerA)
+Ensure control(Id = IntegerA) text is '1'
 ```
 
 Configuration
