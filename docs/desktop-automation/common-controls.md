@@ -4,7 +4,7 @@ title:  "Common Controls"
 excerpt: "Learn how to use Bellatrix common Android controls."
 date:   2018-10-22 06:50:17 +0200
 parent: android-automation
-permalink: /android-automation/common-controls/
+permalink: /desktop-automation/common-controls/
 anchors:
   example: Example
   explanations: Explanations
