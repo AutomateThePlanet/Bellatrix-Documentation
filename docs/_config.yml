@@ -64,7 +64,7 @@ navigation:
             "how-to-use-starter-kits":
                 title: How to Use Starter Kits?
     "web-automation":
-        title: Web Automation
+        title: Web
         submenu:
             "control-browser":
                 title: Control Browser
@@ -148,8 +148,158 @@ navigation:
                 title: Templates
             "folder-and-file-structure":
                 title: Folder and File Structure
+    "android-automation":
+        title: Android
+        submenu:
+            "control-app":
+                title: Control App
+            "navigate-to-activities":
+                title: Navigate To Activities
+            "locate-elements":
+                title: Locate Elements
+            "locate-and-wait-elements":
+                title: Locate and Wait Elements
+            "wait-for-elements":
+                title: Wait for Elements
+            "app-service":
+                title: AppService
+            "device-service":
+                title: DeviceService
+            "file-system-service":
+                title: FileSystemService
+            "keyboard-service":
+                title: KeyboardService
+            "touch-actions-service":
+                title: TouchActionsService
+            "web-service":
+                title: WebService
+            "common-controls":
+                title: Common Controls
+            "normal-assertions":
+                title: Normal Assertions
+            "ensure-assertions":
+                title: Ensure Assertions
+            "bdd-logging":
+                title: BDD Logging
+            "page-objects":
+                title: Page Objects
+            "layout-testing":
+                title: Layout Testing
+            "troubleshooting-screenshots-on-fail":
+                title: Troubleshooting- Screenshots on Fail
+            "troubleshooting-video-recording":
+                title: Troubleshooting- Video Recording
+            "elements-snippets":
+                title: Elements Snippets
+            "add-custom-appium-options":
+                title: Add Custom Appium Capabilities
+            "static-analysis":
+                title: Static Analysis
+            "logging":
+                title: Logging
+            "measure-test-execution-times": 
+                title: Measure Response Times
+            "extensibility-test-workflow-hooks":
+                title: Extensibility- Test Workflow Hooks
+            "extensibility-custom-test-workflow-plugins":
+                title: Extensibility- Custom Test Workflow Plugins
+            "extensibility-override-globally-element-actions":
+                title: Extensibility- Override Globally Element Actions
+            "extensibility-override-locally-element-actions":
+                title: Extensibility- Override Locally Element Actions
+            "extensibility-element-action-hooks":
+                title: Extensibility- Element Action Hooks
+            "extensibility-common-services-action-hooks":
+                title: Extensibility- Common Services Action Hooks
+            "extensibility-extend-existing-elements-extension-methods":
+                title: Extensibility- Extend Elements Extension Methods
+            "extensibility-extend-existing-elements-child-elements":
+                title: Extensibility- Extend Elements Child Elements
+            "extensibility-extend-common-services":
+                title: Extensibility- Extend Common Services
+            "extensibility-add-new-find-locators": 
+                title: Extensibility- Add New Find Locators
+            "extensibility-add-new-element-wait-methods":
+                title: Extensibility- Add New Element Wait Methods
+            "templates":
+                title: Templates
+            "folder-and-file-structure":
+                title: Folder and File Structure
+    "ios-automation":
+        title: iOS
+        submenu:
+            "control-app":
+                title: Control App
+            "locate-elements":
+                title: Locate Elements
+            "locate-and-wait-elements":
+                title: Locate and Wait Elements
+            "wait-for-elements":
+                title: Wait for Elements
+            "app-service":
+                title: AppService
+            "device-service":
+                title: DeviceService
+            "keyboard-service":
+                title: KeyboardService
+            "touch-actions-service":
+                title: TouchActionsService
+            "web-service":
+                title: WebService
+            "common-controls":
+                title: Common Controls
+            "normal-assertions":
+                title: Normal Assertions
+            "ensure-assertions":
+                title: Ensure Assertions
+            "bdd-logging":
+                title: BDD Logging
+            "page-objects":
+                title: Page Objects
+            "layout-testing":
+                title: Layout Testing
+            "troubleshooting-screenshots-on-fail":
+                title: Troubleshooting- Screenshots on Fail
+            "troubleshooting-video-recording":
+                title: Troubleshooting- Video Recording
+            "elements-snippets":
+                title: Elements Snippets
+            "add-custom-appium-options":
+                title: Add Custom Appium Capabilities
+            "static-analysis":
+                title: Static Analysis
+            "logging":
+                title: Logging
+            "measure-test-execution-times": 
+                title: Measure Response Times
+            "extensibility-test-workflow-hooks":
+                title: Extensibility- Test Workflow Hooks
+            "extensibility-custom-test-workflow-plugins":
+                title: Extensibility- Custom Test Workflow Plugins
+            "extensibility-override-globally-element-actions":
+                title: Extensibility- Override Globally Element Actions
+            "extensibility-override-locally-element-actions":
+                title: Extensibility- Override Locally Element Actions
+            "extensibility-element-action-hooks":
+                title: Extensibility- Element Action Hooks
+            "extensibility-common-services-action-hooks":
+                title: Extensibility- Common Services Action Hooks
+            "extensibility-extend-existing-elements-extension-methods":
+                title: Extensibility- Extend Elements Extension Methods
+            "extensibility-extend-existing-elements-child-elements":
+                title: Extensibility- Extend Elements Child Elements
+            "extensibility-extend-common-services":
+                title: Extensibility- Extend Common Services
+            "extensibility-add-new-find-locators": 
+                title: Extensibility- Add New Find Locators
+            "extensibility-add-new-element-wait-methods":
+                title: Extensibility- Add New Element Wait Methods
+            "templates":
+                title: Templates
+            "folder-and-file-structure":
+                title: Folder and File Structure
     "desktop-automation":
-        title: Desktop Automation
+        title: Desktop
         submenu:
             "control-app":
                 title: Control App
@@ -214,7 +364,7 @@ navigation:
             "folder-and-file-structure":
                 title: Folder and File Structure
     "api-automation":
-        title: API Automation
+        title: API
         submenu:
             "create-simple-get-request":
                 title: Create Simple Get Request
