@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Execute Tests in BrowserStack"
-excerpt: "Learn to use Bellatrix to execute web tests in BrowserStack."
+excerpt: "Learn to use BELLATRIX to execute web tests in BrowserStack."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/execute-tests-browserstack/
@@ -63,7 +63,7 @@ Explanations
     debug: true,
     build: "myUniqueBuildName")]
 ```
-To execute Bellatrix tests in BrowserStack cloud, you should use the BrowserStack attribute instead of Browser. BrowserStack has the same parameters as Browser but adds to additional ones- browser version, platform type, platform version, captureNetworkLogs, consoleLogType, build and debug. The last five are optional and have default values. As with the Browser attribute you can override the class behaviour on Test level.
+To execute BELLATRIX tests in BrowserStack cloud, you should use the BrowserStack attribute instead of Browser. BrowserStack has the same parameters as Browser but adds to additional ones- browser version, platform type, platform version, captureNetworkLogs, consoleLogType, build and debug. The last five are optional and have default values. As with the Browser attribute you can override the class behaviour on Test level.
 ```csharp
 [TestMethod]
 [BrowserStack(BrowserType.Chrome, "62", "Windows", "10", DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]

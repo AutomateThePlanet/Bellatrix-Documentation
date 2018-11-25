@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Authentication"
-excerpt: "Learn how to authenticate your requests using Bellatrix API library."
+excerpt: "Learn how to authenticate your requests using BELLATRIX API library."
 date:   2018-06-23 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/authentication/
@@ -32,7 +32,7 @@ public class AuthenticationTests : APITest
 
 Explanations
 ------------
-Bellatrix provides an easy way to authenticate through the usage of few attributes.
+BELLATRIX provides an easy way to authenticate through the usage of few attributes.
 ```csharp
 [JwtAuthenticationStrategy(GlobalConstants.JwtToken)]
 ```

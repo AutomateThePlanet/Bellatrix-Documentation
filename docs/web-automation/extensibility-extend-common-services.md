@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Extensibility- Extend Common Services"
-excerpt: "Learn how to extend Bellatrix common services."
+excerpt: "Learn how to extend BELLATRIX common services."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/extensibility-extend-common-services/
@@ -88,7 +88,7 @@ public static class NavigationServiceExtensions
     }
 }
 ```
-One way to extend the Bellatrix common services is to create an extension method for the additional action.
+One way to extend the BELLATRIX common services is to create an extension method for the additional action.
 1. Place it in a static class like this one.
 2. Create a static method for the action.
 3. Pass the common service as a parameter with the keyword 'this'.

@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Locate Elements"
-excerpt: "Learn how to locate Android elements with Bellatrix mobile module."
+excerpt: "Learn how to locate Android elements with BELLATRIX mobile module."
 date:   2018-10-20 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/locate-elements/
@@ -40,7 +40,7 @@ Explanations
 ```csharp
 var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
 ```
-There are different ways to locate elements on the screen. To do it you use the element create service. You need to know that Bellatrix has a built-in complex mechanism for waiting for elements, so you do not need to worry about this anymore. Keep in mind that when you use the Create methods, the element is not searched on the screen. All elements use lazy loading. Which means that they are searched once you perform an action or assertion on them. By default on each new action, the element is searched again and be refreshed.
+There are different ways to locate elements on the screen. To do it you use the element create service. You need to know that BELLATRIX has a built-in complex mechanism for waiting for elements, so you do not need to worry about this anymore. Keep in mind that when you use the Create methods, the element is not searched on the screen. All elements use lazy loading. Which means that they are searched once you perform an action or assertion on them. By default on each new action, the element is searched again and be refreshed.
 ```csharp
 Console.WriteLine(button.By.Value);
 ```
@@ -52,11 +52,11 @@ You can access the WebDriver wrapped element through **WrappedElement** and the 
 ```csharp
 var textField = App.ElementCreateService.CreateByIdContaining<TextField>("edit");
 ```
-Sometimes, the elements you need to perform operations on are not in the visible part of the screen. In order Appium to be able to locate them, you need to scroll to them first. To do so for Android, you need to use complex **AndroidUIAutomator** expressions. To save you lots of trouble and complex code, most of Bellatrix locators contains the scroll logic built-in. The below element is initially not visible on the screen. Bellatrix automatically scrolls down till the element is visible and then searches for it.
+Sometimes, the elements you need to perform operations on are not in the visible part of the screen. In order Appium to be able to locate them, you need to scroll to them first. To do so for Android, you need to use complex **AndroidUIAutomator** expressions. To save you lots of trouble and complex code, most of BELLATRIX locators contains the scroll logic built-in. The below element is initially not visible on the screen. BELLATRIX automatically scrolls down till the element is visible and then searches for it.
 
 Available Create Methods
 ------------------------
-Bellatrix extends the vanilla WebDriver selectors and give you additional ones.
+BELLATRIX extends the vanilla WebDriver selectors and give you additional ones.
 ### CreateById ###
 ```csharp
 App.ElementCreateService.CreateById<Button>("myId");
@@ -180,7 +180,7 @@ public void ElementFound_When_CreateByIdContaining_And_ElementIsOnScreen_NestedE
 }
 ```
 
-**Note**: *it is entirely legal to create a **Button** instead of **ToggleButton**. Bellatrix library does not care about the real type of the Android elements. The proxy types are convenience wrappers so to say. Meaning they give you a better interface of predefined properties and methods to make your tests more readable.*
+**Note**: *it is entirely legal to create a **Button** instead of **ToggleButton**. BELLATRIX library does not care about the real type of the Android elements. The proxy types are convenience wrappers so to say. Meaning they give you a better interface of predefined properties and methods to make your tests more readable.*
 
 Available Create Methods for Finding Nested Elements
 ----------------------------------------------------

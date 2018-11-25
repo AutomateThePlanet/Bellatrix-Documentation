@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Execute Tests in CrossBrowserTesting"
-excerpt: "Learn to use Bellatrix to execute iOS tests in CrossBrowserTesting."
+excerpt: "Learn to use BELLATRIX to execute iOS tests in CrossBrowserTesting."
 date:   2018-11-23 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/execute-tests-crossbrowsertesting/
@@ -59,7 +59,7 @@ Explanations
     recordNetwork: true,
     build: "CI Execution")]
 ```
-To execute Bellatrix tests in CrossBrowserTesting cloud, you should use the CrossBrowserTesting attribute instead of IOS. CrossBrowserTesting has the same parameters as IOS but adds to additional ones- deviceName, recordVideo, recordNetwork and build. The last three are optional and have default values. As with the IOS attribute you can override the class behaviour on Test level.
+To execute BELLATRIX tests in CrossBrowserTesting cloud, you should use the CrossBrowserTesting attribute instead of IOS. CrossBrowserTesting has the same parameters as IOS but adds to additional ones- deviceName, recordVideo, recordNetwork and build. The last three are optional and have default values. As with the IOS attribute you can override the class behaviour on Test level.
 ```csharp
 [TestMethod]
 [IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",

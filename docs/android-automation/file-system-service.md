@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "FileSystemService"
-excerpt: "Learn how to use Bellatrix Android FileSystemService."
+excerpt: "Learn how to use BELLATRIX Android FileSystemService."
 date:   2018-06-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/file-system-service/
@@ -90,7 +90,7 @@ public class FileSystemServiceTests : AndroidTest
 
 Explanations
 ------------
-Bellatrix gives you an interface for easier work with files using the FileSystemService class.
+BELLATRIX gives you an interface for easier work with files using the FileSystemService class.
 ```csharp
 App.FileSystemService.PushFile("/data/local/tmp/remote.txt", data);
 ```

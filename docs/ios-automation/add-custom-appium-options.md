@@ -43,5 +43,5 @@ App.AddAppiumCapability("autoAcceptAlerts", "true");
 App.AddAppiumCapability("showIOSLog", "true");
 App.AddAppiumCapability("remoteDebugProxy", "12000");
 ```
-Bellatrix hides the complexity of initialisation of WebDriver/Appium and all related services. In some cases, you need to customise the set up of a Appium with using custom Appium options. Using the **App** service methods you can add all of these with ease. Make sure to call them in the **TestsArrange** which is called before the execution of the tests placed in the test class. These options are used only for the tests in this particular class.
+BELLATRIX hides the complexity of initialisation of WebDriver/Appium and all related services. In some cases, you need to customise the set up of a Appium with using custom Appium options. Using the **App** service methods you can add all of these with ease. Make sure to call them in the **TestsArrange** which is called before the execution of the tests placed in the test class. These options are used only for the tests in this particular class.
 **Note**: You can use all of these methods no matter which attributes you use- **IOS**, **IOSSauceLabs**, **IOSBrowserStack** or **IOSCrossBrowserTesting**.

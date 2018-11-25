@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Load Testing"
-excerpt: "Learn how to use the Bellatrix API library to load test your API methods."
+excerpt: "Learn how to use the BELLATRIX API library to load test your API methods."
 date:   2018-06-23 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/load-testing/
@@ -60,7 +60,7 @@ public class ApiLoadTests : APITest
 
 Explanations
 ------------
-Bellatrix offers a module for making load tests.
+BELLATRIX offers a module for making load tests.
 ```csharp
 App.LoadTestService.ExecuteForTime(
     numberOfProcesses: 10,

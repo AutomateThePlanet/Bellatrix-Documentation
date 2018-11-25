@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Extensibility- Extend Existing Elements- Extension Methods"
-excerpt: "Learn how to extend Bellatrix web elements using extension methods."
+excerpt: "Learn how to extend BELLATRIX web elements using extension methods."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/extensibility-extend-existing-elements-extension-methods/

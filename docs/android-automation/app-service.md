@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "AppService"
-excerpt: "Learn how to use Bellatrix Android AppService."
+excerpt: "Learn how to use BELLATRIX Android AppService."
 date:   2018-06-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/app-service/
@@ -52,7 +52,7 @@ public class AppServiceTests : AndroidTest
 
 Explanations
 ------------
-Bellatrix gives you an interface to most common operations for controlling the Android app through the AppService class. We already saw one of them StartActivity for opening a particular initial activity.
+BELLATRIX gives you an interface to most common operations for controlling the Android app through the AppService class. We already saw one of them StartActivity for opening a particular initial activity.
 ```csharp
 App.AppService.BackgroundApp(1);
 ```

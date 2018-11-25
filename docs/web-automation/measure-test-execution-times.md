@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Measure Response Times"
-excerpt: "Learn how to measure text execution times using Bellatrix web module."
+excerpt: "Learn how to measure text execution times using BELLATRIX web module."
 date:   2018-10-20 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/measure-test-execution-times/
@@ -43,7 +43,7 @@ Explanations
 [Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
 public class MeasureTestExecutionTests : WebTest
 ```
-Sometimes it is useful to use your functional tests to measure performance. Or to just make sure that your app is not slow. To do that Bellatrix libraries offer the **ExecutionTimeUnder** attribute. You specify a timeout and if the test is executed over it the test will fail.
+Sometimes it is useful to use your functional tests to measure performance. Or to just make sure that your app is not slow. To do that BELLATRIX libraries offer the **ExecutionTimeUnder** attribute. You specify a timeout and if the test is executed over it the test will fail.
 ```csharp
 using Bellatrix.TestExecutionExtensions.Common.ExecutionTime;
 ```

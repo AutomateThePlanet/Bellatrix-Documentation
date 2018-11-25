@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Execute Tests in SauceLabs"
-excerpt: "Learn to use Bellatrix to execute web tests in SauceLabs."
+excerpt: "Learn to use BELLATRIX to execute web tests in SauceLabs."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/execute-tests-saucelabs/
@@ -55,7 +55,7 @@ Explanations
     recordScreenshots: true,
     recordVideo: true)]
 ```
-To execute Bellatrix tests in SauceLabs cloud you should use the SauceLabs attribute instead of Browser. SauceLabs has the same parameters as Browser but adds to additional ones- browser version, platform type, recordVideo and recordScreenshots. As with the Browser attribute you can override the class behavior on Test level.
+To execute BELLATRIX tests in SauceLabs cloud you should use the SauceLabs attribute instead of Browser. SauceLabs has the same parameters as Browser but adds to additional ones- browser version, platform type, recordVideo and recordScreenshots. As with the Browser attribute you can override the class behavior on Test level.
 ```csharp
 [TestMethod]
 [SauceLabs(BrowserType.Chrome, "62", "Windows", DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]

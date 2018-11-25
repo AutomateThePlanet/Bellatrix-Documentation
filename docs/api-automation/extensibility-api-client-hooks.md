@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Extensibility- API Client Hooks"
-excerpt: "Learn how to extend the Bellatrix API client using hooks."
+excerpt: "Learn how to extend the BELLATRIX API client using hooks."
 date:   2018-06-23 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/extensibility-api-client-hooks/
@@ -12,7 +12,7 @@ anchors:
 ---
 Introduction
 ------------
-Another way to execute Bellatrix is to create an API client plugin. You can execute your logic in various points such as:
+Another way to execute BELLATRIX is to create an API client plugin. You can execute your logic in various points such as:
 - **OnClientInitialized** - executed after the API client is initialized. Here you can fine-tune the client.
 - **OnRequestTimeout** - executed if some of the requests timeout.
 - **OnMakingRequest** - executed before making request.

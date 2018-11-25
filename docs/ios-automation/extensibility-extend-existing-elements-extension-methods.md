@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Extensibility- Extend Existing Elements- Extension Methods"
-excerpt: "Learn how to extend Bellatrix iOS elements using extension methods."
+excerpt: "Learn how to extend BELLATRIX iOS elements using extension methods."
 date:   2018-10-23 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/extensibility-extend-existing-elements-extension-methods/

@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Execute Tests in Selenium Grid"
-excerpt: "Learn to use Bellatrix to execute tests in Selenium Grid."
+excerpt: "Learn to use BELLATRIX to execute tests in Selenium Grid."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/execute-tests-selenium-grid/
@@ -45,7 +45,7 @@ Explanations
 ```csharp
 [Remote(BrowserType.Chrome, "62", PlatformType.Windows, BrowserBehavior.ReuseIfStarted)]
 ```
-To use Bellatrix with Selenium Grid, you should use the Remote attribute instead of Browser. Remote has the same parameters as Browser but adds to additional ones- browser version and platform type. As with the Browser attribute you can override the class behavior on Test level.
+To use BELLATRIX with Selenium Grid, you should use the Remote attribute instead of Browser. Remote has the same parameters as Browser but adds to additional ones- browser version and platform type. As with the Browser attribute you can override the class behavior on Test level.
 ```csharp
 [TestMethod]
 [Remote(BrowserType.Chrome, "62", PlatformType.Windows, DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]

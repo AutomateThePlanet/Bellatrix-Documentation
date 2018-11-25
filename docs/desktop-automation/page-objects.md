@@ -1,14 +1,14 @@
 ---
 layout: default
 title:  "Page Objects"
-excerpt: "Learn how to use the Bellatrix page objects."
+excerpt: "Learn how to use the BELLATRIX page objects."
 date:   2018-06-22 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/page-objects/
 anchors:
   introduction: Introduction
   non-page-object-test-example: Non-page-object Test Example
-  how-to-create-bellatrix-page-object: How to Create Bellatrix Page Object
+  how-to-create-bellatrix-page-object: How to Create BELLATRIX Page Object
   page-object-example: Page Object Example
   page-object-example-explanations: Page Object Example Explanations
   page-object-test-example: Page Object Test Example
@@ -17,7 +17,7 @@ anchors:
 
 Introduction
 ------------
-As you most probably noticed this is like the 4th time we use almost the same elements and logic inside our tests. Similar test writing approach leads to unreadable and hard to maintain tests. Because of that people use the so-called Page Object design pattern to reuse their elements and pages' logic. Bellatrix comes with powerful built-in page objects which are much more readable and maintainable than regular vanilla WebDriver ones.
+As you most probably noticed this is like the 4th time we use almost the same elements and logic inside our tests. Similar test writing approach leads to unreadable and hard to maintain tests. Because of that people use the so-called Page Object design pattern to reuse their elements and pages' logic. BELLATRIX comes with powerful built-in page objects which are much more readable and maintainable than regular vanilla WebDriver ones.
 
 Non-page-object Test Example
 ----------------------------
@@ -67,9 +67,9 @@ public void ActionsWithoutPageObjects_Wpf()
 }
 ```
 
-How to Create Bellatrix Page Object
+How to Create BELLATRIX Page Object
 -----------------------------------
-To create a new page object, you have a couple of options. You can create it manually. However, why wasting time? Bellatrix comes with ready-to-go page object templates. How to create a new page object?
+To create a new page object, you have a couple of options. You can create it manually. However, why wasting time? BELLATRIX comes with ready-to-go page object templates. How to create a new page object?
 - Create a new folder for your page and name it properly.
 - Open the context menu and click 'New Item...'
 
@@ -150,7 +150,7 @@ Page Object Example Explanations
 ```csharp
 public partial class MainDesktopPage : AssertedPage
 ```
-All Bellatrix page objects are implemented as partial classes which means that you have separate files for different parts of it- actions, elements, assertions but at the end, they are all built into a single type. This makes the maintainability and readability of these classes much better. Also, you can easier locate what you need. You can always create Bellatrix page objects yourself inherit one of the 3 classes- AssertedPage or Page. We advise you to follow the convention with partial classes, but you are always free to put all pieces in a single file.
+All BELLATRIX page objects are implemented as partial classes which means that you have separate files for different parts of it- actions, elements, assertions but at the end, they are all built into a single type. This makes the maintainability and readability of these classes much better. Also, you can easier locate what you need. You can always create BELLATRIX page objects yourself inherit one of the 3 classes- AssertedPage or Page. We advise you to follow the convention with partial classes, but you are always free to put all pieces in a single file.
 ```csharp
 public void TransferItem(string itemToBeTransfered, string userName, string password)
 {

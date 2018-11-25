@@ -1,14 +1,14 @@
 ---
 layout: default
 title:  "Static Analysis"
-excerpt: "Learn how to use the Bellatrix Static Analysis."
+excerpt: "Learn how to use the BELLATRIX Static Analysis."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/static-analysis/
 anchors:
   introduction: Introduction
   benefits: Benefits
-  bellatrix-coding-standards-modules: Bellatrix Coding Standards Modules
+  bellatrix-coding-standards-modules: BELLATRIX Coding Standards Modules
 ---
 Introduction
 ------------
@@ -24,10 +24,10 @@ Benefits
 - Minimizes Performance Pitfalls
 - Saves Money Due to Less Man Hours
 
-Bellatrix Coding Standards Modules
+BELLATRIX Coding Standards Modules
 ----------------------------------
 
-Bellatrix comes with two modules for helping you apply coding standards in your tests.
+BELLATRIX comes with two modules for helping you apply coding standards in your tests.
 
 ### .editorconfig  ###
 

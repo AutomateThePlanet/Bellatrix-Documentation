@@ -51,7 +51,7 @@ public class OverrideGloballyElementActionsTests : DesktopTest
 
 Explanations
 ------------
-Extensibility and customisation are one of the biggest advantages of Bellatrix. So, each Bellatrix desktop control gives you the possibility to override its behaviour for the whole test run. You need to initialise the static delegates- **Override{MethodName}Globally**.
+Extensibility and customisation are one of the biggest advantages of BELLATRIX. So, each BELLATRIX desktop control gives you the possibility to override its behaviour for the whole test run. You need to initialise the static delegates- **Override{MethodName}Globally**.
 ```csharp
 Button.OverrideClickGlobally = (e) =>
 {

@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Control App"
-excerpt: "Learn how to control iOS applications with Bellatrix iOS module."
+excerpt: "Learn how to control iOS applications with BELLATRIX iOS module."
 date:   2018-10-20 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/control-app/
@@ -12,7 +12,7 @@ anchors:
 Overview
 --------
 
-This is how one Bellatrix test class looks like.
+This is how one BELLATRIX test class looks like.
 ```csharp
 [TestClass]
 [IOS(Constants.IOSNativeAppPath,
@@ -55,7 +55,7 @@ This is the main attribute that you need to mark each class that contains MSTest
     Constants.IOSDefaultDeviceName,
     AppBehavior.ReuseIfStarted)]
 ```
-This is the attribute for automatic start/control of iOS apps by Bellatrix. If you have to do it manually properly, you will need thousands of lines of code.
+This is the attribute for automatic start/control of iOS apps by BELLATRIX. If you have to do it manually properly, you will need thousands of lines of code.
 **appPath**- sets the path where your app file is.
 **AppBehavior** enum controls when the app is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs.
 However you need to be careful because in case of tests failures the app may need to be restarted.
@@ -72,7 +72,7 @@ There are even more things you can do with this attribute, but we look into them
 ```csharp
 public class BellatrixAppBehaviourTests : IOSTest
 ```
-All iOS Bellatrix test classes should inherit from the **IOSTest** base class. This way you can use all built-in Bellatrix tools and functionalities.
+All iOS BELLATRIX test classes should inherit from the **IOSTest** base class. This way you can use all built-in BELLATRIX tools and functionalities.
 ```csharp
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
@@ -102,4 +102,4 @@ public void ReturnsTrue_When_CallButtonIsPresent()
     Assert.IsTrue(button.IsPresent);
 }
 ```
-As mentioned above you can override the app behaviour for a particular test. The global behaviour for all tests in the class is to reuse an instance of the app. Only for this particular test, Bellatrix opens the app and restarts it only on fail.
+As mentioned above you can override the app behaviour for a particular test. The global behaviour for all tests in the class is to reuse an instance of the app. Only for this particular test, BELLATRIX opens the app and restarts it only on fail.

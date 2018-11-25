@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Extensibility- Add New Find Locators"
-excerpt: "Learn how to extend Bellatrix adding new custom find locators."
+excerpt: "Learn how to extend BELLATRIX adding new custom find locators."
 date:   2018-11-23 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/extensibility-add-new-find-locators/
@@ -91,7 +91,7 @@ You need to add a using statement to the namespace where the extension methods f
 ```csharp
 using Bellatrix.Mobile.IOS.GettingStarted.ExtensionMethodsLocators;
 ```
-After that, you can use the new locator as it was originally part of Bellatrix.
+After that, you can use the new locator as it was originally part of BELLATRIX.
 ```csharp
 var button = App.ElementCreateService.CreateByNameStartingWith<Button>("Compute");
 ```

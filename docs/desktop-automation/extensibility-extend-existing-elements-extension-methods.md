@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Extensibility- Extend Existing Elements- Extension Methods"
-excerpt: "Learn how to extend Bellatrix desktop elements using extension methods."
+excerpt: "Learn how to extend BELLATRIX desktop elements using extension methods."
 date:   2018-06-23 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/extensibility-extend-existing-elements-extension-methods/

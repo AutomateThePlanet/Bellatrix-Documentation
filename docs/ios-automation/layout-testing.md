@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Layout Testing"
-excerpt: "Learn how to use the Bellatrix layout testing library."
+excerpt: "Learn how to use the BELLATRIX layout testing library."
 date:   2018-11-22 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/layout-testing/
@@ -64,7 +64,7 @@ public void TestPageLayout()
 
 Explanations
 ------------
-Layout testing is a module from Bellatrix that allows you to test the responsiveness of your app.
+Layout testing is a module from BELLATRIX that allows you to test the responsiveness of your app.
 ```csharp
 using Bellatrix.Layout;
 ```
@@ -72,7 +72,7 @@ You need to add a using statement to **Bellatrix.Layout**. After that 100 assert
 ```csharp
 numberOneTextField.AssertAboveOf(computeButton);
 ```
-Depending on what you want to check, Bellatrix gives lots of options. You can test px perfect or just that some element is below another. Check that the text field is above the button.
+Depending on what you want to check, BELLATRIX gives lots of options. You can test px perfect or just that some element is below another. Check that the text field is above the button.
 ```csharp
 numberOneTextField.AssertAboveOf(computeButton, 61);
 ```
@@ -136,7 +136,7 @@ Verify the height and width of elements.
 
 BDD Logging
 -----------
-All layout assertion methods have full BDD logging support. Below you can find the generated BDD log. Of course if you use Bellatrix page objects the log looks even better as mentioned in previous chapters.
+All layout assertion methods have full BDD logging support. Below you can find the generated BDD log. Of course if you use BELLATRIX page objects the log looks even better as mentioned in previous chapters.
 
 ```
 Start Test

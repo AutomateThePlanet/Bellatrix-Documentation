@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Navigate to Activities"
-excerpt: "Learn how to navigate to Android activities with Bellatrix mobile module."
+excerpt: "Learn how to navigate to Android activities with BELLATRIX mobile module."
 date:   2018-10-20 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/navigate-to-activities/

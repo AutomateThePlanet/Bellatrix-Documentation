@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "KeyboardService"
-excerpt: "Learn how to use Bellatrix iOS KeyboardService."
+excerpt: "Learn how to use BELLATRIX iOS KeyboardService."
 date:   2018-11-22 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/keyboard-service/
@@ -32,7 +32,7 @@ public class KeyboardServiceTests : IOSTest
 
 Explanations
 ------------
-Bellatrix gives you an interface for easier work with device's keyboard through **KeyboardService** class.
+BELLATRIX gives you an interface for easier work with device's keyboard through **KeyboardService** class.
 ```csharp
 App.KeyboardService.HideKeyboard();
 ```

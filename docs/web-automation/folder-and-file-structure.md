@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Folder and File Structure"
-excerpt: "Learn what each Bellatrix project templates includes."
+excerpt: "Learn what each BELLATRIX project templates includes."
 date:   2018-02-20 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/folder-and-file-structure/
@@ -37,10 +37,10 @@ NuGet Dependencies
 <PackageReference Include="Unity" Version="5.8.6" />
 <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004"/>
 ```
-As you can see the most important package that you need is **Bellatrix.Web.MSTest**, it depends on all below packages. This is the bare minimum.  Next you need to install the Bellatrix browser NuGets. Each of them brings the correct version of WebDriver for the specific platform. This way you can install the version you like depending on your needs, making possible to use the latest version of Chrome but have 2 versions old Firefox.
+As you can see the most important package that you need is **Bellatrix.Web.MSTest**, it depends on all below packages. This is the bare minimum.  Next you need to install the BELLATRIX browser NuGets. Each of them brings the correct version of WebDriver for the specific platform. This way you can install the version you like depending on your needs, making possible to use the latest version of Chrome but have 2 versions old Firefox.
 We reference Microsoft configuration packages so that we can work with configuration files where the different framework settings are placed.
 **Microsoft.NET.Test.Sdk**, **MSTest.TestAdapter**,** MSTest.TestFramework** are prerequisites so that you can execute MSTest framework tests.
-Also, we use Unity inversion of control container inside Bellatrix for many things.  You will not be able to use it directly, but there are a couple of ways that you will use it in your code for some more complex scenarios.
+Also, we use Unity inversion of control container inside BELLATRIX for many things.  You will not be able to use it directly, but there are a couple of ways that you will use it in your code for some more complex scenarios.
 Lastly, we install StyleCop.Analyzers, we use it to enforce coding standards in the tests code.
 
 EditorConfig
@@ -75,7 +75,7 @@ There is a separate more detailed section in the guide describing how to use the
 
 TestsInitialize
 ---------------
-This is the entry point for all tests. The methods here are executed only once per tests execution. You need it to start and stop some Bellatrix services that you can use in your tests.
+This is the entry point for all tests. The methods here are executed only once per tests execution. You need it to start and stop some BELLATRIX services that you can use in your tests.
 
 **Note**: *There are separate sections describing in more details the **WebTest** base class and the **App** class.*
 

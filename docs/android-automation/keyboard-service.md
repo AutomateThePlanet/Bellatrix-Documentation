@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "KeyboardService"
-excerpt: "Learn how to use Bellatrix Android KeyboardService."
+excerpt: "Learn how to use BELLATRIX Android KeyboardService."
 date:   2018-06-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/keyboard-service/
@@ -58,7 +58,7 @@ public class KeyboardServiceTests : AndroidTest
 
 Explanations
 ------------
-Bellatrix gives you an interface for easier work with device's keyboard through KeyboardService class.
+BELLATRIX gives you an interface for easier work with device's keyboard through KeyboardService class.
 ```csharp
 App.KeyboardService.HideKeyboard();
 ```

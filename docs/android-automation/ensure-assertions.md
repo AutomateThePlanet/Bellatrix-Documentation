@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Ensure Assertions"
-excerpt: "Learn how to use Bellatrix ensure assertion methods."
+excerpt: "Learn how to use BELLATRIX ensure assertion methods."
 date:   2018-10-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/ensure-assertions/
@@ -49,7 +49,7 @@ Explanations
 button.EnsureIsNotDisabled();
 //Assert.AreEqual(false, button.IsDisabled);
 ```
-We can assert whether the control is disabled. The different Bellatrix Android elements classes contain lots of these properties which are a representation of the most important app element attributes. The biggest drawback of using vanilla assertions is that the messages displayed on failure are not meaningful at all. If the bellow assertion fails the following message is displayed: "*Message: Assert.AreEqual failed. Expected:<false>. Actual:<true>.*" You can guess what happened, but you do not have information which element failed and on which page. If we use the Ensure extension methods, Bellatrix waits some time for the condition to pass. After this period if it is not successful, a beatified meaningful exception message is displayed: "***The control should be disabled but it was NOT.***"
+We can assert whether the control is disabled. The different BELLATRIX Android elements classes contain lots of these properties which are a representation of the most important app element attributes. The biggest drawback of using vanilla assertions is that the messages displayed on failure are not meaningful at all. If the bellow assertion fails the following message is displayed: "*Message: Assert.AreEqual failed. Expected:<false>. Actual:<true>.*" You can guess what happened, but you do not have information which element failed and on which page. If we use the Ensure extension methods, BELLATRIX waits some time for the condition to pass. After this period if it is not successful, a beatified meaningful exception message is displayed: "***The control should be disabled but it was NOT.***"
 ```csharp
 var checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
 checkBox.EnsureIsChecked();

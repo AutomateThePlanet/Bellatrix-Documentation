@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "All Request Types"
-excerpt: "Learn what are all Bellatrix API request types and how to use them.."
+excerpt: "Learn what are all BELLATRIX API request types and how to use them.."
 date:   2018-06-23 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/all-request-types/
@@ -225,7 +225,7 @@ public void DataPopulatedAsList_When_GetGenericAlbums()
     Assert.AreEqual(347, response.Data.Count);
 }
 ```
-Bellatrix can return list of objects. You can access the response's list through Data property.
+BELLATRIX can return list of objects. You can access the response's list through Data property.
 ```csharp
 var response = _apiClientService.Get<Albums>(request);
 ```
@@ -322,4 +322,4 @@ public async void ArtistsDeleted_When_PerformGenericDeleteRequestAsync()
     Assert.IsNotNull(response.Data);
 }
 ```
-All Bellatrix client API methods have an async version. Your test should be marked as async. Use the PostAsync. Should use the await operator. Use the DeleteAsync. Should use the await operator.
+All BELLATRIX client API methods have an async version. Your test should be marked as async. Use the PostAsync. Should use the await operator. Use the DeleteAsync. Should use the await operator.

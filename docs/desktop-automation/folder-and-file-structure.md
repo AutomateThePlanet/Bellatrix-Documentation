@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Folder and File Structure"
-excerpt: "Learn what each Bellatrix project templates includes."
+excerpt: "Learn what each BELLATRIX project templates includes."
 date:   2018-02-20 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/folder-and-file-structure/
@@ -34,7 +34,7 @@ NuGet Dependencies
 ```
 As you can see the most important package that you need is Bellatrix.Desktop.MSTest, it depends on all below packages. This is the bare minimum. 
 **Microsoft.NET.Test.Sdk**, **MSTest.TestAdapter**,** MSTest.TestFramework** are prerequisites so that you can execute MSTest framework tests.
-Also, we use Unity inversion of control container inside Bellatrix for many things.  You will not be able to use it directly, but there are a couple of ways that you will use it in your code for some more complex scenarios.
+Also, we use Unity inversion of control container inside BELLATRIX for many things.  You will not be able to use it directly, but there are a couple of ways that you will use it in your code for some more complex scenarios.
 Lastly, we install StyleCop.Analyzers, we use it to enforce coding standards in the tests code.
 
 EditorConfig
@@ -69,7 +69,7 @@ There is a separate more detailed section in the guide describing how to use the
 
 TestsInitialize
 ---------------
-This is the entry point for all tests. The methods here are executed only once per tests execution. You need it to start and stop some Bellatrix services that you can use in your tests.
+This is the entry point for all tests. The methods here are executed only once per tests execution. You need it to start and stop some BELLATRIX services that you can use in your tests.
 
 **Note**: *There are separate sections describing in more details the **DesktopTest** base class and the **App** class.*
 

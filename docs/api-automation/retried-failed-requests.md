@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Retry Failed Requests"
-excerpt: "Learn how to retry failed requests with Bellatrix API attributes."
+excerpt: "Learn how to retry failed requests with BELLATRIX API attributes."
 date:   2018-06-23 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/retry-failed-requests/
@@ -53,4 +53,4 @@ Explanations
 ```csharp
 response.AssertSchema(expectedSchema);
 ```
-Use the Bellatrix **AssertSchema** method to validate the schema. The same method can be used for XML responses as well.
+Use the BELLATRIX **AssertSchema** method to validate the schema. The same method can be used for XML responses as well.

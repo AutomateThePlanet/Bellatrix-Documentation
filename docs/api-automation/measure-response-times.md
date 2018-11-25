@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Measure Response Times"
-excerpt: "Learn how to measure response times using Bellatrix API library."
+excerpt: "Learn how to measure response times using BELLATRIX API library."
 date:   2018-06-22 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/measure-response-times/
@@ -97,7 +97,7 @@ Explanations
 [ExecutionTimeUnder(2)]
 public class MeasuredResponseTimesTests : APITest
 ```
-Sometimes it is useful to use your functional tests to measure performance. Or to just make sure that your app is not slow. To do that Bellatrix libraries offer the **ExecutionTimeUnder** attribute. You specify a timeout and if the test is executed over it the test will fail.
+Sometimes it is useful to use your functional tests to measure performance. Or to just make sure that your app is not slow. To do that BELLATRIX libraries offer the **ExecutionTimeUnder** attribute. You specify a timeout and if the test is executed over it the test will fail.
 ```csharp
 response.AssertExecutionTimeUnder(2);
 ```

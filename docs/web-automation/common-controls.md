@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Common Controls"
-excerpt: "Learn how to use Bellatrix common web control."
+excerpt: "Learn how to use BELLATRIX common web control."
 date:   2018-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/common-controls/
@@ -129,12 +129,12 @@ public void PurchaseRocket()
 
 Explanations
 ------------
-As mentioned before Bellatrix exposes 30+ web controls. All of them implement Proxy design pattern which means that they are not located immediately when they are created. Another benefit is that each of them includes only the actions that you should be able to do with the specific control and nothing more.
+As mentioned before BELLATRIX exposes 30+ web controls. All of them implement Proxy design pattern which means that they are not located immediately when they are created. Another benefit is that each of them includes only the actions that you should be able to do with the specific control and nothing more.
 For example, you cannot type into a button. Moreover, this way all of the actions has meaningful names- Type not SendKeys as in vanilla WebDriver.
 ```csharp
 Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
 ```
-Create methods accept a generic parameter the type of the web control. Then only the methods for this specific control are accessible. Here we tell Bellatrix to find your element by name attribute ending with 'orderby'.
+Create methods accept a generic parameter the type of the web control. Then only the methods for this specific control are accessible. Here we tell BELLATRIX to find your element by name attribute ending with 'orderby'.
 
 ```html
 <select name="orderby" class="orderby">
@@ -155,7 +155,7 @@ You can select from select inputs by text (SelectByText) or index (SelectByIndex
 ```csharp
 Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
 ```
-Here Bellatrix finds the first anchor element which has inner text containing the 'Read more' text.
+Here BELLATRIX finds the first anchor element which has inner text containing the 'Read more' text.
 ```csharp
 protonMReadMoreButton.Hover();
 ```
@@ -168,7 +168,7 @@ Anchor addToCartFalcon9 = App.ElementCreateService.CreateByAttributesContaining<
 addToCartFalcon9.Focus();
 addToCartFalcon9.Click();
 ```
-Locate elements by custom attribute. Bellatrix waits till the anchor is clickable before doing any actions.
+Locate elements by custom attribute. BELLATRIX waits till the anchor is clickable before doing any actions.
 ```html
 <a href="http://demos.bellatrix.solutions/cart/" class="added_to_cart wc-forward" title="View cart">View cart</a>
 ```
@@ -207,7 +207,7 @@ Wait for the message DIV to show up and have some content.
 ```
 Sometimes you need to verify the content of some element. However, since the asynchronous nature of websites, the text or event may not happen immediately. This makes the simple Assert methods + vanilla WebDriver useless.
 The commented code fails 1 from 5 times.
-To handle these situations, Bellatrix has hundreds of Ensure methods that wait for some condition to happen before asserting.
+To handle these situations, BELLATRIX has hundreds of Ensure methods that wait for some condition to happen before asserting.
 Bellow the statement waits for the specific text to appear and assert it.
 ```csharp
 Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
@@ -230,7 +230,7 @@ For numbers elements, you can set the number and get most of the properties of t
 ```csharp
 Heading billingDetailsHeading = App.ElementCreateService.CreateByInnerTextContaining<Heading>("Billing details");
 ```
-As mentioned before, Bellatrix has special synchronization mechanism for locating elements, so usually, there is no need to wait for specific elements to appear on the page. However, there may be some rare cases when you need to do it. The statement finds the heading by its inner text containing the text 'Billing details'.
+As mentioned before, BELLATRIX has special synchronization mechanism for locating elements, so usually, there is no need to wait for specific elements to appear on the page. However, there may be some rare cases when you need to do it. The statement finds the heading by its inner text containing the text 'Billing details'.
 ```csharp
 Heading billingDetailsHeading = App.ElementCreateService.CreateByInnerTextContaining<Heading>("Billing details");
 billingDetailsHeading.ToBeVisible().WaitToBe();
@@ -273,7 +273,7 @@ RadioButton checkPaymentsRadioButton =
 App.ElementCreateService.CreateByAttributesContaining<RadioButton>("for", "payment_method_cheque");.
 checkPaymentsRadioButton.Click();
 ```
-Bellatrix finds the first RadioButton with attribute 'for' containing the value 'payment_method_cheque'. The radio buttons compared to checkboxes cannot be unchecked/unselected.
+BELLATRIX finds the first RadioButton with attribute 'for' containing the value 'payment_method_cheque'. The radio buttons compared to checkboxes cannot be unchecked/unselected.
 
 Full List of All Supported Web Controls
 ---------------------------------------

@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Templates"
-excerpt: "Learn how to use pre-built Bellatrix templates."
+excerpt: "Learn how to use pre-built BELLATRIX templates."
 date:   2018-11-20 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/templates/
@@ -11,8 +11,8 @@ anchors:
 ---
 Create Projects from Visual Studio
 ----------------------------------
-You can use built-in Visual Studio templates to create Bellatrix test projects.
-From **File -> New -> Project** you can find all Bellatrix projects too
+You can use built-in Visual Studio templates to create BELLATRIX test projects.
+From **File -> New -> Project** you can find all BELLATRIX projects too
 
 ![Create New Project Visual Studio](images/create-new-project-visual-studio.png)
 
@@ -24,7 +24,7 @@ You can create an empty tests project with all required files through dotnet CLI
 1. Open CMD
 2. Using the command "dotnet new -l" you can see all available templates 
 
-Before you can create a new project, you need to install the Bellatrix template first.
+Before you can create a new project, you need to install the BELLATRIX template first.
 
 **All available templates:**
 

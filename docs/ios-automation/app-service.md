@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "AppService"
-excerpt: "Learn how to use Bellatrix IOS AppService."
+excerpt: "Learn how to use BELLATRIX IOS AppService."
 date:   2018-11-20 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/app-service/
@@ -56,7 +56,7 @@ public class AppServiceTests : IOSTest
 
 Explanations
 ------------
-Bellatrix gives you an interface to most common operations for controlling the iOS app through the AppService class.
+BELLATRIX gives you an interface to most common operations for controlling the iOS app through the AppService class.
 ```csharp
 App.AppService.BackgroundApp(1);
 ```

@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Extensibility- Custom Test Workflow Plugins"
-excerpt: "Learn how to plugin your logic in Bellatrix test workflow using custom test workflow plugins."
+excerpt: "Learn how to plugin your logic in BELLATRIX test workflow using custom test workflow plugins."
 date:   2018-06-23 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/extensibility-custom-test-workflow-plugins/
@@ -43,11 +43,11 @@ public class AssociatedTestWorkflowPlugin : TestWorkflowPlugin
         var methodBrowserAttributes = memberInfo.GetCustomAttributes<ManualTestCaseAttribute>(true).ToList();
         if (methodBrowserAttributes.Count == 0)
         {
-            throw new ArgumentException("No manual test case is associated with the Bellatrix test.");
+            throw new ArgumentException("No manual test case is associated with the BELLATRIX test.");
         }
         else if (methodBrowserAttributes.Count > 1)
         {
-            throw new ArgumentException("You cannot associate two manual test cases with a single Bellatrix test.");
+            throw new ArgumentException("You cannot associate two manual test cases with a single BELLATRIX test.");
         }
         else if (methodBrowserAttributes.First().TestCaseId <= 0)
         {

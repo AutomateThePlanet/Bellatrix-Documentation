@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "API Automation"
-excerpt: "Learn how to use Bellatrix API test framework."
+excerpt: "Learn how to use BELLATRIX API test framework."
 date:   2018-06-22 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/
@@ -12,7 +12,7 @@ Overview
 Speed up by predefined project templates, better API discoverability and go ready-to-go solution. Support advanced test case scenario like authentication strategies and retry failed requests.
 
 ### Assertions ###
-Bellatrix provide you many convenient assertion methods on top of RestSharp with BDD logging and extensibility hooks support. [**Learn more**](/assertions.md).
+BELLATRIX gives you many convenient assertion methods on top of RestSharp with BDD logging and extensibility hooks support. [**Learn more**](/assertions.md).
 
 ### Static Analysis ###
 Set of rules and guidelines for the formatting of source code. [**Learn more**](/static-analysis.md).

@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "WebService"
-excerpt: "Learn how to use Bellatrix Android WebService."
+excerpt: "Learn how to use BELLATRIX Android WebService."
 date:   2018-10-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/web-service/
@@ -30,8 +30,8 @@ public class WebServiceTests : AndroidTest
 
 Explanations
 ------------
-Bellatrix gives you an interface for easier work with web apps. Using it, you can access most of the features
-of Bellatrix web APIs.
+BELLATRIX gives you an interface for easier work with web apps. Using it, you can access most of the features
+of BELLATRIX web APIs.
 ```csharp
 [TestClass]
 [AndroidWeb(Constants.AndroidNativeAppPath,
@@ -48,4 +48,4 @@ Opens Chrome browser and navigates to the mentioned page.
 ```csharp
 Assert.IsTrue(App.Web.BrowserService.HtmlSource.Contains("Shop"));
 ```
-Through **Web** property you can access almost all Bellatrix Web APIs.
+Through **Web** property you can access almost all BELLATRIX Web APIs.

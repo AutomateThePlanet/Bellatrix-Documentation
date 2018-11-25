@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Extensibility- Assertion Hooks"
-excerpt: "Learn how to extend the Bellatrix built-in assertion methods using hooks."
+excerpt: "Learn how to extend the BELLATRIX built-in assertion methods using hooks."
 date:   2018-06-23 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/extensibility-assertion-hooks/
@@ -12,12 +12,12 @@ anchors:
 ---
 Introduction
 ------------
-Another way to extend Bellatrix is to use the assertions hooks. This is how the BDD logging is implemented. For example, some of the available hooks are:
+Another way to extend BELLATRIX is to use the assertions hooks. This is how the BDD logging is implemented. For example, some of the available hooks are:
 - **AssertExecutionTimeUnderEvent** - an event executed before **AssertExecutionTimeUnder** method
 - **AssertContentContainsEvent** - an event executed before **AssertContentContains** method
 - **AssertContentTypeEvent** - an event executed before **AssertContentType** method
 
-You need to implement the event handlers for these events and subscribe them. Bellatrix gives you again a shortcut- you need to create a class and inherit the **AssertExtensionsEventHandlers** class
+You need to implement the event handlers for these events and subscribe them. BELLATRIX gives you again a shortcut- you need to create a class and inherit the **AssertExtensionsEventHandlers** class
 In the example, **DebugLogger** is called for each assertion event printing to Debug window what the method is verifying. You can call external logging provider, modify the response, etc. The options are limitless.
 
 Example
@@ -65,7 +65,7 @@ public override void TestsArrange()
     App.AddAssertionsEventHandler<DebugLoggerAssertExtensions>();
 }
 ```
-Once you have created the EventHandlers class, you need to tell Bellatrix to use it. To do so call the App service method **AddAssertionsEventHandler**.
+Once you have created the EventHandlers class, you need to tell BELLATRIX to use it. To do so call the App service method **AddAssertionsEventHandler**.
 ```csharp
 [AssemblyInitialize]
 public static void AssemblyInitialize(TestContext testContext)

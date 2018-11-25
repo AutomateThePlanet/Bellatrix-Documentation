@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Behaviour Driven Development BDD Logging"
-excerpt: "Learn the Bellatrix Behaviour Driven Development BDD Logging works and how to use it."
+excerpt: "Learn the BELLATRIX Behaviour Driven Development BDD Logging works and how to use it."
 date:   2018-06-2s 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/bdd-logging/
@@ -92,7 +92,7 @@ public void PurchaseRocketWithLogs()
 
 Explanations
 ------------
-There cases when you need to show your colleagues or managers what tests do you have. Sometimes you may have manual test cases, but their maintenance and up-to-date state are questionable. Also, many times you need additional work to associate the tests with the test cases. Some frameworks give you a way to write human readable tests through the Gherkin language. The main idea is non-technical people to write these tests. However, we believe this approach is doomed. Or it is doable only for simple tests. This is why in Bellatrix we built a feature that generates the test cases after the tests execution. After each action or assertion, a new entry is logged.
+There cases when you need to show your colleagues or managers what tests do you have. Sometimes you may have manual test cases, but their maintenance and up-to-date state are questionable. Also, many times you need additional work to associate the tests with the test cases. Some frameworks give you a way to write human readable tests through the Gherkin language. The main idea is non-technical people to write these tests. However, we believe this approach is doomed. Or it is doable only for simple tests. This is why in BELLATRIX we built a feature that generates the test cases after the tests execution. After each action or assertion, a new entry is logged.
 
 After the test is executed the following log is created:
 

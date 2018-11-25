@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Execute Tests in CrossBrowserTesting"
-excerpt: "Learn to use Bellatrix to execute Android tests in CrossBrowserTesting."
+excerpt: "Learn to use BELLATRIX to execute Android tests in CrossBrowserTesting."
 date:   2018-10-23 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/execute-tests-crossbrowsertesting/
@@ -65,7 +65,7 @@ Explanations
     recordNetwork: true,
     build: "CI Execution")]
 ```
-To execute Bellatrix tests in CrossBrowserTesting cloud, you should use the CrossBrowserTesting attribute instead of Android. CrossBrowserTesting has the same parameters as Android but adds to additional ones- deviceName, recordVideo, recordNetwork and build. The last three are optional and have default values. As with the Android attribute you can override the class behaviour on Test level.
+To execute BELLATRIX tests in CrossBrowserTesting cloud, you should use the CrossBrowserTesting attribute instead of Android. CrossBrowserTesting has the same parameters as Android but adds to additional ones- deviceName, recordVideo, recordNetwork and build. The last three are optional and have default values. As with the Android attribute you can override the class behaviour on Test level.
 ```csharp
 [TestMethod]
 [AndroidCrossBrowserTesting("crossBrowser-storage:ApiDemos.apk",

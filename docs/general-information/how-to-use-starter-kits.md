@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "How to Use Starter Kits?"
-excerpt: "Learn what are the Bellatrix starter kit and how to use them."
+excerpt: "Learn what are the BELLATRIX starter kit and how to use them."
 date:   2018-02-20 06:50:17 +0200
 parent: general-information
 permalink: /general-information/how-to-use-starter-kits/
@@ -11,12 +11,12 @@ anchors:
 ---
 Overview
 --------
-The starter kits are one of the greatest features of Bellatrix. For each module- web, API, desktop, mobile you have a project containing demos and explanations about each specific of the framework. Moreover, the starter kit contains exercises for you after each chapter. 
+The starter kits are one of the greatest features of BELLATRIX. For each module- web, API, desktop, mobile you have a project containing demos and explanations about each specific of the framework. Moreover, the starter kit contains exercises for you after each chapter. 
 
 Create Starter Kit from Visual Studio
 ----------------------------------
-You can use built-in Visual Studio templates to create Bellatrix test projects.
-From **File -> New -> Project** you can find all Bellatrix projects too
+You can use built-in Visual Studio templates to create BELLATRIX test projects.
+From **File -> New -> Project** you can find all BELLATRIX projects too
 
 ![Create New Project Visual Studio](images/create-new-project-visual-studio.png)
 

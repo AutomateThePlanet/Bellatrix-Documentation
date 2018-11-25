@@ -48,7 +48,7 @@ public class OverrideLocallyElementActionsTests : IOSTest
 
 Explanations
 ------------
-Extensibility and customisation are one of the biggest advantages of Bellatrix. So, each Bellatrix iOS control gives you the possibility to override its behaviour locally for current test only. You need to initialise the static delegates- **Override{MethodName}Locally**. This may be useful to make a temporary fix only for certain page where the default behaviour is not working as expected.
+Extensibility and customisation are one of the biggest advantages of BELLATRIX. So, each BELLATRIX iOS control gives you the possibility to override its behaviour locally for current test only. You need to initialise the static delegates- **Override{MethodName}Locally**. This may be useful to make a temporary fix only for certain page where the default behaviour is not working as expected.
 ```csharp
 Button.OverrideClickLocally = (e) =>
 {

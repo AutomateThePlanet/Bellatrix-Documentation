@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Troubleshooting- Video Recording"
-excerpt: "Learn how to use Bellatrix cross-platform video recording."
+excerpt: "Learn how to use BELLATRIX cross-platform video recording."
 date:   2018-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/troubleshooting-video-recording/
@@ -44,19 +44,19 @@ Explanations
 ```csharp
 [VideoRecording(VideoRecordingMode.OnlyFail)]
 ```
-This is the attribute for cross-platform video recording by Bellatrix. The engine checks after each test, its result, depending on the specified video saves the video.
+This is the attribute for cross-platform video recording by BELLATRIX. The engine checks after each test, its result, depending on the specified video saves the video.
 All video recording modes:
 - **Always** - records and save video for all tests.
 - **DoNotRecord** - wont' record any videos.
 - **Ignore** - ignores the tests.
 - **OnlyPass** - saves the videos only for pass tests.
 - **OnlyFail** - saves the videos only for failed tests.
-If you place attribute over the class all tests inherit the behaviour. It is possible to put it over each test and this way you override the class behaviour only for this particular test.
+If you apply attribute to the class all tests inherit the behaviour. It is possible to put it over each test and this way you override the class behaviour only for this particular test.
 ```csharp
 [TestMethod]
 [VideoRecording(VideoRecordingMode.DoNotRecord)]
 ```
-As mentioned above we can override the video behaviour for a particular test. The global behaviour for all tests in the class is to save the videos only for failed tests. Only for this particular test, we tell Bellatrix not to make a video.
+As mentioned above we can override the video behaviour for a particular test. The global behaviour for all tests in the class is to save the videos only for failed tests. Only for this particular test, we tell BELLATRIX not to make a video.
 
 Configuration
 -------------

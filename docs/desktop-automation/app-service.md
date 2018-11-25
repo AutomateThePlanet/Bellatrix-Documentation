@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "AppService"
-excerpt: "Learn how to use Bellatrix AppService."
+excerpt: "Learn how to use BELLATRIX AppService."
 date:   2018-06-22 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/app-service/
@@ -35,7 +35,7 @@ public class AppServiceTests : DesktopTest
 
 Explanations
 ------------
-With the Bellatrix desktop library, you can test various Windows applications written in different technologies such as- WPF, WinForms or UWP (Universal Windows Platform).
+With the BELLATRIX desktop library, you can test various Windows applications written in different technologies such as- WPF, WinForms or UWP (Universal Windows Platform).
 ```csharp
 [App(@"C:\demo-apps\WPFSampleApp.exe", AppBehavior.RestartEveryTime)]
 ```

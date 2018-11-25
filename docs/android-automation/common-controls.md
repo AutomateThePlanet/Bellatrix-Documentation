@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Common Controls"
-excerpt: "Learn how to use Bellatrix common Android controls."
+excerpt: "Learn how to use BELLATRIX common Android controls."
 date:   2018-06-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/common-controls/
@@ -54,9 +54,9 @@ public void CommonActionsWithAndroidControls()
 
     var textField = App.ElementCreateService.CreateByIdContaining<TextField>("edit");
 
-    textField.SetText("Bellatrix");
+    textField.SetText("BELLATRIX");
 
-    Assert.AreEqual("Bellatrix", textField.GetText());
+    Assert.AreEqual("BELLATRIX", textField.GetText());
 
     radioButton.Click();
 
@@ -66,15 +66,15 @@ public void CommonActionsWithAndroidControls()
 
 Explanations
 ------------
-As mentioned before Bellatrix exposes 18+ Android controls. All of them implement Proxy design pattern which means that they are not located immediately when they are created. Another benefit is that each of them includes only the actions that you should be able to do with the specific control and nothing more. For example, you cannot type into a button. Moreover, this way all of the actions has meaningful names- Type not **SendKeys** as in vanilla WebDriver.
+As mentioned before BELLATRIX exposes 18+ Android controls. All of them implement Proxy design pattern which means that they are not located immediately when they are created. Another benefit is that each of them includes only the actions that you should be able to do with the specific control and nothing more. For example, you cannot type into a button. Moreover, this way all of the actions has meaningful names- Type not **SendKeys** as in vanilla WebDriver.
 ```csharp
 var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
 ```
-Create methods accept a generic parameter the type of the Android control. Then only the methods for this specific control are accessible. Here we tell Bellatrix to find your element by ID containing the value 'button'.
+Create methods accept a generic parameter the type of the Android control. Then only the methods for this specific control are accessible. Here we tell BELLATRIX to find your element by ID containing the value 'button'.
 ```csharp
 button.Click();
 ```
-Clicking the button. At this moment Bellatrix locates the element.
+Clicking the button. At this moment BELLATRIX locates the element.
 ```csharp
 var radioButton = App.ElementCreateService.CreateByIdContaining<RadioButton>("radio2");
 ```
@@ -119,7 +119,7 @@ See if the element is present or not using the **IsPresent** property.
 var password = App.ElementCreateService.CreateByDescription<Password>("passwordBox");
 password.SetPassword("topsecret");
 ```
-Instead of using the non-meaningful method **SendKeys**, Bellatrix gives you more readable tests through proper methods and properties names. In this case, we set the text in the password field using the **SetPassword** method and **SetText** for regular text fields.
+Instead of using the non-meaningful method **SendKeys**, BELLATRIX gives you more readable tests through proper methods and properties names. In this case, we set the text in the password field using the **SetPassword** method and **SetText** for regular text fields.
 
 Full List of All Supported Android Controls
 ---------------------------------------

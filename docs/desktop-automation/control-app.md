@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Control App"
-excerpt: "Learn how to desktop application with Bellatrix desktop module."
+excerpt: "Learn how to desktop application with BELLATRIX desktop module."
 date:   2018-06-22 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/control-app/
@@ -12,7 +12,7 @@ anchors:
 Overview
 --------
 
-This is how one Bellatrix test class looks like.
+This is how one BELLATRIX test class looks like.
 ```csharp
 [TestClass]
 [App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
@@ -52,7 +52,7 @@ This is the main attribute that you need to mark each class that contains MSTest
 ```csharp
 [App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
 ```
-This is the attribute for automatic start/control of WebDriver applications by Bellatrix. If you have to do it manually properly, you will need thousands of lines of code.
+This is the attribute for automatic start/control of WebDriver applications by BELLATRIX. If you have to do it manually properly, you will need thousands of lines of code.
 **appPath**- sets the path where your application is.
 **AppBehavior** enum controls when the app is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs.
 However you need to be careful because in case of tests failures the app may need to be restarted.
@@ -69,7 +69,7 @@ There are even more things you can do with this attribute, but we look into them
 ```csharp
 public class ControlAppTests : DesktopTest
 ```
-All desktop Bellatrix test classes should inherit from the DesktopTest base class. This way you can use all built-in Bellatrix tools and functionalities.
+All desktop BELLATRIX test classes should inherit from the DesktopTest base class. This way you can use all built-in BELLATRIX tools and functionalities.
 ```csharp
 [App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
 public class ControlAppTests : DesktopTest
@@ -97,5 +97,5 @@ public void MessageChanged_When_ButtonClicked_Wpf()
     Assert.AreEqual("ebuttonClicked", label.InnerText);
 }
 ```
-As mentioned above you can override the app behaviour for a particular test. The global behaviour for all tests in the class is to reuse the app instance. Only for this particular test, Bellatrix opens it and restarts it only on fail.
+As mentioned above you can override the app behaviour for a particular test. The global behaviour for all tests in the class is to reuse the app instance. Only for this particular test, BELLATRIX opens it and restarts it only on fail.
 

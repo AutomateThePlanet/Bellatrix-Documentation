@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Execute Tests in SauceLabs"
-excerpt: "Learn to use Bellatrix to execute Android tests in SauceLabs."
+excerpt: "Learn to use BELLATRIX to execute Android tests in SauceLabs."
 date:   2018-10-23 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/execute-tests-saucelabs/
@@ -56,7 +56,7 @@ Explanations
     ".view.ControlsMaterialDark",
     AppBehavior.RestartEveryTime)]
 ```
-To execute Bellatrix tests in SauceLabs cloud you should use the AndroidSauceLabs attribute instead of Android. SauceLabs has the same parameters as Android but adds to additional ones- device name, recordVideo and recordScreenshots. As with the Android attribute you can override the class behavior on Test level.
+To execute BELLATRIX tests in SauceLabs cloud you should use the AndroidSauceLabs attribute instead of Android. SauceLabs has the same parameters as Android but adds to additional ones- device name, recordVideo and recordScreenshots. As with the Android attribute you can override the class behavior on Test level.
 ```csharp
 [TestMethod]
 [AndroidSauceLabs("sauce-storage:ApiDemos.apk",

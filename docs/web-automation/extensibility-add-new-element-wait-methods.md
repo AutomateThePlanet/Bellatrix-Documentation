@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Extensibility- Add New Element Wait Methods"
-excerpt: "Learn how to extend Bellatrix adding new element wait methods."
+excerpt: "Learn how to extend BELLATRIX adding new element wait methods."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/extensibility-add-new-element-wait-methods/
@@ -88,7 +88,7 @@ You need to add a using statement to the namespace where the new wait extension 
 ```csharp
 using Bellatrix.Web.GettingStarted.ExtensionMethodsWaits;
 ```
-After that, you can use the new wait method as it was originally part of Bellatrix.
+After that, you can use the new wait method as it was originally part of BELLATRIX.
 ```csharp
 var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("promo").ToHasStyle("padding: 1.618em 1em");
 ```

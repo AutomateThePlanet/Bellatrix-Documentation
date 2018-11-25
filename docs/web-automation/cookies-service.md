@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "CookiesService"
-excerpt: "Learn how to use Bellatrix CookiesService."
+excerpt: "Learn how to use BELLATRIX CookiesService."
 date:   2018-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/cookies-service/
@@ -76,7 +76,7 @@ public class CookiesServiceTests : WebTest
 
 Explanations
 ------------
-Bellatrix gives you an interface for easier work with cookies using the CookiesService. You need to make sure that you have navigated to the desired web page.
+BELLATRIX gives you an interface for easier work with cookies using the CookiesService. You need to make sure that you have navigated to the desired web page.
 ```csharp
 var cookies = App.CookieService.GetAllCookies();
 ```

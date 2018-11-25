@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Logging"
-excerpt: "Learn how to use the Bellatrix logging library."
+excerpt: "Learn how to use the BELLATRIX logging library."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/logging/
@@ -45,7 +45,7 @@ By default, you can see the logs in the output window of each test. Also, a file
 ```csharp
 App.Logger.LogInformation("Before adding Falcon 9 rocket to cart.");
 ```
-Sometimes is useful to add information to the generated test log. To do it you can use the Bellatrix built-in logger through accessing it via App service.
+Sometimes is useful to add information to the generated test log. To do it you can use the BELLATRIX built-in logger through accessing it via App service.
 
 Generated Log, as you can see the above custom message is added to the log.
 

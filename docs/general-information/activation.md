@@ -1,28 +1,28 @@
 ---
 layout: default
 title:  "Activation"
-excerpt: "Learn how to activate Bellatrix products."
+excerpt: "Learn how to activate BELLATRIX products."
 date:   2018-06-23 06:50:17 +0200
 parent: general-information
 permalink: /general-information/activation/
 anchors:
   overview: Overview
-  how-to-activate-bellatrix: How to Activate Bellatrix?
+  how-to-activate-bellatrix: How to Activate BELLATRIX?
   deactivate: Deactivate
   display-installed-license-information: Display Installed License Information
 ---
 Overview
 --------
-**You can use full features of Bellatrix for free for unlimited period of time**. However, **you can execute up to 100 tests** on single machine without a commercial license. As long as your license is valid you can execute unlimited number of tests and for most versions get priority support.
+**You can use full features of BELLATRIX for free for unlimited period of time**. However, **you can execute up to 100 tests** on single machine without a commercial license. As long as your license is valid you can execute unlimited number of tests and for most versions get priority support.
 
-How to Activate Bellatrix?
+How to Activate BELLATRIX?
 --------------------------
-One you have completed your purchase you will receive a number of keys. You need a unique key for each machine where you will use Bellatrix frameworks and tools. 
-Before you can activate the product you need to install the latest version of Bellatrix Tools.
+One you have completed your purchase you will receive a number of keys. You need a unique key for each machine where you will use BELLATRIX frameworks and tools. 
+Before you can activate the product you need to install the latest version of BELLATRIX Tools.
 
 1. Create a new empty folder
 2. Open CMD
-3. Install Bellatrix Tools with the bellow two commands depending on the OS
+3. Install BELLATRIX Tools with the bellow two commands depending on the OS
 
 **Windows**
 ```

@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Capture HTTP Traffic"
-excerpt: "Learn to capture HTTP traffic and make assertions using Bellatrix."
+excerpt: "Learn to capture HTTP traffic and make assertions using BELLATRIX."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/capture-http-traffic/
@@ -94,7 +94,7 @@ public class CaptureHttpTrafficTests : WebTest
 
 Explanations
 ------------
-Capture HTTP traffic is one of the most requested features for WebDriver. However by design WebDriver does not include such feature. Happily, for you, we added it to Bellatrix.
+Capture HTTP traffic is one of the most requested features for WebDriver. However by design WebDriver does not include such feature. Happily, for you, we added it to BELLATRIX.
 ```csharp
 [Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime, shouldCaptureHttpTraffic: true)]
 ```
@@ -102,7 +102,7 @@ By default, the proxy is not used in your tests even if it is enabled. You need 
 ```csharp
 App.ProxyService.AssertNoErrorCodes();
 ```
-You can access the proxy through the Bellatrix **App** service. The proxy service includes several useful assert methods. The first one asserts that no error codes are present in the requests. This way we can catch problems with not loaded images or CSS files.
+You can access the proxy through the BELLATRIX **App** service. The proxy service includes several useful assert methods. The first one asserts that no error codes are present in the requests. This way we can catch problems with not loaded images or CSS files.
 ```csharp
 App.ProxyService.AssertNoLargeImagesRequested();
 ```

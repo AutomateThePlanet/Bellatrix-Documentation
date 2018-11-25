@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "DeviceService"
-excerpt: "Learn how to use Bellatrix iOS DeviceService."
+excerpt: "Learn how to use BELLATRIX iOS DeviceService."
 date:   2018-11-20 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/device-service/
@@ -51,7 +51,7 @@ public class DeviceServiceTests : IOSTest
 
 Explanations
 ------------
-Bellatrix gives you an interface to most common operations for controlling the device through the **DeviceService** class.
+BELLATRIX gives you an interface to most common operations for controlling the device through the **DeviceService** class.
 ```csharp
 App.DeviceService.Rotate(ScreenOrientation.Landscape);
 ```

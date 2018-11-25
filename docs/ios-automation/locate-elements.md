@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Locate Elements"
-excerpt: "Learn how to locate iOS elements with Bellatrix mobile module."
+excerpt: "Learn how to locate iOS elements with BELLATRIX mobile module."
 date:   2018-10-20 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/locate-elements/
@@ -29,7 +29,7 @@ public void ElementFound_When_CreateById_And_ElementIsOnScreen()
 
     Console.WriteLine(button.WrappedElement.TagName);
 
-    var answerLabel = App.ElementCreateService.CreateById<Button>("Bellatrix");
+    var answerLabel = App.ElementCreateService.CreateById<Button>("BELLATRIX");
     answerLabel.ScrollToVisible(ScrollDirection.Up);
 
     answerLabel.Click();
@@ -41,7 +41,7 @@ Explanations
 ```csharp
 var button = App.ElementCreateService.CreateById<Button>("ComputeSumButton");
 ```
-There are different ways to locate elements on the screen. To do it you use the element create service. You need to know that Bellatrix has a built-in complex mechanism for waiting for elements, so you do not need to worry about this anymore. Keep in mind that when you use the Create methods, the element is not searched on the screen. All elements use lazy loading. Which means that they are searched once you perform an action or assertion on them. By default on each new action, the element is searched again and be refreshed.
+There are different ways to locate elements on the screen. To do it you use the element create service. You need to know that BELLATRIX has a built-in complex mechanism for waiting for elements, so you do not need to worry about this anymore. Keep in mind that when you use the Create methods, the element is not searched on the screen. All elements use lazy loading. Which means that they are searched once you perform an action or assertion on them. By default on each new action, the element is searched again and be refreshed.
 ```csharp
 Console.WriteLine(button.By.Value);
 ```
@@ -51,14 +51,14 @@ Console.WriteLine(button.WrappedElement.TagName);
 ```
 You can access the WebDriver wrapped element through **WrappedElement** and the current AppiumDriver instance through- **WrappedDriver**.
 ```csharp
-var answerLabel = App.ElementCreateService.CreateById<Button>("Bellatrix, from 11:00 PM to Monday, November 12, 12:00 AM");
+var answerLabel = App.ElementCreateService.CreateById<Button>("BELLATRIX, from 11:00 PM to Monday, November 12, 12:00 AM");
 answerLabel.ScrollToVisible(ScrollDirection.Up);
 ```
 Sometimes, the elements you need to perform operations on are not in the visible part of the screen. In order Appium to be able to locate them, you need to scroll to them first. To do so for iOS, you need to use **ScrollToVisible** method.
 
 Available Create Methods
 ------------------------
-Bellatrix extends the vanilla WebDriver selectors and give you additional ones.
+BELLATRIX extends the vanilla WebDriver selectors and give you additional ones.
 ### CreateById ###
 ```csharp
 App.ElementCreateService.CreateById<Button>("myId");
@@ -163,7 +163,7 @@ public void ElementFound_When_CreateById_And_ElementIsOnScreen_NestedElement()
 }
 ```
 
-**Note**: *it is entirely legal to create a **Button** instead of **ToggleButton**. Bellatrix library does not care about the real type of the iOS elements. The proxy types are convenience wrappers so to say. Meaning they give you a better interface of predefined properties and methods to make your tests more readable.*
+**Note**: *it is entirely legal to create a **Button** instead of **ToggleButton**. BELLATRIX library does not care about the real type of the iOS elements. The proxy types are convenience wrappers so to say. Meaning they give you a better interface of predefined properties and methods to make your tests more readable.*
 
 Available Create Methods for Finding Nested Elements
 ----------------------------------------------------

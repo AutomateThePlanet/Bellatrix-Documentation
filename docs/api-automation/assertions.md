@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Assertions"
-excerpt: "Learn how to use Bellatrix API built-in response assertion methods."
+excerpt: "Learn how to use BELLATRIX API built-in response assertion methods."
 date:   2018-06-22 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/assertions/
@@ -174,7 +174,7 @@ public class ApiAssertionsTests : APITest
 
 Explanations
 ------------
-Bellatrix API library brings many convenient assertion methods on top of RestSharp. Of course, you can write similar methods yourself using MSTest or NUnit. All Bellatrix assertions comes with full BDD logging and extensibility hooks.
+BELLATRIX API library brings many convenient assertion methods on top of RestSharp. Of course, you can write similar methods yourself using MSTest or NUnit. All BELLATRIX assertions comes with full BDD logging and extensibility hooks.
 ```csharp
 response.AssertSuccessStatusCode();
 ```

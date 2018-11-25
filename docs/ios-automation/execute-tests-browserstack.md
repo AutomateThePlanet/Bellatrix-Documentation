@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Execute Tests in BrowserStack"
-excerpt: "Learn to use Bellatrix to execute iOS tests in BrowserStack."
+excerpt: "Learn to use BELLATRIX to execute iOS tests in BrowserStack."
 date:   2018-11-23 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/execute-tests-browserstack/
@@ -65,7 +65,7 @@ Explanations
     debug: false,
     build: "CI Execution")]
 ```
-To execute Bellatrix tests in BrowserStack cloud, you should use the BrowserStack attribute instead of IOS. BrowserStack has the same parameters as IOS but adds to additional ones- device name, captureVideo, captureNetworkLogs, consoleLogType, build and debug. The last five are optional and have default values. As with the IOS attribute you can override the class behaviour on Test level.
+To execute BELLATRIX tests in BrowserStack cloud, you should use the BrowserStack attribute instead of IOS. BrowserStack has the same parameters as IOS but adds to additional ones- device name, captureVideo, captureNetworkLogs, consoleLogType, build and debug. The last five are optional and have default values. As with the IOS attribute you can override the class behaviour on Test level.
 ```csharp
 [TestMethod]
 [IOSBrowserStack("pngG38y26LZ5muB1p46P",

@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Extensibility- Extend Existing Elements- Child Elements"
-excerpt: "Learn how to extend Bellatrix web elements using child elements."
+excerpt: "Learn how to extend BELLATRIX web elements using child elements."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/extensibility-extend-existing-elements-child-elements/
@@ -82,7 +82,7 @@ public class ExtendedButton : Button
 }
 ```
 The second way of extending an existing element is to create a child element. Inherit the element you want to extend. In this case, two methods are added to the standard Button element. Next in your tests, use the ExtendedButton instead of regular Button to have access to these methods.
-The same strategy can be used to create a completely new element that Bellatrix does not provide. You need to extend the 'Element' as a base class.
+The same strategy can be used to create a completely new element that BELLATRIX does not provide. You need to extend the 'Element' as a base class.
 ```csharp
  ExtendedButton proceedToCheckout = 
  App.ElementCreateService.CreateByClassContaining<ExtendedButton>("checkout-button button alt wc-forward");

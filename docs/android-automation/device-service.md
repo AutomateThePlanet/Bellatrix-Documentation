@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "DeviceService"
-excerpt: "Learn how to use Bellatrix Android DeviceService."
+excerpt: "Learn how to use BELLATRIX Android DeviceService."
 date:   2018-06-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/device-service/
@@ -85,7 +85,7 @@ public class DeviceServiceTests : AndroidTest
 
 Explanations
 ------------
-Bellatrix gives you an interface to most common operations for controlling the device through the DeviceService class.
+BELLATRIX gives you an interface to most common operations for controlling the device through the DeviceService class.
 ```csharp
 App.DeviceService.Rotate(ScreenOrientation.Landscape);
 ```

@@ -44,14 +44,14 @@ Explanations
 ```csharp
 [ScreenshotOnFail(true)]
 ```
-his is the attribute for automatic generation of full-page screenshots by Bellatrix. The engine checks after each test, its result, if failed, makes the screenshots. We have a unique engine for the screenshots. We do not use vanilla WebDriver. If you use the WebDriver method, it makes a screenshot only of the visible part of the page. If you have to do it manually precisely, you need thousands of lines of code.
+his is the attribute for automatic generation of full-page screenshots by BELLATRIX. The engine checks after each test, its result, if failed, makes the screenshots. We have a unique engine for the screenshots. We do not use vanilla WebDriver. If you use the WebDriver method, it makes a screenshot only of the visible part of the page. If you have to do it manually precisely, you need thousands of lines of code.
 If you place attribute over the class all tests inherit the behaviour. It is possible to put it over each test and this way you override the class behaviour only for this particular test.
 ```csharp
 [TestMethod]
 [ScreenshotOnFail(false)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 ```
-As mentioned above we can override the screenshot behaviour for a particular test. The global behaviour for all tests in the class is to make screenshots on fail. Only for this particular test, we tell Bellatrix not to make screenshots.
+As mentioned above we can override the screenshot behaviour for a particular test. The global behaviour for all tests in the class is to make screenshots on fail. Only for this particular test, we tell BELLATRIX not to make screenshots.
 
 Configuration
 -------------

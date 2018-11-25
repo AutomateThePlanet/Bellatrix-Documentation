@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "iOS Automation"
-excerpt: "Learn how to use Bellatrix iOS test framework."
+excerpt: "Learn how to use BELLATRIX iOS test framework."
 date:   2018-11-20 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/
@@ -11,7 +11,7 @@ Overview
 Cross-platform screenshot and video recording on test failure. Extend the framework to fit your needs. Test responsive layouts and much more.
 
 ### Additional Create Methods ###
-Bellatrix extends the vanilla WebDriver selectors and give you additional methods. [**Learn more**](/locate-elements.md).
+BELLATRIX extends the vanilla WebDriver selectors and give you additional methods. [**Learn more**](/locate-elements.md).
 
 ### Screenshots on Fail ###
 Checks after each test, its result, if failed, makes the screenshots. [**Learn more**](/troubleshooting-screenshots-on-fail.md).

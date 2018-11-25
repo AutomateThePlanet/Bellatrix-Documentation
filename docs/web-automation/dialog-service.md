@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "DialogService"
-excerpt: "Learn how to use Bellatrix DialogService."
+excerpt: "Learn how to use BELLATRIX DialogService."
 date:   2018-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/dialog-service/
@@ -54,7 +54,7 @@ public class DialogServiceTests : WebTest
 
 Explanations
 ------------
-Bellatrix gives you some methods for handling dialogs.
+BELLATRIX gives you some methods for handling dialogs.
 ```csharp
 App.DialogService.Handle();
 ```

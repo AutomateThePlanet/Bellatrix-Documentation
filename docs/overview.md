@@ -5,7 +5,7 @@ excerpt: "All You Need to Write Maintainable Regression Tests"
 date:   2018-02-20 06:50:17 +0200
 permalink: /overview/
 anchors:
-  bellatrix-test-automation-framework : Bellatrix Test Automation Framework 
+  bellatrix-test-automation-framework : BELLATRIX Test Automation Framework 
   meissa-test-runner: Meissa Test Runner
 ---
 Bellatrix Test Automation Framework 
@@ -22,4 +22,4 @@ Meissa Test Runner
 ------------------
 ![Meissa](images/meissa-home-bgr.png)
 
-Our cross-platform distributed test runner that executes tests in parallel, time balanced. Build to extend Bellatrix capabilities by providing Faster Deployments. Free for the community, find out more [**here**](https://meissarunner.com/)
+Our cross-platform distributed test runner that executes tests in parallel, time balanced. Build to extend BELLATRIX capabilities by providing Faster Deployments. Free for the community, find out more [**here**](https://meissarunner.com/)

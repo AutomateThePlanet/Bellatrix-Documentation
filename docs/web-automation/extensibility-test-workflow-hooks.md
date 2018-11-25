@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Extensibility- Test Workflow Hooks"
-excerpt: "Learn how to extend the Bellatrix test workflow using hooks."
+excerpt: "Learn how to extend the BELLATRIX test workflow using hooks."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/extensibility-test-workflow-hooks/
@@ -78,9 +78,9 @@ public class TestWorkflowHooksTests : WebTest
 
 Explanations
 ------------
-One of the greatest features of Bellatrix is test workflow hooks. It gives you the possibility to execute your logic in every part of the test workflow. Also, as you can read in the next chapter write plug-ins that execute code in different places of the workflow every time. This is happening no matter what test framework you use- MSTest or NUnit. As you know, MSTest is not extension friendly.
+One of the greatest features of BELLATRIX is test workflow hooks. It gives you the possibility to execute your logic in every part of the test workflow. Also, as you can read in the next chapter write plug-ins that execute code in different places of the workflow every time. This is happening no matter what test framework you use- MSTest or NUnit. As you know, MSTest is not extension friendly.
 
-Bellatrix Default Test Workflow.
+BELLATRIX Default Test Workflow.
 
 The following methods are called once for test class:
 
@@ -119,7 +119,7 @@ public override void TestsAct()
     _sortDropDown.SelectByText("Sort by price: low to high");
 }
 ```
-This is one of the ways you can use **TestsArrange** and **TestsAct**. You can find create all elements in the **TestsArrange** and create all necessary data for the tests. Then in the **TestsAct** execute the actual tests logic but without asserting anything. Then in each separate test execute single assert or ensure method. Following the best testing practices- having a single assertion in a test. If you execute multiple assertions and if one of them fails, the next ones are not executed which may lead to missing some major clue about a bug in your product. Anyhow, Bellatrix allows you to write your tests the standard way of executing the primary logic in the tests or reuse some of it through the usage of **TestInit** and **TestCleanup** methods.
+This is one of the ways you can use **TestsArrange** and **TestsAct**. You can find create all elements in the **TestsArrange** and create all necessary data for the tests. Then in the **TestsAct** execute the actual tests logic but without asserting anything. Then in each separate test execute single assert or ensure method. Following the best testing practices- having a single assertion in a test. If you execute multiple assertions and if one of them fails, the next ones are not executed which may lead to missing some major clue about a bug in your product. Anyhow, BELLATRIX allows you to write your tests the standard way of executing the primary logic in the tests or reuse some of it through the usage of **TestInit** and **TestCleanup** methods.
 ```csharp
 public override void TestInit()
 {

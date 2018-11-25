@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Create Simple GET Request"
-excerpt: "Learn how create a simple GET request using Bellatrix API library."
+excerpt: "Learn how create a simple GET request using BELLATRIX API library."
 date:   2018-06-23 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/create-simple-get-request/
@@ -38,7 +38,7 @@ This is the main attribute that you need to mark each class that contains MSTest
 ```csharp
 public class CreateSimpleRequestTests : APITest
 ```
-All API Bellatrix test classes should inherit from the **APItest** base class. This way you can use all built-in Bellatrix tools and functionality.
+All API BELLATRIX test classes should inherit from the **APItest** base class. This way you can use all built-in BELLATRIX tools and functionality.
 ```csharp
 [TestMethod]
 ```
@@ -50,11 +50,11 @@ The base URL of your application is set in **testFrameworkSettings.json** under 
 ```csharp
 var client = App.GetApiClientService();
 ```
-Use Bellatrix App class to get a web client instance. We use it to make requests.
+Use BELLATRIX App class to get a web client instance. We use it to make requests.
 ```csharp
 var response = client.Get<Albums>(request);
 ```
-Use generic **Get** method to make a GET request. In the **<> **brackets we place the type of the response. Bellatrix will automatically convert the JSON or XML response to the specified type.
+Use generic **Get** method to make a GET request. In the **<> **brackets we place the type of the response. BELLATRIX will automatically convert the JSON or XML response to the specified type.
 ```csharp
 Assert.AreEqual(10, response.Data.AlbumId);
 ```

@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Installation MacOS"
-excerpt: "Learn how to install Bellatrix tools on MacOS."
+excerpt: "Learn how to install BELLATRIX tools on MacOS."
 date:   2018-09-06 06:50:17 +0200
 parent: general-information
 permalink: /general-information/installation-macos/
@@ -12,7 +12,7 @@ anchors:
 ---
 Overview
 --------
-Bellatrix is not a single thing it contains multiple framework libraries, extensions and tools.
+BELLATRIX is not a single thing it contains multiple framework libraries, extensions and tools.
 The recommended code editor for MacOS is [**Visual Studio for Mac**](https://visualstudio.microsoft.com/vs/mac/) but you can also use [**Visual Studio Code**](https://code.visualstudio.com/).
 
 > Before proceeding with the installation, please read the [**system requirements**](system-requirements.md) system requirements and **install all prerequisites**!
@@ -20,7 +20,7 @@ The recommended code editor for MacOS is [**Visual Studio for Mac**](https://vis
 Installation Steps
 -------------------------------------
 
-There are not snippets, item or project templates for [**Visual Studio Code**](https://code.visualstudio.com/). The way you create Bellatrix project is through CLI.
+There are not snippets, item or project templates for [**Visual Studio Code**](https://code.visualstudio.com/). The way you create BELLATRIX project is through CLI.
 
 Before you can create a new project, you need to install the template first.
 
@@ -50,7 +50,7 @@ dotnet new -i Bellatrix.Web.GettingStarted
 ```
 dotnet new Bellatrix.Web.GettingStarted
 ```
- [**Getting Started projects**](how-to-use-starter-kits.md) contain examples, demos and exercises. It is recommended to create such a project first and test the Bellatrix tools and libraries. After that, you can use "Tests" templates which generate empty preconfigured Bellatrix projects depending on the technology- Web, Desktop, API, MSTest, NUnit.
+ [**Getting Started projects**](how-to-use-starter-kits.md) contain examples, demos and exercises. It is recommended to create such a project first and test the BELLATRIX tools and libraries. After that, you can use "Tests" templates which generate empty preconfigured BELLATRIX projects depending on the technology- Web, Desktop, API, MSTest, NUnit.
 
 ![Create Getting Started CLI](images/create-getting-started-console.png)
 

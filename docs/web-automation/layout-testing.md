@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Layout Testing"
-excerpt: "Learn how to use the Bellatrix layout testing library."
+excerpt: "Learn how to use the BELLATRIX layout testing library."
 date:   2018-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/layout-testing/
@@ -82,7 +82,7 @@ public class LayoutTestingTests : WebTest
 
 Explanations
 ------------
-Layout testing is a module from Bellatrix that allows you to test the responsiveness of your website.
+Layout testing is a module from BELLATRIX that allows you to test the responsiveness of your website.
 ```csharp
 using Bellatrix.Layout;
 ```
@@ -103,7 +103,7 @@ After that 100 assertion extensions methods are available to you to check the ex
 ```csharp
 sortDropDown.AssertAboveOf(protonRocketAnchor);
 ```
-Depending on what you want to check, Bellatrix gives lots of options. You can test px perfect or just that some element is below another. Check that the popularity sort dropdown is above the proton rocket image.
+Depending on what you want to check, BELLATRIX gives lots of options. You can test px perfect or just that some element is below another. Check that the popularity sort dropdown is above the proton rocket image.
 ```csharp
 sortDropDown.AssertAboveOf(protonRocketAnchor, 41);
 ```
@@ -182,7 +182,7 @@ It is useful if you want to check some fixed element on the screen which sticks 
 
 BDD Logging
 -----------
-All layout assertion methods have full BDD logging support. Below you can find the generated BDD log. Of course if you use Bellatrix page objects the log looks even better as mentioned in previous chapters.
+All layout assertion methods have full BDD logging support. Below you can find the generated BDD log. Of course if you use BELLATRIX page objects the log looks even better as mentioned in previous chapters.
 
 ```
 >Start Test

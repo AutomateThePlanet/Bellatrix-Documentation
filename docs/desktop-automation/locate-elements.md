@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Locate Elements"
-excerpt: "Learn how to locate desktop elements with Bellatrix desktop module."
+excerpt: "Learn how to locate desktop elements with BELLATRIX desktop module."
 date:   2018-06-22 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/locate-elements/
@@ -36,7 +36,7 @@ Explanations
 ```csharp
 var button = App.ElementCreateService.CreateByName<Button>("E Button");
 ```
-There are different ways to locate elements in the app. To do it you use the element create service. You need to know that Bellatrix has a built-in complex mechanism for waiting for elements, so you do not need to worry about this anymore. Keep in mind that when you use the Create methods, the element is not searched. All elements use lazy loading.Which means that they are searched once you perform an action or assertion on them. By default on each new action, the element is searched again and be refreshed.
+There are different ways to locate elements in the app. To do it you use the element create service. You need to know that BELLATRIX has a built-in complex mechanism for waiting for elements, so you do not need to worry about this anymore. Keep in mind that when you use the Create methods, the element is not searched. All elements use lazy loading.Which means that they are searched once you perform an action or assertion on them. By default on each new action, the element is searched again and be refreshed.
 ```csharp
 Console.WriteLine(button.By.Value);
 ```
@@ -48,7 +48,7 @@ You can access the WebDriver wrapped element through WrappedElement and the curr
 
 Available Create Methods
 ------------------------
-Bellatrix extends the vanilla WebDriver selectors and give you additional ones.
+BELLATRIX extends the vanilla WebDriver selectors and give you additional ones.
 ### CreateByTag ###
 ```csharp
 App.ElementCreateService.CreateByTag<Button>("button");
@@ -153,7 +153,7 @@ public void ReturnNestedElement_When_ElementContainsOneChildElement_Wpf()
 }
 ```
 
-**Note**: *It is entirely legal to create a Button instead of **TextField**. Bellatrix library does not care about the real type of the elements. The proxy types are convenience wrappers so to say. Meaning they give you a better interface of predefined properties and methods to make your tests more readable.*
+**Note**: *It is entirely legal to create a Button instead of **TextField**. BELLATRIX library does not care about the real type of the elements. The proxy types are convenience wrappers so to say. Meaning they give you a better interface of predefined properties and methods to make your tests more readable.*
 
 Available Create Methods for Finding Nested Elements
 ----------------------------------------------------

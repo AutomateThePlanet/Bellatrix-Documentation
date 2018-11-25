@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Locate And Wait Elements"
-excerpt: "Learn how to locate and wait Android elements with Bellatrix mobile module."
+excerpt: "Learn how to locate and wait Android elements with BELLATRIX mobile module."
 date:   2018-10-20 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/locate-and-wait-elements/
@@ -32,9 +32,9 @@ Explanations
 ```csharp
 var button = App.ElementCreateService.CreateByIdContaining<Button>("button").ToBeClickable().ToBeVisible();
 ```
-Sometimes you need to perform an action against an element only when a specific condition is true. As mentioned in previous part of the guide, Bellatrix by default always waits for elements to exist. However, sometimes this may not be enough. For example, you may want to click on a button once it is clickable. It may be disabled at the beginning of the tests because some validation is not met. Your test fulfill the initial condition and if you use vanilla WebDriver the test most probably fails because WebDriver clicks too fast before your button is enabled by your code. So we created additional syntax sugar methods to help you deal with this. You can use element "**ToBe**" methods after the Create and **CreateAll** methods. As you can see in the example below you can chain multiple of this methods.
+Sometimes you need to perform an action against an element only when a specific condition is true. As mentioned in previous part of the guide, BELLATRIX by default always waits for elements to exist. However, sometimes this may not be enough. For example, you may want to click on a button once it is clickable. It may be disabled at the beginning of the tests because some validation is not met. Your test fulfill the initial condition and if you use vanilla WebDriver the test most probably fails because WebDriver clicks too fast before your button is enabled by your code. So we created additional syntax sugar methods to help you deal with this. You can use element "**ToBe**" methods after the Create and **CreateAll** methods. As you can see in the example below you can chain multiple of this methods.
 
-**Note**: *Since Bellatrix, elements creation logic is lazy loading as mentioned before, Bellatrix waits for the conditions to be True on the first action you perform with the element.*
+**Note**: *Since BELLATRIX, elements creation logic is lazy loading as mentioned before, BELLATRIX waits for the conditions to be True on the first action you perform with the element.*
 
 **Note**: *Keep in mind that with this syntax these conditions are checked every time you perform an action with the element. Which can lead tо small execution delays..*
 
@@ -49,7 +49,7 @@ All Available ToBe Methods
 ```csharp
  App.ElementCreateService.CreateByName<Button>("Purchase").ToExists();
 ```
-Waits for the element to exist on the page. Bellatrix always does it by default. But if use another ToBe methods you need to add it again since you have to override the default behaviour.
+Waits for the element to exist on the page. BELLATRIX always does it by default. But if use another ToBe methods you need to add it again since you have to override the default behaviour.
 ### ToNotExists ###
 ```csharp
 App.ElementCreateService.CreateByName<Button>("Purchase").ToNotExists();
@@ -83,7 +83,7 @@ Waits for the element to be disabled.
 
 Configuration
 -------------
-The default timeouts that Bellatrix use are placed inside the **testFrameworkSettings.json** file. Inside it, is the **mobileSettings** section. All values are in seconds.
+The default timeouts that BELLATRIX use are placed inside the **testFrameworkSettings.json** file. Inside it, is the **mobileSettings** section. All values are in seconds.
 ```json
 "mobileSettings": {
    "sleepInterval": "1",

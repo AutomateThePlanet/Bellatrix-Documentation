@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "BrowserService"
-excerpt: "Learn how to use Bellatrix BrowserService."
+excerpt: "Learn how to use BELLATRIX BrowserService."
 date:   2018-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/browser-service/
@@ -43,7 +43,7 @@ public class BrowserServiceTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        Assert.AreEqual("Bellatrix .NET test automation framework", App.BrowserService.Title);
+        Assert.AreEqual("BELLATRIX .NET test automation framework", App.BrowserService.Title);
     }
 
     [TestMethod]
@@ -74,11 +74,11 @@ public class BrowserServiceTests : WebTest
 
 Explanations
 ------------
-Bellatrix gives you an interface to most common operations for controlling the started browser through the **BrowserService** class.
+BELLATRIX gives you an interface to most common operations for controlling the started browser through the **BrowserService** class.
 ```csharp
 App.BrowserService.WaitUntilReady();
 ```
-Sometimes, some AJAX async calls are not caught natively by WebDriver. So you can use the Bellatrix browser service's method. **WaitUntilReady** which waits for these calls automatically to finish. Keep in mind that usually this is not necessary since Bellatrix has a complex built-in mechanism for handling element waits.
+Sometimes, some AJAX async calls are not caught natively by WebDriver. So you can use the BELLATRIX browser service's method. **WaitUntilReady** which waits for these calls automatically to finish. Keep in mind that usually this is not necessary since BELLATRIX has a complex built-in mechanism for handling element waits.
 ```csharp
 Debug.WriteLine(App.BrowserService.Url);
 ```
@@ -100,7 +100,7 @@ App.BrowserService.Refresh();
 ```
 Simulates clicking the browser's Refresh button.
 ```csharp
-Assert.AreEqual("Bellatrix .NET test automation framework", App.BrowserService.Title);
+Assert.AreEqual("BELLATRIX .NET test automation framework", App.BrowserService.Title);
 ```
 Get the current tab Title.
 ```csharp

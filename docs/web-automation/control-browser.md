@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Control Browser"
-excerpt: "Learn how to control browsers with Bellatrix web module."
+excerpt: "Learn how to control browsers with BELLATRIX web module."
 date:   2018-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/control-browser/
@@ -12,7 +12,7 @@ anchors:
 Overview
 --------
 
-This is how one Bellatrix test class looks like.
+This is how one BELLATRIX test class looks like.
 ```csharp
 [TestClass]
 [Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
@@ -50,7 +50,7 @@ This is the main attribute that you need to mark each class that contains MSTest
 ```csharp
 [Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
 ```
-This is the attribute for automatic start/control of WebDriver browsers by Bellatrix. If you have to do it manually properly, you will need thousands of lines of code. 
+This is the attribute for automatic start/control of WebDriver browsers by BELLATRIX. If you have to do it manually properly, you will need thousands of lines of code. 
 **BrowserType** controls which browser is used. Available options are:
 - Chrome
 - Firefox
@@ -73,7 +73,7 @@ Available options:
 ```csharp
 public class BellatrixBrowserBehaviourTests : WebTest
 ```
-All web Bellatrix test classes should inherit from the WebTest base class. This way you can use all built-in Bellatrix tools and functionalities.
+All web BELLATRIX test classes should inherit from the WebTest base class. This way you can use all built-in BELLATRIX tools and functionalities.
 ```csharp
 [Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
 public class BellatrixBrowserBehaviourTests : WebTest
@@ -87,7 +87,7 @@ All MSTest tests should be marked with the TestMethod attribute.
 ```csharp
 App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 ```
-There is more about the App class in the next sections.However, it is the primary point where you access the Bellatrix services. It comes from the WebTest class as a property.Here we use the Bellatrix navigation service to navigate to the demo page.
+There is more about the App class in the next sections.However, it is the primary point where you access the BELLATRIX services. It comes from the WebTest class as a property.Here we use the BELLATRIX navigation service to navigate to the demo page.
 ```csharp
 var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
 ```
@@ -104,5 +104,5 @@ public void BlogPageOpened_When_PromotionsButtonClicked()
     blogLink.Click();
 }
 ```
-As mentioned above you can override the browser behaviour for a particular test. The global behaviour for all tests in the class is to reuse an instance of Edge browser. Only for this particular test, Bellatrix opens Chrome and restarts it only on fail.
+As mentioned above you can override the browser behaviour for a particular test. The global behaviour for all tests in the class is to reuse an instance of Edge browser. Only for this particular test, BELLATRIX opens Chrome and restarts it only on fail.
 

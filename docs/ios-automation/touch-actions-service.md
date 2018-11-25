@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "TouchActionsService"
-excerpt: "Learn how to use Bellatrix iOS TouchActionsService."
+excerpt: "Learn how to use BELLATRIX iOS TouchActionsService."
 date:   2018-11-22 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/touch-actions-service/
@@ -93,7 +93,7 @@ public class TouchActionsServiceTests : IOSTest
 
 Explanations
 ------------
-Bellatrix gives you an interface for easier work with touch actions through TouchActionsService. Performing a series of touch actions can be one of the most complicated jobs in automating mobile apps. Bellatrix touch APIs are simplified and made to be user-friendly as possible. Their usage can eliminate lots of code duplication and boilerplate code.
+BELLATRIX gives you an interface for easier work with touch actions through TouchActionsService. Performing a series of touch actions can be one of the most complicated jobs in automating mobile apps. BELLATRIX touch APIs are simplified and made to be user-friendly as possible. Their usage can eliminate lots of code duplication and boilerplate code.
 ```csharp
 App.TouchActionsService.Swipe(
     point.X + 5,
@@ -106,7 +106,7 @@ Performs swipe by using coordinates.
 ```csharp
 App.TouchActionsService.Tap(buttons[0], 10).Perform();
 ```
-Tap 10 times using Bellatrix UI element directly.
+Tap 10 times using BELLATRIX UI element directly.
 ```csharp
 App.TouchActionsService.Press(moveTo, y, 0).Release().Perform();
 ```
