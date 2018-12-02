@@ -191,6 +191,12 @@ navigation:
                 title: Troubleshooting- Video Recording
             "elements-snippets":
                 title: Elements Snippets
+            "execute-tests-saucelabs":
+                title: Execute Tests in SauceLabs
+            "execute-tests-browserstack":
+                title: Execute Tests in BrowserStack
+            "execute-tests-crossbrowsertesting":
+                title: Execute Tests in CrossBrowserTesting
             "add-custom-appium-options":
                 title: Add Custom Appium Capabilities
             "static-analysis":
@@ -264,6 +270,12 @@ navigation:
                 title: Troubleshooting- Video Recording
             "elements-snippets":
                 title: Elements Snippets
+            "execute-tests-saucelabs":
+                title: Execute Tests in SauceLabs
+            "execute-tests-browserstack":
+                title: Execute Tests in BrowserStack
+            "execute-tests-crossbrowsertesting":
+                title: Execute Tests in CrossBrowserTesting
             "add-custom-appium-options":
                 title: Add Custom Appium Capabilities
             "static-analysis":
