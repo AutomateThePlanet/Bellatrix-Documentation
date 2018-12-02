@@ -11,10 +11,63 @@ iOS
 ACCELERATE TEST CREATION
 
 
-Speed Test Writing with Element Snippets
+Android
 
 ```csharp
-public TextField FirstNumber => Element.CreateById<TextField>("IntegerA");
+[AndroidSauceLabs("sauce-storage:ApiDemos.apk",
+    "7.1",
+    "Android GoogleAPI Emulator",
+    Constants.AndroidNativeAppAppExamplePackage,
+    ".view.ControlsMaterialDark",
+    AppBehavior.RestartEveryTime)]
+
+[AndroidBrowserStack("pngG38y26LZ5muB1p46P",
+    "7.1",
+    "Android GoogleAPI Emulator",
+    Constants.AndroidNativeAppAppExamplePackage,
+    ".view.ControlsMaterialDark",
+    AppBehavior.RestartEveryTime,
+    captureVideo: true,
+    captureNetworkLogs: true,
+    consoleLogType: BrowserStackConsoleLogType.Disable,
+    debug: false,
+    build: "CI Execution")]
+
+[AndroidCrossBrowserTesting("crossBrowser-storage:ApiDemos.apk",
+    "7.1",
+    "Android GoogleAPI Emulator",
+    Constants.AndroidNativeAppAppExamplePackage,
+    ".view.ControlsMaterialDark",
+    AppBehavior.RestartEveryTime,
+    recordVideo: true,
+    recordNetwork: true,
+    build: "CI Execution")]
+```
+
+iOS
+```csharp
+[IOSSauceLabs("sauce-storage:TestApp.app.zip",
+    Constants.IOSDefaultVersion,
+    Constants.IOSDefaultDeviceName,
+    AppBehavior.RestartEveryTime)]
+
+[IOSBrowserStack("pngG38y26LZ5muB1p46P",
+    "11.3",
+    "iPhone 6",
+    AppBehavior.RestartEveryTime,
+    captureVideo: true,
+    captureNetworkLogs: true,
+    consoleLogType: BrowserStackConsoleLogType.Disable,
+    debug: false,
+    build: "CI Execution")]
+
+[IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
+    "11.3",
+    "iPhone 6",
+    AppBehavior.RestartEveryTime,
+    recordVideo: true,
+    recordNetwork: true,
+    build: "CI Execution")]
 ```
 
 API Usability- Locate Elements
