@@ -11,34 +11,64 @@ iOS
 ACCELERATE TEST CREATION
 
 
-Keep The Clean State of Agents
+Load Testing Library
 
 ```csharp
-public static void Dispose()
+[TestClass]
+public class DemandPlanningTests : LoadTest
 {
-    var processes = Process.GetProcesses();
-    var processesToCheck = new List<string> { "edge", "chrome", "firefox" };
-    foreach (var process in processes)
+    [TestMethod]
+    public void NavigateToDemandPlanning()
     {
-        if (processesToCheck.Contains(process.ProcessName.ToLower()))
-        {
-            process.Kill();
-            process.WaitForExit();
-        }
+        LoadTestEngine.Settings.LoadTestType = LoadTestType.ExecuteForTime;
+        LoadTestEngine.Settings.MixtureMode = MixtureMode.Equal;
+        LoadTestEngine.Settings.NumberOfProcesses = 1;
+        LoadTestEngine.Settings.PauseBetweenStartSeconds = 0;
+        LoadTestEngine.Settings.SecondsToBeExecuted = 60;
+        LoadTestEngine.Settings.ShouldExecuteRecordedRequestPauses = true;
+        LoadTestEngine.Settings.IgnoreUrlRequestsPatterns.Add(".*theming.js.*");
+        LoadTestEngine.Assertions.AssertAllRequestStatusesAreSuccessful();
+        LoadTestEngine.Assertions.AssertAllRecordedEnsureAssertions();
+
+        LoadTestEngine.Execute("loadTestResults.html");
     }
 }
 ```
 
-Change Port on WebDriver Initialization
+Reuse Existing BELLATRIX Web Tests
 ```csharp
-private static int GetFreeTcpPort()
+[TestClass]
+[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted, true)]
+public class DemandPlanningTests : WebTest
 {
-    Thread.Sleep(100);
-    var tcpListener = new TcpListener(IPAddress.Loopback, 0);
-    tcpListener.Start();
-    int port = ((IPEndPoint)tcpListener.LocalEndpoint).Port;
-    tcpListener.Stop();
-    return port;
+    [TestMethod]
+    [LoadTest]
+    public void NavigateToDemandPlanning()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+
+        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
+        Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
+        Anchor addToCartFalcon9 = App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
+        Anchor viewCartButton = App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+
+        sortDropDown.SelectByText("Sort by price: low to high");
+        protonMReadMoreButton.Hover();
+        addToCartFalcon9.Focus();
+        addToCartFalcon9.Click();
+        viewCartButton.Click();
+    }
 }
 ```
-=
+
+
+Advanced Load Test Assertions
+
+
+```csharp
+LoadTestEngine.Assertions.AssertAllRecordedEnsureAssertions();
+```
+
+```csharp
+LoadTestEngine.Assertions.AssertAllRequestStatusesAreSuccessful();
+```
