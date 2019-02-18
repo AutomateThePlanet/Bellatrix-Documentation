@@ -122,6 +122,8 @@ navigation:
                 title: Logging
             "measure-test-execution-times": 
                 title: Measure Response Times
+            "load-testing": 
+                title: Web Load Testing
             "extensibility-test-workflow-hooks":
                 title: Extensibility- Test Workflow Hooks
             "extensibility-custom-test-workflow-plugins":
