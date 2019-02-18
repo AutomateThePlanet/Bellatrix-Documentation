@@ -8,6 +8,7 @@ permalink: /web-automation/extensibility-custom-test-workflow-plugins/
 anchors:
   example: Example
   explanations: Explanations
+  screenshot-and-video-generation-plug-ins: Screenshot and Video Generation Plugins
 ---
 Introduction
 ------------
@@ -102,3 +103,56 @@ public static void AssemblyInitialize(TestContext testContext)
 }
 ```
 It doesn't need to be added multiple times as will happen here with the **TestInit** method. Usually this is done in the **TestsInitialize** file in the **AssemblyInitialize** method.
+Screenshot and Video Generation Plug-ins
+---------------------------------------
+Your plug-ins can plug in the screenshots and video generation on fail.
+To do a post-screenshot generation action, implement the **IScreenshotPlugin** interface and add your logic to **ScreenshotGenerated** method.
+To do a post-video generation action, implement the **IVideoPlugin** interface and add your logic to **VideoGenerated** method.
+Bellow you can find a sample usage from BELLATRIX Allure plug-in.
+```csharp
+public class AllureWorkflowPlugin : TestWorkflowPlugin, IScreenshotPlugin, IVideoPlugin
+{
+    private static AllureLifecycle _allureLifecycle => AllureLifecycle.Instance;
+    private string _testContainerId;
+    private string _testResultId;
+    private bool _hasStarted = false;
+
+    public void SubscribeScreenshotPlugin(IScreenshotPluginProvider provider)
+    {
+        provider.ScreenshotGeneratedEvent += ScreenshotGenerated;
+    }
+
+    public void UnsubscribeScreenshotPlugin(IScreenshotPluginProvider provider)
+    {
+        provider.ScreenshotGeneratedEvent -= ScreenshotGenerated;
+    }
+
+    public void ScreenshotGenerated(object sender, ScreenshotPluginEventArgs e)
+    {
+        if (File.Exists(e.ScreenshotPath))
+        {
+            _allureLifecycle.AddAttachment("image on fail", "image/png", e.ScreenshotPath);
+        }
+    }
+
+    public void SubscribeVideoPlugin(IVideoPluginProvider provider)
+    {
+        provider.VideoGeneratedEvent += VideoGenerated;
+    }
+
+    public void UnsubscribeVideoPlugin(IVideoPluginProvider provider)
+    {
+        provider.VideoGeneratedEvent -= VideoGenerated;
+    }
+
+    public void VideoGenerated(object sender, VideoPluginEventArgs e)
+    {
+        if (File.Exists(e.VideoPath))
+        {
+            _allureLifecycle.AddAttachment("video on fail", "video/mpg", e.VideoPath);
+        }
+    }
+
+    // rest of the code...
+}
+```
