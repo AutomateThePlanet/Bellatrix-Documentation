@@ -414,4 +414,15 @@ navigation:
                 title: Templates
             "folder-and-file-structure":
                 title: Folder and File Structure    
+    "product-integrations":
+        title: Product Integrations
+        submenu:
+            "allure":
+                title: Allure
+            "zafira":
+                title: Zafira
+            "reportportal":
+                title: ReportPortal
+            "azuredevops":
+                title: Azure DevOps CI
         
