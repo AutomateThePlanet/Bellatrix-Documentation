@@ -127,8 +127,10 @@ You need to turn-on the load testing module in the **testFrameworkSettings.json*
 ```
 Moreover, you need to make sure that the web proxy is enabled as well since we use it to record the web requests.
 Through **defaultHost** and **shouldRecordHostRequestsOnly** variables you can instruct the framework to record only the requests of the specified host and ignore all 3rd party services ones. Sometimes you want to ignore some requests to your host as well. You can specify a series of regex patterns which will be used to filter the requests.
+
 Advanced Load Test Assertions
-------------
+-----------------------------
+
 One of the neatest features of all is that all of your web assertions will be recorded too and will be performed in your load test. The load test library will smartly decide which response contains the HTML of the page and based on the specified locators in your test will perform the assertion such as element is visible, some text is displayed or disabled.
 To use it you only need to set up the load test to make these kind of assertions.
 ```csharp
@@ -138,8 +140,10 @@ The load testing module also offers automatic check whether all of the requests 
 ```csharp
 LoadTestEngine.Assertions.AssertAllRequestStatusesAreSuccessful();
 ```
+
 Informative Load Testing Test Report
-------------
+------------------------------------
+
 After the load test is executed the tool generates an informative HTML report.
 
 ![Bellatrix](images/bellatrix-load-testing-report.png)
