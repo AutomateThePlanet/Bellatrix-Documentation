@@ -33,8 +33,10 @@ In the Suite section- you can find all of your tests grouped by suites, locate t
 The tool also includes some informative summary charts.
 
 ![Bellatrix](images/allure-charts.png)
+
 Installation
-------------------
+------------
+
 For Windows, Allure is available from the [Scoop](http://scoop.sh/) CLI installer.
 
 To install Allure, download and install Scoop and then execute in the Powershell: 
