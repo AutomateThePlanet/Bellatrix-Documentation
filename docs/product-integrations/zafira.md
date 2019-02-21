@@ -10,7 +10,7 @@ anchors:
   installation: Installation
   configuration: Configuration
 ---
-What is Allure?
+What is Zafira?
 -------
 **[Zafira](http://qaprosoft.github.io/zafira/)** is central automation reporting system that is built on the top of Java Spring Framework. It dramatically increases the transparency of test automation results and provides a better understanding of product quality. 
 **Some of its primary features**
@@ -56,7 +56,7 @@ git clone git@github.com:qaprosoft/zafira.git
 environment: 
 ```
 - ZAFIRA_URL=http://localhost:8080
-- ```
+```
 
 3 Start Zafira
 ```
