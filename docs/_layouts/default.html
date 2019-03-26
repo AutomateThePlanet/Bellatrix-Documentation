@@ -36,7 +36,7 @@
 					<li class="menu-item"><a href="{{ site.url }}/{{ post[0] }}/">{{ post[1].title | escape }}</a></li>
 				{% else %}
 					
-					<li class="menu-item {% if navurl == page.permalink %}current-menu-item{% endif %}{% if page.parent == parenturl %}current-menu-parent{% endif %}">
+					<li class="menu-item{% if navurl == page.permalink %} current-menu-item{% endif %}{% if page.parent == parenturl %} current-menu-parent{% endif %}">
 						
 						<a href="{{ site.url }}/{{ post[0] }}/">{{ post[1].title | escape }}</a>
 						
@@ -46,7 +46,7 @@
 							{% for subpost in post[1].submenu %}
 								
 								{% assign subnavurl = '/' | append: parenturl | append: '/' | append: subpost[0] | append: '/' %}	
-								<li class="sub-feature {% if subnavurl == page.permalink %}current-menu-item{% endif %}">
+								<li class="sub-feature{% if subnavurl == page.permalink %} current-menu-item{% endif %}">
 									<a href="{{ site.url }}/{{ post[0] }}/{{ subpost[0] }}/">{{ subpost[1].title | escape }}</a>
 									
 									{% if subnavurl == page.permalink %}
