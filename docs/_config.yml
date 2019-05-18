@@ -92,6 +92,8 @@ navigation:
                 title: Normal Assertions
             "ensure-assertions":
                 title: Ensure Assertions
+            "angular":
+                title: Angular Support
             "bdd-logging":
                 title: BDD Logging
             "page-objects":
