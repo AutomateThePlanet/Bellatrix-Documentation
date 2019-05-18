@@ -125,6 +125,69 @@ public void PurchaseRocket()
 
     checkPaymentsRadioButton.Click();
 }
+
+[TestMethod]
+public void Table_MapToObject()
+{
+    App.NavigationService.NavigateToLocalPage("TestPages\\Table\\table.html");
+
+    var table = App.ElementCreateService.CreateById<Table>("table1");
+    var map = new Dictionary<string, int>
+    {
+        ["LastName"] = 0,
+        ["FirstName"] = 1,
+        ["Email"] = 2,
+        ["Due"] = 3,
+        ["WebSite"] = 4,
+    };
+
+    var dataTableExampleOnes = table.MapTableToObjectList<DataTableExampleOne>(map);
+
+    Assert.AreEqual("Smith", dataTableExampleOnes.First().LastName);
+    Assert.AreEqual("John", dataTableExampleOnes.First().FirstName);
+    Assert.AreEqual("http://www.timconway.com", dataTableExampleOnes.Last().WebSite);
+}
+
+[TestMethod]
+public void BasicTable_Has_Header()
+{
+    App.NavigationService.NavigateToLocalPage("TestPages\\Table\\table.html");
+
+    var table = App.ElementCreateService.CreateById<Table>("table1");
+
+    var headerNames = table.GetHeaderNames();
+
+    var tableCell = table.GetCell(3, 2);
+
+    Assert.IsTrue(headerNames.Contains("Due"));
+    Assert.AreEqual("$51.00", tableCell.InnerText);
+}
+
+[TestMethod]
+public void TableWithHeader_MapToObject()
+{
+    App.NavigationService.NavigateToLocalPage("TestPages\\Table\\table.html");
+
+    var table = App.ElementCreateService.CreateById<Table>("table1");
+
+    var dataTableExampleOnes = table.MapTableToObjectList<DataTableExampleOne>();
+
+    Assert.AreEqual("Smith", dataTableExampleOnes.First().LastName);
+    Assert.AreEqual("John", dataTableExampleOnes.First().FirstName);
+    Assert.AreEqual("http://www.timconway.com", dataTableExampleOnes.Last().WebSite);
+}
+
+[TestMethod]
+public void TableWithHeader_Returns_Value()
+{
+    App.NavigationService.NavigateToLocalPage("TestPages\\Table\\table.html");
+
+    var table = App.ElementCreateService.CreateById<Table>("table1");
+
+    var tableCell = table.GetCell("Email", 2);
+
+    Assert.AreEqual("fbach@yahoo.com", tableCell.InnerText);
+}
 ```
 
 Explanations
@@ -275,6 +338,37 @@ checkPaymentsRadioButton.Click();
 ```
 BELLATRIX finds the first RadioButton with attribute 'for' containing the value 'payment_method_cheque'. The radio buttons compared to checkboxes cannot be unchecked/unselected.
 
+```csharp
+var table = App.ElementCreateService.CreateById<Table>("table1");
+var map = new Dictionary<string, int>
+{
+    ["LastName"] = 0,
+    ["FirstName"] = 1,
+    ["Email"] = 2,
+    ["Due"] = 3,
+    ["WebSite"] = 4,
+};
+
+var dataTableExampleOnes = table.MapTableToObjectList<DataTableExampleOne>(map);
+```
+BELLATRIX gives you API for easing the work with HTML tables. Through the **MapTableToObjectList** method you can map the headers of the table to the names of the properties of your C# object. The method returns a list of all rows' data as C# data mapped to the map you provided.
+```csharp
+var headerNames = table.GetHeaderNames();
+```
+Returns only the table header names.
+```csharp
+var tableCell = table.GetCell(3, 2);
+```
+You can get a particular cell as BELLATRIX element mentioning the row and column number.
+```csharp
+var dataTableExampleOnes = table.MapTableToObjectList<DataTableExampleOne>();
+```
+Instead of supplying the header explicitly - property mapping, the **MapTableToObjectList** method will map the headers and properties of the C# class automatically.
+```csharp
+var tableCell = table.GetCell("Email", 2);
+```
+You can get a particular cell element by row number and header name.
+
 Full List of All Supported Web Controls
 ---------------------------------------
 ### Element ###
@@ -337,3 +431,5 @@ Search | GetSearch, SetSearch, Hover, Focus, IsDisabled, Value, IsAutoComplete, 
 Time | GetTime, SetTime, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, Max, Min, Step
 Url | GetUrl, SetUrl, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLenght, MinLenght, Size
 Week | GetWeek, SetWeek, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, Max, Min, Step
+Table | GetCell, GetColumn, GetHeaderNames, MapTableToObjectList
+Cell | Focus, Hover, Row, Column, InnerHtml, InnerText
