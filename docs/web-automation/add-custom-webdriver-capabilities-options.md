@@ -32,7 +32,7 @@ public class CustomWebDriverCapabilitiesTests : WebTest
 
         App.AddWebDriverOptions(firefoxOptions);
 
-        App.AddWebDriverCapability("disable-popup-blocking", true);
+        App.AddAdditionalCapability("disable-popup-blocking", true);
 
         var profileManager = new FirefoxProfileManager();
         FirefoxProfile profile = profileManager.GetProfile("BELLATRIX");
@@ -68,7 +68,7 @@ BELLATRIX hides the complexity of initialisation of WebDriver and all related se
 
 **Note**: *You can use all of these methods no matter which attributes you use- Browser, Remote, SauceLabs, BrowserStack or CrossBrowserTesting.*
 ```csharp
-App.AddWebDriverCapability("disable-popup-blocking", true);
+App.AddAdditionalCapability("disable-popup-blocking", true);
 ```
 Add custom WebDriver capability.
 ```csharp

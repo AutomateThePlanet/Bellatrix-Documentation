@@ -84,7 +84,7 @@ navigation:
                 title: CookiesService
             "javascript-service":
                 title: JavaScriptService
-            "interaction-service":
+            "interactions-service":
                 title: Interactions Service
             "common-controls":
                 title: Common Controls

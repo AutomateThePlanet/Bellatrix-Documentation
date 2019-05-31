@@ -23,10 +23,10 @@ public class CustomWebDriverCapabilitiesTests : AndroidTest
 {
     public override void TestsArrange()
     {
-        App.AddAppiumCapability("locale", "fr_CA");
-        App.AddAppiumCapability("language", "fr");
-        App.AddAppiumCapability("autoWebview", "true");
-        App.AddAppiumCapability("noReset", "false");
+        App.AddAdditionalCapability("locale", "fr_CA");
+        App.AddAdditionalCapability("language", "fr");
+        App.AddAdditionalCapability("autoWebview", "true");
+        App.AddAdditionalCapability("noReset", "false");
     }
 
     [TestMethod]
@@ -50,10 +50,10 @@ public class CustomWebDriverCapabilitiesTests : AndroidTest
 Explanations
 ------------
 ```csharp
-App.AddAppiumCapability("locale", "fr_CA");
-App.AddAppiumCapability("language", "fr");
-App.AddAppiumCapability("autoWebview", "true");
-App.AddAppiumCapability("noReset", "false");
+App.AddAdditionalCapability("locale", "fr_CA");
+App.AddAdditionalCapability("language", "fr");
+App.AddAdditionalCapability("autoWebview", "true");
+App.AddAdditionalCapability("noReset", "false");
 ```
-BELLATRIX hides the complexity of initialisation of WebDriver/Appium and all related services. In some cases, you need to customise the set up of a Appium with using custom Appium options. Using the **App** service methods you can add all of these with ease. Make sure to call them in the **TestsArrange** which is called before the execution of the tests placed in the test class. These options are used only for the tests in this particular class.
+BELLATRIX hides the complexity of initialization of WebDriver/Appium and all related services. In some cases, you need to customize the set up of a Appium with using custom Appium options. Using the **App** service methods you can add all of these with ease. Make sure to call them in the **TestsArrange** which is called before the execution of the tests placed in the test class. These options are used only for the tests in this particular class.
 **Note**: You can use all of these methods no matter which attributes you use- **Android**, **AndroidSauceLabs**, **AndroidBrowserStack** or **AndroidCrossBrowserTesting**.

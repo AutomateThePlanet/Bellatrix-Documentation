@@ -18,8 +18,8 @@ public class AddCustomWebDriverCapabilitiesTests : DesktopTest
 {
     public override void TestsArrange()
     {
-        App.AddWebDriverCapability("appArguments", @"MyTestFile.txt");
-        App.AddWebDriverCapability("appWorkingDir", @"C:\MyTestFolder\");
+        App.AddAdditionalCapability("appArguments", @"MyTestFile.txt");
+        App.AddAdditionalCapability("appWorkingDir", @"C:\MyTestFolder\");
     }
 
     [TestMethod]
@@ -50,7 +50,7 @@ public class AddCustomWebDriverCapabilitiesTests : DesktopTest
 Explanations
 ------------
 ```csharp
-App.AddWebDriverCapability("appArguments", @"MyTestFile.txt");
-App.AddWebDriverCapability("appWorkingDir", @"C:\MyTestFolder\");
+App.AddAdditionalCapability("appArguments", @"MyTestFile.txt");
+App.AddAdditionalCapability("appWorkingDir", @"C:\MyTestFolder\");
 ```
 BELLATRIX hides the complexity of initialisation of WebDriver and all related services. In some cases, you need to customise the set up of the app with adding driver capabilities. Using the **App** service methods you can add all of these with ease. Make sure to call them in the **TestsArrange** which is called before the execution of the tests placed in the test class. These options are used only for the tests in this particular class.
