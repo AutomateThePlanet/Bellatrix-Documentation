@@ -7,17 +7,13 @@
 		
 	<title>{% if page.title %}{{ page.title }} - {% endif %}Bellatrix</title>
 	
-	<link rel="stylesheet" id="tat-base-css-css" href="https://bellatrix.solutions/content/themes/tat-blank/assets/css/tat-normalise.min.css?ver=1.1.6.11" type="text/css" media="all">
-	<link rel="stylesheet" id="tat-css-css" href="https://bellatrix.solutions/content/themes/tat-blank/assets/css/tat.min.css?ver=1.1.6.11" type="text/css" media="all">
-	<link rel="stylesheet" id="theme-base-css" href="https://bellatrix.solutions/content/common/base.css?ver=1.0.11" type="text/css" media="all">
-	<link rel="stylesheet" id="theme-css" href="https://bellatrix.solutions/content/themes/bellatrix/style.css?ver=1.0.11" type="text/css" media="all">
+	<link rel="stylesheet" id="theme-base-css" href="https://bellatrix.solutions/themes/bellatrix-parent/assets/css/base.css?ver=2.0.10" type="text/css" media="all">
+	<link rel="stylesheet" id="theme-css" href="https://bellatrix.solutions/themes/bellatrix/assets/css/bellatrix.css?ver=2.0.10" type="text/css" media="all">
 	
-	<link rel="stylesheet" id="theme-syntax-css" href="https://bellatrix.solutions/content/common/syntax.css?ver=1.0.11" type="text/css" media="all">
-
 	<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-	<script type="text/javascript" src="https://bellatrix.solutions/wp-includes/js/jquery/jquery.js?ver=1.12.4"></script>
+	<script type="text/javascript" src="https://bellatrix.solutions/wp-includes/js/jquery/jquery.js?ver=1.12.4-wp"></script>
 	<script type="text/javascript" src="https://bellatrix.solutions/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1"></script>
-	
+
 	<meta name="Description" content="{% if page.excerpt %}{{ page.excerpt }}{% endif %}">	
 	
 	<meta property="og:url" content="{% if page.url %}{{ page.url | relative_url }}{% endif %}">
@@ -89,13 +85,17 @@
 	
 	<div id="menu-open" class="tat-f-0-0 js-toggle" data-toggle="menu"><s class="bar"></s><s class="bar"></s><s class="bar"></s></div>
 	
-	<nav id="menu" class="tat-f-1-1 tat-c tat-r-lg tat-top tat-left tat-middle-lg tat-right-lg">
-		<ul id="menu-main" class="tat-c tat-top tat-r-lg tat-middle-lg">
-      <li id="menu-item-613" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-613"><a href="https://bellatrix.solutions/features/web/">Features</a></li>
-      <li id="menu-item-153" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-153"><a href="https://docs.bellatrix.solutions/overview/">Documentation</a></li>
-      <li id="menu-item-159" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-159"><a href="https://docs.bdd.bellatrix.solutions/overview/">BDD</a></li>
-<li id="menu-item-162" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-162"><a href="https://bellatrix.solutions/pricing/">Pricing</a></li><li id="menu-item-720" class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-720"><a href="https://bellatrix.solutions/learning-resources/">Resources</a></li>
-<li id="menu-item-1015" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1015"><a href="https://bellatrix.solutions/forum/">Forum</a></li>
-<li class="menu-item"><a href="https://bellatrix.solutions/my-account">Login</a></li><li class="menu-download menu-item small"><a class="button" href="https://bellatrix.solutions/download">Download</a></li></ul>	</nav>
-
+	<nav id="menu" class="tat-f-1-1 tat-c tat-top tat-left">
+		<ul id="menu-main" class="tat-c tat-top"><li id="menu-item-613" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-613"><a href="https://bellatrix.solutions/features/web/">Features</a></li>
+<li id="menu-item-1309" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1309"><a href="http://docs.bdd.bellatrix.solutions/overview/">BDD</a></li>
+<li id="menu-item-162" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-162"><a href="https://bellatrix.solutions/pricing/">Pricing</a></li>
+<li id="menu-item-720" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-720"><a href="https://bellatrix.solutions/learning-resources/">Resources</a></li>
+<li id="menu-item-1371" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1371"><a href="#">Docs &amp; Support</a>
+<ul class="sub-menu">
+	<li id="menu-item-153" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-153"><a href="https://docs.bellatrix.solutions/overview/">Documentation</a></li>
+	<li id="menu-item-1015" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1015"><a href="https://bellatrix.solutions/forum/">Forum</a></li>
+</ul>
+</li>
+<li class="menu-item"><a href="https://bellatrix.solutions/my-account">My Account</a></li><li class="menu-download menu-item small"><a class="button" href="https://bellatrix.solutions/download">Download</a></li></ul>	</nav>
+	
 </header>
