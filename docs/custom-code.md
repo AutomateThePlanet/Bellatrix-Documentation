@@ -22,9 +22,9 @@ public class DemandPlanningTests : LoadTest
     {
         LoadTestEngine.Settings.LoadTestType = LoadTestType.ExecuteForTime;
         LoadTestEngine.Settings.MixtureMode = MixtureMode.Equal;
-        LoadTestEngine.Settings.NumberOfProcesses = 1;
+        LoadTestEngine.Settings.NumberOfProcesses = 2;
         LoadTestEngine.Settings.PauseBetweenStartSeconds = 0;
-        LoadTestEngine.Settings.SecondsToBeExecuted = 60;
+        LoadTestEngine.Settings.SecondsToBeExecuted = 65;
         LoadTestEngine.Settings.ShouldExecuteRecordedRequestPauses = true;
         LoadTestEngine.Settings.IgnoreUrlRequestsPatterns.Add(".*theming.js.*");
         LoadTestEngine.Assertions.AssertAllRequestStatusesAreSuccessful();
