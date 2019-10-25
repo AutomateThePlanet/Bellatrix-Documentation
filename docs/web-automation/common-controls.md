@@ -127,21 +127,19 @@ public void PurchaseRocket()
 }
 
 [TestMethod]
-public void Table_MapToObject()
+public void Table_GetItems()
 {
     App.NavigationService.NavigateToLocalPage("TestPages\\Table\\table.html");
 
     var table = App.ElementCreateService.CreateById<Table>("table1");
-    var map = new Dictionary<string, int>
-    {
-        ["LastName"] = 0,
-        ["FirstName"] = 1,
-        ["Email"] = 2,
-        ["Due"] = 3,
-        ["WebSite"] = 4,
-    };
+    table.SetColumn("Last Name");
+    table.SetColumn("First Name");
+    table.SetColumn("Email");
+    table.SetColumn("Due");
+    ////table.SetColumn("Web Site");
+    table.SetColumn("Action");
 
-    var dataTableExampleOnes = table.MapTableToObjectList<DataTableExampleOne>(map);
+    var dataTableExampleOnes = table.GetItems<DataTableExampleOne>();
 
     Assert.AreEqual("Smith", dataTableExampleOnes.First().LastName);
     Assert.AreEqual("John", dataTableExampleOnes.First().FirstName);
@@ -154,23 +152,35 @@ public void BasicTable_Has_Header()
     App.NavigationService.NavigateToLocalPage("TestPages\\Table\\table.html");
 
     var table = App.ElementCreateService.CreateById<Table>("table1");
+    table.SetColumn("Last Name");
+    table.SetColumn("First Name");
+    table.SetColumn("Email");
+    table.SetColumn("Due");
+    table.SetColumn("Web Site");
+    table.SetColumn("Action");
 
     var headerNames = table.GetHeaderNames();
 
-    var tableCell = table.GetCell(3, 2);
+    var tableCell = table.GetCell(3, 1);
 
     Assert.IsTrue(headerNames.Contains("Due"));
     Assert.AreEqual("$51.00", tableCell.InnerText);
 }
 
 [TestMethod]
-public void TableWithHeader_MapToObject()
+public void TableWithHeader_GetItems()
 {
     App.NavigationService.NavigateToLocalPage("TestPages\\Table\\table.html");
 
-    var table = App.ElementCreateService.CreateById<Table>("table1");
+    var table = App.ElementCreateService.CreateById<Web.Table>("table1");
+    table.SetColumn("Last Name");
+    table.SetColumn("First Name");
+    table.SetColumn("Email");
+    table.SetColumn("Due");
+    table.SetColumn("Web Site");
+    table.SetColumn("Action");
 
-    var dataTableExampleOnes = table.MapTableToObjectList<DataTableExampleOne>();
+    var dataTableExampleOnes = table.GetItems<DataTableExampleOne>();
 
     Assert.AreEqual("Smith", dataTableExampleOnes.First().LastName);
     Assert.AreEqual("John", dataTableExampleOnes.First().FirstName);
@@ -182,9 +192,15 @@ public void TableWithHeader_Returns_Value()
 {
     App.NavigationService.NavigateToLocalPage("TestPages\\Table\\table.html");
 
-    var table = App.ElementCreateService.CreateById<Table>("table1");
+    var table = App.ElementCreateService.CreateById<Web.Table>("table1");
+    table.SetColumn("Last Name");
+    table.SetColumn("First Name");
+    table.SetColumn("Email");
+    table.SetColumn("Due");
+    table.SetColumn("Web Site");
+    table.SetColumn("Action");
 
-    var tableCell = table.GetCell("Email", 2);
+    var tableCell = table.GetCell("Email", 1);
 
     Assert.AreEqual("fbach@yahoo.com", tableCell.InnerText);
 }
@@ -340,18 +356,15 @@ BELLATRIX finds the first RadioButton with attribute 'for' containing the value 
 
 ```csharp
 var table = App.ElementCreateService.CreateById<Table>("table1");
-var map = new Dictionary<string, int>
-{
-    ["LastName"] = 0,
-    ["FirstName"] = 1,
-    ["Email"] = 2,
-    ["Due"] = 3,
-    ["WebSite"] = 4,
-};
+table.SetColumn("Last Name");
+table.SetColumn("First Name");
+table.SetColumn("Email");
+table.SetColumn("Due");
+table.SetColumn("Action");
 
-var dataTableExampleOnes = table.MapTableToObjectList<DataTableExampleOne>(map);
+var dataTableExampleOnes = table.GetItems<DataTableExampleOne>(map);
 ```
-BELLATRIX gives you API for easing the work with HTML tables. Through the **MapTableToObjectList** method you can map the headers of the table to the names of the properties of your C# object. The method returns a list of all rows' data as C# data mapped to the map you provided.
+BELLATRIX gives you API for easing the work with HTML tables. Through the **GetItems** method you can map the headers of the table to the names of the properties of your C# object. The method returns a list of all rows' data as C# data mapped to the map you provided.
 ```csharp
 var headerNames = table.GetHeaderNames();
 ```
@@ -361,9 +374,9 @@ var tableCell = table.GetCell(3, 2);
 ```
 You can get a particular cell as BELLATRIX element mentioning the row and column number.
 ```csharp
-var dataTableExampleOnes = table.MapTableToObjectList<DataTableExampleOne>();
+var dataTableExampleOnes = table.GetItems<DataTableExampleOne>();
 ```
-Instead of supplying the header explicitly - property mapping, the **MapTableToObjectList** method will map the headers and properties of the C# class automatically.
+Instead of supplying the header explicitly - property mapping, the **GetItems** method will map the headers and properties of the C# class automatically.
 ```csharp
 var tableCell = table.GetCell("Email", 2);
 ```
@@ -431,5 +444,5 @@ Search | GetSearch, SetSearch, Hover, Focus, IsDisabled, Value, IsAutoComplete, 
 Time | GetTime, SetTime, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, Max, Min, Step
 Url | GetUrl, SetUrl, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLenght, MinLenght, Size
 Week | GetWeek, SetWeek, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, Max, Min, Step
-Table | GetCell, GetColumn, GetHeaderNames, MapTableToObjectList
+Table | GetCell, GetColumn, GetHeaderNames, GetItems, AssertTable
 Cell | Focus, Hover, Row, Column, InnerHtml, InnerText
