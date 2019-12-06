@@ -11,64 +11,205 @@ iOS
 ACCELERATE TEST CREATION
 
 
-Load Testing Library
+BELLATRIX Web
 
 ```csharp
 [TestClass]
-public class DemandPlanningTests : LoadTest
+[Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
+[ExecutionTimeUnder(2)]
+public class BellatrixBrowserBehaviourTests : WebTest
 {
     [TestMethod]
-    public void NavigateToDemandPlanning()
-    {
-        LoadTestEngine.Settings.LoadTestType = LoadTestType.ExecuteForTime;
-        LoadTestEngine.Settings.MixtureMode = MixtureMode.Equal;
-        LoadTestEngine.Settings.NumberOfProcesses = 2;
-        LoadTestEngine.Settings.PauseBetweenStartSeconds = 0;
-        LoadTestEngine.Settings.SecondsToBeExecuted = 65;
-        LoadTestEngine.Settings.ShouldExecuteRecordedRequestPauses = true;
-        LoadTestEngine.Settings.IgnoreUrlRequestsPatterns.Add(".*theming.js.*");
-        LoadTestEngine.Assertions.AssertAllRequestStatusesAreSuccessful();
-        LoadTestEngine.Assertions.AssertAllRecordedEnsureAssertions();
-
-        LoadTestEngine.Execute("loadTestResults.html");
-    }
-}
-```
-
-Reuse Existing BELLATRIX Web Tests
-```csharp
-[TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted, true)]
-public class DemandPlanningTests : WebTest
-{
-    [TestMethod]
-    [LoadTest]
-    public void NavigateToDemandPlanning()
+    [Browser(BrowserType.Chrome, BrowserBehavior.RestartOnFail)]
+    public void BlogPageOpened_When_PromotionsButtonClicked()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
+        blogLink.EnsureIsVisible();
+        
+        blogLink.Click();
+    }
+}
+```
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-        Anchor addToCartFalcon9 = App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-        Anchor viewCartButton = App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+BELLATRIX Desktop
 
-        sortDropDown.SelectByText("Sort by price: low to high");
-        protonMReadMoreButton.Hover();
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        viewCartButton.Click();
+```csharp
+[TestClass]
+[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+[ExecutionTimeUnder(2)]
+public class ControlAppTests : DesktopTest
+{
+    [TestMethod]
+    public void MessageChanged_When_ButtonHovered_Wpf()
+    {
+        var button = App.ElementCreateService.CreateByName<Button>("LoginButton");
+        button.Hover();
+        var label = App.ElementCreateService.CreateByName<Button>("successLabel");
+        label.EnsureInnerTextIs("Sucess");
+    }
+}
+```
+
+BELLATRIX API
+
+```csharp
+[TestClass]
+[ExecutionTimeUnder(2)]
+public class CreateSimpleRequestTests : APITest
+{
+    [TestMethod]
+    public void GetAlbumById()
+    {
+        var request = new RestRequest("api/Albums/10");        
+        var client = App.GetApiClientService();
+        
+        var response = client.Get<Albums>(request);
+        response.AssertContentContains("Audioslave");
+    }
+}
+```
+
+Cloud Readiness
+
+
+```csharp
+[TestClass]
+[SauceLabs(BrowserType.Chrome, "62", "Windows", BrowserBehavior.ReuseIfStarted, recordScreenshots: true, recordVideo: true)]
+public class SauceLabsTests : WebTest
+{
+    [TestMethod]
+    public void PromotionsPageOpened_When_PromotionsButtonClicked()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+        promotionsLink.Click();
     }
 }
 ```
 
 
-Advanced Load Test Assertions
-
+2
 
 ```csharp
-LoadTestEngine.Assertions.AssertAllRecordedEnsureAssertions();
+[BrowserStack(BrowserType.Chrome,
+    "62",
+    "Windows",
+    "10",
+    BrowserBehavior.ReuseIfStarted,
+    captureNetworkLogs: true,
+    captureVideo: true,
+    consoleLogType: BrowserStackConsoleLogType.Verbose,
+    debug: true,
+    build: "myUniqueBuildName")]
 ```
 
+Troubleshooting Easiness
+BELLATRIX Full-page Screenshots
+
 ```csharp
-LoadTestEngine.Assertions.AssertAllRequestStatusesAreSuccessful();
+[TestClass]
+[ScreenshotOnFail(true)]
+[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
+public class FullPageScreenshotsOnFailTests : WebTest
+{
+    [TestMethod]
+    public void PromotionsPageOpened_When_PromotionsButtonClicked()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+        promotionsLink.Click();
+    }
+}
+```
+BELLATRIX Video Recording
+
+```csharp
+[TestClass]
+[VideoRecording(VideoRecordingMode.OnlyFail)]
+[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
+public class VideoRecordingTests : WebTest
+{
+    [TestMethod]
+    public void PromotionsPageOpened_When_PromotionsButtonClicked()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+        promotionsLink.Click();
+    }
+}
+```
+
+Override Actions Globally
+```csharp
+[TestClass]
+[Browser(BrowserType.Firefox, BrowserBehavior.RestartEveryTime)]
+public class OverrideGloballyElementActionsTests : WebTest
+{
+    public override void TestsArrange()
+    {
+        Button.OverrideClickGlobally = (e) =>
+        {
+            e.ToExists().ToBeClickable().WaitToBe();
+            App.JavaScriptService.Execute("arguments[0].click();", e);
+        };
+        Anchor.OverrideFocusGlobally = CustomFocus;
+    }
+    private void CustomFocus(Anchor anchor)
+    {
+        App.JavaScriptService.Execute("window.focus();");
+        App.JavaScriptService.Execute("arguments[0].focus();", anchor);
+    }
+    [TestMethod]
+    public void PurchaseRocketWithGloballyOverridenMethods()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");     
+        Anchor addToCartFalcon9 = 
+        App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
+        Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
+        sortDropDown.SelectByText("Sort by price: low to high");
+        addToCartFalcon9.Focus();
+        addToCartFalcon9.Click();
+        totalSpan.EnsureInnerTextIs("95.00€", 15000);
+    }
+}
+```
+
+Override Actions Locally
+```csharp
+Button.OverrideClickLocally = (e) =>
+{
+    e.ToExists().ToBeClickable().WaitToBe();
+    App.JavaScriptService.Execute("arguments[0].click();", e);
+};
+```
+
+Extensibility through Events
+```csharp
+public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
+{
+    protected override void ClickingEventHandler(object sender, ElementActionEventArgs arg)
+    {
+        DebugLogger.LogInfo($"Before clicking button. Coordinates: X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
+    }
+    protected override void HoveringEventHandler(object sender, ElementActionEventArgs arg)
+    {
+        DebugLogger.LogInfo($"Before hovering button. Coordinates: X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
+    }
+}
+[TestClass]
+[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
+public class ElementActionHooksTests : WebTest
+{
+    public override void TestsArrange()
+    {
+        App.AddElementEventHandler<DebugLoggingButtonEventHandlers>();
+    }
+    [TestMethod]
+    public void PurchaseRocketWithGloballyOverridenMethods()
+    {
+        // some test logic
+    }
+}
 ```
