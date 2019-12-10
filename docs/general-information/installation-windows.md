@@ -19,7 +19,7 @@ BELLATRIX is not a single thing it contains multiple framework libraries, extens
 
 Installation Steps Visual Studio
 ------------------
-1. Download BELLATRIX UI Installer [**x86 version**](installers/Bellatrix.Installer.UI-1.8.4.0-x86.msi) or [**x64 version**](installers/Bellatrix.Installer.UI-1.8.4.0-x64.msi)
+1. Download BELLATRIX UI Installer [**x86 version**](installers/Bellatrix.Installer.UI-1.8.5.0-x86.msi) or [**x64 version**](installers/Bellatrix.Installer.UI-1.8.5.0-x64.msi)
 2. Run **Bellatrix.Installer.UI.msi**
 
 ![BELLATRIX UI Installer](images/bellatrix-ui-installer.png)
