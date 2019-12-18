@@ -118,6 +118,8 @@ navigation:
                 title: Execute Tests in BrowserStack
             "execute-tests-crossbrowsertesting":
                 title: Execute Tests in CrossBrowserTesting
+            "execute-tests-selenoid":
+                title: Execute Tests in Docker Containers
             "add-custom-webdriver-capabilities-options":
                 title: Add Custom WebDriver Capabilities and Options
             "static-analysis":
