@@ -42,7 +42,7 @@ dotnet new Bellatrix.Tools.Linux64
 
 This is how you activate the product.
 ```
-dotnet bellatrix.dll activateLicense --email=bellatrixTest@yahoo.com --licenseKey=2v99d5bb-f0bd-64a3-bg26-1b12517cc05c
+bellatrix activateLicense --email=bellatrixTest@yahoo.com --licenseKey=2v99d5bb-f0bd-64a3-bg26-1b12517cc05c
 ```
 
 **Note**: All license keys are floating. This means you can activate and deactivate them on different machines as many times as you want till they are active.
@@ -51,7 +51,7 @@ Deactivate
 ---------- 
 This is how you deactivate the product.
 ```
-dotnet bellatrix.dll deactivateLicense
+bellatrix deactivateLicense
 ```
 This is sometimes useful if you want to deactivate a license on a remote machine.
 
@@ -59,5 +59,5 @@ Display Installed License Information
 ---------- 
 View information about currently installed license.
 ```
-dotnet bellatrix.dll statusLicense
+bellatrix statusLicense
 ```
