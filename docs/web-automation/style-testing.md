@@ -3,7 +3,7 @@ layout: default
 title:  "Style Testing"
 excerpt: "Learn how to use the BELLATRIX style testing library."
 date:   2019-12-19 06:50:17 +0200
-parent: style-testing
+parent: web-automation
 permalink: /web-automation/style-testing/
 anchors:
   example: Example

@@ -3,7 +3,7 @@ layout: default
 title:  "Software Machine Automation"
 excerpt: "Learn how to create a software management automation library, allowing you to install/upgrade desired software such as browsers, extensions through code."
 date:   2019-12-19 06:50:17 +0200
-parent: software-machine-automation
+parent: general-information
 permalink: /general-information/software-machine-automation/
 anchors:
   overview: Overview
