@@ -1,10 +1,10 @@
 ---
 layout: default
 title:  "Common Controls"
-excerpt: "Learn how to use BELLATRIX common web control."
+excerpt: "Learn how to use BELLATRIX simple web controls."
 date:   2018-06-22 06:50:17 +0200
 parent: web-automation
-permalink: /web-automation/common-controls/
+permalink: /web-automation/simple-controls/
 anchors:
   example: Example
   explanations: Explanations
@@ -124,85 +124,6 @@ public void PurchaseRocket()
     App.ElementCreateService.CreateByAttributesContaining<RadioButton>("for", "payment_method_cheque");
 
     checkPaymentsRadioButton.Click();
-}
-
-[TestMethod]
-public void Table_GetItems()
-{
-    App.NavigationService.NavigateToLocalPage("TestPages\\Table\\table.html");
-
-    var table = App.ElementCreateService.CreateById<Table>("table1");
-    table.SetColumn("Last Name");
-    table.SetColumn("First Name");
-    table.SetColumn("Email");
-    table.SetColumn("Due");
-    ////table.SetColumn("Web Site");
-    table.SetColumn("Action");
-
-    var dataTableExampleOnes = table.GetItems<DataTableExampleOne>();
-
-    Assert.AreEqual("Smith", dataTableExampleOnes.First().LastName);
-    Assert.AreEqual("John", dataTableExampleOnes.First().FirstName);
-    Assert.AreEqual("http://www.timconway.com", dataTableExampleOnes.Last().WebSite);
-}
-
-[TestMethod]
-public void BasicTable_Has_Header()
-{
-    App.NavigationService.NavigateToLocalPage("TestPages\\Table\\table.html");
-
-    var table = App.ElementCreateService.CreateById<Table>("table1");
-    table.SetColumn("Last Name");
-    table.SetColumn("First Name");
-    table.SetColumn("Email");
-    table.SetColumn("Due");
-    table.SetColumn("Web Site");
-    table.SetColumn("Action");
-
-    var headerNames = table.GetHeaderNames();
-
-    var tableCell = table.GetCell(3, 1);
-
-    Assert.IsTrue(headerNames.Contains("Due"));
-    Assert.AreEqual("$51.00", tableCell.InnerText);
-}
-
-[TestMethod]
-public void TableWithHeader_GetItems()
-{
-    App.NavigationService.NavigateToLocalPage("TestPages\\Table\\table.html");
-
-    var table = App.ElementCreateService.CreateById<Web.Table>("table1");
-    table.SetColumn("Last Name");
-    table.SetColumn("First Name");
-    table.SetColumn("Email");
-    table.SetColumn("Due");
-    table.SetColumn("Web Site");
-    table.SetColumn("Action");
-
-    var dataTableExampleOnes = table.GetItems<DataTableExampleOne>();
-
-    Assert.AreEqual("Smith", dataTableExampleOnes.First().LastName);
-    Assert.AreEqual("John", dataTableExampleOnes.First().FirstName);
-    Assert.AreEqual("http://www.timconway.com", dataTableExampleOnes.Last().WebSite);
-}
-
-[TestMethod]
-public void TableWithHeader_Returns_Value()
-{
-    App.NavigationService.NavigateToLocalPage("TestPages\\Table\\table.html");
-
-    var table = App.ElementCreateService.CreateById<Web.Table>("table1");
-    table.SetColumn("Last Name");
-    table.SetColumn("First Name");
-    table.SetColumn("Email");
-    table.SetColumn("Due");
-    table.SetColumn("Web Site");
-    table.SetColumn("Action");
-
-    var tableCell = table.GetCell("Email", 1);
-
-    Assert.AreEqual("fbach@yahoo.com", tableCell.InnerText);
 }
 ```
 
@@ -354,34 +275,6 @@ checkPaymentsRadioButton.Click();
 ```
 BELLATRIX finds the first RadioButton with attribute 'for' containing the value 'payment_method_cheque'. The radio buttons compared to checkboxes cannot be unchecked/unselected.
 
-```csharp
-var table = App.ElementCreateService.CreateById<Table>("table1");
-table.SetColumn("Last Name");
-table.SetColumn("First Name");
-table.SetColumn("Email");
-table.SetColumn("Due");
-table.SetColumn("Action");
-
-var dataTableExampleOnes = table.GetItems<DataTableExampleOne>(map);
-```
-BELLATRIX gives you API for easing the work with HTML tables. Through the **GetItems** method you can map the headers of the table to the names of the properties of your C# object. The method returns a list of all rows' data as C# data mapped to the map you provided.
-```csharp
-var headerNames = table.GetHeaderNames();
-```
-Returns only the table header names.
-```csharp
-var tableCell = table.GetCell(3, 2);
-```
-You can get a particular cell as BELLATRIX element mentioning the row and column number.
-```csharp
-var dataTableExampleOnes = table.GetItems<DataTableExampleOne>();
-```
-Instead of supplying the header explicitly - property mapping, the **GetItems** method will map the headers and properties of the C# class automatically.
-```csharp
-var tableCell = table.GetCell("Email", 2);
-```
-You can get a particular cell element by row number and header name.
-
 Full List of All Supported Web Controls
 ---------------------------------------
 ### Element ###
@@ -425,7 +318,7 @@ TextArea | GetText, SetText, Hover, Focus, InnerText, IsDisabled, IsAutoComplete
 TextField | SetText, Hover, Focus, InnerText, InnerHtml, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLength, MinLength, Size
 
 
-### Advanced Controls: ### 
+### HTML5 Controls: ### 
 
 Element | Available properties
 ------------ | -------------
@@ -444,5 +337,4 @@ Search | GetSearch, SetSearch, Hover, Focus, IsDisabled, Value, IsAutoComplete, 
 Time | GetTime, SetTime, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, Max, Min, Step
 Url | GetUrl, SetUrl, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLenght, MinLenght, Size
 Week | GetWeek, SetWeek, Hover, Focus, IsDisabled, Value, IsAutoComplete, IsReadonly, Max, Min, Step
-Table | GetCell, GetColumn, GetHeaderNames, GetItems, AssertTable
-Cell | Focus, Hover, Row, Column, InnerHtml, InnerText
+
