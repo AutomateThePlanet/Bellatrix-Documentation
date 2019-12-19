@@ -136,6 +136,8 @@ navigation:
                 title: Measure Response Times
             "load-testing": 
                 title: Web Load Testing
+            "image-recognition": 
+                title: Image Recognition
             "extensibility-test-workflow-hooks":
                 title: Extensibility- Test Workflow Hooks
             "extensibility-custom-test-workflow-plugins":
@@ -158,8 +160,6 @@ navigation:
                 title: Extensibility- Add New Find Locators
             "extensibility-add-new-element-wait-methods": 
                 title: Extensibility- Add New Element Wait Methods
-            "image-recognition": 
-                title: Image Recognition
             "templates":
                 title: Templates
             "folder-and-file-structure":
@@ -351,6 +351,8 @@ navigation:
                 title: Page Objects
             "layout-testing":
                 title: Layout Testing
+            "image-recognition":
+                title: Image Recognition
             "troubleshooting-screenshots-on-fail":
                 title: Troubleshooting- Screenshots on Fail
             "troubleshooting-video-recording":
