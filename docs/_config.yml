@@ -102,6 +102,8 @@ navigation:
                 title: Page Objects
             "layout-testing":
                 title: Layout Testing
+            "style-testing":
+                title: Style Testing
             "troubleshooting-full-page-screenshots-on-fail":
                 title: Troubleshooting- Full Page Screenshots on Fail
             "troubleshooting-video-recording":
