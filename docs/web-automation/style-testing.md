@@ -40,8 +40,9 @@ public class StyleTestingTests : WebTest
     }
 }
 ```
+
 Explanations
-------------
+-------
 Style testing is a module from BELLATRIX that allows you to test the CSS styles of your website, such as background, border, other colors, font size, size, weight, and many others.
 ```csharp
 sortDropDown.AssertFontSize("14px");
