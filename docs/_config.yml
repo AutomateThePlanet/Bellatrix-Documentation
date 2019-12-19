@@ -63,6 +63,8 @@ navigation:
                 title: Activation
             "how-to-use-starter-kits":
                 title: How to Use Starter Kits?
+            "software-machine-automation":
+                title: Software Machine Automation
     "web-automation":
         title: Web
         submenu:
