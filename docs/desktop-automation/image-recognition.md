@@ -16,7 +16,6 @@ Introduction
 BELLATRIX Image Recognition library can be used to verify hard-to-assert functionalities such as PDFs, charts, and similar. But our computer vision library is much more than that. You can even interact with everything on your screen. Perform clicks, set text, drag and drop, double click, and more. Our library uses a machine learning engine for comparing images of your screen. Basically, you add screenshots to your project and embed them to it. Afterward, you need to mention the name of the picture.
 
 To use the library you need to install the **Bellatrix.ImageRecognition.SikuliX** NuGet package.
-
 Example
 -------
 ```csharp
@@ -36,7 +35,6 @@ public class ImageRecognitionTests : DesktopTest
     }
 }
 ```
-
 Explanations
 ------------
 You can combine BELLATRIX desktop library with Image Recognition one. You can navigate to particular screen of your app and perform actions. Afterward, you can use the IR lib whether everything is displayed properly.
@@ -49,7 +47,6 @@ To perform visual actions, use the class Screen and its methods.
 ```csharp
 Screen.EnsureIsVisible("new-notepad-opened", similarity: 0.7, timeoutInSeconds: 30);
 ```
-
 Configuration
 -------------
 ```json
