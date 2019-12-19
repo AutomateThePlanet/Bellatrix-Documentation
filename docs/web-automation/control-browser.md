@@ -8,6 +8,7 @@ permalink: /web-automation/control-browser/
 anchors:
   overview: Overview
   explanations: Explanations
+  drivers-browsers-processes-cleanup: Drivers Browsers Processes Cleanup
 ---
 Overview
 --------
@@ -83,11 +84,11 @@ If you place attribute over the class all tests inherit the behaviour. It is pos
 [TestMethod]
 public void PromotionsPageOpened_When_PromotionsButtonClicked()
 ```
-All MSTest tests should be marked with the TestMethod attribute.
+All MSTest tests should be marked with the **TestMethod** attribute.
 ```csharp
 App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 ```
-There is more about the App class in the next sections.However, it is the primary point where you access the BELLATRIX services. It comes from the WebTest class as a property.Here we use the BELLATRIX navigation service to navigate to the demo page.
+There is more about the App class in the next sections.However, it is the primary point where you access the BELLATRIX services. It comes from the **WebTest** class as a property.Here we use the BELLATRIX navigation service to navigate to the demo page.
 ```csharp
 var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
 ```
@@ -106,3 +107,12 @@ public void BlogPageOpened_When_PromotionsButtonClicked()
 ```
 As mentioned above you can override the browser behaviour for a particular test. The global behaviour for all tests in the class is to reuse an instance of Edge browser. Only for this particular test, BELLATRIX opens Chrome and restarts it only on fail.
 
+Drivers Browsers Processes Cleanup
+------------
+By default BELLATRIX includes internal module for handling residual browsers and drivers that for some reason wasn't closed or killed. You can call the service to handle other processes too. Just call the static class **ProcessCleanupService**.
+It is a bit tricky to handle such processes when the parallel execution is enabled. We use a different logic in this case. You need to let BELLATRIX know if you will execute the tests in parallel. You need to set the isParallelExecutionEnabled to true in the testFrameworkSettings.json configuration file.
+```
+"processCleanupSettings": {
+  "isParallelExecutionEnabled": "false"
+},
+```
