@@ -17,8 +17,8 @@ BELLATRIX Image Recognition library can be used to verify hard-to-assert functio
 set text, drag and drop, double click, and more. Our library uses a machine learning engine for comparing images of your screen. Basically, you add screenshots to your project and embed them to it. Afterward, you need to mention the name of the picture.
 
 To use the library you need to install the **Bellatrix.ImageRecognition.SikuliX** NuGet package.
-Example
--------
+### Example ###
+
 ```csharp
 [TestClass]
 [Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
