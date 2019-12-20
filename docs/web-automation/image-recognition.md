@@ -50,8 +50,8 @@ public class ImageRecognitionTests : WebTest
     }
 }
 ```
-Explanations
-------------
+### Explanations ### 
+
 ```csharp
 var firstOrderCell = TestGrid.GetRow(0).GetCell(0).As<TextField>();
 firstOrderCell.SetText("BELLATRIX IS beautiful");
@@ -71,8 +71,8 @@ Screen.EnsureIsNotVisible("chrome-print-preview-grid");
 ```
 We can check that a particular image is not visible anymore.
 
-Configuration
--------------
+### Configuration ### 
+
 ```json
 "imageRecognitionSettings": {
     "timeoutInSeconds": "5",
