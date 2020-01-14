@@ -25,113 +25,30 @@ public void OpenBellatrixDemoPromotions()
 }
 ```
 
-```csharp
-[TestMethod]
-public void OpenBellatrixDemoPromotions()
-{
-    IWebDriver driver = new ChromeDriver();
-    driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
-    var promotionsLink = driver.FindElement(By.Id("Promotions"));
-    promotionsLink.Click();
-    var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-    wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.Id("Promotions")));
-    Console.WriteLine(promotionsLink.TagName);
-}
-```
 
 Improved Example
 
 ```csharp
-[TestMethod]
-public void OpenBellatrixDemoPromotions()
-{
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-    var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
-    promotionsLink.Click();
-    
-    Console.WriteLine(promotionsLink.By.Value);
-    Console.WriteLine(promotionsLink.WrappedElement.TagName);
-}
-```
-
-
-```csharp
-[TestMethod]
-public void OpenBellatrixDemoPromotions()
-{
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-    var promotionsLink = App.ElementCreateService.CreateById<Button>("Promotions");
-    promotionsLink.Click();
-    
-    promotionsLink.EnsureIsNotVisible();
-}
-```
-Vanilla WebDriver Example
-
-```csharp
-[TestMethod]
-public void OpenBellatrixDemoPromotions()
-{
-    IWebDriver driver = new ChromeDriver();
-    driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
-    var promotionsLink = driver.FindElement(By.Id("Promotions"));
-        
-    promotionsLink.Click();
-     
-    var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-    wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("Promotions")));
-}
-```
-
-
-```csharp
-var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-wait.Until(ExpectedConditions.ElementToBeSelected(By.Id("Promotions")));
-```
-
-
-```csharp
-var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));  
-wait.Until(ExpectedConditions.TextToBePresentInElement(promotionsLink, "Bellatrix"));
-```
-
-Improved Example
-
-```csharp
-var promotionsLink = App.ElementCreateService.CreateByLinkText<Button>("Promotions");
+var promotionsLink = App.ElementCreateService.CreateByLinkText<Button>("Promotions").ToBeVisible().ToBeClickable().ToExists();
 promotionsLink.Click();
 promotionsLink.EnsureIsDisabled();
 ```
 
-Implicit VS Explicit Waits
-
-```csharp
-IWebDriver driver = new ChromeDriver();
-driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-```
-Wait for Conditions Before First Element's Usage
-
+Different Timeouts Problem
 
 ```csharp
 IWebDriver driver = new ChromeDriver();
 driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
-var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-var promotionsLink = wait.Until(ExpectedConditions.ElementExists(By.Id("Promotions")));
+var wait15Seconds = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
+var wait30Seconds = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+var wait45Seconds = new WebDriverWait(driver, TimeSpan.FromSeconds(45));
+var promotionsLocator = By.Id("Promotions");
+wait15Seconds.Until(ExpectedConditions.ElementExists(promotionsLocator)); // same 30 seconds
+var promotionsLink = wait30Seconds.Until(ExpectedConditions.ElementToBeClickable(promotionsLocator));
         
 promotionsLink.Click();
 ```
 
-```csharp
-IWebDriver driver = new ChromeDriver();
-driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
-var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-var promotionsLocator = By.Id("Promotions");
-wait.Until(ExpectedConditions.ElementExists(promotionsLocator));
-var promotionsLink = wait.Until(ExpectedConditions.ElementToBeClickable(promotionsLocator));
-        
-promotionsLink.Click()
-```
-Improved Example
 ```csharp
 "timeoutSettings": {
     "waitForAjaxTimeout": "30",
@@ -145,14 +62,8 @@ Improved Example
 },
 ```
 
-Different Timeouts Problem
 ```csharp
 var promotionsLink = App.ElementCreateService.CreateByLinkText<Button>("Promotions").ToBeVisible(30).ToBeClickable(20, 2).ToExists(10, 1);
 promotionsLink.Click();
 promotionsLink.EnsureIsDisabled();
-```
-
-
-```csharp
-Code
 ```
