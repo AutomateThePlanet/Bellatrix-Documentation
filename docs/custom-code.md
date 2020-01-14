@@ -11,205 +11,148 @@ iOS
 ACCELERATE TEST CREATION
 
 
-BELLATRIX Web
+Vanilla WebDriver Example
 
 ```csharp
-[TestClass]
-[Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
-[ExecutionTimeUnder(2)]
-public class BellatrixBrowserBehaviourTests : WebTest
+[TestMethod]
+public void OpenBellatrixDemoPromotions()
 {
-    [TestMethod]
-    [Browser(BrowserType.Chrome, BrowserBehavior.RestartOnFail)]
-    public void BlogPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
-        blogLink.EnsureIsVisible();
+    IWebDriver driver = new ChromeDriver();
+    driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+    var promotionsLink = driver.FindElement(By.Id("Promotions"));
+    promotionsLink.Click();
+    Console.WriteLine(promotionsLink.TagName);
+}
+```
+
+```csharp
+[TestMethod]
+public void OpenBellatrixDemoPromotions()
+{
+    IWebDriver driver = new ChromeDriver();
+    driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+    var promotionsLink = driver.FindElement(By.Id("Promotions"));
+    promotionsLink.Click();
+    var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+    wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.Id("Promotions")));
+    Console.WriteLine(promotionsLink.TagName);
+}
+```
+
+Improved Example
+
+```csharp
+[TestMethod]
+public void OpenBellatrixDemoPromotions()
+{
+    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+    promotionsLink.Click();
+    
+    Console.WriteLine(promotionsLink.By.Value);
+    Console.WriteLine(promotionsLink.WrappedElement.TagName);
+}
+```
+
+
+```csharp
+[TestMethod]
+public void OpenBellatrixDemoPromotions()
+{
+    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    var promotionsLink = App.ElementCreateService.CreateById<Button>("Promotions");
+    promotionsLink.Click();
+    
+    promotionsLink.EnsureIsNotVisible();
+}
+```
+Vanilla WebDriver Example
+
+```csharp
+[TestMethod]
+public void OpenBellatrixDemoPromotions()
+{
+    IWebDriver driver = new ChromeDriver();
+    driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+    var promotionsLink = driver.FindElement(By.Id("Promotions"));
         
-        blogLink.Click();
-    }
+    promotionsLink.Click();
+     
+    var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+    wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("Promotions")));
 }
 ```
 
-BELLATRIX Desktop
 
 ```csharp
-[TestClass]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
-[ExecutionTimeUnder(2)]
-public class ControlAppTests : DesktopTest
-{
-    [TestMethod]
-    public void MessageChanged_When_ButtonHovered_Wpf()
-    {
-        var button = App.ElementCreateService.CreateByName<Button>("LoginButton");
-        button.Hover();
-        var label = App.ElementCreateService.CreateByName<Button>("successLabel");
-        label.EnsureInnerTextIs("Sucess");
-    }
-}
+var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+wait.Until(ExpectedConditions.ElementToBeSelected(By.Id("Promotions")));
 ```
 
-BELLATRIX API
 
 ```csharp
-[TestClass]
-[ExecutionTimeUnder(2)]
-public class CreateSimpleRequestTests : APITest
-{
-    [TestMethod]
-    public void GetAlbumById()
-    {
-        var request = new RestRequest("api/Albums/10");        
-        var client = App.GetApiClientService();
+var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));  
+wait.Until(ExpectedConditions.TextToBePresentInElement(promotionsLink, "Bellatrix"));
+```
+
+Improved Example
+
+```csharp
+var promotionsLink = App.ElementCreateService.CreateByLinkText<Button>("Promotions");
+promotionsLink.Click();
+promotionsLink.EnsureIsDisabled();
+```
+
+Implicit VS Explicit Waits
+
+```csharp
+IWebDriver driver = new ChromeDriver();
+driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+```
+Wait for Conditions Before First Element's Usage
+
+
+```csharp
+IWebDriver driver = new ChromeDriver();
+driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+var promotionsLink = wait.Until(ExpectedConditions.ElementExists(By.Id("Promotions")));
         
-        var response = client.Get<Albums>(request);
-        response.AssertContentContains("Audioslave");
-    }
-}
+promotionsLink.Click();
 ```
 
-Cloud Readiness
+```csharp
+IWebDriver driver = new ChromeDriver();
+driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+var promotionsLocator = By.Id("Promotions");
+wait.Until(ExpectedConditions.ElementExists(promotionsLocator));
+var promotionsLink = wait.Until(ExpectedConditions.ElementToBeClickable(promotionsLocator));
+        
+promotionsLink.Click()
+```
+Improved Example
+```csharp
+"timeoutSettings": {
+    "waitForAjaxTimeout": "30",
+    "sleepInterval": "1",
+    "elementToBeVisibleTimeout": "30",
+    "elementToExistTimeout": "30",
+    "elementToNotExistTimeout": "30",
+    "elementToBeClickableTimeout": "30",
+    "elementNotToBeVisibleTimeout": "30",
+    "elementToHaveContentTimeout": "15"
+},
+```
+
+Different Timeouts Problem
+```csharp
+var promotionsLink = App.ElementCreateService.CreateByLinkText<Button>("Promotions").ToBeVisible(30).ToBeClickable(20, 2).ToExists(10, 1);
+promotionsLink.Click();
+promotionsLink.EnsureIsDisabled();
+```
 
 
 ```csharp
-[TestClass]
-[SauceLabs(BrowserType.Chrome, "62", "Windows", BrowserBehavior.ReuseIfStarted, recordScreenshots: true, recordVideo: true)]
-public class SauceLabsTests : WebTest
-{
-    [TestMethod]
-    public void PromotionsPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
-        promotionsLink.Click();
-    }
-}
-```
-
-
-2
-
-```csharp
-[BrowserStack(BrowserType.Chrome,
-    "62",
-    "Windows",
-    "10",
-    BrowserBehavior.ReuseIfStarted,
-    captureNetworkLogs: true,
-    captureVideo: true,
-    consoleLogType: BrowserStackConsoleLogType.Verbose,
-    debug: true,
-    build: "myUniqueBuildName")]
-```
-
-Troubleshooting Easiness
-BELLATRIX Full-page Screenshots
-
-```csharp
-[TestClass]
-[ScreenshotOnFail(true)]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
-public class FullPageScreenshotsOnFailTests : WebTest
-{
-    [TestMethod]
-    public void PromotionsPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
-        promotionsLink.Click();
-    }
-}
-```
-BELLATRIX Video Recording
-
-```csharp
-[TestClass]
-[VideoRecording(VideoRecordingMode.OnlyFail)]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
-public class VideoRecordingTests : WebTest
-{
-    [TestMethod]
-    public void PromotionsPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
-        promotionsLink.Click();
-    }
-}
-```
-
-Override Actions Globally
-```csharp
-[TestClass]
-[Browser(BrowserType.Firefox, BrowserBehavior.RestartEveryTime)]
-public class OverrideGloballyElementActionsTests : WebTest
-{
-    public override void TestsArrange()
-    {
-        Button.OverrideClickGlobally = (e) =>
-        {
-            e.ToExists().ToBeClickable().WaitToBe();
-            App.JavaScriptService.Execute("arguments[0].click();", e);
-        };
-        Anchor.OverrideFocusGlobally = CustomFocus;
-    }
-    private void CustomFocus(Anchor anchor)
-    {
-        App.JavaScriptService.Execute("window.focus();");
-        App.JavaScriptService.Execute("arguments[0].focus();", anchor);
-    }
-    [TestMethod]
-    public void PurchaseRocketWithGloballyOverridenMethods()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");     
-        Anchor addToCartFalcon9 = 
-        App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-        Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
-        sortDropDown.SelectByText("Sort by price: low to high");
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        totalSpan.EnsureInnerTextIs("95.00€", 15000);
-    }
-}
-```
-
-Override Actions Locally
-```csharp
-Button.OverrideClickLocally = (e) =>
-{
-    e.ToExists().ToBeClickable().WaitToBe();
-    App.JavaScriptService.Execute("arguments[0].click();", e);
-};
-```
-
-Extensibility through Events
-```csharp
-public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
-{
-    protected override void ClickingEventHandler(object sender, ElementActionEventArgs arg)
-    {
-        DebugLogger.LogInfo($"Before clicking button. Coordinates: X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
-    }
-    protected override void HoveringEventHandler(object sender, ElementActionEventArgs arg)
-    {
-        DebugLogger.LogInfo($"Before hovering button. Coordinates: X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
-    }
-}
-[TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
-public class ElementActionHooksTests : WebTest
-{
-    public override void TestsArrange()
-    {
-        App.AddElementEventHandler<DebugLoggingButtonEventHandlers>();
-    }
-    [TestMethod]
-    public void PurchaseRocketWithGloballyOverridenMethods()
-    {
-        // some test logic
-    }
-}
+Code
 ```
