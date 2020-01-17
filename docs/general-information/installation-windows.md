@@ -26,12 +26,10 @@ Installation Steps Visual Studio
 ___
 BLOG POST
 ### Getting Started With BELLATRIX in 15 Minutes
-
 See how you can install BELLATRIX also create your first project and test. We will create an automated test to log in to a website and verify afterward whether we succeeded. After you install the product, you need to create a starter kit project to see how to use all features or create an empty BELLATRIX tests project.
-![BELLATRIX UI Installer](https://bellatrix.solutions/getting-started-with-bellatrix-in-15-minutes/)
+[Learn more](https://bellatrix.solutions/getting-started-with-bellatrix-in-15-minutes/)
 ___
 
-[Learn more](https://www.google.com)
 
 
 Read how to use all installed features:
