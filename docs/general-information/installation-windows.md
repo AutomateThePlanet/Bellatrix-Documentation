@@ -2,7 +2,7 @@
 layout: default
 title:  "Installation Windows"
 excerpt: "Learn how to install BELLATRIX tools on Windows OS."
-date:   2018-09-06 06:50:17 +0200
+date:   2020-04-01 06:50:17 +0200
 parent: general-information
 permalink: /general-information/installation-windows/
 anchors:
@@ -19,7 +19,7 @@ BELLATRIX is not a single thing it contains multiple framework libraries, extens
 
 Installation Steps Visual Studio
 ------------------
-1. Download BELLATRIX UI Installer [**x86 version**](installers/Bellatrix.Installer.UI-1.8.10.0-x86.msi) or [**x64 version**](installers/Bellatrix.Installer.UI-1.8.10.0-x64.msi)
+1. Download BELLATRIX UI Installer [**x86 version**](installers/Bellatrix.Installer.UI-1.9.2.0-x86.msi) or [**x64 version**](installers/Bellatrix.Installer.UI-1.9.2.0-x64.msi)
 2. Run **Bellatrix.Installer.UI.msi**
 
 
