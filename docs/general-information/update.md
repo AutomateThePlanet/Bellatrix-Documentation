@@ -4,7 +4,7 @@ title:  "Update"
 excerpt: "Learn how to update BELLATRIX tools."
 date:   2020-04-01 06:50:17 +0200
 parent: general-information
-permalink: /update/
+permalink: /general-information/update/
 anchors:
   overview: Overview
   simple-update-steps: Simple Update Steps
