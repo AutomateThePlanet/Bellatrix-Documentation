@@ -7,7 +7,8 @@ parent: general-information
 permalink: /general-information/installation-macos/
 anchors:
   overview: Overview
-  installation-steps: Installation Steps
+  simple-installation: Simple Installation
+  installation-steps-visual-command-line: Installation Steps Command Line
   testing-on-remote-machines: Testing on Remote Machines
 ---
 Overview
@@ -17,7 +18,30 @@ The recommended code editor for MacOS is [**Visual Studio for Mac**](https://vis
 
 > Before proceeding with the installation, please read the [**system requirements**](system-requirements.md) system requirements and **install all prerequisites**!
 
-Installation Steps
+Simple Installation
+------------------
+1. Download the BELLATRIX projects zip file from the email you received after the downloading step.
+2. Unzip it. The projects are grouped by technology: web, desktop, mobile, API, load testing
+
+![Unzip Step](images/unzip-bellatrix-templates.png)
+
+![Grouping By Technology](images/projects-grouping-by-technology.png)
+
+3. Open the project based on the test framework you prefer: MSTest or NUnit.
+
+![Grouping By Test Framework](images/projects-templates-grouping-by-test-framework.png)
+
+4. Click on the csproj file.
+
+![Open csproj](images/open-csproj.png)
+
+5. Run the sample tests.
+6. You can try to write a simple test yourself.
+7. For an in-depth revision of all framework features you can open the getting started projects.
+
+- [**Starter Kits**](how-to-use-starter-kits.md)
+
+Installation Steps Command Line
 -------------------------------------
 
 There are not snippets, item or project templates for [**Visual Studio Code**](https://code.visualstudio.com/). The way you create BELLATRIX project is through CLI.
