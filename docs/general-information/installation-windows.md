@@ -9,6 +9,7 @@ anchors:
   overview: Overview
   simple-installation: Simple Installation
   installation-steps-visual-studio-integration: Installation Steps Visual Studio Integration
+  create-a-new-bellatrix-project-in-visual-studio: Create a New BELLATRIX Project in Visual Studio
   installation-steps-visual-command-line: Installation Steps Command Line
   testing-on-remote-machines: Testing on Remote Machines
 ---
@@ -47,6 +48,41 @@ Installation Steps Visual Studio Integration
 2. Run **Bellatrix.Installer.UI.msi**
 
 ![BELLATRIX UI Installer](images/bellatrix-ui-installer.png)
+
+2.1. Click Next
+
+2.2. Accept End-User License Agreement and click Next.
+
+![BELLATRIX UI Installer](images/ui-intaller-step2.png)
+
+2.3. Select BELLATRIX modules you would like to install and proceed with.
+
+![BELLATRIX UI Installer](images/ui-intaller-step3.png)
+
+2.4. Click **Install** and agree to run the installer with Administrative permissions.
+
+![BELLATRIX UI Installer](images/ui-intaller-step4.png)
+
+2.5. Wait for the installation to finish.
+
+![BELLATRIX UI Installer](images/ui-intaller-step5.png)
+
+Create a New BELLATRIX Project in Visual Studio
+------------------
+
+1.1. Open a New Instance of Visual Studio IDE and Click The Create a New Project Button.
+
+![Create a new project](images/create-new-project-vs-step1.png)
+
+1.2. Search for ‘bellatrix web’.
+
+1.3. Select **Bellatrix.Web.NUnit.Tests** template and click **Next**.
+
+![Create a new project](images/create-new-project-vs-step2.png)
+
+1.4. Choose the location where the project will be created. Set project and solution name. Click **Create**.
+
+![Create a new project](images/create-new-project-vs-step3.png)
 
 After you install the product, you need to create a starter kit project to see how to use all features or create an empty BELLATRIX tests project. 
 
