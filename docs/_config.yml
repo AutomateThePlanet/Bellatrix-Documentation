@@ -61,6 +61,8 @@ navigation:
                 title: Installation Linux   
             "activation":
                 title: Activation
+            "update":
+                title: Update
             "how-to-use-starter-kits":
                 title: How to Use Starter Kits?
             "software-machine-automation":

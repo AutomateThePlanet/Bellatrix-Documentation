@@ -2,13 +2,15 @@
 layout: default
 title:  "Installation Windows"
 excerpt: "Learn how to install BELLATRIX tools on Windows OS."
-date:   2018-09-06 06:50:17 +0200
+date:   2020-04-01 06:50:17 +0200
 parent: general-information
 permalink: /general-information/installation-windows/
 anchors:
   overview: Overview
-  installation-steps-visual-studio: Installation Steps Visual Studio
-  installation-steps-visual-studio-code: Installation Steps Visual Studio Code
+  simple-installation: Simple Installation
+  installation-steps-visual-studio-integration: Installation Steps Visual Studio Integration
+  create-a-new-bellatrix-project-in-visual-studio: Create a New BELLATRIX Project in Visual Studio
+  installation-steps-visual-command-line: Installation Steps Command Line
   testing-on-remote-machines: Testing on Remote Machines
 ---
 Overview
@@ -17,17 +19,72 @@ BELLATRIX is not a single thing it contains multiple framework libraries, extens
 
 > Before proceeding with the installation, please read the [**system requirements**](system-requirements.md) system requirements and **install all prerequisites**!
 
-Installation Steps Visual Studio
+Simple Installation
 ------------------
-1. Download BELLATRIX UI Installer [**x86 version**](installers/Bellatrix.Installer.UI-1.8.10.0-x86.msi) or [**x64 version**](installers/Bellatrix.Installer.UI-1.8.10.0-x64.msi)
+1.1. Download the BELLATRIX projects zip file from the email you received after the downloading step.
+1.2. Unzip it. The projects are grouped by technology: web, desktop, mobile, API, load testing
+
+![Unzip Step](images/unzip-bellatrix-templates.png)
+
+![Grouping By Technology](images/projects-grouping-by-technology.png)
+
+1.3. Open the project based on the test framework you prefer: MSTest or NUnit.
+
+![Grouping By Test Framework](images/projects-templates-grouping-by-test-framework.png)
+
+1.4. Click on the csproj file.
+
+![Open csproj](images/open-csproj.png)
+
+1.5. Run the sample tests.
+1.6. You can try to write a simple test yourself.
+1.7. For an in-depth revision of all framework features you can open the getting started projects.
+
+- [**Starter Kits**](how-to-use-starter-kits.md)
+
+Installation Steps Visual Studio Integration
+------------------
+1. Download BELLATRIX UI Installer [**x86 version**](installers/Bellatrix.Installer.UI-1.9.2.0-x86.msi) or [**x64 version**](installers/Bellatrix.Installer.UI-1.9.2.0-x64.msi)
 2. Run **Bellatrix.Installer.UI.msi**
 
+![BELLATRIX UI Installer](images/bellatrix-ui-installer.png)
 
-### Getting Started With BELLATRIX in 15 Minutes
-See how you can install BELLATRIX also create your first project and test. We will create an automated test to log in to a website and verify afterward whether we succeeded. After you install the product, you need to create a starter kit project to see how to use all features or create an empty BELLATRIX tests project.
-[**Learn more**](https://bellatrix.solutions/getting-started-with-bellatrix-in-15-minutes/)
+2.1. Click Next
 
+2.2. Accept End-User License Agreement and click Next.
 
+![BELLATRIX UI Installer](images/ui-intaller-step2.png)
+
+2.3. Select BELLATRIX modules you would like to install and proceed with.
+
+![BELLATRIX UI Installer](images/ui-intaller-step3.png)
+
+2.4. Click **Install** and agree to run the installer with Administrative permissions.
+
+![BELLATRIX UI Installer](images/ui-intaller-step4.png)
+
+2.5. Wait for the installation to finish.
+
+![BELLATRIX UI Installer](images/ui-intaller-step5.png)
+
+Create a New BELLATRIX Project in Visual Studio
+------------------
+
+1.1. Open a New Instance of Visual Studio IDE and Click The Create a New Project Button.
+
+![Create a new project](images/create-new-project-vs-step1.png)
+
+1.2. Search for ‘bellatrix web’.
+
+1.3. Select **Bellatrix.Web.NUnit.Tests** template and click **Next**.
+
+![Create a new project](images/create-new-project-vs-step2.png)
+
+1.4. Choose the location where the project will be created. Set project and solution name. Click **Create**.
+
+![Create a new project](images/create-new-project-vs-step3.png)
+
+After you install the product, you need to create a starter kit project to see how to use all features or create an empty BELLATRIX tests project. 
 
 Read how to use all installed features:
 
@@ -36,7 +93,7 @@ Read how to use all installed features:
 - [**Element Code Snippets**](https://docs.bellatrix.solutions/web-automation/elements-snippets/)
 - [**Page Object Item Templates**](https://docs.bellatrix.solutions/web-automation/page-objects/)
 
-Installation Steps Visual Studio Code
+Installation Steps Command Line
 -------------------------------------
 
 There are not snippets, item or project templates for Visual Studio Code. The way you create BELLATRIX project is through CLI.
