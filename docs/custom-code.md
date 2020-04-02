@@ -10,22 +10,29 @@ Bellatrix Test Automation Framework
 
 3.2
 ```csharp
-[TestFixture]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
-public class BellatrixLoginTests : WebTest
+using NUnit.Framework;
+
+namespace Bellatrix.Web.NUnit.Tests
 {
-    public override void TestInit() => App.NavigationService.Navigate("http://demos.bellatrix.solutions/my-account/");
-
-    [Test]
-    public void CorrectTextDisplayed_When_ClickDownloadButton()
+    [TestFixture]
+    [Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
+    [VideoRecording(VideoRecordingMode.DoNotRecord)]
+    [ScreenshotOnFail(true)]
+    public class LoginTests : WebTest
     {
-        var downloadButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Download");
+        public override void TestInit() => App.NavigationService.Navigate("http://demos.bellatrix.solutions/my-account/");
 
-        downloadButton.Click();
+        [Test]
+        public void CorrectTextDisplayed_When_ClickDownloadButton()
+        {
+            var downloadButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Download");
 
-        var heading1 = App.ElementCreateService.CreateById<Heading>("feature-title");
+            downloadButton.Click();
 
-        heading1.EnsureInnerTextIs("Download");
+            var heading1 = App.ElementCreateService.CreateById<Heading>("feature-title");
+
+            heading1.EnsureInnerTextIs("Download");
+        }
     }
 }
 ```
