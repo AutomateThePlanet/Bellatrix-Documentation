@@ -1,10 +1,10 @@
 ---
 layout: default
-title:  "ReportPortal"
+title:  "ReportPortal Test Results"
 excerpt: "Learn to analyze BELLATRIX test results through ReportPortal."
 date:   2018-06-23 06:50:17 +0200
 parent: product-integrations
-permalink: /product-integrations/reportportal/
+permalink: /product-integrations/reportportal-test-results/
 anchors:
   what-is-reportportal: What Is ReportPortal?
   installation: Installation

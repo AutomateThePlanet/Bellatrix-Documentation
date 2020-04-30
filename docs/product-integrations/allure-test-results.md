@@ -1,10 +1,10 @@
 ---
 layout: default
-title:  "Allure"
+title:  "Allure Test Results"
 excerpt: "Learn to analyze BELLATRIX test results through Allure framework."
 date:   2018-06-23 06:50:17 +0200
 parent: product-integrations
-permalink: /product-integrations/allure/
+permalink: /product-integrations/allure-test-results/
 anchors:
   what-is-allure: What Is Allure?
   installation: Installation

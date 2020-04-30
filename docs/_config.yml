@@ -435,12 +435,20 @@ navigation:
     "product-integrations":
         title: Product Integrations
         submenu:
-            "allure":
-                title: Allure
-            "zafira":
-                title: Zafira
-            "reportportal":
-                title: ReportPortal
-            "azuredevops":
-                title: Azure DevOps CI
+            "dynamic-test-cases-azuredevops":
+                title: Dynamic Test Cases Azure DevOps
+            "dynamic-test-cases-qtest":
+                title: Dynamic Test Cases qTest
+            "bug-reporting-azuredevops":
+                title: Bug Reporting Azure DevOps
+            "bug-reporting-jira":
+                title: Bug Reporting Jira
+            "allure-test-results":
+                title: Allure Test Results
+            "zafira-test-results":
+                title: Zafira Test Results
+            "reportportal-test-results":
+                title: ReportPortal Test Results
+            "azuredevops-test-results":
+                title: Azure DevOps Test Results
         

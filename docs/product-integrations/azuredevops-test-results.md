@@ -1,10 +1,10 @@
 ---
 layout: default
-title:  "Azure DevOps CI"
+title:  "Azure DevOps Test Results"
 excerpt: "Learn to analyze BELLATRIX test results through Azure DevOps CI."
 date:   2018-06-23 06:50:17 +0200
 parent: product-integrations
-permalink: /product-integrations/azuredevops/
+permalink: /product-integrations/azuredevops-test-results/
 anchors:
   what-is-azure-devops-ci: What Is Azure DevOps CI?
   configuration: Configuration

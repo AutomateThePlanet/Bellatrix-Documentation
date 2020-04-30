@@ -1,10 +1,10 @@
 ---
 layout: default
-title:  "Zafira"
+title:  "Zafira Test Results"
 excerpt: "Learn to analyze BELLATRIX test results through Zafira report portal."
 date:   2018-06-23 06:50:17 +0200
 parent: product-integrations
-permalink: /product-integrations/zafira/
+permalink: /product-integrations/zafira-test-results/
 anchors:
   what-is-zafira: What Is Zafira?
   installation: Installation
