@@ -444,11 +444,11 @@ navigation:
             "bug-reporting-jira":
                 title: Bug Reporting Jira
             "allure-test-results":
-                title: Allure Test Results
+                title: Test Results Allure
             "zafira-test-results":
-                title: Zafira Test Results
+                title: Test Results Zafira
             "reportportal-test-results":
-                title: ReportPortal Test Results
+                title: Test Results ReportPortal
             "azuredevops-test-results":
-                title: Azure DevOps Test Results
+                title: Test Results Azure DevOps
         
