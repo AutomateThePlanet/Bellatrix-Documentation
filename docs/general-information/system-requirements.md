@@ -23,18 +23,20 @@ You need **~240 MB of free space** (full installation on Windows)
 
 Supported Code Editors
 ----------------------
-The recommended code editor for writing BELLATRIX tests is Visual Studio 2017 or higher (preferably installed on Windows).
+The recommended code editor for writing BELLATRIX tests is Visual Studio 2019 or higher (preferably installed on Windows).
+
+NOTE: After the support for .NET Core 3.1 and higher, Microsoft officially not support .NET Core development in older versions of Visual Studio 2015, 2017 and so on.
 
 ### Other Supported Editors: ###
 - Visual Studio Code
-- Visual Studio MacOS
+- Visual Studio for Mac
 - Rider: Cross-platform .NET IDE
 
 **Note**: Keep in mind that some of the BELLATRIX are working only for Visual Studio on Windows, other editors don't support them. These features are:** VS project templates**, **VS item templates** and **VS snippets**.
 
 SDKs and Frameworks Prerequisites
 -------------------------------- 
-[**.NET Core SDK 2.1**](https://www.microsoft.com/net/download/windows) or higher (usually comes with Visual Studio installation or updates)
+[**.NET Core SDK 3.1**](https://www.microsoft.com/net/download/windows) or higher (usually comes with Visual Studio installation or updates)
 
 For BELLATRIX desktop modules you need to download [**WinAppDriver**](https://github.com/Microsoft/WinAppDriver/releases). You need to make sure it is started before running any BELLATRIX desktop tests.
 

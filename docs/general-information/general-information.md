@@ -2,12 +2,13 @@
 layout: default
 title:  "General Information"
 excerpt: "Learn how to install and activate BELLATRIX. Read the system requirements."
-date:   2018-02-20 06:50:17 +0200
+date:   2020-04-30 06:50:17 +0200
 parent: general-information
 permalink: /general-information/
 anchors:
   overview: Overview
   simple-installation: Simple Installation
+  running-tests-through-cli: Running Tests through CLI
   testing-on-remote-machines: Testing on Remote Machines
 ---
 Overview
@@ -37,6 +38,20 @@ Simple Installation
 
 - [**Starter Kits**](how-to-use-starter-kits.md)
 
+Running Tests through CLI
+--------------------------
+ To execute your tests via command line in Continues Integration (CI), you can use the native .NET Core test runner. After the BELLATRIX 2020 R1 release, you can run an unlimited number of BELLATRIX tests without owning a paid license. To be able to do so, you need to use the latest project templates from the 2020 R1 release or install manually **Bellatrix.TestLogger** NuGet package to your test project.
+ Here is a simple CLI command to execute your tests via the .NET test runner. 
+1. Navigate to the folder of your test project.
+2. Open the CMD there.
+3. Execute the following command:
+
+```
+dotnet test --logger:Bellatrix
+```
+For applying filters and other more advanced configuration check the official documentation [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-test](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-test "dotnet test") and [https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-vstest](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-vstest "dotnet vstest").
+
+Both MSTest and NUnit are supported.
 Testing on Remote Machines
 --------------------------
 To execute your tests on a remote machine or multiple machines you can use Automate the Planet open-source distributed test runner [**Meissa**](https://meissarunner.com).
