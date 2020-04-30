@@ -68,13 +68,11 @@ They will turn on the feature and will assign listeners to common actions in the
 Next, you need to add a new section in the **testFrameworkSettings.json** settings file.
 ```
 "bugReportingSettings": {
-  "isEnabled": "true",
-  "url": "https://dev.azure.com/yourCompanyName",
-  "token": "autheticationToken",
-  "organizationName": "yourOrganizationname",
-  "projectName": "yourProjectName",
-  "defaultPriority": "2",
-  "defaultSeverity": "2 - High"
+"isEnabled": "true",
+"url": "yourServerUrl",
+"token": "authenticationToken",
+"projectName": "projectName",
+"defaultPriority": "Medium"
 },
 ```
 You can read the [the following article](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page "following article") how to generate an authentication token.
