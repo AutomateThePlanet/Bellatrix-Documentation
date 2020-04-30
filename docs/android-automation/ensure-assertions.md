@@ -40,6 +40,11 @@ public void CommonAssertionsAndroidControls()
     radioButton.Click();
 
     radioButton.EnsureIsChecked(timeout: 30, sleepInterval: 2);
+
+	Bellatrix.Assertions.Assert.Multiple(
+               () => label.EnsureIsVisible(),
+               () => Assert.IsTrue(label.IsPresent),
+               () => comboBox.EnsureTextIs("Jupiter"));
 }
 ```
 
@@ -70,5 +75,12 @@ var radioButton = App.ElementCreateService.CreateByIdContaining<RadioButton>("ra
  radioButton.EnsureIsChecked(timeout: 30, sleepInterval: 2);
 ```
 By default, all Ensure methods have 5 seconds timeout. However, you can specify a custom timeout and sleep interval (period for checking again).
+```csharp
+Bellatrix.Assertions.Assert.Multiple(
+               () => label.EnsureIsVisible(),
+               () => Assert.IsTrue(label.IsPresent),
+               () => comboBox.EnsureTextIs("Jupiter"));
+```
+You can execute multiple ensure assertions failing only once viewing all results.
 
 Bellatrix provides you with a full BDD logging support for ensure assertions and gives you a way to hook your logic in multiple places.

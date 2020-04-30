@@ -38,6 +38,11 @@ public void AssertEnsureCartPageFields()
     Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
 
     totalSpan.EnsureInnerTextIs("120.00€", timeout: 30, sleepInterval: 2);
+
+    Bellatrix.Assertions.Assert.Multiple(
+                () => totalSpan.EnsureInnerTextIs("120.00€", timeout: 30, sleepInterval: 2),
+                () => updateCart.EnsureIsDisabled(),
+                () => messageAlert.EnsureIsNotVisible());
 }
 ```
 
@@ -78,5 +83,12 @@ Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order
 totalSpan.EnsureInnerTextIs("120.00€", timeout: 30, sleepInterval: 2);
 ```
 Check the total price contained in the order-total span HTML element. By default, all Ensure methods have 5 seconds timeout. However, you can specify a custom timeout and sleep interval (period for checking again)
+```csharp
+Bellatrix.Assertions.Assert.Multiple(
+                () => totalSpan.EnsureInnerTextIs("120.00€", timeout: 30, sleepInterval: 2),
+                () => updateCart.EnsureIsDisabled(),
+                () => messageAlert.EnsureIsNotVisible());
+```
+You can execute multiple ensure assertions failing only once viewing all results.
 
 BELLATRIX provides you with a full BDD logging support for ensure assertions and gives you a way to hook your logic in multiple places.

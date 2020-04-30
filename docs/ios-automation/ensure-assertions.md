@@ -50,6 +50,10 @@ public void CommonAssertionsIOSControls()
     radioButton.Click();
 
     radioButton.EnsureIsChecked(timeout: 30, sleepInterval: 2);
+
+	Bellatrix.Assertions.Assert.Multiple(
+               () => radioButton.EnsureIsChecked(timeout: 30, sleepInterval: 2),
+               () => radioButton.EnsureIsChecked());
 }
 ```
 
@@ -82,4 +86,11 @@ var radioButton = App.ElementCreateService.CreateByIOSNsPredicate<RadioButton>(
 radioButton.EnsureIsChecked(timeout: 30, sleepInterval: 2);
 ```
 By default, all **Ensure** methods have 5 seconds timeout. However, you can specify a custom timeout and sleep interval (period for checking again).
+```csharp
+Bellatrix.Assertions.Assert.Multiple(
+               () => radioButton.EnsureIsChecked(timeout: 30, sleepInterval: 2),
+               () => radioButton.EnsureIsChecked());
+```
+You can execute multiple ensure assertions failing only once viewing all results.
+
 **Note**: BELLATRIX provides you with a full BDD logging support for ensure assertions and gives you a way to hook your logic in multiple places.

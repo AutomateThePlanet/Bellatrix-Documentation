@@ -40,6 +40,10 @@ public void CommonActionsWithDesktopControls_Wpf()
     radioButton.Click();
 
     Assert.IsTrue(radioButton.IsChecked);
+
+	Bellatrix.Assertions.Assert.Multiple(
+        () => Assert.IsTrue(radioButton.IsChecked),
+        () => Assert.AreEqual("Item2", comboBox.InnerText));
 }
 ```
 
@@ -66,5 +70,11 @@ See if the element is present or not using the IsPresent property.
 Assert.IsTrue(radioButton.IsChecked);
 ```
 Assert that the radio button is clicked.
+```csharp
+Bellatrix.Assertions.Assert.Multiple(
+        () => Assert.IsTrue(radioButton.IsChecked),
+        () => Assert.AreEqual("Item2", comboBox.InnerText));
+```
+You can execute multiple assertions failing only once viewing all results.
 
 One more thing you need to keep in mind is that normal assertion methods do not include BDD logging and any available hooks. BELLATRIX provides you with a full BDD logging support for ensure assertions and gives you a way to hook your logic in multiple places.

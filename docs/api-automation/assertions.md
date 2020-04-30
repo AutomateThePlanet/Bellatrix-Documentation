@@ -169,6 +169,18 @@ public class ApiAssertionsTests : APITest
 
         response.AssertCookie("whoIs", "Bella");
     }
+
+	[TestMethod]
+    public async Task AssertMultiple()
+    {
+        var request = new RestRequest("api/Albums/10");
+
+        var response = await _apiClientService.GetAsync<Albums>(request);
+
+        Bellatrix.Assertions.Assert.Multiple(
+            () => response.AssertCookie("whoIs", "Bella"),
+            () => response.AssertCookieExists("whoIs"));
+    }
 }
 ```
 
@@ -231,3 +243,9 @@ Assert that a specific cookie exists.
 response.AssertCookie("whoIs", "Bella");
 ```
 Assert that a cookie's value is equal to a specific value.
+```csharp
+Bellatrix.Assertions.Assert.Multiple(
+    () => response.AssertCookie("whoIs", "Bella"),
+    () => response.AssertCookieExists("whoIs"));
+```
+You can execute multiple assertions failing only once viewing all results.

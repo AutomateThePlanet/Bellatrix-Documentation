@@ -40,6 +40,11 @@ public void CommonActionsWithDesktopControls_Wpf()
     radioButton.Click();
 
     radioButton.EnsureIsChecked(timeout: 30, sleepInterval: 2);
+
+	Bellatrix.Assertions.Assert.Multiple(
+        () => radioButton.EnsureIsChecked(timeout: 30, sleepInterval: 2),
+        () => checkBox.EnsureIsChecked(),
+        () => Assert.AreEqual("Item2", comboBox.InnerText));
 }
 ```
 
@@ -68,5 +73,12 @@ var radioButton = App.ElementCreateService.CreateByName<RadioButton>("RadioButto
 radioButton.EnsureIsChecked(timeout: 30, sleepInterval: 2);
 ```
 By default, all Ensure methods have 5 seconds timeout. However, you can specify a custom timeout and sleep interval (period for checking again).
+```csharp
+Bellatrix.Assertions.Assert.Multiple(
+        () => radioButton.EnsureIsChecked(timeout: 30, sleepInterval: 2),
+        () => checkBox.EnsureIsChecked(),
+        () => Assert.AreEqual("Item2", comboBox.InnerText));
+```
+You can execute multiple ensure assertions failing only once viewing all results.
 
 BELLATRIX provides you with a full BDD logging support for ensure assertions and gives you a way to hook your logic in multiple places.

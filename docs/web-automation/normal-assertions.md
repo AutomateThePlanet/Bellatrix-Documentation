@@ -39,6 +39,10 @@ public void AssertCartPageFields()
     Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
 
     Assert.AreEqual("120.00€", totalSpan.InnerText);
+
+    Bellatrix.Assertions.Assert.Multiple(
+                () => Assert.AreEqual("120.00€", totalSpan.InnerText),
+                () => Assert.IsTrue(updateCart.IsDisabled));
 }
 ```
 
@@ -69,5 +73,12 @@ Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order
 Assert.AreEqual("120.00€", totalSpan.InnerText);
 ```
 We check the total price contained in the order-total span HTML element.
+
+```csharp
+Bellatrix.Assertions.Assert.Multiple(
+                () => Assert.AreEqual("120.00€", totalSpan.InnerText),
+                () => Assert.IsTrue(updateCart.IsDisabled));
+```
+You can execute multiple assertions failing only once viewing all results.
 
 One more thing you need to keep in mind is that normal assertion methods do not include BDD logging and any available hooks. BELLATRIX provides you with a full BDD logging support for ensure assertions and gives you a way to hook your logic in multiple places.
