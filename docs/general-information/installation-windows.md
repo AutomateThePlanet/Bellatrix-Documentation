@@ -44,7 +44,7 @@ Simple Installation
 
 Installation Steps Visual Studio Integration
 ------------------
-1. Download BELLATRIX UI Installer [**x86 version**](installers/Bellatrix.Installer.UI-1.9.6.0-x86.msi) or [**x64 version**](installers/Bellatrix.Installer.UI-1.9.6.0-x64.msi)
+1. Download BELLATRIX UI Installer [**x86 version**](installers/Bellatrix.Installer.UI-1.9.7.0-x86.msi) or [**x64 version**](installers/Bellatrix.Installer.UI-1.9.7.0-x64.msi)
 2. Run **Bellatrix.Installer.UI.msi**
 
 ![BELLATRIX UI Installer](images/bellatrix-ui-installer.png)
