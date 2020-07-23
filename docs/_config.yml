@@ -162,8 +162,6 @@ navigation:
                 title: Extensibility- Add New Find Locators
             "extensibility-add-new-element-wait-methods": 
                 title: Extensibility- Add New Element Wait Methods
-            "templates":
-                title: Templates
             "folder-and-file-structure":
                 title: Folder and File Structure
     "android-automation":
@@ -245,8 +243,6 @@ navigation:
                 title: Extensibility- Add New Find Locators
             "extensibility-add-new-element-wait-methods":
                 title: Extensibility- Add New Element Wait Methods
-            "templates":
-                title: Templates
             "folder-and-file-structure":
                 title: Folder and File Structure
     "ios-automation":
@@ -324,8 +320,6 @@ navigation:
                 title: Extensibility- Add New Find Locators
             "extensibility-add-new-element-wait-methods":
                 title: Extensibility- Add New Element Wait Methods
-            "templates":
-                title: Templates
             "folder-and-file-structure":
                 title: Folder and File Structure
     "desktop-automation":
@@ -391,8 +385,6 @@ navigation:
                 title: Extensibility- Add New Find Locators
             "extensibility-add-new-element-wait-methods":
                 title: Extensibility- Add New Element Wait Methods
-            "templates":
-                title: Templates
             "folder-and-file-structure":
                 title: Folder and File Structure
     "api-automation":
@@ -428,8 +420,6 @@ navigation:
                 title: Load Testing
             "measure-response-times":
                 title: Measure Response Times
-            "templates":
-                title: Templates
             "folder-and-file-structure":
                 title: Folder and File Structure    
     "product-integrations":

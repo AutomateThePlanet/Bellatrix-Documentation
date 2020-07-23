@@ -38,24 +38,24 @@ To use the machine automation setup- add a call to the BELLATRIX **SoftwareAutom
 [AssemblyInitialize]
 public static void AssemblyInitialize(TestContext testContext)
 {
-    App.UseUnityContainer();
-    App.UseExceptionLogger();
-    App.UseMsTestSettings();
-    App.UseGridDataHandlers();
-    App.UseBrowserBehavior();
-    App.UseLogExecutionBehavior();
-    App.UseControlLocalOverridesCleanBehavior();
-    App.UseFFmpegVideoRecorder();
-    App.UseFullPageScreenshotsOnFail();
-    App.UseLogger();
-    App.UseElementsBddLogging();
-    App.UseHighlightElements();
-    App.UseEnsureExtensionsBddLogging();
-    App.UseLayoutAssertionExtensionsBddLogging();
-    App.UseExceptionAnalysation();
-    App.UseLoadTesting();
-    App.Initialize();
-    App.AssemblyInitialize();
+    UnityInitializationService.Initialize();
+    var app = new App(ServiceContainer.CurrentProvider);
+
+    app.UseExceptionLogger();
+    app.UseMsTestSettings();
+    app.UseControlDataHandlers();
+    app.UseBrowserBehavior();
+    app.UseLogExecutionBehavior();
+    app.UseControlLocalOverridesCleanBehavior();
+    app.UseFFmpegVideoRecorder();
+    app.UseFullPageScreenshotsOnFail();
+    app.UseLogger();
+    app.UseElementsBddLogging();
+    app.UseHighlightElements();
+    app.UseEnsureExtensionsBddLogging();
+    app.UseLayoutAssertionExtensionsBddLogging();
+    app.UseLoadTesting();
+    app.Initialize();
 
     SoftwareAutomationService.InstallRequiredSoftware();
 }
