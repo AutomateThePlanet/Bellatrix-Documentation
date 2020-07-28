@@ -1,145 +1,142 @@
 ---
 layout: default
-title:  "Zafira Test Results"
-excerpt: "Learn to analyze BELLATRIX test results through Zafira report portal."
-date:   2018-06-23 06:50:17 +0200
-parent: product-integrations
-permalink: /product-integrations/zafira-test-results/
+title:  "BELLATRIX Chatbot"
+excerpt: "Learn to use BELLATRIX Chatbot to speed up troubleshooting and bring team communication to a new level."
+date:   2020-07-28 06:50:17 +0200
+parent: add-ons
+permalink: /add-ons/chatbot/
 anchors:
-  what-is-zafira: What Is Zafira?
-  installation: Installation
-  configuration: Configuration
+  description: Description
+  authentication: Authentication
+  receive-help: Receive Help
+  search-for-specific-topic: Search for Specific Topic
+  automated-tests-writing-assistance: Automated Tests Writing Assistance
+  bug-notifications: Bug Notifications
+  test-run-completion-notifications: Test Run Completion Notifications
 ---
-What is Zafira?
+Description
 -------
-**[Zafira](http://qaprosoft.github.io/zafira/)** is central automation reporting system that is built on the top of Java Spring Framework. It dramatically increases the transparency of test automation results and provides a better understanding of product quality. 
-**Some of its primary features**
-- Real-time test results tracking
-- VNC streaming and video recording of test sessions
-- Flexibly configured widgets and dashboards
-- User management with authorization policies
-- Integration with TestRail and JIRA
-- Integration with Hipchat and Slack
-- Ability to compose automation reports and send via email
+BELLATRIX chatbot is designed to speed up troubleshooting and bring team communication to a new level.
 
-You have a full control over the configuration of the main dashboard.
+- Failing Test Reason Prediction with Machine Learning
+- Comprehensive Test Report for Failing Tests
+- Test Runs and Tests Performance Reports
+- Notifications: Bugs, Test Runs
+- Codeless Test Execution of Auto-generated Test Cases
+- Search Documentation and other Test Automation Blogs
+- Communicated with our Support Team through the Chatbot
+- Help
 
-![Bellatrix](images/zafira-configurable-dashboards.png)
+Once you purchase a chatbot user or receive one purchasing some of our other enterprise add-ons, we will send you an email with instructions on how to add the bot the different chat platforms such as Skype, Skype for Business, Microsoft Teams, Facebook Messenger, Slack, and others. We will ask you for information that we will use to prepare your company and personal accounts within our systems.
 
-Tests results are displayed in real-time.
+Authentication
+--------------
+First you will be prompted to authenticate. In most cases you will use your working email and setup password the first time. The whole log-in experience is happening through Microsoft Graph authentication system which brings high-class security and features.
 
-![Bellatrix](images/zafira-feature_testrun_results.png)
+![Bellatrix](images/bot-login-form.png)
 
-Zafira supports live streaming and video recording.
+When you click connect the Microsoft log-in form will show up.
 
-![Bellatrix](images/zafira-feature_live_streaming.png)
+![Bellatrix](images/microsoftlogin.png)
 
-It includes powerful features for test runs comparison to easy the troubleshooting and tests results analyzation.
+If the authentication is successful you will receive a validation code that you need to copy and paste into the bot chat.
 
-![Bellatrix](images/zafira-feature_testruns_comparison.png)
+![Bellatrix](images/validationcode.png)
+![Bellatrix](images/successfullogin.png)
 
-You can log bug to most popular bug tracking system directly from the tool.
+If you want to logout just use the command '**logout**'.
 
-![Bellatrix](images/zafira-feature_test_issues.png)
+![Bellatrix](images/logoutlogin.png)
 
-Installation
-------------------
-The easiest way to deploy Zafira it to use Docker. Docker allows to install Zafira on Linux, Mac or Windows. Make sure that you have allocated at least **2 CPUs** and **4GB RAM** for Docker operations.
-
-1 Clone Zafira repo
+Receive Help
+------------
 ```
-git clone git@github.com:qaprosoft/zafira.git
+can you help me?
+help
+help me
+```
+The first time you logged in, you will receive the help. But in case you want BELLATRIX bot to remind you of the instructions, you can use phrases like the above.
+![Bellatrix](images/helpdialog.png)
+
+Search for Specific Topic
+-------------------------
+You write search queries directly in the chat. BELLATRIX will search our and other popular websites about test automation and send you the most relevant pages.
+```
+can you help me?
+help
+help me
+```
+![Bellatrix](images/search-specific-topics.png)
+
+You can also ask the bot about any FAQ about our offerings.
+
+![Bellatrix](images/faq-questions.png)
+
+
+Automated Tests Writing Assistance
+----------------------------------
+You can ask the chatbot about CSS or XPATH locators, and it will help you. Also, it can give you a hand with other test automation questions.
+```
+XPath id contains
+what is the locator for CSS element with id containing?
+locator XPath element with name
 ```
 
-2 If you are planning to access Zafira remotely, you will need to modify docker-compose.yml specifying the appropriate IP address of your host
+![Bellatrix](images/writing-assistance.png)
 
-environment: 
+Bug Notifications
+-----------------
 ```
-- ZAFIRA_URL=http://localhost:8080
+can you change my notifications?
+change my notifications
+```
+![Bellatrix](images/changenotifications.png)
+
+You can subscribe to receive bug report notifications in case of test failure.
+
+Afterward you need to install our add-on NuGet package called **Bellatrix.BugReporting.Bot**. Add the following line to your **TestInitialize.cs** file.
+```
+app.UseBotBugReporting();
+```
+Also, you will need an additional section in the BELLATRIX configuration where you will specify information about your company and project. This will instruct BELLATRIX to notify all subscribed users part of this company and project.
+```
+"bugReportingSettings": {
+  "isEnabled": "true",
+  "url": "http://localhost:3978/",
+  "authorizationToken": "24dd9565-asec-488e-93d0-fc770f4cc752",
+  "projectName": "Bellatrix",
+  "companyName": "AutomateThePlanet"
+},
 ```
 
-3 Start Zafira
+Test Run Completion Notifications
+---------------------------------
 ```
-$ docker-compose up -d
+can you change my notifications?
+change my notifications
 ```
+![Bellatrix](images/changenotifications.png)
+Also, you can subscribe to receive notifications about completed test runs. There are two cases where you can use this feature. The first one is if you use our BELLATRIX Cloud Test Runner. If you don't use our runner, you can still use our Machine Learning Analysis report. To do so, you need to send a POST request to upload your test results. Usually, this is done in your CI job on test run completion.
 
-4 Verify deployment by running
 ```
-$ docker ps
+/api/UploadFailedTestsForTraining?companyName={YourCompany}&projectName={YourProject}&testRunName={testRunName}
 ```
+The file name format should be: 'testRunName_{ID}.trx'.
 
-5 Open Zafira in your browser
-```
-http://localhost:8080/zafira
-```
+Our chatbot will collect history information about your test runs and notify you if some tests are getting slower. The report includes overview information for the test run as duration, passed, and failed tests count. As well as detailed test run results grouped in the following categories:
+- Newly Failed
+- All Failed
+- Slower than Last Run
+- Slower than Avg
 
-6 Use default credentials to login
+![Bellatrix](images/chat_category.png)
 
-**qpsdemo/qpsdemo**
+Our Machine Learning algorithm will automatically suggest which tests you should look at first, categorizing them by priority. First, you will see the potential system bugs. This will decrease the time of bug reporting and help you to stabilize your product faster.
+- Potential Product Bug
+- Test Environment Issue
+- Core Library Issue
+- Framework Issue
+- Test Initialization Issue
+- Test Cleanup Issue
 
-Configuration
--------------
-First, you need to install the **Bellatrix.Results.Zafira** NuGet package to your tests project.
-Next, you need to enable the Allure BELLATRIX extension in your **TestInitialize** file.
-```csharp
-[TestClass]
-public class TestsInitialize : WebTest
-{
-    [AssemblyInitialize]
-    public static void AssemblyInitialize(TestContext testContext)
-    {
-        App.UseUnityContainer();
-        App.UseMsTestSettings();
-        App.UseBrowserBehavior();
-        App.UseLogExecutionBehavior();
-        App.UseControlLocalOverridesCleanBehavior();
-        App.UseFFmpegVideoRecorder();
-        App.UseFullPageScreenshotsOnFail();
-        App.UseLogger();
-        App.UseElementsBddLogging();
-        App.UseHighlightElements();
-        App.UseEnsureExtensionsBddLogging();
-        App.UseLayoutAssertionExtensionsBddLogging();
-        App.UseExceptionAnalysation();
-        App.Initialize();
-        App.UseZafira();
-        App.AssemblyInitialize();
-    }
-
-    [AssemblyCleanup]
-    public static void AssemblyCleanUp() => App.Dispose();
-}
-```
-You need to add the **App.UseZafira();** line.
-Next, you need to add two new sections to the **testFrameworkSettings.json** file.
-
-```json
-"zafira": {
-    "enabled": "true",
-    "accessToken": "eyJzdWIiOiIzIiwicGFzc3dvcmQiOiJBT3hNR01RU3RtbmJ5YTlZZzZ4UmMxdk9UY2FxQzRUYSIsInRlbmFudCI6ImJlbGxhdHJpeC",
-    "projectName": "BELLATRIX",
-    "firstName": "Anton",
-    "lastName": "Angelov",
-    "userId": "aangelov",
-    "userEmail": "aangelov@automatetheplanet.com",
-    "buildCause": "MANUAL",
-    "testSuite": "Bellatrix.Web.Tests",
-    "serviceUrl": "https://yourZafiuraServerUrl/zafira-ws",
-    "parentUrl": "https://yourZafiuraServerUrl/zafira/job/unavailable/parent",
-    "cIUrl": "https://yourZafiuraServerUrl/zafira/job/unavailable",
-    "cIBuild": "15",
-    "gitBranch": "TEST_IMPROVEMENTS",
-    "gitCommit": "15",
-    "reportEmails": "aangelov@automatetheplanet.com",
-    "shouldSendReportEmails": "false"
-  },
-  "apiSettings": {
-    "baseUrl": "https://yourZafiuraServerUrl/zafira-ws",
-    "clientTimeoutSeconds": "30",
-    "maxRetryAttempts": "3",
-    "pauseBetweenFailures": "1",
-    "timeUnit": "1"
-  }
-```
-Once you have installed the portal, you need to generate an access token and set it to **accessToken** field.
-To the **zafira** section you can configure various settings of the portal. Also, in the BELLATRIX-Zafira integration, we use **Bellatrix.API**, because of that you need to set few parameters in the **apiSettings** section.
+![Bellatrix](images/report.gif)
