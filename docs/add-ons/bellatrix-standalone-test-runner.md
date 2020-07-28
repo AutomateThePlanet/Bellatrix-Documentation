@@ -1,15 +1,80 @@
 ---
 layout: default
-title:  "ReportPortal Test Results"
-excerpt: "Learn to analyze BELLATRIX test results through ReportPortal."
-date:   2018-06-23 06:50:17 +0200
-parent: product-integrations
-permalink: /product-integrations/reportportal-test-results/
+title:  "BELLATRIX Standalone Test Runner"
+excerpt: "Learn to install and use BELLATRIX Cloud Test Runner."
+date:   2020-07-28 06:50:17 +0200
+parent: add-ons
+permalink: /add-ons/standalonetestrunner/
 anchors:
-  what-is-reportportal: What Is ReportPortal?
   installation: Installation
-  configuration: Configuration
+  usage: Usage
+  commands: Commands
+  additional-notes: Additional Notes
+  what-is-reportportal: What Is ReportPortal?
 ---
+Installation
+-------
+When you purchase a company license for the standalone runner, you will receive access to a GitHub repository with the full source code. Afterward, you can build and use the runner.
+Usage
+-------
+```
+bellatrixstandalonetestrunner --library="C:\SourceCode\BELLATRIX\Tests\Bellatrix.Web.Tests\bin\Debug\netcoreapp3.1\Bellatrix.Web.Tests.dll" --results="C:\SourceCode\BELLATRIX\Tests\Bellatrix.Web.Tests\bin\Debug\netcoreapp3.1\ciwebresults.trx" --maxCount=4  --retries=2 --threshold=60 --reportPortalProject="bellatrix" --reportPortalAccessToken="asdgr435-66f5-44a3-ghjh5-7956895814ed" --reportPortalUrl="http://myreportportal.com:8080" --reportPortalLaunchName="CIWebTests" --filter="test.FullName.Contains(\"ColorControlBddLoggingTests\")"
+```
+Commands
+-------
+```
+--library="pathToBuildedFiles\SampleTestProj.dll"
+```
+Path to the DLL that includes your tests. Make sure all referenced assemblies to be copied to the same folder.
+To make sure that this happens, add the following line to your MSBuild project:
+```
+<PropertyGroup>
+  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+</PropertyGroup>
+```
+```
+--results="pathToResults\result.trx
+```
+The path where the results produced by the runner will be saved. The file should be in the expected file format. TRX is the file format for .NET tests. If the retry option is turned-on the produced results will be updated automatically.
+```
+--filter="test.FullName != \"TestName\" AND !test.Categories.Contains(\"CI\")"
+```
+BELlATRIX Standalone Test Runner has a built-in complex test filter parser, and we can write complex queries to filter the tests.
+```
+--retries=3 --threshold=20
+```
+With this one, we tell the runner to retry the failed tests three times if less than 20% of all tests have failed.
+```
+--maxCount=4
+```
+Instructs the runner to execute the tests in 4 separate processes. By default, the tests are split by test count. **Keep in mind that tests in one test class will always be executed sequentially on the same thread!**
+```
+--reportPortalProject="bellatrix" --reportPortalAccessToken="asdgr435-66f5-44a3-ghjh5-7956895814ed" --reportPortalUrl="http://myreportportal.com:8080" --reportPortalLaunchName="CIWebTests"
+```
+The results are sent to your **[ReportPortal](https://reportportal.io/)** instance. You need to provide the name of your project, and the launch name later used to group your tests. Also, you need to provide a URL to your instance and an access token used for login. You can generate one from your **[ReportPortal](https://reportportal.io/)** profile. In the following section, you can read more about **[ReportPortal](https://reportportal.io/)**.
+
+Additional Notes
+-------
+By default for BELLATRIX Web, Android, iOS, Desktop modules the runner switches automatically all app/browser behaviors to **RestartEveryTime**.
+```
+[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
+```
+This is needed so that all apps and browsers ran in parallel to be correctly closed. Otherwise, you risk lots of them remaining open at the end of the run. Because of this automatic behavior, if you use logic inside **TestsAct** or **TestsArrange** methods to perform operations against your app, your website, in case of parallel run, you risk experiencing unexpected errors. Preferably execute such logic inside the **TestInit** method.
+```
+public override void TestsArrange()
+{
+    _mainButton = App.ElementCreateService.CreateByName<Button>("E Button");
+    _resultsLabel = App.ElementCreateService.CreateByAutomationId<Label>("ResultLabelId");
+}
+
+public override void TestsAct()
+{
+    _mainButton.Hover();
+}
+```
+By default, in parallel-run mode, the BELLATRIX video recording is turned off.
+
 What is ReportPortal?
 -------
 **[ReportPortal](http://reportportal.io/)** is a service, that provides increased capabilities to speed up results analysis and reporting through the use of built-in analytic features. ReportPortal is a great addition to the Continuous Integration and Continuous Testing process.
@@ -37,83 +102,3 @@ All test failure info is synced automatically and well displayed.
 You can filter based on the bug type and check all of these tests.
 
 ![Bellatrix](images/reportportal-filters.png)
-
-
-Installation
-------------------
-The easiest way to deploy ReportPortal it to use [Docker](https://docs.docker.com/). Docker allows to install ReportPortal on Linux, Mac or Windows. Make sure that you have allocated at least **2 CPUs** and **3GB RAM** for Docker operations.
-
-1 Make sure the Docker ([Engine](https://docs.docker.com/engine/installation/), [Compose](https://docs.docker.com/compose/install/)) is installed.
-
-2 Download the latest compose descriptor example from [here](https://github.com/reportportal/reportportal/blob/master/docker-compose.yml). You can make it by next command:
-
-```
-curl https://raw.githubusercontent.com/reportportal/reportportal/master/docker-compose.yml -o docker-compose.yml
-```
-
-3 Start the application using the following command:
-
-```
-docker-compose -p reportportal up -d --force-recreate
-```
-
-4 Open your browser with the IP address of the deployed environment at port 8080
-
-```
-http://127.0.0.1:8080
-```
-
-5 Use next login\pass for access:
-
-**default\1q2w3e** or **superadmin\erebus**
-
-[Official Documentation](http://reportportal.io/docs/Installation-steps)
-
-Configuration
--------------
-First, you need to install the **ReportPortal.VSTest.TestLogger** NuGet package to your tests project.
-After that when you execute your tests through native **dotnet vstest** test runner the tests will be automatically synced with the portal. Next you need to a JSON configuration file to your project called **ReportPortal.config.json**.
-```json
-{
-  "$schema": "https://raw.githubusercontent.com/reportportal/agent-net-vstest/master/ReportPortal.VSTest.TestLogger/ReportPortal.config.schema",
-  "enabled": true,
-  "server": {
-    "url": "http://127.0.0.1:8080/api/v1/",
-    "project": "superadmin_personal",
-    "authentication": {
-      "uuid": "d8685bb4-2f2a-4335-9c8b-1f2a5d176d02"
-    }
-  },
-  "launch": {
-    "name": "Automate The Planet Test Portal Demo",
-    "description": "This is a demo run of the ATP demo examples for a demonstration of Test Portal integration with MSTest tests.",
-    "debugMode": false,
-    "tags": [ "Automate The Planet", "Test Reporting", "MSTEST" ]
-  }
-}
-```
-You need to mention the name of your project, and from the ReportPortal settings section, you need to copy the authentication guid for your user. In the launch settings, you can customize the name of the test runs and add some tags.
-
-[Official Documentation](https://github.com/reportportal/agent-net-vstest)
-
-If you run your tests from Visual Studio the results won't show up in the portal. Instead you need to run them from command line using the following command.
-
-```
-dotnet vstest Bellatrix.Web.Tests.dll --testcasefilter:TestCategory=CI --logger:ReportPortal
-```
-
-The most important part is mentioning the logger **--logger:ReportPortal**.
-
-[dotnet vstest official documentation](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-vstest?tabs=netcore21)
-
-**NUnit Project Configuration**
-
-First, you need to install the **ReportPortal.NUnit** NuGet package to your test project.
-
-To enable NUnit extension you have to add **ReportPortal.addins** file in the folder where NUnit Runner is located. The content of the file should contain line with relative path to the ReportPortal.NUnitExtension.dll. To read more about how NUnit is locating extensions please follow [this](https://github.com/nunit/docs/wiki/Engine-Extensibility#locating-addins).
-
-To enable **ReportPortal.Extension** you need create a **ReportPortal.addins** file in the **NUnitRunner** folder with the following content:
-
-**../YourProject/bin/Debug/ReportPortal.NUnitExtension.dll**
-
-[Official Documentation](https://github.com/reportportal/agent-net-nunit)
