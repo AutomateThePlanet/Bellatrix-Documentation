@@ -435,8 +435,6 @@ navigation:
                 title: Bug Reporting Jira
             "allure-test-results":
                 title: Test Results Allure
-            "zafira-test-results":
-                title: Test Results Zafira
             "reportportal-test-results":
                 title: Test Results ReportPortal
             "azuredevops-test-results":

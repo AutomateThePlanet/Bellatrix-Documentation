@@ -65,29 +65,32 @@ public class TestsInitialize : WebTest
     [AssemblyInitialize]
     public static void AssemblyInitialize(TestContext testContext)
     {
-        App.UseUnityContainer();
-        App.UseMsTestSettings();
-        App.UseBrowserBehavior();
-        App.UseLogExecutionBehavior();
-        App.UseControlLocalOverridesCleanBehavior();
-        App.UseFFmpegVideoRecorder();
-        App.UseFullPageScreenshotsOnFail();
-        App.UseLogger();
-        App.UseElementsBddLogging();
-        App.UseHighlightElements();
-        App.UseEnsureExtensionsBddLogging();
-        App.UseLayoutAssertionExtensionsBddLogging();
-        App.UseExceptionAnalysation();
-        App.Initialize();
-        App.UseAllure();
-        App.AssemblyInitialize();
+        var app = new App();
+        app.UseMsTestSettings();
+        app.UseBrowserBehavior();
+        app.UseLogExecutionBehavior();
+        app.UseControlLocalOverridesCleanBehavior();
+        app.UseFFmpegVideoRecorder();
+        app.UseFullPageScreenshotsOnFail();
+        app.UseLogger();
+        app.UseElementsBddLogging();
+        app.UseHighlightElements();
+        app.UseEnsureExtensionsBddLogging();
+        app.UseLayoutAssertionExtensionsBddLogging();
+        app.UseExceptionAnalysation();
+        app.Initialize();
+        app.UseAllure();
     }
 
     [AssemblyCleanup]
-    public static void AssemblyCleanUp() => App.Dispose();
+    public static void AssemblyCleanup()
+    {
+        var app = ServicesCollection.Current.Resolve<App>();
+        app?.Dispose();
+    }
 }
 ```
-You need to add the **App.UseAllure();** line.
+You need to add the **app.UseAllure();** line.
 Next, you need to add a new configuration file called **allureConfig.json**. You need to make sure it is copied to the output folder. It contains the Allure framework configuration.
 
 ```json

@@ -27,41 +27,43 @@ public class TestsInitialize : WebTest
     [AssemblyInitialize]
     public static void AssemblyInitialize(TestContext testContext)
     {
-        App.UseUnityContainer();
-        App.UseMsTestSettings();
-        App.UseBrowserBehavior();
-        App.UseLogExecutionBehavior();
-        App.UseControlLocalOverridesCleanBehavior();
-        App.UseFFmpegVideoRecorder();
-        App.UseFullPageScreenshotsOnFail();
-        App.UseLogger();
-        App.UseElementsBddLogging();
-        App.UseHighlightElements();
-        App.UseEnsureExtensionsBddLogging();
-        App.UseLayoutAssertionExtensionsBddLogging();
-        App.UseExceptionAnalysation();
-        App.Initialize();
+        var app = new App();
+        app.UseMsTestSettings();
+        app.UseBrowserBehavior();
+        app.UseLogExecutionBehavior();
+        app.UseControlLocalOverridesCleanBehavior();
+        app.UseFFmpegVideoRecorder();
+        app.UseFullPageScreenshotsOnFail();
+        app.UseLogger();
+        app.UseElementsBddLogging();
+        app.UseHighlightElements();
+        app.UseEnsureExtensionsBddLogging();
+        app.UseLayoutAssertionExtensionsBddLogging();
+        app.UseExceptionAnalysation();
+        app.Initialize();
         
-		App.UseDynamicTestCases();
-    	App.UseAssertExtensionsDynamicTestCases();
-    	App.UseEnsureExtensionsDynamicTestCases();
-    	App.UseLayoutAssertionExtensionsDynamicTestCases();
-    	App.UseQTestDynamicTestCases();
-
-        App.AssemblyInitialize();
+        app.UseDynamicTestCases();
+        app.UseAssertExtensionsDynamicTestCases();
+        app.UseEnsureExtensionsDynamicTestCases();
+        app.UseLayoutAssertionExtensionsDynamicTestCases();
+        app.UseQTestDynamicTestCases();
     }
 
     [AssemblyCleanup]
-    public static void AssemblyCleanUp() => App.Dispose();
+    public static void AssemblyCleanup()
+    {
+        var app = ServicesCollection.Current.Resolve<App>();
+        app?.Dispose();
+    }
 }
 ```
 You need to add the following lines:
 ```csharp
-App.UseDynamicTestCases();
-App.UseAssertExtensionsDynamicTestCases();
-App.UseEnsureExtensionsDynamicTestCases();
-App.UseLayoutAssertionExtensionsDynamicTestCases();
-App.UseQTestDynamicTestCases();
+app.UseDynamicTestCases();
+app.UseAssertExtensionsDynamicTestCases();
+app.UseEnsureExtensionsDynamicTestCases();
+app.UseLayoutAssertionExtensionsDynamicTestCases();
+app.UseQTestDynamicTestCases();
 ```
 They will turn on the feature and will assign listeners to common actions in the framework that will populate the auto-generated test case's steps and expected results.
 Next, you need to add a new section in the **testFrameworkSettings.json** settings file.
