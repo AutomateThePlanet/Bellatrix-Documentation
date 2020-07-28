@@ -58,9 +58,7 @@ navigation:
             "installation-macos":
                 title: Installation MacOS
             "installation-linux":
-                title: Installation Linux   
-            "activation":
-                title: Activation
+                title: Installation Linux
             "update":
                 title: Update
             "how-to-use-starter-kits":

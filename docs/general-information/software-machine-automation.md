@@ -38,9 +38,7 @@ To use the machine automation setup- add a call to the BELLATRIX **SoftwareAutom
 [AssemblyInitialize]
 public static void AssemblyInitialize(TestContext testContext)
 {
-    UnityInitializationService.Initialize();
-    var app = new App(ServiceContainer.CurrentProvider);
-
+    var app = new App();
     app.UseExceptionLogger();
     app.UseMsTestSettings();
     app.UseControlDataHandlers();
