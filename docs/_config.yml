@@ -437,7 +437,7 @@ navigation:
                 title: Test Results ReportPortal
             "azuredevops-test-results":
                 title: Test Results Azure DevOps
-     "add-ons":
+    "add-ons":
         title: Addons
         submenu:
             "cloudtestrunner":
