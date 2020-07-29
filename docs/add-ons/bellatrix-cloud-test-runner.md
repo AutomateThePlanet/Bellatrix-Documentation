@@ -26,11 +26,13 @@ To uninstall the runner use:
 ```
 dotnet tool uninstall --global bellatrixcloudtestrunner
 ```
+
 Usage
 -------
 ```
 bellatrixcloudtestrunner --library="C:\SourceCode\BELLATRIX\Tests\Bellatrix.Web.Tests\bin\Debug\netcoreapp3.1\Bellatrix.Web.Tests.dll" --results="C:\SourceCode\BELLATRIX\Tests\Bellatrix.Web.Tests\bin\Debug\netcoreapp3.1\ciwebresults.trx" --maxCount=4  --retries=2 --threshold=60 --licenseKey="122c5783-d122-4de9-85bf-ss56c5e4554"  --companyName="AutomateThePlanet" --projectName="Bellatrix" --testRunName="CIWebTests" --autoAnalysis --reportPortalProject="bellatrix" --reportPortalAccessToken="asdgr435-66f5-44a3-ghjh5-7956895814ed" --reportPortalUrl="http://myreportportal.com:8080" --reportPortalLaunchName="CIWebTests" --filter="test.FullName.Contains(\"ColorControlBddLoggingTests\")"
 ```
+
 Commands
 -------
 ```

@@ -15,11 +15,13 @@ anchors:
 Installation
 -------
 When you purchase a company license for the standalone runner, you will receive access to a GitHub repository with the full source code. Afterward, you can build and use the runner.
+
 Usage
 -------
 ```
 bellatrixstandalonetestrunner --library="C:\SourceCode\BELLATRIX\Tests\Bellatrix.Web.Tests\bin\Debug\netcoreapp3.1\Bellatrix.Web.Tests.dll" --results="C:\SourceCode\BELLATRIX\Tests\Bellatrix.Web.Tests\bin\Debug\netcoreapp3.1\ciwebresults.trx" --maxCount=4  --retries=2 --threshold=60 --reportPortalProject="bellatrix" --reportPortalAccessToken="asdgr435-66f5-44a3-ghjh5-7956895814ed" --reportPortalUrl="http://myreportportal.com:8080" --reportPortalLaunchName="CIWebTests" --filter="test.FullName.Contains(\"ColorControlBddLoggingTests\")"
 ```
+
 Commands
 -------
 ```
