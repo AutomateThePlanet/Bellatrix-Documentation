@@ -47,6 +47,7 @@ plugins:
 navigation:
     "overview":
         title: Overview
+        submenu:
     "general-information":
         title: General Information
         submenu:
@@ -445,4 +446,3 @@ navigation:
                 title: BELLATRIX Standalone Test Runner
             "chatbot":
                 title: BELLATRIX Chatbot
-        
