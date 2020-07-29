@@ -44,10 +44,9 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
-navigation: 
+navigation:
     "overview":
         title: Overview
-        submenu:
     "general-information":
         title: General Information
         submenu:
