@@ -69,6 +69,5 @@ After you install the product, you need to open one of the starter kit projects 
 Read how to use all installed features:
 
 - [**Starter Kits**](how-to-use-starter-kits.md)
-- [**Project Templates**](https://docs.bellatrix.solutions/web-automation/templates)
 - [**Element Code Snippets**](https://docs.bellatrix.solutions/web-automation/elements-snippets/)
 - [**Page Object Item Templates**](https://docs.bellatrix.solutions/web-automation/page-objects/)

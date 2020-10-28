@@ -13,15 +13,15 @@ The quality assurance practices such as automated tests usually do not consist o
 
 ### Allure ###
 Allure Framework is a flexible, lightweight multi-language test report tool that not only shows a very concise representation of what has been tested in a neat web report form. Allure reports shorten common defect lifecycle: test failures can be divided into bugs and broken tests, also logs, steps, fixtures, attachments, timings, history, and integrations with TMS and bug-tracking systems. 
-[**Learn more**](/allure.md).
+[**Learn more**](/allure-test-results.md).
 
 ### ReportPortal ###
 ReportPortal is a service, that provides increased capabilities to speed up results analysis and reporting through the use of built-in analytic features. ReportPortal is a great addition to the Continuous Integration and Continuous Testing process.
-[**Learn more**](/reportportal.md).
+[**Learn more**](/reportportal-test-results.md).
 
 ### Azure DevOps ###
 Azure DevOps offers one of the best CI on the market. Instead of using 3rd party tools or systems you can directly publish the results in Azure DevOps.
-[**Learn more**](/azuredevops.md).
+[**Learn more**](/azuredevops-test-results.md).
 
 ### Jira Bug Reporting ###
 The automatic bug reporting is a BELLATRIX feature that will create a bug automatically in Jira if some of your tests fail. The plugin will populate the description, attach a screenshot, video of the test. Moreover, it will generate human-readable steps to reproduce.

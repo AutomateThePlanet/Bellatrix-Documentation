@@ -20,7 +20,7 @@ You need to make sure that you have navigated to the desired web page. Get all c
 
 ### 30+ web controls ###
 Includes only the actions that you should be able to do with the specific control and nothing more.
-[**Learn more**](/common-controls.md).
+[**Learn more**](/simple-controls.md).
 
 ### Web Extendability ###
 Execute your code on each element action, add additional logic to core framework methods and easily set anything to file configuration. Check all extensibility options:
