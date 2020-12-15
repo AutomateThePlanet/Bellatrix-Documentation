@@ -12,23 +12,23 @@ anchors:
 ---
 Introduction
 ------------
-Imagine that you want to wait for an element to have a specific content. First, you need to create a new 'Until' class that inheriting the **BaseUntil** class.
+Imagine that you want to wait for an element to have a specific content. First, you need to create a new 'WaitStrategy' class that inheriting the **WaitStrategy** class.
 
 Example
 -------
 ```csharp
-public class UntilHaveSpecificContent : BaseUntil
+public class WaitToHaveSpecificContentStrategy : WaitStrategy
 {
     private readonly string _elementContent;
 
-    public UntilHaveSpecificContent(string elementContent, int? timeoutInterval = null, int? sleepInterval = null)
+    public WaitToHaveSpecificContentStrategy(string elementContent, int? timeoutInterval = null, int? sleepInterval = null)
         : base(timeoutInterval, sleepInterval) => _elementContent = elementContent;
 
-    public override void WaitUntil<TBy>(TBy by) 
+    public override void WaitUntil<TBy>(TBy by)
         => WaitUntil(ElementHasSpecificContent(WrappedWebDriver, by), TimeoutInterval, SleepInterval);
 
     private Func<IWebDriver, bool> ElementHasSpecificContent<TBy>(WindowsDriver<WindowsElement> searchContext, TBy by)
-        where TBy : Locators.By => driver =>
+        where TBy : Locators.FindStrategy => driver =>
     {
         try
         {
@@ -52,9 +52,9 @@ The next and final step is to create an extension method for all UI elements.
 
 ```csharp
 public static TElementType ToHaveSpecificContent<TElementType>(this TElementType element, string content, int? timeoutInterval = null, int? sleepInterval = null)
- where TElementType : Element
+    where TElementType : Element
 {
-    var until = new UntilHaveSpecificContent(content, timeoutInterval, sleepInterval);
+    var until = new WaitToHaveSpecificContentStrategy(content, timeoutInterval, sleepInterval);
     element.EnsureState(until);
     return element;
 }

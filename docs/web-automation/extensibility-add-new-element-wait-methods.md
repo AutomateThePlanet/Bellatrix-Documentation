@@ -12,33 +12,44 @@ anchors:
 ---
 Introduction
 ------------
-Imagine that you want to wait for an element to have a specific style. First, you need to create a new 'Until' class that inheriting the **BaseUntil** class.
+Imagine that you want to wait for an element to have a specific style. First, you need to create a new 'WaitStrategy' class that inheriting the **WaitStrategy** class.
 
 Example
 -------
 ```csharp
-public class UntilHasStyle : BaseUntil
+public class WaitToHasStyleStrategy : WaitStrategy
 {
     private readonly string _elementStyle;
 
-    public UntilHasStyle(string elementStyle, int? timeoutInterval = null, int? sleepInterval = null)
-        : base(timeoutInterval, sleepInterval) => _elementStyle = elementStyle;
+    public WaitToHasStyleStrategy(string elementStyle, int? timeoutInterval = null, int? sleepInterval = null)
+        : base(timeoutInterval, sleepInterval)
+    {
+        _elementStyle = elementStyle;
+    }
 
-    public override void WaitUntil<TBy>(TBy by) => WaitUntil(ElementHasStyle(WrappedWebDriver, by), TimeoutInterval, SleepInterval);
+    public override void WaitUntil<TBy>(TBy by)
+    {
+        WaitUntil(d => ElementHasStyle(WrappedWebDriver, by), TimeoutInterval, SleepInterval);
+    }
 
-    private Func<IWebDriver, bool> ElementHasStyle<TBy>(ISearchContext searchContext, TBy by)
-        where TBy : By => driver =>
+    public override void WaitUntil<TBy>(TBy by, Element parent)
+    {
+        WaitUntil(d => ElementHasStyle(parent.WrappedElement, by), TimeoutInterval, SleepInterval);
+    }
+
+    private bool ElementHasStyle<TBy>(ISearchContext searchContext, TBy by)
+        where TBy : FindStrategy
     {
         try
         {
-            var element = FindElement(searchContext, by);
+            var element = searchContext.FindElement(by.Convert());
             return element != null && element.GetAttribute("style").Equals(_elementStyle);
         }
         catch (StaleElementReferenceException)
         {
             return false;
         }
-    };
+    }
 }
 ```
 Find the element and check the current value in the style attribute. The internal **WaitUntil** will wait until the value changes in the specified time.
@@ -48,10 +59,10 @@ The next and final step is to create an extension method for all UI elements.
 ```csharp
 public static class UntilElementsExtensions
 {
-    public static TElementType ToHasStyle<TElementType>(this TElementType element, string style, int? timeoutInterval = null, int? sleepInterval = null)
+    public static TElementType ToHasSpecificStyle<TElementType>(this TElementType element, string style, int? timeoutInterval = null, int? sleepInterval = null)
         where TElementType : Element
     {
-        var until = new UntilHasStyle(style, timeoutInterval, sleepInterval);
+        var until = new WaitToHasStyleStrategy(style, timeoutInterval, sleepInterval);
         element.EnsureState(until);
         return element;
     }

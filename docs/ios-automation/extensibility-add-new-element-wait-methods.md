@@ -12,29 +12,28 @@ anchors:
 ---
 Introduction
 ------------
-Imagine that you want to wait for an element to have a specific content. First, you need to create a new 'Until' class that inheriting the **BaseUntil** class.
+Imagine that you want to wait for an element to have a specific content. First, you need to create a new 'WaitStrategy' class that inheriting the **WaitStrategy** class.
 
 Example
 -------
 ```csharp
-public class UntilHaveSpecificContent<TDriver, TDriverElement> : BaseUntil<TDriver, TDriverElement>
+public class WaitHaveSpecificContentStrategy<TDriver, TDriverElement> : WaitStrategy<TDriver, TDriverElement>
     where TDriver : IOSDriver<TDriverElement>
     where TDriverElement : AppiumWebElement
 {
     private readonly string _elementContent;
 
-    public UntilHaveSpecificContent(string elementContent, int? timeoutInterval = null, int? sleepInterval = null)
+    public WaitHaveSpecificContentStrategy(string elementContent, int? timeoutInterval = null, int? sleepInterval = null)
         : base(timeoutInterval, sleepInterval)
     {
         _elementContent = elementContent;
-        TimeoutInterval = timeoutInterval ?? ConfigurationService.Instance.GetMobileSettings().ElementToHaveContentTimeout;
+        TimeoutInterval = timeoutInterval ?? Bellatrix.ConfigurationService.GetSection<MobileSettings>().ElementToHaveContentTimeout;
     }
 
-    public override void WaitUntil<TBy>(TBy by) 
-        => WaitUntil(ElementHasSpecificContent(WrappedWebDriver, by), TimeoutInterval, SleepInterval);
+    public override void WaitUntil<TBy>(TBy by) => WaitUntil(ElementHasSpecificContent(WrappedWebDriver, by), TimeoutInterval, SleepInterval);
 
     private Func<TDriver, bool> ElementHasSpecificContent<TBy>(TDriver searchContext, TBy by)
-        where TBy : By<TDriver, TDriverElement>
+        where TBy : FindStrategy<TDriver, TDriverElement>
     {
         return driver =>
         {
@@ -52,26 +51,6 @@ public class UntilHaveSpecificContent<TDriver, TDriverElement> : BaseUntil<TDriv
                 return false;
             }
         };
-    }
-}
-```
-Find the element and check the current value in the Text attribute. The internal **WaitUntil** will wait until the value changes in the specified time.
-
-The next and final step is to create an extension method for all UI elements.
-
-```csharp
-namespace Bellatrix.Mobile.IOS.GettingStarted.ExtensionMethodsWaitMethods
-{
-    public static class UntilElementsExtensions
-    {
-        public static TElementType ToHaveSpecificContent<TElementType>(
-            this TElementType element, string content, int? timeoutInterval = null, int? sleepInterval = null)
-         where TElementType : Element
-        {
-            var until = new UntilHaveSpecificContent<IOSDriver<IOSElement>, IOSElement>(content, timeoutInterval, sleepInterval);
-            element.EnsureState(until);
-            return element;
-        }
     }
 }
 ```
