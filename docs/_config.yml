@@ -110,8 +110,6 @@ navigation:
                 title: Troubleshooting- Full Page Screenshots on Fail
             "troubleshooting-video-recording":
                 title: Troubleshooting- Video Recording
-            "troubleshooting-failed-tests-analysis":
-                title: Troubleshooting- Failed Tests Analysis
             "elements-snippets":
                 title: Elements Snippets
             "capture-http-traffic":
