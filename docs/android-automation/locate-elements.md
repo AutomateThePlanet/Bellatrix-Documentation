@@ -23,7 +23,7 @@ public void ElementFound_When_CreateByIdContaining_And_ElementIsOnScreen()
 {
     var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
 
-    button.EnsureIsVisible();
+    button.ValidateIsVisible();
 
     Console.WriteLine(button.By.Value);
 
@@ -31,7 +31,7 @@ public void ElementFound_When_CreateByIdContaining_And_ElementIsOnScreen()
 
 	var textField = App.ElementCreateService.CreateByIdContaining<TextField>("edit");
 
-	textField.EnsureIsVisible();
+	textField.ValidateIsVisible();
 }
 ```
 
@@ -115,7 +115,7 @@ public void ElementFound_When_CreateAllByIdContaining_And_ElementIsOnScreen()
 {
     var buttons = App.ElementCreateService.CreateAllByIdContaining<Button>("button");
 
-	buttons[0].EnsureIsVisible();
+	buttons[0].ValidateIsVisible();
 }
 ```
 
@@ -176,7 +176,7 @@ public void ElementFound_When_CreateByIdContaining_And_ElementIsOnScreen_NestedE
 {
     var mainElement = App.ElementCreateService.CreateByIdContaining<Element>("decor_content_parent");
 	var button = mainElement.CreateByIdContaining<Button>("button");
-    button.EnsureIsVisible();
+    button.ValidateIsVisible();
 }
 ```
 

@@ -26,18 +26,18 @@ Non-page-object Test Example
 public void ActionsWithoutPageObjects()
 {
     var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
-    button.EnsureIsNotDisabled();
+    button.ValidateIsNotDisabled();
     var checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
     checkBox.Check();
-    checkBox.EnsureIsChecked();
+    checkBox.ValidateIsChecked();
     var comboBox = App.ElementCreateService.CreateByIdContaining<ComboBox>("spinner1");
     comboBox.SelectByText("Jupiter");
-    comboBox.EnsureTextIs("Jupiter");
+    comboBox.ValidateTextIs("Jupiter");
     var label = App.ElementCreateService.CreateByText<Label>("textColorPrimary");
-    label.EnsureIsVisible();
+    label.ValidateIsVisible();
     var radioButton = App.ElementCreateService.CreateByIdContaining<RadioButton>("radio2");
     radioButton.Click();
-    radioButton.EnsureIsChecked(timeout: 30, sleepInterval: 2);
+    radioButton.ValidateIsChecked(timeout: 30, sleepInterval: 2);
 }
 ```
 
