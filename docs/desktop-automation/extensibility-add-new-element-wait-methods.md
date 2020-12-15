@@ -55,7 +55,7 @@ public static TElementType ToHaveSpecificContent<TElementType>(this TElementType
     where TElementType : Element
 {
     var until = new WaitToHaveSpecificContentStrategy(content, timeoutInterval, sleepInterval);
-    element.EnsureState(until);
+    element.ValidateState(until);
     return element;
 }
 ```

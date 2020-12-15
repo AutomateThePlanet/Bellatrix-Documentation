@@ -89,7 +89,7 @@ public partial class CalculatorPage
 {
     public void AssertAnswer(int answer)
     {
-        Answer.EnsureTextIs(answer.ToString());
+        Answer.ValidateTextIs(answer.ToString());
     }
 }
 ```
@@ -116,7 +116,7 @@ All elements are placed inside the file **PageName.Elements** so that the declar
 ```csharp
 public void AssertAnswer(int answer)
 {
-    Answer.EnsureTextIs(answer.ToString());
+    Answer.ValidateTextIs(answer.ToString());
 }
 ```
 With this Assert, reuse the formatting of the currency and the timeout. Also, since the method is called from the page it makes your tests a little bit more readable. If there is a change what needs to be checked --> for example, not span but different element you can change it in a single place.

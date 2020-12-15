@@ -29,7 +29,7 @@ public class ImageRecognitionTests : DesktopTest
         Screen.SetText("type-to-search-field", "notepad");
         Screen.Click("notepad-panel");
 
-        Screen.EnsureIsVisible("new-notepad-opened", similarity: 0.7, timeoutInSeconds: 30);
+        Screen.ValidateIsVisible("new-notepad-opened", similarity: 0.7, timeoutInSeconds: 30);
 
         Screen.Click("notepad-close-button");
     }
@@ -45,7 +45,7 @@ Screen.Click("notepad-panel");
 ```
 To perform visual actions, use the class Screen and its methods.
 ```csharp
-Screen.EnsureIsVisible("new-notepad-opened", similarity: 0.7, timeoutInSeconds: 30);
+Screen.ValidateIsVisible("new-notepad-opened", similarity: 0.7, timeoutInSeconds: 30);
 ```
 Configuration
 -------------

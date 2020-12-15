@@ -23,7 +23,7 @@ public void ElementFound_When_CreateById_And_ElementIsOnScreen()
 {
     var button = App.ElementCreateService.CreateById<Button>("ComputeSumButton");
 
-    button.EnsureIsVisible();
+    button.ValidateIsVisible();
 
     Console.WriteLine(button.By.Value);
 
@@ -107,7 +107,7 @@ public void ElementFound_When_CreateAllById_And_ElementIsOnScreen()
 {
 	var buttons = App.ElementCreateService.CreateAllById<Button>("ComputeSumButton");
 
-	buttons[0].EnsureIsVisible();
+	buttons[0].ValidateIsVisible();
 }
 ```
 
@@ -159,7 +159,7 @@ public void ElementFound_When_CreateById_And_ElementIsOnScreen_NestedElement()
 	var mainElement = App.ElementCreateService.CreateByIOSNsPredicate<Element>(
 								"type == \"XCUIElementTypeApplication\" AND name == \"TestApp\"");
     var button = mainElement.CreateById<RadioButton>("ComputeSumButton");
-    button.EnsureIsVisible();
+    button.ValidateIsVisible();
 }
 ```
 

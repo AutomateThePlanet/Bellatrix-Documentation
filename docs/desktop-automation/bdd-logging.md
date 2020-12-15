@@ -18,13 +18,13 @@ public void CommonActionsWithDesktopControls_Wpf()
 {
     var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
 
-    calendar.EnsureIsNotDisabled();
+    calendar.ValidateIsNotDisabled();
 
     var checkBox = App.ElementCreateService.CreateByName<CheckBox>("BellaCheckBox");
 
     checkBox.Check();
 
-    checkBox.EnsureIsChecked();
+    checkBox.ValidateIsChecked();
 
     var comboBox = App.ElementCreateService.CreateByAutomationId<ComboBox>("select");
 
@@ -34,13 +34,13 @@ public void CommonActionsWithDesktopControls_Wpf()
 
     var label = App.ElementCreateService.CreateByName<Label>("Result Label");
 
-    label.EnsureIsVisible();
+    label.ValidateIsVisible();
 
     var radioButton = App.ElementCreateService.CreateByName<RadioButton>("RadioButton");
 
     radioButton.Click();
 
-    radioButton.EnsureIsChecked(timeout: 30, sleepInterval: 2);
+    radioButton.ValidateIsChecked(timeout: 30, sleepInterval: 2);
 }
 ```
 

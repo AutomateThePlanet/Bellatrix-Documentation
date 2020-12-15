@@ -52,7 +52,7 @@ public class TestWorkflowHooksTests : DesktopTest
     [VideoRecording(VideoRecordingMode.DoNotRecord)]
     public void ResultsLabelVisible_When_ButtonClicked_Wpf()
     {
-        _resultsLabel.EnsureIsVisible();
+        _resultsLabel.ValidateIsVisible();
     }
 }
 ```

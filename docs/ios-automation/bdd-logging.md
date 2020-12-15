@@ -20,11 +20,11 @@ public void CommonAssertionsIOSControls()
 
     button.Click();
 
-    button.EnsureIsNotDisabled();
+    button.ValidateIsNotDisabled();
 
     var answerLabel = App.ElementCreateService.CreateByValueContaining<Label>("Label");
 
-    answerLabel.EnsureIsVisible();
+    answerLabel.ValidateIsVisible();
 
     var password = App.ElementCreateService.CreateById<Password>("IntegerB");
 
@@ -34,7 +34,7 @@ public void CommonAssertionsIOSControls()
 
     textField.SetText("1");
 
-    textField.EnsureTextIs("1");
+    textField.ValidateTextIs("1");
 }
 ```
 
