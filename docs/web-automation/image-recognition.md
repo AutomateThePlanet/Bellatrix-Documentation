@@ -42,11 +42,11 @@ public class ImageRecognitionTests : WebTest
         Screen.Click("chrome-dots-button");
         Screen.Click("chrome-print-button");
 
-        Screen.EnsureIsVisible("chrome-print-preview-grid", similarity: 0.7, timeoutInSeconds: 30);
+        Screen.ValidateIsVisible("chrome-print-preview-grid", similarity: 0.7, timeoutInSeconds: 30);
 
         Screen.Click("print-preview-cancel-button");
 
-        Screen.EnsureIsNotVisible("chrome-print-preview-grid");
+        Screen.ValidateIsNotVisible("chrome-print-preview-grid");
     }
 }
 ```
@@ -63,11 +63,11 @@ Screen.Click("chrome-print-button");
 ```
 To perform visual actions, use the class Screen and its methods.
 ```csharp
-Screen.EnsureIsVisible("chrome-print-preview-grid", similarity: 0.7, timeoutInSeconds: 30);
+Screen.ValidateIsVisible("chrome-print-preview-grid", similarity: 0.7, timeoutInSeconds: 30);
 ```
 Check whether the provided image is part of the current screen with similarity, and we set the timeout.
 ```csharp
-Screen.EnsureIsNotVisible("chrome-print-preview-grid");
+Screen.ValidateIsNotVisible("chrome-print-preview-grid");
 ```
 We can check that a particular image is not visible anymore.
 

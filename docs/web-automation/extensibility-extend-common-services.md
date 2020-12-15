@@ -49,13 +49,13 @@ public class ExtendExistingCommonServicesTests : WebTest
         applyCouponButton.Click();
 
         messageAlert.ToHasContent().ToBeVisible().WaitToBe();
-        messageAlert.EnsureInnerTextIs("Coupon code applied successfully.");
+        messageAlert.ValidateInnerTextIs("Coupon code applied successfully.");
         quantityBox.SetNumber(0);
         quantityBox.SetNumber(2);
 
         updateCart.Click();
 
-        totalSpan.EnsureInnerTextIs("95.00€", 15000);
+        totalSpan.ValidateInnerTextIs("95.00€", 15000);
 
         proceedToCheckout.SubmitButtonWithEnter();
         billingDetailsHeading.ToBeVisible().WaitToBe();

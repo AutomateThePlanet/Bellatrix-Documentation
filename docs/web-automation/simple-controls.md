@@ -46,7 +46,7 @@ public void PurchaseRocket()
 
     messageAlert.ToHasContent().ToBeVisible().WaitToBe();
 
-    messageAlert.EnsureInnerTextIs("Coupon code applied successfully.");
+    messageAlert.ValidateInnerTextIs("Coupon code applied successfully.");
 
     Number quantityBox = App.ElementCreateService.CreateByClassContaining<Number>("input-text qty text");
 
@@ -58,7 +58,7 @@ public void PurchaseRocket()
 
     Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
 
-    totalSpan.EnsureInnerTextIs("95.00€", 15000);
+    totalSpan.ValidateInnerTextIs("95.00€", 15000);
 
     Anchor proceedToCheckout = 
     App.ElementCreateService.CreateByClassContaining<Anchor>("checkout-button button alt wc-forward");
@@ -70,8 +70,8 @@ public void PurchaseRocket()
 
     Anchor showLogin = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Click here to login");
 
-    showLogin.EnsureHrefIs("http://demos.bellatrix.solutions/checkout/#");
-    showLogin.EnsureCssClassIs("showlogin");
+    showLogin.ValidateHrefIs("http://demos.bellatrix.solutions/checkout/#");
+    showLogin.ValidateCssClassIs("showlogin");
 
     TextArea orderCommentsTextArea = App.ElementCreateService.CreateById<TextArea>("order_comments");
 
@@ -211,7 +211,7 @@ To handle these situations, BELLATRIX has hundreds of Ensure methods that wait f
 Bellow the statement waits for the specific text to appear and assert it.
 ```csharp
 Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
-messageAlert.EnsureInnerTextIs("Coupon code applied successfully.");
+messageAlert.ValidateInnerTextIs("Coupon code applied successfully.");
 ```
 **Note**: *There are much more details about these methods in the next chapters.*
 ```html
@@ -238,9 +238,9 @@ billingDetailsHeading.ToBeVisible().WaitToBe();
 Wait for the heading with the above text to be visible. This means that the correct page is loaded.
 ```csharp
 // Assert.AreEqual("http://demos.bellatrix.solutions/checkout/#", showLogin.Href);
-showLogin.EnsureHrefIs("http://demos.bellatrix.solutions/checkout/#");
+showLogin.ValidateHrefIs("http://demos.bellatrix.solutions/checkout/#");
 // Assert.AreEqual("showlogin", showLogin.CssClass);
-showLogin.EnsureCssClassIs("showlogin");
+showLogin.ValidateCssClassIs("showlogin");
 ```
 All web controls have multiple properties for their most important attributes and ensure methods for their verification.
 ```csharp

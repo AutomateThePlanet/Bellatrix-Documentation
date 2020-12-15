@@ -54,12 +54,12 @@ public void PurchaseRocketWithoutPageObjects()
     couponCodeTextField.SetText("happybirthday");
     applyCouponButton.Click();
     messageAlert.ToHasContent().ToBeVisible().WaitToBe();
-    messageAlert.EnsureInnerTextIs("Coupon code applied successfully.");
+    messageAlert.ValidateInnerTextIs("Coupon code applied successfully.");
 
     quantityBox.SetNumber(0);
     quantityBox.SetNumber(2);
     updateCart.Click();
-    totalSpan.EnsureInnerTextIs("95.00€", 15000);
+    totalSpan.ValidateInnerTextIs("95.00€", 15000);
     proceedToCheckout.Click();
 
     // Checkout page elements
@@ -82,15 +82,15 @@ public void PurchaseRocketWithoutPageObjects()
 
     // Checkout page actions
     billingDetailsHeading.ToBeVisible().WaitToBe();
-    showLogin.EnsureHrefIs("http://demos.bellatrix.solutions/checkout/#");
-    showLogin.EnsureCssClassIs("showlogin");
+    showLogin.ValidateHrefIs("http://demos.bellatrix.solutions/checkout/#");
+    showLogin.ValidateCssClassIs("showlogin");
     orderCommentsTextArea.ScrollToVisible();
     orderCommentsTextArea.SetText("Please send the rocket to my door step! And don't use the elevator, they don't like when it is not clean...");
     billingFirstName.SetText("In");
     billingLastName.SetText("Deepthought");
     billingCompany.SetText("Automate The Planet Ltd.");
     billingCountry.SelectByText("Bulgaria");
-    billingAddress1.EnsurePlaceholderIs("House number and street name");
+    billingAddress1.ValidatePlaceholderIs("House number and street name");
     billingAddress1.SetText("bul. Yerusalim 5");
     billingAddress2.SetText("bul. Yerusalim 6");
     billingCity.SetText("Sofia");
@@ -142,7 +142,7 @@ public partial class CartPage : AssertedNavigatablePage
         ApplyCouponButton.Click();
         MessageAlert.ToHasContent().ToBeVisible().WaitToBe();
 
-        MessageAlert.EnsureInnerTextIs(CouponSuccessfullyAdded);
+        MessageAlert.ValidateInnerTextIs(CouponSuccessfullyAdded);
     }
 
     public void UpdateProductQuantity(int productNumber, int newQuantity)
@@ -195,7 +195,7 @@ public partial class CartPage
 {
     public void AssertTotalPrice(string price)
     {
-        TotalSpan.EnsureInnerTextIs($"{price}€", 15000);
+        TotalSpan.ValidateInnerTextIs($"{price}€", 15000);
     }
 }
 ```
@@ -217,7 +217,7 @@ public void ApplyCoupon(string coupon)
     ApplyCouponButton.Click();
     MessageAlert.ToHasContent().ToBeVisible().WaitToBe();
     
-    MessageAlert.EnsureInnerTextIs(CouponSuccessfullyAdded);
+    MessageAlert.ValidateInnerTextIs(CouponSuccessfullyAdded);
 }
 ```
 These elements are always used together when coupon is applied. There are many test cases where you need to apply different coupons and so on. This way you reuse the code instead of copy-paste it. If there is a change in the way how the coupon is applied, change the workflow only here. Even single line of code is changed in your tests.
@@ -258,7 +258,7 @@ If you want to find multiple elements, you can use the special BELLATRIX collect
 ```csharp
 public void AssertTotalPrice(string price)
 {
-    TotalSpan.EnsureInnerTextIs($"{price}€", 15000);
+    TotalSpan.ValidateInnerTextIs($"{price}€", 15000);
 }
 ```
 With this Assert, reuse the formatting of the currency and the timeout. Also, since the method is called from the page it makes your tests a little bit more readable.If there is a change what needs to be checked --> for example, not span but different element you can change it in a single place.

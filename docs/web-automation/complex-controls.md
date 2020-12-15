@@ -87,13 +87,13 @@ public class TableControlTests : WebTest
     public void AssertCells()
     {
         Table.ForEachCell(cell => Assert.AreEqual("14px", cell.GetCssValue("font-size")));
-        Table.GetCell("First Name", 1).EnsureInnerTextIs("Frank");
-        Table.GetCell(1, 2).EnsureInnerTextIs("Jason");
-        Table.GetCell<User>(cell => cell.Email, 1).EnsureInnerTextIs("fbach@yahoo.com");
+        Table.GetCell("First Name", 1).ValidateInnerTextIs("Frank");
+        Table.GetCell(1, 2).ValidateInnerTextIs("Jason");
+        Table.GetCell<User>(cell => cell.Email, 1).ValidateInnerTextIs("fbach@yahoo.com");
         ElementsList<TableCell> cells = Table.GetCells(cell => cell.InnerText.ToLower().StartsWith('j'));
         Assert.AreEqual(4, cells.Count());
         var matchingCell = Table.GetFirstOrDefaultCell(cell => cell.InnerText.ToLower().StartsWith('j'));
-        matchingCell.EnsureInnerTextIs("John");
+        matchingCell.ValidateInnerTextIs("John");
     }
 
     [TestMethod]
@@ -103,17 +103,17 @@ public class TableControlTests : WebTest
         var firstRow = Table.GetRow(0);
         Assert.AreEqual(0, firstRow.Index);
         Assert.IsTrue(firstRow.InnerHtml.Contains("</td>"));
-        firstRow.EnsureInnerHtmlContains("</td>");
+        firstRow.ValidateInnerHtmlContains("</td>");
         var firstCell = Table.GetRow(0).GetCell(0);
-        firstCell.EnsureInnerTextIs("Smith");
+        firstCell.ValidateInnerTextIs("Smith");
         var secondCell = firstRow.GetCell("Email");
-        secondCell.EnsureInnerTextIs("jsmith@gmail.com");
+        secondCell.ValidateInnerTextIs("jsmith@gmail.com");
         IEnumerable<TableCell> cells = firstRow.GetCells();
         Assert.AreEqual(6, cells.Count());
         ElementsList<TableCell> matchingCells = firstRow.GetCells(cell => cell.InnerText.ToLower().Contains("smith"));
         Assert.AreEqual(3, matchingCells.Count());
         var matchingCell = firstRow.GetFirstOrDefaultCell(cell => cell.InnerText.ToLower().Contains("smith"));
-        matchingCell.EnsureInnerTextIs("Smith");
+        matchingCell.ValidateInnerTextIs("Smith");
         Assert.AreEqual("jsmith@gmail.com", firstRow.GetItem<User>().Email);
         firstRow.AssertRow(_expectedUsers[0]);
     }
@@ -134,10 +134,10 @@ public class TableControlTests : WebTest
         Assert.AreEqual(0, firstCell.Row);
         Assert.AreEqual(0, firstCell.Column);
         Assert.AreEqual("Smith", firstCell.InnerText);
-        firstCell.EnsureInnerTextIs("Smith");
+        firstCell.ValidateInnerTextIs("Smith");
         var thirdCell = Table.GetCell(0, 2);
         Assert.AreEqual("Doe", thirdCell.InnerHtml);
-        thirdCell.EnsureInnerHtmlIs("Doe");
+        thirdCell.ValidateInnerHtmlIs("Doe");
     }
 
     [TestMethod]
@@ -145,10 +145,10 @@ public class TableControlTests : WebTest
     {
         var secondColumn = Table.GetColumn(1);
         Assert.AreEqual("John", secondColumn[0].InnerText);
-        secondColumn[0].EnsureInnerTextIs("John");
+        secondColumn[0].ValidateInnerTextIs("John");
         secondColumn = Table.GetColumn("First Name");
         Assert.AreEqual("John", secondColumn[0].InnerText);
-        secondColumn[0].EnsureInnerTextIs("John");
+        secondColumn[0].ValidateInnerTextIs("John");
     }
 }
 ```
@@ -186,11 +186,11 @@ Table.ForEachCell(cell => Assert.AreEqual("14px", cell.GetCssValue("font-size"))
 ```
 You can get a particular cell as BELLATRIX element mentioning the column header and row number.
 ```csharp
-Table.GetCell(1, 2).EnsureInnerTextIs("Jason");
+Table.GetCell(1, 2).ValidateInnerTextIs("Jason");
 ```
 You can get a particular cell as BELLATRIX element mentioning the row and column number.
 ```csharp
-Table.GetCell<User>(cell => cell.Email, 1).EnsureInnerTextIs("fbach@yahoo.com");
+Table.GetCell<User>(cell => cell.Email, 1).ValidateInnerTextIs("fbach@yahoo.com");
 ```
 You can get a particular cell by header expression and row number.
 ```csharp
@@ -200,7 +200,7 @@ Assert.AreEqual(4, cells.Count());
 You can get particular cells by a selector.
 ```csharp
 var matchingCell = Table.GetFirstOrDefaultCell(cell => cell.InnerText.ToLower().StartsWith('j'));
-matchingCell.EnsureInnerTextIs("John");
+matchingCell.ValidateInnerTextIs("John");
 ```
 As a shortcut, you can get the first cell matching a given condition through the **GetFirstOrDefaultCell** method.
 ```csharp
@@ -213,7 +213,7 @@ Assert.AreEqual("Smith", firstCell.InnerText);
 ```
 You can get the cell innerText.
 ```csharp
-firstCell.EnsureInnerTextIs("Smith");
+firstCell.ValidateInnerTextIs("Smith");
 ```
 You can use built-in BELLATRIX ensure methods to assert the cell attributes.
 ```csharp
@@ -236,7 +236,7 @@ Assert.IsTrue(firstRow.InnerHtml.Contains("</td>"));
 ```
 You can get the HTML through the **InnerHtml** property.
 ```csharp
-firstRow.EnsureInnerHtmlContains("</td>");
+firstRow.ValidateInnerHtmlContains("</td>");
 ```
 If you only need to assert the inner HTML you can use the built-in BELLATRIX ensure methods.
 ```csharp
@@ -245,7 +245,7 @@ var firstCell = Table.GetRow(0).GetCell(0);
 There are many ways to get a specific cell through the indexer and the **GetCell** methods.
 ```csharp
 var secondCell = firstRow.GetCell("Email");
-secondCell.EnsureInnerTextIs("jsmith@gmail.com");
+secondCell.ValidateInnerTextIs("jsmith@gmail.com");
 ```
 You can get a cell by header name.
 ```csharp
@@ -260,7 +260,7 @@ Assert.AreEqual(3, matchingCells.Count());
 You can get the cells matching a condition.
 ```csharp
 var matchingCell = firstRow.GetFirstOrDefaultCell(cell => cell.InnerText.ToLower().Contains("smith"));
-matchingCell.EnsureInnerTextIs("Smith");
+matchingCell.ValidateInnerTextIs("Smith");
 ```
 You can get the first cell matching a condition through the **GetFirstOrDefaultCell** method.
 ```csharp
@@ -278,7 +278,7 @@ Assert.AreEqual("John", secondColumn[0].InnerText);
 ```
 You can get the cells of a particular column mentioning the column number.
 ```csharp
-secondColumn[0].EnsureInnerTextIs("John");
+secondColumn[0].ValidateInnerTextIs("John");
 ```
 You can use built-in BELLATRIX ensure methods to assert the cell attributes.
 ```csharp
@@ -358,12 +358,12 @@ public class GridControlTests : WebTest
     public void AssertGridCells()
     {
         TestGrid.ForEachCell(cell => cell.AssertFontSize("14px"));
-        TestGrid.GetCell("Firstname", 1).EnsureInnerTextIs("Mary");
-        TestGrid.GetCell(0, 1).EnsureInnerTextIs("John");
-        TestGrid.GetCell<Employee>(cell => cell.PersonalEmail, 1).EnsureInnerTextIs("mary@hotmail.com");
+        TestGrid.GetCell("Firstname", 1).ValidateInnerTextIs("Mary");
+        TestGrid.GetCell(0, 1).ValidateInnerTextIs("John");
+        TestGrid.GetCell<Employee>(cell => cell.PersonalEmail, 1).ValidateInnerTextIs("mary@hotmail.com");
         ElementsList<TableCell> matchingCells = TestGrid.GetCells<TableCell>(cell => cell.InnerText.StartsWith('J'));
         Assert.AreEqual(2, matchingCells.Count());
-        TestGrid.GetCell("Email Business", 0).EnsureInnerTextIs("jdoe@corp.com");
+        TestGrid.GetCell("Email Business", 0).ValidateInnerTextIs("jdoe@corp.com");
         var firstRowEmail = TestGrid.GetRow(0).GetCell("Email Personal");
         TestGrid.GetCell("Actions", 0).As<Button>().Click();
         var firstRowEmailAfterDelete = TestGrid.GetRow(0).GetCell("Email Personal");
@@ -394,7 +394,7 @@ public class GridControlTests : WebTest
     public void AssertRows()
     {
         Assert.AreEqual(3, TestGrid.GetRows().Count());
-        TestGrid.ForEachRow(row => row.CreateByXpath<Button>(".//input[@type='button']").EnsureIsVisible());
+        TestGrid.ForEachRow(row => row.CreateByXpath<Button>(".//input[@type='button']").ValidateIsVisible());
         var secondRow = TestGrid.GetRow(1);
         Assert.AreEqual(1, secondRow.GetCells<TableCell>(cell => cell.InnerText == "Mary").Count());
         var firstRow = TestGrid.GetRow(0);
@@ -408,18 +408,18 @@ public class GridControlTests : WebTest
         var firstRow = TestGrid.GetRow(0);
         Assert.AreEqual(0, firstRow.Index);
         Assert.IsTrue(firstRow.InnerHtml.Contains("</td>"));
-        firstRow.EnsureInnerHtmlContains("</td>");
+        firstRow.ValidateInnerHtmlContains("</td>");
         var firstCell = firstRow.GetCell("Order");
-        firstCell.As<TextField>().EnsureValueIs("0");
+        firstCell.As<TextField>().ValidateValueIs("0");
         var secondCell = firstRow[1];
         secondCell = firstRow.GetCell(1);
-        secondCell.EnsureInnerTextIs("John");
+        secondCell.ValidateInnerTextIs("John");
         IEnumerable<GridCell> cells = firstRow.GetCells();
         Assert.AreEqual(6, cells.Count());
         ElementsList<TableCell> textFields = firstRow.GetCells<TableCell>(cell => cell.InnerText.StartsWith("John") || cell.InnerText.StartsWith("john"));
         Assert.AreEqual(2, textFields.Count());
         var firstInputCell = firstRow.GetFirstOrDefaultCell<TextField>(cell => cell.TagName == "input");
-        firstInputCell.EnsureValueIs("0");
+        firstInputCell.ValidateValueIs("0");
         Assert.AreEqual("John Doe", $"{firstRow.GetItem<Employee>().FirstName} {firstRow.GetItem<Employee>().LastName}");
         firstRow.AssertRow(_expectedItems[0]);
     }
@@ -433,7 +433,7 @@ public class GridControlTests : WebTest
         Assert.AreEqual("John", secondCell.InnerText);
         Assert.AreEqual("<b>John</b>", secondCell.InnerHtml);
         var firstCell = TestGrid.GetCell(0, 0);
-        firstCell.As<TextField>().EnsureValueIs("0");
+        firstCell.As<TextField>().ValidateValueIs("0");
         Assert.AreEqual("0", firstCell.As().Value);
     }
 
@@ -441,9 +441,9 @@ public class GridControlTests : WebTest
     public void AssertColumns()
     {
         var firstColumn = TestGrid.GetColumn(0);
-        firstColumn[0].As<TextField>().EnsureValueIs("0");
+        firstColumn[0].As<TextField>().ValidateValueIs("0");
         firstColumn = TestGrid.GetColumn("Order");
-        firstColumn[0].As<TextField>().EnsureValueIs("0");
+        firstColumn[0].As<TextField>().ValidateValueIs("0");
         Assert.AreEqual("Email Personal", TestGrid.GetGridColumnNameByIndex(3));
     }
 }
@@ -495,7 +495,7 @@ Assert.AreEqual("<b>John</b>", secondCell.InnerHtml);
 You can get the cell inner HTML.
 ```csharp
 var firstCell = TestGrid.GetCell(0, 0);
-firstCell.As<TextField>().EnsureValueIs("0");
+firstCell.As<TextField>().ValidateValueIs("0");
 ```
 You can get the cell converted to a specific element and use the element's specific API.
 ```csharp
@@ -509,7 +509,7 @@ Assert.AreEqual(3, TestGrid.GetRows().Count());
 ```
 You can get the grid rows (without the header ones) through the **GetRows** method.
 ```csharp
-TestGrid.ForEachRow(row => row.CreateByXpath<Button>(".//input[@type='button']").EnsureIsVisible());
+TestGrid.ForEachRow(row => row.CreateByXpath<Button>(".//input[@type='button']").ValidateIsVisible());
 ```
 As a shortcut, you can iterate over the grid rows through the **ForEachRow** method.
 ```csharp
@@ -532,12 +532,12 @@ Assert.AreEqual(0, firstRow.Index);
 You can get the index of a given row through the **Index** property.
 ```csharp
 Assert.IsTrue(firstRow.InnerHtml.Contains("</td>"));
-firstRow.EnsureInnerHtmlContains("</td>");
+firstRow.ValidateInnerHtmlContains("</td>");
 ```
 You can get the HTML through the **InnerHtml** property.
 ```csharp
 var firstCell = firstRow.GetCell("Order");
-firstCell.As<TextField>().EnsureValueIs("0");
+firstCell.As<TextField>().ValidateValueIs("0");
 ```
 There are many ways to get a specific cell through the indexer and the **GetCell** methods.
 ```csharp
@@ -552,7 +552,7 @@ Assert.AreEqual(2, textFields.Count());
 You can get the cells matching a condition. Also, they will be returned as elements of a type of your choice.
 ```csharp
 var firstInputCell = firstRow.GetFirstOrDefaultCell<TextField>(cell => cell.TagName == "input");
-firstInputCell.EnsureValueIs("0");
+firstInputCell.ValidateValueIs("0");
 ```
 You can get the first cell matching a condition through the **GetFirstOrDefaultCell** method.
 ```csharp
@@ -583,12 +583,12 @@ You can get all grid header cells through the **ColumnHeaders** property.
 
 ```csharp
 var firstColumn = TestGrid.GetColumn(0);
-firstColumn[0].As<TextField>().EnsureValueIs("0");
+firstColumn[0].As<TextField>().ValidateValueIs("0");
 ```
 You can get the cells of a particular column mentioning the column number.
 ```csharp
 firstColumn = TestGrid.GetColumn("Order");
-firstColumn[0].As<TextField>().EnsureValueIs("0");
+firstColumn[0].As<TextField>().ValidateValueIs("0");
 ```
 You can get the cells of a particular column mentioning the column name.
 ```csharp

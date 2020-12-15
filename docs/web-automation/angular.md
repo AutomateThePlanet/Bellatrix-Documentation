@@ -24,7 +24,7 @@ public void ShouldGreetUsingBinding()
 
     var heading = App.ElementCreateService.CreateByNgBinding<Heading>("yourName");
 
-    heading.EnsureInnerTextIs("Hello Julie!");
+    heading.ValidateInnerTextIs("Hello Julie!");
 }
 
 [TestMethod]

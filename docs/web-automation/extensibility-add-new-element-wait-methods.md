@@ -63,7 +63,7 @@ public static class UntilElementsExtensions
         where TElementType : Element
     {
         var until = new WaitToHasStyleStrategy(style, timeoutInterval, sleepInterval);
-        element.EnsureState(until);
+        element.ValidateState(until);
         return element;
     }
 }
