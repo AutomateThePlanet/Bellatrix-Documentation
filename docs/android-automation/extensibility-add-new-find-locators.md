@@ -12,31 +12,45 @@ anchors:
 ---
 Introduction
 ------------
-Imagine that you want to create a new locator for finding all elements with ID starting with specific value. First, you need to create a new 'By' class.
+Imagine that you want to create a new locator for finding all elements with ID starting with specific value. First, you need to create a new 'FindStrategy' class.
 
 Example
 -------
 ```csharp
-public class ByIdStartingWith : By<AndroidDriver<AndroidElement>, AndroidElement>
+public class FindIdStartingWithStrategy : FindStrategy<AndroidDriver<AndroidElement>, AndroidElement>
 {
     private readonly string _locatorValue;
 
-    public ByIdStartingWith(string name)
-        : base(name) => _locatorValue = $"new UiSelector().resourceIdMatches(\"{Value}.*\");";
+    public FindIdStartingWithStrategy(string name)
+        : base(name)
+    {
+        _locatorValue = $"new UiSelector().resourceIdMatches(\"{Value}.*\");";
+    }
 
-    public override AndroidElement FindElement(AndroidDriver<AndroidElement> searchContext) 
-        => searchContext.FindElementByAndroidUIAutomator(_locatorValue);
+    public override AndroidElement FindElement(AndroidDriver<AndroidElement> searchContext)
+    {
+        return searchContext.FindElementByAndroidUIAutomator(_locatorValue);
+    }
 
-    public override IEnumerable<AndroidElement> FindAllElements(AndroidDriver<AndroidElement> searchContext) 
-        => searchContext.FindElementsByAndroidUIAutomator(_locatorValue);
+    public override IEnumerable<AndroidElement> FindAllElements(AndroidDriver<AndroidElement> searchContext)
+    {
+        return searchContext.FindElementsByAndroidUIAutomator(_locatorValue);
+    }
 
-    public override AppiumWebElement FindElement(AndroidElement element) 
-        => element.FindElementByAndroidUIAutomator(_locatorValue);
+    public override AppiumWebElement FindElement(AndroidElement element)
+    {
+        return element.FindElementByAndroidUIAutomator(_locatorValue);
+    }
 
-    public override IEnumerable<AppiumWebElement> FindAllElements(AndroidElement element) 
-        => element.FindElementsByAndroidUIAutomator(_locatorValue);
+    public override IEnumerable<AppiumWebElement> FindAllElements(AndroidElement element)
+    {
+        return element.FindElementsByAndroidUIAutomator(_locatorValue);
+    }
 
-    public override string ToString() => $"ID starting with = {Value}";
+    public override string ToString()
+    {
+        return $"ID starting with = {Value}";
+    }
 }
 ```
 We override all available methods and use UIAutomator regular expression for finding an element with ID starting with.
@@ -47,10 +61,10 @@ To ease the usage of the locator, we need to create an extension methods for Ele
 public static class ElementRepositoryExtensions
 {
     public static TElement CreateByIdStartingWith<TElement>(this ElementCreateService repo, string id)
-        where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => repo.Create<TElement, ByIdStartingWith, AndroidDriver<AndroidElement>, AndroidElement>(new ByIdStartingWith(id));
+        where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => repo.Create<TElement, FindIdStartingWithStrategy, AndroidDriver<AndroidElement>, AndroidElement>(new FindIdStartingWithStrategy(id));
 
-    public static ElementsList<TElement, ByIdStartingWith, AndroidDriver<AndroidElement>, AndroidElement> CreateAllByIdStartingWith<TElement>(this ElementCreateService repo, string id)
-        where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => new ElementsList<TElement, ByIdStartingWith, AndroidDriver<AndroidElement>, AndroidElement>(new ByIdStartingWith(id), null);
+    public static ElementsList<TElement, FindIdStartingWithStrategy, AndroidDriver<AndroidElement>, AndroidElement> CreateAllByIdStartingWith<TElement>(this ElementCreateService repo, string id)
+        where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => new ElementsList<TElement, FindIdStartingWithStrategy, AndroidDriver<AndroidElement>, AndroidElement>(new FindIdStartingWithStrategy(id), null);
 }
 ```
 
@@ -58,10 +72,10 @@ public static class ElementRepositoryExtensions
 public static class ElementCreateExtensions
 {
     public static TElement CreateByIdStartingWith<TElement>(this Element<AndroidDriver<AndroidElement>, AndroidElement> element, string id)
-         where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => element.Create<TElement, ByIdStartingWith>(new ByIdStartingWith(id));
+        where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => element.Create<TElement, FindIdStartingWithStrategy>(new FindIdStartingWithStrategy(id));
 
-    public static ElementsList<TElement, ByIdStartingWith, AndroidDriver<AndroidElement>, AndroidElement> CreateAllByIdStartingWith<TElement>(this Element<AndroidDriver<AndroidElement>, AndroidElement> element, string id)
-        where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => new ElementsList<TElement, ByIdStartingWith, AndroidDriver<AndroidElement>, AndroidElement>(new ByIdStartingWith(id), element.WrappedElement);
+    public static ElementsList<TElement, FindIdStartingWithStrategy, AndroidDriver<AndroidElement>, AndroidElement> CreateAllByIdStartingWith<TElement>(this Element<AndroidDriver<AndroidElement>, AndroidElement> element, string id)
+        where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => new ElementsList<TElement, FindIdStartingWithStrategy, AndroidDriver<AndroidElement>, AndroidElement>(new FindIdStartingWithStrategy(id), element.WrappedElement);
 }
 ```
 

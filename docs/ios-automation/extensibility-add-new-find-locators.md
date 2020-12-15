@@ -12,27 +12,45 @@ anchors:
 ---
 Introduction
 ------------
-Imagine that you want to create a new locator for finding all elements with name starting with specific value. First, you need to create a new 'By' class.
+Imagine that you want to create a new locator for finding all elements with name starting with specific value. First, you need to create a new 'FindStrategy' class.
 
 Example
 -------
 ```csharp
-public class ByNameStartingWith : By<IOSDriver<IOSElement>, IOSElement>
+public class FindNameStartingWithStrategy : FindStrategy<IOSDriver<IOSElement>, IOSElement>
 {
     private readonly string _locatorValue;
 
-    public ByNameStartingWith(string name)
-        : base(name) => _locatorValue = $"//*[starts-with(@name, '{Value}')]";
+    public FindNameStartingWithStrategy(string name)
+        : base(name)
+    {
+        _locatorValue = $"//*[starts-with(@name, '{Value}')]";
+    }
 
-    public override IOSElement FindElement(IOSDriver<IOSElement> searchContext) => searchContext.FindElementByXPath(_locatorValue);
+    public override IOSElement FindElement(IOSDriver<IOSElement> searchContext)
+    {
+        return searchContext.FindElementByXPath(_locatorValue);
+    }
 
-    public override IEnumerable<IOSElement> FindAllElements(IOSDriver<IOSElement> searchContext) => searchContext.FindElementsByXPath(_locatorValue);
+    public override IEnumerable<IOSElement> FindAllElements(IOSDriver<IOSElement> searchContext)
+    {
+        return searchContext.FindElementsByXPath(_locatorValue);
+    }
 
-    public override AppiumWebElement FindElement(IOSElement element) => element.FindElementByXPath(_locatorValue);
+    public override AppiumWebElement FindElement(IOSElement element)
+    {
+        return element.FindElementByXPath(_locatorValue);
+    }
 
-    public override IEnumerable<AppiumWebElement> FindAllElements(IOSElement element) => element.FindElementsByXPath(_locatorValue);
+    public override IEnumerable<AppiumWebElement> FindAllElements(IOSElement element)
+    {
+        return element.FindElementsByXPath(_locatorValue);
+    }
 
-    public override string ToString() => $"Name starting with = {Value}";
+    public override string ToString()
+    {
+        return $"Name starting with = {Value}";
+    }
 }
 ```
 We override all available methods and use XPath expression for finding an element with name starting with.
@@ -43,10 +61,10 @@ To ease the usage of the locator, we need to create an extension methods for Ele
 public static class ElementRepositoryExtensions
 {
     public static TElement CreateByNameStartingWith<TElement>(this ElementCreateService repo, string id)
-        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => repo.Create<TElement, ByNameStartingWith, IOSDriver<IOSElement>, IOSElement>(new ByNameStartingWith(id));
+        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => repo.Create<TElement, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement>(new FindNameStartingWithStrategy(id));
 
-    public static ElementsList<TElement, ByNameStartingWith, IOSDriver<IOSElement>, IOSElement> CreateAllByNameStartingWith<TElement>(this ElementCreateService repo, string id)
-        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => new ElementsList<TElement, ByNameStartingWith, IOSDriver<IOSElement>, IOSElement>(new ByNameStartingWith(id), null);
+    public static ElementsList<TElement, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement> CreateAllByNameStartingWith<TElement>(this ElementCreateService repo, string id)
+        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => new ElementsList<TElement, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement>(new FindNameStartingWithStrategy(id), null);
 }
 ```
 
@@ -54,10 +72,10 @@ public static class ElementRepositoryExtensions
 public static class ElementCreateExtensions
 {
     public static TElement CreateByNameStartingWith<TElement>(this Element<IOSDriver<IOSElement>, IOSElement> element, string id)
-        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => element.Create<TElement, ByNameStartingWith>(new ByNameStartingWith(id));
+        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => element.Create<TElement, FindNameStartingWithStrategy>(new FindNameStartingWithStrategy(id));
 
-    public static ElementsList<TElement, ByNameStartingWith, IOSDriver<IOSElement>, IOSElement> CreateAllByNameStartingWith<TElement>(this Element<IOSDriver<IOSElement>, IOSElement> element, string id)
-        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => new ElementsList<TElement, ByNameStartingWith, IOSDriver<IOSElement>, IOSElement>(new ByNameStartingWith(id), element.WrappedElement);
+    public static ElementsList<TElement, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement> CreateAllByNameStartingWith<TElement>(this Element<IOSDriver<IOSElement>, IOSElement> element, string id)
+        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => new ElementsList<TElement, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement>(new FindNameStartingWithStrategy(id), element.WrappedElement);
 }
 ```
 

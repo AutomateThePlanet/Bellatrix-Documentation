@@ -12,33 +12,44 @@ anchors:
 ---
 Introduction
 ------------
-Imagine that you want to create a new locator for finding all elements with ID starting with specific value. First, you need to create a new 'By' class.
+Imagine that you want to create a new locator for finding all elements with ID starting with specific value. First, you need to create a new 'FindStrategy' class.
 
 Example
 -------
 ```csharp
-public class ByIdStartingWith : By
+public class FindNameStartingWithStrategy : FindStrategy
 {
-    private const string XpathEndingWithExpression = "//*[starts-with(@id, '{0}')]";
+    private const string XpathStartingWithExpression = "//*[starts-with(@Name, '{0}')]";
 
-    public ByIdStartingWith(string value)
+    public FindNameStartingWithStrategy(string value)
         : base(value)
     {
     }
 
     public override WindowsElement FindElement(WindowsDriver<WindowsElement> searchContext)
-        => searchContext.FindElementByXPath(string.Format(XpathEndingWithExpression, Value));
+    {
+        return searchContext.FindElementByXPath(string.Format(XpathStartingWithExpression, Value));
+    }
 
     public override IEnumerable<WindowsElement> FindAllElements(WindowsDriver<WindowsElement> searchContext)
-        => searchContext.FindElementsByXPath(string.Format(XpathEndingWithExpression, Value));
+    {
+        return searchContext.FindElementsByXPath(string.Format(XpathStartingWithExpression, Value));
+    }
 
     public override AppiumWebElement FindElement(WindowsElement element)
-        => element.FindElementByXPath(string.Format(XpathEndingWithExpression, Value));
+    {
+        return element.FindElementByXPath(string.Format(XpathStartingWithExpression, Value));
+    }
 
     public override IEnumerable<AppiumWebElement> FindAllElements(WindowsElement element)
-        => element.FindElementsByXPath(string.Format(XpathEndingWithExpression, Value));
+    {
+        return element.FindElementsByXPath(string.Format(XpathStartingWithExpression, Value));
+    }
 
-    public override string ToString() => $"By ID starting with = {Value}";
+    public override string ToString()
+    {
+        return $"By Name starting with = {Value}";
+    }
 }
 ```
 We override all available methods and use XPath expression for finding an element with ID starting with.
@@ -48,22 +59,19 @@ To ease the usage of the locator, we need to create an extension methods for Ele
 ```csharp
 public static class ElementCreateExtensions
 {
-    public static TElement CreateByIdEndingWith<TElement>(this Element element, string idPart)
-        where TElement : Element => element.Create<TElement, ByIdStartingWith>(new ByIdStartingWith(idPart));
-
-    public static ElementsList<TElement> CreateAllByIdEndingWith<TElement>(this Element element, string tag)
-        where TElement : Element => new ElementsList<TElement>(new ByIdStartingWith(tag), element.WrappedElement);
+    public static ElementsList<TElement> CreateAllByNameStartingWith<TElement>(this Element element, string tag)
+        where TElement : Element => new ElementsList<TElement>(new FindNameStartingWithStrategy(tag), element.WrappedElement);
 }
 ```
 
 ```csharp
 public static class ElementRepositoryExtensions
 {
-    public static TElement CreateByIdStartingWith<TElement>(this ElementCreateService repo, string tag)
-        where TElement : Element => repo.Create<TElement, ByIdStartingWith>(new ByIdStartingWith(tag));
+    public static TElement CreateByNameStartingWith<TElement>(this ElementCreateService repo, string tag)
+        where TElement : Element => repo.Create<TElement, FindNameStartingWithStrategy>(new FindNameStartingWithStrategy(tag));
 
-    public static ElementsList<TElement> CreateAllByIdStartingWith<TElement>(this ElementCreateService repo, string tag)
-        where TElement : Element => new ElementsList<TElement>(new ByIdStartingWith(tag), null);
+    public static ElementsList<TElement> CreateAllByNameStartingWith<TElement>(this ElementCreateService repo, string tag)
+        where TElement : Element => new ElementsList<TElement>(new FindNameStartingWithStrategy(tag), null);
 }
 ```
 

@@ -12,19 +12,22 @@ anchors:
 ---
 Introduction
 ------------
-Imagine that you want to create a new locator for finding all elements with ID starting with specific value. First, you need to create a new 'By' class.
+Imagine that you want to create a new locator for finding all elements with ID starting with specific value. First, you need to create a new 'FindStrategy' class.
 
 Example
 -------
 ```csharp
-public class ByIdStartingWith : By
+public class FindIdStartingWithStrategy : FindStrategy
 {
-    public ByIdStartingWith(string value)
+    public FindIdStartingWithStrategy(string value)
         : base(value)
     {
     }
 
-    public override OpenQA.Selenium.By Convert() => OpenQA.Selenium.By.CssSelector($"[id^='{Value}']");
+    public override By Convert()
+    {
+        return By.CssSelector($"[id^='{Value}']");
+    }
 }
 ```
 In the Convert method, we use a standard WebDriver By locator, and in this case we implement our requirements through a little CSS.
@@ -34,22 +37,19 @@ To ease the usage of the locator, we need to create an extension methods for Ele
 ```csharp
 public static class ElementCreateExtensions
 {
-    public static TElement CreateByIdStartingWith<TElement>(this Element element, string idPrefix)
-      where TElement : Element => element.Create<TElement, ByIdStartingWith>(new ByIdStartingWith(idPrefix));
-
     public static ElementsList<TElement> CreateAllByIdStartingWith<TElement>(this Element element, string idEnding)
-        where TElement : Element => new ElementsList<TElement>(new ByIdStartingWith(idEnding), element.WrappedElement);
+        where TElement : Element => new ElementsList<TElement>(new FindIdStartingWithStrategy(idEnding), element.WrappedElement);
 }
 ```
 
 ```csharp
 public static class ElementRepositoryExtensions
 {
-    public static TElement CreateByIdStartingWith<TElement>(this ElementCreateService repository, string idPrefix)
-        where TElement : Element => repository.Create<TElement, ByIdStartingWith>(new ByIdStartingWith(idPrefix));
+    public static TElement CreateByIdStartingWith<TElement>(this ElementCreateService repository, string idPrefix, bool shouldCache = false)
+        where TElement : Element => repository.Create<TElement, FindIdStartingWithStrategy>(new FindIdStartingWithStrategy(idPrefix), shouldCache);
 
     public static ElementsList<TElement> CreateAllByIdStartingWith<TElement>(this ElementCreateService repository, string idPrefix)
-        where TElement : Element => new ElementsList<TElement>(new ByIdStartingWith(idPrefix), null);
+        where TElement : Element => new ElementsList<TElement>(new FindIdStartingWithStrategy(idPrefix), null);
 }
 ```
 
