@@ -26,7 +26,7 @@ public class LoggingTests : DesktopTest
 
         var checkBox = App.ElementCreateService.CreateByName<CheckBox>("BellaCheckBox");
         
-        App.Logger.LogInformation("$$$ Before checking the transfer checkbox. $$$");
+        Logger.LogInformation("$$$ Before checking the transfer checkbox. $$$");
 
         checkBox.Check();
 
@@ -55,9 +55,9 @@ Explanations
 ------------
 By default, you can see the logs in the output window of each test. Also, a file called logs.txt is generated in the folder with the DLLs of your tests. If you execute your tests in CI with some CLI test runner the logs are printed there as well. **outputTemplate** - controls how the message is formatted. You can add additional info such as timestamp and much more. For more info visit- [https://github.com/serilog/serilog/wiki/Formatting-Output](https://github.com/serilog/serilog/wiki/Formatting-Output)
 ```csharp
-App.Logger.LogInformation("$$$ Before checking the transfer checkbox. $$$");
+Logger.LogInformation("$$$ Before checking the transfer checkbox. $$$");
 ```
-Sometimes is useful to add information to the generated test log. To do it you can use the BELLATRIX built-in logger through accessing it via **App** service.
+Sometimes is useful to add information to the generated test log. To do it you can use the BELLATRIX built-in logger through accessing it via static **Logger** class.
 
 Generated Log, as you can see the above custom message is added to the log.
 

@@ -23,7 +23,7 @@ public class LoggingTests : IOSTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        App.Logger.LogInformation("$$$ Before clicking the button $$$");
+        Logger.LogInformation("$$$ Before clicking the button $$$");
         var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
@@ -35,9 +35,9 @@ Explanations
 ------------
 By default, you can see the logs in the output window of each test. Also, a file called logs.txt is generated in the folder with the DLLs of your tests. If you execute your tests in CI with some CLI test runner the logs are printed there as well. **outputTemplate** - controls how the message is formatted. You can add additional info such as timestamp and much more. For more info visit- [https://github.com/serilog/serilog/wiki/Formatting-Output](https://github.com/serilog/serilog/wiki/Formatting-Output)
 ```csharp
-App.Logger.LogInformation("$$$ Before clicking the button $$$");
+Logger.LogInformation("$$$ Before clicking the button $$$");
 ```
-Sometimes is useful to add information to the generated test log. To do it you can use the BELLATRIX built-in logger through accessing it via **App** service.
+Sometimes is useful to add information to the generated test log. To do it you can use the BELLATRIX built-in logger through accessing it via **Logger** static class.
 
 Generated Log, as you can see the above custom message is added to the log.
 
