@@ -94,8 +94,8 @@ navigation:
                 title: Complex Controls
             "normal-assertions":
                 title: Normal Assertions
-            "ensure-assertions":
-                title: Ensure Assertions
+            "validate-assertions":
+                title: Validate Assertions
             "angular":
                 title: Angular Support
             "bdd-logging":
@@ -187,8 +187,8 @@ navigation:
                 title: Common Controls
             "normal-assertions":
                 title: Normal Assertions
-            "ensure-assertions":
-                title: Ensure Assertions
+            "validate-assertions":
+                title: Validate Assertions
             "bdd-logging":
                 title: BDD Logging
             "page-objects":
@@ -260,8 +260,8 @@ navigation:
                 title: Common Controls
             "normal-assertions":
                 title: Normal Assertions
-            "ensure-assertions":
-                title: Ensure Assertions
+            "validate-assertions":
+                title: Validate Assertions
             "bdd-logging":
                 title: BDD Logging
             "page-objects":
@@ -325,8 +325,8 @@ navigation:
                 title: Common Controls
             "normal-assertions":
                 title: Normal Assertions
-            "ensure-assertions":
-                title: Ensure Assertions
+            "validate-assertions":
+                title: Validate Assertions
             "bdd-logging":
                 title: BDD Logging
             "page-objects":
