@@ -142,10 +142,6 @@ navigation:
                 title: Extensibility- Test Workflow Hooks
             "extensibility-custom-test-workflow-plugins":
                 title: Extensibility- Custom Test Workflow Plugins
-            "extensibility-override-globally-element-actions":
-                title: Extensibility- Override Globally Element Actions
-            "extensibility-override-locally-element-actions":
-                title: Extensibility- Override Locally Element Actions
             "extensibility-element-action-hooks":
                 title: Extensibility- Element Action Hooks
             "extensibility-common-services-action-hooks":
@@ -223,10 +219,6 @@ navigation:
                 title: Extensibility- Test Workflow Hooks
             "extensibility-custom-test-workflow-plugins":
                 title: Extensibility- Custom Test Workflow Plugins
-            "extensibility-override-globally-element-actions":
-                title: Extensibility- Override Globally Element Actions
-            "extensibility-override-locally-element-actions":
-                title: Extensibility- Override Locally Element Actions
             "extensibility-element-action-hooks":
                 title: Extensibility- Element Action Hooks
             "extensibility-common-services-action-hooks":
@@ -300,10 +292,6 @@ navigation:
                 title: Extensibility- Test Workflow Hooks
             "extensibility-custom-test-workflow-plugins":
                 title: Extensibility- Custom Test Workflow Plugins
-            "extensibility-override-globally-element-actions":
-                title: Extensibility- Override Globally Element Actions
-            "extensibility-override-locally-element-actions":
-                title: Extensibility- Override Locally Element Actions
             "extensibility-element-action-hooks":
                 title: Extensibility- Element Action Hooks
             "extensibility-common-services-action-hooks":
@@ -365,10 +353,6 @@ navigation:
                 title: Extensibility- Test Workflow Hooks
             "extensibility-custom-test-workflow-plugins":
                 title: Extensibility- Custom Test Workflow Plugins
-            "extensibility-override-globally-element-actions":
-                title: Extensibility- Override Globally Element Actions
-            "extensibility-override-locally-element-actions":
-                title: Extensibility- Override Locally Element Actions
             "extensibility-element-action-hooks":
                 title: Extensibility- Element Action Hooks
             "extensibility-common-services-action-hooks":
