@@ -16,10 +16,8 @@ BELLATRIX is not a single thing it contains multiple framework libraries, extens
 
 Simple Installation
 ------------------
-1. Download the BELLATRIX projects zip file from the email you received after the downloading step.
+1. Download the BELLATRIX projects zip file from the green Code button.
 2. Unzip it. The projects are grouped by technology: web, desktop, mobile, API, load testing
-
-![Unzip Step](images/unzip-bellatrix-templates.png)
 
 ![Grouping By Technology](images/projects-grouping-by-technology.png)
 
