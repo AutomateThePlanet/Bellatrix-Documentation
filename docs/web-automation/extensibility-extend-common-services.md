@@ -13,7 +13,7 @@ Example
 -------
 ```csharp
 [TestClass]
-[Browser(BrowserType.Firefox, BrowserBehavior.RestartEveryTime)]
+[Browser(BrowserType.Firefox, Lifecycle.RestartEveryTime)]
 public class ExtendExistingCommonServicesTests : WebTest
 {
     [TestMethod]

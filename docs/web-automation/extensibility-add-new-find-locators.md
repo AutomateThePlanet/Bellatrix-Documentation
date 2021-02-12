@@ -62,7 +62,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Bellatrix.Web.GettingStarted
 {
     [TestClass]
-    [Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
+    [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
     public class NewFindLocatorsTests : WebTest
     {
         [TestMethod]

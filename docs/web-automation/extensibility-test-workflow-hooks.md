@@ -13,7 +13,7 @@ Example
 -------
 ```csharp
 [TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
+[Browser(BrowserType.Chrome, Lifecycle.ReuseIfStarted)]
 public class TestWorkflowHooksTests : WebTest
 {
     private static Select _sortDropDown;

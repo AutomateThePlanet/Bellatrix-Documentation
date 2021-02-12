@@ -17,7 +17,7 @@ Example
 [SauceLabs(BrowserType.Chrome,
     "62",
     "Windows",
-    BrowserBehavior.ReuseIfStarted,
+    Lifecycle.ReuseIfStarted,
     recordScreenshots: true,
     recordVideo: true)]
 public class SauceLabsTests : WebTest
@@ -33,7 +33,7 @@ public class SauceLabsTests : WebTest
     }
 
     [TestMethod]
-    [SauceLabs(BrowserType.Chrome, "62", "Windows", DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]
+    [SauceLabs(BrowserType.Chrome, "62", "Windows", DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
     public void BlogPageOpened_When_PromotionsButtonClicked()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -51,14 +51,14 @@ Explanations
 [SauceLabs(BrowserType.Chrome,
     "62",
     "Windows",
-    BrowserBehavior.ReuseIfStarted,
+    Lifecycle.ReuseIfStarted,
     recordScreenshots: true,
     recordVideo: true)]
 ```
 To execute BELLATRIX tests in SauceLabs cloud you should use the SauceLabs attribute instead of Browser. SauceLabs has the same parameters as Browser but adds to additional ones- browser version, platform type, recordVideo and recordScreenshots. As with the Browser attribute you can override the class behavior on Test level.
 ```csharp
 [TestMethod]
-[SauceLabs(BrowserType.Chrome, "62", "Windows", DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]
+[SauceLabs(BrowserType.Chrome, "62", "Windows", DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -70,13 +70,13 @@ public void BlogPageOpened_When_PromotionsButtonClicked()
 ```
 As mentioned if you use the SauceLabs attribute on method level it overrides the class settings.
 ```csharp
-[SauceLabs(BrowserType.Chrome, "62", "Windows", 1000, 500, BrowserBehavior.ReuseIfStarted)]
+[SauceLabs(BrowserType.Chrome, "62", "Windows", 1000, 500, Lifecycle.ReuseIfStarted)]
 ```
 ```csharp
-[SauceLabs(BrowserType.Chrome, "62", "Windows", MobileWindowSize._320_568, BrowserBehavior.ReuseIfStarted)]
+[SauceLabs(BrowserType.Chrome, "62", "Windows", MobileWindowSize._320_568, Lifecycle.ReuseIfStarted)]
 ```
 ```csharp
-[SauceLabs(BrowserType.Chrome, "62", "Windows", TabletWindowSize._600_1024, BrowserBehavior.ReuseIfStarted)]
+[SauceLabs(BrowserType.Chrome, "62", "Windows", TabletWindowSize._600_1024, Lifecycle.ReuseIfStarted)]
 ```
 As you can see with the SauceLabs attribute we can change the browser window size again.
 

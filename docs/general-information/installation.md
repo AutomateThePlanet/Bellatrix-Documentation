@@ -26,6 +26,7 @@ Simple Installation
 4. Run the sample tests.
 5. You can try to write a simple test yourself.
 6. For an in-depth revision of all framework features you can open the getting started projects.
+![Starter Kits](images/starter-kits.PNG)
 
 How to use starter kits?
 ------------------

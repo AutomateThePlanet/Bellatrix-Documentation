@@ -45,7 +45,7 @@ Example
 -------
 ```csharp
 [TestClass]
-[Selenoid(BrowserType.Chrome, "77", BrowserBehavior.RestartEveryTime, recordVideo: true, enableVnc: true, saveSessionLogs: true)]
+[Selenoid(BrowserType.Chrome, "77", Lifecycle.RestartEveryTime, recordVideo: true, enableVnc: true, saveSessionLogs: true)]
 public class SeleniumGridTests : WebTest
 {
     [TestMethod]
@@ -59,7 +59,7 @@ public class SeleniumGridTests : WebTest
     }
 
     [TestMethod]
-    [Selenoid(BrowserType.Chrome, "76", BrowserBehavior.RestartEveryTime, recordVideo: true, enableVnc: true,  saveSessionLogs: false)]
+    [Selenoid(BrowserType.Chrome, "76", Lifecycle.RestartEveryTime, recordVideo: true, enableVnc: true,  saveSessionLogs: false)]
     public void BlogPageOpened_When_PromotionsButtonClicked()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -74,12 +74,12 @@ public class SeleniumGridTests : WebTest
 Explanations
 ------------
 ```csharp
-[Selenoid(BrowserType.Chrome, "77", BrowserBehavior.RestartEveryTime, recordVideo: true, enableVnc: true, saveSessionLogs: true)]
+[Selenoid(BrowserType.Chrome, "77", Lifecycle.RestartEveryTime, recordVideo: true, enableVnc: true, saveSessionLogs: true)]
 ```
 To use BELLATRIX with Selenoid, you should use the **Selenoid** attribute instead of Browser. **Selenoid** has the same parameters as Browser but adds to additional ones- browser version, record video and save logs. As with the Browser attribute you can override the class behavior on Test level.
 ```csharp
 [TestMethod]
-[Selenoid(BrowserType.Chrome, "76", BrowserBehavior.RestartEveryTime, recordVideo: true, enableVnc: true,  saveSessionLogs: false)]
+[Selenoid(BrowserType.Chrome, "76", Lifecycle.RestartEveryTime, recordVideo: true, enableVnc: true,  saveSessionLogs: false)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -91,13 +91,13 @@ public void BlogPageOpened_When_PromotionsButtonClicked()
 ```
 As mentioned if you use the Selenoid attribute on method level it overrides the class settings.
 ```csharp
-[Selenoid(BrowserType.Chrome, "76", 1000, 500, BrowserBehavior.RestartEveryTime)]
+[Selenoid(BrowserType.Chrome, "76", 1000, 500, Lifecycle.RestartEveryTime)]
 ```
 ```csharp
-[Selenoid(BrowserType.Chrome, "76", MobileWindowSize._320_568, BrowserBehavior.RestartEveryTime)]
+[Selenoid(BrowserType.Chrome, "76", MobileWindowSize._320_568, Lifecycle.RestartEveryTime)]
 ```
 ```csharp
-[Selenoid(BrowserType.Chrome, "76", TabletWindowSize._600_1024, BrowserBehavior.RestartEveryTime)]
+[Selenoid(BrowserType.Chrome, "76", TabletWindowSize._600_1024, Lifecycle.RestartEveryTime)]
 ```
 As you can see with the Remote attribute we can change the browser window size again.
 

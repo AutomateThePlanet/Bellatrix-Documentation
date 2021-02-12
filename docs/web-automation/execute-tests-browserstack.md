@@ -18,7 +18,7 @@ Example
     "62",
     "Windows",
     "10",
-    BrowserBehavior.ReuseIfStarted,
+    Lifecycle.ReuseIfStarted,
     captureNetworkLogs: true,
     captureVideo: true,
     consoleLogType: BrowserStackConsoleLogType.Verbose,
@@ -37,7 +37,7 @@ public class BrowserStackTests : WebTest
     }
 
     [TestMethod]
-    [BrowserStack(BrowserType.Chrome, "62", "Windows", "10", DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]
+    [BrowserStack(BrowserType.Chrome, "62", "Windows", "10", DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
     public void BlogPageOpened_When_PromotionsButtonClicked()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -56,7 +56,7 @@ Explanations
     "62",
     "Windows",
     "10",
-    BrowserBehavior.ReuseIfStarted,
+    Lifecycle.ReuseIfStarted,
     captureNetworkLogs: true,
     captureVideo: true,
     consoleLogType: BrowserStackConsoleLogType.Verbose,
@@ -66,7 +66,7 @@ Explanations
 To execute BELLATRIX tests in BrowserStack cloud, you should use the BrowserStack attribute instead of Browser. BrowserStack has the same parameters as Browser but adds to additional ones- browser version, platform type, platform version, captureNetworkLogs, consoleLogType, build and debug. The last five are optional and have default values. As with the Browser attribute you can override the class behaviour on Test level.
 ```csharp
 [TestMethod]
-[BrowserStack(BrowserType.Chrome, "62", "Windows", "10", DesktopWindowSize._1280_1024, BrowserBehavior.ReuseIfStarted)]
+[BrowserStack(BrowserType.Chrome, "62", "Windows", "10", DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -78,13 +78,13 @@ public void BlogPageOpened_When_PromotionsButtonClicked()
 ```
 As mentioned if you use the BrowserStack attribute on method level it overrides the class settings.
 ```csharp
-[BrowserStack(BrowserType.Chrome, "62", "Windows", "10", 1000, 500, BrowserBehavior.ReuseIfStarted)]
+[BrowserStack(BrowserType.Chrome, "62", "Windows", "10", 1000, 500, Lifecycle.ReuseIfStarted)]
 ```
 ```
-[BrowserStack(BrowserType.Chrome, "62", "Windows", "10", MobileWindowSize._320_568, BrowserBehavior.ReuseIfStarted)]
+[BrowserStack(BrowserType.Chrome, "62", "Windows", "10", MobileWindowSize._320_568, Lifecycle.ReuseIfStarted)]
 ```
 ```
-[BrowserStack(BrowserType.Chrome, "62", "Windows", "10", TabletWindowSize._600_1024, BrowserBehavior.ReuseIfStarted)]
+[BrowserStack(BrowserType.Chrome, "62", "Windows", "10", TabletWindowSize._600_1024, Lifecycle.ReuseIfStarted)]
 ```
 As you can see with the BrowserStack attribute we can change the browser window size again.
 
