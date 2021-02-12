@@ -65,21 +65,7 @@ public class TestsInitialize : WebTest
     [AssemblyInitialize]
     public static void AssemblyInitialize(TestContext testContext)
     {
-        var app = new App();
-        app.UseMsTestSettings();
-        app.UseBrowserBehavior();
-        app.UseLogExecutionBehavior();
-        app.UseControlLocalOverridesCleanBehavior();
-        app.UseFFmpegVideoRecorder();
-        app.UseFullPageScreenshotsOnFail();
-        app.UseLogger();
-        app.UseElementsBddLogging();
-        app.UseHighlightElements();
-        app.UseEnsureExtensionsBddLogging();
-        app.UseLayoutAssertionExtensionsBddLogging();
-        app.UseExceptionAnalysation();
-        app.Initialize();
-        app.UseAllure();
+        AllurePluginConfiguration.Add();
     }
 
     [AssemblyCleanup]
@@ -90,7 +76,7 @@ public class TestsInitialize : WebTest
     }
 }
 ```
-You need to add the **app.UseAllure();** line.
+You need to add the **AllurePluginConfiguration.Add();** line.
 Next, you need to add a new configuration file called **allureConfig.json**. You need to make sure it is copied to the output folder. It contains the Allure framework configuration.
 
 ```json

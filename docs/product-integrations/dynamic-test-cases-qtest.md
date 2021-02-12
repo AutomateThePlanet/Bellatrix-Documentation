@@ -27,26 +27,7 @@ public class TestsInitialize : WebTest
     [AssemblyInitialize]
     public static void AssemblyInitialize(TestContext testContext)
     {
-        var app = new App();
-        app.UseMsTestSettings();
-        app.UseBrowserBehavior();
-        app.UseLogExecutionBehavior();
-        app.UseControlLocalOverridesCleanBehavior();
-        app.UseFFmpegVideoRecorder();
-        app.UseFullPageScreenshotsOnFail();
-        app.UseLogger();
-        app.UseElementsBddLogging();
-        app.UseHighlightElements();
-        app.UseEnsureExtensionsBddLogging();
-        app.UseLayoutAssertionExtensionsBddLogging();
-        app.UseExceptionAnalysation();
-        app.Initialize();
-        
-        app.UseDynamicTestCases();
-        app.UseAssertExtensionsDynamicTestCases();
-        app.UseEnsureExtensionsDynamicTestCases();
-        app.UseLayoutAssertionExtensionsDynamicTestCases();
-        app.UseQTestDynamicTestCases();
+        QTestDynamicTestCasesPluginConfiguration.Add();
     }
 
     [AssemblyCleanup]
@@ -59,11 +40,7 @@ public class TestsInitialize : WebTest
 ```
 You need to add the following lines:
 ```csharp
-app.UseDynamicTestCases();
-app.UseAssertExtensionsDynamicTestCases();
-app.UseEnsureExtensionsDynamicTestCases();
-app.UseLayoutAssertionExtensionsDynamicTestCases();
-app.UseQTestDynamicTestCases();
+QTestDynamicTestCasesPluginConfiguration.Add();
 ```
 They will turn on the feature and will assign listeners to common actions in the framework that will populate the auto-generated test case's steps and expected results.
 Next, you need to add a new section in the **testFrameworkSettings.json** settings file.
@@ -93,7 +70,7 @@ You need to supply a user name and password or authentication token so that the 
 The last step is to configure the test classes and tests.
 ```csharp
 [TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
+[Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
 [DynamicTestCase(SuiteId = "8260474")]
 public class PageObjectsTests : WebTest
 {
@@ -103,7 +80,7 @@ public class PageObjectsTests : WebTest
         Description = "Create a purchase of a rocket through the online rocket shop http://demos.bellatrix.solutions/")]
     public void PurchaseRocketWithPageObjects()
     {
-		App.TestCases.AddPrecondition($"Navigate to http://demos.bellatrix.solutions/");
+		    App.TestCases.AddPrecondition($"Navigate to http://demos.bellatrix.solutions/");
         var homePage = App.GoTo<HomePage>();
         homePage.FilterProducts(ProductFilter.Popularity);
         homePage.AddProductById(28);

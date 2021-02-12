@@ -39,26 +39,7 @@ public class TestsInitialize : WebTest
     [AssemblyInitialize]
     public static void AssemblyInitialize(TestContext testContext)
     {
-        var app = new App();
-        app.UseMsTestSettings();
-        app.UseBrowserBehavior();
-        app.UseLogExecutionBehavior();
-        app.UseControlLocalOverridesCleanBehavior();
-        app.UseFFmpegVideoRecorder();
-        app.UseFullPageScreenshotsOnFail();
-        app.UseLogger();
-        app.UseElementsBddLogging();
-        app.UseHighlightElements();
-        app.UseEnsureExtensionsBddLogging();
-        app.UseLayoutAssertionExtensionsBddLogging();
-        app.UseExceptionAnalysation();
-        app.Initialize();
-
-		app.UseDynamicTestCases();
-    	app.UseAssertExtensionsDynamicTestCases();
-    	app.UseEnsureExtensionsDynamicTestCases();
-    	app.UseLayoutAssertionExtensionsDynamicTestCases();
-    	app.UseAzureDevOpsDynamicTestCases();
+        AzureDevOpsBugReportingPluginConfiguration.Add();
     }
 
     [AssemblyCleanup]
@@ -71,11 +52,7 @@ public class TestsInitialize : WebTest
 ```
 You need to add the following lines:
 ```csharp
-app.UseDynamicTestCases();
-app.UseAssertExtensionsDynamicTestCases();
-app.UseEnsureExtensionsDynamicTestCases();
-app.UseLayoutAssertionExtensionsDynamicTestCases();
-app.UseAzureDevOpsDynamicTestCases();
+AzureDevOpsBugReportingPluginConfiguration.Add();
 ```
 They will turn on the feature and will assign listeners to common actions in the framework that will populate the auto-generated test case's steps and expected results.
 Next, you need to add a new section in the **testFrameworkSettings.json** settings file.
@@ -92,7 +69,7 @@ You can read the [the following article](https://docs.microsoft.com/en-us/azure/
 The last step is to configure the test classes and tests.
 ```csharp
 [TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
+[Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
 [AzureDevOpsDynamicTestCaseAttribute(AreaPath = "AutomateThePlanet", IterationPath = "AutomateThePlanet", RequirementId = "482")]
 public class PageObjectsTests : WebTest
 {
