@@ -14,24 +14,14 @@ Example
 -------
 ```csharp
 [TestClass]
-[ScreenshotOnFail(true)]
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
-    AppBehavior.RestartEveryTime)]
+    Lifecycle.RestartEveryTime)]
 public class ScreenshotsOnFailTests : IOSTest
 {
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
-    {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
-
-        button.Click();
-    }
-
-    [TestMethod]
-    [ScreenshotOnFail(false)]
-    public void ButtonClicked_When_CallClickMethodSecond()
     {
         var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
 
@@ -42,16 +32,7 @@ public class ScreenshotsOnFailTests : IOSTest
 
 Explanations
 ------------
-```csharp
-[ScreenshotOnFail(true)]
-```
-This is the attribute for automatic generation of app screenshots by BELLATRIX. The engine checks after each test, its result, if failed, makes the screenshots. If you place attribute over the class all tests inherit the behaviour.
-```csharp
-[TestMethod]
-[ScreenshotOnFail(false)]
-public void ButtonClicked_When_CallClickMethodSecond()
-```
-It is possible to put it over each test and this way you override the class behaviour only for this particular test. The global behaviour for all tests in the class is to make screenshots on fail. Only for this particular test, we tell BELLATRIX not to make screenshots.
+If it is turned on the engine will capture a screenshot in case the test failed.
 
 Configuration
 -------------

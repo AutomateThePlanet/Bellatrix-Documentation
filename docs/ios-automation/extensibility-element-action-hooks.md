@@ -41,7 +41,7 @@ public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
-    AppBehavior.RestartEveryTime)]
+    Lifecycle.RestartEveryTime)]
 public class ElementActionHooksTests : IOSTest
 {
     public override void TestsArrange()

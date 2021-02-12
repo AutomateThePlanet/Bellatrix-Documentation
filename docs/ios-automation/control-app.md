@@ -18,7 +18,7 @@ This is how one BELLATRIX test class looks like.
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
-    AppBehavior.ReuseIfStarted)]
+    Lifecycle.ReuseIfStarted)]
 public class BellatrixAppBehaviourTests : IOSTest
 {
     [TestMethod]
@@ -33,7 +33,7 @@ public class BellatrixAppBehaviourTests : IOSTest
     [IOS(Constants.IOSNativeAppPath,
         Constants.IOSDefaultVersion,
         Constants.IOSDefaultDeviceName,
-        AppBehavior.RestartOnFail)]
+        Lifecycle.RestartOnFail)]
     public void ReturnsTrue_When_CallButtonIsPresent()
     {
         var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
@@ -53,11 +53,11 @@ This is the main attribute that you need to mark each class that contains MSTest
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
-    AppBehavior.ReuseIfStarted)]
+    Lifecycle.ReuseIfStarted)]
 ```
 This is the attribute for automatic start/control of iOS apps by BELLATRIX. If you have to do it manually properly, you will need thousands of lines of code.
 **appPath**- sets the path where your app file is.
-**AppBehavior** enum controls when the app is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs.
+**Lifecycle** enum controls when the app is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs.
 However you need to be careful because in case of tests failures the app may need to be restarted.
 **Available options:**
 
@@ -77,7 +77,7 @@ All iOS BELLATRIX test classes should inherit from the **IOSTest** base class. T
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
-    AppBehavior.ReuseIfStarted)]
+    Lifecycle.ReuseIfStarted)]
 public class BellatrixAppBehaviourTests : IOSTest
 ```
 If you place attribute over the class all tests inherit the behaviour. It is possible to place it over each test and this way it overrides the class behaviour only for this particular test.
@@ -94,7 +94,7 @@ Use the element creation service to create an instance of the button. There are 
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
-    AppBehavior.RestartOnFail)]
+    Lifecycle.RestartOnFail)]
 public void ReturnsTrue_When_CallButtonIsPresent()
 {
     var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");

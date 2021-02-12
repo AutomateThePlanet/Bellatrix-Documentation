@@ -19,10 +19,6 @@ Find detailed information about what each empty project contains or should conta
 NuGet Dependencies
 ------------------
 ```
-<PackageReference Include="Bellatrix.Mobile.MSTest" Version="1.1.0.16" />
-
-<PackageReference Include="Bellatrix.Web.MSTest" Version="1.2.8" />
-
 <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
 <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
 <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
@@ -33,8 +29,6 @@ NuGet Dependencies
 <PackageReference Include="Unity" Version="5.8.6" />
 <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004"/>
 ```
-As you can see the most important package that you need is **Bellatrix.Mobile.MSTest**, it depends on all below packages. This is the bare minimum. We use the Safari driver for testing mobile web and hybrid application. This is why there is a dependency on **Bellatrix.Web.MSTest** which gives you 
-everything you need to test web apps.
 **Microsoft.NET.Test.Sdk**, **MSTest.TestAdapter**,** MSTest.TestFramework** are prerequisites so that you can execute MSTest framework tests.
 Also, we use Unity inversion of control container inside BELLATRIX for many things.  You will not be able to use it directly, but there are a couple of ways that you will use it in your code for some more complex scenarios.
 Lastly, we install **StyleCop.Analyzers**, we use it to enforce coding standards in the tests code.

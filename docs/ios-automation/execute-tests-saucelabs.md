@@ -17,7 +17,7 @@ Example
 [IOSSauceLabs("sauce-storage:TestApp.app.zip",
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
-    AppBehavior.RestartEveryTime)]
+    Lifecycle.RestartEveryTime)]
 public class SauceLabsTests : IOSTest
 {
     [TestMethod]
@@ -32,7 +32,7 @@ public class SauceLabsTests : IOSTest
     [IOSSauceLabs("sauce-storage:TestApp.app.zip",
         Constants.IOSDefaultVersion,
         Constants.IOSDefaultDeviceName,
-        AppBehavior.ReuseIfStarted)]
+        Lifecycle.ReuseIfStarted)]
     public void ButtonClicked_When_CallClickMethodSecond()
     {
         var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
@@ -48,7 +48,7 @@ Explanations
 [IOSSauceLabs("sauce-storage:TestApp.app.zip",
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
-    AppBehavior.RestartEveryTime)]
+    Lifecycle.RestartEveryTime)]
 ```
 To execute BELLATRIX tests in SauceLabs cloud you should use the IOSSauceLabs attribute instead of IOS. SauceLabs has the same parameters as IOS but adds to additional ones- device name, recordVideo and recordScreenshots. As with the IOS attribute you can override the class behavior on Test level.
 ```csharp
@@ -56,7 +56,7 @@ To execute BELLATRIX tests in SauceLabs cloud you should use the IOSSauceLabs at
 [IOSSauceLabs("sauce-storage:TestApp.app.zip",
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
-    AppBehavior.ReuseIfStarted)]
+    Lifecycle.ReuseIfStarted)]
 public void ButtonClicked_When_CallClickMethodSecond()
 {
     var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");

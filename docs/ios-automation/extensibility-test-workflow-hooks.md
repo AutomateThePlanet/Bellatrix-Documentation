@@ -1,7 +1,7 @@
 ---
 layout: default
-title:  "Extensibility- Test Workflow Hooks"
-excerpt: "Learn how to extend the BELLATRIX test workflow using hooks."
+title:  "Extensibility- Plugin Hooks"
+excerpt: "Learn how to extend the BELLATRIX plugins using hooks."
 date:   2018-11-23 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/extensibility-test-workflow-hooks/
@@ -16,7 +16,7 @@ Example
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
-    AppBehavior.RestartEveryTime)]
+    Lifecycle.RestartEveryTime)]
 public class TestWorkflowHooksTests : IOSTest
 {
     private static TextField _textField;

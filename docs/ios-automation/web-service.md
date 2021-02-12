@@ -16,7 +16,7 @@ Example
 [IOSWebAttribute(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
-    AppBehavior.ReuseIfStarted)]
+    Lifecycle.ReuseIfStarted)]
 public class WebServiceTests : IOSTest
 {
     [TestMethod]
@@ -37,7 +37,7 @@ of BELLATRIX web APIs.
 [IOSWebAttribute(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
-    AppBehavior.ReuseIfStarted)]
+    Lifecycle.ReuseIfStarted)]
 public class WebServiceTests : IOSTest
 ```
 To test web apps, you can start Chrome browser using the IOSWeb attribute.

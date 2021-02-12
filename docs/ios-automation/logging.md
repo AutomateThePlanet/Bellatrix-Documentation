@@ -17,7 +17,7 @@ Example
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
-    AppBehavior.RestartEveryTime)]
+    Lifecycle.RestartEveryTime)]
 public class LoggingTests : IOSTest
 {
     [TestMethod]

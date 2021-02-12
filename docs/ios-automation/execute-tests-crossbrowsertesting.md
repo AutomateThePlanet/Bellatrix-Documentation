@@ -17,7 +17,7 @@ Example
 [IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
     "11.3",
     "iPhone 6",
-    AppBehavior.RestartEveryTime,
+    Lifecycle.RestartEveryTime,
     recordVideo: true,
     recordNetwork: true,
     build: "CI Execution")]
@@ -35,7 +35,7 @@ public class CrossBrowserTesting : IOSTest
     [IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
         "11.3",
         "iPhone 6",
-        AppBehavior.ReuseIfStarted,
+        Lifecycle.ReuseIfStarted,
         recordVideo: true,
         recordNetwork: true,
         build: "CI Execution")]
@@ -54,7 +54,7 @@ Explanations
 [IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
     "11.3",
     "iPhone 6",
-    AppBehavior.RestartEveryTime,
+    Lifecycle.RestartEveryTime,
     recordVideo: true,
     recordNetwork: true,
     build: "CI Execution")]
@@ -65,7 +65,7 @@ To execute BELLATRIX tests in CrossBrowserTesting cloud, you should use the Cros
 [IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
     "11.3",
     "iPhone 6",
-    AppBehavior.ReuseIfStarted,
+    Lifecycle.ReuseIfStarted,
     recordVideo: true,
     recordNetwork: true,
     build: "CI Execution")]
