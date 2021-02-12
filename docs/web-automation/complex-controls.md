@@ -19,7 +19,7 @@ Tables
 ## Example ##
 ```csharp
 [TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
+[Browser(BrowserType.Chrome, Lifecycle.ReuseIfStarted)]
 public class TableControlTests : WebTest
 {
     private List<User> _expectedUsers;
@@ -83,7 +83,7 @@ public class TableControlTests : WebTest
     }
 
     [TestMethod]
-    [Browser(BrowserType.Edge, BrowserBehavior.ReuseIfStarted)]
+    [Browser(BrowserType.Edge, Lifecycle.ReuseIfStarted)]
     public void AssertCells()
     {
         Table.ForEachCell(cell => Assert.AreEqual("14px", cell.GetCssValue("font-size")));
@@ -97,7 +97,7 @@ public class TableControlTests : WebTest
     }
 
     [TestMethod]
-    [Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
+    [Browser(BrowserType.Firefox, Lifecycle.ReuseIfStarted)]
     public void AssertSpecificRow()
     {
         var firstRow = Table.GetRow(0);

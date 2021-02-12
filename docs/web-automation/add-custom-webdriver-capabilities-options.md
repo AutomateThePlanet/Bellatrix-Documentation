@@ -16,7 +16,7 @@ Example
 [SauceLabs(BrowserType.Firefox,
     "50",
     "Windows",
-    BrowserBehavior.ReuseIfStarted,
+    Lifecycle.ReuseIfStarted,
     recordScreenshots: true,
     recordVideo: true)]
 public class CustomWebDriverCapabilitiesTests : WebTest

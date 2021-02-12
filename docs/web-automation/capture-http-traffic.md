@@ -14,7 +14,7 @@ Example
 -------
 ```csharp
 [TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime, shouldCaptureHttpTraffic: true)]
+[Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime, shouldCaptureHttpTraffic: true)]
 public class CaptureHttpTrafficTests : WebTest
 {
     [TestMethod]
@@ -96,7 +96,7 @@ Explanations
 ------------
 Capture HTTP traffic is one of the most requested features for WebDriver. However by design WebDriver does not include such feature. Happily, for you, we added it to BELLATRIX.
 ```csharp
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime, shouldCaptureHttpTraffic: true)]
+[Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime, shouldCaptureHttpTraffic: true)]
 ```
 By default, the proxy is not used in your tests even if it is enabled. You need to set the shouldCaptureHttpTraffic to true in the **Browser** attribute. After that, each request and response made by the browser is captured, and you have the option to modify it or make assertions against it.
 ```csharp

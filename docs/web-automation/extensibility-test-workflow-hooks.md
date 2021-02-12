@@ -1,7 +1,7 @@
 ---
 layout: default
-title:  "Extensibility- Test Workflow Hooks"
-excerpt: "Learn how to extend the BELLATRIX test workflow using hooks."
+title:  "Extensibility- Plugin Hooks"
+excerpt: "Learn how to extend the BELLATRIX plugins using hooks."
 date:   2018-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/extensibility-test-workflow-hooks/

@@ -20,16 +20,6 @@ Find detailed information about what each empty project contains or should conta
 NuGet Dependencies
 ------------------
 ```
-<PackageReference Include="Bellatrix.Web.Chrome.Win32" Version="1.1.0.2380" />        
-<PackageReference Include="Bellatrix.Web.Firefox.Win64" Version="1.1.0.200" />
-<PackageReference Include="Bellatrix.Web.Opera.Win64" Version="1.1.0.236" />
-<PackageReference Include="Bellatrix.Web.Edge" Version="1.1.0.6299" />
-<PackageReference Include="Bellatrix.Web.InternetExplorer" Version="1.1.0.3120" />
-<PackageReference Include="Bellatrix.Web.MSTest" Version="1.1.0.16" />
-
-<PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
-<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
-<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
 <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
 <PackageReference Include="MSTest.TestAdapter" Version="1.3.0" />
 <PackageReference Include="MSTest.TestFramework" Version="1.3.0" />
@@ -37,7 +27,6 @@ NuGet Dependencies
 <PackageReference Include="Unity" Version="5.8.6" />
 <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004"/>
 ```
-As you can see the most important package that you need is **Bellatrix.Web.MSTest**, it depends on all below packages. This is the bare minimum.  Next you need to install the BELLATRIX browser NuGets. Each of them brings the correct version of WebDriver for the specific platform. This way you can install the version you like depending on your needs, making possible to use the latest version of Chrome but have 2 versions old Firefox.
 We reference Microsoft configuration packages so that we can work with configuration files where the different framework settings are placed.
 **Microsoft.NET.Test.Sdk**, **MSTest.TestAdapter**,** MSTest.TestFramework** are prerequisites so that you can execute MSTest framework tests.
 Also, we use Unity inversion of control container inside BELLATRIX for many things.  You will not be able to use it directly, but there are a couple of ways that you will use it in your code for some more complex scenarios.
