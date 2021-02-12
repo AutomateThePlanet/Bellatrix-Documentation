@@ -104,8 +104,6 @@ navigation:
                 title: Troubleshooting- Full Page Screenshots on Fail
             "troubleshooting-video-recording":
                 title: Troubleshooting- Video Recording
-            "elements-snippets":
-                title: Elements Snippets
             "capture-http-traffic":
                 title: Capture HTTP Traffic
             "execute-tests-selenium-grid":
@@ -126,14 +124,12 @@ navigation:
                 title: Logging
             "measure-test-execution-times": 
                 title: Measure Response Times
-            "load-testing": 
-                title: Web Load Testing
             "image-recognition": 
                 title: Image Recognition
             "extensibility-test-workflow-hooks":
-                title: Extensibility- Test Workflow Hooks
+                title: Extensibility- Plugin Hooks
             "extensibility-custom-test-workflow-plugins":
-                title: Extensibility- Custom Test Workflow Plugins
+                title: Extensibility- Plugins
             "extensibility-element-action-hooks":
                 title: Extensibility- Element Action Hooks
             "extensibility-common-services-action-hooks":
@@ -191,8 +187,6 @@ navigation:
                 title: Troubleshooting- Screenshots on Fail
             "troubleshooting-video-recording":
                 title: Troubleshooting- Video Recording
-            "elements-snippets":
-                title: Elements Snippets
             "execute-tests-saucelabs":
                 title: Execute Tests in SauceLabs
             "execute-tests-browserstack":
@@ -208,9 +202,9 @@ navigation:
             "measure-test-execution-times": 
                 title: Measure Response Times
             "extensibility-test-workflow-hooks":
-                title: Extensibility- Test Workflow Hooks
+                title: Extensibility- Plugin Hooks
             "extensibility-custom-test-workflow-plugins":
-                title: Extensibility- Custom Test Workflow Plugins
+                title: Extensibility- Plugins
             "extensibility-element-action-hooks":
                 title: Extensibility- Element Action Hooks
             "extensibility-common-services-action-hooks":
@@ -264,8 +258,6 @@ navigation:
                 title: Troubleshooting- Screenshots on Fail
             "troubleshooting-video-recording":
                 title: Troubleshooting- Video Recording
-            "elements-snippets":
-                title: Elements Snippets
             "execute-tests-saucelabs":
                 title: Execute Tests in SauceLabs
             "execute-tests-browserstack":
@@ -281,9 +273,9 @@ navigation:
             "measure-test-execution-times": 
                 title: Measure Response Times
             "extensibility-test-workflow-hooks":
-                title: Extensibility- Test Workflow Hooks
+                title: Extensibility- Plugin Hooks
             "extensibility-custom-test-workflow-plugins":
-                title: Extensibility- Custom Test Workflow Plugins
+                title: Extensibility- Plugins
             "extensibility-element-action-hooks":
                 title: Extensibility- Element Action Hooks
             "extensibility-common-services-action-hooks":
@@ -331,8 +323,6 @@ navigation:
                 title: Troubleshooting- Screenshots on Fail
             "troubleshooting-video-recording":
                 title: Troubleshooting- Video Recording
-            "elements-snippets":
-                title: Elements Snippets
             "add-custom-webdriver-capabilities":
                 title: Add Custom WebDriver Capabilities
             "static-analysis":
@@ -342,9 +332,9 @@ navigation:
             "measure-test-execution-times": 
                 title: Measure Response Times
             "extensibility-test-workflow-hooks":
-                title: Extensibility- Test Workflow Hooks
+                title: Extensibility- Plugin Hooks
             "extensibility-custom-test-workflow-plugins":
-                title: Extensibility- Custom Test Workflow Plugins
+                title: Extensibility- Plugins
             "extensibility-element-action-hooks":
                 title: Extensibility- Element Action Hooks
             "extensibility-common-services-action-hooks":
@@ -383,9 +373,9 @@ navigation:
             "logging":
                 title: Logging
             "extensibility-test-workflow-hooks":
-                title: Extensibility- Test Workflow Hooks
+                title: Extensibility- Plugin Hooks
             "extensibility-custom-test-workflow-plugins":
-                title: Extensibility- Custom Test Workflow Plugins
+                title: Extensibility- Plugins
             "extensibility-api-client-hooks":
                 title: Extensibility- API Client Hooks
             "extensibility-assertion-hooks":
@@ -413,12 +403,3 @@ navigation:
                 title: Test Results ReportPortal
             "azuredevops-test-results":
                 title: Test Results Azure DevOps
-    "add-ons":
-        title: Addons
-        submenu:
-            "cloudtestrunner":
-                title: BELLATRIX Cloud Test Runner
-            "standalonetestrunner":
-                title: BELLATRIX Standalone Test Runner
-            "chatbot":
-                title: BELLATRIX Chatbot
