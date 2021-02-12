@@ -53,18 +53,12 @@ navigation:
         submenu:
             "system-requirements":
                 title: System Requirements
-            "installation-windows":
-                title: Installation Windows
-            "installation-macos":
-                title: Installation MacOS
-            "installation-linux":
-                title: Installation Linux
+            "installation":
+                title: Installation
             "update":
                 title: Update
             "how-to-use-starter-kits":
                 title: How to Use Starter Kits?
-            "software-machine-automation":
-                title: Software Machine Automation
     "web-automation":
         title: Web
         submenu:
