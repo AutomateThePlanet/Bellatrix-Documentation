@@ -25,10 +25,8 @@ Includes only the actions that you should be able to do with the specific contro
 ### Web Extendability ###
 Execute your code on each element action, add additional logic to core framework methods and easily set anything to file configuration. Check all extensibility options:
 
-- [**Test workflow hooks**](/extensibility-test-workflow-hooks.md).
-- [**Custom test workflow plugins**](/extensibility-custom-test-workflow-plugins.md).
-- [**Override globally element actions**](/extensibility-override-globally-element-actions.md).
-- [**Override locally element actions**](/extensibility-override-locally-element-actions.md).
+- [**Plugin hooks**](/extensibility-test-workflow-hooks.md).
+- [**Plugins**](/extensibility-custom-test-workflow-plugins.md).
 - [**Element action hooks**](/extensibility-element-action-hooks.md).
 - [**Common services action hooks**](/extensibility-common-services-action-hooks.md).
 - [**Extend existing elements-extension methods**](/extensibility-extend-existing-elements-extension-methods.md).

@@ -14,8 +14,7 @@ Example
 -------
 ```csharp
 [TestClass]
-[VideoRecording(VideoRecordingMode.OnlyFail)]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
+[Browser(BrowserType.Chrome, Lifecycle.ReuseIfStarted)]
 public class VideoRecordingTests : WebTest
 {
     [TestMethod]
@@ -25,38 +24,12 @@ public class VideoRecordingTests : WebTest
         var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
         promotionsLink.Click();
     }
-
-    [TestMethod]
-    [VideoRecording(VideoRecordingMode.DoNotRecord)]
-    public void BlogPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-
-        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
-
-        blogLink.Click();
-    }
 }
 ```
 
 Explanations
 ------------
-```csharp
-[VideoRecording(VideoRecordingMode.OnlyFail)]
-```
-This is the attribute for cross-platform video recording by BELLATRIX. The engine checks after each test, its result, depending on the specified video saves the video.
-All video recording modes:
-- **Always** - records and save video for all tests.
-- **DoNotRecord** - wont' record any videos.
-- **Ignore** - ignores the tests.
-- **OnlyPass** - saves the videos only for pass tests.
-- **OnlyFail** - saves the videos only for failed tests.
-If you apply attribute to the class all tests inherit the behaviour. It is possible to put it over each test and this way you override the class behaviour only for this particular test.
-```csharp
-[TestMethod]
-[VideoRecording(VideoRecordingMode.DoNotRecord)]
-```
-As mentioned above we can override the video behaviour for a particular test. The global behaviour for all tests in the class is to save the videos only for failed tests. Only for this particular test, we tell BELLATRIX not to make a video.
+If it is turned on the engine will capture video for every test and keep them in case the test failed.
 
 Configuration
 -------------
