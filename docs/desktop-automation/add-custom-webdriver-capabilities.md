@@ -13,7 +13,7 @@ Example
 -------
 ```csharp
 [TestClass]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+[App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class AddCustomWebDriverCapabilitiesTests : DesktopTest
 {
     public override void TestsArrange()
@@ -34,7 +34,7 @@ public class AddCustomWebDriverCapabilitiesTests : DesktopTest
     }
 
     [TestMethod]
-    [App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
+    [App(Constants.WpfAppPath, Lifecycle.RestartOnFail)]
     public void MessageChanged_When_ButtonClicked_Wpf()
     {
         var button = App.ElementCreateService.CreateByName<Button>("E Button");

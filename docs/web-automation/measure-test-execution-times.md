@@ -19,7 +19,7 @@ namespace Bellatrix.Web.GettingStarted
 {
     [TestClass]
     [ExecutionTimeUnder(2000, TimeUnit.Milliseconds)]
-    [Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
+    [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
     public class MeasureTestExecutionTests : WebTest
     {
         [TestMethod]
@@ -40,7 +40,7 @@ Explanations
 ```csharp
 [TestClass]
 [ExecutionTimeUnder(2000, TimeUnit.Milliseconds)]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
+[Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
 public class MeasureTestExecutionTests : WebTest
 ```
 Sometimes it is useful to use your functional tests to measure performance. Or to just make sure that your app is not slow. To do that BELLATRIX libraries offer the **ExecutionTimeUnder** attribute. You specify a timeout and if the test is executed over it the test will fail.

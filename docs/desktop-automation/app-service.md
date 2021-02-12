@@ -13,7 +13,7 @@ Example
 -------
 ```csharp
 [TestClass]
-[App(@"C:\demo-apps\WPFSampleApp.exe", AppBehavior.RestartEveryTime)]
+[App(@"C:\demo-apps\WPFSampleApp.exe", Lifecycle.RestartEveryTime)]
 public class AppServiceTests : DesktopTest
 {
     [TestMethod]
@@ -37,15 +37,15 @@ Explanations
 ------------
 With the BELLATRIX desktop library, you can test various Windows applications written in different technologies such as- WPF, WinForms or UWP (Universal Windows Platform).
 ```csharp
-[App(@"C:\demo-apps\WPFSampleApp.exe", AppBehavior.RestartEveryTime)]
+[App(@"C:\demo-apps\WPFSampleApp.exe", Lifecycle.RestartEveryTime)]
 ```
 For the first two, you need to pass the path to your application's executable.
 ```csharp
-[App(@"C:\demo-apps\WindowsFormsSampleApp.exe", AppBehavior.RestartEveryTime)] 
+[App(@"C:\demo-apps\WindowsFormsSampleApp.exe", Lifecycle.RestartEveryTime)] 
 ```
 Starts WinForms app.
 ```csharp
-[App("369ede42-bebe-41ea-a02a-0da04991478e_q6s448gyj2xsw!App", AppBehavior.RestartEveryTime)]
+[App("369ede42-bebe-41ea-a02a-0da04991478e_q6s448gyj2xsw!App", Lifecycle.RestartEveryTime)]
 ```
 For UWP applications you need to set the application's installation GUID.
 ```csharp

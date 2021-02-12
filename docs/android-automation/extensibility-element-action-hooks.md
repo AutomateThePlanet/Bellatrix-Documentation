@@ -41,7 +41,7 @@ public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
     Constants.AndroidDefaultDeviceName,
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
+    Lifecycle.ReuseIfStarted)]
 public class ElementActionHooksTests : AndroidTest
 {
     public override void TestsArrange()

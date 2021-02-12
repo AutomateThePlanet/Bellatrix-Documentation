@@ -24,7 +24,7 @@ Time-based load tests or number of times-based, When your code executes the spec
 To measure performance you are able to specify a timeout and if the test is executed over it the test will fail. [**Learn more**](/measure-response-times.md).
 
 ### API Extensibility ###
-- [**Test workflow hooks**](/extensibility-test-workflow-hooks.md).
-- [**Custom test workflow plugins**](/extensibility-custom-test-workflow-plugins.md).
-- [**API client hooks**](/extensibility-api-client-hooks.md).
-- [**Assertion hooks**](/extensibility-assertion-hooks.md).
+- [**Test workflow hooks**](/extensibility-test-workflow-hooks.md)
+- [**Custom test workflow plugins**](/extensibility-custom-test-workflow-plugins.md)
+- [**API client hooks**](/extensibility-api-client-hooks.md)
+- [**Assertion hooks**](/extensibility-assertion-hooks.md)

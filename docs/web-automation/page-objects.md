@@ -105,22 +105,6 @@ public void PurchaseRocketWithoutPageObjects()
 
 How to Create BELLATRIX Page Object
 -----------------------------------
-To create a new page object, you have a couple of options. You can create it manually. However, why wasting time? BELLATRIX comes with ready-to-go page object templates.
-- Create a new folder for your page and name it properly.
-- Open the context menu and click 'New Item...'
-
-![Open New Item Menu](images/create-page-object-new-item-menu.png)
-- Choose one of the 3 web page objects templates
-	- Bellatrix-AssertedNavigatableWebPage - contains 3 files- one for actions, one for element declarations and one for assertions (all of them make one-page object)
-	- Bellatrix-NavigatableWebPage- one for actions and one for elements (all of them make a one-page object)
-	- Bellatrix-WebPage- one for actions and one for elements (all of them make a one-page object), don't have methods for navigation
-
-![Choose Template](images/bellatrix-page-object-item-template.png)
-
-The files are generated.
-
-![Generated Files](images/generated-page-object.png)
-
 - On most pages, you need to define elements. Placing them in a single place makes the changing of the locators easy. It is a matter of choice whether to have action methods or not. If you use the same combination of same actions against a group of elements then it may be a good idea to wrap them in a page object action method. In our example, we can wrap the filling the billing info such a method. 
 - In the assertions file, we may place some predefined ensure methods. For example, if you always check the same email or title of a page, there is no need to hardcode the string in each test. Later if the title is changed, you can do it in a single place. The same is true about most of the things you can assert in your tests.
 

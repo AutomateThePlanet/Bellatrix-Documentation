@@ -19,7 +19,7 @@ This is how one BELLATRIX test class looks like.
     Constants.AndroidDefaultDeviceName,
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
+    Lifecycle.ReuseIfStarted)]
 public class BellatrixAppBehaviourTests : AndroidTest
 {
     [TestMethod]
@@ -38,7 +38,7 @@ public class BellatrixAppBehaviourTests : AndroidTest
         Constants.AndroidDefaultDeviceName,
         Constants.AndroidNativeAppAppExamplePackage,
         ".view.Controls1",
-        AppBehavior.RestartOnFail)]
+        Lifecycle.RestartOnFail)]
     public void ReturnsSave_When_GetText()
     {
         var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
@@ -60,11 +60,11 @@ This is the main attribute that you need to mark each class that contains MSTest
     Constants.AndroidDefaultDeviceName,
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
+    Lifecycle.ReuseIfStarted)]
 ```
 This is the attribute for automatic start/control of Android apps by BELLATRIX. If you have to do it manually properly, you will need thousands of lines of code.
 **appPath**- sets the path where your application APK is.
-**AppBehavior** enum controls when the app is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs.
+**Lifecycle** enum controls when the app is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs.
 However you need to be careful because in case of tests failures the app may need to be restarted.
 **Available options:**
 
@@ -86,7 +86,7 @@ All Android BELLATRIX test classes should inherit from the AndroidTest base clas
     Constants.AndroidDefaultDeviceName,
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
+    Lifecycle.ReuseIfStarted)]
 public class BellatrixAppBehaviourTests : AndroidTest
 ```
 If you place attribute over the class all tests inherit the behaviour. It is possible to place it over each test and this way it overrides the class behaviour only for this particular test.
@@ -106,7 +106,7 @@ Use the element creation service to create an instance of the button. There are 
     Constants.AndroidDefaultDeviceName,
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.Controls1",
-    AppBehavior.RestartOnFail)]
+    Lifecycle.RestartOnFail)]
 public void ReturnsSave_When_GetText()
 {
     var button = App.ElementCreateService.CreateByIdContaining<Button>("button");

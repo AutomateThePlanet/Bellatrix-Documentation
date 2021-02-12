@@ -18,11 +18,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Bellatrix.Desktop.GettingStarted
 {
     [TestClass]
-    [App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+    [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
     public class ExtendExistingElementWithExtensionMethodsTests : DesktopTest
     {
         [TestMethod]
-        [App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
+        [App(Constants.WpfAppPath, Lifecycle.RestartOnFail)]
         public void MessageChanged_When_ButtonClicked_Wpf()
         {
             var button = App.ElementCreateService.CreateByName<Button>("E Button");

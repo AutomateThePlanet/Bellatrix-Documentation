@@ -19,7 +19,7 @@ Example
     Constants.AndroidDefaultDeviceName,
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
+    Lifecycle.ReuseIfStarted)]
 public class LoggingTests : AndroidTest
 {
     [TestMethod]

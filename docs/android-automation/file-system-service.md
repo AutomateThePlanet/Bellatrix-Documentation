@@ -18,7 +18,7 @@ Example
     Constants.AndroidDefaultDeviceName,
     Constants.AndroidNativeAppAppExamplePackage,
     ".ApiDemos",
-    AppBehavior.RestartEveryTime)]
+    Lifecycle.RestartEveryTime)]
 public class FileSystemServiceTests : AndroidTest
 {
     [TestMethod]

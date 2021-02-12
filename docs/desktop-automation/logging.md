@@ -14,7 +14,7 @@ Example
 -------
 ```csharp
 [TestClass]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+[App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class LoggingTests : DesktopTest
 {
     [TestMethod]

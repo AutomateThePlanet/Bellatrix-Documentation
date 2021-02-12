@@ -18,7 +18,7 @@ Example
     Constants.AndroidDefaultDeviceName,
     Constants.AndroidNativeAppAppExamplePackage,
     ".graphics.TouchRotateActivity",
-    AppBehavior.RestartEveryTime)]
+    Lifecycle.RestartEveryTime)]
 public class TouchActionsServiceTests : AndroidTest
 {
     [TestMethod]

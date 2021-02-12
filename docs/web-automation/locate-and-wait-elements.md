@@ -15,7 +15,7 @@ Example
 -------
 ```csharp
 [TestMethod]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartOnFail)]
+[Browser(BrowserType.Chrome, Lifecycle.RestartOnFail)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");

@@ -14,7 +14,7 @@ Example
 -------
 ```csharp
 [TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
+[Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
 public class LoggingTests : WebTest
 {
     [TestMethod]

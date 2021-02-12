@@ -48,7 +48,7 @@ public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
 ```
 ```csharp
 [TestClass]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+[App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class ElementActionHooksTests : DesktopTest
 {
     public override void TestsArrange()

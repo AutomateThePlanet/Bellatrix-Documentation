@@ -23,9 +23,9 @@ Checks after each test, its result, depending on the specified video saves the v
 18+ Android controls. All of them implement Proxy design pattern which means that they are not located immediately when they are created. Another benefit is that each of them includes only the actions that you should be able to do with the specific control and nothing more.[**Learn more**](/common-controls.md).
 
 ### Android Extensibility ###
-- [**Plugin hooks**](/extensibility-test-workflow-hooks.md).
-- [**Plugins**](/extensibility-custom-test-workflow-plugins.md).
-- [**Element action hooks**](/extensibility-element-action-hooks.md).
-- [**Common services action hooks**](/extensibility-common-services-action-hooks.md).
-- [**Extend existing elements-extension methods**](/extensibility-extend-existing-elements-extension-methods.md).
-- [**Extend existing elements-extension methods**](/extensibility-extend-existing-elements-extension-methods.md).
+- [**Plugin hooks**](/extensibility-test-workflow-hooks.md)
+- [**Plugins**](/extensibility-custom-test-workflow-plugins.md)
+- [**Element action hooks**](/extensibility-element-action-hooks.md)
+- [**Common services action hooks**](/extensibility-common-services-action-hooks.md)
+- [**Extend existing elements-extension methods**](/extensibility-extend-existing-elements-extension-methods.md)
+- [**Extend existing elements-extension methods**](/extensibility-extend-existing-elements-extension-methods.md)

@@ -19,7 +19,7 @@ Example
     "Android GoogleAPI Emulator",
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.ControlsMaterialDark",
-    AppBehavior.RestartEveryTime,
+    Lifecycle.RestartEveryTime,
     recordVideo: true,
     recordNetwork: true,
     build: "CI Execution")]
@@ -39,7 +39,7 @@ public class CrossBrowserTesting : AndroidTest
         "Android GoogleAPI Emulator",
         Constants.AndroidNativeAppAppExamplePackage,
         ".view.ControlsMaterialDark",
-        AppBehavior.ReuseIfStarted,
+        Lifecycle.ReuseIfStarted,
         recordVideo: true,
         recordNetwork: true,
         build: "CI Execution")]
@@ -60,7 +60,7 @@ Explanations
     "Android GoogleAPI Emulator",
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.ControlsMaterialDark",
-    AppBehavior.RestartEveryTime,
+    Lifecycle.RestartEveryTime,
     recordVideo: true,
     recordNetwork: true,
     build: "CI Execution")]
@@ -73,7 +73,7 @@ To execute BELLATRIX tests in CrossBrowserTesting cloud, you should use the Cros
     "Android GoogleAPI Emulator",
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.ControlsMaterialDark",
-    AppBehavior.ReuseIfStarted,
+    Lifecycle.ReuseIfStarted,
     recordVideo: true,
     recordNetwork: true,
     build: "CI Execution")]

@@ -24,7 +24,7 @@ namespace Bellatrix.Mobile.Android.GettingStarted
         Constants.AndroidDefaultDeviceName,
         Constants.AndroidNativeAppAppExamplePackage,
         ".view.Controls1",
-        AppBehavior.ReuseIfStarted)]
+        Lifecycle.ReuseIfStarted)]
     public class MeasureTestExecutionTimesTests : AndroidTest
     {
         [TestMethod]
@@ -48,7 +48,7 @@ Explanations
     Constants.AndroidDefaultDeviceName,
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
+    Lifecycle.ReuseIfStarted)]
 public class MeasureTestExecutionTimesTests : AndroidTest
 ```
 Sometimes it is useful to use your functional tests to measure performance. Or to just make sure that your app is not slow. To do that BELLATRIX libraries offer the **ExecutionTimeUnder** attribute. You specify a timeout and if the test is executed over it the test will fail.

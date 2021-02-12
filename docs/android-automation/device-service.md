@@ -18,7 +18,7 @@ Example
     Constants.AndroidDefaultDeviceName,
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.Controls1",
-    AppBehavior.RestartEveryTime)]
+    Lifecycle.RestartEveryTime)]
 public class DeviceServiceTests : AndroidTest
 {
     [TestMethod]

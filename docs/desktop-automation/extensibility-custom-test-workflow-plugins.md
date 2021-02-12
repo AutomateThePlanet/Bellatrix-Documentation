@@ -1,7 +1,7 @@
 ---
 layout: default
-title:  "Extensibility- Custom Test Workflow Plugins"
-excerpt: "Learn how to plugin your logic in BELLATRIX test workflow using custom test workflow plugins."
+title:  "Extensibility- Plugins"
+excerpt: "Learn how to plugin your logic in BELLATRIX test workflow using plugins."
 date:   2018-06-23 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/extensibility-custom-test-workflow-plugins/
@@ -26,9 +26,9 @@ public class ManualTestCaseAttribute : Attribute
 }
 ```
 ```csharp
-public class AssociatedTestWorkflowPlugin : TestWorkflowPlugin
+public class AssociatedPlugin : Plugin
 {
-    protected override void PreTestInit(object sender, TestWorkflowPluginEventArgs e)
+    protected override void PreTestInit(object sender, PluginEventArgs e)
     {
         base.PreTestInit(sender, e);
         ValidateManualTestCaseAttribute(e.TestMethodMemberInfo);
@@ -61,16 +61,16 @@ public class AssociatedTestWorkflowPlugin : TestWorkflowPlugin
 Explanations
 ------------
 ```csharp
-public class AssociatedTestWorkflowPlugin : TestWorkflowPlugin
+public class AssociatedPlugin : Plugin
 ```
 To create a custom test workflow plugin:
 
-- Create a new class that derives from the 'TestWorkflowPlugin' base class.
+- Create a new class that derives from the 'Plugin' base class.
 - Then override some of the workflow's protected methods adding there your logic.
-- Register the workflow plugin using the AddTestWorkflowPlugin method of the App service.
+- Register the workflow plugin using the AddPlugin method of the App service.
 
 ```csharp
-protected override void PreTestInit(object sender, TestWorkflowPluginEventArgs e)
+protected override void PreTestInit(object sender, PluginEventArgs e)
 {
     base.PreTestInit(sender, e);
     ValidateManualTestCaseAttribute(e.TestMethodMemberInfo);
@@ -79,12 +79,12 @@ protected override void PreTestInit(object sender, TestWorkflowPluginEventArgs e
 You can override all mentioned test workflow method hooks in your custom handlers. The method uses reflection to find out if the ManualTestCase attribute is set to the run test. If the attribute is not set or is set more than once an exception is thrown. The logic executes before the actual test run, during the **PreTestInit** phase.
 ```csharp
 [TestClass]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+[App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class CustomTestCaseExtensionTests : WebTest
 {
     public override void TestInit()
     {
-        App.AddTestWorkflowPlugin<AssociatedTestCaseExtension>();
+        App.AddPlugin<AssociatedTestCaseExtension>();
     }
 
     [TestMethod]
@@ -95,11 +95,11 @@ public class CustomTestCaseExtensionTests : WebTest
     }
 }
 ```
-Once we created the test workflow plugin, we need to add it to the existing test workflow. It is done using the **App** service's method **AddTestWorkflowPlugin**.
+Once we created the test workflow plugin, we need to add it to the existing test workflow. It is done using the **App** service's method **AddPlugin**.
 ```csharp
 public static void AssemblyInitialize(TestContext testContext)
 {
-    App.AddTestWorkflowPlugin<AssociatedTestCaseExtension>();
+    App.AddPlugin<AssociatedTestCaseExtension>();
 }
 ```
 It doesn't need to be added multiple times as will happen here with the **TestInit** method. Usually this is done in the **TestsInitialize** file in the **AssemblyInitialize** method.
@@ -110,7 +110,7 @@ To do a post-screenshot generation action, implement the **IScreenshotPlugin** i
 To do a post-video generation action, implement the **IVideoPlugin** interface and add your logic to **VideoGenerated** method.
 Bellow you can find a sample usage from BELLATRIX Allure plug-in.
 ```csharp
-public class AllureWorkflowPlugin : TestWorkflowPlugin, IScreenshotPlugin, IVideoPlugin
+public class AllureWorkflowPlugin : Plugin, IScreenshotPlugin, IVideoPlugin
 {
     private static AllureLifecycle _allureLifecycle => AllureLifecycle.Instance;
     private string _testContainerId;

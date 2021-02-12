@@ -19,7 +19,7 @@ Example
     "Android GoogleAPI Emulator",
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.ControlsMaterialDark",
-    AppBehavior.RestartEveryTime)]
+    Lifecycle.RestartEveryTime)]
 public class SauceLabsTests : AndroidTest
 {
     [TestMethod]
@@ -36,7 +36,7 @@ public class SauceLabsTests : AndroidTest
         "Android GoogleAPI Emulator",
         Constants.AndroidNativeAppAppExamplePackage,
         ".view.ControlsMaterialDark",
-        AppBehavior.ReuseIfStarted)]
+        Lifecycle.ReuseIfStarted)]
     public void ButtonClicked_When_CallClickMethodSecond()
     {
         var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
@@ -54,7 +54,7 @@ Explanations
     "Android GoogleAPI Emulator",
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.ControlsMaterialDark",
-    AppBehavior.RestartEveryTime)]
+    Lifecycle.RestartEveryTime)]
 ```
 To execute BELLATRIX tests in SauceLabs cloud you should use the AndroidSauceLabs attribute instead of Android. SauceLabs has the same parameters as Android but adds to additional ones- device name, recordVideo and recordScreenshots. As with the Android attribute you can override the class behavior on Test level.
 ```csharp
@@ -64,7 +64,7 @@ To execute BELLATRIX tests in SauceLabs cloud you should use the AndroidSauceLab
     "Android GoogleAPI Emulator",
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.ControlsMaterialDark",
-    AppBehavior.ReuseIfStarted)]
+    Lifecycle.ReuseIfStarted)]
 [Ignore]
 public void ButtonClicked_When_CallClickMethodSecond()
 {

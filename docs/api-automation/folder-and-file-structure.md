@@ -35,7 +35,6 @@ NuGet Dependencies
 <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004"/>
 <PackageReference Include="RestSharp" Version="106.2.2" />
 ```
-As you can see the most important package that you need is **Bellatrix.API.MSTest**, it depends on all below packages. This is the bare minimum.  Next you need to install the BELLATRIX browser NuGets. 
 **Microsoft.NET.Test.Sdk**, **MSTest.TestAdapter**,** MSTest.TestFramework** are prerequisites so that you can execute MSTest framework tests.
 Since Bellatrix.API is a wrapper around RestSharp we install it.
 Also, we use Unity inversion of control container inside BELLATRIX for many things.  You will not be able to use it directly, but there are a couple of ways that you will use it in your code for some more complex scenarios.

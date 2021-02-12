@@ -18,7 +18,7 @@ Example
     Constants.AndroidDefaultDeviceName,
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
+    Lifecycle.ReuseIfStarted)]
 public class NavigateToActivitiesTests : AndroidTest
 {
     [TestMethod]
@@ -42,7 +42,7 @@ Explanations
     Constants.AndroidDefaultDeviceName,
     Constants.AndroidNativeAppAppExamplePackage,
     ".view.Controls1",
-    AppBehavior.ReuseIfStarted)]
+    Lifecycle.ReuseIfStarted)]
 ```
 Depending on the types of tests you want to write there are a couple of ways to navigate to а specific activity.
 If you use the Android attribute the first time the app is started it navigates to the specified activity.

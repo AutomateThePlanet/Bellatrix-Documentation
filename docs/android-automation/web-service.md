@@ -16,7 +16,7 @@ Example
 [AndroidWeb(Constants.AndroidNativeAppPath,
     Constants.AndroidDefaultAndroidVersion,
     Constants.AndroidDefaultDeviceName,
-    AppBehavior.RestartEveryTime)]
+    Lifecycle.RestartEveryTime)]
 public class WebServiceTests : AndroidTest
 {
     [TestMethod]
@@ -37,7 +37,7 @@ of BELLATRIX web APIs.
 [AndroidWeb(Constants.AndroidNativeAppPath,
     Constants.AndroidDefaultAndroidVersion,
     Constants.AndroidDefaultDeviceName,
-    AppBehavior.RestartEveryTime)]
+    Lifecycle.RestartEveryTime)]
 public class WebServiceTests : AndroidTest
 ```
 To test web apps, you can start Chrome browser using the AndroidWeb attribute.

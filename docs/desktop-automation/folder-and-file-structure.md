@@ -20,8 +20,6 @@ Find detailed information about what each empty project contains or should conta
 NuGet Dependencies
 ------------------
 ```
-<PackageReference Include="Bellatrix.Desktop.MSTest" Version="1.1.0.15" />
-
 <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
 <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
 <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />

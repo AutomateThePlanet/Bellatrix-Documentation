@@ -1,7 +1,7 @@
 ---
 layout: default
-title:  "Extensibility- Custom Test Workflow Plugins"
-excerpt: "Learn how to plugin your logic in BELLATRIX test workflow using custom test workflow plugins."
+title:  "Extensibility- Plugins"
+excerpt: "Learn how to plugin your logic in BELLATRIX test workflow using plugins."
 date:   2018-06-23 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/extensibility-custom-test-workflow-plugins/

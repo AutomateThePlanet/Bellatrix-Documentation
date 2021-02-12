@@ -18,7 +18,7 @@ Example
     Constants.AndroidDefaultDeviceName,
     Constants.AndroidNativeAppAppExamplePackage,
     ".app.CustomTitle",
-    AppBehavior.RestartEveryTime)]
+    Lifecycle.RestartEveryTime)]
 public class KeyboardServiceTests : AndroidTest
 {
     [TestMethod]

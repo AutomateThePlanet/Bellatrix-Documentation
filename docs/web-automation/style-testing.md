@@ -13,7 +13,7 @@ anchors:
 Example
 -------
 ```csharp
-[Browser(BrowserType.Chrome, DesktopWindowSize._1280_1024,  BrowserBehavior.RestartEveryTime)]
+[Browser(BrowserType.Chrome, DesktopWindowSize._1280_1024,  Lifecycle.RestartEveryTime)]
 [TestClass]
 public class StyleTestingTests : WebTest
 {
@@ -57,7 +57,7 @@ Advanced Usages
 ------------
  In the case where you have a style guide for how different elements should look like consistently in your app, you can create a base class containing the tests for checking these styles. For example, you can have a base class for buttons, anchors, tables, and so on. After that, instead of copy-pasting these tests each time, you can derive from these base classes and navigate to the particular page, which should be checked.
 ```csharp
-[Browser(BrowserType.Chrome, DesktopWindowSize._1280_1024,  BrowserBehavior.RestartEveryTime)]
+[Browser(BrowserType.Chrome, DesktopWindowSize._1280_1024,  Lifecycle.RestartEveryTime)]
 public abstract class AnchorsStyleTests : WebTest
 {
     protected virtual ElementsList<Anchor> Anchors =>

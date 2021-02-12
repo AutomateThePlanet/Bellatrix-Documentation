@@ -13,7 +13,7 @@ Example
 -------
 ```csharp
 [TestMethod]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+[App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public void WaitForElementToExists_When_ElementIsNotVisibleInitially_Wpf()
 {
     var button = App.ElementCreateService.CreateByName<Button>("ShowAfterButton").ToExists();
@@ -24,7 +24,7 @@ public void WaitForElementToExists_When_ElementIsNotVisibleInitially_Wpf()
 }
 
 [TestMethod]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+[App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public void WaitForElementToNotExists_When_ElementIsVisibleInitially_Wpf()
 {
     var button = App.ElementCreateService.CreateByName<Button>("DisappearAfterButton1");

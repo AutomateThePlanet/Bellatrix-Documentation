@@ -15,7 +15,7 @@ Overview
 This is how one BELLATRIX test class looks like.
 ```csharp
 [TestClass]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+[App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class ControlAppTests : DesktopTest
 {
     [TestMethod]
@@ -30,7 +30,7 @@ public class ControlAppTests : DesktopTest
     }
 
     [TestMethod]
-    [App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
+    [App(Constants.WpfAppPath, Lifecycle.RestartOnFail)]
     public void MessageChanged_When_ButtonClicked_Wpf()
     {
         var button = App.ElementCreateService.CreateByName<Button>("E Button");
@@ -50,11 +50,11 @@ Explanations
 ```
 This is the main attribute that you need to mark each class that contains MSTest tests.
 ```csharp
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+[App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 ```
 This is the attribute for automatic start/control of WebDriver applications by BELLATRIX. If you have to do it manually properly, you will need thousands of lines of code.
 **appPath**- sets the path where your application is.
-**AppBehavior** enum controls when the app is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs.
+**Lifecycle** enum controls when the app is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs.
 However you need to be careful because in case of tests failures the app may need to be restarted.
 **Available options:**
 
@@ -71,7 +71,7 @@ public class ControlAppTests : DesktopTest
 ```
 All desktop BELLATRIX test classes should inherit from the DesktopTest base class. This way you can use all built-in BELLATRIX tools and functionalities.
 ```csharp
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+[App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class ControlAppTests : DesktopTest
 ```
 If you place attribute over the class all tests inherit the behaviour. It is possible to place it over each test and this way it overrides the class behaviour only for this particular test.
@@ -86,7 +86,7 @@ var button = App.ElementCreateService.CreateByName<Button>("E Button");
 Use the element creation service to create an instance of the button. There are much more details about this process in the next sections.
 ```csharp
 [TestMethod]
-[App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
+[App(Constants.WpfAppPath, Lifecycle.RestartOnFail)]
 public void MessageChanged_When_ButtonClicked_Wpf()
 {
     var button = App.ElementCreateService.CreateByName<Button>("E Button");

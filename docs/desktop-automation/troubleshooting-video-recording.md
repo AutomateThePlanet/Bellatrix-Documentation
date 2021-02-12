@@ -14,54 +14,25 @@ Example
 -------
 ```csharp
 [TestClass]
-[VideoRecording(VideoRecordingMode.OnlyFail)]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+[App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class VideoRecordingTests : DesktopTest
 {
-[TestMethod]
-public void MessageChanged_When_ButtonHovered_Wpf()
-{
-    var button = App.ElementCreateService.CreateByName<Button>("E Button");
+  [TestMethod]
+  public void MessageChanged_When_ButtonHovered_Wpf()
+  {
+      var button = App.ElementCreateService.CreateByName<Button>("E Button");
 
-    button.Hover();
+      button.Hover();
 
-    var label = App.ElementCreateService.CreateByName<Button>("ebuttonHovered");
-    Assert.AreEqual("ebuttonHovered", label.InnerText);
-}
-
-[TestMethod]
-[App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
-[VideoRecording(VideoRecordingMode.DoNotRecord)]
-public void MessageChanged_When_ButtonClicked_Wpf()
-{
-    var button = App.ElementCreateService.CreateByName<Button>("E Button");
-
-    button.Click();
-
-    var label = App.ElementCreateService.CreateByName<Button>("ebuttonClicked");
-    Assert.AreEqual("ebuttonClicked", label.InnerText);
-}
+      var label = App.ElementCreateService.CreateByName<Button>("ebuttonHovered");
+      Assert.AreEqual("ebuttonHovered", label.InnerText);
+  }
 }
 ```
 
 Explanations
 ------------
-```csharp
-[VideoRecording(VideoRecordingMode.OnlyFail)]
-```
-This is the attribute for cross-platform video recording by BELLATRIX. The engine checks after each test, its result, depending on the specified video saves the video.
-All video recording modes:
-- **Always** - records and save video for all tests.
-- **DoNotRecord** - wont' record any videos.
-- **Ignore** - ignores the tests.
-- **OnlyPass** - saves the videos only for pass tests.
-- **OnlyFail** - saves the videos only for failed tests.
-If you place attribute over the class all tests inherit the behaviour. It is possible to put it over each test and this way you override the class behaviour only for this particular test.
-```csharp
-[TestMethod]
-[VideoRecording(VideoRecordingMode.DoNotRecord)]
-```
-As mentioned above we can override the video behaviour for a particular test. The global behaviour for all tests in the class is to save the videos only for failed tests. Only for this particular test, we tell BELLATRIX not to make a video.
+If it is turned on the engine will capture video for every test and keep them in case the test failed.
 
 Configuration
 -------------

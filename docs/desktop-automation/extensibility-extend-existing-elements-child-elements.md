@@ -13,11 +13,11 @@ Example
 -------
 ```csharp
 [TestClass]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
+[App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class ExtendExistingElementWithChildElementsTests : DesktopTest
 {
     [TestMethod]
-    [App(Constants.WpfAppPath, AppBehavior.RestartOnFail)]
+    [App(Constants.WpfAppPath, Lifecycle.RestartOnFail)]
     [ScreenshotOnFail(false)]
     public void MessageChanged_When_ButtonClicked_Wpf()
     {
