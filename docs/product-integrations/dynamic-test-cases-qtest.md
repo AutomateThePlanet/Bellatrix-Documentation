@@ -27,7 +27,7 @@ public class TestsInitialize : WebTest
     [AssemblyInitialize]
     public static void AssemblyInitialize(TestContext testContext)
     {
-        QTestDynamicTestCasesPluginConfiguration.Add();
+        QTestDynamicTestCasesPlugin.Add();
     }
 
     [AssemblyCleanup]
