@@ -45,6 +45,9 @@ QTestDynamicTestCasesPluginConfiguration.Add();
 They will turn on the feature and will assign listeners to common actions in the framework that will populate the auto-generated test case's steps and expected results.
 Next, you need to add a new section in the **testFrameworkSettings.json** settings file.
 ```
+  "dynamicTestCasesSettings": {
+    "isEnabled": "true"
+  },
   "qTestDynamicTestCasesSettings": {
     "isEnabled": "true",
     "serviceAddress": "https://yourProject.qtestnet.com/",
