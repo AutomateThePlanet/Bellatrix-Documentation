@@ -28,26 +28,7 @@ public class TestsInitialize : WebTest
     [AssemblyInitialize]
     public static void AssemblyInitialize(TestContext testContext)
     {
-        var app = new App();
-        app.UseMsTestSettings();
-        app.UseBrowserBehavior();
-        app.UseLogExecutionBehavior();
-        app.UseControlLocalOverridesCleanBehavior();
-        app.UseFFmpegVideoRecorder();
-        app.UseFullPageScreenshotsOnFail();
-        app.UseLogger();
-        app.UseElementsBddLogging();
-        app.UseHighlightElements();
-        app.UseEnsureExtensionsBddLogging();
-        app.UseLayoutAssertionExtensionsBddLogging();
-        app.UseExceptionAnalysation();
-        app.Initialize();
-
-        app.UseBugReporting();
-        app.UseAssertExtensionsBugReporting();
-        app.UseEnsureExtensionsBugReporting();
-        app.UseLayoutAssertionExtensionsBugReporting();
-        app.UseAzureDevOpsBugReporting();
+        AzureDevOpsBugReportingPlugin.Add();
     }
 
     [AssemblyCleanup]
@@ -60,16 +41,15 @@ public class TestsInitialize : WebTest
 ```
 You need to add the following lines:
 ```csharp
-app.UseBugReporting();
-app.UseAssertExtensionsBugReporting();
-app.UseEnsureExtensionsBugReporting();
-app.UseLayoutAssertionExtensionsBugReporting();
-app.UseAzureDevOpsBugReporting();
+AzureDevOpsBugReportingPlugin.Add();
 ```
 They will turn on the feature and will assign listeners to common actions in the framework that will populate the auto-generated test case's steps and expected results.
 Next, you need to add a new section in the **testFrameworkSettings.json** settings file.
 ```
 "bugReportingSettings": {
+    "isEnabled": "false" 
+},
+"azureDevOpsBugReportingSettings": {
   "isEnabled": "true",
   "url": "https://dev.azure.com/yourCompanyName",
   "token": "autheticationToken",

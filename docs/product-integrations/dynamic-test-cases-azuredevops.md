@@ -39,7 +39,7 @@ public class TestsInitialize : WebTest
     [AssemblyInitialize]
     public static void AssemblyInitialize(TestContext testContext)
     {
-        AzureDevOpsBugReportingPluginConfiguration.Add();
+        AzureDevOpsDynamicTestCasesPlugin.Add();
     }
 
     [AssemblyCleanup]
@@ -73,12 +73,11 @@ The last step is to configure the test classes and tests.
 ```csharp
 [TestClass]
 [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
-[AzureDevOpsDynamicTestCaseAttribute(AreaPath = "AutomateThePlanet", IterationPath = "AutomateThePlanet", RequirementId = "482")]
+[AzureDevOpsDynamicTestCase(AreaPath = "AutomateThePlanet", IterationPath = "AutomateThePlanet", RequirementId = "482")]
 public class PageObjectsTests : WebTest
 {
    [TestMethod]
-   [AzureDevOpsDynamicTestCaseAttribute(
-        Description = "Create a purchase of a rocket through the online rocket shop http://demos.bellatrix.solutions/")]
+   [AzureDevOpsDynamicTestCase(Description = "Create a purchase of a rocket through the online rocket shop http://demos.bellatrix.solutions/")]
     public void PurchaseRocketWithPageObjects()
     {
 		App.TestCases.AddPrecondition($"Navigate to http://demos.bellatrix.solutions/");
@@ -115,12 +114,11 @@ public class PageObjectsTests : WebTest
 }
 ```
 ```csharp
-[DynamicTestCase(SuiteId = "8260474")]
+[AzureDevOpsDynamicTestCase(SuiteId = "8260474")]
 ```
-On top of your class you need to place the **AzureDevOpsDynamicTestCaseAttribute** attribute and specify the area, iteration and maybe an ID of a story to be associated.
+On top of your class you need to place the **AzureDevOpsDynamicTestCase** attribute and specify the area, iteration and maybe an ID of a story to be associated.
 ```csharp
-[AzureDevOpsDynamicTestCaseAttribute(
-        Description = "Create a purchase of a rocket through the online rocket shop http://demos.bellatrix.solutions/")]
+[AzureDevOpsDynamicTestCase(Description = "Create a purchase of a rocket through the online rocket shop http://demos.bellatrix.solutions/")]
 ```
 On top of your class, you need to place the **DynamicTestCase** attribute and optionally you can specify custom test case name and description.
 ```csharp

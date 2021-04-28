@@ -47,6 +47,9 @@ They will turn on the feature and will assign listeners to common actions in the
 Next, you need to add a new section in the **testFrameworkSettings.json** settings file.
 ```
 "bugReportingSettings": {
+  "isEnabled": "false" 
+},
+"jiraReportingSettings": {
 "isEnabled": "true",
 "url": "yourServerUrl",
 "token": "authenticationToken",
