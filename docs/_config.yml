@@ -403,3 +403,7 @@ navigation:
                 title: Test Results ReportPortal
             "azuredevops-test-results":
                 title: Test Results Azure DevOps
+            "azure-key-vault":
+                title: Azure Key Vault
+            "computer-vision":
+                title: Computer Vision

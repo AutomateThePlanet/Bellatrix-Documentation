@@ -38,3 +38,11 @@ Dynamic test cases are a unique feature in BELLATRIX, where the framework automa
 ### Dynamic Test Cases Azure DevOps ###
 Dynamic test cases are a unique feature in BELLATRIX, where the framework automatically generates test cases in a Azure DevOps TCMS based on your automated tests. It will populate the title, description, and other necessary properties automatically. Moreover, it will generate human-readable steps and expected results.
 [**Learn more**](/dynamic-test-cases-azuredevops.md)
+
+### Azure Key Vault ###
+Safeguard cryptographic keys and other secrets used by cloud apps and services.
+[**Learn more**](/azure-key-vault.md)
+
+### Computer Vision ###
+Azure Computer Vision cognitive service support for validation text in PDFs and images.
+[**Learn more**](/computer-vision.md)
