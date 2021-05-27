@@ -56,6 +56,6 @@ Many of our services that require secrets, such as cloud provider integrations, 
 Another way how you can use directly the integration is through to services **KeyVault** and **SecretsResolver**.
 ```csharp
 string keyVaultValue = KeyVault.GetSecret("saucelabuser");
-var _uri = SecretsResolver.GetSecret(() => ConfigurationService.GetSection<AzureDevOpsBugReportingSettings>().Url);
+var _uri = SecretsResolver.GetSecret(() => ConfigurationService.GetSection<ReportingSettings>().Url);
 ```
 The core difference is that **KeyVault** directly connects and returns the value for the secret in the key vault. At the same time, **SecretsResolver** also checks whether there is a set environmental variable on the execution machine matching the secret name.
