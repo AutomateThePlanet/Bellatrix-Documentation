@@ -28,9 +28,9 @@ Once you have everything in place you need to add the info to the BELLATRIX conf
   "formRecognizerSubscriptionKey": "yourkey"
 },
 ```
+
 Usage
 ------------------
-
 You can access the **ComputerVision** service directly from the App class. Using the **ExtractOCRTextFromLocalFile** method, you can get a list of all text snippets in your document. You can use the **ValidateText** method to check whether a particular text sequence appears in your document under specific order.
 ![Sample Invoice](images/sampleinvoice.png)
 ```csharp
@@ -123,6 +123,5 @@ public void AssertTableComponentCellsText()
     analyzedTable.Lines[13].AssertWordsCount(2);
 
     analyzedTable.Lines[23].AssertWordsContain("tconway", "delete", "edit");
-}
 }
 ```
