@@ -8,6 +8,7 @@ permalink: /product-integrations/azure-key-vault/
 anchors:
   what-is-azure-key-vault: What Is Azure Key Vault?
   configuration: Configuration
+  usage: Usage
 ---
 What is Azure Key Vault?
 -------
