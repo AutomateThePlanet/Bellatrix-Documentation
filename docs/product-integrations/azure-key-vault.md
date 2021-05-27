@@ -11,7 +11,7 @@ anchors:
   usage: Usage
 ---
 What is Azure Key Vault?
--------
+------------------
 **[Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/)** can be used to Securely store and tightly control access to tokens, passwords, certificates, API keys, and other secrets
 
 ![Bellatrix](images/reportportal-filters.png)
@@ -27,6 +27,7 @@ Once you have everything in place you need to add the info to the BELLATRIX conf
     "isEnabled": "false"
   },
 ```
+
 Usage
 ------------------
 Many of our services that require secrets, such as cloud provider integrations, can work out of the box with this service. In the configuration where you need to supply the password, username, or URL, you need to write the secret's name in the Azure Key Vault starting with the prefix **vault_**. If you have turned off the KeyVault, but you want to store secrets through environmental variables, you can still do that. First, keep the secret in an environmental variable. Then, in the config, instead of the prefix **vault_**, use **env_** followed by the name of the environmental variable where you stored the secret.
