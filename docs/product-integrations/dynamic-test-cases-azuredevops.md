@@ -30,32 +30,8 @@ The description and preconditions are populated too.
 
 Configuration
 -------------
-First, you need to install the **Bellatrix.DynamicTestCases.AzureDevOps** NuGet package to your tests project.
-Next, you need to enable the Azure DevOps dynamic test cases BELLATRIX extension in your **TestInitialize** file.
-```csharp
-[TestFixture]
-public class TestsInitialize : WebTest
-{
-    [AssemblyInitialize]
-    public static void AssemblyInitialize(TestContext testContext)
-    {
-        AzureDevOpsDynamicTestCasesPlugin.Add();
-    }
-
-    [AssemblyCleanup]
-    public static void AssemblyCleanup()
-    {
-        var app = ServicesCollection.Current.Resolve<App>();
-        app?.Dispose();
-    }
-}
-```
-You need to add the following lines:
-```csharp
-AzureDevOpsDynamicTestCasesPlugin.Add();
-```
-They will turn on the feature and will assign listeners to common actions in the framework that will populate the auto-generated test case's steps and expected results.
-Next, you need to add a new section in the **testFrameworkSettings.json** settings file.
+When you turn on the feature and will assign listeners to common actions in the framework that will populate the auto-generated test case's steps and expected results.
+In the **testFrameworkSettings.json** file you need to enable the integration.
 ```
 "dynamicTestCasesSettings": {
     "isEnabled": "true"
@@ -72,7 +48,6 @@ You can read the [the following article](https://docs.microsoft.com/en-us/azure/
 The last step is to configure the test classes and tests.
 ```csharp
 [TestFixture]
-[Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
 [AzureDevOpsDynamicTestCase(AreaPath = "AutomateThePlanet", IterationPath = "AutomateThePlanet", RequirementId = "482")]
 public class PageObjectsTests : WebTest
 {

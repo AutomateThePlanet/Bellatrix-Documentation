@@ -31,6 +31,4 @@ If you open a failed tests, you can find detailed information why your tests fai
 
 Configuration
 -------------
-If you want your screenshots and video recording of failed tests to be uploaded automatically to the Azure DevOps CI test reports, BELLATRIX offers such integration. You only need to install a single NuGet package to turn-on the integration.
-For MSTest project, you need install **Bellatrix.Results.MSTest** NuGet package.
-For NUnit project, you need install **Bellatrix.Results.NUnit** NuGet package.
+If you want your screenshots and video recording of failed tests to be uploaded automatically to the Azure DevOps CI test reports, BELLATRIX offers such integration out of the box.

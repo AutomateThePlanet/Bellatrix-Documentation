@@ -18,32 +18,8 @@ It is an excellent functionality to allow non-technical people of your company t
 
 Configuration
 -------------
-First, you need to install the **Bellatrix.DynamicTestCases.QTest** NuGet package to your tests project.
-Next, you need to enable the qTest dynamic test cases BELLATRIX extension in your **TestInitialize** file.
-```csharp
-[TestFixture]
-public class TestsInitialize : WebTest
-{
-    [AssemblyInitialize]
-    public static void AssemblyInitialize(TestContext testContext)
-    {
-        QTestDynamicTestCasesPlugin.Add();
-    }
-
-    [AssemblyCleanup]
-    public static void AssemblyCleanup()
-    {
-        var app = ServicesCollection.Current.Resolve<App>();
-        app?.Dispose();
-    }
-}
-```
-You need to add the following lines:
-```csharp
-QTestDynamicTestCasesPluginConfiguration.Add();
-```
-They will turn on the feature and will assign listeners to common actions in the framework that will populate the auto-generated test case's steps and expected results.
-Next, you need to add a new section in the **testFrameworkSettings.json** settings file.
+When you turn on the feature and will assign listeners to common actions in the framework that will populate the auto-generated test case's steps and expected results.
+In the **testFrameworkSettings.json** file you need to enable the integration.
 ```
   "dynamicTestCasesSettings": {
     "isEnabled": "true"
@@ -73,7 +49,6 @@ You need to supply a user name and password or authentication token so that the 
 The last step is to configure the test classes and tests.
 ```csharp
 [TestFixture]
-[Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
 [DynamicTestCase(SuiteId = "8260474")]
 public class PageObjectsTests : WebTest
 {

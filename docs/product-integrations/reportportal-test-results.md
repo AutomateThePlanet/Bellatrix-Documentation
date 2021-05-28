@@ -71,7 +71,7 @@ http://127.0.0.1:8080
 
 Configuration
 -------------
-First, you need to install the **ReportPortal.VSTest.TestLogger** NuGet package to your tests project.
+First, you need to install the **ReportPortal.VSTest.TestLogger** NuGet package to your tests project. By default it is pre-installed on all BELLATRIX template projects.
 After that when you execute your tests through native **dotnet vstest** test runner the tests will be automatically synced with the portal. Next you need to a JSON configuration file to your project called **ReportPortal.config.json**.
 ```json
 {
