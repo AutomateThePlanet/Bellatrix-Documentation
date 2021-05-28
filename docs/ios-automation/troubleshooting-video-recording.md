@@ -14,10 +14,6 @@ Example
 -------
 ```csharp
 [TestFixture]
-[IOS(Constants.IOSNativeAppPath,
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    Lifecycle.RestartEveryTime)]
 public class VideoRecordingTests : IOSTest
 {
     [Test]

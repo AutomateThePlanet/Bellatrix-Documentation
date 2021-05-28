@@ -121,7 +121,7 @@ Full List of All Supported iOS Controls
 - WaitToBe
 - IsPresent
 - IsVisible
-- ElementName
+- ComponentName
 - PageName
 - Location
 - Size

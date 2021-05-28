@@ -144,7 +144,7 @@ Full List of All Supported Android Controls
 - WaitToBe
 - IsPresent
 - IsVisible
-- ElementName
+- ComponentName
 - PageName
 - Location
 - Size

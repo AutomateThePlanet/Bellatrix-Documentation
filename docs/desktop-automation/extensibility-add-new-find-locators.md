@@ -17,11 +17,11 @@ Imagine that you want to create a new locator for finding all elements with ID s
 Example
 -------
 ```csharp
-public class FindNameStartingWithStrategy : FindStrategy
+public class NameStartingWithFindStrategy : FindStrategy
 {
     private const string XpathStartingWithExpression = "//*[starts-with(@Name, '{0}')]";
 
-    public FindNameStartingWithStrategy(string value)
+    public NameStartingWithFindStrategy(string value)
         : base(value)
     {
     }
@@ -60,7 +60,7 @@ To ease the usage of the locator, we need to create an extension methods for Com
 public static class ComponentCreateExtensions
 {
     public static ComponentsList<TComponent> CreateAllByNameStartingWith<TComponent>(this Element element, string tag)
-        where TComponent : Component => new ComponentsList<TComponent>(new FindNameStartingWithStrategy(tag), component.WrappedElement);
+        where TComponent : Component => new ComponentsList<TComponent>(new NameStartingWithFindStrategy(tag), component.WrappedElement);
 }
 ```
 
@@ -68,10 +68,10 @@ public static class ComponentCreateExtensions
 public static class ComponentRepositoryExtensions
 {
     public static TComponent CreateByNameStartingWith<TComponent>(this ComponentCreateService repo, string tag)
-        where TComponent : Component => repo.Create<TComponent, FindNameStartingWithStrategy>(new FindNameStartingWithStrategy(tag));
+        where TComponent : Component => repo.Create<TComponent, NameStartingWithFindStrategy>(new NameStartingWithFindStrategy(tag));
 
     public static ComponentsList<TComponent> CreateAllByNameStartingWith<TComponent>(this ComponentCreateService repo, string tag)
-        where TComponent : Component => new ComponentsList<TComponent>(new FindNameStartingWithStrategy(tag), null);
+        where TComponent : Component => new ComponentsList<TComponent>(new NameStartingWithFindStrategy(tag), null);
 }
 ```
 

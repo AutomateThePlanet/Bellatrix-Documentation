@@ -27,7 +27,7 @@ public void ElementFound_When_CreateById_And_ElementIsOnScreen()
 
     Console.WriteLine(button.By.Value);
 
-    Console.WriteLine(button.Wrappedcomponent.TagName);
+    Console.WriteLine(button.WrappedComponent.TagName);
 
     var answerLabel = App.Components.CreateById<Button>("BELLATRIX");
     answerLabel.ScrollToVisible(ScrollDirection.Up);
@@ -47,7 +47,7 @@ Console.WriteLine(button.By.Value);
 ```
 Because of the proxy element mechanism (we have a separate type of element instead of single WebDriver IWebElement interface or Appium IOSElement) we have several benefits. Each control (element type- ComboBox, TextField and so on) contains only the actions you can do with it, and the methods are named properly. In vanilla WebDriver to type the text you call **SendKeys** method. Also, we have some additional properties in the proxy web control such as- By. Now you can get the locator with which you element was found.
 ```csharp
-Console.WriteLine(button.Wrappedcomponent.TagName);
+Console.WriteLine(button.WrappedComponent.TagName);
 ```
 You can access the WebDriver wrapped element through **WrappedElement** and the current AppiumDriver instance through- **WrappedDriver**.
 ```csharp

@@ -70,11 +70,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Bellatrix.Desktop.GettingStarted
 {
     [TestFixture]
-    [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
     public class AddNewElementWaitMethodsTests : DesktopTest
     {
         [Test]
-        [Ignore]
         public void MessageChanged_When_ButtonHovered_Wpf()
         {
             var button = App.Components.CreateByName<Button>("E Button").ToHaveSpecificContent("E Button");

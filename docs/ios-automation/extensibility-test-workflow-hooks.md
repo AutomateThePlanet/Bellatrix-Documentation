@@ -13,10 +13,6 @@ Example
 -------
 ```csharp
 [TestFixture]
-[IOS(Constants.IOSNativeAppPath,
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    Lifecycle.RestartEveryTime)]
 public class TestWorkflowHooksTests : IOSTest
 {
     private static TextField _textField;

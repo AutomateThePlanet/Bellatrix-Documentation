@@ -26,22 +26,18 @@ public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
     protected override void ClickingEventHandler(object sender, ElementActionEventArgs<IOSElement> arg)
     {
         DebugLogger.LogInfo($"Before clicking button. Coordinates: 
-				X={arg.component.Wrappedcomponent.Location.X} Y={arg.component.Wrappedcomponent.Location.Y}");
+				X={arg.component.WrappedComponent.Location.X} Y={arg.component.WrappedComponent.Location.Y}");
     }
 
     protected override void ClickedEventHandler(object sender, ElementActionEventArgs<IOSElement> arg)
     {
         DebugLogger.LogInfo($"After button clicked. Coordinates: 
-				X={arg.component.Wrappedcomponent.Location.X} Y={arg.component.Wrappedcomponent.Location.Y}");
+				X={arg.component.WrappedComponent.Location.X} Y={arg.component.WrappedComponent.Location.Y}");
     }
 }
 ```
 ```csharp
 [TestFixture]
-[IOS(Constants.IOSNativeAppPath,
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    Lifecycle.RestartEveryTime)]
 public class ElementActionHooksTests : IOSTest
 {
     public override void TestsArrange()

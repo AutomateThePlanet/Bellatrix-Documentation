@@ -27,7 +27,7 @@ public void MessageChanged_When_ButtonHovered_Wpf()
 
     Console.WriteLine(button.By.Value);
 
-    Console.WriteLine(button.Wrappedcomponent.Coordinates);
+    Console.WriteLine(button.WrappedComponent.Coordinates);
 }
 ```
 
@@ -42,7 +42,7 @@ Console.WriteLine(button.By.Value);
 ```
 Because of the proxy element mechanism (we have a separate type of element instead of single WebDriver IWebElement interface) we have several benefits. Each control (element type- ComboBox, TextField and so on) contains only the actions you can do with it, and the methods are named properly. In vanilla WebDriver to type the text you call **SendKeys** method. Also, we have some additional properties in the proxy web control such as- By. Now you can get the locator with which you element was found.
 ```csharp
-Console.WriteLine(button.Wrappedcomponent.Coordinates);
+Console.WriteLine(button.WrappedComponent.Coordinates);
 ```
 You can access the WebDriver wrapped element through WrappedElement and the current WebDriver instance through- WrappedDriver
 

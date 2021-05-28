@@ -50,7 +50,7 @@ Page Object Example
 -------------------
 ### Methods File ###
 ```csharp
-public partial class MainAndroidPage : AssertedNavigatablePage
+public partial class MainAndroidPage : AndroidPage
 {
     public void TransferItem(string itemToBeTransferred, string userName, string password)
     {
@@ -67,7 +67,7 @@ public partial class MainAndroidPage : AssertedNavigatablePage
     protected override string PackageName => Constants.AndroidNativeAppAppExamplePackage;
 }
 ```
-### Elements File ###
+### Map File ###
 ```csharp
 public partial class MainAndroidPage
 {
@@ -87,22 +87,22 @@ public partial class MainAndroidPage
 {
     public void AssertPermanentTransferIsChecked()
     {
-        Assert.IsTrue(PermanentTransfer.IsChecked);
+        App.Assert.IsTrue(PermanentTransfer.IsChecked);
     }
 
     public void AssertRightItemSelected(string itemName)
     {
-        Assert.AreEqual(itemName, Items.GetText());
+        App.Assert.AreEqual(itemName, Items.GetText());
     }
 
     public void AssertRightUserNameSet(string userName)
     {
-        Assert.AreEqual(userName, UserName.GetText());
+        App.Assert.AreEqual(userName, UserName.GetText());
     }
 
     public void AssertKeepMeLoggedChecked()
     {
-        Assert.IsTrue(KeepMeLogged.IsChecked);
+        App.Assert.IsTrue(KeepMeLogged.IsChecked);
     }
 }
 ```
@@ -110,9 +110,9 @@ public partial class MainAndroidPage
 Page Object Example Explanations
 --------------------------------
 ```csharp
-public partial class MainAndroidPage : AssertedNavigatablePage
+public partial class MainAndroidPage : AndroidPage
 ```
-All BELLATRIX page objects are implemented as partial classes which means that you have separate files for different parts of it- actions, elements, assertions but at the end, they are all built into a single type. This makes the maintainability and readability of these classes much better. Also, you can easier locate what you need. You can always create BELLATRIX page objects yourself inherit one of the 4 classes- Page, AssertedPage, NavigatablePage, AssertedNavigatablePage. We advise you to follow the convention with partial classes, but you are always free to put all pieces in a single file.
+All BELLATRIX page objects are implemented as partial classes which means that you have separate files for different parts of it- actions, elements, assertions but at the end, they are all built into a single type. This makes the maintainability and readability of these classes much better. Also, you can easier locate what you need.
 ```csharp
 public void TransferItem(string itemToBeTransferred, string userName, string password)
 {
@@ -134,11 +134,11 @@ We use these values later to navigate to the page's activity.
 ```csharp
 public Button Transfer => App.Components.CreateByIdContaining<Button>("button");
 ```
-All elements are placed inside the file **PageName.Elements** so that the declarations of your elements to be in a single place. It is convenient since if there is a change in some of the locators or elements types you can apply the fix only here. All elements are implements as properties. Here we use the short syntax for declaring properties, but you can always use the old one. **App.Components** property is actually a shorter version of **ComponentCreateService**.
+All elements are placed inside the file **PageName.Map** so that the declarations of your elements to be in a single place. It is convenient since if there is a change in some of the locators or elements types you can apply the fix only here. All elements are implements as properties. Here we use the short syntax for declaring properties, but you can always use the old one. **App.Components** property is actually a shorter version of **ComponentCreateService**.
 ```csharp
 public void AssertPermanentTransferIsChecked()
 {
-    Assert.IsTrue(PermanentTransfer.IsChecked);
+    App.Assert.IsTrue(PermanentTransfer.IsChecked);
 }
 ```
 With this Assert, reuse the formatting of the currency and the timeout. Also, since the method is called from the page it makes your tests a little bit more readable.If there is a change what needs to be checked --> for example, not span but different element you can change it in a single place.

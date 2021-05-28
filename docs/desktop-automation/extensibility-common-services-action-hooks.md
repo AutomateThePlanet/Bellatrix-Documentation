@@ -19,4 +19,4 @@ Another way to extend BELLATRIX is to use the common services hooks. This is how
 - **CreatedComponents** - called after the creation of nedsted component
 - **ReturningWrappedElement** - called before searching for native WebDriver element
 
-To add custom logic to the element's methods you can create a class that derives from **ElementEventHandlers**. The override the methods you like.
+To add custom logic to the element's methods you can create a class that derives from **ComponentEventHandlers**. The override the methods you like.

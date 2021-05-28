@@ -13,10 +13,6 @@ Example
 -------
 ```csharp
 [TestFixture]
-[IOS(Constants.IOSNativeAppPath,
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    Lifecycle.RestartEveryTime)]
 public class DeviceServiceTests : IOSTest
 {
     [Test]
@@ -32,7 +28,7 @@ public class DeviceServiceTests : IOSTest
     [Test]
     public void CorrectTimeReturned_When_CallDeviceTime()
     {
-        BA.DateTimeAssert.AreEqual(DateTime.Now, App.Device.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
+        DateTimeAssert.AreEqual(DateTime.Now, App.Device.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
     }
 
     [Test]
@@ -61,7 +57,7 @@ Assert.AreEqual(ScreenOrientation.Landscape, App.Device.Orientation);
 ```
 Gets the current device orientation.
 ```csharp
-BA.DateTimeAssert.AreEqual(DateTime.Now, App.Device.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
+DateTimeAssert.AreEqual(DateTime.Now, App.Device.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
 ```
 Asserts current device time.
 ```csharp

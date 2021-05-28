@@ -61,7 +61,7 @@ Explanations
 ```csharp
 public static class NavigationServiceExtensions
 {
-    public static void LoginToApp(this Services.AppService appService, string userName, string password)
+    public static void LoginToApp(this AppService appService, string userName, string password)
     {
         var ComponentCreateService = new ComponentCreateService();
         var userNameField = ComponentCreateService.CreateByAutomationId<TextField>("textBox");

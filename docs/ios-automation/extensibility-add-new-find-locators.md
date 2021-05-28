@@ -17,11 +17,11 @@ Imagine that you want to create a new locator for finding all elements with name
 Example
 -------
 ```csharp
-public class FindNameStartingWithStrategy : FindStrategy<IOSDriver<IOSElement>, IOSElement>
+public class NameStartingWithFindStrategy : FindStrategy<IOSDriver<IOSElement>, IOSElement>
 {
     private readonly string _locatorValue;
 
-    public FindNameStartingWithStrategy(string name)
+    public NameStartingWithFindStrategy(string name)
         : base(name)
     {
         _locatorValue = $"//*[starts-with(@name, '{Value}')]";
@@ -61,10 +61,10 @@ To ease the usage of the locator, we need to create an extension methods for Com
 public static class ComponentRepositoryExtensions
 {
     public static TComponent CreateByNameStartingWith<TComponent>(this ComponentCreateService repo, string id)
-        where TComponent : Component<IOSDriver<IOSElement>, IOSElement> => repo.Create<TComponent, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement>(new FindNameStartingWithStrategy(id));
+        where TComponent : Component<IOSDriver<IOSElement>, IOSElement> => repo.Create<TComponent, NameStartingWithFindStrategy, IOSDriver<IOSElement>, IOSElement>(new NameStartingWithFindStrategy(id));
 
-    public static ComponentsList<TComponent, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement> CreateAllByNameStartingWith<TComponent>(this ComponentCreateService repo, string id)
-        where TComponent : Component<IOSDriver<IOSElement>, IOSElement> => new ComponentsList<TComponent, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement>(new FindNameStartingWithStrategy(id), null);
+    public static ComponentsList<TComponent, NameStartingWithFindStrategy, IOSDriver<IOSElement>, IOSElement> CreateAllByNameStartingWith<TComponent>(this ComponentCreateService repo, string id)
+        where TComponent : Component<IOSDriver<IOSElement>, IOSElement> => new ComponentsList<TComponent, NameStartingWithFindStrategy, IOSDriver<IOSElement>, IOSElement>(new NameStartingWithFindStrategy(id), null);
 }
 ```
 
@@ -72,10 +72,10 @@ public static class ComponentRepositoryExtensions
 public static class ComponentCreateExtensions
 {
     public static TComponent CreateByNameStartingWith<TComponent>(this Element<IOSDriver<IOSElement>, IOSElement> element, string id)
-        where TComponent : Component<IOSDriver<IOSElement>, IOSElement> => App.Components.Create<TComponent, FindNameStartingWithStrategy>(new FindNameStartingWithStrategy(id));
+        where TComponent : Component<IOSDriver<IOSElement>, IOSElement> => App.Components.Create<TComponent, NameStartingWithFindStrategy>(new NameStartingWithFindStrategy(id));
 
-    public static ComponentsList<TComponent, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement> CreateAllByNameStartingWith<TComponent>(this Element<IOSDriver<IOSElement>, IOSElement> element, string id)
-        where TComponent : Component<IOSDriver<IOSElement>, IOSElement> => new ComponentsList<TComponent, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement>(new FindNameStartingWithStrategy(id), component.WrappedElement);
+    public static ComponentsList<TComponent, NameStartingWithFindStrategy, IOSDriver<IOSElement>, IOSElement> CreateAllByNameStartingWith<TComponent>(this Element<IOSDriver<IOSElement>, IOSElement> element, string id)
+        where TComponent : Component<IOSDriver<IOSElement>, IOSElement> => new ComponentsList<TComponent, NameStartingWithFindStrategy, IOSDriver<IOSElement>, IOSElement>(new NameStartingWithFindStrategy(id), component.WrappedElement);
 }
 ```
 
@@ -88,10 +88,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Bellatrix.Mobile.IOS.GettingStarted
 {
     [TestFixture]
-    [IOS(Constants.IOSNativeAppPath,
-        Constants.IOSDefaultVersion,
-        Constants.IOSDefaultDeviceName,
-        Lifecycle.RestartEveryTime)]
     public class AddNewFindLocatorsTests : IOSTest
     {
         [Test]

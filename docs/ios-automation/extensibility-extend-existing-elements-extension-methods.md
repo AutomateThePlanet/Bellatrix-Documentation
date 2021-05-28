@@ -18,10 +18,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Bellatrix.Mobile.IOS.GettingStarted
 {
     [TestFixture]
-    [IOS(Constants.IOSNativeAppPath,
-        Constants.IOSDefaultVersion,
-        Constants.IOSDefaultDeviceName,
-        Lifecycle.RestartEveryTime)]
     public class ExtendExistingElementWithExtensionMethodsTests : IOSTest
     {
         [Test]

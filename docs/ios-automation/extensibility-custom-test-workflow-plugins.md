@@ -79,10 +79,6 @@ protected override void PreTestInit(object sender, PluginEventArgs e)
 You can override all mentioned test workflow method hooks in your custom handlers. The method uses reflection to find out if the ManualTestCase attribute is set to the run test. If the attribute is not set or is set more than once an exception is thrown. The logic executes before the actual test run, during the **PreTestInit** phase.
 ```csharp
 [TestFixture]
-[IOS(Constants.IOSNativeAppPath,
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    Lifecycle.RestartEveryTime)]
 public class CustomTestCaseExtensionTests : IOSTest
 {
     public override void TestInit()

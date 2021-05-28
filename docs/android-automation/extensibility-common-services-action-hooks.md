@@ -13,10 +13,10 @@ Explanations
 Another way to extend BELLATRIX is to use the common services hooks. This is how the failed tests analysis works. The base class for all Android elements- **Element** provides a few special events as well:
 - **ScrollingToVisible** - called before scrolling
 - **ScrolledToVisible** - called after scrolling
-- **CreatingComponent** - called before creating the element
-- **CreatedComponent** - called after the creation of the element
-- **CreatingComponents** - called before the creation of nested element
-- **CreatedComponents** - called after the creation of nedsted element
-- **ReturningWrappedElement** - called before searching for native WebDriver element
+- **CreatingComponent** - called before creating the component
+- **CreatedComponent** - called after the creation of the component
+- **CreatingComponents** - called before the creation of nested component
+- **CreatedComponents** - called after the creation of nedsted component
+- **ReturningWrappedElement** - called before searching for native WebDriver component
 
-To add custom logic to the element's methods you can create a class that derives from **ElementEventHandlers**. The override the methods you like.
+To add custom logic to the component's methods you can create a class that derives from **ComponentEventHandlers**. The override the methods you like.

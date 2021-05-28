@@ -13,10 +13,6 @@ Example
 -------
 ```csharp
 [TestFixture]
-[IOS(Constants.IOSNativeAppPath,
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    Lifecycle.RestartEveryTime)]
 public class CustomWebDriverCapabilitiesTests : IOSTest
 {
     public override void TestsArrange()

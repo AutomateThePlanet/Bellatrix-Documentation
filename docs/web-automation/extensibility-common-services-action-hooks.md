@@ -24,4 +24,4 @@ Also, the base class for all web elements- Element provides a few special events
 - **CreatingComponents** - called before the creation of nested element
 - **CreatedComponents** - called after the creation of nedsted element
 - **ReturningWrappedElement** - called before searching for native WebDriver element
-To add custom logic to the element's methods you can create a class that derives from ElementEventHandlers. The override the methods you like.
+To add custom logic to the element's methods you can create a class that derives from ComponentEventHandlers. The override the methods you like.

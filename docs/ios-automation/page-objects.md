@@ -45,7 +45,7 @@ In the assertions file, we may place some predefined ensure methods. For example
 
 Page Object Example
 -------------------
-### Methods File ###
+### Actions File ###
 ```csharp
 public partial class CalculatorPage : AssertedPage
 {
@@ -57,7 +57,7 @@ public partial class CalculatorPage : AssertedPage
     }
 }
 ```
-### Elements File ###
+### Map File ###
 ```csharp
 public partial class CalculatorPage
 {
@@ -83,7 +83,7 @@ Page Object Example Explanations
 ```csharp
 public partial class CalculatorPage : AssertedPage
 ```
-All BELLATRIX page objects are implemented as partial classes which means that you have separate files for different parts of it- actions, elements, assertions but at the end, they are all built into a single type. This makes the maintainability and readability of these classes much better. Also, you can easier locate what you need. You can always create BELLATRIX page objects yourself inherit one of the 2 classes- Page, AssertedPage. We advise you to follow the convention with partial classes, but you are always free to put all pieces in a single file.
+All BELLATRIX page objects are implemented as partial classes which means that you have separate files for different parts of it- actions, elements, assertions but at the end, they are all built into a single type. This makes the maintainability and readability of these classes much better. Also, you can easier locate what you need.
 ```csharp
 public void Sum(int firstNumber, int secondNumber)
 {

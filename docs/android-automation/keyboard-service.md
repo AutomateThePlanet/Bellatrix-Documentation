@@ -13,12 +13,6 @@ Example
 -------
 ```csharp
 [TestFixture]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".app.CustomTitle",
-    Lifecycle.RestartEveryTime)]
 public class KeyboardServiceTests : AndroidTest
 {
     [Test]

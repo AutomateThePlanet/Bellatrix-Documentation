@@ -108,13 +108,11 @@ How to Create BELLATRIX Page Object
 - On most pages, you need to define elements. Placing them in a single place makes the changing of the locators easy. It is a matter of choice whether to have action methods or not. If you use the same combination of same actions against a group of elements then it may be a good idea to wrap them in a page object action method. In our example, we can wrap the filling the billing info such a method. 
 - In the assertions file, we may place some predefined ensure methods. For example, if you always check the same email or title of a page, there is no need to hardcode the string in each test. Later if the title is changed, you can do it in a single place. The same is true about most of the things you can assert in your tests.
 
-There are navigatable, and non-navigatable page objects since some pages are only part of a workflow, and you access them not via URL but after clicking some link or button. The same is valid if you work with single page applications.
-
 Page Object Example
 -------------------
-### Methods File ###
+### Actions File ###
 ```csharp
-public partial class CartPage : AssertedNavigatablePage
+public partial class CartPage : WebPage
 {
     private const string CouponSuccessfullyAdded = @"Coupon code applied successfully.";
 
@@ -136,8 +134,7 @@ public partial class CartPage : AssertedNavigatablePage
             throw new ArgumentException("There are less added items in the cart. Please specify smaller product number.");
         }
 
-        var browserService = new BrowserService();
-        browserService.WaitUntilReady();
+        App.Browser.WaitUntilReady();
         QuantityBoxes[productNumber - 1].SetNumber(0);
         QuantityBoxes[productNumber - 1].SetNumber(newQuantity);
         UpdateCart.Click();
@@ -160,7 +157,7 @@ public partial class CartPage : AssertedNavigatablePage
     }
 }
 ```
-### Elements File ###
+### Map File ###
 ```csharp
 public partial class CartPage
 {
@@ -187,9 +184,9 @@ public partial class CartPage
 Page Object Example Explanations
 --------------------------------
 ```csharp
-public partial class CartPage : AssertedNavigatablePage
+public partial class CartPage : WebPage
 ```
-All BELLATRIX page objects are implemented as partial classes which means that you have separate files for different parts of it- actions, elements, assertions but at the end, they are all built into a single type. This makes the maintainability and readability of these classes much better. Also, you can easier locate what you need. You can always create BELLATRIX page objects yourself inherit one of the 3 classes- AssertedNavigatablePage, NavigatablePage, Page. We advise you to follow the convention with partial classes, but you are always free to put all pieces in a single file.
+All BELLATRIX page objects are implemented as partial classes which means that you have separate files for different parts of it- actions, elements, assertions but at the end, they are all built into a single type. This makes the maintainability and readability of these classes much better. Also, you can easier locate what you need.
 ```csharp
 public override string Url => "http://demos.bellatrix.solutions/cart/";
 ```
@@ -214,8 +211,7 @@ public void UpdateProductQuantity(int productNumber, int newQuantity)
         throw new ArgumentException("There are less added items in the cart. Please specify smaller product number.");
     }
 
-    var browserService = new BrowserService();
-    browserService.WaitUntilReady();
+    App.Browser.WaitUntilReady();
     QuantityBoxes[productNumber - 1].SetNumber(0);
     QuantityBoxes[productNumber - 1].SetNumber(newQuantity);
     UpdateCart.Click();
@@ -230,7 +226,7 @@ foreach (var currentQuantityBox in QuantityBoxes)
     currentQuantityBox.SetNumber(newQuantity);
 }
 ```
-Also, you can use ElementList<T> directly in foreach statements since it implements IEnumerator interface.
+Also, you can use ComponentsList<T> directly in foreach statements since it implements IEnumerator interface.
 ```csharp
 public TextField CouponCode => App.Components.CreateById<TextField>("coupon_code");
 ```
@@ -253,39 +249,39 @@ Page Object Test Example
 [Test]
 public void PurchaseRocketWithPageObjects()
 {
-var homePage = App.GoTo<HomePage>();
+    var homePage = App.GoTo<HomePage>();
 
-homePage.FilterProducts(ProductFilter.Popularity);
-homePage.AddProductById(28);
-homePage.ViewCartButton.Click();
+    homePage.FilterProducts(ProductFilter.Popularity);
+    homePage.AddProductById(28);
+    homePage.ViewCartButton.Click();
 
-var cartPage = App.Create<CartPage>();
+    var cartPage = App.Create<CartPage>();
 
-cartPage.ApplyCoupon("happybirthday");
-cartPage.UpdateProductQuantity(1, 2);
-cartPage.AssertTotalPrice("95.00");
-cartPage.ProceedToCheckout.Click();
+    cartPage.ApplyCoupon("happybirthday");
+    cartPage.UpdateProductQuantity(1, 2);
+    cartPage.AssertTotalPrice("95.00");
+    cartPage.ProceedToCheckout.Click();
 
-var billingInfo = new BillingInfo
-                      {
-                          FirstName = "In",
-                          LastName = "Deepthought",
-                          Company = "Automate The Planet Ltd.",
-                          Country = "Bulgaria",
-                          Address1 = "bul. Yerusalim 5",
-                          Address2 = "bul. Yerusalim 6",
-                          City = "Sofia",
-                          State = "Sofia-Grad",
-                          Zip = "1000",
-                          Phone = "+00359894646464",
-                          Email = "info@bellatrix.solutions",
-                          ShouldCreateAccount = true,
-                          OrderCommentsTextArea = "cool product",
-                      };
+    var billingInfo = new BillingInfo
+                          {
+                              FirstName = "In",
+                              LastName = "Deepthought",
+                              Company = "Automate The Planet Ltd.",
+                              Country = "Bulgaria",
+                              Address1 = "bul. Yerusalim 5",
+                              Address2 = "bul. Yerusalim 6",
+                              City = "Sofia",
+                              State = "Sofia-Grad",
+                              Zip = "1000",
+                              Phone = "+00359894646464",
+                              Email = "info@bellatrix.solutions",
+                              ShouldCreateAccount = true,
+                              OrderCommentsTextArea = "cool product",
+                          };
 
-var checkoutPage = App.Create<CheckoutPage>();
-checkoutPage.FillBillingInfo(billingInfo);
-checkoutPage.CheckPaymentsRadioButton.Click();
+    var checkoutPage = App.Create<CheckoutPage>();
+    checkoutPage.FillBillingInfo(billingInfo);
+    checkoutPage.CheckPaymentsRadioButton.Click();
 }
 ```
 

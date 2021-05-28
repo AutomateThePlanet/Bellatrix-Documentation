@@ -14,10 +14,6 @@ Example
 ```csharp
 [TestFixture]
 [ExecutionTimeUnder(5000, TimeUnit.Milliseconds)]
-[IOS(Constants.IOSNativeAppPath,
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    Lifecycle.RestartEveryTime)]
 public class MeasureTestExecutionTimesTests : IOSTest
 {
     [Test]
@@ -34,10 +30,6 @@ Explanations
 ------------
 ```csharp
 [ExecutionTimeUnder(5000, TimeUnit.Milliseconds)]
-[IOS(Constants.IOSNativeAppPath,
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    Lifecycle.RestartEveryTime)]
 public class MeasureTestExecutionTimesTests : IOSTest
 ```
 Sometimes it is useful to use your functional tests to measure performance. Or to just make sure that your app is not slow. To do that BELLATRIX libraries offer the **ExecutionTimeUnder** attribute. You specify a timeout and if the test is executed over it the test will fail.

@@ -46,8 +46,6 @@ public class TestWorkflowHooksTests : DesktopTest
     }
 
     [Test]
-    [App(Constants.WpfAppPath, Lifecycle.RestartOnFail)]
-    [VideoRecording(VideoRecordingMode.DoNotRecord)]
     public void ResultsLabelVisible_When_ButtonClicked_Wpf()
     {
         _resultsLabel.ValidateIsVisible();

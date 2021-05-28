@@ -110,6 +110,7 @@ public static void AssemblyInitialize(TestContext testContext)
 }
 ```
 It doesn't need to be added multiple times as will happen here with the **TestInit** method. Usually this is done in the **TestsInitialize** file in the **AssemblyInitialize** method.
+
 Screenshot and Video Generation Plug-ins
 ---------------------------------------
 Your plug-ins can plug in the screenshots and video generation on fail.

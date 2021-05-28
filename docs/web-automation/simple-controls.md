@@ -288,7 +288,7 @@ Full List of All Supported Web Controls
 - IsPresent
 - IsVisible
 - CssClass
-- ElementName
+- ComponentName
 - PageName
 - GetTitle
 - GetTabIndex

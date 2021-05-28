@@ -13,14 +13,9 @@ Example
 -------
 ```csharp
 [TestFixture]
-[IOS(Constants.IOSNativeAppPath,
-    Constants.IOSDefaultVersion,
-    Constants.IOSDefaultDeviceName,
-    Lifecycle.RestartEveryTime)]
 public class ExtendExistingElementWithChildElementsTests : IOSTest
 {
     [Test]
-    [Ignore]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.Components.CreateByName<ExtendedButton>("ComputeSumButton");
