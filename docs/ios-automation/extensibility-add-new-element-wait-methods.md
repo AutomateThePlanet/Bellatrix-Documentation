@@ -64,14 +64,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bellatrix.Mobile.IOS.GettingStarted
 {
-    [TestClass]
+    [TestFixture]
     [IOS(Constants.IOSNativeAppPath,
         Constants.IOSDefaultVersion,
         Constants.IOSDefaultDeviceName,
         Lifecycle.RestartEveryTime)]
     public class AddNewElementWaitMethodsTests : IOSTest
     {
-        [TestMethod]
+        [Test]
         [Ignore]
         public void MessageChanged_When_ButtonHovered_Wpf()
         {

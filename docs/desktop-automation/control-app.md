@@ -15,11 +15,11 @@ Overview
 
 This is how one BELLATRIX test class looks like.
 ```csharp
-[TestClass]
+[TestFixture]
 [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class ControlAppTests : DesktopTest
 {
-    [TestMethod]
+    [Test]
     public void MessageChanged_When_ButtonHovered_Wpf()
     {
         var button = App.Components.CreateByName<Button>("E Button");
@@ -30,7 +30,7 @@ public class ControlAppTests : DesktopTest
         Assert.AreEqual("ebuttonHovered", label.InnerText);
     }
 
-    [TestMethod]
+    [Test]
     [App(Constants.WpfAppPath, Lifecycle.RestartOnFail)]
     public void MessageChanged_When_ButtonClicked_Wpf()
     {
@@ -47,7 +47,7 @@ public class ControlAppTests : DesktopTest
 Explanations
 ------------
 ```csharp
-[TestClass]
+[TestFixture]
 ```
 This is the main attribute that you need to mark each class that contains MSTest tests.
 ```csharp
@@ -77,7 +77,7 @@ public class ControlAppTests : DesktopTest
 ```
 If you place attribute over the class all tests inherit the behaviour. It is possible to place it over each test and this way it overrides the class behaviour only for this particular test.
 ```csharp
-[TestMethod]
+[Test]
 public void PromotionsPageOpened_When_PromotionsButtonClicked()
 ```
 All MSTest tests should be marked with the TestMethod attribute.
@@ -86,7 +86,7 @@ var button = App.Components.CreateByName<Button>("E Button");
 ```
 Use the element creation service to create an instance of the button. There are much more details about this process in the next sections.
 ```csharp
-[TestMethod]
+[Test]
 [App(Constants.WpfAppPath, Lifecycle.RestartOnFail)]
 public void MessageChanged_When_ButtonClicked_Wpf()
 {

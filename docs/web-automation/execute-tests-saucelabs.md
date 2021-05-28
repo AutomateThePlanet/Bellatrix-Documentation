@@ -13,7 +13,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [SauceLabs(BrowserType.Chrome,
     "62",
     "Windows",
@@ -22,7 +22,7 @@ Example
     recordVideo: true)]
 public class SauceLabsTests : WebTest
 {
-    [TestMethod]
+    [Test]
     public void PromotionsPageOpened_When_PromotionsButtonClicked()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -32,7 +32,7 @@ public class SauceLabsTests : WebTest
         promotionsLink.Click();
     }
 
-    [TestMethod]
+    [Test]
     [SauceLabs(BrowserType.Chrome, "62", "Windows", DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
     public void BlogPageOpened_When_PromotionsButtonClicked()
     {
@@ -57,7 +57,7 @@ Explanations
 ```
 To execute BELLATRIX tests in SauceLabs cloud you should use the SauceLabs attribute instead of Browser. SauceLabs has the same parameters as Browser but adds to additional ones- browser version, platform type, recordVideo and recordScreenshots. As with the Browser attribute you can override the class behavior on Test level.
 ```csharp
-[TestMethod]
+[Test]
 [SauceLabs(BrowserType.Chrome, "62", "Windows", DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {

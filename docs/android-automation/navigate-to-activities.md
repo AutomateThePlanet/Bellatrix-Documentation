@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Android(Constants.AndroidNativeAppPath,
     Constants.AndroidDefaultAndroidVersion,
     Constants.AndroidDefaultDeviceName,
@@ -21,7 +21,7 @@ Example
     Lifecycle.ReuseIfStarted)]
 public class NavigateToActivitiesTests : AndroidTest
 {
-    [TestMethod]
+    [Test]
     public void PromotionsPageOpened_When_PromotionsButtonClicked()
     {
         App.AppService.StartActivity(Constants.AndroidNativeAppAppExamplePackage, ".view.Controls1");

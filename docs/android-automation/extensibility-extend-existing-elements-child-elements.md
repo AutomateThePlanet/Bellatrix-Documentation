@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Android(Constants.AndroidNativeAppPath,
     Constants.AndroidDefaultAndroidVersion,
     Constants.AndroidDefaultDeviceName,
@@ -21,7 +21,7 @@ Example
     Lifecycle.ReuseIfStarted)]
 public class ExtendExistingElementWithChildElementsTests : AndroidTest
 {
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.Components.CreateByIdContaining<ExtendedButton>("button");

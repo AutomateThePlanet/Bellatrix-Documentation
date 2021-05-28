@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
@@ -26,7 +26,7 @@ public class CustomWebDriverCapabilitiesTests : IOSTest
         App.AddAdditionalCapability("remoteDebugProxy", "12000");
     }
 
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.Components.CreateByName<Button>("ComputeSumButton");

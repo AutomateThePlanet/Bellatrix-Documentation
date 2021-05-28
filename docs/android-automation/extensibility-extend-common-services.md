@@ -17,7 +17,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bellatrix.Mobile.Android.GettingStarted
 {
-    [TestClass]
+    [TestFixture]
     [Android(Constants.AndroidNativeAppPath,
         Constants.AndroidDefaultAndroidVersion,
         Constants.AndroidDefaultDeviceName,
@@ -26,7 +26,7 @@ namespace Bellatrix.Mobile.Android.GettingStarted
         Lifecycle.ReuseIfStarted)]
     public class ExtendExistingCommonServicesTests : AndroidTest
     {
-        [TestMethod]
+        [Test]
         public void ButtonClicked_When_CallClickMethod()
         {
             App.AppService.LoginToApp("bellatrix", "topSecret");

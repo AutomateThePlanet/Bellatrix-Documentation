@@ -13,16 +13,10 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    Lifecycle.ReuseIfStarted)]
+[TestFixture]
 public class LoggingTests : AndroidTest
 {
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         Logger.LogInformation("$$$ Before clicking the button $$$");

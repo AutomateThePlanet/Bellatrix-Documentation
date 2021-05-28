@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 public void CommonAssertionsAndroidControls()
 {
     var button = App.Components.CreateByIdContaining<Button>("button");

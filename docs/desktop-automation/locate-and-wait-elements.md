@@ -14,7 +14,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 public void MessageChanged_When_ButtonHovered_Wpf()
 {
     var button = App.Components.CreateByName<Button>("E Button").ToBeVisible();

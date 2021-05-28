@@ -33,7 +33,7 @@ Configuration
 First, you need to install the **Bellatrix.DynamicTestCases.AzureDevOps** NuGet package to your tests project.
 Next, you need to enable the Azure DevOps dynamic test cases BELLATRIX extension in your **TestInitialize** file.
 ```csharp
-[TestClass]
+[TestFixture]
 public class TestsInitialize : WebTest
 {
     [AssemblyInitialize]
@@ -71,12 +71,12 @@ Next, you need to add a new section in the **testFrameworkSettings.json** settin
 You can read the [the following article](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page "following article") how to generate an authentication token.
 The last step is to configure the test classes and tests.
 ```csharp
-[TestClass]
+[TestFixture]
 [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
 [AzureDevOpsDynamicTestCase(AreaPath = "AutomateThePlanet", IterationPath = "AutomateThePlanet", RequirementId = "482")]
 public class PageObjectsTests : WebTest
 {
-   [TestMethod]
+   [Test]
    [AzureDevOpsDynamicTestCase(Description = "Create a purchase of a rocket through the online rocket shop http://demos.bellatrix.solutions/")]
     public void PurchaseRocketWithPageObjects()
     {

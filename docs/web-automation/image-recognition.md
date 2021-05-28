@@ -20,7 +20,7 @@ To use the library you need to install the **Bellatrix.ImageRecognition.SikuliX*
 ### Example ###
 
 ```csharp
-[TestClass]
+[TestFixture]
 [Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
 public class ImageRecognitionTests : WebTest
 {
@@ -33,7 +33,7 @@ public class ImageRecognitionTests : WebTest
         App.NavigationService.NavigateToLocalPage("TestPages\\Grid\\Grid.html");
     }
 
-    [TestMethod]
+    [Test]
     public void AssertPrintPreview()
     {
         var firstOrderCell = TestGrid.GetRow(0).GetCell(0).As<TextField>();

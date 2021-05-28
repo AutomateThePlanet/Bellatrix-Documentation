@@ -12,12 +12,12 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
 public class InteractionsServiceTests : WebTest
 {
-    [TestMethod]
-    [TestCategory(Categories.CI)]
+    [Test]
+    [Category(Categories.CI)]
     public void DragAndDrop()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -28,8 +28,8 @@ public class InteractionsServiceTests : WebTest
         App.InteractionsService.MoveToElement(protonRocketAnchor).DragAndDrop(protonRocketAnchor, protonMAnchor).Perform();
     }
 
-    [TestMethod]
-    [TestCategory(Categories.CI)]
+    [Test]
+    [Category(Categories.CI)]
     public void KeyUp()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");

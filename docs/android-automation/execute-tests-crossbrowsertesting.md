@@ -13,7 +13,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [AndroidCrossBrowserTesting("crossBrowser-storage:ApiDemos.apk",
     "7.1",
     "Android GoogleAPI Emulator",
@@ -25,7 +25,7 @@ Example
     build: "CI Execution")]
 public class CrossBrowserTesting : AndroidTest
 {
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.Components.CreateByIdContaining<Button>("button");
@@ -33,7 +33,7 @@ public class CrossBrowserTesting : AndroidTest
         button.Click();
     }
 
-    [TestMethod]
+    [Test]
     [AndroidCrossBrowserTesting("crossBrowser-storage:ApiDemos.apk",
         "7.1",
         "Android GoogleAPI Emulator",
@@ -67,7 +67,7 @@ Explanations
 ```
 To execute BELLATRIX tests in CrossBrowserTesting cloud, you should use the CrossBrowserTesting attribute instead of Android. CrossBrowserTesting has the same parameters as Android but adds to additional ones- deviceName, recordVideo, recordNetwork and build. The last three are optional and have default values. As with the Android attribute you can override the class behaviour on Test level.
 ```csharp
-[TestMethod]
+[Test]
 [AndroidCrossBrowserTesting("crossBrowser-storage:ApiDemos.apk",
     "7.1",
     "Android GoogleAPI Emulator",

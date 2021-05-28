@@ -12,10 +12,10 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 public class CreateSimpleRequestTests : APITest
 {
-    [TestMethod]
+    [Test]
     public void GetAlbumById()
     {
         var request = new RestRequest("api/Albums/10");
@@ -32,7 +32,7 @@ public class CreateSimpleRequestTests : APITest
 Explanations
 ------------
 ```csharp
-[TestClass]
+[TestFixture]
 ```
 This is the main attribute that you need to mark each class that contains MSTest tests.
 ```csharp
@@ -40,7 +40,7 @@ public class CreateSimpleRequestTests : APITest
 ```
 All API BELLATRIX test classes should inherit from the **APItest** base class. This way you can use all built-in BELLATRIX tools and functionality.
 ```csharp
-[TestMethod]
+[Test]
 ```
 All MSTest tests should be marked with the **TestMethod** attribute.
 ```csharp

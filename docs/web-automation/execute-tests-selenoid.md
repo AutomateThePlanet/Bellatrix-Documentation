@@ -44,11 +44,11 @@ To check the current local Selenoid hub status navigate to http://127.0.0.1:4444
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Selenoid(BrowserType.Chrome, "77", Lifecycle.RestartEveryTime, recordVideo: true, enableVnc: true, saveSessionLogs: true)]
 public class SeleniumGridTests : WebTest
 {
-    [TestMethod]
+    [Test]
     public void PromotionsPageOpened_When_PromotionsButtonClicked()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -58,7 +58,7 @@ public class SeleniumGridTests : WebTest
         promotionsLink.Click();
     }
 
-    [TestMethod]
+    [Test]
     [Selenoid(BrowserType.Chrome, "76", Lifecycle.RestartEveryTime, recordVideo: true, enableVnc: true,  saveSessionLogs: false)]
     public void BlogPageOpened_When_PromotionsButtonClicked()
     {
@@ -78,7 +78,7 @@ Explanations
 ```
 To use BELLATRIX with Selenoid, you should use the **Selenoid** attribute instead of Browser. **Selenoid** has the same parameters as Browser but adds to additional ones- browser version, record video and save logs. As with the Browser attribute you can override the class behavior on Test level.
 ```csharp
-[TestMethod]
+[Test]
 [Selenoid(BrowserType.Chrome, "76", Lifecycle.RestartEveryTime, recordVideo: true, enableVnc: true,  saveSessionLogs: false)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {

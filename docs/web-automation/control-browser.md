@@ -16,11 +16,11 @@ Overview
 
 This is how one BELLATRIX test class looks like.
 ```csharp
-[TestClass]
+[TestFixture]
 [Browser(BrowserType.Firefox, Lifecycle.ReuseIfStarted)]
 public class BellatrixBrowserLifecycleTests : WebTest
 {
-    [TestMethod]
+    [Test]
     public void PromotionsPageOpened_When_PromotionsButtonClicked()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -30,7 +30,7 @@ public class BellatrixBrowserLifecycleTests : WebTest
         promotionsLink.Click();
     }
 
-    [TestMethod]
+    [Test]
     [Browser(BrowserType.Chrome, Lifecycle.RestartOnFail)]
     public void BlogPageOpened_When_PromotionsButtonClicked()
     {
@@ -46,7 +46,7 @@ public class BellatrixBrowserLifecycleTests : WebTest
 Explanations
 ------------
 ```csharp
-[TestClass]
+[TestFixture]
 ```
 This is the main attribute that you need to mark each class that contains MSTest tests.
 ```csharp
@@ -80,7 +80,7 @@ public class BellatrixBrowserLifecycleTests : WebTest
 ```
 If you place attribute over the class all tests inherit the Lifecycle. It is possible to place it over each test and this way it overrides the class Lifecycle only for this particular test.
 ```csharp
-[TestMethod]
+[Test]
 public void PromotionsPageOpened_When_PromotionsButtonClicked()
 ```
 All MSTest tests should be marked with the **TestMethod** attribute.
@@ -93,7 +93,7 @@ var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 ```
 Use the element creation service to create an instance of the anchor. There are much more details about this process in the next sections.
 ```csharp
-[TestMethod]
+[Test]
 [Browser(BrowserType.Chrome, Lifecycle.RestartOnFail)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {

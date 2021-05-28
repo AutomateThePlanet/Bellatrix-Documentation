@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 public class BDDLoggingTests : APITest
 {
     private ApiClientService _apiClientService;
@@ -24,7 +24,7 @@ public class BDDLoggingTests : APITest
         _apiClientService = App.GetApiClientService();
     }
     
-    [TestMethod]
+    [Test]
     public void ContentPopulated_When_GetAlbums()
     {
         var request = new RestRequest("api/Albums");
@@ -34,7 +34,7 @@ public class BDDLoggingTests : APITest
         Assert.IsNotNull(response.Content);
     }
 
-    [TestMethod]
+    [Test]
     public void DataPopulatedAsList_When_GetGenericAlbums()
     {
         var request = new RestRequest("api/Albums");
@@ -44,7 +44,7 @@ public class BDDLoggingTests : APITest
         Assert.AreEqual(347, response.Data.Count);
     }
 
-    [TestMethod]
+    [Test]
     public void DataPopulatedAsGenres_When_PutModifiedContent()
     {
         var request = new RestRequest("api/Albums/11");
@@ -65,7 +65,7 @@ public class BDDLoggingTests : APITest
         Assert.AreEqual(updatedTitle, getUpdatedResponse.Data.Title);
     }
 
-    [TestMethod]
+    [Test]
     public void ContentPopulated_When_NewAlbumInsertedViaPost()
     {
         var newAlbum = CreateUniqueGeneres();
@@ -78,7 +78,7 @@ public class BDDLoggingTests : APITest
         Assert.IsNotNull(response.Content);
     }
 
-    [TestMethod]
+    [Test]
     public void ArtistsDeleted_When_PerformDeleteRequest()
     {
         var newArtist = CreateUniqueArtists();

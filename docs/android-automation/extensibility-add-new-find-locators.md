@@ -87,7 +87,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bellatrix.Mobile.Android.GettingStarted
 {
-    [TestClass]
+    [TestFixture]
     [Android(Constants.AndroidNativeAppPath,
         Constants.AndroidDefaultAndroidVersion,
         Constants.AndroidDefaultDeviceName,
@@ -96,7 +96,7 @@ namespace Bellatrix.Mobile.Android.GettingStarted
         Lifecycle.ReuseIfStarted)]
     public class AddNewFindLocatorsTests : AndroidTest
     {
-        [TestMethod]
+        [Test]
         public void ButtonClicked_When_CallClickMethod()
         {
             var button = App.Components.CreateByIdStaringWith<Button>("button");

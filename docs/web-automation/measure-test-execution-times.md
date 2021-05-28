@@ -17,12 +17,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bellatrix.Web.GettingStarted
 {
-    [TestClass]
+    [TestFixture]
     [ExecutionTimeUnder(2000, TimeUnit.Milliseconds)]
     [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
     public class MeasureTestExecutionTests : WebTest
     {
-        [TestMethod]
+        [Test]
         public void PromotionsPageOpened_When_PromotionsButtonClicked()
         {
             App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -38,7 +38,7 @@ namespace Bellatrix.Web.GettingStarted
 Explanations
 ------------
 ```csharp
-[TestClass]
+[TestFixture]
 [ExecutionTimeUnder(2000, TimeUnit.Milliseconds)]
 [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
 public class MeasureTestExecutionTests : WebTest

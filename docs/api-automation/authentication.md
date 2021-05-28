@@ -12,11 +12,11 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [JwtAuthenticationStrategy(GlobalConstants.JwtToken)]
 public class AuthenticationTests : APITest
 {
-    [TestMethod]
+    [Test]
     public void GetAlbumById()
     {
         var request = new RestRequest("api/Albums/10");

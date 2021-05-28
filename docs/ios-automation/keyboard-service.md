@@ -12,20 +12,20 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
     Lifecycle.RestartEveryTime)]
 public class KeyboardServiceTests : IOSTest
 {
-    [TestMethod]
+    [Test]
     public void TestHideKeyBoard()
     {
         var textField = App.Components.CreateById<TextField>("IntegerA");
         textField.SetText(string.Empty);
 
-        App.KeyboardService.HideKeyboard();
+        App.Keyboard.HideKeyboard();
     }
 }
 ```
@@ -34,6 +34,6 @@ Explanations
 ------------
 BELLATRIX gives you an interface for easier work with device's keyboard through **KeyboardService** class.
 ```csharp
-App.KeyboardService.HideKeyboard();
+App.Keyboard.HideKeyboard();
 ```
 Hides the keyboard.

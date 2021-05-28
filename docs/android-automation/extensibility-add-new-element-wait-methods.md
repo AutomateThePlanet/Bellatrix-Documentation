@@ -64,7 +64,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bellatrix.Mobile.Android.GettingStarted
 {
-    [TestClass]
+    [TestFixture]
     [Android(Constants.AndroidNativeAppPath,
         Constants.AndroidDefaultAndroidVersion,
         Constants.AndroidDefaultDeviceName,
@@ -73,7 +73,7 @@ namespace Bellatrix.Mobile.Android.GettingStarted
         Lifecycle.ReuseIfStarted)]
     public class AddNewElementWaitMethodsTests : AndroidTest
     {
-        [TestMethod]
+        [Test]
         [Ignore]
         public void MessageChanged_When_ButtonHovered_Wpf()
         {

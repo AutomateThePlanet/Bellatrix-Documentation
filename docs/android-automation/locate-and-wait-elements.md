@@ -14,7 +14,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 public void ButtonClicked_When_ClickMethodCalled()
 {
     var button = App.Components.CreateByIdContaining<Button>("button").ToBeClickable().ToBeVisible();
@@ -83,15 +83,18 @@ Waits for the element to be disabled.
 
 Configuration
 -------------
-The default timeouts that BELLATRIX use are placed inside the **testFrameworkSettings.json** file. Inside it, is the **mobileSettings** section. All values are in seconds.
+The default timeouts that BELLATRIX use are placed inside the **testFrameworkSettings.json** file. Inside it, is the **timeoutSettings** section. All values are in seconds.
 ```json
-"mobileSettings": {
-   "sleepInterval": "1",
-   "elementToBeVisibleTimeout": "30",
-   "elementToExistTimeout": "30",
-   "elementToNotExistTimeout": "30",
-   "elementToBeClickableTimeout": "30",
-   "elementNotToBeVisibleTimeout": "30",
-   "elementToHaveContentTimeout": "15"
+"timeoutSettings": {
+  "implicitWaitTimeout": "0",
+  "elementWaitTimeout": "30",
+  "sleepInterval": "1",
+  "validationsTimeout": "30",
+  "elementToBeVisibleTimeout": "30",
+  "elementToExistTimeout": "30",
+  "elementToNotExistTimeout": "30",
+  "elementToBeClickableTimeout": "30",
+  "elementNotToBeVisibleTimeout": "30",
+  "elementToHaveContentTimeout": "15"
 },
 ```

@@ -37,7 +37,7 @@ public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
 }
 ```
 ```csharp
-[TestClass]
+[TestFixture]
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
@@ -51,7 +51,7 @@ public class ElementActionHooksTests : IOSTest
         App.RemoveElementEventHandler<DebugLoggingButtonEventHandlers>();
     }
 
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.Components.CreateByName<Button>("ComputeSumButton");

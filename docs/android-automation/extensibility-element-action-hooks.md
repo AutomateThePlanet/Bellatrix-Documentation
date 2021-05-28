@@ -35,7 +35,7 @@ public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
 }
 ```
 ```csharp
-[TestClass]
+[TestFixture]
 [Android(Constants.AndroidNativeAppPath,
     Constants.AndroidDefaultAndroidVersion,
     Constants.AndroidDefaultDeviceName,
@@ -51,7 +51,7 @@ public class ElementActionHooksTests : AndroidTest
         App.RemoveElementEventHandler<DebugLoggingButtonEventHandlers>();
     }
 
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.Components.CreateByIdContaining<Button>("button");

@@ -14,7 +14,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 public void ButtonClicked_When_ClickMethodCalled()
 {
     var button = App.Components.CreateByName<Button>("ComputeSumButton").ToBeClickable().ToBeVisible();

@@ -13,14 +13,14 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [IOSSauceLabs("sauce-storage:TestApp.app.zip",
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
     Lifecycle.RestartEveryTime)]
 public class SauceLabsTests : IOSTest
 {
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.Components.CreateByName<Button>("ComputeSumButton");
@@ -28,7 +28,7 @@ public class SauceLabsTests : IOSTest
         button.Click();
     }
 
-    [TestMethod]
+    [Test]
     [IOSSauceLabs("sauce-storage:TestApp.app.zip",
         Constants.IOSDefaultVersion,
         Constants.IOSDefaultDeviceName,
@@ -52,7 +52,7 @@ Explanations
 ```
 To execute BELLATRIX tests in SauceLabs cloud you should use the IOSSauceLabs attribute instead of IOS. SauceLabs has the same parameters as IOS but adds to additional ones- device name, recordVideo and recordScreenshots. As with the IOS attribute you can override the class behavior on Test level.
 ```csharp
-[TestMethod]
+[Test]
 [IOSSauceLabs("sauce-storage:TestApp.app.zip",
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,

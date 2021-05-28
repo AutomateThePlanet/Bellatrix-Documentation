@@ -12,22 +12,22 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 public class AppServiceTests : AndroidTest
 {
-    [TestMethod]
+    [Test]
     public void TestBackgroundApp()
     {
         App.AppService.BackgroundApp(1);
     }
 
-    [TestMethod]
+    [Test]
     public void TestResetApp()
     {
         App.AppService.ResetApp();
     }
 
-    [TestMethod]
+    [Test]
     public void InstallAppInstalledFalse_When_AppIsUninstalled()
     {
         string appPath = Path.Combine(ProcessProvider.GetExecutingAssemblyFolder(), "Demos\\ApiDemos.apk");

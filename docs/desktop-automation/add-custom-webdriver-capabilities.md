@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class AddCustomWebDriverCapabilitiesTests : DesktopTest
 {
@@ -22,7 +22,7 @@ public class AddCustomWebDriverCapabilitiesTests : DesktopTest
         App.AddAdditionalCapability("appWorkingDir", @"C:\MyTestFolder\");
     }
 
-    [TestMethod]
+    [Test]
     public void MessageChanged_When_ButtonHovered_Wpf()
     {
         var button = App.Components.CreateByName<Button>("E Button");
@@ -33,7 +33,7 @@ public class AddCustomWebDriverCapabilitiesTests : DesktopTest
         Assert.AreEqual("ebuttonHovered", label.InnerText);
     }
 
-    [TestMethod]
+    [Test]
     [App(Constants.WpfAppPath, Lifecycle.RestartOnFail)]
     public void MessageChanged_When_ButtonClicked_Wpf()
     {

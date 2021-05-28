@@ -18,7 +18,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 public void PromotionsPageOpened_When_PromotionsButtonClicked()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -125,7 +125,7 @@ Sometimes we need to find more than one element. For example, in this test we wa
 To do it you can use the element create service CreateAll method.
 
 ```csharp
-[TestMethod]
+[Test]
 public void CheckAllAddToCartButtons()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -207,7 +207,7 @@ Find Nested Elements
 Sometimes it is easier to locate one element and then find the next one that you need, inside it. For example in this test we want to locate the Sale! button inside the product's description. To do it you can use the element's Create methods.
 
 ```csharp
-[TestMethod]
+[Test]
 public void OpenSalesPage_When_LocatedSaleButtonInsideProductImage()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");

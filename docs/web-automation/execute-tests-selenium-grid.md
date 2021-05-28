@@ -13,11 +13,11 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Remote(BrowserType.Chrome, "62", PlatformType.Windows, Lifecycle.ReuseIfStarted)]
 public class SeleniumGridTests : WebTest
 {
-    [TestMethod]
+    [Test]
     public void PromotionsPageOpened_When_PromotionsButtonClicked()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -27,7 +27,7 @@ public class SeleniumGridTests : WebTest
         promotionsLink.Click();
     }
 
-    [TestMethod]
+    [Test]
     [Remote(BrowserType.Chrome, "62", PlatformType.Windows, DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
     public void BlogPageOpened_When_PromotionsButtonClicked()
     {
@@ -47,7 +47,7 @@ Explanations
 ```
 To use BELLATRIX with Selenium Grid, you should use the Remote attribute instead of Browser. Remote has the same parameters as Browser but adds to additional ones- browser version and platform type. As with the Browser attribute you can override the class behavior on Test level.
 ```csharp
-[TestMethod]
+[Test]
 [Remote(BrowserType.Chrome, "62", PlatformType.Windows, DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {

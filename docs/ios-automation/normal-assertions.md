@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 public void CommonAssertionsIOSControls()
 {
     var button = App.Components.CreateByName<Button>("ComputeSumButton");

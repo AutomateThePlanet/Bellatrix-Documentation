@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Android(Constants.AndroidNativeAppPath,
     Constants.AndroidDefaultAndroidVersion,
     Constants.AndroidDefaultDeviceName,
@@ -21,7 +21,7 @@ Example
     Lifecycle.RestartEveryTime)]
 public class TouchActionsServiceTests : AndroidTest
 {
-    [TestMethod]
+    [Test]
     public void ElementSwiped_When_CallSwipeByCoordinatesMethod()
     {
         App.AppService.StartActivity("io.appium.android.apis", ".graphics.FingerPaint");
@@ -30,7 +30,7 @@ public class TouchActionsServiceTests : AndroidTest
         Point point = textField.Location;
         Size size = textField.Size;
 
-        App.TouchActionsService.Swipe(
+        App.TouchActions.Swipe(
             point.X + size.Width - 5,
             point.Y + 5,
             point.X + 5,
@@ -38,7 +38,7 @@ public class TouchActionsServiceTests : AndroidTest
             2000);
     }
 
-    [TestMethod]
+    [Test]
     public void ElementTaped_When_CallTap()
     {
         App.AppService.StartActivity(Constants.AndroidNativeAppAppExamplePackage, ".ApiDemos");
@@ -46,7 +46,7 @@ public class TouchActionsServiceTests : AndroidTest
         var elements = App.Components.CreateAllByClass<TextField>("android.widget.TextView");
         int initialCount = elements.Count();
 
-        App.TouchActionsService.Tap(elements[4], 10).Perform();
+        App.TouchActions.Tap(elements[4], 10).Perform();
 
         elements = App.Components.CreateAllByClass<TextField>("android.widget.TextView");
 
@@ -54,7 +54,7 @@ public class TouchActionsServiceTests : AndroidTest
         Assert.AreEqual(1, elements.Count());
     }
 
-    [TestMethod]
+    [Test]
     public void ElementSwiped_When_CallPressWaitMoveToAndReleaseByCoordinates()
     {
         App.AppService.StartActivity(Constants.AndroidNativeAppAppExamplePackage, ".ApiDemos");
@@ -63,7 +63,7 @@ public class TouchActionsServiceTests : AndroidTest
         var locationOne = elements[7].Location;
         var locationTwo = elements[1].Location;
 
-        App.TouchActionsService.Press(locationOne.X, locationOne.Y, 100).
+        App.TouchActions.Press(locationOne.X, locationOne.Y, 100).
             MoveTo(locationTwo.X, locationTwo.Y).
             Release().
             Perform();
@@ -73,8 +73,7 @@ public class TouchActionsServiceTests : AndroidTest
         Assert.AreNotEqual(elements[7].Location.Y, elements[1].Location.Y);
     }
 
-    [TestMethod]
-    [Ignore]
+    [Test]
     public void TwoTouchActionExecutedInOneMultiAction_When_CallPerformAllActions()
     {
         App.AppService.StartActivity(Constants.AndroidNativeAppAppExamplePackage, ".ApiDemos");
@@ -83,16 +82,16 @@ public class TouchActionsServiceTests : AndroidTest
         var elements = App.Components.CreateAllByClass<TextField>("android.widget.TextView");
 
         // Executes two multi actions.
-        var tapOne = App.TouchActionsService.Press(elements[5], 1500).Release();
-        App.TouchActionsService.AddNewAction(tapOne);
-        App.TouchActionsService.AddNewAction(tapOne);
-        App.TouchActionsService.PerformAllActions();
+        var tapOne = App.TouchActions.Press(elements[5], 1500).Release();
+        App.TouchActions.AddNewAction(tapOne);
+        App.TouchActions.AddNewAction(tapOne);
+        App.TouchActions.PerformAllActions();
         elements = App.Components.CreateAllByClass<TextField>("android.widget.TextView");
 
-        var tapTwo = App.TouchActionsService.Press(elements[1], 1500).Release();
-        App.TouchActionsService.AddNewAction(tapTwo);
-        App.TouchActionsService.AddNewAction(tapTwo);
-        App.TouchActionsService.PerformAllActions();
+        var tapTwo = App.TouchActions.Press(elements[1], 1500).Release();
+        App.TouchActions.AddNewAction(tapTwo);
+        App.TouchActions.AddNewAction(tapTwo);
+        App.TouchActions.PerformAllActions();
 
         Assert.AreNotEqual(originalActivity, App.AppService.CurrentActivity);
     }
@@ -103,7 +102,7 @@ Explanations
 ------------
 BELLATRIX gives you an interface for easier work with touch actions through TouchActionsService. Performing a series of touch actions can be one of the most complicated jobs in automating mobile apps. BELLATRIX touch APIs are simplified and made to be user-friendly as possible. Their usage can eliminate lots of code duplication and boilerplate code.
 ```csharp
-App.TouchActionsService.Swipe(
+App.TouchActions.Swipe(
     point.X + 5,
     point.Y + 5,
     point.X + size.Width - 5,
@@ -112,34 +111,34 @@ App.TouchActionsService.Swipe(
 ```
 Performs swipe by using coordinates.
 ```csharp
-App.TouchActionsService.Tap(elements[4], 10).Perform();
+App.TouchActions.Tap(elements[4], 10).Perform();
 ```
 Tap 10 times using BELLATRIX UI element directly.
 ```csharp
-App.TouchActionsService.Press(locationOne.X, locationOne.Y, 100).
+App.TouchActions.Press(locationOne.X, locationOne.Y, 100).
     MoveTo(locationTwo.X, locationTwo.Y).
     Release().
     Perform();
 ```
 Performs a series of actions using elements coordinates.
 ```csharp
-var swipe = App.TouchActionsService.Press(locationOne.X, locationOne.Y, 100).
+var swipe = App.TouchActions.Press(locationOne.X, locationOne.Y, 100).
     MoveTo(locationTwo.X, locationTwo.Y).
     Release();
-App.TouchActionsService.AddNewAction(swipe);
-App.TouchActionsService.PerformAllActions();
+App.TouchActions.AddNewAction(swipe);
+App.TouchActions.PerformAllActions();
 ```
 Performs multiple actions.
 ```csharp
-var tapOne = App.TouchActionsService.Press(elements[5], 1500).Release();
-App.TouchActionsService.AddNewAction(tapOne);
-App.TouchActionsService.AddNewAction(tapOne);
-App.TouchActionsService.PerformAllActions();
+var tapOne = App.TouchActions.Press(elements[5], 1500).Release();
+App.TouchActions.AddNewAction(tapOne);
+App.TouchActions.AddNewAction(tapOne);
+App.TouchActions.PerformAllActions();
 elements = App.Components.CreateAllByClass<TextField>("android.widget.TextView");
 
-var tapTwo = App.TouchActionsService.Press(elements[1], 1500).Release();
-App.TouchActionsService.AddNewAction(tapTwo);
-App.TouchActionsService.AddNewAction(tapTwo);
-App.TouchActionsService.PerformAllActions();
+var tapTwo = App.TouchActions.Press(elements[1], 1500).Release();
+App.TouchActions.AddNewAction(tapTwo);
+App.TouchActions.AddNewAction(tapTwo);
+App.TouchActions.PerformAllActions();
 ```
 Executes two multi actions.

@@ -13,7 +13,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [AndroidSauceLabs("sauce-storage:ApiDemos.apk",
     "7.1",
     "Android GoogleAPI Emulator",
@@ -22,7 +22,7 @@ Example
     Lifecycle.RestartEveryTime)]
 public class SauceLabsTests : AndroidTest
 {
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.Components.CreateByIdContaining<Button>("button");
@@ -30,7 +30,7 @@ public class SauceLabsTests : AndroidTest
         button.Click();
     }
 
-    [TestMethod]
+    [Test]
     [AndroidSauceLabs("sauce-storage:ApiDemos.apk",
         "7.1",
         "Android GoogleAPI Emulator",
@@ -58,7 +58,7 @@ Explanations
 ```
 To execute BELLATRIX tests in SauceLabs cloud you should use the AndroidSauceLabs attribute instead of Android. SauceLabs has the same parameters as Android but adds to additional ones- device name, recordVideo and recordScreenshots. As with the Android attribute you can override the class behavior on Test level.
 ```csharp
-[TestMethod]
+[Test]
 [AndroidSauceLabs("sauce-storage:ApiDemos.apk",
     "7.1",
     "Android GoogleAPI Emulator",

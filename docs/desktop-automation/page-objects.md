@@ -22,7 +22,7 @@ As you most probably noticed this is like the 4th time we use almost the same el
 Non-page-object Test Example
 ----------------------------
 ```csharp
-[TestMethod]
+[Test]
 public void ActionsWithoutPageObjects_Wpf()
 {
     var permanentTransfer = App.Components.CreateByName<CheckBox>("BellaCheckBox");
@@ -163,7 +163,7 @@ With this Assert, reuse the formatting of the currency and the timeout. Also, si
 Page Object Test Example
 ------------------------
 ```csharp
-[TestMethod]
+[Test]
 public void ActionsWithPageObjects_Wpf()
 {
     var mainPage = App.Create<MainDesktopPage>();

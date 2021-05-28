@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 public class TestWorkflowHooksTests : APITest
 {
     private ApiClientService _apiClientService;
@@ -50,25 +50,25 @@ public class TestWorkflowHooksTests : APITest
         // Executes a logic after each test in the test class.
     }
 
-    [TestMethod]
+    [Test]
     public void UpdatedContentContainsUpdatedTitle()
     {
         _putResponse.AssertContentContains("Unique Title");
     }
 
-    [TestMethod]
+    [Test]
     public void UpdatedRequestUnder2Seconds()
     {
         _putResponse.AssertExecutionTimeUnder(2);
     }
 
-    [TestMethod]
+    [Test]
     public void PutResponseNotNull()
     {
         Assert.IsNotNull(_putResponse.Content);
     }
 
-    [TestMethod]
+    [Test]
     public void PutResponseStatusCodeIsOk()
     {
         _putResponse.AssertStatusCode(System.Net.HttpStatusCode.OK);

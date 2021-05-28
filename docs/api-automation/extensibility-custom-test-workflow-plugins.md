@@ -77,7 +77,7 @@ protected override void PreTestInit(object sender, TestWorkflowPluginEventArgs e
 ```
 You can override all mentioned test workflow method hooks in your custom handlers. The method uses reflection to find out if the ManualTestCase attribute is set to the run test. If the attribute is not set or is set more than once an exception is thrown. The logic executes before the actual test run, during the **PreTestInit** phase.
 ```csharp
-[TestClass]
+[TestFixture]
 public class CustomTestCaseExtensionTests : APITest
 {
     public override void TestInit()
@@ -85,7 +85,7 @@ public class CustomTestCaseExtensionTests : APITest
         App.AddTestWorkflowPlugin<AssociatedTestCaseExtension>();
     }
 
-    [TestMethod]
+    [Test]
     [ManualTestCase(1532)]
     public void PurchaseRocketWithGloballyOverridenMethods()
     {

@@ -13,7 +13,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 public void PurchaseRocket()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");

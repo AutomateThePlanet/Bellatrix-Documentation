@@ -17,7 +17,7 @@ Example
 [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class LayoutTestingTests : DesktopTest
 {
-    [TestMethod]
+    [Test]
     public void CommonActionsWithDesktopControls_Wpf()
     {
         var button = App.Components.CreateByName<Button>("E Button");

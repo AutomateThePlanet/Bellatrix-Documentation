@@ -14,7 +14,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 public void ShouldGreetUsingBinding()
 {
     App.NavigationService.Navigate("http://www.angularjs.org");
@@ -27,7 +27,7 @@ public void ShouldGreetUsingBinding()
     heading.ValidateInnerTextIs("Hello Julie!");
 }
 
-[TestMethod]
+[Test]
 public void ShouldListTodos()
 {
     App.NavigationService.Navigate("http://www.angularjs.org");
@@ -36,7 +36,7 @@ public void ShouldListTodos()
     Assert.AreEqual("build an AngularJS app", labels[1].InnerText.Trim());
 }
 
-[TestMethod]
+[Test]
 public void Angular2Test()
 {
     App.NavigationService.Navigate("https://material.angular.io/");

@@ -15,10 +15,10 @@ Example
 -------
 ```csharp
 [Browser(BrowserType.Chrome, DesktopWindowSize._1280_1024,  Lifecycle.RestartEveryTime)]
-[TestClass]
+[TestFixture]
 public class LayoutTestingTests : WebTest
 {
-    [TestMethod]
+    [Test]
     public void TestPageLayout()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");

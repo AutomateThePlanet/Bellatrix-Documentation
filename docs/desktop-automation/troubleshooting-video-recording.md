@@ -13,11 +13,11 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class VideoRecordingTests : DesktopTest
 {
-  [TestMethod]
+  [Test]
   public void MessageChanged_When_ButtonHovered_Wpf()
   {
       var button = App.Components.CreateByName<Button>("E Button");

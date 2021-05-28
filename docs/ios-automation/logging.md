@@ -12,14 +12,14 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
     Lifecycle.RestartEveryTime)]
 public class LoggingTests : IOSTest
 {
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         Logger.LogInformation("$$$ Before clicking the button $$$");

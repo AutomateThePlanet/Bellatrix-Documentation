@@ -78,11 +78,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bellatrix.Web.GettingStarted
 {
-    [TestClass]
+    [TestFixture]
     [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
     public class NewElementWaitTests : WebTest
     {
-        [TestMethod]
+        [Test]
         public void PromotionsPageOpened_When_PromotionsButtonClicked()
         {
             App.NavigationService.Navigate("http://demos.bellatrix.solutions/");

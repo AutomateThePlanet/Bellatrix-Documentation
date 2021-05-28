@@ -69,11 +69,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bellatrix.Desktop.GettingStarted
 {
-    [TestClass]
+    [TestFixture]
     [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
     public class AddNewElementWaitMethodsTests : DesktopTest
     {
-        [TestMethod]
+        [Test]
         [Ignore]
         public void MessageChanged_When_ButtonHovered_Wpf()
         {

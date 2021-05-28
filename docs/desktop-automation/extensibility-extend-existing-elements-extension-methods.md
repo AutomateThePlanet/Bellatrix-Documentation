@@ -17,11 +17,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bellatrix.Desktop.GettingStarted
 {
-    [TestClass]
+    [TestFixture]
     [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
     public class ExtendExistingElementWithExtensionMethodsTests : DesktopTest
     {
-        [TestMethod]
+        [Test]
         [App(Constants.WpfAppPath, Lifecycle.RestartOnFail)]
         public void MessageChanged_When_ButtonClicked_Wpf()
         {

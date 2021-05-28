@@ -42,7 +42,7 @@ public class ApiClientHooksTests : APITest
 {
     public override void TestsArrange() => App.AddApiClientExecutionPlugin<LogRequestTimeApiClientExecutionPlugin>();
 
-    [TestMethod]
+    [Test]
     public void GetAlbumById()
     {
         var request = new RestRequest("api/Albums/10");
@@ -54,7 +54,7 @@ public class ApiClientHooksTests : APITest
         Assert.AreEqual(10, response.Data.AlbumId);
     }
 
-    [TestMethod]
+    [Test]
     public void SecondGetAlbumById()
     {
         var request = new RestRequest("api/Albums/10");

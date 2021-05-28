@@ -12,11 +12,11 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class LoggingTests : DesktopTest
 {
-    [TestMethod]
+    [Test]
     public void CommonActionsWithDesktopControls_Wpf()
     {
         var calendar = App.Components.CreateByAutomationId<Calendar>("calendar");

@@ -23,7 +23,7 @@ Because of that people use the so-called Page Object design pattern to reuse the
 Non-page-object Test Example
 ----------------------------
 ```csharp
-[TestMethod]
+[Test]
 public void PurchaseRocketWithoutPageObjects()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -250,7 +250,7 @@ With this Assert, reuse the formatting of the currency and the timeout. Also, si
 Page Object Test Example
 ------------------------
 ```csharp
-[TestMethod]
+[Test]
 public void PurchaseRocketWithPageObjects()
 {
 var homePage = App.GoTo<HomePage>();

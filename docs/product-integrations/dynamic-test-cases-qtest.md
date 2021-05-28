@@ -21,7 +21,7 @@ Configuration
 First, you need to install the **Bellatrix.DynamicTestCases.QTest** NuGet package to your tests project.
 Next, you need to enable the qTest dynamic test cases BELLATRIX extension in your **TestInitialize** file.
 ```csharp
-[TestClass]
+[TestFixture]
 public class TestsInitialize : WebTest
 {
     [AssemblyInitialize]
@@ -72,12 +72,12 @@ Next, you need to add a new section in the **testFrameworkSettings.json** settin
 You need to supply a user name and password or authentication token so that the plug-in API can connect with qTest. Also, if your test cases have custom fields, you can specify them under the fieldValues array.
 The last step is to configure the test classes and tests.
 ```csharp
-[TestClass]
+[TestFixture]
 [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
 [DynamicTestCase(SuiteId = "8260474")]
 public class PageObjectsTests : WebTest
 {
-   [TestMethod]
+   [Test]
    [DynamicTestCase(
         TestCaseId = "4d001440-bf6c-4a8b-b3e6-796cbad361e1", 
         Description = "Create a purchase of a rocket through the online rocket shop http://demos.bellatrix.solutions/")]

@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [VideoRecording(VideoRecordingMode.OnlyFail)]
 [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class TestWorkflowHooksTests : DesktopTest
@@ -41,13 +41,13 @@ public class TestWorkflowHooksTests : DesktopTest
         // Executes a logic after each test in the test class.
     }
 
-    [TestMethod]
+    [Test]
     public void MessageChanged_When_ButtonHovered_Wpf()
     {
         Assert.AreEqual("ebuttonHovered", _resultsLabel.InnerText);
     }
 
-    [TestMethod]
+    [Test]
     [App(Constants.WpfAppPath, Lifecycle.RestartOnFail)]
     [VideoRecording(VideoRecordingMode.DoNotRecord)]
     public void ResultsLabelVisible_When_ButtonClicked_Wpf()

@@ -12,32 +12,32 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
     Lifecycle.RestartEveryTime)]
 public class AppServiceTests : IOSTest
 {
-    [TestMethod]
+    [Test]
     public void TestBackgroundApp()
     {
         App.AppService.BackgroundApp(1);
     }
 
-    [TestMethod]
+    [Test]
     public void TestResetApp()
     {
         App.AppService.ResetApp();
     }
 
-    [TestMethod]
+    [Test]
     public void InstallAppInstalledTrue_When_AppIsInstalled()
     {
         Assert.IsTrue(App.AppService.IsAppInstalled("com.apple.mobilecal"));
     }
 
-    [TestMethod]
+    [Test]
     public void InstallAppInstalledFalse_When_AppIsUninstalled()
     {
         string appPath = Path.Combine(ProcessProvider.GetExecutingAssemblyFolder(), "Demos/TestApp.app.zip");

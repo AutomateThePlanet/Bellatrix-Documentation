@@ -12,11 +12,11 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
 public class BrowserServiceTests : WebTest
 {
-    [TestMethod]
+    [Test]
     public void GetCurrentUri()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -24,7 +24,7 @@ public class BrowserServiceTests : WebTest
         Debug.WriteLine(App.BrowserService.Url);
     }
 
-    [TestMethod]
+    [Test]
     public void ControlBrowser()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -38,7 +38,7 @@ public class BrowserServiceTests : WebTest
         App.BrowserService.Refresh();
     }
 
-    [TestMethod]
+    [Test]
     public void GetTabTitle()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -46,7 +46,7 @@ public class BrowserServiceTests : WebTest
         Assert.AreEqual("BELLATRIX .NET test automation framework", App.BrowserService.Title);
     }
 
-    [TestMethod]
+    [Test]
     public void PrintCurrentPageHtml()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -54,7 +54,7 @@ public class BrowserServiceTests : WebTest
         Debug.WriteLine(App.BrowserService.HtmlSource);
     }
 
-    [TestMethod]
+    [Test]
     [Ignore]
     public void SwitchToFrame()
     {

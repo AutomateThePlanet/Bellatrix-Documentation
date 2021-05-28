@@ -13,7 +13,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Android(Constants.AndroidNativeAppPath,
     Constants.AndroidDefaultAndroidVersion,
     Constants.AndroidDefaultDeviceName,
@@ -22,7 +22,7 @@ Example
     Lifecycle.ReuseIfStarted)]
 public class VideoRecordingTests : AndroidTest
 {
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.Components.CreateByIdContaining<Button>("button");

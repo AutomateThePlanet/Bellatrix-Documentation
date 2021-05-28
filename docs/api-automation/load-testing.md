@@ -13,7 +13,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 public class ApiLoadTests : APITest
 {
     private ApiClientService _apiClientService;
@@ -24,7 +24,7 @@ public class ApiLoadTests : APITest
         _apiClientService = App.GetApiClientService();
     }
 
-    [TestMethod]
+    [Test]
     public void LoadTest_ExecuteForTime()
     {
         var request = new RestRequest("api/Albums");
@@ -42,7 +42,7 @@ public class ApiLoadTests : APITest
         });
     }
 
-    [TestMethod]
+    [Test]
     public void LoadTest_ExecuteNumberOfTimes()
     {
         var request = new RestRequest("api/Albums");

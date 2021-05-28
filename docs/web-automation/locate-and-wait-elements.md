@@ -14,7 +14,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 [Browser(BrowserType.Chrome, Lifecycle.RestartOnFail)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {

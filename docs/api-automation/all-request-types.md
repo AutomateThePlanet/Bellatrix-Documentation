@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 public class AllRequestTypesTests : APITest
 {
     private ApiClientService _apiClientService;
@@ -24,7 +24,7 @@ public class AllRequestTypesTests : APITest
         _apiClientService = App.GetApiClientService();
     }
 
-    [TestMethod]
+    [Test]
     public void ContentPopulated_When_GetAlbums()
     {
         var request = new RestRequest("api/Albums");
@@ -34,7 +34,7 @@ public class AllRequestTypesTests : APITest
         Assert.IsNotNull(response.Content);
     }
 
-    [TestMethod]
+    [Test]
     public void DataPopulatedAsList_When_GetGenericAlbums()
     {
         var request = new RestRequest("api/Albums");
@@ -44,9 +44,9 @@ public class AllRequestTypesTests : APITest
         Assert.AreEqual(347, response.Data.Count);
     }
 
-    [TestMethod]
-    [TestCategory(Categories.CI)]
-    [TestCategory(Categories.API)]
+    [Test]
+    [Category(Categories.CI)]
+    [Category(Categories.API)]
     public void DataPopulatedAsList_When_GetGenericAlbumsById()
     {
         var request = new RestRequest("api/Albums/10");
@@ -56,7 +56,7 @@ public class AllRequestTypesTests : APITest
         Assert.AreEqual(10, response.Data.AlbumId);
     }
 
-    [TestMethod]
+    [Test]
     public void ContentPopulated_When_GetGenericAlbumsById()
     {
         var request = new RestRequest("api/Albums/10");
@@ -66,7 +66,7 @@ public class AllRequestTypesTests : APITest
         Assert.IsNotNull(response.Content);
     }
 
-    [TestMethod]
+    [Test]
     public void DataPopulatedAsGenres_When_PutModifiedContent()
     {
         var request = new RestRequest("api/Albums/11");
@@ -87,7 +87,7 @@ public class AllRequestTypesTests : APITest
         Assert.AreEqual(updatedTitle, getUpdatedResponse.Data.Title);
     }
 
-    [TestMethod]
+    [Test]
     public void ContentPopulated_When_PutModifiedContent()
     {
         var request = new RestRequest("api/Albums/11");
@@ -106,7 +106,7 @@ public class AllRequestTypesTests : APITest
         Assert.IsNotNull(getUpdatedResponse.Content);
     }
 
-    [TestMethod]
+    [Test]
     public void ContentPopulated_When_NewAlbumInsertedViaPost()
     {
         var newAlbum = CreateUniqueGeneres();
@@ -119,7 +119,7 @@ public class AllRequestTypesTests : APITest
         Assert.IsNotNull(response.Content);
     }
 
-    [TestMethod]
+    [Test]
     public void DataPopulatedAsGenres_When_NewAlbumInsertedViaPost()
     {
         var newAlbum = CreateUniqueGeneres();
@@ -132,7 +132,7 @@ public class AllRequestTypesTests : APITest
         Assert.AreEqual(newAlbum.Name, response.Data.Name);
     }
 
-    [TestMethod]
+    [Test]
     public void ArtistsDeleted_When_PerformDeleteRequest()
     {
         var newArtist = CreateUniqueArtists();
@@ -146,7 +146,7 @@ public class AllRequestTypesTests : APITest
         Assert.IsTrue(response.IsSuccessful);
     }
 
-    [TestMethod]
+    [Test]
     public void ArtistsDeleted_When_PerformGenericDeleteRequest()
     {
         var newArtist = CreateUniqueArtists();
@@ -160,7 +160,7 @@ public class AllRequestTypesTests : APITest
         Assert.IsNotNull(response.Data);
     }
 
-    [TestMethod]
+    [Test]
     public async void ArtistsDeleted_When_PerformGenericDeleteRequestAsync()
     {
         var newArtist = CreateUniqueArtists();
@@ -203,7 +203,7 @@ public class AllRequestTypesTests : APITest
 Explanations
 ------------
 ```csharp
-[TestMethod]
+[Test]
 public void ContentPopulated_When_GetAlbums()
 {
     var request = new RestRequest("api/Albums");
@@ -215,7 +215,7 @@ public void ContentPopulated_When_GetAlbums()
 ```
 Make a Get request but not convert the response to C# object. The response is returned in its native format- JSON or XML.
 ```csharp
-[TestMethod]
+[Test]
 public void DataPopulatedAsList_When_GetGenericAlbums()
 {
     var request = new RestRequest("api/Albums");
@@ -231,7 +231,7 @@ var response = _apiClientService.Get<Albums>(request);
 ```
 Making GET request and return C# response object.
 ```csharp
-[TestMethod]
+[Test]
 public void ContentPopulated_When_GetGenericAlbumsById()
 {
     var request = new RestRequest("api/Albums/10");
@@ -243,7 +243,7 @@ public void ContentPopulated_When_GetGenericAlbumsById()
 ```
 Even when you use the generic methods you have access to the original text response through the Content property.
 ```csharp
-[TestMethod]
+[Test]
 public void DataPopulatedAsGenres_When_PutModifiedContent()
 {
     var request = new RestRequest("api/Albums/11");
@@ -266,7 +266,7 @@ public void DataPopulatedAsGenres_When_PutModifiedContent()
 ```
 First we get an existing album. After that we change the Title and create a PUT request. You need to add the changes as JSON body. Use the generic Put method to create a PUT request.
 ```csharp
-[TestMethod]
+[Test]
 public void ContentPopulated_When_NewAlbumInsertedViaPost()
 {
     var newAlbum = CreateUniqueGeneres();
@@ -285,7 +285,7 @@ var response = _apiClientService.Post<Genres>(request);
 ```
 Use the generic Post version to get a converted response to C# object.
 ```csharp
-[TestMethod]
+[Test]
 public void ArtistsDeleted_When_PerformDeleteRequest()
 {
     var newArtist = CreateUniqueArtists();
@@ -306,7 +306,7 @@ var response = _apiClientService.Delete<Artists>(deleteRequest);
 ```
 Use a generic version of the Delete to convert the response to C# object.
 ```csharp
-[TestMethod]
+[Test]
 public async void ArtistsDeleted_When_PerformGenericDeleteRequestAsync()
 {
     var newArtist = CreateUniqueArtists();

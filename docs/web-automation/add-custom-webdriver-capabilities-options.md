@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [SauceLabs(BrowserType.Firefox,
     "50",
     "Windows",
@@ -40,7 +40,7 @@ public class CustomWebDriverCapabilitiesTests : WebTest
         App.AddWebDriverBrowserProfile(profile);
     }
 
-    [TestMethod]
+    [Test]
     public void PromotionsPageOpened_When_PromotionsButtonClicked()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");

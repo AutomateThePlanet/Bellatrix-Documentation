@@ -12,11 +12,11 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
 public class DialogServiceTests : WebTest
 {
-    [TestMethod]
+    [Test]
     public void AcceptDialogAlert()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
@@ -27,7 +27,7 @@ public class DialogServiceTests : WebTest
         App.DialogService.Handle();
     }
 
-    [TestMethod]
+    [Test]
     public void HappyBirthdayCouponDisplayed_When_ClickOnCouponButton()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
@@ -38,7 +38,7 @@ public class DialogServiceTests : WebTest
         App.DialogService.Handle((a) => Assert.AreEqual("Try the coupon- happybirthday", a.Text));
     }
 
-    [TestMethod]
+    [Test]
     [Ignore]
     public void DismissDialogAlert()
     {

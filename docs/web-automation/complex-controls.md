@@ -18,7 +18,7 @@ Tables
 ![HTML Table Example](images/html-table-example.png)
 ## Example ##
 ```csharp
-[TestClass]
+[TestFixture]
 [Browser(BrowserType.Chrome, Lifecycle.ReuseIfStarted)]
 public class TableControlTests : WebTest
 {
@@ -72,7 +72,7 @@ public class TableControlTests : WebTest
         };
     }
 
-    [TestMethod]
+    [Test]
     public void AssertMiscData()
     {
         Assert.AreEqual(_expectedUsers[0].Email, Table.GetItems<User>()[0].Email);
@@ -82,7 +82,7 @@ public class TableControlTests : WebTest
         Assert.AreEqual("Action", Table.GetHeaderNames().Last());
     }
 
-    [TestMethod]
+    [Test]
     [Browser(BrowserType.Edge, Lifecycle.ReuseIfStarted)]
     public void AssertCells()
     {
@@ -96,7 +96,7 @@ public class TableControlTests : WebTest
         matchingCell.ValidateInnerTextIs("John");
     }
 
-    [TestMethod]
+    [Test]
     [Browser(BrowserType.Firefox, Lifecycle.ReuseIfStarted)]
     public void AssertSpecificRow()
     {
@@ -118,7 +118,7 @@ public class TableControlTests : WebTest
         firstRow.AssertRow(_expectedUsers[0]);
     }
 
-    [TestMethod]
+    [Test]
     public void AssertHeaders()
     {
         Table.TableHeaderRows.ForEach(header => header.AssertFontFamily("\"Times New Roman\""));
@@ -127,7 +127,7 @@ public class TableControlTests : WebTest
         headerCells.ForEach(cell => cell.AssertFontSize("16px"));
     }
 
-    [TestMethod]
+    [Test]
     public void AssertSpecificCell()
     {
         var firstCell = Table.GetCell(0, 0);
@@ -140,7 +140,7 @@ public class TableControlTests : WebTest
         thirdCell.ValidateInnerHtmlIs("Doe");
     }
 
-    [TestMethod]
+    [Test]
     public void AssertColumns()
     {
         var secondColumn = Table.GetColumn(1);
@@ -308,7 +308,7 @@ The difference between a table and grid is that usually, the grids are more comp
 ![HTML Grid Example](images/grid-html-example.png)
 ## Example ##
 ```csharp
-[TestClass]
+[TestFixture]
 [Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
 public class GridControlTests : WebTest
 {
@@ -354,7 +354,7 @@ public class GridControlTests : WebTest
         };
     }
 
-    [TestMethod]
+    [Test]
     public void AssertGridCells()
     {
         TestGrid.ForEachCell(cell => cell.AssertFontSize("14px"));
@@ -370,7 +370,7 @@ public class GridControlTests : WebTest
         Assert.AreNotEqual(firstRowEmail, firstRowEmailAfterDelete);
     }
 
-    [TestMethod]
+    [Test]
     public void AssertObjectsData()
     {
         var expectedObj = _expectedItems[0];
@@ -381,7 +381,7 @@ public class GridControlTests : WebTest
         Assert.AreEqual("Email Personal", TestGrid.GetHeaderNames().FirstOrDefault(header => header.StartsWith("Email")));
     }
 
-    [TestMethod]
+    [Test]
     public void AssertHeaders()
     {
         TestGrid.TableHeaderRows.ForEach(header => header.AssertFontFamily("\"Helvetica Neue\", Helvetica, Arial, sans-serif"));
@@ -390,7 +390,7 @@ public class GridControlTests : WebTest
         headerCells.ForEach(cell => cell.AssertFontSize("14px"));
     }
 
-    [TestMethod]
+    [Test]
     public void AssertRows()
     {
         Assert.AreEqual(3, TestGrid.GetRows().Count());
@@ -402,7 +402,7 @@ public class GridControlTests : WebTest
         firstRow = TestGrid.GetFirstOrDefaultRow<TableCell>(cell => cell.InnerText.Contains("J"));
     }
 
-    [TestMethod]
+    [Test]
     public void AssertSpecificRow()
     {
         var firstRow = TestGrid.GetRow(0);
@@ -424,7 +424,7 @@ public class GridControlTests : WebTest
         firstRow.AssertRow(_expectedItems[0]);
     }
 
-    [TestMethod]
+    [Test]
     public void AssertSpecificCell()
     {
         var secondCell = TestGrid.GetCell(0, 1);
@@ -437,7 +437,7 @@ public class GridControlTests : WebTest
         Assert.AreEqual("0", firstCell.As().Value);
     }
 
-    [TestMethod]
+    [Test]
     public void AssertColumns()
     {
         var firstColumn = TestGrid.GetColumn(0);

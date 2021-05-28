@@ -13,7 +13,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
     "11.3",
     "iPhone 6",
@@ -23,7 +23,7 @@ Example
     build: "CI Execution")]
 public class CrossBrowserTesting : IOSTest
 {
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.Components.CreateByName<Button>("ComputeSumButton");
@@ -31,7 +31,7 @@ public class CrossBrowserTesting : IOSTest
         button.Click();
     }
 
-    [TestMethod]
+    [Test]
     [IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
         "11.3",
         "iPhone 6",
@@ -61,7 +61,7 @@ Explanations
 ```
 To execute BELLATRIX tests in CrossBrowserTesting cloud, you should use the CrossBrowserTesting attribute instead of IOS. CrossBrowserTesting has the same parameters as IOS but adds to additional ones- deviceName, recordVideo, recordNetwork and build. The last three are optional and have default values. As with the IOS attribute you can override the class behaviour on Test level.
 ```csharp
-[TestMethod]
+[Test]
 [IOSCrossBrowserTesting("crossBrowser-storage:TestApp.app.zip",
     "11.3",
     "iPhone 6",

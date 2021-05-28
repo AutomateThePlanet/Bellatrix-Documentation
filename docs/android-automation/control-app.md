@@ -23,7 +23,7 @@ This is how one BELLATRIX test class looks like.
     Lifecycle.ReuseIfStarted)]
 public class BellatrixAppBehaviourTests : AndroidTest
 {
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         App.AppService.StartActivity(Constants.AndroidNativeAppAppExamplePackage, ".view.Controls1");
@@ -33,7 +33,7 @@ public class BellatrixAppBehaviourTests : AndroidTest
         button.Click();
     }
 
-    [TestMethod]
+    [Test]
     [Android(Constants.AndroidNativeAppPath,
         Constants.AndroidDefaultAndroidVersion,
         Constants.AndroidDefaultDeviceName,
@@ -52,7 +52,7 @@ public class BellatrixAppBehaviourTests : AndroidTest
 Explanations
 ------------
 ```csharp
-[TestClass]
+[TestFixture]
 ```
 This is the main attribute that you need to mark each class that contains MSTest tests.
 ```csharp
@@ -92,7 +92,7 @@ public class BellatrixAppBehaviourTests : AndroidTest
 ```
 If you place attribute over the class all tests inherit the behaviour. It is possible to place it over each test and this way it overrides the class behaviour only for this particular test.
 ```csharp
-[TestMethod]
+[Test]
 public void ButtonClicked_When_CallClickMethod()
 ```
 All MSTest tests should be marked with the TestMethod attribute.
@@ -101,7 +101,7 @@ var button = App.Components.CreateByIdContaining<Button>("button");
 ```
 Use the element creation service to create an instance of the button. There are much more details about this process in the next sections.
 ```csharp
-[TestMethod]
+[Test]
 [Android(Constants.AndroidNativeAppPath,
     Constants.AndroidDefaultAndroidVersion,
     Constants.AndroidDefaultDeviceName,

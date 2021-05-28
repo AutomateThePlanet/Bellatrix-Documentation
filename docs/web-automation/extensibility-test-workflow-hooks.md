@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Browser(BrowserType.Chrome, Lifecycle.ReuseIfStarted)]
 public class TestWorkflowHooksTests : WebTest
 {
@@ -44,31 +44,31 @@ public class TestWorkflowHooksTests : WebTest
         // Executes a logic after each test in the test class.
     }
 
-    [TestMethod]
+    [Test]
     public void SortDropDownIsAboveOfProtonRocketAnchor()
     {
         _sortDropDown.AssertAboveOf(_protonRocketAnchor);
     }
 
-    [TestMethod]
+    [Test]
     public void SortDropDownIsAboveOfProtonRocketAnchor_41px()
     {
         _sortDropDown.AssertAboveOf(_protonRocketAnchor, 41);
     }
 
-    [TestMethod]
+    [Test]
     public void SortDropDownIsAboveOfProtonRocketAnchor_GreaterThan40px()
     {
         _sortDropDown.AssertAboveOfGreaterThan(_protonRocketAnchor, 40);
     }
 
-    [TestMethod]
+    [Test]
     public void SortDropDownIsAboveOfProtonRocketAnchor_GreaterThanOrEqual41px()
     {
         _sortDropDown.AssertAboveOfGreaterThanOrEqual(_protonRocketAnchor, 41);
     }
 
-    [TestMethod]
+    [Test]
     public void SortDropDownIsNearTopOfProtonRocketAnchor_GreaterThan40px()
     {
         _sortDropDown.AssertNearTopOfGreaterThan(_protonRocketAnchor, 40);

@@ -12,7 +12,7 @@ anchors:
 Example
 --------
 ```csharp
-[TestClass]
+[TestFixture]
 [ExecutionTimeUnder(5000, TimeUnit.Milliseconds)]
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
@@ -20,7 +20,7 @@ Example
     Lifecycle.RestartEveryTime)]
 public class MeasureTestExecutionTimesTests : IOSTest
 {
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.Components.CreateByName<Button>("ComputeSumButton");

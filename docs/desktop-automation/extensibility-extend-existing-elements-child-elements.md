@@ -12,11 +12,11 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class ExtendExistingElementWithChildElementsTests : DesktopTest
 {
-    [TestMethod]
+    [Test]
     [App(Constants.WpfAppPath, Lifecycle.RestartOnFail)]
     [ScreenshotOnFail(false)]
     public void MessageChanged_When_ButtonClicked_Wpf()

@@ -22,7 +22,7 @@ Configuration
 First, you need to install the **Bellatrix.BugReporting.AzureDevOps** NuGet package to your tests project.
 Next, you need to enable the Azure DevOps bug reporting BELLATRIX extension in your **TestInitialize** file.
 ```csharp
-[TestClass]
+[TestFixture]
 public class TestsInitialize : WebTest
 {
     [AssemblyInitialize]

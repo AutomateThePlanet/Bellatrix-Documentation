@@ -12,11 +12,11 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
 public class CookiesServiceTests : WebTest
 {
-    [TestMethod]
+    [Test]
     public void GetAllCookies()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
@@ -30,7 +30,7 @@ public class CookiesServiceTests : WebTest
         Assert.AreEqual(3, cookies.Count);
     }
 
-    [TestMethod]
+    [Test]
     public void GetSpecificCookie()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
@@ -42,7 +42,7 @@ public class CookiesServiceTests : WebTest
         Assert.AreEqual("3", itemsInCartCookie);
     }
 
-    [TestMethod]
+    [Test]
     public void DeleteAllCookies()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
@@ -53,7 +53,7 @@ public class CookiesServiceTests : WebTest
         App.CookieService.DeleteAllCookies();
     }
 
-    [TestMethod]
+    [Test]
     public void DeleteSpecificCookie()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
@@ -64,7 +64,7 @@ public class CookiesServiceTests : WebTest
         App.CookieService.DeleteCookie("woocommerce_items_in_cart");
     }
 
-    [TestMethod]
+    [Test]
     public void AddNewCookie()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");

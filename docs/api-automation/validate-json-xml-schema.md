@@ -12,10 +12,10 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 public class ValidateSchemaTests : APITest
 {
-    [TestMethod]
+    [Test]
     public void AssertJsonSchema()
     {
         var request = new RestRequest("api/Albums/10");

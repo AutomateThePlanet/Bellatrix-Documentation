@@ -13,11 +13,11 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime, shouldCaptureHttpTraffic: true)]
 public class CaptureHttpTrafficTests : WebTest
 {
-    [TestMethod]
+    [Test]
     public void CaptureTrafficTests()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -43,7 +43,7 @@ public class CaptureHttpTrafficTests : WebTest
         App.ProxyService.AssertRequestMade("http://demos.bellatrix.solutions/favicon.ico");
     }
 
-    [TestMethod]
+    [Test]
     public void RedirectRequestsTest()
     {
         App.ProxyService.SetUrlToBeRedirectedTo(
@@ -66,7 +66,7 @@ public class CaptureHttpTrafficTests : WebTest
         viewCartButton.Click();
     }
 
-    [TestMethod]
+    [Test]
     public void BlockRequestsTest()
     {
         App.ProxyService.SetUrlToBeBlocked("http://demos.bellatrix.solutions/favicon.ico");

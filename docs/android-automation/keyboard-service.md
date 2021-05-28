@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Android(Constants.AndroidNativeAppPath,
     Constants.AndroidDefaultAndroidVersion,
     Constants.AndroidDefaultDeviceName,
@@ -21,37 +21,37 @@ Example
     Lifecycle.RestartEveryTime)]
 public class KeyboardServiceTests : AndroidTest
 {
-    [TestMethod]
+    [Test]
     public void TestHideKeyBoard()
     {
         var textField = App.Components.CreateByIdContaining<TextField>("left_text_edit");
         textField.SetText(string.Empty);
 
-        App.KeyboardService.HideKeyboard();
+        App.Keyboard.HideKeyboard();
     }
 
-    [TestMethod]
+    [Test]
     public void PressKeyCodeTest()
     {
-        App.KeyboardService.PressKeyCode(AndroidKeyCode.Home);
+        App.Keyboard.PressKeyCode(AndroidKeyCode.Home);
     }
 
-    [TestMethod]
+    [Test]
     public void PressKeyCodeWithMetaStateTest()
     {
-        App.KeyboardService.PressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
+        App.Keyboard.PressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
     }
 
-    [TestMethod]
+    [Test]
     public void LongPressKeyCodeTest()
     {
-        App.KeyboardService.LongPressKeyCode(AndroidKeyCode.Home);
+        App.Keyboard.LongPressKeyCode(AndroidKeyCode.Home);
     }
 
-    [TestMethod]
+    [Test]
     public void LongPressKeyCodeWithMetaStateTest()
     {
-        App.KeyboardService.LongPressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
+        App.Keyboard.LongPressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
     }
 }
 ```
@@ -60,22 +60,22 @@ Explanations
 ------------
 BELLATRIX gives you an interface for easier work with device's keyboard through KeyboardService class.
 ```csharp
-App.KeyboardService.HideKeyboard();
+App.Keyboard.HideKeyboard();
 ```
 Hides the keyboard.
 ```csharp
-App.KeyboardService.PressKeyCode(AndroidKeyCode.Home);
+App.Keyboard.PressKeyCode(AndroidKeyCode.Home);
 ```
 Press the Home button.
 ```csharp
-App.KeyboardService.PressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
+App.Keyboard.PressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
 ```
 Press Space key simulating that the Shift key is ON.
 ```csharp
-App.KeyboardService.LongPressKeyCode(AndroidKeyCode.Home);
+App.Keyboard.LongPressKeyCode(AndroidKeyCode.Home);
 ```
 Long press the Home button.
 ```csharp
-App.KeyboardService.LongPressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
+App.Keyboard.LongPressKeyCode(AndroidKeyCode.Space, AndroidKeyMetastate.Meta_Shift_On);
 ```
 Long press Space key simulating that the Shift key is ON.

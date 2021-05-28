@@ -13,7 +13,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [BrowserStack(BrowserType.Chrome,
     "62",
     "Windows",
@@ -26,7 +26,7 @@ Example
     build: "myUniqueBuildName")]
 public class BrowserStackTests : WebTest
 {
-    [TestMethod]
+    [Test]
     public void PromotionsPageOpened_When_PromotionsButtonClicked()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -36,7 +36,7 @@ public class BrowserStackTests : WebTest
         promotionsLink.Click();
     }
 
-    [TestMethod]
+    [Test]
     [BrowserStack(BrowserType.Chrome, "62", "Windows", "10", DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
     public void BlogPageOpened_When_PromotionsButtonClicked()
     {
@@ -65,7 +65,7 @@ Explanations
 ```
 To execute BELLATRIX tests in BrowserStack cloud, you should use the BrowserStack attribute instead of Browser. BrowserStack has the same parameters as Browser but adds to additional ones- browser version, platform type, platform version, captureNetworkLogs, consoleLogType, build and debug. The last five are optional and have default values. As with the Browser attribute you can override the class behaviour on Test level.
 ```csharp
-[TestMethod]
+[Test]
 [BrowserStack(BrowserType.Chrome, "62", "Windows", "10", DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {

@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
@@ -44,13 +44,13 @@ public class TestWorkflowHooksTests : IOSTest
         // Executes a logic after each test in the test class.
     }
 
-    [TestMethod]
+    [Test]
     public void ButtonIsAboveOfCheckBox()
     {
         _textField.AssertAboveOf(_button);
     }
 
-    [TestMethod]
+    [Test]
     public void ButtonIsAboveOfCheckBox_105px()
     {
         _textField.AssertAboveOf(_button, 105);

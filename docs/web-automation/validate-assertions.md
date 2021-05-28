@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 public void AssertValidateCartPageFields()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/?add-to-cart=26");

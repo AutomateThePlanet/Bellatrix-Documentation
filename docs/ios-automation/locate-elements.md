@@ -18,7 +18,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 public void ElementFound_When_CreateById_And_ElementIsOnScreen()
 {
     var button = App.Components.CreateById<Button>("ComputeSumButton");
@@ -102,7 +102,7 @@ Sometimes we need to find more than one element. For example, in this test we wa
 To do it you can use the element create service **CreateAll** method.
 
 ```csharp
-[TestMethod]
+[Test]
 public void ElementFound_When_CreateAllById_And_ElementIsOnScreen()
 {
 	var buttons = App.Components.CreateAllById<Button>("ComputeSumButton");

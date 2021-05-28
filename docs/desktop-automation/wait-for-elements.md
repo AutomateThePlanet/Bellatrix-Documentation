@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public void WaitForElementToExists_When_ElementIsNotVisibleInitially_Wpf()
 {
@@ -23,7 +23,7 @@ public void WaitForElementToExists_When_ElementIsNotVisibleInitially_Wpf()
     Assert.IsTrue(button.IsVisible);
 }
 
-[TestMethod]
+[Test]
 [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public void WaitForElementToNotExists_When_ElementIsVisibleInitially_Wpf()
 {

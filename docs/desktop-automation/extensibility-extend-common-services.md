@@ -17,11 +17,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bellatrix.Desktop.GettingStarted
 {
-    [TestClass]
+    [TestFixture]
     [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
     public class ExtendExistingCommonServicesTests : DesktopTest
     {
-        [TestMethod]
+        [Test]
         public void CommonActionsWithDesktopControls_Wpf()
         {
             // 2. Use newly added login method which is not part of the original implementation of the common service.

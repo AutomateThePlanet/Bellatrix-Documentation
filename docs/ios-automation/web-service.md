@@ -12,14 +12,14 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [IOSWebAttribute(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
     Lifecycle.ReuseIfStarted)]
 public class WebServiceTests : IOSTest
 {
-    [TestMethod]
+    [Test]
     public void HtmlSourceContainsShop_When_OpenWebPageWithChrome()
     {
         App.Web.NavigationService.Navigate("http://demos.bellatrix.solutions/");
@@ -33,7 +33,7 @@ Explanations
 BELLATRIX gives you an interface for easier work with web apps. Using it, you can access most of the features
 of BELLATRIX web APIs.
 ```csharp
-[TestClass]
+[TestFixture]
 [IOSWebAttribute(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,

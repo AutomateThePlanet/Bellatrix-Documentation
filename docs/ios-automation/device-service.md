@@ -12,39 +12,39 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
     Lifecycle.RestartEveryTime)]
 public class DeviceServiceTests : IOSTest
 {
-    [TestMethod]
+    [Test]
     public void OrientationSetToLandscape_When_CallRotateWithLandscape()
     {
-        App.DeviceService.Rotate(ScreenOrientation.Landscape);
+        App.Device.Rotate(ScreenOrientation.Landscape);
 
-        Assert.AreEqual(ScreenOrientation.Landscape, App.DeviceService.Orientation);
+        Assert.AreEqual(ScreenOrientation.Landscape, App.Device.Orientation);
 
-        App.DeviceService.Rotate(ScreenOrientation.Portrait);
+        App.Device.Rotate(ScreenOrientation.Portrait);
     }
 
-    [TestMethod]
+    [Test]
     public void CorrectTimeReturned_When_CallDeviceTime()
     {
-        BA.DateTimeAssert.AreEqual(DateTime.Now, App.DeviceService.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
+        BA.DateTimeAssert.AreEqual(DateTime.Now, App.Device.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
     }
 
-    [TestMethod]
+    [Test]
     public void DeviceIsLockedTrue_When_CallLock()
     {
-        App.DeviceService.Lock(1);
+        App.Device.Lock(1);
     }
 
-    [TestMethod]
+    [Test]
     public void TestShakeDevice()
     {
-        App.DeviceService.ShakeDevice();
+        App.Device.ShakeDevice();
     }
 }
 ```
@@ -53,21 +53,21 @@ Explanations
 ------------
 BELLATRIX gives you an interface to most common operations for controlling the device through the **DeviceService** class.
 ```csharp
-App.DeviceService.Rotate(ScreenOrientation.Landscape);
+App.Device.Rotate(ScreenOrientation.Landscape);
 ```
 Rotates the device horizontally.
 ```csharp
-Assert.AreEqual(ScreenOrientation.Landscape, App.DeviceService.Orientation);
+Assert.AreEqual(ScreenOrientation.Landscape, App.Device.Orientation);
 ```
 Gets the current device orientation.
 ```csharp
-BA.DateTimeAssert.AreEqual(DateTime.Now, App.DeviceService.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
+BA.DateTimeAssert.AreEqual(DateTime.Now, App.Device.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
 ```
 Asserts current device time.
 ```csharp
-App.DeviceService.Lock(1);
+App.Device.Lock(1);
 ```
 ```csharp
-App.DeviceService.ShakeDevice();
+App.Device.ShakeDevice();
 ```
 Shakes the device.

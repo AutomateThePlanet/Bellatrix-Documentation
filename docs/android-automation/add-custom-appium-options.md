@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 public class CustomWebDriverCapabilitiesTests : AndroidTest
 {
     public override void TestsArrange()
@@ -23,7 +23,7 @@ public class CustomWebDriverCapabilitiesTests : AndroidTest
         App.AddAdditionalCapability("noReset", "false");
     }
 
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.Components.CreateByIdContaining<Button>("button");
@@ -31,7 +31,7 @@ public class CustomWebDriverCapabilitiesTests : AndroidTest
         button.Click();
     }
 
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethodSecond()
     {
         var button = App.Components.CreateByIdContaining<Button>("button");

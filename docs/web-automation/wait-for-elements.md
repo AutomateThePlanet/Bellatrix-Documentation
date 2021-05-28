@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");

@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 public void CommonActionsWithDesktopControls_Wpf()
 {
     var calendar = App.Components.CreateByAutomationId<Calendar>("calendar");

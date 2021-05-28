@@ -14,7 +14,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 public void TestPageLayout()
 {
     var button = App.Components.CreateByIdContaining<Button>("button");

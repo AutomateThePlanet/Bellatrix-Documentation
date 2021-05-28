@@ -47,7 +47,7 @@ public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
 }
 ```
 ```csharp
-[TestClass]
+[TestFixture]
 [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class ElementActionHooksTests : DesktopTest
 {
@@ -56,7 +56,7 @@ public class ElementActionHooksTests : DesktopTest
         App.AddElementEventHandler<DebugLoggingButtonEventHandlers>();
     }
 
-    [TestMethod]
+    [Test]
     public void CommonActionsWithDesktopControls_Wpf()
     {
         var calendar = App.Components.CreateByAutomationId<Calendar>("calendar");

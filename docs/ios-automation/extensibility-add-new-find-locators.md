@@ -87,14 +87,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bellatrix.Mobile.IOS.GettingStarted
 {
-    [TestClass]
+    [TestFixture]
     [IOS(Constants.IOSNativeAppPath,
         Constants.IOSDefaultVersion,
         Constants.IOSDefaultDeviceName,
         Lifecycle.RestartEveryTime)]
     public class AddNewFindLocatorsTests : IOSTest
     {
-        [TestMethod]
+        [Test]
         public void ButtonClicked_When_CallClickMethod()
         {
             var button = App.Components.CreateByNameStartingWith<Button>("Compute");

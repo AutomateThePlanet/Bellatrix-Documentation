@@ -83,11 +83,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bellatrix.Desktop.GettingStarted
 {
-    [TestClass]
+    [TestFixture]
     [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
     public class AddNewFindLocatorsTests : DesktopTest
     {
-        [TestMethod]
+        [Test]
         public void MessageChanged_When_ButtonHovered_Wpf()
         {
             var button = App.Components.CreateByIdStartingWith<Button>("E Button");

@@ -13,11 +13,11 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
 public class LoggingTests : WebTest
 {
-    [TestMethod]
+    [Test]
     public void AddCustomMessagesToLog()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");

@@ -13,10 +13,10 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 public class ScreenshotsOnFailTests : AndroidTest
 {
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.Components.CreateByIdContaining<Button>("button");

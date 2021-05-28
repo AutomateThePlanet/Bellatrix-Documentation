@@ -12,11 +12,11 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
 public class JavaScriptServiceTests : WebTest
 {
-    [TestMethod]
+    [Test]
     public void FillUpAllFields()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/my-account/");
@@ -29,7 +29,7 @@ public class JavaScriptServiceTests : WebTest
         App.JavaScriptService.Execute("arguments[0].click();", button);
     }
 
-    [TestMethod]
+    [Test]
     [Ignore]
     public void GetElementStyle()
     {

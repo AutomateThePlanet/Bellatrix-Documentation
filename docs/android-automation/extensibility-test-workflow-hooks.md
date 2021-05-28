@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [Android(Constants.AndroidNativeAppPath,
     Constants.AndroidDefaultAndroidVersion,
     Constants.AndroidDefaultDeviceName,
@@ -46,13 +46,13 @@ public class TestWorkflowHooksTests : AndroidTest
         // Executes a logic after each test in the test class.
     }
 
-    [TestMethod]
+    [Test]
     public void ButtonIsAboveOfCheckBox_GreaterThanOrEqual105px()
     {
         _button.AssertAboveOfGreaterThanOrEqual(_checkBox, 105);
     }
 
-    [TestMethod]
+    [Test]
     public void ButtonIsNearTopOfCheckBox_GreaterThan100px()
     {
         _button.AssertNearTopOfGreaterThan(_checkBox, 100);

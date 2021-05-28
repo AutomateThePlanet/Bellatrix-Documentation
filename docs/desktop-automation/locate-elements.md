@@ -18,7 +18,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 public void MessageChanged_When_ButtonHovered_Wpf()
 {
     var button = App.Components.CreateByName<Button>("E Button");
@@ -91,7 +91,7 @@ Sometimes we need to find more than one element. For example, in this test we wa
 To do it you can use the element create service CreateAll method.
 
 ```csharp
-[TestMethod]
+[Test]
 public void CheckAllAddToCartButtons()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");

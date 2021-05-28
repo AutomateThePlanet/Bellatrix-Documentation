@@ -12,7 +12,7 @@ anchors:
 Example
 --------
 ```csharp
-[TestClass]
+[TestFixture]
 [ExecutionTimeUnder(2)]
 public class MeasuredResponseTimesTests : APITest
 {
@@ -23,7 +23,7 @@ public class MeasuredResponseTimesTests : APITest
         _apiClientService = App.GetApiClientService();
     }
 
-    [TestMethod]
+    [Test]
     public void ContentPopulated_When_GetAlbums()
     {
         var request = new RestRequest("api/Albums");
@@ -35,7 +35,7 @@ public class MeasuredResponseTimesTests : APITest
         response.AssertExecutionTimeUnder(2);
     }
 
-    [TestMethod]
+    [Test]
     public void DataPopulatedAsList_When_GetGenericAlbums()
     {
         var request = new RestRequest("api/Albums");
@@ -45,9 +45,9 @@ public class MeasuredResponseTimesTests : APITest
         Assert.AreEqual(347, response.Data.Count);
     }
 
-    [TestMethod]
-    [TestCategory(Categories.CI)]
-    [TestCategory(Categories.API)]
+    [Test]
+    [Category(Categories.CI)]
+    [Category(Categories.API)]
     public void DataPopulatedAsList_When_GetGenericAlbumsById()
     {
         var request = new RestRequest("api/Albums/10");
@@ -57,7 +57,7 @@ public class MeasuredResponseTimesTests : APITest
         Assert.AreEqual(10, response.Data.AlbumId);
     }
 
-    [TestMethod]
+    [Test]
     public void ContentPopulated_When_GetGenericAlbumsById()
     {
         var request = new RestRequest("api/Albums/10");
@@ -67,7 +67,7 @@ public class MeasuredResponseTimesTests : APITest
         Assert.IsNotNull(response.Content);
     }
 
-    [TestMethod]
+    [Test]
     public void DataPopulatedAsGenres_When_PutModifiedContent()
     {
         var request = new RestRequest("api/Albums/11");
@@ -93,7 +93,7 @@ public class MeasuredResponseTimesTests : APITest
 Explanations
 ------------
 ```csharp
-[TestClass]
+[TestFixture]
 [ExecutionTimeUnder(2)]
 public class MeasuredResponseTimesTests : APITest
 ```

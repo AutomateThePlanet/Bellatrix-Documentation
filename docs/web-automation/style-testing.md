@@ -14,11 +14,11 @@ Example
 -------
 ```csharp
 [Browser(BrowserType.Chrome, DesktopWindowSize._1280_1024,  Lifecycle.RestartEveryTime)]
-[TestClass]
+[TestFixture]
 public class StyleTestingTests : WebTest
 {
-    [TestMethod]
-    [TestCategory(Categories.CI)]
+    [Test]
+    [Category(Categories.CI)]
     public void TestStyles()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");

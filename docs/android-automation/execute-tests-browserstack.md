@@ -13,7 +13,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 [AndroidBrowserStack("pngG38y26LZ5muB1p46P",
     "7.1",
     "Android GoogleAPI Emulator",
@@ -27,7 +27,7 @@ Example
     build: "CI Execution")]
 public class BrowserStackTests : AndroidTest
 {
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.Components.CreateByIdContaining<Button>("button");
@@ -35,7 +35,7 @@ public class BrowserStackTests : AndroidTest
         button.Click();
     }
 
-    [TestMethod]
+    [Test]
     [AndroidBrowserStack("pngG38y26LZ5muB1p46P",
         "7.1",
         "Android GoogleAPI Emulator",
@@ -73,7 +73,7 @@ Explanations
 ```
 To execute BELLATRIX tests in BrowserStack cloud, you should use the BrowserStack attribute instead of Android. BrowserStack has the same parameters as Android but adds to additional ones- device name, captureVideo, captureNetworkLogs, consoleLogType, build and debug. The last five are optional and have default values. As with the Android attribute you can override the class behaviour on Test level.
 ```csharp
-[TestMethod]
+[Test]
 [AndroidBrowserStack("pngG38y26LZ5muB1p46P",
     "7.1",
     "Android GoogleAPI Emulator",

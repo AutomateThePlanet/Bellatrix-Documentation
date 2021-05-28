@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestMethod]
+[Test]
 public void GetAlbumById()
 {
     var request = new RestRequest("api/Albums/10");

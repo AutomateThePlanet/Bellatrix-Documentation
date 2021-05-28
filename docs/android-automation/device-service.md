@@ -12,67 +12,67 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 public class DeviceServiceTests : AndroidTest
 {
-    [TestMethod]
+    [Test]
     public void OrientationSetToLandscape_When_CallRotateWithLandscape()
     {
-        App.DeviceService.Rotate(ScreenOrientation.Landscape);
+        App.Device.Rotate(ScreenOrientation.Landscape);
 
-        Assert.AreEqual(ScreenOrientation.Landscape, App.DeviceService.Orientation);
+        Assert.AreEqual(ScreenOrientation.Landscape, App.Device.Orientation);
     }
 
-    [TestMethod]
+    [Test]
     public void CorrectTimeReturned_When_CallDeviceTime()
     {
-        BA.DateTimeAssert.AreEqual(DateTime.Now, App.DeviceService.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
+        BA.DateTimeAssert.AreEqual(DateTime.Now, App.Device.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
     }
 
-    [TestMethod]
+    [Test]
     public void DeviceIsLockedFalse_When_DeviceIsUnlocked()
     {
-        App.DeviceService.Unlock();
+        App.Device.Unlock();
 
-        Assert.IsTrue(App.DeviceService.IsLocked);
+        Assert.IsTrue(App.Device.IsLocked);
     }
 
-    [TestMethod]
+    [Test]
     public void DeviceIsLockedTrue_When_CallLock()
     {
-        App.DeviceService.Lock();
+        App.Device.Lock();
 
-        Assert.IsTrue(App.DeviceService.IsLocked);
+        Assert.IsTrue(App.Device.IsLocked);
     }
 
-    [TestMethod]
+    [Test]
     public void ConnectionTypeAirplaneMode_When_SetConnectionTypeToAirplaneMode()
     {
         try
         {
-            App.DeviceService.ConnectionType = ConnectionType.AirplaneMode;
+            App.Device.ConnectionType = ConnectionType.AirplaneMode;
 
-            Assert.AreEqual(ConnectionType.AirplaneMode, App.DeviceService.ConnectionType);
+            Assert.AreEqual(ConnectionType.AirplaneMode, App.Device.ConnectionType);
 
-            App.DeviceService.ConnectionType = ConnectionType.AllNetworkOn;
-            Assert.AreEqual(ConnectionType.AllNetworkOn, App.DeviceService.ConnectionType);
+            App.Device.ConnectionType = ConnectionType.AllNetworkOn;
+            Assert.AreEqual(ConnectionType.AllNetworkOn, App.Device.ConnectionType);
         }
         finally
         {
-            App.DeviceService.ConnectionType = ConnectionType.AllNetworkOn;
+            App.Device.ConnectionType = ConnectionType.AllNetworkOn;
         }
     }
 
-    [TestMethod]
+    [Test]
     public void TestTurnOnLocationService()
     {
-        App.DeviceService.TurnOnLocationService();
+        App.Device.TurnOnLocationService();
     }
 
-    [TestMethod]
+    [Test]
     public void TestOpenNotifications()
     {
-        App.DeviceService.OpenNotifications();
+        App.Device.OpenNotifications();
     }
 }
 ```
@@ -81,42 +81,42 @@ Explanations
 ------------
 BELLATRIX gives you an interface to most common operations for controlling the device through the DeviceService class.
 ```csharp
-App.DeviceService.Rotate(ScreenOrientation.Landscape);
+App.Device.Rotate(ScreenOrientation.Landscape);
 ```
 Rotates the device horizontally.
 ```csharp
-Assert.AreEqual(ScreenOrientation.Landscape, App.DeviceService.Orientation);
+Assert.AreEqual(ScreenOrientation.Landscape, App.Device.Orientation);
 ```
 Gets the current device orientation.
 ```csharp
-BA.DateTimeAssert.AreEqual(DateTime.Now, App.DeviceService.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
+BA.DateTimeAssert.AreEqual(DateTime.Now, App.Device.DeviceTime, BA.DateTimeDeltaType.Minutes, 5);
 ```
 Asserts current device time.
 ```csharp
-App.DeviceService.Unlock();
+App.Device.Unlock();
 ```
 Unlocks the device.
 ```csharp
-Assert.IsTrue(App.DeviceService.IsLocked);
+Assert.IsTrue(App.Device.IsLocked);
 ```
 Checks if the device is locked or not.
 ```csharp
-App.DeviceService.Lock();
+App.Device.Lock();
 ```
 Locks the device.
 ```csharp
-App.DeviceService.ConnectionType = ConnectionType.AirplaneMode;
+App.Device.ConnectionType = ConnectionType.AirplaneMode;
 ```
 Changes the connection to Airplane mode.
 ```csharp
-Assert.AreEqual(ConnectionType.AirplaneMode, App.DeviceService.ConnectionType);
+Assert.AreEqual(ConnectionType.AirplaneMode, App.Device.ConnectionType);
 ```
 Checks whether the current connection type is airplane mode.
 ```csharp
-App.DeviceService.TurnOnLocationService();
+App.Device.TurnOnLocationService();
 ```
 Turns on the location service.
 ```csharp
-App.DeviceService.OpenNotifications();
+App.Device.OpenNotifications();
 ```
 Opens notifications.

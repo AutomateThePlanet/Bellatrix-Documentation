@@ -12,7 +12,7 @@ anchors:
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 public class ApiAssertionsTests : APITest
 {
     private ApiClientService _apiClientService;
@@ -22,7 +22,7 @@ public class ApiAssertionsTests : APITest
         _apiClientService = App.GetApiClientService();
     }
 
-    [TestMethod]
+    [Test]
     public void AssertSuccessStatusCode()
     {
         var request = new RestRequest("api/Albums");
@@ -32,7 +32,7 @@ public class ApiAssertionsTests : APITest
         response.AssertSuccessStatusCode();
     }
 
-    [TestMethod]
+    [Test]
     public void AssertStatusCodeOk()
     {
         var request = new RestRequest("api/Albums");
@@ -42,7 +42,7 @@ public class ApiAssertionsTests : APITest
         response.AssertStatusCode(HttpStatusCode.OK);
     }
 
-    [TestMethod]
+    [Test]
     public void AssertResponseHeaderServerIsEqualToKestrel()
     {
         var request = new RestRequest("api/Albums");
@@ -52,7 +52,7 @@ public class ApiAssertionsTests : APITest
         response.AssertResponseHeader("server", "Kestrel");
     }
 
-    [TestMethod]
+    [Test]
     public void AssertExecutionTimeUnderIsUnderOneSecond()
     {
         var request = new RestRequest("api/Albums");
@@ -62,7 +62,7 @@ public class ApiAssertionsTests : APITest
         response.AssertExecutionTimeUnder(1);
     }
 
-    [TestMethod]
+    [Test]
     public async Task AssertContentTypeJson()
     {
         var request = new RestRequest("api/Albums/10");
@@ -72,7 +72,7 @@ public class ApiAssertionsTests : APITest
         response.AssertContentType("application/json; charset=utf-8");
     }
 
-    [TestMethod]
+    [Test]
     public async Task AssertContentContainsAudioslave()
     {
         var request = new RestRequest("api/Albums/10");
@@ -82,7 +82,7 @@ public class ApiAssertionsTests : APITest
         response.AssertContentContains("Audioslave");
     }
 
-    [TestMethod]
+    [Test]
     public async Task AssertContentEncodingUtf8()
     {
         var request = new RestRequest("api/Albums/10");
@@ -92,7 +92,7 @@ public class ApiAssertionsTests : APITest
         response.AssertContentEncoding("gzip");
     }
 
-    [TestMethod]
+    [Test]
     public async Task AssertContentEquals()
     {
         var request = new RestRequest("api/Albums/10");
@@ -102,7 +102,7 @@ public class ApiAssertionsTests : APITest
         response.AssertContentEquals("{\"albumId\":10,\"title\":\"Audioslave\",\"artistId\":8,\"artist\":null,\"tracks\":[]}");
     }
 
-    [TestMethod]
+    [Test]
     public async Task AssertContentNotContainsRammstein()
     {
         var request = new RestRequest("api/Albums/10");
@@ -112,7 +112,7 @@ public class ApiAssertionsTests : APITest
         response.AssertContentNotContains("Rammstein");
     }
 
-    [TestMethod]
+    [Test]
     public async Task AssertContentNotEqualsRammstein()
     {
         var request = new RestRequest("api/Albums/10");
@@ -122,7 +122,7 @@ public class ApiAssertionsTests : APITest
         response.AssertContentNotEquals("Rammstein");
     }
 
-    [TestMethod]
+    [Test]
     public async Task AssertResultEquals()
     {
         var expectedAlbum = new Albums
@@ -136,7 +136,7 @@ public class ApiAssertionsTests : APITest
         response.AssertResultEquals(expectedAlbum);
     }
 
-    [TestMethod]
+    [Test]
     public async Task AssertResultNotEquals()
     {
         var expectedAlbum = new Albums
@@ -150,7 +150,7 @@ public class ApiAssertionsTests : APITest
         response.AssertResultNotEquals(expectedAlbum);
     }
 
-    [TestMethod]
+    [Test]
     public async Task AssertCookieExists()
     {
         var request = new RestRequest("api/Albums/10");
@@ -160,7 +160,7 @@ public class ApiAssertionsTests : APITest
         response.AssertCookieExists("whoIs");
     }
 
-    [TestMethod]
+    [Test]
     public async Task AssertCookieWhoIsBella()
     {
         var request = new RestRequest("api/Albums/10");
@@ -170,7 +170,7 @@ public class ApiAssertionsTests : APITest
         response.AssertCookie("whoIs", "Bella");
     }
 
-	[TestMethod]
+	[Test]
     public async Task AssertMultiple()
     {
         var request = new RestRequest("api/Albums/10");

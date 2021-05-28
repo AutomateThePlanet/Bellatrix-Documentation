@@ -15,14 +15,14 @@ Overview
 
 This is how one BELLATRIX test class looks like.
 ```csharp
-[TestClass]
+[TestFixture]
 [IOS(Constants.IOSNativeAppPath,
     Constants.IOSDefaultVersion,
     Constants.IOSDefaultDeviceName,
     Lifecycle.ReuseIfStarted)]
 public class BellatrixAppBehaviourTests : IOSTest
 {
-    [TestMethod]
+    [Test]
     public void ButtonClicked_When_CallClickMethod()
     {
         var button = App.Components.CreateByName<Button>("ComputeSumButton");
@@ -30,7 +30,7 @@ public class BellatrixAppBehaviourTests : IOSTest
         button.Click();
     }
 
-    [TestMethod]
+    [Test]
     [IOS(Constants.IOSNativeAppPath,
         Constants.IOSDefaultVersion,
         Constants.IOSDefaultDeviceName,
@@ -47,7 +47,7 @@ public class BellatrixAppBehaviourTests : IOSTest
 Explanations
 ------------
 ```csharp
-[TestClass]
+[TestFixture]
 ```
 This is the main attribute that you need to mark each class that contains MSTest tests.
 ```csharp
@@ -83,7 +83,7 @@ public class BellatrixAppBehaviourTests : IOSTest
 ```
 If you place attribute over the class all tests inherit the behaviour. It is possible to place it over each test and this way it overrides the class behaviour only for this particular test.
 ```csharp
-[TestMethod]
+[Test]
 public void ButtonClicked_When_CallClickMethod()
 ```
 All MSTest tests should be marked with the **TestMethod** attribute.

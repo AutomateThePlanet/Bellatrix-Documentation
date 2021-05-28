@@ -19,10 +19,10 @@ To use the library you need to install the **Bellatrix.ImageRecognition.SikuliX*
 Example
 -------
 ```csharp
-[TestClass]
+[TestFixture]
 public class ImageRecognitionTests : DesktopTest
 {
-    [TestMethod]
+    [Test]
     public void AssertNotepadFoundAndOpened()
     {
         Screen.Click("windows-search-icon");

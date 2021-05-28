@@ -17,14 +17,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bellatrix.Mobile.IOS.GettingStarted
 {
-    [TestClass]
+    [TestFixture]
     [IOS(Constants.IOSNativeAppPath,
         Constants.IOSDefaultVersion,
         Constants.IOSDefaultDeviceName,
         Lifecycle.RestartEveryTime)]
     public class ExtendExistingCommonServicesTests : IOSTest
     {
-        [TestMethod]
+        [Test]
         public void ButtonClicked_When_CallClickMethod()
         {
             App.AppService.LoginToApp("bellatrix", "topSecret");

@@ -60,7 +60,7 @@ public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
 }
 ```
 ```csharp
-[TestClass]
+[TestFixture]
 [Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
 public class ElementActionHooksTests : WebTest
 {
@@ -69,7 +69,7 @@ public class ElementActionHooksTests : WebTest
         App.AddElementEventHandler<DebugLoggingButtonEventHandlers>();
     }
 
-    [TestMethod]
+    [Test]
     public void PurchaseRocketWithGloballyOverridenMethods()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");

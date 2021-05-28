@@ -78,7 +78,7 @@ protected override void PreTestInit(object sender, PluginEventArgs e)
 ```
 You can override all mentioned test workflow method hooks in your custom handlers. The method uses reflection to find out if the ManualTestCase attribute is set to the run test. If the attribute is not set or is set more than once an exception is thrown. The logic executes before the actual test run, during the **PreTestInit** phase.
 ```csharp
-[TestClass]
+[TestFixture]
 [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class CustomTestCaseExtensionTests : WebTest
 {
@@ -87,7 +87,7 @@ public class CustomTestCaseExtensionTests : WebTest
         App.AddPlugin<AssociatedTestCaseExtension>();
     }
 
-    [TestMethod]
+    [Test]
     [ManualTestCase(1532)]
     public void MessageChanged_When_ButtonHovered_Wpf()
     {

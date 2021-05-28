@@ -17,12 +17,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Bellatrix.Desktop.GettingStarted
 {
-    [TestClass]
+    [TestFixture]
     [ExecutionTimeUnder(2000, TimeUnit.Milliseconds)]
     [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
     public class MeasureTestExecutionTimesTests : DesktopTest
     {
-        [TestMethod]
+        [Test]
         public void MessageChanged_When_ButtonHovered_Wpf()
         {
             var button = App.Components.CreateByName<Button>("E Button");
@@ -39,7 +39,7 @@ namespace Bellatrix.Desktop.GettingStarted
 Explanations
 ------------
 ```csharp
-[TestClass]
+[TestFixture]
 [ExecutionTimeUnder(2000, TimeUnit.Milliseconds)]
 [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class MeasureTestExecutionTimesTests : DesktopTest
