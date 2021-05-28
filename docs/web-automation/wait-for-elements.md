@@ -15,7 +15,7 @@ Example
 [Test]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
     var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
     blogLink.ToBeClickable().ToBeVisible().Click();

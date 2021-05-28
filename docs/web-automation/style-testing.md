@@ -18,10 +18,9 @@ Example
 public class StyleTestingTests : WebTest
 {
     [Test]
-    [Category(Categories.CI)]
     public void TestStyles()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
         Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
         Anchor protonRocketAnchor = App.Components.CreateByAttributesContaining<Anchor>("href", "/proton-rocket/");
@@ -97,7 +96,6 @@ public abstract class AnchorsStyleTests : WebTest
  The class is marked as abstract, and as you can see, we haven't placed the **TestClass** attribute on top of it. The reason is that we don't want to execute the tests in the abstract class but rather in the child classes. Also, we added a protected virtual property for locating all anchors on the page, which will be most probably overridden in the child class- e.g., the locator may be different.
 ```csharp
 [TestFixture]
-[ScreenshotOnFail(true)]
 public class MultiPickerPopupAnchorStyleTests : AnchorsStyleTests
 {
     private BasicPickersPage _basicPickersPage;

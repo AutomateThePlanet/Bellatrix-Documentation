@@ -21,7 +21,7 @@ public class LayoutTestingTests : WebTest
     [Test]
     public void TestPageLayout()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
         Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
         Anchor protonRocketAnchor = 

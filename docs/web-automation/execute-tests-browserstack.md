@@ -29,7 +29,7 @@ public class BrowserStackTests : WebTest
     [Test]
     public void PromotionsPageOpened_When_PromotionsButtonClicked()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
         var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 
@@ -40,7 +40,7 @@ public class BrowserStackTests : WebTest
     [BrowserStack(BrowserType.Chrome, "62", "Windows", "10", DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
     public void BlogPageOpened_When_PromotionsButtonClicked()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
         var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
 
@@ -69,7 +69,7 @@ To execute BELLATRIX tests in BrowserStack cloud, you should use the BrowserStac
 [BrowserStack(BrowserType.Chrome, "62", "Windows", "10", DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
     var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
 

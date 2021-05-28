@@ -17,7 +17,7 @@ Example
 [Test]
 public void ShouldGreetUsingBinding()
 {
-    App.NavigationService.Navigate("http://www.angularjs.org");
+    App.Navigation.Navigate("http://www.angularjs.org");
     var textField = App.Components.CreateByNgModel<TextField>("yourName");
 
     textField.SetText("Julie");
@@ -30,7 +30,7 @@ public void ShouldGreetUsingBinding()
 [Test]
 public void ShouldListTodos()
 {
-    App.NavigationService.Navigate("http://www.angularjs.org");
+    App.Navigation.Navigate("http://www.angularjs.org");
     var labels = App.Components.CreateAllByNgRepeater<Label>("todo in todoList.todos");
 
     Assert.AreEqual("build an AngularJS app", labels[1].InnerText.Trim());
@@ -39,13 +39,13 @@ public void ShouldListTodos()
 [Test]
 public void Angular2Test()
 {
-    App.NavigationService.Navigate("https://material.angular.io/");
-    App.BrowserService.WaitForAngular();
+    App.Navigation.Navigate("https://material.angular.io/");
+    App.Browser.WaitForAngular();
 
     var button = App.Components.CreateByXpath<Button>("//a[@routerlink='/guide/getting-started']");
     button.Click();
 
-    Assert.AreEqual("https://material.angular.io/guide/getting-started", App.BrowserService.Url.ToString());
+    Assert.AreEqual("https://material.angular.io/guide/getting-started", App.Browser.Url.ToString());
 }
 ```
 
@@ -70,24 +70,28 @@ var labels = App.Components.CreateAllByNgRepeater<Label>("todo in todoList.todos
 ```
 Find element(s) by Angular ng-repeat.
 ```csharp
-App.BrowserService.WaitForAngular();
+App.Browser.WaitForAngular();
 ```
 If the automatic wait for Angular is turned off, you can tell the framework explicitly to wait.
 
 Configuration
 -------------
-If you open the **testFrameworkSettings.json** file, you will find the property **shouldWaitForAngular**. If it is set to, **true** BELLATRIX automatically wait for Angular operations when a page is reloaded, or element is found.
+If you open the **testFrameworkSettings.json** file, you will find the property **waitForAngular**. If it is set to, **true** BELLATRIX automatically wait for Angular operations when a page is reloaded, or element is found.
 ```json
 "webSettings": {
-	"shouldScrollToVisibleOnElementFound": "true",
-	"shouldWaitUntilReadyOnElementFound": "true",
-	"shouldWaitForAngular": "true",
-	"shouldHighlighTComponents": "false",
+  "isParallelExecutionEnabled": "false",
+  "artificialDelayBeforeAction": "0",
+  "automaticallyScrollToVisible": "false",
+  "waitUntilReadyOnElementFound": "false",
+  "waitForAngular": "false",
+  "shouldHighlightElements": "true",
+  "shouldCaptureHttpTraffic": "false",
+  "pathToSslCertificate": "path",
 ```
 
 Available Create Methods
 ------------------------
-On top of all BELLATRIX element selectors you can find the following supporting Angular. They work on both **ElementCreationService** and **Element** level.
+On top of all BELLATRIX element selectors you can find the following supporting Angular. They work on both **ComponentCreationService** and **App.Components** level.
 ### CreateByNgBinding ###
 ```csharp
 App.Components.CreateByNgBinding<Anchor>("youName");

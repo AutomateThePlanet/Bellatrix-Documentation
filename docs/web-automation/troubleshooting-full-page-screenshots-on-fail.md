@@ -14,13 +14,12 @@ Example
 -------
 ```csharp
 [TestFixture]
-[Browser(BrowserType.Chrome, Lifecycle.ReuseIfStarted)]
 public class FullPageScreenshotsOnFailTests : WebTest
 {
     [Test]
     public void PromotionsPageOpened_When_PromotionsButtonClicked()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
         var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
         promotionsLink.Click();
     }

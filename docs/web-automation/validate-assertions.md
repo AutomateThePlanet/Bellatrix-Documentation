@@ -15,9 +15,9 @@ Example
 [Test]
 public void AssertValidateCartPageFields()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/?add-to-cart=26");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/?add-to-cart=26");
 
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/cart/");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/cart/");
 
     TextField couponCodeTextField = App.Components.CreateById<TextField>("coupon_code");
 

@@ -1,14 +1,14 @@
 ---
 layout: default
-title:  "Common Controls"
-excerpt: "Learn how to use BELLATRIX simple web controls."
+title:  "Common Components"
+excerpt: "Learn how to use BELLATRIX simple web components."
 date:   2021-06-22 06:50:17 +0200
 parent: web-automation
-permalink: /web-automation/simple-controls/
+permalink: /web-automation/simple-components/
 anchors:
   example: Example
   explanations: Explanations
-  full-list-of-all-supported-web-controls: List of All Web Controls
+  full-list-of-all-supported-web-components: List of All Web Components
 ---
 Example
 -------
@@ -16,7 +16,7 @@ Example
 [Test]
 public void PurchaseRocket()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
     Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
     sortDropDown.SelectByText("Sort by price: low to high");
@@ -275,9 +275,9 @@ checkPaymentsRadioButton.Click();
 ```
 BELLATRIX finds the first RadioButton with attribute 'for' containing the value 'payment_method_cheque'. The radio buttons compared to checkboxes cannot be unchecked/unselected.
 
-Full List of All Supported Web Controls
+Full List of All Supported Web Components
 ---------------------------------------
-### Element ###
+### Component ###
 - By
 - GetAttribute
 - SetAttribute 
@@ -297,9 +297,9 @@ Full List of All Supported Web Controls
 - GetDir
 - GetLang
 
-**Note**: *All other controls have access to the above methods and properties*
+**Note**: *All other components have access to the above methods and properties*
 
-Element | Available properties
+Component | Available properties
 ------------ | -------------
 Anchor | Click, Hover, Focus, Href, InnetText, InnetHtml, Target, Rel
 Button | Click, Hover, Focus, InnetText, Value, IsDisabled
@@ -318,9 +318,9 @@ TextArea | GetText, SetText, Hover, Focus, InnerText, IsDisabled, IsAutoComplete
 TextField | SetText, Hover, Focus, InnerText, InnerHtml, IsDisabled, Value, IsAutoComplete, IsReadonly, IsRequired, Placeholder, MaxLength, MinLength, Size
 
 
-### HTML5 Controls: ### 
+### HTML5 Components: ### 
 
-Element | Available properties
+Component | Available properties
 ------------ | -------------
 Color | Hover, Focus, GetColor, SetColor, IsDisabled, IsAutoComplete, IsRequired, Value, List
 Date |  GetDate, SetDate, Hover, Focus, IsDisabled, IsRequired, Value, IsAutoComplete, IsReadonly, Max, Min, Step

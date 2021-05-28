@@ -15,10 +15,9 @@ Example
 -------
 ```csharp
 [Test]
-[Browser(BrowserType.Chrome, Lifecycle.RestartOnFail)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
     var blogLink = App.Components.CreateByLinkText<Anchor>("Blog").ToBeClickable().ToBeVisible();
 
@@ -97,13 +96,21 @@ Configuration
 The default timeouts that BELLATRIX use are placed inside the **testFrameworkSettings.json** file, mentioned in 'Folder and File Structure'. Inside it, is the **timeoutSettings** section. All values are in seconds.
 ```json
 "timeoutSettings": {
-    "waitForAjaxTimeout": "30",
-    "sleepInterval": "1",
-    "elementToBeVisibleTimeout": "30",
-    "elementToExistTimeout": "30",
-    "elementToNotExistTimeout": "30",
-    "elementToBeClickableTimeout": "30",
-    "elementNotToBeVisibleTimeout": "30",
-    "elementToHaveContentTimeout": "15"
- }
+  "elementWaitTimeout": "30",
+  "pageLoadTimeout": "30",
+  "scriptTimeout": "1",
+  "waitForAjaxTimeout": "30",
+  "sleepInterval": "1",
+  "waitUntilReadyTimeout": "30",
+  "waitForJavaScriptAnimationsTimeout": "30",
+  "waitForAngularTimeout": "30",
+  "waitForPartialUrl": "30",
+  "validationsTimeout": "30",
+  "elementToBeVisibleTimeout": "30",
+  "elementToExistTimeout": "30",
+  "elementToNotExistTimeout": "30",
+  "elementToBeClickableTimeout": "30",
+  "elementNotToBeVisibleTimeout": "30",
+  "elementToHaveContentTimeout": "15"
+},
 ```

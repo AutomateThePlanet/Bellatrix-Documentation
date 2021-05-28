@@ -23,7 +23,7 @@ public class BellatrixBrowserLifecycleTests : WebTest
     [Test]
     public void PromotionsPageOpened_When_PromotionsButtonClicked()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
         var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 
@@ -34,7 +34,7 @@ public class BellatrixBrowserLifecycleTests : WebTest
     [Browser(BrowserType.Chrome, Lifecycle.RestartOnFail)]
     public void BlogPageOpened_When_PromotionsButtonClicked()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
         var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
 
@@ -85,7 +85,7 @@ public void PromotionsPageOpened_When_PromotionsButtonClicked()
 ```
 All MSTest tests should be marked with the **TestMethod** attribute.
 ```csharp
-App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 ```
 There is more about the App class in the next sections.However, it is the primary point where you access the BELLATRIX services. It comes from the **WebTest** class as a property.Here we use the BELLATRIX navigation service to navigate to the demo page.
 ```csharp
@@ -97,7 +97,7 @@ Use the element creation service to create an instance of the anchor. There are 
 [Browser(BrowserType.Chrome, Lifecycle.RestartOnFail)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
     var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
 

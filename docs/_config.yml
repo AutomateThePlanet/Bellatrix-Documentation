@@ -82,10 +82,10 @@ navigation:
                 title: JavaScriptService
             "interactions-service":
                 title: Interactions Service
-            "simple-controls":
-                title: Simple Controls
-            "complex-controls":
-                title: Complex Controls
+            "simple-components":
+                title: Simple Components
+            "complex-components":
+                title: Complex Components
             "normal-assertions":
                 title: Normal Assertions
             "validate-assertions":
@@ -171,8 +171,8 @@ navigation:
                 title: TouchActionsService
             "web-service":
                 title: WebService
-            "common-controls":
-                title: Common Controls
+            "common-components":
+                title: Common Components
             "normal-assertions":
                 title: Normal Assertions
             "validate-assertions":
@@ -242,8 +242,8 @@ navigation:
                 title: TouchActionsService
             "web-service":
                 title: WebService
-            "common-controls":
-                title: Common Controls
+            "common-components":
+                title: Common Components
             "normal-assertions":
                 title: Normal Assertions
             "validate-assertions":
@@ -305,8 +305,8 @@ navigation:
                 title: Wait for Elements
             "app-service":
                 title: AppService
-            "common-controls":
-                title: Common Controls
+            "common-components":
+                title: Common Components
             "normal-assertions":
                 title: Normal Assertions
             "validate-assertions":

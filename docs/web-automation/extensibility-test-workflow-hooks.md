@@ -13,7 +13,6 @@ Example
 -------
 ```csharp
 [TestFixture]
-[Browser(BrowserType.Chrome, Lifecycle.ReuseIfStarted)]
 public class TestWorkflowHooksTests : WebTest
 {
     private static Select _sortDropDown;
@@ -29,7 +28,7 @@ public class TestWorkflowHooksTests : WebTest
 
     public override void TestsAct()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
         _sortDropDown.SelectByText("Sort by price: low to high");
     }
@@ -121,7 +120,7 @@ public override void TestsArrange()
 
 public override void TestsAct()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
     _sortDropDown.SelectByText("Sort by price: low to high");
 }

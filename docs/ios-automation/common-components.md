@@ -4,11 +4,11 @@ title:  "Common Controls"
 excerpt: "Learn how to use BELLATRIX common iOS controls."
 date:   2021-06-22 06:50:17 +0200
 parent: ios-automation
-permalink: /ios-automation/common-controls/
+permalink: /ios-automation/common-components/
 anchors:
   example: Example
   explanations: Explanations
-  full-list-of-all-supported-ios-controls: List of All iOS Controls
+  full-list-of-all-supported-ios-components: List of All iOS Components
 ---
 Example
 -------
@@ -110,9 +110,9 @@ Assert.IsTrue(radioButton.IsChecked);
 ```
 Most IOS controls have properties such as checking whether the radio button is enabled or not.
 
-Full List of All Supported iOS Controls
+Full List of All Supported iOS Components
 ---------------------------------------
-### Element ###
+### Component ###
 - By
 - GetAttribute
 - ScrollToVisible
@@ -128,7 +128,7 @@ Full List of All Supported iOS Controls
 
 **Note**: *All other controls have access to the above methods and properties*
 
-Element | Available properties
+Component | Available properties
 ------------ | -------------
 Button | Click, GetText, IsDisabled
 CheckBox | Check, Uncheck, GetText, IsDisabled, IsChecked

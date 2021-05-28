@@ -20,7 +20,7 @@ namespace Bellatrix.Web.NUnit.Tests
     [ScreenshotOnFail(true)]
     public class LoginTests : WebTest
     {
-        public override void TestInit() => App.NavigationService.Navigate("http://demos.bellatrix.solutions/my-account/");
+        public override void TestInit() => App.Navigation.Navigate("http://demos.bellatrix.solutions/my-account/");
 
         [Test]
         public void CorrectTextDisplayed_When_ClickDownloadButton()
@@ -102,7 +102,7 @@ logoutLink.EnsureIsVisible();
 [ScreenshotOnFail(true)]
 public class BellatrixLoginTests : WebTest
 {
-    public override void TestInit() => App.NavigationService.Navigate("http://demos.bellatrix.solutions/my-account/");
+    public override void TestInit() => App.Navigation.Navigate("http://demos.bellatrix.solutions/my-account/");
 
     [Test]
     public void CorrectTextDisplayed_When_ClickDownloadButton()

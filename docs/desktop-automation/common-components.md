@@ -1,14 +1,14 @@
 ---
 layout: default
-title:  "Common Controls"
-excerpt: "Learn how to use BELLATRIX common Android controls."
-date:   2021-06-01 06:50:17 +0200
+title:  "Common Components"
+excerpt: "Learn how to use BELLATRIX common Android components."
+date:   2021-10-22 06:50:17 +0200
 parent: android-automation
-permalink: /android-automation/common-controls/
+permalink: /desktop-automation/common-components/
 anchors:
   example: Example
   explanations: Explanations
-  full-list-of-all-supported-android-controls: List of All Android Controls
+  full-list-of-all-supported-android-components: List of All Android Components
 ---
 Example
 -------
@@ -40,17 +40,13 @@ public void CommonActionsWithAndroidControls()
 
     Assert.AreEqual("Jupiter", comboBox.GetText());
 
-    var seekBar = App.Components.CreateByClass<SeekBar>("android.widget.SeekBar");
-
-    seekBar.Set(9);
-
-    seekBar.ToExists().WaitToBe();
-
     var label = App.Components.CreateByText<Label>("textColorPrimary");
 
     Assert.IsTrue(label.IsPresent);
 
     var password = App.Components.CreateByDescription<Password>("passwordBox");
+
+    password.SetPassword("topsecret");
 
     var textField = App.Components.CreateByIdContaining<TextField>("edit");
 
@@ -61,6 +57,13 @@ public void CommonActionsWithAndroidControls()
     radioButton.Click();
 
     Assert.IsTrue(radioButton.IsChecked);
+
+    App.AppService.StartActivity(Constants.AndroidNativeAppAppExamplePackage, ".view.SeekBar1");
+    var seekBar = App.Components.CreateByClass<SeekBar>("android.widget.SeekBar");
+
+    seekBar.Set(9);
+
+    seekBar.ToExists().WaitToBe();
 }
 ```
 
@@ -68,13 +71,13 @@ Explanations
 ------------
 As mentioned before BELLATRIX exposes 18+ Android controls. All of them implement Proxy design pattern which means that they are not located immediately when they are created. Another benefit is that each of them includes only the actions that you should be able to do with the specific control and nothing more. For example, you cannot type into a button. Moreover, this way all of the actions has meaningful names- Type not **SendKeys** as in vanilla WebDriver.
 ```csharp
-var button = App.Components.CreateByIdContaining<Button>("button");
+var button = App.Components.CreateByName<Button>("E Button");
 ```
 Create methods accept a generic parameter the type of the Android control. Then only the methods for this specific control are accessible. Here we tell BELLATRIX to find your element by ID containing the value 'button'.
 ```csharp
 button.Click();
 ```
-Clicking the button. At this moment BELLATRIX locates the component.
+Clicks the button. At this moment BELLATRIX locates the component.
 ```csharp
 var radioButton = App.Components.CreateByIdContaining<RadioButton>("radio2");
 ```
@@ -87,7 +90,7 @@ Most Android controls have properties such as checking whether the radio button 
 var checkBox = App.Components.CreateByIdContaining<CheckBox>("check1");
 checkBox.Check();
 ```
-Checking and unchecking the checkbox with id = 'check1'
+Checking and unchecking the CheckBox with id = 'check1'
 ```csharp
 Assert.IsTrue(checkBox.IsChecked);
 ```
@@ -96,16 +99,16 @@ Asserting whether the check was successful.
 var comboBox = App.Components.CreateByIdContaining<ComboBox>("spinner1");
 comboBox.SelectByText("Jupiter");
 ```
-Select a value in combobox by text.
+Select a value in ComboBox but text.
 ```csharp
 Assert.AreEqual("Jupiter", comboBox.GetText());
 ```
-Get the current comboBox text through GetText method.
+Get the current ComboBox text through **GetText** method.
 ```csharp
 var seekBar = App.Components.CreateByClass<SeekBar>("android.widget.SeekBar");
 seekBar.Set(9);
 ```
-Moves the seekbar.
+Moves the SeekBar.
 ```csharp
 seekBar.ToExists().WaitToBe();
 ```
@@ -118,12 +121,21 @@ See if the element is present or not using the **IsPresent** property.
 ```csharp
 var password = App.Components.CreateByDescription<Password>("passwordBox");
 password.SetPassword("topsecret");
+var textField = App.Components.CreateByIdContaining<TextField>("edit");
+textField.SetText("Bellatrix");
 ```
 Instead of using the non-meaningful method **SendKeys**, BELLATRIX gives you more readable tests through proper methods and properties names. In this case, we set the text in the password field using the **SetPassword** method and **SetText** for regular text fields.
+```csharp
+var radioButton = App.Components.CreateByIdContaining<RadioButton>("radio2");
+radioButton.Click();
+ Assert.IsTrue(radioButton.IsChecked);
+```
+Select the radio button.
 
-Full List of All Supported Android Controls
+
+Full List of All Supported Android Components
 ---------------------------------------
-### Element ###
+### Component ###
 - By
 - GetAttribute
 - ScrollToVisible
@@ -145,7 +157,7 @@ Button | Click, GetText, IsDisabled
 CheckBox | Check, Uncheck, GetText, IsDisabled, IsChecked
 ComboBox | SelectByText, GetText, IsDisabled
 Grid<TComponent> | GetAll
-Image | same as element
+Image | *same as element*
 ImageButton | Click, GetText, IsDisabled
 Label | GetText
 Number | SetNumber, GetNumber, IsDisabled

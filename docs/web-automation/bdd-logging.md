@@ -8,7 +8,6 @@ permalink: /web-automation/bdd-logging/
 anchors:
   example: Example
   explanations: Explanations
-  configuration: Configuration
 ---
 Example
 -------
@@ -16,7 +15,7 @@ Example
 [Test]
 public void PurchaseRocketWithLogs()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
     Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
     Anchor protonMReadMoreButton = App.Components.CreateByInnerTextContaining<Anchor>("Read more");
@@ -138,20 +137,3 @@ You can notice that since we use Ensure assertions not the regular one they also
 There are two specifics about the generation of the logs. If page objects are used, which are discussed in next chapters. Two things change.
 1. Instead of locators, the exact names of the element properties are printed.
 2. Instead of page URL, the name of the page is displayed.
-
-Configuration
--------------
-```json
-"logging": {
-       "isEnabled": "true",
-       "isConsoleLoggingEnabled": "true",
-       "isDebugLoggingEnabled": "true",
-       "isEventLoggingEnabled": "false",
-       "isFileLoggingEnabled": "true",
-       "outputTemplate":  "{Message:lj}{NewLine}",
-       "addUrlToBddLogging": "false"
-   }
-```
-In the **testFrameworkSettings.json** file find a section called logging, responsible for controlling the BDD logs generation. You can disable the logs entirely. There are different places where the logs are populated. By default, you can see the logs in the output window of each test. Also, a file called logs.txt is generated in the folder with the DLLs of your tests. If you execute your tests in CI with some CLI test runner the logs are printed there as well. **outputTemplate** - controls how the message is formatted. You can add additional info such as timestamp and much more.
-For more info visit- [https://github.com/serilog/serilog/wiki/Formatting-Output](https://github.com/serilog/serilog/wiki/Formatting-Output)
-If **addUrlToBddLogging** is true, after each action the current page's URL will be added.****

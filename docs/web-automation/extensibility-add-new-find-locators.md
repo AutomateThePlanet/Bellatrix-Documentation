@@ -30,9 +30,9 @@ public class FindIdStartingWithStrategy : FindStrategy
     }
 }
 ```
-In the Convert method, we use a standard WebDriver By locator, and in this case we implement our requirements through a little CSS.
+In the **Convert** method, we use a standard WebDriver By locator, and in this case we implement our requirements through a little CSS.
 
-To ease the usage of the locator, we need to create an extension methods for ComponentCreateService and Element classes.
+To ease the usage of the locator, we need to create an extension methods for **ComponentCreateService** and Component classes.
 
 ```csharp
 public static class ComponentCreateExtensions
@@ -62,13 +62,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Bellatrix.Web.GettingStarted
 {
     [TestFixture]
-    [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
     public class NewFindLocatorsTests : WebTest
     {
         [Test]
         public void PromotionsPageOpened_When_PromotionsButtonClicked()
         {
-            App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+            App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
             var promotionsLink = App.Components.CreateByIdStartingWith<Anchor>("promo");
 

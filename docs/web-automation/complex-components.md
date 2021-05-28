@@ -1,10 +1,10 @@
 ---
 layout: default
-title:  "Complex Controls"
-excerpt: "Learn how to use BELLATRIX complex web controls."
+title:  "Complex Components"
+excerpt: "Learn how to use BELLATRIX complex web components."
 date:   2019-12-19 06:50:17 +0200
 parent: web-automation
-permalink: /web-automation/complex-controls/
+permalink: /web-automation/complex-components/
 anchors:
   tables: Tables
   grids: Grids
@@ -19,7 +19,6 @@ Tables
 ## Example ##
 ```csharp
 [TestFixture]
-[Browser(BrowserType.Chrome, Lifecycle.ReuseIfStarted)]
 public class TableControlTests : WebTest
 {
     private List<User> _expectedUsers;
@@ -33,7 +32,7 @@ public class TableControlTests : WebTest
 
     public override void TestInit()
     {
-        App.NavigationService.NavigateToLocalPage("TestPages\\Table\\table.html");
+        App.Navigation.NavigateToLocalPage("TestPages\\Table\\table.html");
 
         _expectedUsers = new List<User>
         {
@@ -323,7 +322,7 @@ public class GridControlTests : WebTest
 
     public override void TestInit()
     {
-        App.NavigationService.NavigateToLocalPage("TestPages\\Grid\\Grid.html");
+        App.Navigation.NavigateToLocalPage("TestPages\\Grid\\Grid.html");
 
         _expectedItems = new List<Employee>
         {

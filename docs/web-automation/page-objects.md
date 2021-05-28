@@ -26,7 +26,7 @@ Non-page-object Test Example
 [Test]
 public void PurchaseRocketWithoutPageObjects()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
     // Home page elements
     Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");

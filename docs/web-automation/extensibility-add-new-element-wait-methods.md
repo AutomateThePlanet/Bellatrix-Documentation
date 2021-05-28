@@ -68,7 +68,7 @@ public static class UntilElementsExtensions
     }
 }
 ```
-After UntilHasStyle is created, it is important to be passed on to the element’s EnsureState method.
+After **UntilHasStyle** is created, it is important to be passed on to the element’s **EnsureState** method.
 
 Usage
 ------------
@@ -79,13 +79,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Bellatrix.Web.GettingStarted
 {
     [TestFixture]
-    [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime)]
     public class NewElementWaitTests : WebTest
     {
         [Test]
         public void PromotionsPageOpened_When_PromotionsButtonClicked()
         {
-            App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+            App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
             var promotionsLink = App.Components.CreateByLinkText<Anchor>("promo").ToHasStyle("padding: 1.618em 1em");
 

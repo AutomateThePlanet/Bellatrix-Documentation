@@ -51,7 +51,7 @@ public class SeleniumGridTests : WebTest
     [Test]
     public void PromotionsPageOpened_When_PromotionsButtonClicked()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
         var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 
@@ -62,7 +62,7 @@ public class SeleniumGridTests : WebTest
     [Selenoid(BrowserType.Chrome, "76", Lifecycle.RestartEveryTime, recordVideo: true, enableVnc: true,  saveSessionLogs: false)]
     public void BlogPageOpened_When_PromotionsButtonClicked()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
         var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
 
@@ -82,7 +82,7 @@ To use BELLATRIX with Selenoid, you should use the **Selenoid** attribute instea
 [Selenoid(BrowserType.Chrome, "76", Lifecycle.RestartEveryTime, recordVideo: true, enableVnc: true,  saveSessionLogs: false)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
     var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
 

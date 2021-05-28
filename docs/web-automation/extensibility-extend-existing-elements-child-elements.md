@@ -13,13 +13,12 @@ Example
 -------
 ```csharp
 [TestFixture]
-[Browser(BrowserType.Firefox, Lifecycle.RestartEveryTime)]
 public class ExtendExistingElementWithChildElementsTests : WebTest
 {
     [Test]
     public void PurchaseRocket()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
         Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
         Anchor protonMReadMoreButton = 

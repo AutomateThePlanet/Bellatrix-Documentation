@@ -94,7 +94,7 @@ To do it you can use the element create service CreateAll method.
 [Test]
 public void CheckAllAddToCartButtons()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
     var blogLink = App.Components.CreateAllByXpath<Anchor>("//*[@title='Add to cart']");
 }

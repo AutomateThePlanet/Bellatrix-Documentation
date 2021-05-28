@@ -18,12 +18,12 @@ Perform an action against an element only when a specific condition is true. Wai
 ### CookiesService ###
 You need to make sure that you have navigated to the desired web page. Get all cookies, Get a specific cookie by name, Delete all cookies, Delete a specific cookie by name. Add a new cookie. [**Learn more**](/cookies-service.md).
 
-### 30+ web controls ###
-Includes only the actions that you should be able to do with the specific control and nothing more.
-[**Learn more**](/simple-controls.md).
+### 30+ web components ###
+Includes only the actions that you should be able to do with the specific component and nothing more.
+[**Learn more**](/simple-components.md).
 
 ### Web Extendability ###
-Execute your code on each element action, add additional logic to core framework methods and easily set anything to file configuration. Check all extensibility options:
+Execute your code on each component action, add additional logic to core framework methods and easily set anything to file configuration. Check all extensibility options:
 
 - [**Plugin hooks**](/extensibility-test-workflow-hooks.md)
 - [**Plugins**](/extensibility-custom-test-workflow-plugins.md)

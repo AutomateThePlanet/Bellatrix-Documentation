@@ -8,7 +8,6 @@ permalink: /android-automation/logging/
 anchors:
   example: Example
   explanations: Explanations
-  configuration: Configuration
 ---
 Example
 -------

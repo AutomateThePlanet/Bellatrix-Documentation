@@ -72,7 +72,7 @@ public class ElementActionHooksTests : WebTest
     [Test]
     public void PurchaseRocketWithGloballyOverridenMethods()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
         Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
         Anchor protonMReadMoreButton = 

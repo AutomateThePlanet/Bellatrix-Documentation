@@ -13,14 +13,12 @@ Example
 -------
 ```csharp
 [TestFixture]
-[Browser(BrowserType.Firefox, Lifecycle.RestartEveryTime)]
 public class ExtendExistingCommonServicesTests : WebTest
 {
     [Test]
-    [Ignore]
     public void PurchaseRocket()
     {
-        App.NavigationService.NavigateViaJavaScript("http://demos.bellatrix.solutions/");
+        App.Navigation.NavigateViaJavaScript("http://demos.bellatrix.solutions/");
 
         Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
         Anchor protonMReadMoreButton = 
@@ -103,6 +101,6 @@ namespace Bellatrix.Web.GettingStarted
 ```
 To use the additional method you created, add a using statement to the extension methods' namespace.
 ```csharp
-App.NavigationService.NavigateViaJavaScript("http://demos.bellatrix.solutions/");
+App.Navigation.NavigateViaJavaScript("http://demos.bellatrix.solutions/");
 ```
 Use newly added navigation though JavaScript which is not part of the original implementation of the common service.

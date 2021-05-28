@@ -25,7 +25,7 @@ public class SauceLabsTests : WebTest
     [Test]
     public void PromotionsPageOpened_When_PromotionsButtonClicked()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
         var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 
@@ -36,7 +36,7 @@ public class SauceLabsTests : WebTest
     [SauceLabs(BrowserType.Chrome, "62", "Windows", DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
     public void BlogPageOpened_When_PromotionsButtonClicked()
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
         var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
 
@@ -61,7 +61,7 @@ To execute BELLATRIX tests in SauceLabs cloud you should use the SauceLabs attri
 [SauceLabs(BrowserType.Chrome, "62", "Windows", DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
 public void BlogPageOpened_When_PromotionsButtonClicked()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
     var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
 

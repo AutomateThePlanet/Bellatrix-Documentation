@@ -21,7 +21,6 @@ To use the library you need to install the **Bellatrix.ImageRecognition.SikuliX*
 
 ```csharp
 [TestFixture]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
 public class ImageRecognitionTests : WebTest
 {
     private static GridTestPage _gridTestPage;
@@ -30,7 +29,7 @@ public class ImageRecognitionTests : WebTest
     public override void TestInit()
     {
         _gridTestPage = App.Create<GridTestPage>();
-        App.NavigationService.NavigateToLocalPage("TestPages\\Grid\\Grid.html");
+        App.Navigation.NavigateToLocalPage("TestPages\\Grid\\Grid.html");
     }
 
     [Test]

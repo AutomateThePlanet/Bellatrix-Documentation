@@ -21,7 +21,7 @@ Example
 [Test]
 public void PromotionsPageOpened_When_PromotionsButtonClicked()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
     var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 
@@ -128,7 +128,7 @@ To do it you can use the element create service CreateAll method.
 [Test]
 public void CheckAllAddToCartButtons()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
     var blogLink = App.Components.CreateAllByXpath<Anchor>("//*[@title='Add to cart']");
 }
@@ -210,7 +210,7 @@ Sometimes it is easier to locate one element and then find the next one that you
 [Test]
 public void OpenSalesPage_When_LocatedSaleButtonInsideProductImage()
 {
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
     var productsColumn = App.Components.CreateByClass<Option>("products columns-4");
 
