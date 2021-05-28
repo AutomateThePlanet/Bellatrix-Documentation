@@ -67,8 +67,8 @@ public override void TestsArrange()
 ```
 Once you have created the EventHandlers class, you need to tell BELLATRIX to use it. To do so call the App service method **AddAssertionsEventHandler**.
 ```csharp
-[AssemblyInitialize]
-public static void AssemblyInitialize(TestContext testContext)
+[OneTimeSetUp]
+public void AssemblyInitialize()
 {
     App.AddAssertionsEventHandler<DebugLoggerAssertExtensions>();
 }

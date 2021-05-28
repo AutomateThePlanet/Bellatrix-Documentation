@@ -97,7 +97,8 @@ public class CustomTestCaseExtensionTests : WebTest
 ```
 Once we created the test workflow plugin, we need to add it to the existing test workflow. It is done using the **App** service's method **AddPlugin**.
 ```csharp
-public static void AssemblyInitialize(TestContext testContext)
+[OneTimeSetUp]
+public void AssemblyInitialize()
 {
     App.AddPlugin<AssociatedTestCaseExtension>();
 }

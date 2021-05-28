@@ -95,8 +95,8 @@ public class CustomTestCaseExtensionTests : APITest
 ```
 Once we created the test workflow plugin, we need to add it to the existing test workflow. It is done using the **App** service's method **AddTestWorkflowPlugin**.
 ```csharp
-[AssemblyInitialize]
-public static void AssemblyInitialize(TestContext testContext)
+[OneTimeSetUp]
+public void AssemblyInitialize()
 {
     App.AddTestWorkflowPlugin<AssociatedTestCaseExtension>();
 }

@@ -96,12 +96,14 @@ public class CustomTestCaseExtensionTests : WebTest
 ```
 Once we created the test workflow plugin, we need to add it to the existing test workflow. It is done using the **App** service's method **AddPlugin**.
 ```csharp
-public static void AssemblyInitialize(TestContext testContext)
+[OneTimeSetUp]
+public void AssemblyInitialize()
 {
     App.AddPlugin<AssociatedTestCaseExtension>();
 }
 ```
 It doesn't need to be added multiple times as will happen here with the **TestInit** method. Usually this is done in the **TestsInitialize** file in the **AssemblyInitialize** method.
+
 Screenshot and Video Generation Plug-ins
 ---------------------------------------
 Your plug-ins can plug in the screenshots and video generation on fail.

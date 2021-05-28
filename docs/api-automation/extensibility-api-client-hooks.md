@@ -76,8 +76,8 @@ public override void TestsArrange() =>
 ```
 The plugin needs to be registered through App service method **AddApiClientExecutionPlugin**.
 ```csharp
-[AssemblyInitialize]
-public static void AssemblyInitialize(TestContext testContext)
+[OneTimeSetUp]
+public void AssemblyInitialize()
 {
     App.AddApiClientExecutionPlugin<LogRequestTimeApiClientExecutionPlugin>();
 }

@@ -79,9 +79,6 @@ The following methods are called once for each test in the class:
 11. Current class **TestCleanup** method executes. By default it is empty, but you can override it in each class and execute your logic.
 You can add some logic that is executed after each test instead of copy pasting it. For example- deleting some entity from DB.
 12. All plug-ins **PostTestCleanup** logic executes.
-13. All plug-ins **PostAssemblyCleanup** logic executes
-14. Current Project **AssemblyCleanup** executes
-15. All plug-ins **PostAssemblyCleanup** logic executes
 
 **Note**: ***TestsArrange** and **TestsAct** are similar to MSTest **TestClassInitialize** and **OneTimeSetup** in NUnit. We decided to split them into two methods to make the code more readable and two allow customization of the workflow.*
 
