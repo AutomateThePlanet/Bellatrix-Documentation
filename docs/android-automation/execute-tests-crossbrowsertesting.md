@@ -87,12 +87,29 @@ public void ButtonClicked_When_CallClickMethodSecond()
 As mentioned if you use the BrowserStack attribute on method level it overrides the class settings.
 
 Configuration
--------------
+------------
+If you don't use the attribute, the default information from the configuration will be used placed under the executionSettings section. Also, you can add additional driver arguments under the arguments section array in the configuration file.
 ```json
-"browserStack": {
-	"gridUri":  "http://hub-cloud.browserstack.com/wd/hub/",
-	"user": "soioa1",
-	"key":  "pnFG3Ky2yLZ5muB1p46P"
+"executionSettings": {
+  "defaultLifeCycle": "restart everytime",
+  "shouldStartLocalService": "false",
+  "url": "http://127.0.0.1:4722/wd/hub",
+  "arguments": [
+    {
+      "deviceOrientation": "portrait",
+      "deviceName": "Nexus 1",
+      "app": "AssemblyFolder\\Demos\\ApiDemos.apk",
+      "appWaitActivity": "*",
+      "appPackage": "com.example.android.apis",
+      "appActivity": ".view.Controls1"
+      "platform": "Android",
+      "browserName": "",
+      "version": "7.1",
+      "record_video": "true",
+      "record_network": "true",
+      "username": "yourUserName",
+      "password": "accessKey"
+    }
+  ]
 }
 ```
-You can find a dedicated section about SauceLabs in **testFrameworkSettings.json** file under the **mobileSettings** section. There you can set the grid URL and credentials.

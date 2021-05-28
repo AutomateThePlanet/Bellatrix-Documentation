@@ -76,12 +76,29 @@ public void ButtonClicked_When_CallClickMethodSecond()
 As mentioned if you use the SauceLabs attribute on method level it overrides the class settings.
 
 Configuration
--------------
+------------
+If you don't use the attribute, the default information from the configuration will be used placed under the executionSettings section. Also, you can add additional driver arguments under the arguments section array in the configuration file.
 ```json
-"sauceLabs": {
-         "gridUri":  "http://ondemand.saucelabs.com:80/wd/hub",
-         "user": "aangelov",
-         "key":  "mySecretKey"
-     }
+"executionSettings": {
+  "defaultLifeCycle": "restart everytime",
+  "shouldStartLocalService": "false",
+  "url": "http://127.0.0.1:4722/wd/hub",
+  "arguments": [
+    {
+      "deviceOrientation": "portrait",
+      "deviceName": "Nexus 1",
+      "app": "AssemblyFolder\\Demos\\ApiDemos.apk",
+      "appWaitActivity": "*",
+      "appPackage": "com.example.android.apis",
+      "appActivity": ".view.Controls1"
+      "name": "{runName}",
+      "platform": "Android",
+      "version": "7.1",
+      "recordVideo": "true",
+      "recordScreenshots": "true",
+      "username": "yourUserName",
+      "accessKey": "accessKey"
+    }
+  ]
+}
 ```
-You can find a dedicated section about SauceLabs in **testFrameworkSettings.json** file under the **mobileSettings** section. There you can set the grid URL and credentials.
