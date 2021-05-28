@@ -2,13 +2,12 @@
 layout: default
 title:  "Behaviour Driven Development BDD Logging"
 excerpt: "Learn the BELLATRIX Behaviour Driven Development BDD Logging works and how to use it."
-date:   2018-10-22 06:50:17 +0200
+date:   2021-10-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/bdd-logging/
 anchors:
   example: Example
   explanations: Explanations
-  configuration: Configuration
 ---
 Example
 -------
@@ -16,27 +15,27 @@ Example
 [TestMethod]
 public void CommonAssertionsAndroidControls()
 {
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+    var button = App.Components.CreateByIdContaining<Button>("button");
 
     button.ValidateIsNotDisabled();
 
-    var checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
+    var checkBox = App.Components.CreateByIdContaining<CheckBox>("check1");
 
     checkBox.Check();
 
     checkBox.ValidateIsChecked();
 
-    var comboBox = App.ElementCreateService.CreateByIdContaining<ComboBox>("spinner1");
+    var comboBox = App.Components.CreateByIdContaining<ComboBox>("spinner1");
 
     comboBox.SelectByText("Jupiter");
 
     comboBox.ValidateTextIs("Jupiter");
 
-    var label = App.ElementCreateService.CreateByText<Label>("textColorPrimary");
+    var label = App.Components.CreateByText<Label>("textColorPrimary");
 
     label.ValidateIsVisible();
 
-    var radioButton = App.ElementCreateService.CreateByIdContaining<RadioButton>("radio2");
+    var radioButton = App.Components.CreateByIdContaining<RadioButton>("radio2");
 
     radioButton.Click();
 
@@ -63,18 +62,3 @@ Ensure control(Text = textColorPrimary) is visible
 Click control(ID = radio2) on
 Ensure control(ID = radio2) is checked
 ```
-
-Configuration
--------------
-```json
-"logging": {
-    "isEnabled": "true",
-    "isConsoleLoggingEnabled": "true",
-    "isDebugLoggingEnabled": "true",
-    "isEventLoggingEnabled": "false",
-    "isFileLoggingEnabled": "true",
-    "outputTemplate":  "{Message:lj}{NewLine}",
-}
-```
-In the **testFrameworkSettings.json** file find a section called logging, responsible for controlling the BDD logs generation. You can disable the logs entirely. There are different places where the logs are populated. By default, you can see the logs in the output window of each test. Also, a file called logs.txt is generated in the folder with the DLLs of your tests. If you execute your tests in CI with some CLI test runner the logs are printed there as well. **outputTemplate** - controls how the message is formatted. You can add additional info such as timestamp and much more. 
-For more info visit- [https://github.com/serilog/serilog/wiki/Formatting-Output](https://github.com/serilog/serilog/wiki/Formatting-Output)

@@ -2,7 +2,7 @@
 layout: default
 title:  "Behaviour Driven Development BDD Logging"
 excerpt: "Learn the BELLATRIX Behaviour Driven Development BDD Logging works and how to use it."
-date:   2018-06-2s 06:50:17 +0200
+date:   2021-06-2s 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/bdd-logging/
 anchors:

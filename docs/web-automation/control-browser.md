@@ -9,6 +9,7 @@ anchors:
   overview: Overview
   explanations: Explanations
   drivers-browsers-processes-cleanup: Drivers Browsers Processes Cleanup
+  configuration: Configuration
 ---
 Overview
 --------
@@ -24,7 +25,7 @@ public class BellatrixBrowserLifecycleTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+        var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 
         promotionsLink.Click();
     }
@@ -35,7 +36,7 @@ public class BellatrixBrowserLifecycleTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
+        var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
 
         blogLink.Click();
     }
@@ -88,7 +89,7 @@ App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 ```
 There is more about the App class in the next sections.However, it is the primary point where you access the BELLATRIX services. It comes from the **WebTest** class as a property.Here we use the BELLATRIX navigation service to navigate to the demo page.
 ```csharp
-var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 ```
 Use the element creation service to create an instance of the anchor. There are much more details about this process in the next sections.
 ```csharp
@@ -98,7 +99,7 @@ public void BlogPageOpened_When_PromotionsButtonClicked()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-    var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
+    var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
 
     blogLink.Click();
 }
@@ -113,4 +114,23 @@ It is a bit tricky to handle such processes when the parallel execution is enabl
 "processCleanupSettings": {
   "isParallelExecutionEnabled": "false"
 },
+```
+
+Configuration
+------------
+If you don't use the attribute, the default information from the configuration will be used placed under the executionSettings section. Also, you can add additional driver arguments under the arguments section array in the configuration file.
+```json
+"executionSettings": {
+  "executionType": "regular",
+  "defaultBrowser": "chrome",
+  "defaultLifeCycle": "restart every time",
+  "resolution": "1920x1080",
+  "browserVersion": "91",
+  "url": "http://127.0.0.1:4444/wd/hub",
+  "arguments": [
+    {
+      "name": "{runName}"
+    }
+  ]
+}
 ```

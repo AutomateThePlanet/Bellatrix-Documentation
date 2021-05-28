@@ -2,7 +2,7 @@
 layout: default
 title:  "Navigate to Pages"
 excerpt: "Learn how to navigate to web pages with BELLATRIX web module."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/navigate-to-pages/
 anchors:
@@ -21,7 +21,7 @@ public class NavigateToPagesTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+        var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 
         promotionsLink.Click();
 

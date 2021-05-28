@@ -2,7 +2,7 @@
 layout: default
 title:  "Execute Tests in Selenium Grid"
 excerpt: "Learn to use BELLATRIX to execute tests in Selenium Grid."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/execute-tests-selenium-grid/
 anchors:
@@ -22,7 +22,7 @@ public class SeleniumGridTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+        var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 
         promotionsLink.Click();
     }
@@ -33,7 +33,7 @@ public class SeleniumGridTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
+        var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
 
         blogLink.Click();
     }
@@ -53,7 +53,7 @@ public void BlogPageOpened_When_PromotionsButtonClicked()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-    var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
+    var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
 
     blogLink.Click();
 }

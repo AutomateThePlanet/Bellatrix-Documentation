@@ -2,7 +2,7 @@
 layout: default
 title:  "Layout Testing"
 excerpt: "Learn how to use the BELLATRIX layout testing library."
-date:   2018-11-22 06:50:17 +0200
+date:   2021-11-22 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/layout-testing/
 anchors:
@@ -17,10 +17,10 @@ Example
 [TestMethod]
 public void TestPageLayout()
 {
-    var numberOneTextField = App.ElementCreateService.CreateById<TextField>("IntegerA");
-    var computeButton = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
-    var answerLabel = App.ElementCreateService.CreateByName<Label>("Answer");
-    var mainElement = App.ElementCreateService.CreateByIOSNsPredicate<Element>("type == \"XCUIElementTypeApplication\" AND name == \"TestApp\"");
+    var numberOneTextField = App.Components.CreateById<TextField>("IntegerA");
+    var computeButton = App.Components.CreateByName<Button>("ComputeSumButton");
+    var answerLabel = App.Components.CreateByName<Label>("Answer");
+    var mainElement = App.Components.CreateByIOSNsPredicate<Element>("type == \"XCUIElementTypeApplication\" AND name == \"TestApp\"");
 
     numberOneTextField.AssertAboveOf(computeButton);
 

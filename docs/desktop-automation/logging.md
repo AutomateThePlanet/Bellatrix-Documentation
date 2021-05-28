@@ -2,7 +2,7 @@
 layout: default
 title:  "Logging"
 excerpt: "Learn how to use the BELLATRIX logging library."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/logging/
 anchors:
@@ -20,11 +20,11 @@ public class LoggingTests : DesktopTest
     [TestMethod]
     public void CommonActionsWithDesktopControls_Wpf()
     {
-        var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
+        var calendar = App.Components.CreateByAutomationId<Calendar>("calendar");
 
         calendar.ValidateIsNotDisabled();
 
-        var checkBox = App.ElementCreateService.CreateByName<CheckBox>("BellaCheckBox");
+        var checkBox = App.Components.CreateByName<CheckBox>("BellaCheckBox");
         
         Logger.LogInformation("$$$ Before checking the transfer checkbox. $$$");
 
@@ -32,17 +32,17 @@ public class LoggingTests : DesktopTest
 
         checkBox.ValidateIsChecked();
 
-        var comboBox = App.ElementCreateService.CreateByAutomationId<ComboBox>("select");
+        var comboBox = App.Components.CreateByAutomationId<ComboBox>("select");
 
         comboBox.SelectByText("Item2");
 
         Assert.AreEqual("Item2", comboBox.InnerText);
 
-        var label = App.ElementCreateService.CreateByName<Label>("Result Label");
+        var label = App.Components.CreateByName<Label>("Result Label");
 
         label.ValidateIsVisible();
 
-        var radioButton = App.ElementCreateService.CreateByName<RadioButton>("RadioButton");
+        var radioButton = App.Components.CreateByName<RadioButton>("RadioButton");
 
         radioButton.Click();
 

@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Plugins"
 excerpt: "Learn how to plugin your logic in BELLATRIX test workflow using plugins."
-date:   2018-11-23 06:50:17 +0200
+date:   2021-11-23 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/extensibility-custom-test-workflow-plugins/
 anchors:
@@ -94,7 +94,7 @@ public class CustomTestCaseExtensionTests : IOSTest
     [ManualTestCase(1532)]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+        var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }

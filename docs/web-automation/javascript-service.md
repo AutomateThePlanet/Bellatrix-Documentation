@@ -2,7 +2,7 @@
 layout: default
 title:  "JavaScriptService"
 excerpt: "Learn how to use BELLATRIX JavaScriptService."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/javascript-service/
 anchors:
@@ -23,8 +23,8 @@ public class JavaScriptServiceTests : WebTest
 
         App.JavaScriptService.Execute("document.getElementById('username').value = 'BELLATRIX';");
 
-        App.ElementCreateService.CreateById<Password>("password").SetPassword("Gorgeous");
-        var button = App.ElementCreateService.CreateByClassContaining<Button>("woocommerce-Button button");
+        App.Components.CreateById<Password>("password").SetPassword("Gorgeous");
+        var button = App.Components.CreateByClassContaining<Button>("woocommerce-Button button");
 
         App.JavaScriptService.Execute("arguments[0].click();", button);
     }
@@ -35,7 +35,7 @@ public class JavaScriptServiceTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        var resultsCount = App.ElementCreateService.CreateByClassContaining<Element>("woocommerce-result-count");
+        var resultsCount = App.Components.CreateByClassContaining<Element>("woocommerce-result-count");
 
         string fontSize = App.JavaScriptService.Execute("return arguments[0].style.font-size", resultsCount.WrappedElement);
 

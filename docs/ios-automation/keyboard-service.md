@@ -2,7 +2,7 @@
 layout: default
 title:  "KeyboardService"
 excerpt: "Learn how to use BELLATRIX iOS KeyboardService."
-date:   2018-11-22 06:50:17 +0200
+date:   2021-11-22 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/keyboard-service/
 anchors:
@@ -22,7 +22,7 @@ public class KeyboardServiceTests : IOSTest
     [TestMethod]
     public void TestHideKeyBoard()
     {
-        var textField = App.ElementCreateService.CreateById<TextField>("IntegerA");
+        var textField = App.Components.CreateById<TextField>("IntegerA");
         textField.SetText(string.Empty);
 
         App.KeyboardService.HideKeyboard();

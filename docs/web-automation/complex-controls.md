@@ -23,7 +23,7 @@ Tables
 public class TableControlTests : WebTest
 {
     private List<User> _expectedUsers;
-    private static Table Table => App.ElementCreateService.CreateById<Table>("table1")
+    private static Table Table => App.Components.CreateById<Table>("table1")
         .SetColumn("Last Name")
         .SetColumn("First Name")
         .SetColumn("Email")
@@ -154,7 +154,7 @@ public class TableControlTests : WebTest
 ```
 ## Explanations ##
 ```csharp
-private static Table Table => App.ElementCreateService.CreateById<Table>("table1")
+private static Table Table => App.Components.CreateById<Table>("table1")
     .SetColumn("Last Name")
     .SetColumn("First Name")
     .SetColumn("Email")
@@ -313,7 +313,7 @@ The difference between a table and grid is that usually, the grids are more comp
 public class GridControlTests : WebTest
 {
     private static List<Employee> _expectedItems;
-    public Grid TestGrid => App.ElementCreateService.CreateById<Grid>("sampleGrid")
+    public Grid TestGrid => App.Components.CreateById<Grid>("sampleGrid")
         .SetColumn("Order", typeof(TextField), Find.By.Tag("input"))
         .SetColumn("Firstname")
         .SetColumn("Lastname")
@@ -451,7 +451,7 @@ public class GridControlTests : WebTest
 
 ## Explanations ##
 ```csharp
-public Grid TestGrid => App.ElementCreateService.CreateById<Grid>("sampleGrid")
+public Grid TestGrid => App.Components.CreateById<Grid>("sampleGrid")
     .SetColumn("Order", typeof(TextField), Find.By.Tag("input"))
     .SetColumn("Firstname")
     .SetColumn("Lastname")

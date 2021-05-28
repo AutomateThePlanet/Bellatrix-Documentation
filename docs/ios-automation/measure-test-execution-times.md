@@ -2,7 +2,7 @@
 layout: default
 title:  "Measure Response Times"
 excerpt: "Learn how to measure text execution times using BELLATRIX iOS module."
-date:   2018-11-22 06:50:17 +0200
+date:   2021-11-22 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/measure-test-execution-times/
 anchors:
@@ -23,7 +23,7 @@ public class MeasureTestExecutionTimesTests : IOSTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+        var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }

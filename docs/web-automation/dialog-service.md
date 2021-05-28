@@ -2,7 +2,7 @@
 layout: default
 title:  "DialogService"
 excerpt: "Learn how to use BELLATRIX DialogService."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/dialog-service/
 anchors:
@@ -21,7 +21,7 @@ public class DialogServiceTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
 
-        var couponButton = App.ElementCreateService.CreateById<Button>("couponBtn");
+        var couponButton = App.Components.CreateById<Button>("couponBtn");
         couponButton.Click();
 
         App.DialogService.Handle();
@@ -32,7 +32,7 @@ public class DialogServiceTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
 
-        var couponButton = App.ElementCreateService.CreateById<Button>("couponBtn");
+        var couponButton = App.Components.CreateById<Button>("couponBtn");
         couponButton.Click();
 
         App.DialogService.Handle((a) => Assert.AreEqual("Try the coupon- happybirthday", a.Text));
@@ -44,7 +44,7 @@ public class DialogServiceTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
 
-        var couponButton = App.ElementCreateService.CreateById<Button>("couponBtn");
+        var couponButton = App.Components.CreateById<Button>("couponBtn");
         couponButton.Click();
 
         App.DialogService.Handle(dialogButton: DialogButton.Cancel);

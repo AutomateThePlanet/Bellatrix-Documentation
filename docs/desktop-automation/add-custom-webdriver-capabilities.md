@@ -2,7 +2,7 @@
 layout: default
 title:  "Add Custom WebDriver Capabilities"
 excerpt: "Learn how to add custom WebDriver capabilities."
-date:   2018-02-20 06:50:17 +0200
+date:   2021-02-20 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/add-custom-webdriver-capabilities/
 anchors:
@@ -25,11 +25,11 @@ public class AddCustomWebDriverCapabilitiesTests : DesktopTest
     [TestMethod]
     public void MessageChanged_When_ButtonHovered_Wpf()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("E Button");
+        var button = App.Components.CreateByName<Button>("E Button");
 
         button.Hover();
 
-        var label = App.ElementCreateService.CreateByName<Button>("ebuttonHovered");
+        var label = App.Components.CreateByName<Button>("ebuttonHovered");
         Assert.AreEqual("ebuttonHovered", label.InnerText);
     }
 
@@ -37,11 +37,11 @@ public class AddCustomWebDriverCapabilitiesTests : DesktopTest
     [App(Constants.WpfAppPath, Lifecycle.RestartOnFail)]
     public void MessageChanged_When_ButtonClicked_Wpf()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("E Button");
+        var button = App.Components.CreateByName<Button>("E Button");
 
         button.Click();
 
-        var label = App.ElementCreateService.CreateByName<Button>("ebuttonClicked");
+        var label = App.Components.CreateByName<Button>("ebuttonClicked");
         Assert.AreEqual("ebuttonClicked", label.InnerText);
     }
 }

@@ -2,7 +2,7 @@
 layout: default
 title:  "Troubleshooting- Screenshots on Fail"
 excerpt: "Learn how to generate screenshots on test's fail."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/troubleshooting-screenshots-on-fail/
 anchors:
@@ -20,11 +20,11 @@ public class AppScreenshotsOnFailTests : DesktopTest
     [TestMethod]
     public void MessageChanged_When_ButtonHovered_Wpf()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("E Button");
+        var button = App.Components.CreateByName<Button>("E Button");
 
         button.Hover();
 
-        var label = App.ElementCreateService.CreateByName<Button>("ebuttonHovered");
+        var label = App.Components.CreateByName<Button>("ebuttonHovered");
         Assert.AreEqual("ebuttonHovered", label.InnerText);
     }
 }

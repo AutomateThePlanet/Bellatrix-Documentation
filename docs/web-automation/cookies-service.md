@@ -2,7 +2,7 @@
 layout: default
 title:  "CookiesService"
 excerpt: "Learn how to use BELLATRIX CookiesService."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/cookies-service/
 anchors:
@@ -47,7 +47,7 @@ public class CookiesServiceTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
 
-        var protonRocketAddToCartBtn = App.ElementCreateService.CreateAllByInnerTextContaining<Anchor>("Add to cart").First();
+        var protonRocketAddToCartBtn = App.Components.CreateAllByInnerTextContaining<Anchor>("Add to cart").First();
         protonRocketAddToCartBtn.Click();
 
         App.CookieService.DeleteAllCookies();
@@ -58,7 +58,7 @@ public class CookiesServiceTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/welcome/");
 
-        var protonRocketAddToCartBtn = App.ElementCreateService.CreateAllByInnerTextContaining<Anchor>("Add to cart").First();
+        var protonRocketAddToCartBtn = App.Components.CreateAllByInnerTextContaining<Anchor>("Add to cart").First();
         protonRocketAddToCartBtn.Click();
 
         App.CookieService.DeleteCookie("woocommerce_items_in_cart");

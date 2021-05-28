@@ -23,9 +23,9 @@ public class StyleTestingTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonRocketAnchor = App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/proton-rocket/");
-        Anchor saturnVAnchor = App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/saturn-v/");
+        Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
+        Anchor protonRocketAnchor = App.Components.CreateByAttributesContaining<Anchor>("href", "/proton-rocket/");
+        Anchor saturnVAnchor = App.Components.CreateByAttributesContaining<Anchor>("href", "/saturn-v/");
 
         sortDropDown.AssertFontSize("14px");
         sortDropDown.AssertFontWeight("400");
@@ -61,7 +61,7 @@ Advanced Usages
 public abstract class AnchorsStyleTests : WebTest
 {
     protected virtual ElementsList<Anchor> Anchors =>
-        App.ElementCreateService.CreateAllByTag<Anchor>("a");
+        App.Components.CreateAllByTag<Anchor>("a");
 
     [Test]
     public void Anchors_Displayed_WithFontSize14()

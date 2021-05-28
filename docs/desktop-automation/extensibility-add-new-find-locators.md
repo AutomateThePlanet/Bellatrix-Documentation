@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Add New Find Locators"
 excerpt: "Learn how to extend BELLATRIX adding new custom find locators."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/extensibility-add-new-find-locators/
 anchors:
@@ -90,11 +90,11 @@ namespace Bellatrix.Desktop.GettingStarted
         [TestMethod]
         public void MessageChanged_When_ButtonHovered_Wpf()
         {
-            var button = App.ElementCreateService.CreateByIdStartingWith<Button>("E Button");
+            var button = App.Components.CreateByIdStartingWith<Button>("E Button");
 
             button.Hover();
 
-            var label = App.ElementCreateService.CreateByAutomationId<Label>("ResultLabelId");
+            var label = App.Components.CreateByAutomationId<Label>("ResultLabelId");
             Assert.AreEqual("ebuttonHovered", label.InnerText);
         }
     }
@@ -107,5 +107,5 @@ using Bellatrix.Web.GettingStarted.ExtensionMethodsLocators;
 ```
 After that, you can use the new locator as it was originally part of BELLATRIX.
 ```csharp
-var button = App.ElementCreateService.CreateByIdStartingWith<Button>("E Button");
+var button = App.Components.CreateByIdStartingWith<Button>("E Button");
 ```

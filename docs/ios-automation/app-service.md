@@ -2,7 +2,7 @@
 layout: default
 title:  "AppService"
 excerpt: "Learn how to use BELLATRIX IOS AppService."
-date:   2018-11-20 06:50:17 +0200
+date:   2021-11-20 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/app-service/
 anchors:

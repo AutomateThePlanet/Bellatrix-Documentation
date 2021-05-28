@@ -2,7 +2,7 @@
 layout: default
 title:  "Page Objects"
 excerpt: "Learn how to use the BELLATRIX page objects."
-date:   2018-11-22 06:50:17 +0200
+date:   2021-11-22 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/page-objects/
 anchors:
@@ -25,10 +25,10 @@ Non-page-object Test Example
 [TestMethod]
 public void ActionsWithoutPageObjectsFirst()
 {
-    var numberOne = App.ElementCreateService.CreateById<TextField>("IntegerA");
-    var numberTwo = App.ElementCreateService.CreateById<TextField>("IntegerB");
-    var compute = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
-    var answer = App.ElementCreateService.CreateByName<Label>("Answer");
+    var numberOne = App.Components.CreateById<TextField>("IntegerA");
+    var numberTwo = App.Components.CreateById<TextField>("IntegerB");
+    var compute = App.Components.CreateByName<Button>("ComputeSumButton");
+    var answer = App.Components.CreateByName<Label>("Answer");
 
     numberOne.SetText("5");
     numberTwo.SetText("6");

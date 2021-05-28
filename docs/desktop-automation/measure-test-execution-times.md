@@ -2,7 +2,7 @@
 layout: default
 title:  "Measure Response Times"
 excerpt: "Learn how to measure text execution times using BELLATRIX desktop module."
-date:   2018-10-20 06:50:17 +0200
+date:   2021-10-20 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/measure-test-execution-times/
 anchors:
@@ -25,11 +25,11 @@ namespace Bellatrix.Desktop.GettingStarted
         [TestMethod]
         public void MessageChanged_When_ButtonHovered_Wpf()
         {
-            var button = App.ElementCreateService.CreateByName<Button>("E Button");
+            var button = App.Components.CreateByName<Button>("E Button");
 
             button.Hover();
 
-            var label = App.ElementCreateService.CreateByAutomationId<Label>("ResultLabelId");
+            var label = App.Components.CreateByAutomationId<Label>("ResultLabelId");
             Assert.AreEqual("ebuttonHovered", label.InnerText);
         }
     }

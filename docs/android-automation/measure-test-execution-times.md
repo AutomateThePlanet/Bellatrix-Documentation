@@ -2,7 +2,7 @@
 layout: default
 title:  "Measure Response Times"
 excerpt: "Learn how to measure text execution times using BELLATRIX Android module."
-date:   2018-10-22 06:50:17 +0200
+date:   2021-10-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/measure-test-execution-times/
 anchors:
@@ -30,7 +30,7 @@ namespace Bellatrix.Mobile.Android.GettingStarted
         [TestMethod]
         public void ButtonClicked_When_CallClickMethod()
         {
-            var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+            var button = App.Components.CreateByIdContaining<Button>("button");
 
             button.Click();
         }

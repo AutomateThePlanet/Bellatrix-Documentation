@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Add New Find Locators"
 excerpt: "Learn how to extend BELLATRIX adding new custom find locators."
-date:   2018-10-23 06:50:17 +0200
+date:   2021-10-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/extensibility-add-new-find-locators/
 anchors:
@@ -70,7 +70,7 @@ namespace Bellatrix.Web.GettingStarted
         {
             App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-            var promotionsLink = App.ElementCreateService.CreateByIdStartingWith<Anchor>("promo");
+            var promotionsLink = App.Components.CreateByIdStartingWith<Anchor>("promo");
 
             promotionsLink.Click();
         }
@@ -84,5 +84,5 @@ using Bellatrix.Web.GettingStarted.ExtensionMethodsLocators;
 ```
 After that, you can use the new locator as it was originally part of BELLATRIX.
 ```csharp
-var promotionsLink = App.ElementCreateService.CreateByIdStartingWith<Anchor>("promo");
+var promotionsLink = App.Components.CreateByIdStartingWith<Anchor>("promo");
 ```

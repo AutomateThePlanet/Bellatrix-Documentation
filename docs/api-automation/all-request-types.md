@@ -2,7 +2,7 @@
 layout: default
 title:  "All Request Types"
 excerpt: "Learn what are all BELLATRIX API request types and how to use them.."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/all-request-types/
 anchors:

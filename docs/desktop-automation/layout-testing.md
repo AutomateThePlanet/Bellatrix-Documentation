@@ -2,7 +2,7 @@
 layout: default
 title:  "Layout Testing"
 excerpt: "Learn how to use the BELLATRIX layout testing library."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/layout-testing/
 anchors:
@@ -20,10 +20,10 @@ public class LayoutTestingTests : DesktopTest
     [TestMethod]
     public void CommonActionsWithDesktopControls_Wpf()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("E Button");
-        var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
-        var radioButton = App.ElementCreateService.CreateByName<RadioButton>("RadioButton");
-        var selectedRadioButton = App.ElementCreateService.CreateByName<RadioButton>("SelectedRadioButton");
+        var button = App.Components.CreateByName<Button>("E Button");
+        var calendar = App.Components.CreateByAutomationId<Calendar>("calendar");
+        var radioButton = App.Components.CreateByName<RadioButton>("RadioButton");
+        var selectedRadioButton = App.Components.CreateByName<RadioButton>("SelectedRadioButton");
 
         button.AssertAboveOf(calendar);
 

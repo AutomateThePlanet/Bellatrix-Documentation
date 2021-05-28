@@ -2,7 +2,7 @@
 layout: default
 title:  "KeyboardService"
 excerpt: "Learn how to use BELLATRIX Android KeyboardService."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/keyboard-service/
 anchors:
@@ -24,7 +24,7 @@ public class KeyboardServiceTests : AndroidTest
     [TestMethod]
     public void TestHideKeyBoard()
     {
-        var textField = App.ElementCreateService.CreateByIdContaining<TextField>("left_text_edit");
+        var textField = App.Components.CreateByIdContaining<TextField>("left_text_edit");
         textField.SetText(string.Empty);
 
         App.KeyboardService.HideKeyboard();

@@ -2,7 +2,7 @@
 layout: default
 title:  "Page Objects"
 excerpt: "Learn how to use the BELLATRIX page objects."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/page-objects/
 anchors:
@@ -29,10 +29,10 @@ public void PurchaseRocketWithoutPageObjects()
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
     // Home page elements
-    Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-    Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
-    Anchor addToCartFalcon9 = App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
-    Anchor viewCartButton = App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+    Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
+    Anchor protonMReadMoreButton = App.Components.CreateByInnerTextContaining<Anchor>("Read more");
+    Anchor addToCartFalcon9 = App.Components.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
+    Anchor viewCartButton = App.Components.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
 
     // Home Page actions
     sortDropDown.SelectByText("Sort by price: low to high");
@@ -42,13 +42,13 @@ public void PurchaseRocketWithoutPageObjects()
     viewCartButton.Click();
 
     // Cart page elements
-    TextField couponCodeTextField = App.ElementCreateService.CreateById<TextField>("coupon_code");
-    Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
-    Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
-    Number quantityBox = App.ElementCreateService.CreateByClassContaining<Number>("input-text qty text");
-    Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart").ToBeClickable();
-    Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
-    Anchor proceedToCheckout = App.ElementCreateService.CreateByClassContaining<Anchor>("checkout-button button alt wc-forward");
+    TextField couponCodeTextField = App.Components.CreateById<TextField>("coupon_code");
+    Button applyCouponButton = App.Components.CreateByValueContaining<Button>("Apply coupon");
+    Div messageAlert = App.Components.CreateByClassContaining<Div>("woocommerce-message");
+    Number quantityBox = App.Components.CreateByClassContaining<Number>("input-text qty text");
+    Button updateCart = App.Components.CreateByValueContaining<Button>("Update cart").ToBeClickable();
+    Span totalSpan = App.Components.CreateByXpath<Span>("//*[@class='order-total']//span");
+    Anchor proceedToCheckout = App.Components.CreateByClassContaining<Anchor>("checkout-button button alt wc-forward");
 
     // Cart page actions
     couponCodeTextField.SetText("happybirthday");
@@ -63,22 +63,22 @@ public void PurchaseRocketWithoutPageObjects()
     proceedToCheckout.Click();
 
     // Checkout page elements
-    Heading billingDetailsHeading = App.ElementCreateService.CreateByInnerTextContaining<Heading>("Billing details");
-    Anchor showLogin = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Click here to login");
-    TextArea orderCommentsTextArea = App.ElementCreateService.CreateById<TextArea>("order_comments");
-    TextField billingFirstName = App.ElementCreateService.CreateById<TextField>("billing_first_name");
-    TextField billingLastName = App.ElementCreateService.CreateById<TextField>("billing_last_name");
-    TextField billingCompany = App.ElementCreateService.CreateById<TextField>("billing_company");
-    Select billingCountry = App.ElementCreateService.CreateById<Select>("billing_country");
-    TextField billingAddress1 = App.ElementCreateService.CreateById<TextField>("billing_address_1");
-    TextField billingAddress2 = App.ElementCreateService.CreateById<TextField>("billing_address_2");
-    TextField billingCity = App.ElementCreateService.CreateById<TextField>("billing_city");
-    Select billingState = App.ElementCreateService.CreateById<Select>("billing_state").ToBeVisible().ToBeClickable();
-    TextField billingZip = App.ElementCreateService.CreateById<TextField>("billing_postcode");
-    Phone billingPhone = App.ElementCreateService.CreateById<Phone>("billing_phone");
-    Email billingEmail = App.ElementCreateService.CreateById<Email>("billing_email");
-    CheckBox createAccountCheckBox = App.ElementCreateService.CreateById<CheckBox>("createaccount");
-    RadioButton checkPaymentsRadioButton = App.ElementCreateService.CreateByAttributesContaining<RadioButton>("for", "payment_method_cheque");
+    Heading billingDetailsHeading = App.Components.CreateByInnerTextContaining<Heading>("Billing details");
+    Anchor showLogin = App.Components.CreateByInnerTextContaining<Anchor>("Click here to login");
+    TextArea orderCommentsTextArea = App.Components.CreateById<TextArea>("order_comments");
+    TextField billingFirstName = App.Components.CreateById<TextField>("billing_first_name");
+    TextField billingLastName = App.Components.CreateById<TextField>("billing_last_name");
+    TextField billingCompany = App.Components.CreateById<TextField>("billing_company");
+    Select billingCountry = App.Components.CreateById<Select>("billing_country");
+    TextField billingAddress1 = App.Components.CreateById<TextField>("billing_address_1");
+    TextField billingAddress2 = App.Components.CreateById<TextField>("billing_address_2");
+    TextField billingCity = App.Components.CreateById<TextField>("billing_city");
+    Select billingState = App.Components.CreateById<Select>("billing_state").ToBeVisible().ToBeClickable();
+    TextField billingZip = App.Components.CreateById<TextField>("billing_postcode");
+    Phone billingPhone = App.Components.CreateById<Phone>("billing_phone");
+    Email billingEmail = App.Components.CreateById<Email>("billing_email");
+    CheckBox createAccountCheckBox = App.Components.CreateById<CheckBox>("createaccount");
+    RadioButton checkPaymentsRadioButton = App.Components.CreateByAttributesContaining<RadioButton>("for", "payment_method_cheque");
 
     // Checkout page actions
     billingDetailsHeading.ToBeVisible().WaitToBe();

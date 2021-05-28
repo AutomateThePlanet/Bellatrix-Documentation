@@ -2,7 +2,7 @@
 layout: default
 title:  "Elements Snippets"
 excerpt: "Learn to generate BELLATRIX iOS element properties using VS snippets."
-date:   2018-11-22 06:50:17 +0200
+date:   2021-11-22 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/elements-snippets/
 anchors:

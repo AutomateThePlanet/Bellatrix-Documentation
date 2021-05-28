@@ -2,7 +2,7 @@
 layout: default
 title:  "Normal Assertions"
 excerpt: "Learn how to use normal assertion methods in BELLATRIX tests."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/normal-assertions/
 anchors:
@@ -19,24 +19,24 @@ public void AssertCartPageFields()
 
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/cart/");
 
-    TextField couponCodeTextField = App.ElementCreateService.CreateById<TextField>("coupon_code");
+    TextField couponCodeTextField = App.Components.CreateById<TextField>("coupon_code");
 
     Assert.AreEqual("Coupon code", couponCodeTextField.Placeholder);
 
-    Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
+    Button applyCouponButton = App.Components.CreateByValueContaining<Button>("Apply coupon");
 
     Assert.IsTrue(applyCouponButton.IsPresent);
     Assert.IsTrue(applyCouponButton.IsVisible);
 
-    Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
+    Div messageAlert = App.Components.CreateByClassContaining<Div>("woocommerce-message");
 
     Assert.IsFalse(messageAlert.IsVisible);
 
-    Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart");
+    Button updateCart = App.Components.CreateByValueContaining<Button>("Update cart");
 
     Assert.IsTrue(updateCart.IsDisabled);
 
-    Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
+    Span totalSpan = App.Components.CreateByXpath<Span>("//*[@class='order-total']//span");
 
     Assert.AreEqual("120.00€", totalSpan.InnerText);
 
@@ -59,17 +59,17 @@ Assert.IsTrue(applyCouponButton.IsVisible);
 ```
 Here we assert that the apply coupon button exists and is visible on the page. On fail the following message is displayed: "*Message: Assert.IsTrue failed.*" Cannot learn much about what happened.
 ```csharp
-Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
+Div messageAlert = App.Components.CreateByClassContaining<Div>("woocommerce-message");
 Assert.IsFalse(messageAlert.IsVisible);
 ```
 Since there are no validation errors, verify that the message div is not visible.
 ```csharp
-Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart");
+Button updateCart = App.Components.CreateByValueContaining<Button>("Update cart");
 Assert.IsTrue(updateCart.IsDisabled);
 ```
 We have not made any changes to the added products so the update cart button should be disabled.
 ```csharp
-Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
+Span totalSpan = App.Components.CreateByXpath<Span>("//*[@class='order-total']//span");
 Assert.AreEqual("120.00€", totalSpan.InnerText);
 ```
 We check the total price contained in the order-total span HTML element.

@@ -2,7 +2,7 @@
 layout: default
 title:  "Wait for Elements"
 excerpt: "Learn how to wait for web elements with BELLATRIX web module."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/wait-for-elements/
 anchors:
@@ -17,7 +17,7 @@ public void BlogPageOpened_When_PromotionsButtonClicked()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-    var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
+    var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
     blogLink.ToBeClickable().ToBeVisible().Click();
 
     blogLink.ToBeClickable().ToBeVisible().WaitToBe();
@@ -27,7 +27,7 @@ public void BlogPageOpened_When_PromotionsButtonClicked()
 Explanations
 ------------
 ```csharp
-var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
+var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
 blogLink.ToBeClickable().ToBeVisible().Click();
 ```
 Besides the ToBe methods that you can use on element creation, you have a couple of other options if you need to wait for elements. For example, if you want to reuse your element in multiple tests or if you use it through page objects (more about that in later chapters), you may not want to wait for all conditions to be executed every time. Sometimes the mentioned conditions during creation may not be correct for some specific test case. E.g. button wait to be disabled, but in most cases, you need to wait for it to be enabled. To give you more options BELLATRIX has a special method called WaitToBe. The big difference compared to ToBe methods is that it forces BELLATRIX to locate your element immediately and wait for the condition to be satisfied.

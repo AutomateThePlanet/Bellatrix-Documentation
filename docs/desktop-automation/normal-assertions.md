@@ -2,7 +2,7 @@
 layout: default
 title:  "Normal Assertions"
 excerpt: "Learn how to use normal assertion methods in BELLATRIX tests."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/normal-assertions/
 anchors:
@@ -15,27 +15,27 @@ Example
 [TestMethod]
 public void CommonActionsWithDesktopControls_Wpf()
 {
-    var calendar = App.ElementCreateService.CreateByAutomationId<Calendar>("calendar");
+    var calendar = App.Components.CreateByAutomationId<Calendar>("calendar");
 
     Assert.AreEqual(false, calendar.IsDisabled);
 
-    var checkBox = App.ElementCreateService.CreateByName<CheckBox>("BellaCheckBox");
+    var checkBox = App.Components.CreateByName<CheckBox>("BellaCheckBox");
 
     checkBox.Check();
 
     Assert.IsTrue(checkBox.IsChecked);
 
-    var comboBox = App.ElementCreateService.CreateByAutomationId<ComboBox>("select");
+    var comboBox = App.Components.CreateByAutomationId<ComboBox>("select");
 
     comboBox.SelectByText("Item2");
 
     Assert.AreEqual("Item2", comboBox.InnerText);
 
-    var label = App.ElementCreateService.CreateByName<Label>("Result Label");
+    var label = App.Components.CreateByName<Label>("Result Label");
 
     Assert.IsTrue(label.IsPresent);
 
-    var radioButton = App.ElementCreateService.CreateByName<RadioButton>("RadioButton");
+    var radioButton = App.Components.CreateByName<RadioButton>("RadioButton");
 
     radioButton.Click();
 

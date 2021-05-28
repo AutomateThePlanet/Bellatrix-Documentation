@@ -2,7 +2,7 @@
 layout: default
 title:  "Execute Tests in BrowserStack"
 excerpt: "Learn to use BELLATRIX to execute iOS tests in BrowserStack."
-date:   2018-11-23 06:50:17 +0200
+date:   2021-11-23 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/execute-tests-browserstack/
 anchors:
@@ -28,7 +28,7 @@ public class BrowserStackTests : IOSTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+        var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
@@ -45,7 +45,7 @@ public class BrowserStackTests : IOSTest
         build: "CI Execution")]
     public void ButtonClicked_When_CallClickMethodSecond()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+        var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
@@ -79,7 +79,7 @@ To execute BELLATRIX tests in BrowserStack cloud, you should use the BrowserStac
     build: "CI Execution")]
 public void ButtonClicked_When_CallClickMethodSecond()
 {
-    var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+    var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
     button.Click();
 }

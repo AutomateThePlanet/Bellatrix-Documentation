@@ -2,7 +2,7 @@
 layout: default
 title:  "Locate Elements"
 excerpt: "Learn how to locate desktop elements with BELLATRIX desktop module."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/locate-elements/
 anchors:
@@ -21,7 +21,7 @@ Example
 [TestMethod]
 public void MessageChanged_When_ButtonHovered_Wpf()
 {
-    var button = App.ElementCreateService.CreateByName<Button>("E Button");
+    var button = App.Components.CreateByName<Button>("E Button");
 
     button.Hover();
 
@@ -34,7 +34,7 @@ public void MessageChanged_When_ButtonHovered_Wpf()
 Explanations
 -------
 ```csharp
-var button = App.ElementCreateService.CreateByName<Button>("E Button");
+var button = App.Components.CreateByName<Button>("E Button");
 ```
 There are different ways to locate elements in the app. To do it you use the element create service. You need to know that BELLATRIX has a built-in complex mechanism for waiting for elements, so you do not need to worry about this anymore. Keep in mind that when you use the Create methods, the element is not searched. All elements use lazy loading.Which means that they are searched once you perform an action or assertion on them. By default on each new action, the element is searched again and be refreshed.
 ```csharp
@@ -51,37 +51,37 @@ Available Create Methods
 BELLATRIX extends the vanilla WebDriver selectors and give you additional ones.
 ### CreateByTag ###
 ```csharp
-App.ElementCreateService.CreateByTag<Button>("button");
+App.Components.CreateByTag<Button>("button");
 ```
 Searches the element by its tag.
 ### CreateById ###
 ```csharp
-App.ElementCreateService.CreateById<Button>("myId");
+App.Components.CreateById<Button>("myId");
 ```
 Searches the element by its ID.
 ### CreateByXpath ###
 ```csharp
-App.ElementCreateService.CreateByXpath<Button>("//*[@title='Add to cart']");
+App.Components.CreateByXpath<Button>("//*[@title='Add to cart']");
 ```
 Searches the element by XPath locator.
 ### CreateByClass ###
 ```csharp
-App.ElementCreateService.CreateByClassContaining<Button>("ul.products");
+App.Components.CreateByClassContaining<Button>("ul.products");
 ```
 Searches the element by its CSS classes.
 ### CreateByName ###
 ```csharp
-App.ElementCreateService.CreateByName<Button>("products");
+App.Components.CreateByName<Button>("products");
 ```
 Searches the element by its name.
 ### CreateByAccessibilityId ###
 ```csharp
-App.ElementCreateService.CreateByAccessibilityId<Button>("myCustomButton");
+App.Components.CreateByAccessibilityId<Button>("myCustomButton");
 ```
 Searches the element by its accessibility ID.
 ### CreateByAutomationId ###
 ```csharp
-App.ElementCreateService.CreateByAutomationId<Search>("search");
+App.Components.CreateByAutomationId<Search>("search");
 ```
 Searches the element by its automation ID.  
 
@@ -96,7 +96,7 @@ public void CheckAllAddToCartButtons()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-    var blogLink = App.ElementCreateService.CreateAllByXpath<Anchor>("//*[@title='Add to cart']");
+    var blogLink = App.Components.CreateAllByXpath<Anchor>("//*[@title='Add to cart']");
 }
 ```
 
@@ -104,37 +104,37 @@ Available CreateAll Methods
 ------------------------
 ### CreateAllByTag ###
 ```csharp
-App.ElementCreateService.CreateAllByTag<Button>("button");
+App.Components.CreateAllByTag<Button>("button");
 ```
 Searches the elements by its tag.
 ### CreateAllById ###
 ```csharp
-App.ElementCreateService.CreateAllById<Button>("myId");
+App.Components.CreateAllById<Button>("myId");
 ```
 Searches the elements by its ID.
 ### CreateAllByXpath ###
 ```csharp
-App.ElementCreateService.CreateAllByXpath<Button>("//*[@title='Add to cart']");
+App.Components.CreateAllByXpath<Button>("//*[@title='Add to cart']");
 ```
 Searches the elements by XPath locator.
 ### CreateAllByClass ###
 ```csharp
-App.ElementCreateService.CreateAllByClassContaining<Button>("ul.products");
+App.Components.CreateAllByClassContaining<Button>("ul.products");
 ```
 Searches the elements by its CSS classes.
 ### CreateAllByName ###
 ```csharp
-App.ElementCreateService.CreateAllByName<Button>("products");
+App.Components.CreateAllByName<Button>("products");
 ```
 Searches the elements by its name.
 ### CreateAllByAccessibilityId ###
 ```csharp
-App.ElementCreateService.CreateAllByAccessibilityId<Button>("myCustomButton");
+App.Components.CreateAllByAccessibilityId<Button>("myCustomButton");
 ```
 Searches the elements by its accessibility ID.
 ### CreateAllByAutomationId ###
 ```csharp
-App.ElementCreateService.CreateAllByAutomationId<Search>("search");
+App.Components.CreateAllByAutomationId<Search>("search");
 ```
 Searches the elements by its automation ID.
 
@@ -146,7 +146,7 @@ For example in this test the list box is located and then the button inside it.
 ```csharp
 public void ReturnNestedElement_When_ElementContainsOneChildElement_Wpf()
 {
-    var comboBox = App.ElementCreateService.CreateByAutomationId<ComboBox>("listBoxEnabled");
+    var comboBox = App.Components.CreateByAutomationId<ComboBox>("listBoxEnabled");
     var comboBoxItem = comboBox.CreateByAutomationId<Button>("lb2");
 
     comboBoxItem.Hover();

@@ -2,7 +2,7 @@
 layout: default
 title:  "Behaviour Driven Development BDD Logging"
 excerpt: "Learn the BELLATRIX Behaviour Driven Development BDD Logging works and how to use it."
-date:   2018-11-22 06:50:17 +0200
+date:   2021-11-22 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/bdd-logging/
 anchors:
@@ -16,21 +16,21 @@ Example
 [TestMethod]
 public void CommonAssertionsIOSControls()
 {
-    var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+    var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
     button.Click();
 
     button.ValidateIsNotDisabled();
 
-    var answerLabel = App.ElementCreateService.CreateByValueContaining<Label>("Label");
+    var answerLabel = App.Components.CreateByValueContaining<Label>("Label");
 
     answerLabel.ValidateIsVisible();
 
-    var password = App.ElementCreateService.CreateById<Password>("IntegerB");
+    var password = App.Components.CreateById<Password>("IntegerB");
 
     password.SetPassword("9");
 
-    var textField = App.ElementCreateService.CreateById<TextField>("IntegerA");
+    var textField = App.Components.CreateById<TextField>("IntegerA");
 
     textField.SetText("1");
 

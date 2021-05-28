@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Extend Existing Elements- Child Elements"
 excerpt: "Learn how to extend BELLATRIX web elements using child elements."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/extensibility-extend-existing-elements-child-elements/
 anchors:
@@ -21,25 +21,25 @@ public class ExtendExistingElementWithChildElementsTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
+        Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
         Anchor protonMReadMoreButton = 
-        App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
+        App.Components.CreateByInnerTextContaining<Anchor>("Read more");
         Anchor addToCartFalcon9 = 
-        App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
+        App.Components.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
         Anchor viewCartButton = 
-        App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
-        TextField couponCodeTextField = App.ElementCreateService.CreateById<TextField>("coupon_code");
-        Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
-        Number quantityBox = App.ElementCreateService.CreateByClassContaining<Number>("input-text qty text");
-        Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
+        App.Components.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+        TextField couponCodeTextField = App.Components.CreateById<TextField>("coupon_code");
+        Button applyCouponButton = App.Components.CreateByValueContaining<Button>("Apply coupon");
+        Number quantityBox = App.Components.CreateByClassContaining<Number>("input-text qty text");
+        Div messageAlert = App.Components.CreateByClassContaining<Div>("woocommerce-message");
         Button updateCart = 
-        App.ElementCreateService.CreateByValueContaining<Button>("Update cart").ToBeClickable();
+        App.Components.CreateByValueContaining<Button>("Update cart").ToBeClickable();
 
         ExtendedButton proceedToCheckout = 
-        App.ElementCreateService.CreateByClassContaining<ExtendedButton>("checkout alt wc-forward");
+        App.Components.CreateByClassContaining<ExtendedButton>("checkout alt wc-forward");
         Heading billingDetailsHeading = 
-        App.ElementCreateService.CreateByInnerTextContaining<Heading>("Billing details");
-        Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
+        App.Components.CreateByInnerTextContaining<Heading>("Billing details");
+        Span totalSpan = App.Components.CreateByXpath<Span>("//*[@class='order-total']//span");
 
         sortDropDown.SelectByText("Sort by price: low to high");
         protonMReadMoreButton.Hover();
@@ -85,7 +85,7 @@ The second way of extending an existing element is to create a child element. In
 The same strategy can be used to create a completely new element that BELLATRIX does not provide. You need to extend the 'Element' as a base class.
 ```csharp
  ExtendedButton proceedToCheckout = 
- App.ElementCreateService.CreateByClassContaining<ExtendedButton>("checkout-button button alt wc-forward");
+ App.Components.CreateByClassContaining<ExtendedButton>("checkout-button button alt wc-forward");
 ```
 Instead of the regular button, we create the ExtendedButton, this way we can use its new methods.
 ```csharp

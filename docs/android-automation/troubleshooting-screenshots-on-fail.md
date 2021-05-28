@@ -2,7 +2,7 @@
 layout: default
 title:  "Troubleshooting- Screenshots on Fail"
 excerpt: "Learn how to generate screenshots on test's fail."
-date:   2018-10-22 06:50:17 +0200
+date:   2021-10-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/troubleshooting-screenshots-on-fail/
 anchors:
@@ -14,18 +14,12 @@ Example
 -------
 ```csharp
 [TestClass]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    Lifecycle.ReuseIfStarted)]
 public class ScreenshotsOnFailTests : AndroidTest
 {
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.Components.CreateByIdContaining<Button>("button");
 
         button.Click();
     }

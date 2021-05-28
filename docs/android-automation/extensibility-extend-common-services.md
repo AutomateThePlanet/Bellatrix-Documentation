@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensability- Extend Common Services"
 excerpt: "Learn how to extend BELLATRIX common services."
-date:   2018-10-23 06:50:17 +0200
+date:   2021-10-23 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/extensibility-extend-common-services/
 anchors:
@@ -31,7 +31,7 @@ namespace Bellatrix.Mobile.Android.GettingStarted
         {
             App.AppService.LoginToApp("bellatrix", "topSecret");
 
-            var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+            var button = App.Components.CreateByIdContaining<Button>("button");
 
             button.Click();
         }

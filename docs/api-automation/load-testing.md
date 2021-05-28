@@ -2,7 +2,7 @@
 layout: default
 title:  "Load Testing"
 excerpt: "Learn how to use the BELLATRIX API library to load test your API methods."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/load-testing/
 anchors:

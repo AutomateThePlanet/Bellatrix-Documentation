@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Plugins"
 excerpt: "Learn how to plugin your logic in BELLATRIX test workflow using plugins."
-date:   2018-10-23 06:50:17 +0200
+date:   2021-10-23 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/extensibility-custom-test-workflow-plugins/
 anchors:
@@ -96,7 +96,7 @@ public class CustomTestCaseExtensionTests : AndroidTest
     [ManualTestCase(1532)]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.Components.CreateByIdContaining<Button>("button");
 
         button.Click();
     }

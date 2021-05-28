@@ -2,7 +2,7 @@
 layout: default
 title:  "Common Controls"
 excerpt: "Learn how to use BELLATRIX simple web controls."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/simple-controls/
 anchors:
@@ -18,110 +18,110 @@ public void PurchaseRocket()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-    Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
+    Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
     sortDropDown.SelectByText("Sort by price: low to high");
 
     Anchor protonMReadMoreButton = 
-    App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
+    App.Components.CreateByInnerTextContaining<Anchor>("Read more");
 
     protonMReadMoreButton.Hover();
 
     Anchor addToCartFalcon9 = 
-    App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
+    App.Components.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
     addToCartFalcon9.Focus();
     addToCartFalcon9.Click();
 
     Anchor viewCartButton = 
-    App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+    App.Components.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
     viewCartButton.Click();
 
-    TextField couponCodeTextField = App.ElementCreateService.CreateById<TextField>("coupon_code");
+    TextField couponCodeTextField = App.Components.CreateById<TextField>("coupon_code");
 
     couponCodeTextField.SetText("happybirthday");
 
-    Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
+    Button applyCouponButton = App.Components.CreateByValueContaining<Button>("Apply coupon");
     applyCouponButton.Click();
 
-    Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
+    Div messageAlert = App.Components.CreateByClassContaining<Div>("woocommerce-message");
 
     messageAlert.ToHasContent().ToBeVisible().WaitToBe();
 
     messageAlert.ValidateInnerTextIs("Coupon code applied successfully.");
 
-    Number quantityBox = App.ElementCreateService.CreateByClassContaining<Number>("input-text qty text");
+    Number quantityBox = App.Components.CreateByClassContaining<Number>("input-text qty text");
 
     quantityBox.SetNumber(0);
     quantityBox.SetNumber(2);
 
-    Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart").ToBeClickable();
+    Button updateCart = App.Components.CreateByValueContaining<Button>("Update cart").ToBeClickable();
     updateCart.Click();
 
-    Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
+    Span totalSpan = App.Components.CreateByXpath<Span>("//*[@class='order-total']//span");
 
     totalSpan.ValidateInnerTextIs("95.00€", 15000);
 
     Anchor proceedToCheckout = 
-    App.ElementCreateService.CreateByClassContaining<Anchor>("checkout-button button alt wc-forward");
+    App.Components.CreateByClassContaining<Anchor>("checkout-button button alt wc-forward");
     proceedToCheckout.Click();
 
-    Heading billingDetailsHeading = App.ElementCreateService.CreateByInnerTextContaining<Heading>("Billing details");
+    Heading billingDetailsHeading = App.Components.CreateByInnerTextContaining<Heading>("Billing details");
 
     billingDetailsHeading.ToBeVisible().WaitToBe();
 
-    Anchor showLogin = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Click here to login");
+    Anchor showLogin = App.Components.CreateByInnerTextContaining<Anchor>("Click here to login");
 
     showLogin.ValidateHrefIs("http://demos.bellatrix.solutions/checkout/#");
     showLogin.ValidateCssClassIs("showlogin");
 
-    TextArea orderCommentsTextArea = App.ElementCreateService.CreateById<TextArea>("order_comments");
+    TextArea orderCommentsTextArea = App.Components.CreateById<TextArea>("order_comments");
 
     orderCommentsTextArea.ScrollToVisible();
     orderCommentsTextArea.SetText("Please send the rocket to my door step!");
 
-    TextField billingFirstName = App.ElementCreateService.CreateById<TextField>("billing_first_name");
+    TextField billingFirstName = App.Components.CreateById<TextField>("billing_first_name");
     billingFirstName.SetText("In");
 
-    TextField billingLastName = App.ElementCreateService.CreateById<TextField>("billing_last_name");
+    TextField billingLastName = App.Components.CreateById<TextField>("billing_last_name");
     billingLastName.SetText("Deepthought");
 
-    TextField billingCompany = App.ElementCreateService.CreateById<TextField>("billing_company");
+    TextField billingCompany = App.Components.CreateById<TextField>("billing_company");
     billingCompany.SetText("Automate The Planet Ltd.");
 
-    Select billingCountry = App.ElementCreateService.CreateById<Select>("billing_country");
+    Select billingCountry = App.Components.CreateById<Select>("billing_country");
     billingCountry.SelectByText("Bulgaria");
 
-    TextField billingAddress1 = App.ElementCreateService.CreateById<TextField>("billing_address_1");
+    TextField billingAddress1 = App.Components.CreateById<TextField>("billing_address_1");
 
     Assert.AreEqual("House number and street name", billingAddress1.Placeholder);
     billingAddress1.SetText("bul. Yerusalim 5");
 
-    TextField billingAddress2 = App.ElementCreateService.CreateById<TextField>("billing_address_2");
+    TextField billingAddress2 = App.Components.CreateById<TextField>("billing_address_2");
     billingAddress2.SetText("bul. Yerusalim 6");
 
-    TextField billingCity = App.ElementCreateService.CreateById<TextField>("billing_city");
+    TextField billingCity = App.Components.CreateById<TextField>("billing_city");
     billingCity.SetText("Sofia");
 
     Select billingState = 
-    App.ElementCreateService.CreateById<Select>("billing_state").ToBeVisible().ToBeClickable();
+    App.Components.CreateById<Select>("billing_state").ToBeVisible().ToBeClickable();
     billingState.SelectByText("Sofia-Grad");
 
-    TextField billingZip = App.ElementCreateService.CreateById<TextField>("billing_postcode");
+    TextField billingZip = App.Components.CreateById<TextField>("billing_postcode");
     billingZip.SetText("1000");
 
-    Phone billingPhone = App.ElementCreateService.CreateById<Phone>("billing_phone");
+    Phone billingPhone = App.Components.CreateById<Phone>("billing_phone");
 
     billingPhone.SetPhone("+00359894646464");
 
-    Email billingEmail = App.ElementCreateService.CreateById<Email>("billing_email");
+    Email billingEmail = App.Components.CreateById<Email>("billing_email");
 
     billingEmail.SetEmail("info@bellatrix.solutions");
 
-    CheckBox createAccountCheckBox = App.ElementCreateService.CreateById<CheckBox>("createaccount");
+    CheckBox createAccountCheckBox = App.Components.CreateById<CheckBox>("createaccount");
 
     createAccountCheckBox.Check();
 
     RadioButton checkPaymentsRadioButton = 
-    App.ElementCreateService.CreateByAttributesContaining<RadioButton>("for", "payment_method_cheque");
+    App.Components.CreateByAttributesContaining<RadioButton>("for", "payment_method_cheque");
 
     checkPaymentsRadioButton.Click();
 }
@@ -132,7 +132,7 @@ Explanations
 As mentioned before BELLATRIX exposes 30+ web controls. All of them implement Proxy design pattern which means that they are not located immediately when they are created. Another benefit is that each of them includes only the actions that you should be able to do with the specific control and nothing more.
 For example, you cannot type into a button. Moreover, this way all of the actions has meaningful names- Type not SendKeys as in vanilla WebDriver.
 ```csharp
-Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
+Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
 ```
 Create methods accept a generic parameter the type of the web control. Then only the methods for this specific control are accessible. Here we tell BELLATRIX to find your element by name attribute ending with 'orderby'.
 
@@ -153,7 +153,7 @@ You can select from select inputs by text (SelectByText) or index (SelectByIndex
 <a href='http://demos.bellatrix.solutions/product/proton-m/'>Read more</a>
 ```
 ```csharp
-Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
+Anchor protonMReadMoreButton = App.Components.CreateByInnerTextContaining<Anchor>("Read more");
 ```
 Here BELLATRIX finds the first anchor element which has inner text containing the 'Read more' text.
 ```csharp
@@ -164,7 +164,7 @@ You can Hover and Focus on most web elements. Also, can invoke Click on anchors.
 <a href="/?add-to-cart=28" data-product_id="28">Add to cart</a>
 ```
 ```csharp
-Anchor addToCartFalcon9 = App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
+Anchor addToCartFalcon9 = App.Components.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
 addToCartFalcon9.Focus();
 addToCartFalcon9.Click();
 ```
@@ -174,12 +174,12 @@ Locate elements by custom attribute. BELLATRIX waits till the anchor is clickabl
 ```
 ```csharp
 Anchor viewCartButton = 
-App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+App.Components.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
 viewCartButton.Click();
 ```
 Find the anchor by class 'added_to_cart wc-forward' and wait for the element again to be clickable.
 ```csharp
-TextField couponCodeTextField = App.ElementCreateService.CreateById<TextField>("coupon_code");
+TextField couponCodeTextField = App.Components.CreateById<TextField>("coupon_code");
 ```
 Find a regular input text element by id = 'coupon_code'.
 ```csharp
@@ -190,7 +190,7 @@ Instead of using vanilla WebDriver SendKeys to set the text, use the SetText met
 <input type="submit" class="button" name="apply_coupon" value="Apply coupon">
 ```
 ```csharp
-Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
+Button applyCouponButton = App.Components.CreateByValueContaining<Button>("Apply coupon");
 applyCouponButton.Click();
 ```
 Create a button control by value attribute containing the text 'Apply coupon'. Button can be any of the following web elements- input button, input submit or button.
@@ -198,7 +198,7 @@ Create a button control by value attribute containing the text 'Apply coupon'. B
 <div class="woocommerce-message" role="alert">Coupon code applied successfully.</div>
 ```
 ```csharp
-Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
+Div messageAlert = App.Components.CreateByClassContaining<Div>("woocommerce-message");
 messageAlert.ToHasContent().ToBeVisible().WaitToBe();
 ```
 Wait for the message DIV to show up and have some content.
@@ -210,7 +210,7 @@ The commented code fails 1 from 5 times.
 To handle these situations, BELLATRIX has hundreds of Ensure methods that wait for some condition to happen before asserting.
 Bellow the statement waits for the specific text to appear and assert it.
 ```csharp
-Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
+Div messageAlert = App.Components.CreateByClassContaining<Div>("woocommerce-message");
 messageAlert.ValidateInnerTextIs("Coupon code applied successfully.");
 ```
 **Note**: *There are much more details about these methods in the next chapters.*
@@ -218,21 +218,21 @@ messageAlert.ValidateInnerTextIs("Coupon code applied successfully.");
 <input type="number" id="quantity_5ad35e76b34a2" step="1" min="0" max="" value="1" size="4" pattern="[0-9]*" inputmode="numeric">
 ```
 ```csharp
-Number quantityBox = App.ElementCreateService.CreateByClassContaining<Number>("input-text qty text");
+Number quantityBox = App.Components.CreateByClassContaining<Number>("input-text qty text");
 ```
 Find the number element by class 'input-text qty text'.
 ```csharp
-Number quantityBox = App.ElementCreateService.CreateByClassContaining<Number>("input-text qty text");
+Number quantityBox = App.Components.CreateByClassContaining<Number>("input-text qty text");
 quantityBox.SetNumber(0);
 quantityBox.SetNumber(2);
 ```
 For numbers elements, you can set the number and get most of the properties of these elements.
 ```csharp
-Heading billingDetailsHeading = App.ElementCreateService.CreateByInnerTextContaining<Heading>("Billing details");
+Heading billingDetailsHeading = App.Components.CreateByInnerTextContaining<Heading>("Billing details");
 ```
 As mentioned before, BELLATRIX has special synchronization mechanism for locating elements, so usually, there is no need to wait for specific elements to appear on the page. However, there may be some rare cases when you need to do it. The statement finds the heading by its inner text containing the text 'Billing details'.
 ```csharp
-Heading billingDetailsHeading = App.ElementCreateService.CreateByInnerTextContaining<Heading>("Billing details");
+Heading billingDetailsHeading = App.Components.CreateByInnerTextContaining<Heading>("Billing details");
 billingDetailsHeading.ToBeVisible().WaitToBe();
 ```
 Wait for the heading with the above text to be visible. This means that the correct page is loaded.
@@ -244,33 +244,33 @@ showLogin.ValidateCssClassIs("showlogin");
 ```
 All web controls have multiple properties for their most important attributes and ensure methods for their verification.
 ```csharp
-TextArea orderCommentsTextArea = App.ElementCreateService.CreateById<TextArea>("order_comments");
+TextArea orderCommentsTextArea = App.Components.CreateById<TextArea>("order_comments");
 orderCommentsTextArea.ScrollToVisible();
 ```
 Here we find the order comments text area and since it is below the visible area we scroll down so that it gets visible on the video recordings. Then the text is set.
 ```csharp
-TextField billingAddress1 = App.ElementCreateService.CreateById<TextField>("billing_address_1");
+TextField billingAddress1 = App.Components.CreateById<TextField>("billing_address_1");
 Assert.AreEqual("House number and street name", billingAddress1.Placeholder);
 ```
 Through the Placeholder, you can get the default text of the control.
 ```csharp
-Phone billingPhone = App.ElementCreateService.CreateById<Phone>("billing_phone");
+Phone billingPhone = App.Components.CreateById<Phone>("billing_phone");
 billingPhone.SetPhone("+00359894646464");
 ```
 Create the special text field control Phone it contains some additional properties unique for this web element.
 ```csharp
-Email billingEmail = App.ElementCreateService.CreateById<Email>("billing_email");
+Email billingEmail = App.Components.CreateById<Email>("billing_email");
 billingEmail.SetEmail("info@bellatrix.solutions");
 ```
 Here we create the special text field control Email it contains some additional properties unique for this web element.
 ```csharp
-CheckBox createAccountCheckBox = App.ElementCreateService.CreateById<CheckBox>("createaccount");
+CheckBox createAccountCheckBox = App.Components.CreateById<CheckBox>("createaccount");
 createAccountCheckBox.Check();
 ```
 You can check and uncheck checkboxes.
 ```csharp
 RadioButton checkPaymentsRadioButton = 
-App.ElementCreateService.CreateByAttributesContaining<RadioButton>("for", "payment_method_cheque");.
+App.Components.CreateByAttributesContaining<RadioButton>("for", "payment_method_cheque");.
 checkPaymentsRadioButton.Click();
 ```
 BELLATRIX finds the first RadioButton with attribute 'for' containing the value 'payment_method_cheque'. The radio buttons compared to checkboxes cannot be unchecked/unselected.

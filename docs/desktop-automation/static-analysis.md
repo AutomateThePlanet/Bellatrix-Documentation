@@ -2,7 +2,7 @@
 layout: default
 title:  "Static Analysis"
 excerpt: "Learn how to use the BELLATRIX Static Analysis."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/static-analysis/
 anchors:

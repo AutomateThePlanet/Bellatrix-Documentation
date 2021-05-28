@@ -2,7 +2,7 @@
 layout: default
 title:  "Troubleshooting- Video Recording"
 excerpt: "Learn how to use BELLATRIX cross-platform video recording."
-date:   2018-10-22 06:50:17 +0200
+date:   2021-10-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/troubleshooting-video-recording/
 anchors:
@@ -25,7 +25,7 @@ public class VideoRecordingTests : AndroidTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.Components.CreateByIdContaining<Button>("button");
 
         button.Click();
     }

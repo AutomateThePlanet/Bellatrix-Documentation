@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Plugin Hooks"
 excerpt: "Learn how to extend the BELLATRIX plugins using hooks."
-date:   2018-10-23 06:50:17 +0200
+date:   2021-10-23 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/extensibility-test-workflow-hooks/
 anchors:
@@ -26,8 +26,8 @@ public class TestWorkflowHooksTests : AndroidTest
     
     public override void TestsArrange()
     {
-        _button = App.ElementCreateService.CreateByIdContaining<Button>("button");
-        _checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
+        _button = App.Components.CreateByIdContaining<Button>("button");
+        _checkBox = App.Components.CreateByIdContaining<CheckBox>("check1");
     }
 
     public override void TestsAct()
@@ -94,8 +94,8 @@ You can add some logic that is executed after each test instead of copy pasting 
 ```csharp
 public override void TestsArrange()
 {
-    _button = App.ElementCreateService.CreateByIdContaining<Button>("button");
-	_checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
+    _button = App.Components.CreateByIdContaining<Button>("button");
+	_checkBox = App.Components.CreateByIdContaining<CheckBox>("check1");
 }
 
 public override void TestsAct()

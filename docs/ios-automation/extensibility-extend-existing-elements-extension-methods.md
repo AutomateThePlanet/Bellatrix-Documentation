@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Extend Existing Elements- Extension Methods"
 excerpt: "Learn how to extend BELLATRIX iOS elements using extension methods."
-date:   2018-10-23 06:50:17 +0200
+date:   2021-10-23 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/extensibility-extend-existing-elements-extension-methods/
 anchors:
@@ -27,7 +27,7 @@ namespace Bellatrix.Mobile.IOS.GettingStarted
         [TestMethod]
         public void ButtonClicked_When_CallClickMethod()
         {
-            var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+            var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
             button.SubmitButtonWithScroll();
         }

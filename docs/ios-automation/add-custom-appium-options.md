@@ -2,7 +2,7 @@
 layout: default
 title:  "Add Custom Appium Options"
 excerpt: "Learn how to add custom Appium options."
-date:   2018-11-20 06:50:17 +0200
+date:   2021-11-20 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/add-custom-appium-options/
 anchors:
@@ -29,7 +29,7 @@ public class CustomWebDriverCapabilitiesTests : IOSTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+        var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }

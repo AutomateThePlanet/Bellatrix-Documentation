@@ -2,7 +2,7 @@
 layout: default
 title:  "WebService"
 excerpt: "Learn how to use BELLATRIX iOS WebService."
-date:   2018-11-22 06:50:17 +0200
+date:   2021-11-22 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/web-service/
 anchors:

@@ -2,7 +2,7 @@
 layout: default
 title:  "WebService"
 excerpt: "Learn how to use BELLATRIX Android WebService."
-date:   2018-10-22 06:50:17 +0200
+date:   2021-10-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/web-service/
 anchors:

@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensability- Extend Common Services"
 excerpt: "Learn how to extend BELLATRIX common services."
-date:   2018-11-23 06:50:17 +0200
+date:   2021-11-23 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/extensibility-extend-common-services/
 anchors:
@@ -29,7 +29,7 @@ namespace Bellatrix.Mobile.IOS.GettingStarted
         {
             App.AppService.LoginToApp("bellatrix", "topSecret");
 
-            var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+            var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
             button.Click();
         }

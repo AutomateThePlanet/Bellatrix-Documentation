@@ -2,7 +2,7 @@
 layout: default
 title:  "Troubleshooting- Screenshots on Fail"
 excerpt: "Learn how to generate screenshots on test's fail."
-date:   2018-11-22 06:50:17 +0200
+date:   2021-11-22 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/troubleshooting-screenshots-on-fail/
 anchors:
@@ -23,7 +23,7 @@ public class ScreenshotsOnFailTests : IOSTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+        var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }

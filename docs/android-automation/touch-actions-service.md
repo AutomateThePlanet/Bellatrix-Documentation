@@ -2,7 +2,7 @@
 layout: default
 title:  "TouchActionsService"
 excerpt: "Learn how to use BELLATRIX Android TouchActionsService."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/touch-actions-service/
 anchors:
@@ -26,7 +26,7 @@ public class TouchActionsServiceTests : AndroidTest
     {
         App.AppService.StartActivity("io.appium.android.apis", ".graphics.FingerPaint");
 
-        var textField = App.ElementCreateService.CreateByIdContaining<TextField>("content");
+        var textField = App.Components.CreateByIdContaining<TextField>("content");
         Point point = textField.Location;
         Size size = textField.Size;
 
@@ -43,12 +43,12 @@ public class TouchActionsServiceTests : AndroidTest
     {
         App.AppService.StartActivity(Constants.AndroidNativeAppAppExamplePackage, ".ApiDemos");
 
-        var elements = App.ElementCreateService.CreateAllByClass<TextField>("android.widget.TextView");
+        var elements = App.Components.CreateAllByClass<TextField>("android.widget.TextView");
         int initialCount = elements.Count();
 
         App.TouchActionsService.Tap(elements[4], 10).Perform();
 
-        elements = App.ElementCreateService.CreateAllByClass<TextField>("android.widget.TextView");
+        elements = App.Components.CreateAllByClass<TextField>("android.widget.TextView");
 
         Assert.AreNotEqual(initialCount, elements.Count());
         Assert.AreEqual(1, elements.Count());
@@ -59,7 +59,7 @@ public class TouchActionsServiceTests : AndroidTest
     {
         App.AppService.StartActivity(Constants.AndroidNativeAppAppExamplePackage, ".ApiDemos");
 
-        var elements = App.ElementCreateService.CreateAllByClass<TextField>("android.widget.TextView");
+        var elements = App.Components.CreateAllByClass<TextField>("android.widget.TextView");
         var locationOne = elements[7].Location;
         var locationTwo = elements[1].Location;
 
@@ -68,7 +68,7 @@ public class TouchActionsServiceTests : AndroidTest
             Release().
             Perform();
 
-        elements = App.ElementCreateService.CreateAllByClass<TextField>("android.widget.TextView");
+        elements = App.Components.CreateAllByClass<TextField>("android.widget.TextView");
 
         Assert.AreNotEqual(elements[7].Location.Y, elements[1].Location.Y);
     }
@@ -80,14 +80,14 @@ public class TouchActionsServiceTests : AndroidTest
         App.AppService.StartActivity(Constants.AndroidNativeAppAppExamplePackage, ".ApiDemos");
         string originalActivity = App.AppService.CurrentActivity;
 
-        var elements = App.ElementCreateService.CreateAllByClass<TextField>("android.widget.TextView");
+        var elements = App.Components.CreateAllByClass<TextField>("android.widget.TextView");
 
         // Executes two multi actions.
         var tapOne = App.TouchActionsService.Press(elements[5], 1500).Release();
         App.TouchActionsService.AddNewAction(tapOne);
         App.TouchActionsService.AddNewAction(tapOne);
         App.TouchActionsService.PerformAllActions();
-        elements = App.ElementCreateService.CreateAllByClass<TextField>("android.widget.TextView");
+        elements = App.Components.CreateAllByClass<TextField>("android.widget.TextView");
 
         var tapTwo = App.TouchActionsService.Press(elements[1], 1500).Release();
         App.TouchActionsService.AddNewAction(tapTwo);
@@ -135,7 +135,7 @@ var tapOne = App.TouchActionsService.Press(elements[5], 1500).Release();
 App.TouchActionsService.AddNewAction(tapOne);
 App.TouchActionsService.AddNewAction(tapOne);
 App.TouchActionsService.PerformAllActions();
-elements = App.ElementCreateService.CreateAllByClass<TextField>("android.widget.TextView");
+elements = App.Components.CreateAllByClass<TextField>("android.widget.TextView");
 
 var tapTwo = App.TouchActionsService.Press(elements[1], 1500).Release();
 App.TouchActionsService.AddNewAction(tapTwo);

@@ -2,7 +2,7 @@
 layout: default
 title:  "Locate Elements"
 excerpt: "Learn how to locate iOS elements with BELLATRIX mobile module."
-date:   2018-10-20 06:50:17 +0200
+date:   2021-10-20 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/locate-elements/
 anchors:
@@ -21,7 +21,7 @@ Example
 [TestMethod]
 public void ElementFound_When_CreateById_And_ElementIsOnScreen()
 {
-    var button = App.ElementCreateService.CreateById<Button>("ComputeSumButton");
+    var button = App.Components.CreateById<Button>("ComputeSumButton");
 
     button.ValidateIsVisible();
 
@@ -29,7 +29,7 @@ public void ElementFound_When_CreateById_And_ElementIsOnScreen()
 
     Console.WriteLine(button.WrappedElement.TagName);
 
-    var answerLabel = App.ElementCreateService.CreateById<Button>("BELLATRIX");
+    var answerLabel = App.Components.CreateById<Button>("BELLATRIX");
     answerLabel.ScrollToVisible(ScrollDirection.Up);
 
     answerLabel.Click();
@@ -39,7 +39,7 @@ public void ElementFound_When_CreateById_And_ElementIsOnScreen()
 Explanations
 -------
 ```csharp
-var button = App.ElementCreateService.CreateById<Button>("ComputeSumButton");
+var button = App.Components.CreateById<Button>("ComputeSumButton");
 ```
 There are different ways to locate elements on the screen. To do it you use the element create service. You need to know that BELLATRIX has a built-in complex mechanism for waiting for elements, so you do not need to worry about this anymore. Keep in mind that when you use the Create methods, the element is not searched on the screen. All elements use lazy loading. Which means that they are searched once you perform an action or assertion on them. By default on each new action, the element is searched again and be refreshed.
 ```csharp
@@ -51,7 +51,7 @@ Console.WriteLine(button.WrappedElement.TagName);
 ```
 You can access the WebDriver wrapped element through **WrappedElement** and the current AppiumDriver instance through- **WrappedDriver**.
 ```csharp
-var answerLabel = App.ElementCreateService.CreateById<Button>("BELLATRIX, from 11:00 PM to Monday, November 12, 12:00 AM");
+var answerLabel = App.Components.CreateById<Button>("BELLATRIX, from 11:00 PM to Monday, November 12, 12:00 AM");
 answerLabel.ScrollToVisible(ScrollDirection.Up);
 ```
 Sometimes, the elements you need to perform operations on are not in the visible part of the screen. In order Appium to be able to locate them, you need to scroll to them first. To do so for iOS, you need to use **ScrollToVisible** method.
@@ -61,37 +61,37 @@ Available Create Methods
 BELLATRIX extends the vanilla WebDriver selectors and give you additional ones.
 ### CreateById ###
 ```csharp
-App.ElementCreateService.CreateById<Button>("myId");
+App.Components.CreateById<Button>("myId");
 ```
 Searches the element by its ID.
 ### CreateByName ###
 ```csharp
-App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+App.Components.CreateByName<Button>("ComputeSumButton");
 ```
 Searches the element by its name.
 ### CreateByValueContaining ###
 ```csharp
-App.ElementCreateService.CreateByValueContaining<Label>("SumLabel");
+App.Components.CreateByValueContaining<Label>("SumLabel");
 ```
 Searches the element by its value if it contains specified value.
 ### CreateByIOSUIAutomation ###
 ```csharp
-App.ElementCreateService.CreateByIOSUIAutomation<TextField>(".textFields().withPredicate("value == 'Search eBay'")");
+App.Components.CreateByIOSUIAutomation<TextField>(".textFields().withPredicate("value == 'Search eBay'")");
 ```
 Searches the element by iOS UIAutomation expressions.
 ### CreateByIOSNsPredicate ###
 ```csharp
-App.ElementCreateService.CreateByIOSNsPredicateCreateByIOSNsPredicate<RadioButton>("type == \"XCUIElementTypeSwitch\" AND name == \"All-day\"");
+App.Components.CreateByIOSNsPredicateCreateByIOSNsPredicate<RadioButton>("type == \"XCUIElementTypeSwitch\" AND name == \"All-day\"");
 ```
 Searches the element by iOS NsPredicate expression.
 ### CreateByClass ###
 ```csharp
-App.ElementCreateService.CreateByClass<TextField>("XCUIElementTypeTextField");
+App.Components.CreateByClass<TextField>("XCUIElementTypeTextField");
 ```
 Searches the element by its class.
 ### CreateByXPath ###
 ```csharp
-App.ElementCreateService.CreateByXPath<Button>("//XCUIElementTypeButton[@name=\"ComputeSumButton\"]");
+App.Components.CreateByXPath<Button>("//XCUIElementTypeButton[@name=\"ComputeSumButton\"]");
 ```
 Searches the element by XPath locator.
  
@@ -105,7 +105,7 @@ To do it you can use the element create service **CreateAll** method.
 [TestMethod]
 public void ElementFound_When_CreateAllById_And_ElementIsOnScreen()
 {
-	var buttons = App.ElementCreateService.CreateAllById<Button>("ComputeSumButton");
+	var buttons = App.Components.CreateAllById<Button>("ComputeSumButton");
 
 	buttons[0].ValidateIsVisible();
 }
@@ -115,37 +115,37 @@ Available CreateAll Methods
 ------------------------
 ### CreateAllById ###
 ```csharp
-App.ElementCreateService.CreateAllById<Button>("myId");
+App.Components.CreateAllById<Button>("myId");
 ```
 Searches the elements by their ID.
 ### CreateAllByName ###
 ```csharp
-App.ElementCreateService.CreateAllByName<Button>("ComputeSumButton");
+App.Components.CreateAllByName<Button>("ComputeSumButton");
 ```
 Searches the elements by their name.
 ### CreateAllByValueContaining ###
 ```csharp
-App.ElementCreateService.CreateAllByValueContaining<Label>("SumLabel");
+App.Components.CreateAllByValueContaining<Label>("SumLabel");
 ```
 Searches the elements by their value if it contains specified value.
 ### CreateAllByIOSUIAutomation ###
 ```csharp
-App.ElementCreateService.CreateAllByIOSUIAutomation<TextField>(".textFields().withPredicate("value == 'Search eBay'")");
+App.Components.CreateAllByIOSUIAutomation<TextField>(".textFields().withPredicate("value == 'Search eBay'")");
 ```
 Searches the elements by iOS UIAutomation expressions.
 ### CreateAllByIOSNsPredicate ###
 ```csharp
-App.ElementCreateService.CreateByAllIOSNsPredicate<RadioButton>("type == \"XCUIElementTypeSwitch\" AND name == \"All-day\"");
+App.Components.CreateByAllIOSNsPredicate<RadioButton>("type == \"XCUIElementTypeSwitch\" AND name == \"All-day\"");
 ```
 Searches the elements by iOS NsPredicate expression.
 ### CreateAllByClass ###
 ```csharp
-App.ElementCreateService.CreateAllByClass<TextField>("XCUIElementTypeTextField");
+App.Components.CreateAllByClass<TextField>("XCUIElementTypeTextField");
 ```
 Searches the elements by their class.
 ### CreateAllByXPath ###
 ```csharp
-App.ElementCreateService.CreateAllByXPath<Button>("//XCUIElementTypeButton[@name=\"ComputeSumButton\"]");
+App.Components.CreateAllByXPath<Button>("//XCUIElementTypeButton[@name=\"ComputeSumButton\"]");
 ```
 Searches the elements by XPath locator.
 
@@ -156,7 +156,7 @@ Sometimes it is easier to locate one element and then find the next one that you
 ```csharp
 public void ElementFound_When_CreateById_And_ElementIsOnScreen_NestedElement()
 {
-	var mainElement = App.ElementCreateService.CreateByIOSNsPredicate<Element>(
+	var mainElement = App.Components.CreateByIOSNsPredicate<Element>(
 								"type == \"XCUIElementTypeApplication\" AND name == \"TestApp\"");
     var button = mainElement.CreateById<RadioButton>("ComputeSumButton");
     button.ValidateIsVisible();

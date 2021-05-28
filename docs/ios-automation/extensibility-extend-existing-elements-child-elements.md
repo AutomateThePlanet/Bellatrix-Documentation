@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensability- Extend Existing Elements- Child Elements"
 excerpt: "Learn how to extend BELLATRIX iOS elements using child elements."
-date:   2018-11-23 06:50:17 +0200
+date:   2021-11-23 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/extensibility-extend-existing-elements-child-elements/
 anchors:
@@ -23,7 +23,7 @@ public class ExtendExistingElementWithChildElementsTests : IOSTest
     [Ignore]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByName<ExtendedButton>("ComputeSumButton");
+        var button = App.Components.CreateByName<ExtendedButton>("ComputeSumButton");
 
         button.SubmitButtonWithScroll();
     }
@@ -46,7 +46,7 @@ public class ExtendedButton : Button
 The second way of extending an existing element is to create a child element. Inherit the element you want to extend. In this case, a new method is added to the standard **Button** element. Next in your tests, use the **ExtendedButton** instead of regular **Button** to have access to this method. The same strategy can be used to create a completely new element that BELLATRIX does not provide.
     // You need to extend the 'Element' as a base class.
 ```csharp
-var button = App.ElementCreateService.CreateByName<ExtendedButton>("ComputeSumButton");
+var button = App.Components.CreateByName<ExtendedButton>("ComputeSumButton");
 ```
 Instead of the regular button, we create the **ExtendedButton**, this way we can use its new methods.
 ```csharp

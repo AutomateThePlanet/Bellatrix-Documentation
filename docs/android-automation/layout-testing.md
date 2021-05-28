@@ -2,7 +2,7 @@
 layout: default
 title:  "Layout Testing"
 excerpt: "Learn how to use the BELLATRIX layout testing library."
-date:   2018-10-22 06:50:17 +0200
+date:   2021-10-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/layout-testing/
 anchors:
@@ -17,11 +17,11 @@ Example
 [TestMethod]
 public void TestPageLayout()
 {
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
-    var secondButton = App.ElementCreateService.CreateByIdContaining<Button>("button_disabled");
-    var checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
-    var secondCheckBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check2");
-    var mainElement = App.ElementCreateService.CreateById<Element>("android:id/content");
+    var button = App.Components.CreateByIdContaining<Button>("button");
+    var secondButton = App.Components.CreateByIdContaining<Button>("button_disabled");
+    var checkBox = App.Components.CreateByIdContaining<CheckBox>("check1");
+    var secondCheckBox = App.Components.CreateByIdContaining<CheckBox>("check2");
+    var mainElement = App.Components.CreateById<Element>("android:id/content");
 
     button.AssertAboveOf(checkBox);
 

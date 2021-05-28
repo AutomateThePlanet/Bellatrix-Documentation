@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensability- Extend Existing Elements- Child Elements"
 excerpt: "Learn how to extend BELLATRIX web elements using child elements."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/extensibility-extend-existing-elements-child-elements/
 anchors:
@@ -21,11 +21,11 @@ public class ExtendExistingElementWithChildElementsTests : DesktopTest
     [ScreenshotOnFail(false)]
     public void MessageChanged_When_ButtonClicked_Wpf()
     {
-        var button = App.ElementCreateService.CreateByName<ExtendedButton>("E Button");
+        var button = App.Components.CreateByName<ExtendedButton>("E Button");
 
         button.SubmitButtonWithEnter();
 
-        var label = App.ElementCreateService.CreateByName<Button>("ebuttonClicked");
+        var label = App.Components.CreateByName<Button>("ebuttonClicked");
         Assert.AreEqual("ebuttonClicked", label.InnerText);
     }
 }
@@ -45,7 +45,7 @@ public class ExtendedButton : Button
 ```
 The second way of extending an existing element is to create a child element. Inherit the element you want to extend. In this case, two methods are added to the standard Button element. Next in your tests, use the ** ** instead of regular Button to have access to these methods. The same strategy can be used to create a completely new element that BELLATRIX does not provide. You need to extend the '**Element**' as a base class.
 ```csharp
-var button = App.ElementCreateService.CreateByName<ExtendedButton>("E Button");
+var button = App.Components.CreateByName<ExtendedButton>("E Button");
 ```
 Instead of the regular button, we create the **ExtendedButton**, this way we can use its new methods.
 ```csharp

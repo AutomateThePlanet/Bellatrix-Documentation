@@ -2,7 +2,7 @@
 layout: default
 title:  "Locate Elements"
 excerpt: "Learn how to locate web elements with BELLATRIX web module."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/locate-elements/
 anchors:
@@ -23,7 +23,7 @@ public void PromotionsPageOpened_When_PromotionsButtonClicked()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-    var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+    var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 
     promotionsLink.Click();
     Console.WriteLine(promotionsLink.By.Value);
@@ -35,7 +35,7 @@ public void PromotionsPageOpened_When_PromotionsButtonClicked()
 Explanations
 -------
 ```csharp
-var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 ```
 There are different ways to locate elements on the page. To do it you use the element create service.
 You need to know that BELLATRIX has a built-in complex mechanism for waiting for elements, so you do not need to worry about this anymore. Keep in mind that when you use the Create methods, the element is not searched on the page. All elements use lazy loading. Which means that they are searched once you perform an action or assertion on them. By default on each new action, the element is searched again and be refreshed.
@@ -55,67 +55,67 @@ Available Create Methods
 BELLATRIX extends the vanilla WebDriver selectors and give you additional ones.
 ### CreateByIdEndingWith ###
 ```csharp
-App.ElementCreateService.CreateByIdEndingWith<Anchor>("myIdSuffix");
+App.Components.CreateByIdEndingWith<Anchor>("myIdSuffix");
 ```
 Searches the element by ID ending with the locator.
 ### CreateByTag ###
 ```csharp
-App.ElementCreateService.CreateByTag<Anchor>("a");
+App.Components.CreateByTag<Anchor>("a");
 ```
 Searches the element by its tag.
 ### CreateById ###
 ```csharp
-App.ElementCreateService.CreateById<Button>("myId");
+App.Components.CreateById<Button>("myId");
 ```
 Searches the element by its ID.
 ### CreateByIdContaining ###
 ```csharp
-App.ElementCreateService.CreateByIdContaining<Button>("myIdMiddle");
+App.Components.CreateByIdContaining<Button>("myIdMiddle");
 ```
 Searches the element by ID containing the specified text.
 ### CreateByValueEndingWith ###
 ```csharp
-App.ElementCreateService.CreateByIdContaining<Button>("pay");
+App.Components.CreateByIdContaining<Button>("pay");
 ```
 Searches the element by value attribute containing the specified text.
 ### CreateByXpath ###
 ```csharp
-App.ElementCreateService.CreateByXpath<Button>("//*[@title='Add to cart']");
+App.Components.CreateByXpath<Button>("//*[@title='Add to cart']");
 ```
 Searches the element by XPath locator.
 ### CreateByLinkText ###
 ```csharp
-App.ElementCreateService.CreateByLinkText<Anchor>("blog");
+App.Components.CreateByLinkText<Anchor>("blog");
 ```
 Searches the element by its link (href).
 ### CreateByLinkTextContaining ###
 ```csharp
-App.ElementCreateService.CreateByLinkTextContaining<Anchor>("account");
+App.Components.CreateByLinkTextContaining<Anchor>("account");
 ```
 Searches the element by its link (href) if it contains specified value.
 ### CreateByClass ###
 ```csharp
-App.ElementCreateService.CreateByClassContaining<Anchor>("ul.products");
+App.Components.CreateByClassContaining<Anchor>("ul.products");
 ```
 Searches the element by its CSS classes.
 ### CreateByClassContaining ###
 ```csharp
-App.ElementCreateService.CreateByClassContaining<Anchor>(".products");
+App.Components.CreateByClassContaining<Anchor>(".products");
 ```
 Searches the element by its CSS classes containing the specified values.
 ### CreateByInnerTextContaining ###
 ```csharp
-App.ElementCreateService.CreateByInnerTextContaining<Div>("Showing all");
+App.Components.CreateByInnerTextContaining<Div>("Showing all");
 ```
 Searches the element by its inner text content, including all child HTML elements.
 ### CreateByNameEndingWith ###
 ```csharp
-App.ElementCreateService.CreateByNameEndingWith<Search>("a");
+App.Components.CreateByNameEndingWith<Search>("a");
 ```
 Searches the element by its name containing the specified text.
 ### CreateByAttributesContaining ###
 ```csharp
-App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "31");
+App.Components.CreateByAttributesContaining<Anchor>("data-product_id", "31");
 ```
 Searches the element by some of its attribute containing the specified value.
 
@@ -130,7 +130,7 @@ public void CheckAllAddToCartButtons()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-    var blogLink = App.ElementCreateService.CreateAllByXpath<Anchor>("//*[@title='Add to cart']");
+    var blogLink = App.Components.CreateAllByXpath<Anchor>("//*[@title='Add to cart']");
 }
 ```
 
@@ -138,67 +138,67 @@ Available CreateAll Methods
 ------------------------
 ### CreateAllByIdEndingWith ###
 ```csharp
-App.ElementCreateService.CreateAllByIdEndingWith<Anchor>("myIdSuffix");
+App.Components.CreateAllByIdEndingWith<Anchor>("myIdSuffix");
 ```
 Searches the elements by ID ending with the locator.
 ### CreateAllByTag ###
 ```csharp
-App.ElementCreateService.CreateAllByTag<Anchor>("a");
+App.Components.CreateAllByTag<Anchor>("a");
 ```
 Searches the elements by its tag.
 ### CreateAllById ###
 ```csharp
-App.ElementCreateService.CreateAllById<Button>("myId");
+App.Components.CreateAllById<Button>("myId");
 ```
 Searches the elements by its ID.
 ### CreateAllByIdContaining ###
 ```csharp
-App.ElementCreateService.CreateAllByIdContaining<Button>("myIdMiddle");
+App.Components.CreateAllByIdContaining<Button>("myIdMiddle");
 ```
 Searches the elements by ID containing the specified text.
 ### CreateAllByValueEndingWith ###
 ```csharp
-App.ElementCreateService.CreateAllByValueEndingWith<Button>("pay");
+App.Components.CreateAllByValueEndingWith<Button>("pay");
 ```
 Searches the elements by value attribute containing the specified text.
 ### CreateAllByXpath ###
 ```csharp
-App.ElementCreateService.CreateAllByXpath<Button>("//*[@title='Add to cart']");
+App.Components.CreateAllByXpath<Button>("//*[@title='Add to cart']");
 ```
 Searches the elements by XPath locator.
 ### CreateAllByLinkText ###
 ```csharp
-App.ElementCreateService.CreateAllByLinkText<Anchor>("blog");
+App.Components.CreateAllByLinkText<Anchor>("blog");
 ```
 Searches the elements by its link (href).
 ### CreateAllByLinkTextContaining ###
 ```csharp
-App.ElementCreateService.CreateAllByLinkTextContaining<Anchor>("account");
+App.Components.CreateAllByLinkTextContaining<Anchor>("account");
 ```
 Searches the elements by its link (href) if it contains specified value.
 ### CreateAllByClass ###
 ```csharp
-App.ElementCreateService.CreateAllByClass<Anchor>("ul.products");
+App.Components.CreateAllByClass<Anchor>("ul.products");
 ```
 Searches the elements by its CSS classes.
 ### CreateAllByClassContaining ###
 ```csharp
-App.ElementCreateService.CreateAllByClassContaining<Anchor>(".products");
+App.Components.CreateAllByClassContaining<Anchor>(".products");
 ```
 Searches the elements by its CSS classes containing the specified values.
 ### CreateAllByInnerTextContaining ###
 ```csharp
-App.ElementCreateService.CreateAllByInnerTextContaining<Div>("Showing all");
+App.Components.CreateAllByInnerTextContaining<Div>("Showing all");
 ```
 Searches the elements by its inner text content, including all child HTML elements.
 ### CreateAllByNameEndingWith ###
 ```csharp
-App.ElementCreateService.CreateAllByNameEndingWith<Search>("a");
+App.Components.CreateAllByNameEndingWith<Search>("a");
 ```
 Searches the elements by its name containing the specified text.   
 ### CreateAllByAttributesContaining ###
 ```csharp
-App.ElementCreateService.CreateAllByAttributesContaining<Anchor>("data-product_id", "31");
+App.Components.CreateAllByAttributesContaining<Anchor>("data-product_id", "31");
 ```
 Searches the elements by some of its attribute containing the specifed value. 
 
@@ -212,7 +212,7 @@ public void OpenSalesPage_When_LocatedSaleButtonInsideProductImage()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-    var productsColumn = App.ElementCreateService.CreateByClass<Option>("products columns-4");
+    var productsColumn = App.Components.CreateByClass<Option>("products columns-4");
 
     var saleButton = productsColumn.CreateByClassContaining<Anchor>("woocommerce-LoopProduct-link woocommerce-loop-product__link").CreateByInnerTextContaining<Button>("Sale!");
 

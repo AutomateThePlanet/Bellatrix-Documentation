@@ -22,8 +22,8 @@ public class InteractionsServiceTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        Anchor protonRocketAnchor = App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/proton-rocket/");
-        Anchor protonMAnchor = App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/proton-m/");
+        Anchor protonRocketAnchor = App.Components.CreateByAttributesContaining<Anchor>("href", "/proton-rocket/");
+        Anchor protonMAnchor = App.Components.CreateByAttributesContaining<Anchor>("href", "/proton-m/");
 
         App.InteractionsService.MoveToElement(protonRocketAnchor).DragAndDrop(protonRocketAnchor, protonMAnchor).Perform();
     }
@@ -34,8 +34,8 @@ public class InteractionsServiceTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        Anchor protonRocketAnchor = App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/proton-rocket/");
-        Anchor protonMAnchor = App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/proton-m/");
+        Anchor protonRocketAnchor = App.Components.CreateByAttributesContaining<Anchor>("href", "/proton-rocket/");
+        Anchor protonMAnchor = App.Components.CreateByAttributesContaining<Anchor>("href", "/proton-m/");
 
         App.InteractionsService.MoveToElement(protonRocketAnchor).KeyUp(Keys.LeftShift).ContextClick().Perform();
     }

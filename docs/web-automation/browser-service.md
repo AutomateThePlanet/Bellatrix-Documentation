@@ -2,7 +2,7 @@
 layout: default
 title:  "BrowserService"
 excerpt: "Learn how to use BELLATRIX BrowserService."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/browser-service/
 anchors:
@@ -60,7 +60,7 @@ public class BrowserServiceTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        var frame = App.ElementCreateService.CreateById<Frame>("myFrameId");
+        var frame = App.Components.CreateById<Frame>("myFrameId");
         App.BrowserService.SwitchToFrame(frame);
 
         var myButton = frame.CreateById<Button>("purchaseBtnId");
@@ -108,7 +108,7 @@ Debug.WriteLine(App.BrowserService.HtmlSource);
 ```
 Get the current page HTML.
 ```csharp
-var frame = App.ElementCreateService.CreateById<Frame>("myFrameId");
+var frame = App.Components.CreateById<Frame>("myFrameId");
 App.BrowserService.SwitchToFrame(frame);
 var myButton = frame.CreateById<Button>("purchaseBtnId");
 ```

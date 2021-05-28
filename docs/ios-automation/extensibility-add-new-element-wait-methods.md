@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Add New Element Wait Methods"
 excerpt: "Learn how to extend BELLATRIX adding new element wait methods."
-date:   2018-11-23 06:50:17 +0200
+date:   2021-11-23 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/extensibility-add-new-element-wait-methods/
 anchors:
@@ -76,7 +76,7 @@ namespace Bellatrix.Mobile.IOS.GettingStarted
         public void MessageChanged_When_ButtonHovered_Wpf()
         {
             var button = 
-				App.ElementCreateService.CreateByName<Button>("ComputeSumButton").ToHaveSpecificContent("button");
+				App.Components.CreateByName<Button>("ComputeSumButton").ToHaveSpecificContent("button");
 
             button.Click();
         }
@@ -90,5 +90,5 @@ using Bellatrix.Mobile.IOS.GettingStarted.ExtensionMethodsWaitMethods;
 ```
 After that, you can use the new wait method as it was originally part of BELLATRIX.
 ```csharp
-var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton").ToHaveSpecificContent("button");
+var button = App.Components.CreateByName<Button>("ComputeSumButton").ToHaveSpecificContent("button");
 ```

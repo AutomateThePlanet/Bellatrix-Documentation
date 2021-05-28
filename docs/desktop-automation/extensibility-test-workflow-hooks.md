@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Plugin Hooks"
 excerpt: "Learn how to extend the BELLATRIX plugins using hooks."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/extensibility-test-workflow-hooks/
 anchors:
@@ -22,8 +22,8 @@ public class TestWorkflowHooksTests : DesktopTest
     
     public override void TestsArrange()
     {
-        _mainButton = App.ElementCreateService.CreateByName<Button>("E Button");
-        _resultsLabel = App.ElementCreateService.CreateByName<Label>("ebuttonHovered");
+        _mainButton = App.Components.CreateByName<Button>("E Button");
+        _resultsLabel = App.Components.CreateByName<Label>("ebuttonHovered");
     }
 
     public override void TestsAct()
@@ -91,8 +91,8 @@ You can add some logic that is executed after each test instead of copy pasting 
 ```csharp
 public override void TestsArrange()
 {
-    _mainButton = App.ElementCreateService.CreateByName<Button>("E Button");
-    _resultsLabel = App.ElementCreateService.CreateByName<Label>("ebuttonHovered");
+    _mainButton = App.Components.CreateByName<Button>("E Button");
+    _resultsLabel = App.Components.CreateByName<Label>("ebuttonHovered");
 }
 
 public override void TestsAct()

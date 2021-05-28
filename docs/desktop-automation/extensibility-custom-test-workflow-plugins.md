@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Plugins"
 excerpt: "Learn how to plugin your logic in BELLATRIX test workflow using plugins."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/extensibility-custom-test-workflow-plugins/
 anchors:

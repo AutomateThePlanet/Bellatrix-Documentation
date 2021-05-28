@@ -2,7 +2,7 @@
 layout: default
 title:  "Execute Tests in SauceLabs"
 excerpt: "Learn to use BELLATRIX to execute Android tests in SauceLabs."
-date:   2018-10-23 06:50:17 +0200
+date:   2021-10-23 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/execute-tests-saucelabs/
 anchors:
@@ -25,7 +25,7 @@ public class SauceLabsTests : AndroidTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.Components.CreateByIdContaining<Button>("button");
 
         button.Click();
     }
@@ -39,7 +39,7 @@ public class SauceLabsTests : AndroidTest
         Lifecycle.ReuseIfStarted)]
     public void ButtonClicked_When_CallClickMethodSecond()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.Components.CreateByIdContaining<Button>("button");
 
         button.Click();
     }
@@ -68,7 +68,7 @@ To execute BELLATRIX tests in SauceLabs cloud you should use the AndroidSauceLab
 [Ignore]
 public void ButtonClicked_When_CallClickMethodSecond()
 {
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+    var button = App.Components.CreateByIdContaining<Button>("button");
 
     button.Click();
 }

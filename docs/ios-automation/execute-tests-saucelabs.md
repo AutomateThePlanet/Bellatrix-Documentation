@@ -2,7 +2,7 @@
 layout: default
 title:  "Execute Tests in SauceLabs"
 excerpt: "Learn to use BELLATRIX to execute iOS tests in SauceLabs."
-date:   2018-11-23 06:50:17 +0200
+date:   2021-11-23 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/execute-tests-saucelabs/
 anchors:
@@ -23,7 +23,7 @@ public class SauceLabsTests : IOSTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+        var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
@@ -35,7 +35,7 @@ public class SauceLabsTests : IOSTest
         Lifecycle.ReuseIfStarted)]
     public void ButtonClicked_When_CallClickMethodSecond()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+        var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
@@ -59,7 +59,7 @@ To execute BELLATRIX tests in SauceLabs cloud you should use the IOSSauceLabs at
     Lifecycle.ReuseIfStarted)]
 public void ButtonClicked_When_CallClickMethodSecond()
 {
-    var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+    var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
     button.Click();
 }

@@ -2,7 +2,7 @@
 layout: default
 title:  "AppService"
 excerpt: "Learn how to use BELLATRIX AppService."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/app-service/
 anchors:
@@ -19,7 +19,7 @@ public class AppServiceTests : DesktopTest
     [TestMethod]
     public void MessageChanged_When_ButtonHovered_Wpf()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("E Button");
+        var button = App.Components.CreateByName<Button>("E Button");
 
         button.Click();
         

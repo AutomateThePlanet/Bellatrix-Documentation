@@ -2,7 +2,7 @@
 layout: default
 title:  "Static Analysis"
 excerpt: "Learn how to use the BELLATRIX Static Analysis."
-date:   2018-10-23 06:50:17 +0200
+date:   2021-10-23 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/static-analysis/
 anchors:

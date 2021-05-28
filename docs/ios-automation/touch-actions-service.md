@@ -2,7 +2,7 @@
 layout: default
 title:  "TouchActionsService"
 excerpt: "Learn how to use BELLATRIX iOS TouchActionsService."
-date:   2018-11-22 06:50:17 +0200
+date:   2021-11-22 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/touch-actions-service/
 anchors:
@@ -22,7 +22,7 @@ public class TouchActionsServiceTests : IOSTest
     [TestMethod]
     public void ElementSwiped_When_CallSwipeByCoordinatesMethod()
     {
-        var textField = App.ElementCreateService.CreateById<TextField>("IntegerA");
+        var textField = App.Components.CreateById<TextField>("IntegerA");
         Point point = textField.Location;
         Size size = textField.Size;
 
@@ -44,7 +44,7 @@ public class TouchActionsServiceTests : IOSTest
     [TestMethod]
     public void ElementTaped_When_CallTap()
     {
-        var buttons = App.ElementCreateService.CreateAllByClass<Button>("XCUIElementTypeButton");
+        var buttons = App.Components.CreateAllByClass<Button>("XCUIElementTypeButton");
 
         App.TouchActionsService.Tap(buttons[0], 10).Perform();
     }
@@ -52,7 +52,7 @@ public class TouchActionsServiceTests : IOSTest
     [TestMethod]
     public void ElementSwiped_When_CallPressWaitMoveToAndReleaseByCoordinates()
     {
-        var element = App.ElementCreateService.CreateByName<Element>("AppElem");
+        var element = App.Components.CreateByName<Element>("AppElem");
         int end = element.Size.Width;
         int y = element.Location.Y;
         int moveTo = (9 / 100) * end;
@@ -63,7 +63,7 @@ public class TouchActionsServiceTests : IOSTest
     [TestMethod]
     public void ElementSwiped_When_CallPressWaitMoveToAndReleaseByCoordinatesMultiAction()
     {
-        var element = App.ElementCreateService.CreateByName<Element>("AppElem");
+        var element = App.Components.CreateByName<Element>("AppElem");
         int end = element.Size.Width;
         int y = element.Location.Y;
         int moveTo = (9 / 100) * end;
@@ -76,7 +76,7 @@ public class TouchActionsServiceTests : IOSTest
     [TestMethod]
     public void TwoTouchActionExecutedInOneMultiAction_When_CallPerformAllActions()
     {
-        var buttons = App.ElementCreateService.CreateAllByClass<Button>("XCUIElementTypeButton");
+        var buttons = App.Components.CreateAllByClass<Button>("XCUIElementTypeButton");
 
         var tapOne = App.TouchActionsService.Tap(buttons[0], 10);
         App.TouchActionsService.AddNewAction(tapOne);

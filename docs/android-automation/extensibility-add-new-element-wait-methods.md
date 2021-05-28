@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Add New Element Wait Methods"
 excerpt: "Learn how to extend BELLATRIX adding new element wait methods."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/extensibility-add-new-element-wait-methods/
 anchors:
@@ -77,7 +77,7 @@ namespace Bellatrix.Mobile.Android.GettingStarted
         [Ignore]
         public void MessageChanged_When_ButtonHovered_Wpf()
         {
-            var button = App.ElementCreateService.CreateByIdContaining<Button>("button").ToHaveSpecificContent("button");
+            var button = App.Components.CreateByIdContaining<Button>("button").ToHaveSpecificContent("button");
 
             button.Click();
         }
@@ -91,5 +91,5 @@ using Bellatrix.Mobile.Android.GettingStarted.ExtensionMethodsWaitMethods;
 ```
 After that, you can use the new wait method as it was originally part of BELLATRIX.
 ```csharp
-var button = App.ElementCreateService.CreateByIdContaining<Button>("button").ToHaveSpecificContent("button");
+var button = App.Components.CreateByIdContaining<Button>("button").ToHaveSpecificContent("button");
 ```

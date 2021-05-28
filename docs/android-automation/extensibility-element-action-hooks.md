@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Element Action Hooks"
 excerpt: "Learn how to extend BELLATRIX Android element controls using element action hooks."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/extensibility-element-action-hooks/
 anchors:
@@ -54,7 +54,7 @@ public class ElementActionHooksTests : AndroidTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.Components.CreateByIdContaining<Button>("button");
 
         button.Click();
     }

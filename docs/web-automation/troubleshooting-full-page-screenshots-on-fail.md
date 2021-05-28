@@ -2,7 +2,7 @@
 layout: default
 title:  "Troubleshooting- Full Page Screenshots on Fail"
 excerpt: "Learn how to generate full page screenshots on test's fail."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/troubleshooting-full-page-screenshots-on-fail/
 anchors:
@@ -21,7 +21,7 @@ public class FullPageScreenshotsOnFailTests : WebTest
     public void PromotionsPageOpened_When_PromotionsButtonClicked()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+        var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
         promotionsLink.Click();
     }
 }

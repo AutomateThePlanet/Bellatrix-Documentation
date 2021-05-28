@@ -2,12 +2,13 @@
 layout: default
 title:  "Control App"
 excerpt: "Learn how to control iOS applications with BELLATRIX iOS module."
-date:   2018-10-20 06:50:17 +0200
+date:   2021-10-20 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/control-app/
 anchors:
   overview: Overview
   explanations: Explanations
+  configuration: Configuration
 ---
 Overview
 --------
@@ -24,7 +25,7 @@ public class BellatrixAppBehaviourTests : IOSTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+        var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
@@ -36,7 +37,7 @@ public class BellatrixAppBehaviourTests : IOSTest
         Lifecycle.RestartOnFail)]
     public void ReturnsTrue_When_CallButtonIsPresent()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+        var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
         Assert.IsTrue(button.IsPresent);
     }
@@ -87,7 +88,7 @@ public void ButtonClicked_When_CallClickMethod()
 ```
 All MSTest tests should be marked with the **TestMethod** attribute.
 ```csharp
-var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+var button = App.Components.CreateByName<Button>("ComputeSumButton");
 ```
 Use the element creation service to create an instance of the button. There are much more details about this process in the next sections.
 ```csharp
@@ -97,9 +98,29 @@ Use the element creation service to create an instance of the button. There are 
     Lifecycle.RestartOnFail)]
 public void ReturnsTrue_When_CallButtonIsPresent()
 {
-    var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+    var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
     Assert.IsTrue(button.IsPresent);
 }
 ```
 As mentioned above you can override the app behaviour for a particular test. The global behaviour for all tests in the class is to reuse an instance of the app. Only for this particular test, BELLATRIX opens the app and restarts it only on fail.
+
+Configuration
+------------
+If you don't use the attribute, the default information from the configuration will be used placed under the executionSettings section. Also, you can add additional driver arguments under the arguments section array in the configuration file.
+```json
+"executionSettings": {
+  "defaultLifeCycle": "restart every time",
+  "shouldStartLocalService": "false",
+  "url": "http://127.0.0.1:4722/wd/hub",
+  "arguments": [
+    {
+      "platformName": "iOS",
+      "browserName": "",
+      "platformVersion": "11.3",
+      "deviceName": "iPhone 6",
+      "app": "com.apple.mobilecal"
+    }
+  ]
+}
+```

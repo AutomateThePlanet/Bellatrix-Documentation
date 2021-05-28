@@ -2,7 +2,7 @@
 layout: default
 title:  "Normal Assertions"
 excerpt: "Learn how to use normal assertion methods in BELLATRIX tests."
-date:   2018-10-22 06:50:17 +0200
+date:   2021-10-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/normal-assertions/
 anchors:
@@ -15,26 +15,26 @@ Example
 [TestMethod]
 public void CommonAssertionsAndroidControls()
 {
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+    var button = App.Components.CreateByIdContaining<Button>("button");
     Assert.AreEqual(false, button.IsDisabled);
 
-    var checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
+    var checkBox = App.Components.CreateByIdContaining<CheckBox>("check1");
 
     checkBox.Check();
 
     Assert.IsTrue(checkBox.IsChecked);
 
-    var comboBox = App.ElementCreateService.CreateByIdContaining<ComboBox>("spinner1");
+    var comboBox = App.Components.CreateByIdContaining<ComboBox>("spinner1");
 
     comboBox.SelectByText("Jupiter");
 
     Assert.AreEqual("Jupiter", comboBox.GetText());
 
-    var label = App.ElementCreateService.CreateByText<Label>("textColorPrimary");
+    var label = App.Components.CreateByText<Label>("textColorPrimary");
 
     Assert.IsTrue(label.IsPresent);
 
-    var radioButton = App.ElementCreateService.CreateByIdContaining<RadioButton>("radio2");
+    var radioButton = App.Components.CreateByIdContaining<RadioButton>("radio2");
 
     radioButton.Click();
 

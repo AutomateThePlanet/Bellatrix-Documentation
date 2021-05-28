@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Plugin Hooks"
 excerpt: "Learn how to extend the BELLATRIX plugins using hooks."
-date:   2018-11-23 06:50:17 +0200
+date:   2021-11-23 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/extensibility-test-workflow-hooks/
 anchors:
@@ -24,8 +24,8 @@ public class TestWorkflowHooksTests : IOSTest
 
     public override void TestsArrange()
     {
-        _textField = App.ElementCreateService.CreateById<TextField>("IntegerA");
-        _button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+        _textField = App.Components.CreateById<TextField>("IntegerA");
+        _button = App.Components.CreateByName<Button>("ComputeSumButton");
     }
 
     public override void TestsAct()
@@ -95,8 +95,8 @@ You can add some logic that is executed after each test instead of copy pasting 
 ```csharp
 public override void TestsArrange()
 {
-    _textField = App.ElementCreateService.CreateById<TextField>("IntegerA");
-    _button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+    _textField = App.Components.CreateById<TextField>("IntegerA");
+    _button = App.Components.CreateByName<Button>("ComputeSumButton");
 }
 
 public override void TestsAct()

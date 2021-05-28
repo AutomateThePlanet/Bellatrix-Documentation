@@ -2,7 +2,7 @@
 layout: default
 title:  "Logging"
 excerpt: "Learn how to use the BELLATRIX logging library."
-date:   2018-10-23 06:50:17 +0200
+date:   2021-10-23 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/logging/
 anchors:
@@ -26,7 +26,7 @@ public class LoggingTests : AndroidTest
     public void ButtonClicked_When_CallClickMethod()
     {
         Logger.LogInformation("$$$ Before clicking the button $$$");
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.Components.CreateByIdContaining<Button>("button");
 
         button.Click();
     }

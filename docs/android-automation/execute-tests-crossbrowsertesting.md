@@ -2,7 +2,7 @@
 layout: default
 title:  "Execute Tests in CrossBrowserTesting"
 excerpt: "Learn to use BELLATRIX to execute Android tests in CrossBrowserTesting."
-date:   2018-10-23 06:50:17 +0200
+date:   2021-10-23 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/execute-tests-crossbrowsertesting/
 anchors:
@@ -28,7 +28,7 @@ public class CrossBrowserTesting : AndroidTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.Components.CreateByIdContaining<Button>("button");
 
         button.Click();
     }
@@ -45,7 +45,7 @@ public class CrossBrowserTesting : AndroidTest
         build: "CI Execution")]
     public void ButtonClicked_When_CallClickMethodSecond()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.Components.CreateByIdContaining<Button>("button");
 
         button.Click();
     }
@@ -79,7 +79,7 @@ To execute BELLATRIX tests in CrossBrowserTesting cloud, you should use the Cros
     build: "CI Execution")]
 public void ButtonClicked_When_CallClickMethodSecond()
 {
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+    var button = App.Components.CreateByIdContaining<Button>("button");
 
     button.Click();
 }

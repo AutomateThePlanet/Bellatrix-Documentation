@@ -2,7 +2,7 @@
 layout: default
 title:  "Folder and File Structure"
 excerpt: "Learn what each BELLATRIX project templates includes."
-date:   2018-02-20 06:50:17 +0200
+date:   2021-02-20 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/folder-and-file-structure/
 anchors:

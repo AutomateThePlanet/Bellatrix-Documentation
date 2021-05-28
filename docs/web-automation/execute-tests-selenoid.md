@@ -53,7 +53,7 @@ public class SeleniumGridTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+        var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 
         promotionsLink.Click();
     }
@@ -64,7 +64,7 @@ public class SeleniumGridTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
+        var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
 
         blogLink.Click();
     }
@@ -84,7 +84,7 @@ public void BlogPageOpened_When_PromotionsButtonClicked()
 {
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-    var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
+    var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
 
     blogLink.Click();
 }

@@ -2,7 +2,7 @@
 layout: default
 title:  "Measure Response Times"
 excerpt: "Learn how to measure text execution times using BELLATRIX web module."
-date:   2018-10-20 06:50:17 +0200
+date:   2021-10-20 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/measure-test-execution-times/
 anchors:
@@ -27,7 +27,7 @@ namespace Bellatrix.Web.GettingStarted
         {
             App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-            var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("promo");
+            var promotionsLink = App.Components.CreateByLinkText<Anchor>("promo");
 
             promotionsLink.Click();
         }

@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Add New Element Wait Methods"
 excerpt: "Learn how to extend BELLATRIX adding new element wait methods."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/extensibility-add-new-element-wait-methods/
 anchors:
@@ -77,11 +77,11 @@ namespace Bellatrix.Desktop.GettingStarted
         [Ignore]
         public void MessageChanged_When_ButtonHovered_Wpf()
         {
-            var button = App.ElementCreateService.CreateByName<Button>("E Button").ToHaveSpecificContent("E Button");
+            var button = App.Components.CreateByName<Button>("E Button").ToHaveSpecificContent("E Button");
 
             button.Hover();
 
-            var label = App.ElementCreateService.CreateByAutomationId<Label>("ResultLabelId");
+            var label = App.Components.CreateByAutomationId<Label>("ResultLabelId");
             Assert.AreEqual("ebuttonHovered", label.InnerText);
         }
     }
@@ -94,5 +94,5 @@ using Bellatrix.Desktop.GettingStarted.ExtensionMethodsWaitMethods;
 ```
 After that, you can use the new wait method as it was originally part of BELLATRIX.
 ```csharp
-var button = App.ElementCreateService.CreateByName<Button>("E Button").ToHaveSpecificContent("E Button");
+var button = App.Components.CreateByName<Button>("E Button").ToHaveSpecificContent("E Button");
 ```

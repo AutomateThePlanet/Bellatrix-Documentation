@@ -2,7 +2,7 @@
 layout: default
 title:  "Assertions"
 excerpt: "Learn how to use BELLATRIX API built-in response assertion methods."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/assertions/
 anchors:

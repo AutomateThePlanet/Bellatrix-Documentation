@@ -2,12 +2,13 @@
 layout: default
 title:  "Control App"
 excerpt: "Learn how to control Android applications with BELLATRIX Android module."
-date:   2018-10-20 06:50:17 +0200
+date:   2021-10-20 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/control-app/
 anchors:
   overview: Overview
   explanations: Explanations
+  configuration: Configuration
 ---
 Overview
 --------
@@ -27,7 +28,7 @@ public class BellatrixAppBehaviourTests : AndroidTest
     {
         App.AppService.StartActivity(Constants.AndroidNativeAppAppExamplePackage, ".view.Controls1");
 
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.Components.CreateByIdContaining<Button>("button");
 
         button.Click();
     }
@@ -41,7 +42,7 @@ public class BellatrixAppBehaviourTests : AndroidTest
         Lifecycle.RestartOnFail)]
     public void ReturnsSave_When_GetText()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.Components.CreateByIdContaining<Button>("button");
 
         Assert.AreEqual("Save", button.GetText());
     }
@@ -96,7 +97,7 @@ public void ButtonClicked_When_CallClickMethod()
 ```
 All MSTest tests should be marked with the TestMethod attribute.
 ```csharp
-var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+var button = App.Components.CreateByIdContaining<Button>("button");
 ```
 Use the element creation service to create an instance of the button. There are much more details about this process in the next sections.
 ```csharp
@@ -109,9 +110,33 @@ Use the element creation service to create an instance of the button. There are 
     Lifecycle.RestartOnFail)]
 public void ReturnsSave_When_GetText()
 {
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+    var button = App.Components.CreateByIdContaining<Button>("button");
 
     Assert.AreEqual("Save", button.GetText());
 }
 ```
 As mentioned above you can override the app behaviour for a particular test. The global behaviour for all tests in the class is to reuse an instance of the app. Only for this particular test, BELLATRIX opens the app and restarts it only on fail.
+
+Configuration
+------------
+If you don't use the attribute, the default information from the configuration will be used placed under the executionSettings section. Also, you can add additional driver arguments under the arguments section array in the configuration file.
+```json
+"executionSettings": {
+  "defaultLifeCycle": "restart everytime",
+  "shouldStartLocalService": "false",
+  "url": "http://127.0.0.1:4722/wd/hub",
+  "arguments": [
+    {
+      "platformName": "Android",
+      "deviceOrientation": "portrait",
+      "browserName": "",
+      "platformVersion": "7.1",
+      "deviceName": "android25test",
+      "app": "AssemblyFolder\\Demos\\ApiDemos.apk",
+      "appWaitActivity": "*",
+      "appPackage": "com.example.android.apis",
+      "appActivity": ".view.Controls1"
+    }
+  ]
+}
+```

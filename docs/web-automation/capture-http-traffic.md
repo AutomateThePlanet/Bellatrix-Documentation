@@ -2,7 +2,7 @@
 layout: default
 title:  "Capture HTTP Traffic"
 excerpt: "Learn to capture HTTP traffic and make assertions using BELLATRIX."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/capture-http-traffic/
 anchors:
@@ -22,13 +22,13 @@ public class CaptureHttpTrafficTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
+        Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
         Anchor protonMReadMoreButton = 
-		App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
+		App.Components.CreateByInnerTextContaining<Anchor>("Read more");
         Anchor addToCartFalcon9 = 
-        App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
+        App.Components.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
         Anchor viewCartButton = 
-		App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+		App.Components.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
 
         sortDropDown.SelectByText("Sort by price: low to high");
         protonMReadMoreButton.Hover();
@@ -52,12 +52,12 @@ public class CaptureHttpTrafficTests : WebTest
 
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
+        Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
+        Anchor protonMReadMoreButton = App.Components.CreateByInnerTextContaining<Anchor>("Read more");
         Anchor addToCartFalcon9 = 
-		App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
+		App.Components.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
         Anchor viewCartButton = 
-		App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+		App.Components.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
 
         sortDropDown.SelectByText("Sort by price: low to high");
         protonMReadMoreButton.Hover();
@@ -73,13 +73,13 @@ public class CaptureHttpTrafficTests : WebTest
 
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
+        Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
         Anchor protonMReadMoreButton = 
-		App.ElementCreateService.CreateByInnerTextContaining<Anchor>("Read more");
+		App.Components.CreateByInnerTextContaining<Anchor>("Read more");
         Anchor addToCartFalcon9 = 
-		App.ElementCreateService.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
+		App.Components.CreateByAttributesContaining<Anchor>("data-product_id", "28").ToBeClickable();
         Anchor viewCartButton = 
-		App.ElementCreateService.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
+		App.Components.CreateByClassContaining<Anchor>("added_to_cart wc-forward").ToBeClickable();
 
         sortDropDown.SelectByText("Sort by price: low to high");
         protonMReadMoreButton.Hover();

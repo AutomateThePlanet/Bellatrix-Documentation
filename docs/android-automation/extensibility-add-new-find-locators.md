@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Add New Find Locators"
 excerpt: "Learn how to extend BELLATRIX adding new custom find locators."
-date:   2018-10-23 06:50:17 +0200
+date:   2021-10-23 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/extensibility-add-new-find-locators/
 anchors:
@@ -99,7 +99,7 @@ namespace Bellatrix.Mobile.Android.GettingStarted
         [TestMethod]
         public void ButtonClicked_When_CallClickMethod()
         {
-            var button = App.ElementCreateService.CreateByIdStaringWith<Button>("button");
+            var button = App.Components.CreateByIdStaringWith<Button>("button");
 
             button.Click();
         }
@@ -113,5 +113,5 @@ using Bellatrix.Mobile.Android.GettingStarted.ExtensionMethodsLocators;
 ```
 After that, you can use the new locator as it was originally part of BELLATRIX.
 ```csharp
-var button = App.ElementCreateService.CreateByIdStaringWith<Button>("button");
+var button = App.Components.CreateByIdStaringWith<Button>("button");
 ```

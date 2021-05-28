@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Assertion Hooks"
 excerpt: "Learn how to extend the BELLATRIX built-in assertion methods using hooks."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/extensibility-assertion-hooks/
 anchors:

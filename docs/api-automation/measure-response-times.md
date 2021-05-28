@@ -2,7 +2,7 @@
 layout: default
 title:  "Measure Response Times"
 excerpt: "Learn how to measure response times using BELLATRIX API library."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/measure-response-times/
 anchors:

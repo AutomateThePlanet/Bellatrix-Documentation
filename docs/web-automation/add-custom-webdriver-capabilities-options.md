@@ -2,7 +2,7 @@
 layout: default
 title:  "Add Custom WebDriver Capabilities and Options"
 excerpt: "Learn how to add custom WebDriver capabilities and/or options."
-date:   2018-02-20 06:50:17 +0200
+date:   2021-02-20 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/add-custom-webdriver-capabilities-options/
 anchors:
@@ -45,7 +45,7 @@ public class CustomWebDriverCapabilitiesTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+        var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 
         promotionsLink.Click();
     }

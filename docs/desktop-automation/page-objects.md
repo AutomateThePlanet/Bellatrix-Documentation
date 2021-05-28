@@ -2,7 +2,7 @@
 layout: default
 title:  "Page Objects"
 excerpt: "Learn how to use the BELLATRIX page objects."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/page-objects/
 anchors:
@@ -25,43 +25,43 @@ Non-page-object Test Example
 [TestMethod]
 public void ActionsWithoutPageObjects_Wpf()
 {
-    var permanentTransfer = App.ElementCreateService.CreateByName<CheckBox>("BellaCheckBox");
+    var permanentTransfer = App.Components.CreateByName<CheckBox>("BellaCheckBox");
 
     permanentTransfer.Check();
 
     Assert.IsTrue(permanentTransfer.IsChecked);
 
-    var items = App.ElementCreateService.CreateByAutomationId<ComboBox>("select");
+    var items = App.Components.CreateByAutomationId<ComboBox>("select");
 
     items.SelectByText("Item2");
 
     Assert.AreEqual("Item2", items.InnerText);
 
-    var returnItemAfter = App.ElementCreateService.CreateByName<Element>("DisappearAfterButton1");
+    var returnItemAfter = App.Components.CreateByName<Element>("DisappearAfterButton1");
 
     returnItemAfter.ToNotExists().WaitToBe();
 
-    var password = App.ElementCreateService.CreateByAutomationId<Password>("passwordBox");
+    var password = App.Components.CreateByAutomationId<Password>("passwordBox");
 
     password.SetPassword("topsecret");
 
-    var userName = App.ElementCreateService.CreateByAutomationId<TextField>("textBox");
+    var userName = App.Components.CreateByAutomationId<TextField>("textBox");
 
     userName.SetText("bellatrix");
 
     Assert.AreEqual("bellatrix", userName.InnerText);
 
-    var keepMeLogged = App.ElementCreateService.CreateByName<RadioButton>("RadioButton");
+    var keepMeLogged = App.Components.CreateByName<RadioButton>("RadioButton");
 
     keepMeLogged.Click();
 
     Assert.IsTrue(keepMeLogged.IsChecked);
 
-    var byName = App.ElementCreateService.CreateByName<Button>("E Button");
+    var byName = App.Components.CreateByName<Button>("E Button");
 
     byName.Click();
 
-    var label = App.ElementCreateService.CreateByName<Label>("Result Label");
+    var label = App.Components.CreateByName<Label>("Result Label");
 
     Assert.IsTrue(label.IsPresent);
 }

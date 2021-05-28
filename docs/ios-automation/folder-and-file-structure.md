@@ -2,7 +2,7 @@
 layout: default
 title:  "Folder and File Structure"
 excerpt: "Learn what each BELLATRIX project templates includes."
-date:   2018-11-20 06:50:17 +0200
+date:   2021-11-20 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/folder-and-file-structure/
 anchors:

@@ -2,7 +2,7 @@
 layout: default
 title:  "Authentication"
 excerpt: "Learn how to authenticate your requests using BELLATRIX API library."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: api-automation
 permalink: /api-automation/authentication/
 anchors:

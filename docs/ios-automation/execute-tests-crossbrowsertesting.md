@@ -2,7 +2,7 @@
 layout: default
 title:  "Execute Tests in CrossBrowserTesting"
 excerpt: "Learn to use BELLATRIX to execute iOS tests in CrossBrowserTesting."
-date:   2018-11-23 06:50:17 +0200
+date:   2021-11-23 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/execute-tests-crossbrowsertesting/
 anchors:
@@ -26,7 +26,7 @@ public class CrossBrowserTesting : IOSTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+        var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
@@ -41,7 +41,7 @@ public class CrossBrowserTesting : IOSTest
         build: "CI Execution")]
     public void ButtonClicked_When_CallClickMethodSecond()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+        var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
         button.Click();
     }
@@ -71,7 +71,7 @@ To execute BELLATRIX tests in CrossBrowserTesting cloud, you should use the Cros
     build: "CI Execution")]
 public void ButtonClicked_When_CallClickMethodSecond()
 {
-    var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+    var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
     button.Click();
 }

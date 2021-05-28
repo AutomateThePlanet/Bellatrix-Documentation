@@ -2,12 +2,13 @@
 layout: default
 title:  "Control App"
 excerpt: "Learn how to desktop application with BELLATRIX desktop module."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: desktop-automation
 permalink: /desktop-automation/control-app/
 anchors:
   overview: Overview
   explanations: Explanations
+  configuration: Configuration
 ---
 Overview
 --------
@@ -21,11 +22,11 @@ public class ControlAppTests : DesktopTest
     [TestMethod]
     public void MessageChanged_When_ButtonHovered_Wpf()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("E Button");
+        var button = App.Components.CreateByName<Button>("E Button");
 
         button.Hover();
 
-        var label = App.ElementCreateService.CreateByName<Button>("ebuttonHovered");
+        var label = App.Components.CreateByName<Button>("ebuttonHovered");
         Assert.AreEqual("ebuttonHovered", label.InnerText);
     }
 
@@ -33,11 +34,11 @@ public class ControlAppTests : DesktopTest
     [App(Constants.WpfAppPath, Lifecycle.RestartOnFail)]
     public void MessageChanged_When_ButtonClicked_Wpf()
     {
-        var button = App.ElementCreateService.CreateByName<Button>("E Button");
+        var button = App.Components.CreateByName<Button>("E Button");
 
         button.Click();
 
-        var label = App.ElementCreateService.CreateByName<Button>("ebuttonClicked");
+        var label = App.Components.CreateByName<Button>("ebuttonClicked");
         Assert.AreEqual("ebuttonClicked", label.InnerText);
     }
 }
@@ -81,7 +82,7 @@ public void PromotionsPageOpened_When_PromotionsButtonClicked()
 ```
 All MSTest tests should be marked with the TestMethod attribute.
 ```csharp
-var button = App.ElementCreateService.CreateByName<Button>("E Button");
+var button = App.Components.CreateByName<Button>("E Button");
 ```
 Use the element creation service to create an instance of the button. There are much more details about this process in the next sections.
 ```csharp
@@ -89,13 +90,35 @@ Use the element creation service to create an instance of the button. There are 
 [App(Constants.WpfAppPath, Lifecycle.RestartOnFail)]
 public void MessageChanged_When_ButtonClicked_Wpf()
 {
-    var button = App.ElementCreateService.CreateByName<Button>("E Button");
+    var button = App.Components.CreateByName<Button>("E Button");
 
     button.Click();
 
-    var label = App.ElementCreateService.CreateByName<Button>("ebuttonClicked");
+    var label = App.Components.CreateByName<Button>("ebuttonClicked");
     Assert.AreEqual("ebuttonClicked", label.InnerText);
 }
 ```
 As mentioned above you can override the app behaviour for a particular test. The global behaviour for all tests in the class is to reuse the app instance. Only for this particular test, BELLATRIX opens it and restarts it only on fail.
 
+Configuration
+------------
+If you don't use the attribute, the default information from the configuration will be used placed under the executionSettings section. Also, you can add additional driver arguments under the arguments section array in the configuration file.
+```json
+"executionSettings": {
+  "defaultLifeCycle": "restart every time",
+  "shouldStartLocalService": "false",
+  "resolution": "",
+  "defaultAppPath": "AssemblyFolder\\Demos\\Wpf\\WPFSampleApp.exe",
+  "url": "http://127.0.0.1:4722",
+  "arguments": [
+    {
+      "name": "{runName}",
+      "videoName": "{runName}.{timestamp}.mp4",
+      "logName": "{runName}.{timestamp}.log",
+      "enableVNC": "true",
+      "enableVideo": "true",
+      "enableLog": "true"
+    }
+  ]
+}
+```

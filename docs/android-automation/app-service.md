@@ -2,7 +2,7 @@
 layout: default
 title:  "AppService"
 excerpt: "Learn how to use BELLATRIX Android AppService."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/app-service/
 anchors:
@@ -13,12 +13,6 @@ Example
 -------
 ```csharp
 [TestClass]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    Lifecycle.RestartEveryTime)]
 public class AppServiceTests : AndroidTest
 {
     [TestMethod]

@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Extend Existing Elements- Extension Methods"
 excerpt: "Learn how to extend BELLATRIX Android elements using extension methods."
-date:   2018-10-23 06:50:17 +0200
+date:   2021-10-23 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/extensibility-extend-existing-elements-extension-methods/
 anchors:
@@ -30,7 +30,7 @@ namespace Bellatrix.Mobile.Android.GettingStarted
         [Ignore]
         public void ButtonClicked_When_CallClickMethod()
         {
-            var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+            var button = App.Components.CreateByIdContaining<Button>("button");
 
             button.SubmitButtonWithScroll();
         }

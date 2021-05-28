@@ -2,7 +2,7 @@
 layout: default
 title:  "Extensibility- Plugin Hooks"
 excerpt: "Learn how to extend the BELLATRIX plugins using hooks."
-date:   2018-06-23 06:50:17 +0200
+date:   2021-06-23 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/extensibility-test-workflow-hooks/
 anchors:
@@ -22,9 +22,9 @@ public class TestWorkflowHooksTests : WebTest
     public override void TestsArrange()
     {
         _sortDropDown = 
-		App.ElementCreateService.CreateByXpath<Select>("//*[@id='main']/div[1]/form/select");
+		App.Components.CreateByXpath<Select>("//*[@id='main']/div[1]/form/select");
         _protonRocketAnchor = 
-		App.ElementCreateService.CreateByXpath<Anchor>("//*[@id='main']/div[2]/ul/li[1]/a[1]");
+		App.Components.CreateByXpath<Anchor>("//*[@id='main']/div[2]/ul/li[1]/a[1]");
     }
 
     public override void TestsAct()
@@ -114,9 +114,9 @@ You can add some logic that is executed after each test instead of copy pasting 
 public override void TestsArrange()
 {
     _sortDropDown = 
-    App.ElementCreateService.CreateByXpath<Select>("//*[@id='main']/div[1]/form/select");
+    App.Components.CreateByXpath<Select>("//*[@id='main']/div[1]/form/select");
     _protonRocketAnchor = 
-    App.ElementCreateService.CreateByXpath<Anchor>("//*[@id='main']/div[2]/ul/li[1]/a[1]");
+    App.Components.CreateByXpath<Anchor>("//*[@id='main']/div[2]/ul/li[1]/a[1]");
 }
 
 public override void TestsAct()

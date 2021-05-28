@@ -2,7 +2,7 @@
 layout: default
 title:  "Layout Testing"
 excerpt: "Learn how to use the BELLATRIX layout testing library."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/layout-testing/
 anchors:
@@ -23,17 +23,17 @@ public class LayoutTestingTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
-        Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
+        Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
         Anchor protonRocketAnchor = 
-		App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/proton-rocket/");
+		App.Components.CreateByAttributesContaining<Anchor>("href", "/proton-rocket/");
         Anchor protonMAnchor = 
-		App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/proton-m/");
+		App.Components.CreateByAttributesContaining<Anchor>("href", "/proton-m/");
         Anchor saturnVAnchor = 
-		App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/saturn-v/");
+		App.Components.CreateByAttributesContaining<Anchor>("href", "/saturn-v/");
         Anchor falconHeavyAnchor = 
-		App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/falcon-heavy/");
+		App.Components.CreateByAttributesContaining<Anchor>("href", "/falcon-heavy/");
         Anchor falcon9Anchor = 
-		App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/falcon-9/");
+		App.Components.CreateByAttributesContaining<Anchor>("href", "/falcon-9/");
         Div saturnVRating = saturnVAnchor.CreateByClassContaining<Div>("star-rating");
 
         sortDropDown.AssertAboveOf(protonRocketAnchor);

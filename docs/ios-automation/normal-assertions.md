@@ -2,7 +2,7 @@
 layout: default
 title:  "Normal Assertions"
 excerpt: "Learn how to use normal assertion methods in BELLATRIX tests."
-date:   2018-11-22 06:50:17 +0200
+date:   2021-11-22 06:50:17 +0200
 parent: ios-automation
 permalink: /ios-automation/normal-assertions/
 anchors:
@@ -15,27 +15,27 @@ Example
 [TestMethod]
 public void CommonAssertionsIOSControls()
 {
-    var button = App.ElementCreateService.CreateByName<Button>("ComputeSumButton");
+    var button = App.Components.CreateByName<Button>("ComputeSumButton");
 
     button.Click();
 
     Assert.AreEqual(false, button.IsDisabled);
 
-    var answerLabel = App.ElementCreateService.CreateByName<Label>("Answer");
+    var answerLabel = App.Components.CreateByName<Label>("Answer");
 
     Assert.IsTrue(answerLabel.IsPresent);
 
-    var password = App.ElementCreateService.CreateById<Password>("IntegerB");
+    var password = App.Components.CreateById<Password>("IntegerB");
 
     password.SetPassword("9");
 
-    var textField = App.ElementCreateService.CreateById<TextField>("IntegerA");
+    var textField = App.Components.CreateById<TextField>("IntegerA");
 
     textField.SetText("1");
 
     Assert.AreEqual("1", textField.GetText());
 
-    var checkBox = App.ElementCreateService.CreateByIOSNsPredicate<CheckBox>(
+    var checkBox = App.Components.CreateByIOSNsPredicate<CheckBox>(
 						"type == \"XCUIElementTypeSwitch\" AND name == \"All-day\"");
 
     checkBox.Check();
@@ -46,7 +46,7 @@ public void CommonAssertionsIOSControls()
 
     Assert.IsFalse(checkBox.IsChecked);
 
-    var radioButton = App.ElementCreateService.CreateByIOSNsPredicate<RadioButton>(
+    var radioButton = App.Components.CreateByIOSNsPredicate<RadioButton>(
 							"type == \"XCUIElementTypeSwitch\" AND name == \"All-day\"");
 
     radioButton.Click();

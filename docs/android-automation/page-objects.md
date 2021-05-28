@@ -2,7 +2,7 @@
 layout: default
 title:  "Page Objects"
 excerpt: "Learn how to use the BELLATRIX page objects."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/page-objects/
 anchors:
@@ -25,17 +25,17 @@ Non-page-object Test Example
 [TestMethod]
 public void ActionsWithoutPageObjects()
 {
-    var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+    var button = App.Components.CreateByIdContaining<Button>("button");
     button.ValidateIsNotDisabled();
-    var checkBox = App.ElementCreateService.CreateByIdContaining<CheckBox>("check1");
+    var checkBox = App.Components.CreateByIdContaining<CheckBox>("check1");
     checkBox.Check();
     checkBox.ValidateIsChecked();
-    var comboBox = App.ElementCreateService.CreateByIdContaining<ComboBox>("spinner1");
+    var comboBox = App.Components.CreateByIdContaining<ComboBox>("spinner1");
     comboBox.SelectByText("Jupiter");
     comboBox.ValidateTextIs("Jupiter");
-    var label = App.ElementCreateService.CreateByText<Label>("textColorPrimary");
+    var label = App.Components.CreateByText<Label>("textColorPrimary");
     label.ValidateIsVisible();
-    var radioButton = App.ElementCreateService.CreateByIdContaining<RadioButton>("radio2");
+    var radioButton = App.Components.CreateByIdContaining<RadioButton>("radio2");
     radioButton.Click();
     radioButton.ValidateIsChecked(timeout: 30, sleepInterval: 2);
 }

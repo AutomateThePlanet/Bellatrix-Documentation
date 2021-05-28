@@ -2,7 +2,7 @@
 layout: default
 title:  "Validate Assertions"
 excerpt: "Learn how to use BELLATRIX Validate assertion methods."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: web-automation
 permalink: /web-automation/validate-assertions/
 anchors:
@@ -19,23 +19,23 @@ public void AssertValidateCartPageFields()
 
     App.NavigationService.Navigate("http://demos.bellatrix.solutions/cart/");
 
-    TextField couponCodeTextField = App.ElementCreateService.CreateById<TextField>("coupon_code");
+    TextField couponCodeTextField = App.Components.CreateById<TextField>("coupon_code");
 
     couponCodeTextField.ValidatePlaceholderIs("Coupon code");
 
-    Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
+    Button applyCouponButton = App.Components.CreateByValueContaining<Button>("Apply coupon");
 
     applyCouponButton.ValidateIsVisible();
 
-    Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
+    Div messageAlert = App.Components.CreateByClassContaining<Div>("woocommerce-message");
 
     messageAlert.ValidateIsNotVisible();
 
-    Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart");
+    Button updateCart = App.Components.CreateByValueContaining<Button>("Update cart");
 
     updateCart.ValidateIsDisabled();
 
-    Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
+    Span totalSpan = App.Components.CreateByXpath<Span>("//*[@class='order-total']//span");
 
     totalSpan.ValidateInnerTextIs("120.00€", timeout: 30, sleepInterval: 2);
 
@@ -59,7 +59,7 @@ If the commented assertion fails the following message is displayed:
 You can guess what happened, but you do not have information which element failed and on which page. If we use the Validate extension methods, BELLATRIX waits some time for the condition to pass. After this period if it is not successful, a beatified meaningful exception message is displayed:
 "*The control's placeholder should be 'Coupon code ' but was 'Coupon code'. The test failed on URL: http://demos.bellatrix.solutions/cart/*"
 ```csharp
-Button applyCouponButton = App.ElementCreateService.CreateByValueContaining<Button>("Apply coupon");
+Button applyCouponButton = App.Components.CreateByValueContaining<Button>("Apply coupon");
 
 // Assert.IsTrue(applyCouponButton.IsPresent);
 // Assert.IsTrue(applyCouponButton.IsVisible);
@@ -69,17 +69,17 @@ Assert that the apply coupon button exists and is visible on the page. On fail t
 Now if we use the **ValidateIsVisible** method and the check does not succeed the following error message is displayed: "*The control should be visible but was NOT. The test failed on URL: http://demos.bellatrix.solutions/cart/*" 
 To all exception messages, the current URL is displayed, which improves the troubleshooting.
 ```csharp
-Div messageAlert = App.ElementCreateService.CreateByClassContaining<Div>("woocommerce-message");
+Div messageAlert = App.Components.CreateByClassContaining<Div>("woocommerce-message");
 messageAlert.ValidateIsNotVisible();
 ```
 Since there are no validation errors, verify that the message div is not visible.
 ```csharp
-Button updateCart = App.ElementCreateService.CreateByValueContaining<Button>("Update cart");
+Button updateCart = App.Components.CreateByValueContaining<Button>("Update cart");
 updateCart.ValidateIsDisabled();
 ```
 No changes are made to the added products so the update cart button should be disabled.
 ```csharp
-Span totalSpan = App.ElementCreateService.CreateByXpath<Span>("//*[@class='order-total']//span");
+Span totalSpan = App.Components.CreateByXpath<Span>("//*[@class='order-total']//span");
 totalSpan.ValidateInnerTextIs("120.00€", timeout: 30, sleepInterval: 2);
 ```
 Check the total price contained in the order-total span HTML element. By default, all Validate methods have 5 seconds timeout. However, you can specify a custom timeout and sleep interval (period for checking again)

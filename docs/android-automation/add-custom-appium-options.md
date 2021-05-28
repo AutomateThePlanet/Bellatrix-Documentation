@@ -2,7 +2,7 @@
 layout: default
 title:  "Add Custom Appium Options"
 excerpt: "Learn how to add custom Appium options."
-date:   2018-10-20 06:50:17 +0200
+date:   2021-10-20 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/add-custom-appium-options/
 anchors:
@@ -13,12 +13,6 @@ Example
 -------
 ```csharp
 [TestClass]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    Lifecycle.ReuseIfStarted)]
 public class CustomWebDriverCapabilitiesTests : AndroidTest
 {
     public override void TestsArrange()
@@ -32,7 +26,7 @@ public class CustomWebDriverCapabilitiesTests : AndroidTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethod()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.Components.CreateByIdContaining<Button>("button");
 
         button.Click();
     }
@@ -40,7 +34,7 @@ public class CustomWebDriverCapabilitiesTests : AndroidTest
     [TestMethod]
     public void ButtonClicked_When_CallClickMethodSecond()
     {
-        var button = App.ElementCreateService.CreateByIdContaining<Button>("button");
+        var button = App.Components.CreateByIdContaining<Button>("button");
 
         button.Click();
     }

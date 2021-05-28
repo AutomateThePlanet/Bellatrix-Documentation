@@ -2,7 +2,7 @@
 layout: default
 title:  "DeviceService"
 excerpt: "Learn how to use BELLATRIX Android DeviceService."
-date:   2018-06-22 06:50:17 +0200
+date:   2021-06-22 06:50:17 +0200
 parent: android-automation
 permalink: /android-automation/device-service/
 anchors:
