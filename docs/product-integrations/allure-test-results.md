@@ -56,28 +56,13 @@ For other operating systems refer to the [official documentation](https://docs.q
 
 Configuration
 -------------
-First, you need to install the **Bellatrix.Results.Allure** NuGet package to your tests project.
-Next, you need to enable the Allure BELLATRIX extension in your **TestInitialize** file.
-```csharp
-[TestFixture]
-public class TestsInitialize : WebTest
-{
-    [AssemblyInitialize]
-    public static void AssemblyInitialize(TestContext testContext)
-    {
-        AllurePluginConfiguration.Add();
-    }
-
-    [AssemblyCleanup]
-    public static void AssemblyCleanup()
-    {
-        var app = ServicesCollection.Current.Resolve<App>();
-        app?.Dispose();
-    }
-}
+In the **testFrameworkSettings.json** file you need to enable the Allure integration.
+```json
+ "allureReportingSettings": {
+    "isEnabled": "false"
+  },
 ```
-You need to add the **AllurePluginConfiguration.Add();** line.
-Next, you need to add a new configuration file called **allureConfig.json**. You need to make sure it is copied to the output folder. It contains the Allure framework configuration.
+You need to add a new configuration file called **allureConfig.json** and make sure it is copied to the output folder. It contains the Allure framework configuration.
 
 ```json
 {
@@ -153,11 +138,8 @@ However, the "copy to allure-results directory" part is a little bit trickier si
 Next, to make the reporting even easier you can use C# attributes to define Allure suites, features, change test priority, set links, etc.
 ```csharp
 [TestFixture]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted, false)]
-[Browser(OS.OSX, BrowserType.Safari, BrowserBehavior.ReuseIfStarted)]
 [AllureSuite("Anchor Control")]
 [AllureFeature("Web Controls")]
-[ScreenshotOnFail(true)]
 public class AnchorControlTestsChrome : WebTest
 {
 
@@ -165,8 +147,6 @@ public class AnchorControlTestsChrome : WebTest
     [AllureIssue("11")]
     [AllureTms("8910448")]
     [AllureLink("https://confengine.com/appium-conf-2019/proposals")]
-    [Category(Categories.Chrome), TestCategory(Categories.Windows), TestCategory(Categories.OSX)]
-    [VideoRecording(VideoRecordingMode.Always)]
     public void ReturnRed_When_Hover_Chrome()
     {
         var anchorElement = App.Components.CreateById<Anchor>("myAnchor1");
