@@ -26,13 +26,13 @@ public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
     protected override void ClickingEventHandler(object sender, ElementActionEventArgs<IOSElement> arg)
     {
         DebugLogger.LogInfo($"Before clicking button. Coordinates: 
-				X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
+				X={arg.component.Wrappedcomponent.Location.X} Y={arg.component.Wrappedcomponent.Location.Y}");
     }
 
     protected override void ClickedEventHandler(object sender, ElementActionEventArgs<IOSElement> arg)
     {
         DebugLogger.LogInfo($"After button clicked. Coordinates: 
-				X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
+				X={arg.component.Wrappedcomponent.Location.X} Y={arg.component.Wrappedcomponent.Location.Y}");
     }
 }
 ```

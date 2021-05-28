@@ -127,7 +127,7 @@ Assert that the elements are aligned vertically only from the left side.
 ```csharp
 numberOneTextField.AssertInsideOf(mainElement);
 ```
-You can check that some element is inside in another. Assert that the text field is present in the main view element.
+You can check that some element is inside in another. Assert that the text field is present in the main view component.
 ```csharp
 numberOneTextField.AssertHeightLessThan(100);
 numberOneTextField.AssertWidthBetween(50, 80);

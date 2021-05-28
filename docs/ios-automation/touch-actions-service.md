@@ -53,8 +53,8 @@ public class TouchActionsServiceTests : IOSTest
     public void ElementSwiped_When_CallPressWaitMoveToAndReleaseByCoordinates()
     {
         var element = App.Components.CreateByName<Element>("AppElem");
-        int end = element.Size.Width;
-        int y = element.Location.Y;
+        int end = component.Size.Width;
+        int y = component.Location.Y;
         int moveTo = (9 / 100) * end;
 
         App.TouchActions.Press(moveTo, y, 0).Release().Perform();
@@ -64,8 +64,8 @@ public class TouchActionsServiceTests : IOSTest
     public void ElementSwiped_When_CallPressWaitMoveToAndReleaseByCoordinatesMultiAction()
     {
         var element = App.Components.CreateByName<Element>("AppElem");
-        int end = element.Size.Width;
-        int y = element.Location.Y;
+        int end = component.Size.Width;
+        int y = component.Location.Y;
         int moveTo = (9 / 100) * end;
 
         var swipe = App.TouchActions.Press(moveTo, y, 0).Release();

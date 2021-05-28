@@ -32,24 +32,24 @@ public class FindIdStartingWithStrategy : FindStrategy
 ```
 In the Convert method, we use a standard WebDriver By locator, and in this case we implement our requirements through a little CSS.
 
-To ease the usage of the locator, we need to create an extension methods for ElementCreateService and Element classes.
+To ease the usage of the locator, we need to create an extension methods for ComponentCreateService and Element classes.
 
 ```csharp
-public static class ElementCreateExtensions
+public static class ComponentCreateExtensions
 {
-    public static ElementsList<TElement> CreateAllByIdStartingWith<TElement>(this Element element, string idEnding)
-        where TElement : Element => new ElementsList<TElement>(new FindIdStartingWithStrategy(idEnding), element.WrappedElement);
+    public static ComponentsList<TComponent> CreateAllByIdStartingWith<TComponent>(this Element element, string idEnding)
+        where TComponent : Component => new ComponentsList<TComponent>(new FindIdStartingWithStrategy(idEnding), component.WrappedElement);
 }
 ```
 
 ```csharp
-public static class ElementRepositoryExtensions
+public static class ComponentRepositoryExtensions
 {
-    public static TElement CreateByIdStartingWith<TElement>(this ElementCreateService repository, string idPrefix, bool shouldCache = false)
-        where TElement : Element => repository.Create<TElement, FindIdStartingWithStrategy>(new FindIdStartingWithStrategy(idPrefix), shouldCache);
+    public static TComponent CreateByIdStartingWith<TComponent>(this ComponentCreateService repository, string idPrefix, bool shouldCache = false)
+        where TComponent : Component => repository.Create<TComponent, FindIdStartingWithStrategy>(new FindIdStartingWithStrategy(idPrefix), shouldCache);
 
-    public static ElementsList<TElement> CreateAllByIdStartingWith<TElement>(this ElementCreateService repository, string idPrefix)
-        where TElement : Element => new ElementsList<TElement>(new FindIdStartingWithStrategy(idPrefix), null);
+    public static ComponentsList<TComponent> CreateAllByIdStartingWith<TComponent>(this ComponentCreateService repository, string idPrefix)
+        where TComponent : Component => new ComponentsList<TComponent>(new FindIdStartingWithStrategy(idPrefix), null);
 }
 ```
 

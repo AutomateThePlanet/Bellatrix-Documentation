@@ -71,14 +71,14 @@ public partial class MainAndroidPage : AssertedNavigatablePage
 ```csharp
 public partial class MainAndroidPage
 {
-    public Button Transfer => Element.CreateByIdContaining<Button>("button");
-    public CheckBox PermanentTransfer => Element.CreateByIdContaining<CheckBox>("check1");
-    public ComboBox Items => Element.CreateByIdContaining<ComboBox>("spinner1");
-    public Button ReturnItemAfter => Element.CreateByIdContaining<Button>("toggle1");
-    public Label Results => Element.CreateByText<Label>("textColorPrimary");
-    public Password Password => Element.CreateByIdContaining<Password>("edit2");
-    public TextField UserName => Element.CreateByIdContaining<TextField>("edit");
-    public RadioButton KeepMeLogged => Element.CreateByIdContaining<RadioButton>("radio2");
+    public Button Transfer => App.Components.CreateByIdContaining<Button>("button");
+    public CheckBox PermanentTransfer => App.Components.CreateByIdContaining<CheckBox>("check1");
+    public ComboBox Items => App.Components.CreateByIdContaining<ComboBox>("spinner1");
+    public Button ReturnItemAfter => App.Components.CreateByIdContaining<Button>("toggle1");
+    public Label Results => App.Components.CreateByText<Label>("textColorPrimary");
+    public Password Password => App.Components.CreateByIdContaining<Password>("edit2");
+    public TextField UserName => App.Components.CreateByIdContaining<TextField>("edit");
+    public RadioButton KeepMeLogged => App.Components.CreateByIdContaining<RadioButton>("radio2");
 }
 ```
 ### Assertions File ###
@@ -132,9 +132,9 @@ protected override string PackageName => Constants.AndroidNativeAppAppExamplePac
 ```
 We use these values later to navigate to the page's activity.
 ```csharp
-public Button Transfer => Element.CreateByIdContaining<Button>("button");
+public Button Transfer => App.Components.CreateByIdContaining<Button>("button");
 ```
-All elements are placed inside the file **PageName.Elements** so that the declarations of your elements to be in a single place. It is convenient since if there is a change in some of the locators or elements types you can apply the fix only here. All elements are implements as properties. Here we use the short syntax for declaring properties, but you can always use the old one. **Elements** property is actually a shorter version of **ElementCreateService**.
+All elements are placed inside the file **PageName.Elements** so that the declarations of your elements to be in a single place. It is convenient since if there is a change in some of the locators or elements types you can apply the fix only here. All elements are implements as properties. Here we use the short syntax for declaring properties, but you can always use the old one. **App.Components** property is actually a shorter version of **ComponentCreateService**.
 ```csharp
 public void AssertPermanentTransferIsChecked()
 {

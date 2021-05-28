@@ -70,7 +70,7 @@ Create methods accept a generic parameter the type of the iOS control. Then only
 ```csharp
 button.Click();
 ```
-Clicking the button. At this moment BELLATRIX locates the element.
+Clicking the button. At this moment BELLATRIX locates the component.
 ```csharp
 var seekBar = App.Components.CreateByName<SeekBar>("AppElem");
 seekBar.Set(9);
@@ -133,7 +133,7 @@ Element | Available properties
 Button | Click, GetText, IsDisabled
 CheckBox | Check, Uncheck, GetText, IsDisabled, IsChecked
 ComboBox | SelectByText, GetText, IsDisabled
-Grid<TElement> | GetAll
+Grid<TComponent> | GetAll
 Image | same as element
 ImageButton | Click, GetText, IsDisabled
 Label | GetText
@@ -143,6 +143,6 @@ Progress | IsDisabled
 RadioButton | Click, IsDisabled, IsChecked, GetText
 RadioGroup | ClickByText, ClickByIndex, GetChecked, GetAll
 SeekBar | Set, IsDisabled
-Tabs<TElement> | GetAll
+Tabs<TComponent> | GetAll
 TextField | SetText, GetText, IsDisabled
 ToggleButton | TurnOn, TurnOff, GetText, IsDisabled, IsOn

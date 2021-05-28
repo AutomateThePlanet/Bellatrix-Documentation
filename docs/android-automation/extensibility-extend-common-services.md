@@ -46,10 +46,10 @@ public static class AppServiceExtensions
 {
     public static void LoginToApp(this AndroidAppService appService, string userName, string password)
     {
-        var elementCreateService = new ElementCreateService();
-        var userNameField = elementCreateService.CreateByIdContaining<TextField>("textBox");
-        var passwordField = elementCreateService.CreateByIdContaining<Password>("passwordBox");
-        var loginButton = elementCreateService.CreateByIdContaining<Button>("loginButton");
+        var ComponentCreateService = new ComponentCreateService();
+        var userNameField = ComponentCreateService.CreateByIdContaining<TextField>("textBox");
+        var passwordField = ComponentCreateService.CreateByIdContaining<Password>("passwordBox");
+        var loginButton = ComponentCreateService.CreateByIdContaining<Button>("loginButton");
 
         userNameField.SetText(userName);
         passwordField.SetPassword(password);

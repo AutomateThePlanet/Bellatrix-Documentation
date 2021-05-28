@@ -38,12 +38,12 @@ public class FindNameStartingWithStrategy : FindStrategy
 
     public override AppiumWebElement FindElement(WindowsElement element)
     {
-        return element.FindElementByXPath(string.Format(XpathStartingWithExpression, Value));
+        return component.FindElementByXPath(string.Format(XpathStartingWithExpression, Value));
     }
 
     public override IEnumerable<AppiumWebElement> FindAllElements(WindowsElement element)
     {
-        return element.FindElementsByXPath(string.Format(XpathStartingWithExpression, Value));
+        return component.FindElementsByXPath(string.Format(XpathStartingWithExpression, Value));
     }
 
     public override string ToString()
@@ -54,24 +54,24 @@ public class FindNameStartingWithStrategy : FindStrategy
 ```
 We override all available methods and use XPath expression for finding an element with ID starting with.
 
-To ease the usage of the locator, we need to create an extension methods for ElementCreateService and Element classes.
+To ease the usage of the locator, we need to create an extension methods for ComponentCreateService and Element classes.
 
 ```csharp
-public static class ElementCreateExtensions
+public static class ComponentCreateExtensions
 {
-    public static ElementsList<TElement> CreateAllByNameStartingWith<TElement>(this Element element, string tag)
-        where TElement : Element => new ElementsList<TElement>(new FindNameStartingWithStrategy(tag), element.WrappedElement);
+    public static ComponentsList<TComponent> CreateAllByNameStartingWith<TComponent>(this Element element, string tag)
+        where TComponent : Component => new ComponentsList<TComponent>(new FindNameStartingWithStrategy(tag), component.WrappedElement);
 }
 ```
 
 ```csharp
-public static class ElementRepositoryExtensions
+public static class ComponentRepositoryExtensions
 {
-    public static TElement CreateByNameStartingWith<TElement>(this ElementCreateService repo, string tag)
-        where TElement : Element => repo.Create<TElement, FindNameStartingWithStrategy>(new FindNameStartingWithStrategy(tag));
+    public static TComponent CreateByNameStartingWith<TComponent>(this ComponentCreateService repo, string tag)
+        where TComponent : Component => repo.Create<TComponent, FindNameStartingWithStrategy>(new FindNameStartingWithStrategy(tag));
 
-    public static ElementsList<TElement> CreateAllByNameStartingWith<TElement>(this ElementCreateService repo, string tag)
-        where TElement : Element => new ElementsList<TElement>(new FindNameStartingWithStrategy(tag), null);
+    public static ComponentsList<TComponent> CreateAllByNameStartingWith<TComponent>(this ComponentCreateService repo, string tag)
+        where TComponent : Component => new ComponentsList<TComponent>(new FindNameStartingWithStrategy(tag), null);
 }
 ```
 

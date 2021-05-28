@@ -33,7 +33,7 @@ public class WaitToHaveSpecificContentStrategy : WaitStrategy
         try
         {
             var element = by.FindElement(searchContext);
-            return element.Text == _elementContent;
+            return component.Text == _elementContent;
         }
         catch (NoSuchElementException)
         {
@@ -51,11 +51,11 @@ Find the element and check the current value in the Text attribute. The internal
 The next and final step is to create an extension method for all UI elements.
 
 ```csharp
-public static TElementType ToHaveSpecificContent<TElementType>(this TElementType element, string content, int? timeoutInterval = null, int? sleepInterval = null)
-    where TElementType : Element
+public static TComponentType ToHaveSpecificContent<TComponentType>(this TComponentType element, string content, int? timeoutInterval = null, int? sleepInterval = null)
+    where TComponentType : Component
 {
     var until = new WaitToHaveSpecificContentStrategy(content, timeoutInterval, sleepInterval);
-    element.ValidateState(until);
+    component.ValidateState(until);
     return element;
 }
 ```

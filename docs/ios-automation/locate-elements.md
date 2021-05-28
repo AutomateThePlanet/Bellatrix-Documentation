@@ -27,7 +27,7 @@ public void ElementFound_When_CreateById_And_ElementIsOnScreen()
 
     Console.WriteLine(button.By.Value);
 
-    Console.WriteLine(button.WrappedElement.TagName);
+    Console.WriteLine(button.Wrappedcomponent.TagName);
 
     var answerLabel = App.Components.CreateById<Button>("BELLATRIX");
     answerLabel.ScrollToVisible(ScrollDirection.Up);
@@ -47,7 +47,7 @@ Console.WriteLine(button.By.Value);
 ```
 Because of the proxy element mechanism (we have a separate type of element instead of single WebDriver IWebElement interface or Appium IOSElement) we have several benefits. Each control (element type- ComboBox, TextField and so on) contains only the actions you can do with it, and the methods are named properly. In vanilla WebDriver to type the text you call **SendKeys** method. Also, we have some additional properties in the proxy web control such as- By. Now you can get the locator with which you element was found.
 ```csharp
-Console.WriteLine(button.WrappedElement.TagName);
+Console.WriteLine(button.Wrappedcomponent.TagName);
 ```
 You can access the WebDriver wrapped element through **WrappedElement** and the current AppiumDriver instance through- **WrappedDriver**.
 ```csharp
@@ -98,7 +98,7 @@ Searches the element by XPath locator.
 
 Find Multiple Elements
 ----------------------
-Sometimes we need to find more than one element. For example, in this test we want to locate all Add to Cart buttons.
+Sometimes we need to find more than one component. For example, in this test we want to locate all Add to Cart buttons.
 To do it you can use the element create service **CreateAll** method.
 
 ```csharp
@@ -151,14 +151,14 @@ Searches the elements by XPath locator.
 
 Find Nested Elements
 ----------------------
-Sometimes it is easier to locate one element and then find the next one that you need, inside it. For example in this test we want to locate the button inside the main view element. To do it you can use the element's Create methods.
+Sometimes it is easier to locate one element and then find the next one that you need, inside it. For example in this test we want to locate the button inside the main view component. To do it you can use the element's Create methods.
 
 ```csharp
 public void ElementFound_When_CreateById_And_ElementIsOnScreen_NestedElement()
 {
 	var mainElement = App.Components.CreateByIOSNsPredicate<Element>(
 								"type == \"XCUIElementTypeApplication\" AND name == \"TestApp\"");
-    var button = mainElement.CreateById<RadioButton>("ComputeSumButton");
+    var button = maincomponent.CreateById<RadioButton>("ComputeSumButton");
     button.ValidateIsVisible();
 }
 ```
@@ -169,61 +169,61 @@ Available Create Methods for Finding Nested Elements
 ----------------------------------------------------
 ### CreateById ###
 ```csharp
-element.CreateById<Button>("myId");
+component.CreateById<Button>("myId");
 ```
 Searches the element by its ID.
 ### CreateByName ###
 ```csharp
-element.CreateByName<Button>("ComputeSumButton");
+component.CreateByName<Button>("ComputeSumButton");
 ```
 Searches the element by its name.
 ### CreateByValueContaining ###
 ```csharp
-element.CreateByValueContaining<Label>("SumLabel");
+component.CreateByValueContaining<Label>("SumLabel");
 ```
 Searches the element by its value if it contains specified value.
 ### CreateByIOSUIAutomation ###
 ```csharp
-element.CreateByIOSUIAutomation<TextField>(".textFields().withPredicate("value == 'Search eBay'")");
+component.CreateByIOSUIAutomation<TextField>(".textFields().withPredicate("value == 'Search eBay'")");
 ```
 Searches the element by iOS UIAutomation expressions.
 ### CreateByClass ###
 ```csharp
-element.CreateByClass<TextField>("XCUIElementTypeTextField");
+component.CreateByClass<TextField>("XCUIElementTypeTextField");
 ```
 Searches the element by its class.
 ### CreateByXPath ###
 ```csharp
-element.CreateByXPath<Button>("//XCUIElementTypeButton[@name=\"ComputeSumButton\"]");
+component.CreateByXPath<Button>("//XCUIElementTypeButton[@name=\"ComputeSumButton\"]");
 ```
 Searches the element by XPath locator.
 ### CreateAllById ###
 ```csharp
-element.CreateAllById<Button>("myId");
+component.CreateAllById<Button>("myId");
 ```
 Searches the elements by their ID.
 ### CreateAllByName ###
 ```csharp
-element.CreateAllByName<Button>("ComputeSumButton");
+component.CreateAllByName<Button>("ComputeSumButton");
 ```
 Searches the elements by their name.
 ### CreateAllByValueContaining ###
 ```csharp
-element.CreateAllByValueContaining<Label>("SumLabel");
+component.CreateAllByValueContaining<Label>("SumLabel");
 ```
 Searches the elements by their value if it contains specified value.
 ### CreateAllByIOSUIAutomation ###
 ```csharp
-element.CreateAllByIOSUIAutomation<TextField>(".textFields().withPredicate("value == 'Search eBay'")");
+component.CreateAllByIOSUIAutomation<TextField>(".textFields().withPredicate("value == 'Search eBay'")");
 ```
 Searches the elements by iOS UIAutomation expressions.
 ### CreateAllByClass ###
 ```csharp
-element.CreateAllByClass<TextField>("XCUIElementTypeTextField");
+component.CreateAllByClass<TextField>("XCUIElementTypeTextField");
 ```
 Searches the elements by their class.
 ### CreateAllByXPath ###
 ```csharp
-element.CreateAllByXPath<Button>("//XCUIElementTypeButton[@name=\"ComputeSumButton\"]");
+component.CreateAllByXPath<Button>("//XCUIElementTypeButton[@name=\"ComputeSumButton\"]");
 ```
 Searches the elements by XPath locator.

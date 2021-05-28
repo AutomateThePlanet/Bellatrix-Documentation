@@ -33,9 +33,9 @@ var button = App.Components.CreateByName<Button>("E Button").ToBeVisible();
 ```
 Sometimes you need to perform an action against an element only when a specific condition is true. As mentioned in previous part of the guide, BELLATRIX by default always waits for elements to exist. However, sometimes this may not be enough. For example, you may want to click on a button once it is clickable. It may be disabled at the beginning of the tests because some validation is not met. Your test fulfil the initial condition and if you use vanilla WebDriver the test most probably fails because WebDriver clicks too fast before your button is enabled by your code. So we created additional syntax sugar methods to help you deal with this. You can use element "**ToBe**" methods after the Create and **CreateAll** methods. As you can see in the example below you can chain multiple of this methods.
 
-**Note**: *Since BELLATRIX, elements creation logic is lazy loading as mentioned before, BELLATRIX waits for the conditions to be True on the first action you perform with the element.*
+**Note**: *Since BELLATRIX, elements creation logic is lazy loading as mentioned before, BELLATRIX waits for the conditions to be True on the first action you perform with the component.*
 
-**Note**: *Keep in mind that with this syntax these conditions are checked everytime you perform an action with the element. Which can lead tо small execution delays.*
+**Note**: *Keep in mind that with this syntax these conditions are checked everytime you perform an action with the component. Which can lead tо small execution delays.*
 
 ```csharp
 var label = App.Components.CreateByName<Button>("ebuttonHovered").ToHasContent(40, 1);
@@ -85,12 +85,18 @@ Configuration
 The default timeouts that BELLATRIX use are placed inside the **testFrameworkSettings.json** file. Inside it, is the **timeoutSettings** section. All values are in seconds.
 ```json
 "timeoutSettings": {
-   "sleepInterval": "1",
-   "elementToBeVisibleTimeout": "30",
-   "elementToExistTimeout": "30",
-   "elementToNotExistTimeout": "30",
-   "elementToBeClickableTimeout": "30",
-   "elementNotToBeVisibleTimeout": "30",
-   "elementToHaveContentTimeout": "15"
+  "implicitWaitTimeout": "0",
+  "elementWaitTimeout": "30",
+  "sleepInterval": "1",
+  "validationsTimeout": "30",
+  "createSessionTimeout": "10",
+  "waitForAppLaunchTimeout": "10",
+  "elementToBeVisibleTimeout": "30",
+  "elementToExistTimeout": "30",
+  "elementToNotExistTimeout": "30",
+  "elementToBeClickableTimeout": "30",
+  "elementNotToBeVisibleTimeout": "30",
+  "elementToHaveContentTimeout": "15"
+},elementToHaveContentTimeout": "15"
 },
 ```

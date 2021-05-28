@@ -171,9 +171,9 @@ public class AnchorControlTestsChrome : WebTest
     {
         var anchorElement = App.Components.CreateById<Anchor>("myAnchor1");
 
-        anchorElement.Hover();
+        anchorcomponent.Hover();
 
-        Assert.AreEqual("color: red;", anchorElement.GetStyle());
+        Assert.AreEqual("color: red;", anchorcomponent.GetStyle());
     }
 }
 ```

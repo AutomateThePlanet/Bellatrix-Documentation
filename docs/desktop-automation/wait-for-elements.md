@@ -13,7 +13,6 @@ Example
 -------
 ```csharp
 [Test]
-[App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public void WaitForElementToExists_When_ElementIsNotVisibleInitially_Wpf()
 {
     var button = App.Components.CreateByName<Button>("ShowAfterButton").ToExists();
@@ -24,7 +23,6 @@ public void WaitForElementToExists_When_ElementIsNotVisibleInitially_Wpf()
 }
 
 [Test]
-[App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public void WaitForElementToNotExists_When_ElementIsVisibleInitially_Wpf()
 {
     var button = App.Components.CreateByName<Button>("DisappearAfterButton1");
@@ -46,5 +44,5 @@ Besides the **ToBe** methods that you can use on element creation, you have a co
 var button = App.Components.CreateByName<Button>("DisappearAfterButton1");
 button.ToNotExists().WaitToBe();
 ```
-Why we have two syntaxes for almost the same thing? Because sometimes you do not need to perform an action or assertion against the element. In the above example, statement waits for the button to be clickable and visible before the click. However, in some cases, you want some element to show up but not act on it. This means the above syntax does not help you since the element is not searched in the DOM at all because of the lazy loading.
+Why we have two syntaxes for almost the same thing? Because sometimes you do not need to perform an action or assertion against the component. In the above example, statement waits for the button to be clickable and visible before the click. However, in some cases, you want some element to show up but not act on it. This means the above syntax does not help you since the element is not searched in the DOM at all because of the lazy loading.
 Using the **WaitToBe** method forces BELLATRIX to locate your element and wait for the condition without the need to do an action or assertion.

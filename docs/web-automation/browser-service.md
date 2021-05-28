@@ -112,7 +112,7 @@ var frame = App.Components.CreateById<Frame>("myFrameId");
 App.BrowserService.SwitchToFrame(frame);
 var myButton = frame.CreateById<Button>("purchaseBtnId");
 ```
-To work with elements inside a frame, you should switch to it first. Search for the button inside the frame element. Of course, once you switched to frame, you can create the element through ElementCreateService too.
+To work with elements inside a frame, you should switch to it first. Search for the button inside the frame component. Of course, once you switched to frame, you can create the element through ComponentCreateService too.
 ```csharp
 App.BrowserService.SwitchToDefault();
 ```

@@ -72,7 +72,7 @@ We have not made any changes to the added products so the update cart button sho
 Span totalSpan = App.Components.CreateByXpath<Span>("//*[@class='order-total']//span");
 Assert.AreEqual("120.00€", totalSpan.InnerText);
 ```
-We check the total price contained in the order-total span HTML element.
+We check the total price contained in the order-total span HTML component.
 
 ```csharp
 Bellatrix.Assertions.Assert.Multiple(

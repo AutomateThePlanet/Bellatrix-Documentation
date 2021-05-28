@@ -27,7 +27,7 @@ public void MessageChanged_When_ButtonHovered_Wpf()
 
     Console.WriteLine(button.By.Value);
 
-    Console.WriteLine(button.WrappedElement.Coordinates);
+    Console.WriteLine(button.Wrappedcomponent.Coordinates);
 }
 ```
 
@@ -42,7 +42,7 @@ Console.WriteLine(button.By.Value);
 ```
 Because of the proxy element mechanism (we have a separate type of element instead of single WebDriver IWebElement interface) we have several benefits. Each control (element type- ComboBox, TextField and so on) contains only the actions you can do with it, and the methods are named properly. In vanilla WebDriver to type the text you call **SendKeys** method. Also, we have some additional properties in the proxy web control such as- By. Now you can get the locator with which you element was found.
 ```csharp
-Console.WriteLine(button.WrappedElement.Coordinates);
+Console.WriteLine(button.Wrappedcomponent.Coordinates);
 ```
 You can access the WebDriver wrapped element through WrappedElement and the current WebDriver instance through- WrappedDriver
 
@@ -87,7 +87,7 @@ Searches the element by its automation ID.
 
 Find Multiple Elements
 ----------------------
-Sometimes we need to find more than one element. For example, in this test we want to locate all Add to Cart buttons.
+Sometimes we need to find more than one component. For example, in this test we want to locate all Add to Cart buttons.
 To do it you can use the element create service CreateAll method.
 
 ```csharp
@@ -159,71 +159,71 @@ Available Create Methods for Finding Nested Elements
 ----------------------------------------------------
 ### CreateByTag ###
 ```csharp
-element.CreateByTag<Button>("button");
+component.CreateByTag<Button>("button");
 ```
 Searches the element by its tag.
 ### CreateById ###
 ```csharp
-element.CreateById<Button>("myId");
+component.CreateById<Button>("myId");
 ```
 Searches the element by its ID.
 ### CreateByXpath ###
 ```csharp
-element.CreateByXpath<Button>("//*[@title='Add to cart']");
+component.CreateByXpath<Button>("//*[@title='Add to cart']");
 ```
 Searches the element by XPath locator.
 ### CreateByClass ###
 ```csharp
-element.CreateByClassContaining<Button>("ul.products");
+component.CreateByClassContaining<Button>("ul.products");
 ```
 Searches the element by its CSS classes.
 ### CreateByName ###
 ```csharp
-element.CreateByName<Button>("products");
+component.CreateByName<Button>("products");
 ```
 Searches the element by its name.
 ### CreateByAccessibilityId ###
 ```csharp
-element.CreateByAccessibilityId<Button>("myCustomButton");
+component.CreateByAccessibilityId<Button>("myCustomButton");
 ```
 Searches the element by its accessibility ID.
 ### CreateByAutomationId ###
 ```csharp
-element.CreateByAutomationId<Search>("search");
+component.CreateByAutomationId<Search>("search");
 ```
 Searches the element by its automation ID.
 ### CreateAllByTag ###
 ```csharp
-element.CreateAllByTag<Button>("button");
+component.CreateAllByTag<Button>("button");
 ```
 Searches the elements by its tag.
 ### CreateAllById ###
 ```csharp
-element.CreateAllById<Button>("myId");
+component.CreateAllById<Button>("myId");
 ```
 Searches the elements by its ID.
 ### CreateAllByXpath ###
 ```csharp
-element.CreateAllByXpath<Button>("//*[@title='Add to cart']");
+component.CreateAllByXpath<Button>("//*[@title='Add to cart']");
 ```
 Searches the elements by XPath locator.
 ### CreateAllByClass ###
 ```csharp
-element.CreateAllByClassContaining<Button>("ul.products");
+component.CreateAllByClassContaining<Button>("ul.products");
 ```
 Searches the elements by their classes.
 ### CreateAllByName ###
 ```csharp
-element.CreateAllByName<Button>("products");
+component.CreateAllByName<Button>("products");
 ```
 Searches the elements by its name.
 ### CreateAllByAccessibilityId ###
 ```csharp
-element.CreateAllByAccessibilityId<Button>("myCustomButton");
+component.CreateAllByAccessibilityId<Button>("myCustomButton");
 ```
 Searches the elements by its accessibility ID.
 ### CreateAllByAutomationId ###
 ```csharp
-element.CreateAllByAutomationId<Search>("search");
+component.CreateAllByAutomationId<Search>("search");
 ```
 Searches the elements by its automation ID.

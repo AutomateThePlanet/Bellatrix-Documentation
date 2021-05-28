@@ -82,7 +82,7 @@ If you open the **testFrameworkSettings.json** file, you will find the property 
 	"shouldScrollToVisibleOnElementFound": "true",
 	"shouldWaitUntilReadyOnElementFound": "true",
 	"shouldWaitForAngular": "true",
-	"shouldHighlightElements": "false",
+	"shouldHighlighTComponents": "false",
 ```
 
 Available Create Methods

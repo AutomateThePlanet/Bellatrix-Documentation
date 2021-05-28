@@ -205,7 +205,7 @@ Wait for the message DIV to show up and have some content.
 ```csharp
 // Assert.AreEqual("Coupon code applied successfully.", messageAlert.InnerText);
 ```
-Sometimes you need to verify the content of some element. However, since the asynchronous nature of websites, the text or event may not happen immediately. This makes the simple Assert methods + vanilla WebDriver useless.
+Sometimes you need to verify the content of some component. However, since the asynchronous nature of websites, the text or event may not happen immediately. This makes the simple Assert methods + vanilla WebDriver useless.
 The commented code fails 1 from 5 times.
 To handle these situations, BELLATRIX has hundreds of Ensure methods that wait for some condition to happen before asserting.
 Bellow the statement waits for the specific text to appear and assert it.
@@ -257,12 +257,12 @@ Through the Placeholder, you can get the default text of the control.
 Phone billingPhone = App.Components.CreateById<Phone>("billing_phone");
 billingPhone.SetPhone("+00359894646464");
 ```
-Create the special text field control Phone it contains some additional properties unique for this web element.
+Create the special text field control Phone it contains some additional properties unique for this web component.
 ```csharp
 Email billingEmail = App.Components.CreateById<Email>("billing_email");
 billingEmail.SetEmail("info@bellatrix.solutions");
 ```
-Here we create the special text field control Email it contains some additional properties unique for this web element.
+Here we create the special text field control Email it contains some additional properties unique for this web component.
 ```csharp
 CheckBox createAccountCheckBox = App.Components.CreateById<CheckBox>("createaccount");
 createAccountCheckBox.Check();

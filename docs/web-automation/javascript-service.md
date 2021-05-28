@@ -21,7 +21,7 @@ public class JavaScriptServiceTests : WebTest
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/my-account/");
 
-        App.JavaScriptService.Execute("document.getElementById('username').value = 'BELLATRIX';");
+        App.JavaScriptService.Execute("document.geTComponentById('username').value = 'BELLATRIX';");
 
         App.Components.CreateById<Password>("password").SetPassword("Gorgeous");
         var button = App.Components.CreateByClassContaining<Button>("woocommerce-Button button");
@@ -31,7 +31,7 @@ public class JavaScriptServiceTests : WebTest
 
     [Test]
     [Ignore]
-    public void GetElementStyle()
+    public void GeTComponentStyle()
     {
         App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
 
@@ -48,7 +48,7 @@ Explanations
 ------------
 BELLATRIX gives you an interface for easier execution of JavaScript code using the JavaScriptService. You need to make sure that you have navigated to the desired web page.
 ```csharp
-App.JavaScriptService.Execute("document.getElementById('username').value = 'BELLATRIX';"); 
+App.JavaScriptService.Execute("document.geTComponentById('username').value = 'BELLATRIX';"); 
 ```
 Execute a JavaScript code on the page. Here we find an element with id = 'firstName' and sets its value to 'BELLATRIX'.
 ```csharp

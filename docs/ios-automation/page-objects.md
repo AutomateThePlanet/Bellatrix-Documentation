@@ -61,10 +61,10 @@ public partial class CalculatorPage : AssertedPage
 ```csharp
 public partial class CalculatorPage
 {
-    public Button Compute => Element.CreateByName<Button>("ComputeSumButton");
-    public TextField NumberOne => Element.CreateById<TextField>("IntegerA");
-    public TextField NumberTwo => Element.CreateById<TextField>("IntegerB");
-    public Label Answer => Element.CreateByName<Label>("Answer");
+    public Button Compute => App.Components.CreateByName<Button>("ComputeSumButton");
+    public TextField NumberOne => App.Components.CreateById<TextField>("IntegerA");
+    public TextField NumberTwo => App.Components.CreateById<TextField>("IntegerB");
+    public Label Answer => App.Components.CreateByName<Label>("Answer");
 }
 ```
 ### Assertions File ###
@@ -94,9 +94,9 @@ public void Sum(int firstNumber, int secondNumber)
 ```
 These elements are always used together when an item is transferred. There are many test cases where you need to transfer different items and so on. This way you reuse the code instead of copy-paste it. If there is a change in the way how the item is transferred, change the workflow only here. Even single line of code is changed in your tests.
 ```csharp
-public Button Compute => Element.CreateByName<Button>("ComputeSumButton");
+public Button Compute => App.Components.CreateByName<Button>("ComputeSumButton");
 ```
-All elements are placed inside the file **PageName.Elements** so that the declarations of your elements to be in a single place. It is convenient since if there is a change in some of the locators or elements types you can apply the fix only here. All elements are implements as properties. Here we use the short syntax for declaring properties, but you can always use the old one. **Elements** property is actually a shorter version of **ElementCreateService**.
+All elements are placed inside the file **PageName.Elements** so that the declarations of your elements to be in a single place. It is convenient since if there is a change in some of the locators or elements types you can apply the fix only here. All elements are implements as properties. Here we use the short syntax for declaring properties, but you can always use the old one. **App.Components** property is actually a shorter version of **ComponentCreateService**.
 ```csharp
 public void AssertAnswer(int answer)
 {

@@ -44,10 +44,10 @@ public static class AppServiceExtensions
 {
     public static void LoginToApp(this IOSAppService appService, string userName, string password)
     {
-        var elementCreateService = new ElementCreateService();
-        var userNameField = elementCreateService.CreateById<TextField>("IntegerA");
-        var passwordField = elementCreateService.CreateById<Password>("IntegerB");
-        var loginButton = elementCreateService.CreateById<Button>("ComputeSumButton");
+        var ComponentCreateService = new ComponentCreateService();
+        var userNameField = ComponentCreateService.CreateById<TextField>("IntegerA");
+        var passwordField = ComponentCreateService.CreateById<Password>("IntegerB");
+        var loginButton = ComponentCreateService.CreateById<Button>("ComputeSumButton");
 
         userNameField.SetText(userName);
         passwordField.SetPassword(password);

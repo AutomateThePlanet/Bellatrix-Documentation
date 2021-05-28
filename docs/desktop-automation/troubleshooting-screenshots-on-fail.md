@@ -14,7 +14,6 @@ Example
 -------
 ```csharp
 [TestFixture]
-[App(Constants.WpfAppPath, AppBehavior.RestartEveryTime)]
 public class AppScreenshotsOnFailTests : DesktopTest
 {
     [Test]

@@ -18,7 +18,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Bellatrix.Desktop.GettingStarted
 {
     [TestFixture]
-    [App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
     public class ExtendExistingCommonServicesTests : DesktopTest
     {
         [Test]
@@ -64,10 +63,10 @@ public static class NavigationServiceExtensions
 {
     public static void LoginToApp(this Services.AppService appService, string userName, string password)
     {
-        var elementCreateService = new ElementCreateService();
-        var userNameField = elementCreateService.CreateByAutomationId<TextField>("textBox");
-        var passwordField = elementCreateService.CreateByAutomationId<Password>("passwordBox");
-        var loginButton = elementCreateService.CreateByName<Button>("E Button");
+        var ComponentCreateService = new ComponentCreateService();
+        var userNameField = ComponentCreateService.CreateByAutomationId<TextField>("textBox");
+        var passwordField = ComponentCreateService.CreateByAutomationId<Password>("passwordBox");
+        var loginButton = ComponentCreateService.CreateByName<Button>("E Button");
 
         userNameField.SetText(userName);
         passwordField.SetPassword(password);

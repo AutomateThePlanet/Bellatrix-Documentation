@@ -39,12 +39,12 @@ public class FindIdStartingWithStrategy : FindStrategy<AndroidDriver<AndroidElem
 
     public override AppiumWebElement FindElement(AndroidElement element)
     {
-        return element.FindElementByAndroidUIAutomator(_locatorValue);
+        return component.FindElementByAndroidUIAutomator(_locatorValue);
     }
 
     public override IEnumerable<AppiumWebElement> FindAllElements(AndroidElement element)
     {
-        return element.FindElementsByAndroidUIAutomator(_locatorValue);
+        return component.FindElementsByAndroidUIAutomator(_locatorValue);
     }
 
     public override string ToString()
@@ -55,27 +55,27 @@ public class FindIdStartingWithStrategy : FindStrategy<AndroidDriver<AndroidElem
 ```
 We override all available methods and use UIAutomator regular expression for finding an element with ID starting with.
 
-To ease the usage of the locator, we need to create an extension methods for ElementCreateService and Element classes.
+To ease the usage of the locator, we need to create an extension methods for ComponentCreateService and Element classes.
 
 ```csharp
-public static class ElementRepositoryExtensions
+public static class ComponentRepositoryExtensions
 {
-    public static TElement CreateByIdStartingWith<TElement>(this ElementCreateService repo, string id)
-        where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => repo.Create<TElement, FindIdStartingWithStrategy, AndroidDriver<AndroidElement>, AndroidElement>(new FindIdStartingWithStrategy(id));
+    public static TComponent CreateByIdStartingWith<TComponent>(this ComponentCreateService repo, string id)
+        where TComponent : Component<AndroidDriver<AndroidElement>, AndroidElement> => repo.Create<TComponent, FindIdStartingWithStrategy, AndroidDriver<AndroidElement>, AndroidElement>(new FindIdStartingWithStrategy(id));
 
-    public static ElementsList<TElement, FindIdStartingWithStrategy, AndroidDriver<AndroidElement>, AndroidElement> CreateAllByIdStartingWith<TElement>(this ElementCreateService repo, string id)
-        where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => new ElementsList<TElement, FindIdStartingWithStrategy, AndroidDriver<AndroidElement>, AndroidElement>(new FindIdStartingWithStrategy(id), null);
+    public static ComponentsList<TComponent, FindIdStartingWithStrategy, AndroidDriver<AndroidElement>, AndroidElement> CreateAllByIdStartingWith<TComponent>(this ComponentCreateService repo, string id)
+        where TComponent : Component<AndroidDriver<AndroidElement>, AndroidElement> => new ComponentsList<TComponent, FindIdStartingWithStrategy, AndroidDriver<AndroidElement>, AndroidElement>(new FindIdStartingWithStrategy(id), null);
 }
 ```
 
 ```csharp
-public static class ElementCreateExtensions
+public static class ComponentCreateExtensions
 {
-    public static TElement CreateByIdStartingWith<TElement>(this Element<AndroidDriver<AndroidElement>, AndroidElement> element, string id)
-        where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => element.Create<TElement, FindIdStartingWithStrategy>(new FindIdStartingWithStrategy(id));
+    public static TComponent CreateByIdStartingWith<TComponent>(this Element<AndroidDriver<AndroidElement>, AndroidElement> element, string id)
+        where TComponent : Component<AndroidDriver<AndroidElement>, AndroidElement> => App.Components.Create<TComponent, FindIdStartingWithStrategy>(new FindIdStartingWithStrategy(id));
 
-    public static ElementsList<TElement, FindIdStartingWithStrategy, AndroidDriver<AndroidElement>, AndroidElement> CreateAllByIdStartingWith<TElement>(this Element<AndroidDriver<AndroidElement>, AndroidElement> element, string id)
-        where TElement : Element<AndroidDriver<AndroidElement>, AndroidElement> => new ElementsList<TElement, FindIdStartingWithStrategy, AndroidDriver<AndroidElement>, AndroidElement>(new FindIdStartingWithStrategy(id), element.WrappedElement);
+    public static ComponentsList<TComponent, FindIdStartingWithStrategy, AndroidDriver<AndroidElement>, AndroidElement> CreateAllByIdStartingWith<TComponent>(this Element<AndroidDriver<AndroidElement>, AndroidElement> element, string id)
+        where TComponent : Component<AndroidDriver<AndroidElement>, AndroidElement> => new ComponentsList<TComponent, FindIdStartingWithStrategy, AndroidDriver<AndroidElement>, AndroidElement>(new FindIdStartingWithStrategy(id), component.WrappedElement);
 }
 ```
 

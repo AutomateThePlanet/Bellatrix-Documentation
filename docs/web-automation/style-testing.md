@@ -60,7 +60,7 @@ Advanced Usages
 [Browser(BrowserType.Chrome, DesktopWindowSize._1280_1024,  Lifecycle.RestartEveryTime)]
 public abstract class AnchorsStyleTests : WebTest
 {
-    protected virtual ElementsList<Anchor> Anchors =>
+    protected virtual ComponentsList<Anchor> Anchors =>
         App.Components.CreateAllByTag<Anchor>("a");
 
     [Test]
@@ -101,8 +101,8 @@ public abstract class AnchorsStyleTests : WebTest
 public class MultiPickerPopupAnchorStyleTests : AnchorsStyleTests
 {
     private BasicPickersPage _basicPickersPage;
-    protected override ElementsList<Anchor> Anchors
-        => new ElementsList<Anchor>()
+    protected override ComponentsList<Anchor> Anchors
+        => new ComponentsList<Anchor>()
         {
             _basicPickersPage.MultiPicker.Popup.Footer.CancelLink,
             _basicPickersPage.MultiPicker.Popup.PopupSearch.CancelAdvancedSearchLink,

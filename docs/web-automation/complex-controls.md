@@ -90,7 +90,7 @@ public class TableControlTests : WebTest
         Table.GetCell("First Name", 1).ValidateInnerTextIs("Frank");
         Table.GetCell(1, 2).ValidateInnerTextIs("Jason");
         Table.GetCell<User>(cell => cell.Email, 1).ValidateInnerTextIs("fbach@yahoo.com");
-        ElementsList<TableCell> cells = Table.GetCells(cell => cell.InnerText.ToLower().StartsWith('j'));
+        ComponentsList<TableCell> cells = Table.GetCells(cell => cell.InnerText.ToLower().StartsWith('j'));
         Assert.AreEqual(4, cells.Count());
         var matchingCell = Table.GetFirstOrDefaultCell(cell => cell.InnerText.ToLower().StartsWith('j'));
         matchingCell.ValidateInnerTextIs("John");
@@ -110,7 +110,7 @@ public class TableControlTests : WebTest
         secondCell.ValidateInnerTextIs("jsmith@gmail.com");
         IEnumerable<TableCell> cells = firstRow.GetCells();
         Assert.AreEqual(6, cells.Count());
-        ElementsList<TableCell> matchingCells = firstRow.GetCells(cell => cell.InnerText.ToLower().Contains("smith"));
+        ComponentsList<TableCell> matchingCells = firstRow.GetCells(cell => cell.InnerText.ToLower().Contains("smith"));
         Assert.AreEqual(3, matchingCells.Count());
         var matchingCell = firstRow.GetFirstOrDefaultCell(cell => cell.InnerText.ToLower().Contains("smith"));
         matchingCell.ValidateInnerTextIs("Smith");
@@ -123,7 +123,7 @@ public class TableControlTests : WebTest
     {
         Table.TableHeaderRows.ForEach(header => header.AssertFontFamily("\"Times New Roman\""));
         Table.ForEachHeader(row => row.AssertFontFamily("\"Times New Roman\""));
-        ElementsList<Label> headerCells = Table.ColumnHeaders;
+        ComponentsList<Label> headerCells = Table.ColumnHeaders;
         headerCells.ForEach(cell => cell.AssertFontSize("16px"));
     }
 
@@ -194,7 +194,7 @@ Table.GetCell<User>(cell => cell.Email, 1).ValidateInnerTextIs("fbach@yahoo.com"
 ```
 You can get a particular cell by header expression and row number.
 ```csharp
-ElementsList<TableCell> cells = Table.GetCells(cell => cell.InnerText.ToLower().StartsWith('j'));
+ComponentsList<TableCell> cells = Table.GetCells(cell => cell.InnerText.ToLower().StartsWith('j'));
 Assert.AreEqual(4, cells.Count());
 ```
 You can get particular cells by a selector.
@@ -254,7 +254,7 @@ Assert.AreEqual(6, cells.Count());
 ```
 You can get all row cells through the **GetCells** method.
 ```csharp
-ElementsList<TableCell> matchingCells = firstRow.GetCells(cell => cell.InnerText.ToLower().Contains("smith"));
+ComponentsList<TableCell> matchingCells = firstRow.GetCells(cell => cell.InnerText.ToLower().Contains("smith"));
 Assert.AreEqual(3, matchingCells.Count());
 ```
 You can get the cells matching a condition.
@@ -361,7 +361,7 @@ public class GridControlTests : WebTest
         TestGrid.GetCell("Firstname", 1).ValidateInnerTextIs("Mary");
         TestGrid.GetCell(0, 1).ValidateInnerTextIs("John");
         TestGrid.GetCell<Employee>(cell => cell.PersonalEmail, 1).ValidateInnerTextIs("mary@hotmail.com");
-        ElementsList<TableCell> matchingCells = TestGrid.GetCells<TableCell>(cell => cell.InnerText.StartsWith('J'));
+        ComponentsList<TableCell> matchingCells = TestGrid.GetCells<TableCell>(cell => cell.InnerText.StartsWith('J'));
         Assert.AreEqual(2, matchingCells.Count());
         TestGrid.GetCell("Email Business", 0).ValidateInnerTextIs("jdoe@corp.com");
         var firstRowEmail = TestGrid.GetRow(0).GetCell("Email Personal");
@@ -416,7 +416,7 @@ public class GridControlTests : WebTest
         secondCell.ValidateInnerTextIs("John");
         IEnumerable<GridCell> cells = firstRow.GetCells();
         Assert.AreEqual(6, cells.Count());
-        ElementsList<TableCell> textFields = firstRow.GetCells<TableCell>(cell => cell.InnerText.StartsWith("John") || cell.InnerText.StartsWith("john"));
+        ComponentsList<TableCell> textFields = firstRow.GetCells<TableCell>(cell => cell.InnerText.StartsWith("John") || cell.InnerText.StartsWith("john"));
         Assert.AreEqual(2, textFields.Count());
         var firstInputCell = firstRow.GetFirstOrDefaultCell<TextField>(cell => cell.TagName == "input");
         firstInputCell.ValidateValueIs("0");
@@ -459,7 +459,7 @@ public Grid TestGrid => App.Components.CreateById<Grid>("sampleGrid")
     .SetColumn("Email Business")
     .SetColumn("Actions", typeof(Button), Find.By.Xpath("./input[@type='button']"));
 ```
-BELLATRIX gives you API for easing the work with HTML grids. Through the **SetColumn** you map the headers of the table if for some reason you don't want some column, just don't add it. The method returns a list of all rows' data as C# data mapped to the map you provided. Since we haven't the **SetColumn** for the WebSite- this property won't be asserted if you use the **AssertTable** method. You can get the cell converted to the element specified by the grid **SetColumn** method. Also, since some of this simple controls sometimes are wrapped inside DIV or SPAN elements, you can specify additional locator for finding the element.
+BELLATRIX gives you API for easing the work with HTML grids. Through the **SetColumn** you map the headers of the table if for some reason you don't want some column, just don't add it. The method returns a list of all rows' data as C# data mapped to the map you provided. Since we haven't the **SetColumn** for the WebSite- this property won't be asserted if you use the **AssertTable** method. You can get the cell converted to the element specified by the grid **SetColumn** method. Also, since some of this simple controls sometimes are wrapped inside DIV or SPAN elements, you can specify additional locator for finding the component.
 ### General Methods ###
 ```csharp
 var expectedObj = _expectedItems[0];
@@ -546,7 +546,7 @@ Assert.AreEqual(6, cells.Count());
 ```
 You can get all row cells through the **GetCells** method.
 ```csharp
-ElementsList<TableCell> textFields = firstRow.GetCells<TableCell>(cell => cell.InnerText.StartsWith("John") || cell.InnerText.StartsWith("john"));
+ComponentsList<TableCell> textFields = firstRow.GetCells<TableCell>(cell => cell.InnerText.StartsWith("John") || cell.InnerText.StartsWith("john"));
 Assert.AreEqual(2, textFields.Count());
 ```
 You can get the cells matching a condition. Also, they will be returned as elements of a type of your choice.

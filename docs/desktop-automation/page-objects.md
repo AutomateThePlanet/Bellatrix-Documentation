@@ -73,9 +73,9 @@ On most pages, you need to define elements. Placing them in a single place makes
 
 Page Object Example
 -------------------
-### Methods File ###
+### Actions File ###
 ```csharp
-public partial class MainDesktopPage : AssertedPage
+public partial class MainDesktopPage : DesktopPage
 {
     public void TransferItem(string itemToBeTransfered, string userName, string password)
     {
@@ -89,18 +89,18 @@ public partial class MainDesktopPage : AssertedPage
     }
 }
 ```
-### Elements File ###
+### Map File ###
 ```csharp
 public partial class MainDesktopPage
 {
-    public Button Transfer => Element.CreateByName<Button>("E Button");
-    public CheckBox PermanentTransfer => Element.CreateByName<CheckBox>("BellaCheckBox");
-    public ComboBox Items => Element.CreateByAutomationId<ComboBox>("select");
-    public Button ReturnItemAfter => Element.CreateByName<Button>("DisappearAfterButton1");
-    public Label Results => Element.CreateByName<Label>("Result Label");
-    public Password Password => Element.CreateByAutomationId<Password>("passwordBox");
-    public TextField UserName => Element.CreateByAutomationId<TextField>("textBox");
-    public RadioButton KeepMeLogged => Element.CreateByName<RadioButton>("RadioButton");
+    public Button Transfer => App.Components.CreateByName<Button>("E Button");
+    public CheckBox PermanentTransfer => App.Components.CreateByName<CheckBox>("BellaCheckBox");
+    public ComboBox Items => App.Components.CreateByAutomationId<ComboBox>("select");
+    public Button ReturnItemAfter => App.Components.CreateByName<Button>("DisappearAfterButton1");
+    public Label Results => App.Components.CreateByName<Label>("Result Label");
+    public Password Password => App.Components.CreateByAutomationId<Password>("passwordBox");
+    public TextField UserName => App.Components.CreateByAutomationId<TextField>("textBox");
+    public RadioButton KeepMeLogged => App.Components.CreateByName<RadioButton>("RadioButton");
 }
 ```
 ### Assertions File ###
@@ -109,22 +109,22 @@ public partial class MainDesktopPage
 {
     public void AssertPermanentTransferIsChecked()
     {
-        Assert.IsTrue(PermanentTransfer.IsChecked);
+        App.Assert.IsTrue(PermanentTransfer.IsChecked);
     }
 
     public void AssertRightItemSelected(string itemName)
     {
-        Assert.AreEqual(itemName, Items.InnerText);
+        App.Assert.AreEqual(itemName, Items.InnerText);
     }
 
     public void AssertRightUserNameSet(string userName)
     {
-        Assert.AreEqual(userName, UserName.InnerText);
+        App.Assert.AreEqual(userName, UserName.InnerText);
     }
 
     public void AssertKeepMeLoggedChecked()
     {
-        Assert.IsTrue(KeepMeLogged.IsChecked);
+        App.Assert.IsTrue(KeepMeLogged.IsChecked);
     }
 }
 ```
@@ -132,7 +132,7 @@ public partial class MainDesktopPage
 Page Object Example Explanations
 --------------------------------
 ```csharp
-public partial class MainDesktopPage : AssertedPage
+public partial class MainDesktopPage : DesktopPage
 ```
 All BELLATRIX page objects are implemented as partial classes which means that you have separate files for different parts of it- actions, elements, assertions but at the end, they are all built into a single type. This makes the maintainability and readability of these classes much better. Also, you can easier locate what you need. You can always create BELLATRIX page objects yourself inherit one of the 3 classes- AssertedPage or Page. We advise you to follow the convention with partial classes, but you are always free to put all pieces in a single file.
 ```csharp
@@ -149,13 +149,13 @@ public void TransferItem(string itemToBeTransfered, string userName, string pass
 ```
 These elements are always used together when an item is transferred. There are many test cases where you need to transfer different items and so on. This way you reuse the code instead of copy-paste it. If there is a change in the way how the item is transferred, change the workflow only here. Even single line of code is changed in your tests.
 ```csharp
-public CheckBox PermanentTransfer => Element.CreateByName<CheckBox>("BellaCheckBox");
+public CheckBox PermanentTransfer => App.Components.CreateByName<CheckBox>("BellaCheckBox");
 ```
-All elements are placed inside the file **PageName.Elements** so that the declarations of your elements to be in a single place. It is convenient since if there is a change in some of the locators or elements types you can apply the fix only here. All elements are implements as properties. Here we use the short syntax for declaring properties, but you can always use the old one. **Elements** property is actually a shorter version of **ElementCreateService**.
+All elements are placed inside the file **PageName.Map** so that the declarations of your elements to be in a single place. It is convenient since if there is a change in some of the locators or elements types you can apply the fix only here. All elements are implements as properties. Here we use the short syntax for declaring properties, but you can always use the old one. **App.Components** property is actually a shorter version of **ComponentCreateService**.
 ```csharp
 public void AssertPermanentTransferIsChecked()
 {
-    Assert.IsTrue(PermanentTransfer.IsChecked);
+    App.Assert.IsTrue(PermanentTransfer.IsChecked);
 }
 ```
 With this Assert, reuse the formatting of the currency and the timeout. Also, since the method is called from the page it makes your tests a little bit more readable.If there is a change what needs to be checked --> for example, not span but different element you can change it in a single place.

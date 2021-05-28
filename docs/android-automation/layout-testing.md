@@ -128,7 +128,7 @@ Assert that the elements are aligned vertically only from the left side.
 ```csharp
 button.AssertInsideOf(mainElement);
 ```
-You can check that some element is inside in another. Assert that the button is present in the main view element.
+You can check that some element is inside in another. Assert that the button is present in the main view component.
 ```csharp
 button.AssertHeightLessThan(100);
 button.AssertWidthBetween(50, 80);

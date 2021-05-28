@@ -40,9 +40,9 @@ However, sometimes this may not be enough. For example, you may want to click on
 It may be disabled at the beginning of the tests because some validation is not met. Your test fulfill the initial condition and if you use vanilla WebDriver the test most probably fails because WebDriver clicks too fast before your button is enabled by your code. So we created additional syntax sugar methods to help you deal with this. You can use element "**ToBe**" methods after the **Create** and **CreateAll** methods.
 As you can see in the example below you can chain multiple of this methods.
 
-**Note**: *Since BELLATRIX, elements creation logic is lazy loading as mentioned before, BELLATRIX waits for the conditions to be True on the first action you perform with the element.*
+**Note**: *Since BELLATRIX, elements creation logic is lazy loading as mentioned before, BELLATRIX waits for the conditions to be True on the first action you perform with the component.*
 
-**Note**: *Keep in mind that with this syntax these conditions are checked every time you perform an action with the element. Which can lead tо small execution delays.*
+**Note**: *Keep in mind that with this syntax these conditions are checked every time you perform an action with the component. Which can lead tо small execution delays.*
 
 ```csharp
 var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions").ToHasContent(40, 1);

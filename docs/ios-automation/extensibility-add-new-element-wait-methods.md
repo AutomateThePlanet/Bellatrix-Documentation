@@ -40,7 +40,7 @@ public class WaitHaveSpecificContentStrategy<TDriver, TDriverElement> : WaitStra
             try
             {
                 var element = by.FindElement(searchContext);
-                return element.Text == _elementContent;
+                return component.Text == _elementContent;
             }
             catch (NoSuchElementException)
             {

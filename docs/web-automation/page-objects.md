@@ -164,13 +164,13 @@ public partial class CartPage : AssertedNavigatablePage
 ```csharp
 public partial class CartPage
 {
-    public TextField CouponCode => Element.CreateById<TextField>("coupon_code");
-    public Button ApplyCouponButton => Element.CreateByValueContaining<Button>("Apply coupon");
-    public Div MessageAlert => Element.CreateByClassContaining<Div>("woocommerce-message");
-    public ElementsList<Number> QuantityBoxes => Element.CreateAllByClassContaining<Number>("input-text qty text");
-    public Button UpdateCart => Element.CreateByValueContaining<Button>("Update cart").ToBeClickable();
-    public Span TotalSpan => Element.CreateByXpath<Span>("//*[@class='order-total']//span");
-    public Anchor ProceedToCheckout => Element.CreateByClassContaining<Anchor>("checkout-button button alt wc-forward");
+    public TextField CouponCode => App.Components.CreateById<TextField>("coupon_code");
+    public Button ApplyCouponButton => App.Components.CreateByValueContaining<Button>("Apply coupon");
+    public Div MessageAlert => App.Components.CreateByClassContaining<Div>("woocommerce-message");
+    public ComponentsList<Number> QuantityBoxes => App.Components.CreateAllByClassContaining<Number>("input-text qty text");
+    public Button UpdateCart => App.Components.CreateByValueContaining<Button>("Update cart").ToBeClickable();
+    public Span TotalSpan => App.Components.CreateByXpath<Span>("//*[@class='order-total']//span");
+    public Anchor ProceedToCheckout => App.Components.CreateByClassContaining<Anchor>("checkout-button button alt wc-forward");
 }
 ```
 ### Assertions File ###
@@ -222,7 +222,7 @@ public void UpdateProductQuantity(int productNumber, int newQuantity)
 }
 ```
 Another method that we can add here is the one for updating the quantity of a product. This is an excellent place to put validations in your code. Here we make sure that the specified number of products that we want to update exists.
-CreateAll method returns a special BELLATRIX collection called ElementsList<TElementType> in this case ElementList<Number>. The collection has a couple of useful methods- Count, implements index which we use here.
+CreateAll method returns a special BELLATRIX collection called ComponentsList<TComponentType> in this case ElementList<Number>. The collection has a couple of useful methods- Count, implements index which we use here.
 ```csharp
 foreach (var currentQuantityBox in QuantityBoxes)
 {
@@ -232,13 +232,13 @@ foreach (var currentQuantityBox in QuantityBoxes)
 ```
 Also, you can use ElementList<T> directly in foreach statements since it implements IEnumerator interface.
 ```csharp
-public TextField CouponCode => Element.CreateById<TextField>("coupon_code");
+public TextField CouponCode => App.Components.CreateById<TextField>("coupon_code");
 ```
-All elements are placed inside the file **PageName.Elements** so that the declarations of your elements to be in a single place. It is convenient since if there is a change in some of the locators or elements types you can apply the fix only here. All elements are implements as properties. Here we use the short syntax for declaring properties, but you can always use the old one. **Elements** property is actually a shorter version of **ElementCreateService**.
+All elements are placed inside the file **PageName.Elements** so that the declarations of your elements to be in a single place. It is convenient since if there is a change in some of the locators or elements types you can apply the fix only here. All elements are implements as properties. Here we use the short syntax for declaring properties, but you can always use the old one. **App.Components** property is actually a shorter version of **ComponentCreateService**.
 ```csharp
-public ElementsList<Number> QuantityBoxes => Element.CreateAllByClassContaining<Number>("input-text qty text");
+public ComponentsList<Number> QuantityBoxes => App.Components.CreateAllByClassContaining<Number>("input-text qty text");
 ```
-If you want to find multiple elements, you can use the special BELLATRIX collection ElementsList<TElementType>. You can read more about it in the actions file.
+If you want to find multiple elements, you can use the special BELLATRIX collection ComponentsList<TComponentType>. You can read more about it in the actions file.
 ```csharp
 public void AssertTotalPrice(string price)
 {

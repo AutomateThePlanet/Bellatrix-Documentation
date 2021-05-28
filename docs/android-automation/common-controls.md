@@ -74,7 +74,7 @@ Create methods accept a generic parameter the type of the Android control. Then 
 ```csharp
 button.Click();
 ```
-Clicking the button. At this moment BELLATRIX locates the element.
+Clicking the button. At this moment BELLATRIX locates the component.
 ```csharp
 var radioButton = App.Components.CreateByIdContaining<RadioButton>("radio2");
 ```
@@ -144,7 +144,7 @@ Component | Available properties
 Button | Click, GetText, IsDisabled
 CheckBox | Check, Uncheck, GetText, IsDisabled, IsChecked
 ComboBox | SelectByText, GetText, IsDisabled
-Grid<TElement> | GetAll
+Grid<TComponent> | GetAll
 Image | same as element
 ImageButton | Click, GetText, IsDisabled
 Label | GetText
@@ -155,6 +155,6 @@ RadioButton | Click, IsDisabled, IsChecked, GetText
 RadioGroup | ClickByText, ClickByIndex, GetChecked, GetAll
 SeekBar | Set, IsDisabled
 Switch | TurnOn, TurnOff, GetText, IsDisabled, IsOn
-Tabs<TElement> | GetAll
+Tabs<TComponent> | GetAll
 TextField | SetText, GetText, IsDisabled
 ToggleButton | TurnOn, TurnOff, GetText, IsDisabled, IsOn

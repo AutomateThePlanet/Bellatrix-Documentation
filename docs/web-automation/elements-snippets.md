@@ -22,7 +22,7 @@ BELLATRIX gives you expansion snippets. You can read more how you can write your
 How to Use BELLATRIX Code Snippets?
 ------------
 ```csharp
-public TextField CouponCode => Element.CreateById<TextField>("coupon_code");
+public TextField CouponCode => App.Components.CreateById<TextField>("coupon_code");
 ```
 For each proxy element in BELLATRIX, we give you a corresponding snippet. For example to generate a **TextField** property, you need to type somewhere in you class **wtextfield** and press Tab.
 (w comes from web since you have snippets for other BELLATRIX modules- desktop and mobile)

@@ -13,8 +13,6 @@ Example
 -------
 ```csharp
 [TestFixture]
-[VideoRecording(VideoRecordingMode.OnlyFail)]
-[App(Constants.WpfAppPath, Lifecycle.RestartEveryTime)]
 public class TestWorkflowHooksTests : DesktopTest
 {
     private static Button _mainButton;

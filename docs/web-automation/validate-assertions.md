@@ -82,7 +82,7 @@ No changes are made to the added products so the update cart button should be di
 Span totalSpan = App.Components.CreateByXpath<Span>("//*[@class='order-total']//span");
 totalSpan.ValidateInnerTextIs("120.00€", timeout: 30, sleepInterval: 2);
 ```
-Check the total price contained in the order-total span HTML element. By default, all Validate methods have 5 seconds timeout. However, you can specify a custom timeout and sleep interval (period for checking again)
+Check the total price contained in the order-total span HTML component. By default, all Validate methods have 5 seconds timeout. However, you can specify a custom timeout and sleep interval (period for checking again)
 ```csharp
 Bellatrix.Assertions.Assert.Multiple(
                 () => totalSpan.ValidateInnerTextIs("120.00€", timeout: 30, sleepInterval: 2),

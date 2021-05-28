@@ -28,7 +28,7 @@ public void PromotionsPageOpened_When_PromotionsButtonClicked()
     promotionsLink.Click();
     Console.WriteLine(promotionsLink.By.Value);
 
-    Console.WriteLine(promotionsLink.WrappedElement.TagName);
+    Console.WriteLine(promotionsLink.Wrappedcomponent.TagName);
 }
 ```
 
@@ -46,7 +46,7 @@ Because of the proxy element mechanism (we have a separate type of element inste
 In vanilla WebDriver to type the text you call **SendKeys** method.
 Also, we have some additional properties in the proxy web control such as- By. Now you can get the locator with which you element was found.
 ```csharp
-Console.WriteLine(promotionsLink.WrappedElement.TagName);
+Console.WriteLine(promotionsLink.Wrappedcomponent.TagName);
 ```
 You can access the WebDriver wrapped element through WrappedElement and the current WebDriver instance through- WrappedDriver.
 
@@ -121,7 +121,7 @@ Searches the element by some of its attribute containing the specified value.
 
 Find Multiple Elements
 ----------------------
-Sometimes we need to find more than one element. For example, in this test we want to locate all Add to Cart buttons.
+Sometimes we need to find more than one component. For example, in this test we want to locate all Add to Cart buttons.
 To do it you can use the element create service CreateAll method.
 
 ```csharp
@@ -219,7 +219,7 @@ public void OpenSalesPage_When_LocatedSaleButtonInsideProductImage()
     saleButton.Click();
 }
 ```
-The first products row is located. Then search inside it for the first product image, inside it search for the Sale! Span element.
+The first products row is located. Then search inside it for the first product image, inside it search for the Sale! Span component.
 
 **Note**: *It is entirely legal to create a Button instead of Span. BELLATRIX library does not care about the real type of the HTML elements. The proxy types are convenience wrappers so to say. Meaning they give you a better interface of predefined properties and methods to make your tests more readable.*
 
@@ -227,133 +227,133 @@ Available Create Methods for Finding Nested Elements
 ----------------------------------------------------
 ### CreateByIdEndingWith ###
 ```csharp
-element.CreateByIdEndingWith<Anchor>("myIdSuffix");
+component.CreateByIdEndingWith<Anchor>("myIdSuffix");
 ```
 Searches the element by ID ending with the locator.
 ### CreateByTag ###
 ```csharp
-element.CreateByTag<Anchor>("a");
+component.CreateByTag<Anchor>("a");
 ```
 Searches the element by its tag.
 ### CreateById ###
 ```csharp
-element.CreateById<Button>("myId");
+component.CreateById<Button>("myId");
 ```
 Searches the element by its ID.
 ### CreateByIdContaining ###
 ```csharp
-element.CreateByIdContaining<Button>("myIdMiddle");
+component.CreateByIdContaining<Button>("myIdMiddle");
 ```
 Searches the element by ID containing the specified text.
 ### CreateByValueEndingWith ###
 ```csharp
-element.CreateByIdContaining<Button>("pay");
+component.CreateByIdContaining<Button>("pay");
 ```
 Searches the element by value attribute containing the specified text.
 ### CreateByXpath ###
 ```csharp
-element.CreateByXpath<Button>("//*[@title='Add to cart']");
+component.CreateByXpath<Button>("//*[@title='Add to cart']");
 ```
 Searches the element by XPath locator.
 ### CreateByLinkText ###
 ```csharp
-element.CreateByLinkText<Anchor>("blog");
+component.CreateByLinkText<Anchor>("blog");
 ```
 Searches the element by its link (href).
 ### CreateByLinkTextContaining ###
 ```csharp
-element.CreateByLinkTextContaining<Anchor>("account");
+component.CreateByLinkTextContaining<Anchor>("account");
 ```
 Searches the element by its link (href) if it contains specified value.
 ### CreateByClass ###
 ```csharp
-element.CreateByClassContaining<Anchor>("ul.products");
+component.CreateByClassContaining<Anchor>("ul.products");
 ```
 Searches the element by its CSS classes.
 ### CreateByClassContaining ###
 ```csharp
-element.CreateByClassContaining<Anchor>(".products");
+component.CreateByClassContaining<Anchor>(".products");
 ```
 Searches the element by its CSS classes containing the specified values.
 ### CreateByInnerTextContaining ###
 ```csharp
-element.CreateByInnerTextContaining<Div>("Showing all");
+component.CreateByInnerTextContaining<Div>("Showing all");
 ```
 Searches the element by its inner text content, including all child HTML elements.
 ### CreateByNameEndingWith ###
 ```csharp
-element.CreateByNameEndingWith<Search>("a");
+component.CreateByNameEndingWith<Search>("a");
 ```
 Searches the element by its name containing the specified text.
 ### CreateByAttributesContaining ###
 ```csharp
-element.CreateByAttributesContaining<Anchor>("data-product_id", "31");
+component.CreateByAttributesContaining<Anchor>("data-product_id", "31");
 ```
 
 Available CreateAll Methods for Finding Nested Elements
 ----------------------------------------------------
 ### CreateAllByIdEndingWith ###
 ```csharp
-element.CreateAllByIdEndingWith<Anchor>("myIdSuffix");
+component.CreateAllByIdEndingWith<Anchor>("myIdSuffix");
 ```
 Searches the elements by ID ending with the locator.
 ### CreateAllByTag ###
 ```csharp
-element.CreateAllByTag<Anchor>("a");
+component.CreateAllByTag<Anchor>("a");
 ```
 Searches the elements by its tag.
 ### CreateAllById ###
 ```csharp
-element.CreateAllById<Button>("myId");
+component.CreateAllById<Button>("myId");
 ```
 Searches the elements by its ID.
 ### CreateAllByIdContaining ###
 ```csharp
-element.CreateAllByIdContaining<Button>("myIdMiddle");
+component.CreateAllByIdContaining<Button>("myIdMiddle");
 ```
 Searches the elements by ID containing the specified text.
 ### CreateAllByValueEndingWith ###
 ```csharp
-element.CreateAllByValueEndingWith<Button>("pay");
+component.CreateAllByValueEndingWith<Button>("pay");
 ```
 Searches the elements by value attribute containing the specified text.
 ### CreateAllByXpath ###
 ```csharp
-element.CreateAllByXpath<Button>("//*[@title='Add to cart']");
+component.CreateAllByXpath<Button>("//*[@title='Add to cart']");
 ```
 Searches the elements by XPath locator.
 ### CreateAllByLinkText ###
 ```csharp
-element.CreateAllByLinkText<Anchor>("blog");
+component.CreateAllByLinkText<Anchor>("blog");
 ```
 Searches the elements by its link (href).
 ### CreateAllByLinkTextContaining ###
 ```csharp
-element.CreateAllByLinkTextContaining<Anchor>("account");
+component.CreateAllByLinkTextContaining<Anchor>("account");
 ```
 Searches the elements by its link (href) if it contains specified value.
 ### CreateAllByClass ###
 ```csharp
-element.CreateAllByClass<Anchor>("ul.products");
+component.CreateAllByClass<Anchor>("ul.products");
 ```
 Searches the elements by its CSS classes.
 ### CreateAllByClassContaining ###
 ```csharp
-element.CreateAllByClassContaining<Anchor>(".products");
+component.CreateAllByClassContaining<Anchor>(".products");
 ```
 Searches the elements by its CSS classes containing the specified values.
 ### CreateAllByInnerTextContaining ###
 ```csharp
-element.CreateAllByInnerTextContaining<Div>("Showing all");
+component.CreateAllByInnerTextContaining<Div>("Showing all");
 ```
 Searches the elements by its inner text content, including all child HTML elements.
 ### CreateAllByNameEndingWith ###
 ```csharp
-element.CreateAllByNameEndingWith<Search>("a");
+component.CreateAllByNameEndingWith<Search>("a");
 ```
 Searches the elements by its name containing the specified text.   
 ### CreateAllByAttributesContaining ###
 ```csharp
-element.CreateAllByAttributesContaining<Anchor>("data-product_id", "31");
+component.CreateAllByAttributesContaining<Anchor>("data-product_id", "31");
 ```
 Searches the elements by some of its attribute containing the specifed value. 

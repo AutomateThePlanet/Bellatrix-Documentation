@@ -39,12 +39,12 @@ public class FindNameStartingWithStrategy : FindStrategy<IOSDriver<IOSElement>, 
 
     public override AppiumWebElement FindElement(IOSElement element)
     {
-        return element.FindElementByXPath(_locatorValue);
+        return component.FindElementByXPath(_locatorValue);
     }
 
     public override IEnumerable<AppiumWebElement> FindAllElements(IOSElement element)
     {
-        return element.FindElementsByXPath(_locatorValue);
+        return component.FindElementsByXPath(_locatorValue);
     }
 
     public override string ToString()
@@ -55,27 +55,27 @@ public class FindNameStartingWithStrategy : FindStrategy<IOSDriver<IOSElement>, 
 ```
 We override all available methods and use XPath expression for finding an element with name starting with.
 
-To ease the usage of the locator, we need to create an extension methods for ElementCreateService and Element classes.
+To ease the usage of the locator, we need to create an extension methods for ComponentCreateService and Element classes.
 
 ```csharp
-public static class ElementRepositoryExtensions
+public static class ComponentRepositoryExtensions
 {
-    public static TElement CreateByNameStartingWith<TElement>(this ElementCreateService repo, string id)
-        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => repo.Create<TElement, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement>(new FindNameStartingWithStrategy(id));
+    public static TComponent CreateByNameStartingWith<TComponent>(this ComponentCreateService repo, string id)
+        where TComponent : Component<IOSDriver<IOSElement>, IOSElement> => repo.Create<TComponent, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement>(new FindNameStartingWithStrategy(id));
 
-    public static ElementsList<TElement, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement> CreateAllByNameStartingWith<TElement>(this ElementCreateService repo, string id)
-        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => new ElementsList<TElement, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement>(new FindNameStartingWithStrategy(id), null);
+    public static ComponentsList<TComponent, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement> CreateAllByNameStartingWith<TComponent>(this ComponentCreateService repo, string id)
+        where TComponent : Component<IOSDriver<IOSElement>, IOSElement> => new ComponentsList<TComponent, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement>(new FindNameStartingWithStrategy(id), null);
 }
 ```
 
 ```csharp
-public static class ElementCreateExtensions
+public static class ComponentCreateExtensions
 {
-    public static TElement CreateByNameStartingWith<TElement>(this Element<IOSDriver<IOSElement>, IOSElement> element, string id)
-        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => element.Create<TElement, FindNameStartingWithStrategy>(new FindNameStartingWithStrategy(id));
+    public static TComponent CreateByNameStartingWith<TComponent>(this Element<IOSDriver<IOSElement>, IOSElement> element, string id)
+        where TComponent : Component<IOSDriver<IOSElement>, IOSElement> => App.Components.Create<TComponent, FindNameStartingWithStrategy>(new FindNameStartingWithStrategy(id));
 
-    public static ElementsList<TElement, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement> CreateAllByNameStartingWith<TElement>(this Element<IOSDriver<IOSElement>, IOSElement> element, string id)
-        where TElement : Element<IOSDriver<IOSElement>, IOSElement> => new ElementsList<TElement, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement>(new FindNameStartingWithStrategy(id), element.WrappedElement);
+    public static ComponentsList<TComponent, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement> CreateAllByNameStartingWith<TComponent>(this Element<IOSDriver<IOSElement>, IOSElement> element, string id)
+        where TComponent : Component<IOSDriver<IOSElement>, IOSElement> => new ComponentsList<TComponent, FindNameStartingWithStrategy, IOSDriver<IOSElement>, IOSElement>(new FindNameStartingWithStrategy(id), component.WrappedElement);
 }
 ```
 

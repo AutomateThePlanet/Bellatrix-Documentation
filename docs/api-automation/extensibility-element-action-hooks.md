@@ -30,32 +30,32 @@ public class DebugLoggingButtonEventHandlers : ButtonEventHandlers
 {
     protected override void ClickingEventHandler(object sender, ElementActionEventArgs arg)
     {
-        DebugLogger.LogInfo($"Before clicking button. Coordinates: X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
+        DebugLogger.LogInfo($"Before clicking button. Coordinates: X={arg.component.Wrappedcomponent.Location.X} Y={arg.component.Wrappedcomponent.Location.Y}");
     }
 
     protected override void ClickedEventHandler(object sender, ElementActionEventArgs arg)
     {
-        DebugLogger.LogInfo($"After button clicked. Coordinates: X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
+        DebugLogger.LogInfo($"After button clicked. Coordinates: X={arg.component.Wrappedcomponent.Location.X} Y={arg.component.Wrappedcomponent.Location.Y}");
     }
 
     protected override void HoveringEventHandler(object sender, ElementActionEventArgs arg)
     {
-        DebugLogger.LogInfo($"Before hovering button. Coordinates: X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
+        DebugLogger.LogInfo($"Before hovering button. Coordinates: X={arg.component.Wrappedcomponent.Location.X} Y={arg.component.Wrappedcomponent.Location.Y}");
     }
 
     protected override void HoveredEventHandler(object sender, ElementActionEventArgs arg)
     {
-        DebugLogger.LogInfo($"After button hovered. Coordinates: X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
+        DebugLogger.LogInfo($"After button hovered. Coordinates: X={arg.component.Wrappedcomponent.Location.X} Y={arg.component.Wrappedcomponent.Location.Y}");
     }
 
     protected override void FocusingEventHandler(object sender, ElementActionEventArgs arg)
     {
-        DebugLogger.LogInfo($"Before focusing button. Coordinates: X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
+        DebugLogger.LogInfo($"Before focusing button. Coordinates: X={arg.component.Wrappedcomponent.Location.X} Y={arg.component.Wrappedcomponent.Location.Y}");
     }
 
     protected override void FocusedEventHandler(object sender, ElementActionEventArgs arg)
     {
-        DebugLogger.LogInfo($"After button focused. Coordinates: X={arg.Element.WrappedElement.Location.X} Y={arg.Element.WrappedElement.Location.Y}");
+        DebugLogger.LogInfo($"After button focused. Coordinates: X={arg.component.Wrappedcomponent.Location.X} Y={arg.component.Wrappedcomponent.Location.Y}");
     }
 }
 ```

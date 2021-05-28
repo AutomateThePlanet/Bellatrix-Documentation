@@ -27,7 +27,7 @@ public void ElementFound_When_CreateByIdContaining_And_ElementIsOnScreen()
 
     Console.WriteLine(button.By.Value);
 
-    Console.WriteLine(button.WrappedElement.TagName);
+    Console.WriteLine(button.Wrappedcomponent.TagName);
 
 	var textField = App.Components.CreateByIdContaining<TextField>("edit");
 
@@ -46,7 +46,7 @@ Console.WriteLine(button.By.Value);
 ```
 Because of the proxy element mechanism (we have a separate type of element instead of single WebDriver IWebElement interface or Appium AndroidElement) we have several benefits. Each control (element type- ComboBox, TextField and so on) contains only the actions you can do with it, and the methods are named properly. In vanilla WebDriver to type the text you call **SendKeys** method. Also, we have some additional properties in the proxy web control such as- By. Now you can get the locator with which you element was found.
 ```csharp
-Console.WriteLine(button.WrappedElement.TagName);
+Console.WriteLine(button.Wrappedcomponent.TagName);
 ```
 You can access the WebDriver wrapped element through **WrappedElement** and the current AppiumDriver instance through- **WrappedDriver**.
 ```csharp
@@ -106,7 +106,7 @@ Searches the element by XPath locator.
 
 Find Multiple Elements
 ----------------------
-Sometimes we need to find more than one element. For example, in this test we want to locate all Add to Cart buttons.
+Sometimes we need to find more than one component. For example, in this test we want to locate all Add to Cart buttons.
 To do it you can use the element create service CreateAll method.
 
 ```csharp
@@ -169,13 +169,13 @@ Searches the elements by XPath locator.
 
 Find Nested Elements
 ----------------------
-Sometimes it is easier to locate one element and then find the next one that you need, inside it. For example in this test we want to locate the button inside the main view element. To do it you can use the element's Create methods.
+Sometimes it is easier to locate one element and then find the next one that you need, inside it. For example in this test we want to locate the button inside the main view component. To do it you can use the element's Create methods.
 
 ```csharp
 public void ElementFound_When_CreateByIdContaining_And_ElementIsOnScreen_NestedElement()
 {
     var mainElement = App.Components.CreateByIdContaining<Element>("decor_content_parent");
-	var button = mainElement.CreateByIdContaining<Button>("button");
+	var button = maincomponent.CreateByIdContaining<Button>("button");
     button.ValidateIsVisible();
 }
 ```
@@ -186,47 +186,47 @@ Available Create Methods for Finding Nested Elements
 ----------------------------------------------------
 ### CreateById ###
 ```csharp
-element.CreateById<Button>("myId");
+component.CreateById<Button>("myId");
 ```
 Searches the element by its ID.
 ### CreateByIdContaining ###
 ```csharp
-element.CreateByIdContaining<Button>("myIdMiddle");
+component.CreateByIdContaining<Button>("myIdMiddle");
 ```
 Searches the element by ID containing the specified value.
 ### CreateByDescription ###
 ```csharp
-element.CreateByDescription<Button>("myDescription");
+component.CreateByDescription<Button>("myDescription");
 ```
 Searches the element by ID ending with the locator.
 ### CreateByDescriptionContaining ###
 ```csharp
-element.CreateByDescriptionContaining<Button>("description");
+component.CreateByDescriptionContaining<Button>("description");
 ```
 Searches the element by its description if it contains specified value.
 ### CreateByText ###
 ```csharp
-element.CreateByText<Button>("text");
+component.CreateByText<Button>("text");
 ```
 Searches the element by its text.
 ### CreateByTextContaining ###
 ```csharp
-element.CreateByTextContaining<Button>("partOfText");
+component.CreateByTextContaining<Button>("partOfText");
 ```
 Searches the element by its text if it contains specified value.
 ### CreateByClass ###
 ```csharp
-element.CreateByClass<Button>("myClass");
+component.CreateByClass<Button>("myClass");
 ```
 Searches the element by its class.
 ### CreateByAndroidUIAutomator ###
 ```csharp
-element.CreateByAndroidUIAutomator<Button>("ui-automator-expression");
+component.CreateByAndroidUIAutomator<Button>("ui-automator-expression");
 ```
 Searches the element by Android UIAutomator expression.
 ### CreateByXPath ###
 ```csharp
-element.CreateByXPath<Button>("//*[@title='Add to cart']");
+component.CreateByXPath<Button>("//*[@title='Add to cart']");
 ```
 Searches the element by XPath locator.
 
@@ -234,46 +234,46 @@ Available CreateAll Methods for Finding Nested Elements
 ----------------------------------------------------
 ### CreateAllById ###
 ```csharp
-element.CreateAllById<Button>("myId");
+component.CreateAllById<Button>("myId");
 ```
 Searches the elements by its ID.
 ### CreateAllByIdContaining ###
 ```csharp
-element.CreateAllByIdContaining<Button>("myIdMiddle");
+component.CreateAllByIdContaining<Button>("myIdMiddle");
 ```
 Searches the elements by ID containing the specified value.
 ### CreateAllByDescription ###
 ```csharp
-element.CreateAllByDescription<Button>("myDescription");
+component.CreateAllByDescription<Button>("myDescription");
 ```
 Searches the elements by ID ending with the locator.
 ### CreateAllByDescriptionContaining ###
 ```csharp
-element.CreateAllByDescriptionContaining<Button>("description");
+component.CreateAllByDescriptionContaining<Button>("description");
 ```
 Searches the elements by its description if it contains specified value.
 ### CreateAllByText ###
 ```csharp
-element.CreateAllByText<Button>("text");
+component.CreateAllByText<Button>("text");
 ```
 Searches the elements by its text.
 ### CreateAllByTextContaining ###
 ```csharp
-element.CreateAllByTextContaining<Button>("partOfText");
+component.CreateAllByTextContaining<Button>("partOfText");
 ```
 Searches the elements by its text if it contains specified value.
 ### CreateAllByClass ###
 ```csharp
-element.CreateAllByClass<Button>("myClass");
+component.CreateAllByClass<Button>("myClass");
 ```
 Searches the elements by its class.
 ### CreateAllByAndroidUIAutomator ###
 ```csharp
-element.CreateAllByAndroidUIAutomator<Button>("ui-automator-expression");
+component.CreateAllByAndroidUIAutomator<Button>("ui-automator-expression");
 ```
 Searches the elements by Android UIAutomator expression.
 ### CreateAllByXPath ###
 ```csharp
-element.CreateAllByXPath<Button>("//*[@title='Add to cart']");
+component.CreateAllByXPath<Button>("//*[@title='Add to cart']");
 ```
 Searches the elements by XPath locator.

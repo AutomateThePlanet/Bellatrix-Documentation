@@ -19,9 +19,9 @@ Also, the base class for all web elements- Element provides a few special events
 - **ScrolledToVisible** - called after scrolling
 - **SettingAttribute** - called before setting a web attribute
 - **AttributeSet** = called after setting a value to a web attribute
-- **CreatingElement** - called before creating the element
-- **CreatedElement** - called after the creation of the element
-- **CreatingElements** - called before the creation of nested element
-- **CreatedElements** - called after the creation of nedsted element
+- **CreatingComponent** - called before creating the element
+- **CreatedComponent** - called after the creation of the element
+- **CreatingComponents** - called before the creation of nested element
+- **CreatedComponents** - called after the creation of nedsted element
 - **ReturningWrappedElement** - called before searching for native WebDriver element
 To add custom logic to the element's methods you can create a class that derives from ElementEventHandlers. The override the methods you like.

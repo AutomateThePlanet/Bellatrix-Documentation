@@ -43,7 +43,7 @@ public class WaitToHasStyleStrategy : WaitStrategy
         try
         {
             var element = searchContext.FindElement(by.Convert());
-            return element != null && element.GetAttribute("style").Equals(_elementStyle);
+            return element != null && component.GetAttribute("style").Equals(_elementStyle);
         }
         catch (StaleElementReferenceException)
         {
@@ -59,11 +59,11 @@ The next and final step is to create an extension method for all UI elements.
 ```csharp
 public static class UntilElementsExtensions
 {
-    public static TElementType ToHasSpecificStyle<TElementType>(this TElementType element, string style, int? timeoutInterval = null, int? sleepInterval = null)
-        where TElementType : Element
+    public static TComponentType ToHasSpecificStyle<TComponentType>(this TComponentType element, string style, int? timeoutInterval = null, int? sleepInterval = null)
+        where TComponentType : Component
     {
         var until = new WaitToHasStyleStrategy(style, timeoutInterval, sleepInterval);
-        element.ValidateState(until);
+        component.ValidateState(until);
         return element;
     }
 }
