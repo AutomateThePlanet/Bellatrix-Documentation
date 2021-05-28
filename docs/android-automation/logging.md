@@ -49,18 +49,3 @@ Class = LoggingTests Name = ButtonClicked_When_CallClickMethod
 $$$ Before clicking the button $$$
 Click control(ID = button)
 ```
-
-Configuration
--------------
-```json
-"logging": {
-    "isEnabled": "true",
-    "isConsoleLoggingEnabled": "true",
-    "isDebugLoggingEnabled": "true",
-    "isEventLoggingEnabled": "false",
-    "isFileLoggingEnabled": "true",
-    "outputTemplate":  "{Message:lj}{NewLine}",
-    "addUrlToBddLogging": "false"
-}
-```
-In the **testFrameworkSettings.json** file find a section called **logging**, responsible for controlling the logs generation. You can disable the logs entirely. There are different places where the logs are populated.

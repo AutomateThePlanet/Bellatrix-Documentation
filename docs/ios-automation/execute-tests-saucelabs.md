@@ -68,11 +68,26 @@ As mentioned if you use the SauceLabs attribute on method level it overrides the
 
 Configuration
 -------------
+If you don't use the attribute, the default information from the configuration will be used placed under the executionSettings section. Also, you can add additional driver arguments under the arguments section array in the configuration file.
 ```json
-"sauceLabs": {
-         "gridUri":  "http://ondemand.saucelabs.com:80/wd/hub",
-         "user": "aangelov",
-         "key":  "mySecretKey"
-     }
+"executionSettings": {
+  "defaultLifeCycle": "restart every time",
+  "shouldStartLocalService": "false",
+  "url": "http://127.0.0.1:4722/wd/hub",
+  "arguments": [
+    {
+       "deviceName": "iPhone 6",
+       "app": "com.apple.mobilecal",
+       "name": "{runName}",
+       "platform": "iOS",
+       "version": "11.3",
+       "recordVideo": "true",
+       "recordScreenshots": "true",
+       "screenResolution": "1920x1080x24",
+       "username": "yourUserName",
+       "accessKey": "accessKey"
+    }
+  ]
+}
 ```
-You can find a dedicated section about SauceLabs in **testFrameworkSettings.json** file under the **mobileSettings** section. There you can set the grid URL and credentials.
+Check out the Azure Key Vault integration for information on safely storing secrets such as usernames and passwords. [**Learn more**](/product-integrations/azure-key-vault/)

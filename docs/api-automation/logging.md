@@ -8,7 +8,6 @@ permalink: /api-automation/logging/
 anchors:
   example: Example
   explanations: Explanations
-  configuration: Configuration
 ---
 Example
 -------
@@ -44,18 +43,3 @@ Generated Log, as you can see the above custom message is added to the log.
 [11:14:09] Making GET request against resource api/Albums/10
 [11:14:09] Response of request GET against resource api/Albums/10 - Completed
 ```
-
-Configuration
--------------
-```json
-"logging": {
-    "isEnabled": "true",
-    "isConsoleLoggingEnabled": "true",
-    "isDebugLoggingEnabled": "true",
-    "isEventLoggingEnabled": "false",
-    "isFileLoggingEnabled": "true",
-    "outputTemplate":  "{Message:lj}{NewLine}",
-    "addUrlToBddLogging": "false"
-}
-```
-In the **testFrameworkSettings.json** file find a section called **logging**, responsible for controlling the logs generation. You can disable the logs entirely. There are different places where the logs are populated.

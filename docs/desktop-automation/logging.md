@@ -8,7 +8,6 @@ permalink: /desktop-automation/logging/
 anchors:
   example: Example
   explanations: Explanations
-  configuration: Configuration
 ---
 Example
 -------
@@ -72,18 +71,3 @@ Select 'Item2' from control (AutomationId = select) on WPF Sample App
 Click control (Name = RadioButton) on WPF Sample App
 Ensure control (Name = RadioButton) is checked
 ```
-
-Configuration
--------------
-```json
-"logging": {
-    "isEnabled": "true",
-    "isConsoleLoggingEnabled": "true",
-    "isDebugLoggingEnabled": "true",
-    "isEventLoggingEnabled": "false",
-    "isFileLoggingEnabled": "true",
-    "outputTemplate":  "{Message:lj}{NewLine}",
-    "addUrlToBddLogging": "false"
-}
-```
-In the **testFrameworkSettings.json** file find a section called **logging**, responsible for controlling the logs generation. You can disable the logs entirely. There are different places where the logs are populated.

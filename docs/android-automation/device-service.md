@@ -13,12 +13,6 @@ Example
 -------
 ```csharp
 [TestClass]
-[Android(Constants.AndroidNativeAppPath,
-    Constants.AndroidDefaultAndroidVersion,
-    Constants.AndroidDefaultDeviceName,
-    Constants.AndroidNativeAppAppExamplePackage,
-    ".view.Controls1",
-    Lifecycle.RestartEveryTime)]
 public class DeviceServiceTests : AndroidTest
 {
     [TestMethod]

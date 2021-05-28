@@ -72,12 +72,27 @@ As you can see with the Remote attribute we can change the browser window size a
 
 Configuration
 -------------
+If you don't use the attribute, the default information from the configuration will be used placed under the executionSettings section. Also, you can add additional driver arguments under the arguments section array in the configuration file.
 ```json
-"remote": {
-     "pageLoadTimeout": "30",
-     "scriptTimeout": "1",
-     "artificialDelayBeforeAction": "0",
-     "gridUri":  "http://127.0.0.1:4444/wd/hub"
+"executionSettings": {
+  "executionType": "regular",
+  "defaultBrowser": "chrome",
+  "defaultLifeCycle": "restart every time",
+  "resolution": "1920x1080",
+  "browserVersion": "91",
+  "url": "http://127.0.0.1:4444/wd/hub",
+    "arguments": [
+    {
+        "name": "{runName}",
+        "platform": "Windows",
+        "version": "86",
+        "recordVideo": "true",
+        "recordScreenshots": "true",
+        "screenResolution": "1920x1080x24",
+        "username": "yourUserName",
+        "accessKey": "accessKey"
+    }
+   ]
 }
 ```
-You can find a dedicated section about Selenium grid in **testFrameworkSettings.json** file under the **webSettings** section. There you can set the grid URL and set some additional timeouts.
+Check out the Azure Key Vault integration for information on safely storing secrets such as usernames and passwords. [**Learn more**](/product-integrations/azure-key-vault/)

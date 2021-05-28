@@ -90,14 +90,30 @@ As you can see with the BrowserStack attribute we can change the browser window 
 
 Configuration
 -------------
+If you don't use the attribute, the default information from the configuration will be used placed under the executionSettings section. Also, you can add additional driver arguments under the arguments section array in the configuration file.
 ```json
-"browserStack": {
-   "pageLoadTimeout": "30",
-   "scriptTimeout": "1",
-   "artificialDelayBeforeAction": "0",
-   "gridUri":  "http://hub-cloud.browserstack.com/wd/hub/",
-   "user": "soioa1",
-   "key":  "pnFG3Ky2yLZ5muB1p46P"
+"executionSettings": {
+  "executionType": "regular",
+  "defaultBrowser": "chrome",
+  "defaultLifeCycle": "restart every time",
+  "resolution": "1920x1080",
+  "browserVersion": "91",
+  "url": "http://127.0.0.1:4444/wd/hub",
+  "arguments": [
+      {
+        "name": "{runName}",
+        "os": "Windows",
+        "os_version": "10",
+        "browser": "Chrome",
+        "browser_version": "86",
+        "browserstack.debug": "true",
+        "browserstack.video": "true",
+        "browserstack.networkLogs": "true",
+        "browserstack.console": "true",
+        "browserstack.user": "yourUserName",
+        "browserstack.key": "accessKey"
+      }
+    ]
 }
 ```
-You can find a dedicated section about SauceLabs in **testFrameworkSettings.json** file under the **webSettings** section. There you can set the grid URL, credentials and set some additional timeouts.
+Check out the Azure Key Vault integration for information on safely storing secrets such as usernames and passwords. [**Learn more**](/product-integrations/azure-key-vault/)

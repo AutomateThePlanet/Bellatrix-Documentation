@@ -88,11 +88,29 @@ As mentioned if you use the **BrowserStack** attribute on method level it overri
 
 Configuration
 -------------
+If you don't use the attribute, the default information from the configuration will be used placed under the executionSettings section. Also, you can add additional driver arguments under the arguments section array in the configuration file.
 ```json
-"browserStack": {
-   "gridUri":  "http://hub-cloud.browserstack.com/wd/hub/",
-   "user": "soioa1",
-   "key":  "pnFG3Ky2yLZ5muB1p46P"
+"executionSettings": {
+  "defaultLifeCycle": "restart every time",
+  "shouldStartLocalService": "false",
+  "url": "http://127.0.0.1:4722/wd/hub",
+  "arguments": [
+    {
+       "deviceName": "iPhone 6",
+       "app": "com.apple.mobilecal",
+       "name": "{runName}",
+       "os": "Windows",
+       "os_version": "11.3",
+       "browser": "",
+       "browser_version": "",
+       "browserstack.debug": "true",
+       "browserstack.video": "true",
+       "browserstack.networkLogs": "true",
+       "browserstack.console": "true",
+       "browserstack.user": "yourUserName",
+       "browserstack.key": "accessKey"
+    }
+  ]
 }
 ```
-You can find a dedicated section about SauceLabs in **testFrameworkSettings.json** file under the **mobileSettings** section. There you can set the grid URL and credentials.
+Check out the Azure Key Vault integration for information on safely storing secrets such as usernames and passwords. [**Learn more**](/product-integrations/azure-key-vault/)

@@ -8,7 +8,6 @@ permalink: /ios-automation/bdd-logging/
 anchors:
   example: Example
   explanations: Explanations
-  configuration: Configuration
 ---
 Example
 -------
@@ -54,18 +53,3 @@ Set password '9' in control(Id = IntegerB)
 Set text '1' in control(Id = IntegerA)
 Ensure control(Id = IntegerA) text is '1'
 ```
-
-Configuration
--------------
-```json
-"logging": {
-    "isEnabled": "true",
-    "isConsoleLoggingEnabled": "true",
-    "isDebugLoggingEnabled": "true",
-    "isEventLoggingEnabled": "false",
-    "isFileLoggingEnabled": "true",
-    "outputTemplate":  "{Message:lj}{NewLine}",
-}
-```
-In the **testFrameworkSettings.json** file find a section called logging, responsible for controlling the BDD logs generation. You can disable the logs entirely. There are different places where the logs are populated. By default, you can see the logs in the output window of each test. Also, a file called logs.txt is generated in the folder with the DLLs of your tests. If you execute your tests in CI with some CLI test runner the logs are printed there as well. **outputTemplate** - controls how the message is formatted. You can add additional info such as timestamp and much more. 
-For more info visit- [https://github.com/serilog/serilog/wiki/Formatting-Output](https://github.com/serilog/serilog/wiki/Formatting-Output)
