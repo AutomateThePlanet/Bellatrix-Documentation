@@ -407,3 +407,5 @@ navigation:
                 title: Azure Key Vault
             "computer-vision":
                 title: Computer Vision
+            "lighthouse":
+                title: Google Lighthouse

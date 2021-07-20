@@ -46,3 +46,7 @@ Safeguard cryptographic keys and other secrets used by cloud apps and services.
 ### Computer Vision ###
 Azure Computer Vision cognitive service support for validation text in PDFs and images.
 [**Learn more**](/computer-vision.md)
+
+### Google Lighthouse Analysis ###
+Runs a series of audits to measure the web application under test on the following: performance, accessibility, SEO, best practices, PWA.
+[**Learn more**](/lighthouse.md)
