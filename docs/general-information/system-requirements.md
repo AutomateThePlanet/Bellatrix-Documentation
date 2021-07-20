@@ -32,8 +32,6 @@ NOTE: After the support for .NET Framework 5.0 and higher, Microsoft officially 
 - Visual Studio for Mac
 - Rider: Cross-platform .NET IDE
 
-**Note**: Keep in mind that some of the BELLATRIX are working only for Visual Studio on Windows, other editors don't support them. These features are: **VS item templates** and **VS snippets**.
-
 SDKs and Frameworks Prerequisites
 -------------------------------- 
 [**.NET Core SDK 5**](https://www.microsoft.com/net/download/windows) or higher (usually comes with Visual Studio installation or updates)

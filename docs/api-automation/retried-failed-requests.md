@@ -12,39 +12,22 @@ anchors:
 Example
 -------
 ```csharp
-[Test]
-public void AssertJsonSchema()
+[TestClass]
+[RetryFailedRequests(3, 200, TimeUnit.Milliseconds)]
+public class RetryFailedRequestsTests : APITest
 {
-    var request = new RestRequest("api/Albums/10");
+    [TestMethod]
+    [TestCategory(Categories.CI)]
+    public void GetAlbumById()
+    {
+        var request = new RestRequest("api/Albums/10");
 
-    var response = App.GetApiClientService().Get<Albums>(request);
+        var client = App.GetApiClientService();
 
-    // http://json-schema.org/examples.html
-    var expectedSchema = @"{
-                            ""title"": ""Albums"",
-                            ""type"": ""object"",
-                            ""properties"": {
-                                        ""albumId"": {
-                                            ""type"": ""integer""
-                                        },
-                                ""title"": {
-                                            ""type"": ""string""
-                                },
-                                ""artistId"": {
-                                            ""type"": ""integer""
-                                },
-                          ""artist"": {
-                                            ""type"": ""object""
-                                },
-                         ""tracks"": {
-                                            ""type"": ""object""
-                                }
-                                    },
-                            ""required"": [""albumId""]
-                          }";
+        var response = client.Get<Albums>(request);
 
-    response.AssertSchema(expectedSchema);
-}
+        Assert.AreEqual(10, response.Data.AlbumId);
+    }
 }
 ```
 
@@ -53,4 +36,4 @@ Explanations
 ```csharp
 response.AssertSchema(expectedSchema);
 ```
-Use the BELLATRIX **AssertSchema** method to validate the schema. The same method can be used for XML responses as well.
+BELLATRIX provides an easy way to retry failed request through the **RetryFailedRequests** attribute. If you place it over you class the rules will be applied to all tests in it. Provide how many times your tests to be retried and what should be the pause between retries and the time unit.
