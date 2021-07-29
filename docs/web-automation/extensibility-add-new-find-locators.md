@@ -12,7 +12,7 @@ anchors:
 ---
 Introduction
 ------------
-Imagine that you want to create a new locator for finding all elements with ID starting with specific value. First, you need to create a new 'FindStrategy' class.
+Imagine that you want to create a new locator for finding all elements with an ID starting with a specific value. First, you need to create a new 'FindStrategy' class.
 
 Example
 -------

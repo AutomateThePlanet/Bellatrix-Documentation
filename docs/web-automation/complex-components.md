@@ -161,7 +161,7 @@ private static Table Table => App.Components.CreateById<Table>("table1")
     ////.SetColumn("Web Site")
     .SetColumn("Action");
 ```
-BELLATRIX gives you API for easing the work with HTML tables. Through the **SetColumn** you map the headers of the table if for some reason you don't want some column, just don't add it. The method returns a list of all rows' data as C# data mapped to the map you provided. Since we haven't the **SetColumn** for the WebSite- this property won't be asserted if you use the **AssertTable** method.
+BELLATRIX gives you an API for easing the work with HTML tables. Through **SetColumn** you can map the headers of the table. If for some reason you don't want some column, just don't add it. The method returns a list of all rows as C# data mapped to the map you provided. Since we haven't set WebSite column header- this property won't be asserted if you use the **AssertTable** method.
 ### General Methods ###
 ```csharp
 Assert.AreEqual(_expectedUsers[0].Email, Table.GetItems<User>()[0].Email);
@@ -299,7 +299,7 @@ public class User
     public string WebSite { get; set; }
 }
 ```
-In order **GetItems** to be able to work you need to map the properties to headers through the **HeaderName** attribute this is how we handle differences between the property name, spaces in the headers and such.
+In order for **GetItems** to work you need to map the properties to headers through the **HeaderName** attribute. This is how we handle differences between the property name, spaces in the headers and such.
 
 Grids
 -------
@@ -458,7 +458,7 @@ public Grid TestGrid => App.Components.CreateById<Grid>("sampleGrid")
     .SetColumn("Email Business")
     .SetColumn("Actions", typeof(Button), Find.By.Xpath("./input[@type='button']"));
 ```
-BELLATRIX gives you API for easing the work with HTML grids. Through the **SetColumn** you map the headers of the table if for some reason you don't want some column, just don't add it. The method returns a list of all rows' data as C# data mapped to the map you provided. Since we haven't the **SetColumn** for the WebSite- this property won't be asserted if you use the **AssertTable** method. You can get the cell converted to the element specified by the grid **SetColumn** method. Also, since some of this simple controls sometimes are wrapped inside DIV or SPAN elements, you can specify additional locator for finding the component.
+BELLATRIX gives you an API for easing the work with HTML grids. Through **SetColumn** you map the headers of the table. If for some reason you don't want some column, just don't add it. The method returns a list of all rows as C# data mapped to the map you provided. You can get the cell converted to the element specified by the grid **SetColumn** method. Also, since some of these simple controls sometimes are wrapped inside DIV or SPAN elements, you can specify additional locators for finding the component.
 ### General Methods ###
 ```csharp
 var expectedObj = _expectedItems[0];
@@ -615,4 +615,4 @@ public class Employee
     public string PersonalEmail { get; set; }
 }
 ```
-In order **GetItems** to be able to work you need to map the properties to headers through the **HeaderName** attribute this is how we handle differences between the property name, spaces in the headers and such.
+In order for **GetItems** to work you need to map the properties to headers through the **HeaderName** attribute. This is how we handle differences between the property name, spaces in the headers and such.

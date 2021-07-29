@@ -45,7 +45,7 @@ Explanations
 ```csharp
 [Remote(BrowserType.Chrome, "62", PlatformType.Windows, Lifecycle.ReuseIfStarted)]
 ```
-To use BELLATRIX with Selenium Grid, you should use the Remote attribute instead of Browser. Remote has the same parameters as Browser but adds to additional ones- browser version and platform type. As with the Browser attribute you can override the class behavior on Test level.
+To use BELLATRIX with Selenium Grid, you should use the Remote attribute instead of Browser. Remote has the same parameters as Browser but adds some additional ones; browser version and platform type. As with the Browser attribute you can override the class behavior on Test level.
 ```csharp
 [Test]
 [Remote(BrowserType.Chrome, "62", PlatformType.Windows, DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
@@ -72,7 +72,7 @@ As you can see with the Remote attribute we can change the browser window size a
 
 Configuration
 -------------
-If you don't use the attribute, the default information from the configuration will be used placed under the executionSettings section. Also, you can add additional driver arguments under the arguments section array in the configuration file.
+If you don't use the attribute, the default configuration under the executionSettings section will be used. Also, you can add additional driver arguments under the arguments section array in the configuration file.
 ```json
 "executionSettings": {
   "executionType": "regular",

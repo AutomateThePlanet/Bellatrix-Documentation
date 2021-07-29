@@ -16,7 +16,7 @@ Every few months, we release new versions of our BELLATRIX libraries and tooling
 
 Simple Update Steps
 ------------------
-Instead of downloading BELLATRIX as a zip file or clone the repository and when there is an update you can merge it.
+Download the new version of BELLATRIX as a zip file or clone the repository.
 
 Using New Features
 --------------------------

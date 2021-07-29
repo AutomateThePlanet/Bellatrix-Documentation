@@ -92,7 +92,7 @@ One way to extend the BELLATRIX common services is to create an extension method
 3. Pass the common service as a parameter with the keyword 'this'.
 4. Access the native driver via WrappedDriver.
 
-Later to use the method in your tests, add a using statement containing this class's namespace.
+Later to use the method in your tests, add a using statement containing this class' namespace.
 ```csharp
 using Bellatrix.Web.GettingStarted.Advanced.Elements.Extension.Methods;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

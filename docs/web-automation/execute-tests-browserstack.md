@@ -63,7 +63,7 @@ Explanations
     debug: true,
     build: "myUniqueBuildName")]
 ```
-To execute BELLATRIX tests in BrowserStack cloud, you should use the BrowserStack attribute instead of Browser. BrowserStack has the same parameters as Browser but adds to additional ones- browser version, platform type, platform version, captureNetworkLogs, consoleLogType, build and debug. The last five are optional and have default values. As with the Browser attribute you can override the class behaviour on Test level.
+To execute BELLATRIX tests in BrowserStack cloud, you should use the BrowserStack attribute instead of Browser. BrowserStack has the same parameters as Browser but adds some additional ones; browser version, platform type, platform version, captureNetworkLogs, consoleLogType, build and debug. The last five are optional and have default values. As with the Browser attribute you can override the class behaviour at the Test level.
 ```csharp
 [Test]
 [BrowserStack(BrowserType.Chrome, "62", "Windows", "10", DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
@@ -76,7 +76,7 @@ public void BlogPageOpened_When_PromotionsButtonClicked()
     blogLink.Click();
 }
 ```
-As mentioned if you use the BrowserStack attribute on method level it overrides the class settings.
+As mentioned before, if you use the BrowserStack attribute on method level it overrides the class settings.
 ```csharp
 [BrowserStack(BrowserType.Chrome, "62", "Windows", "10", 1000, 500, Lifecycle.ReuseIfStarted)]
 ```
@@ -90,7 +90,7 @@ As you can see with the BrowserStack attribute we can change the browser window 
 
 Configuration
 -------------
-If you don't use the attribute, the default information from the configuration will be used placed under the executionSettings section. Also, you can add additional driver arguments under the arguments section array in the configuration file.
+If you don't use the attribute, the default configuration under the executionSettings section will be used. Also, you can add additional driver arguments under the arguments section array in the configuration file.
 ```json
 "executionSettings": {
   "executionType": "regular",

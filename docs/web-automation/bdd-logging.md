@@ -91,7 +91,7 @@ public void PurchaseRocketWithLogs()
 
 Explanations
 ------------
-There cases when you need to show your colleagues or managers what tests do you have. Sometimes you may have manual test cases, but their maintenance and up-to-date state are questionable. Also, many times you need additional work to associate the tests with the test cases. Some frameworks give you a way to write human readable tests through the Gherkin language. The main idea is non-technical people to write these tests. However, we believe this approach is doomed. Or it is doable only for simple tests. This is why in BELLATRIX we built a feature that generates the test cases after the tests execution. After each action or assertion, a new entry is logged.
+There cases when you need to show your colleagues or managers what tests do you have. Sometimes you may have manual test cases, but their maintenance and up-to-date state are questionable. Also, many times you need additional work to associate the tests with the test cases. Some frameworks give you a way to write human readable tests through the Gherkin language. The main idea is for non-technical people to write these tests. However, we believe this approach is doomed. Or it is doable only for simple tests. This is why in BELLATRIX we built a feature that generates the test cases after the tests execution. After each action or assertion, a new entry is logged.
 
 After the test is executed the following log is created:
 
@@ -132,8 +132,8 @@ Check control (ID = createaccount)
 Click control (for = payment_method_cheque)
 ```
 
-You can notice that since we use Ensure assertions not the regular one they also present in the log: *Ensure control (XPath = //*[@class='order-total']//span) inner text is '95.00€'*
+Notice that Ensure assertions are also present in the log: *Ensure control (XPath = //*[@class='order-total']//span) inner text is '95.00€'*
 
-There are two specifics about the generation of the logs. If page objects are used, which are discussed in next chapters. Two things change.
+There are two specific considerations about the generation of the logs when page objects are used, which are discussed in next chapters:
 1. Instead of locators, the exact names of the element properties are printed.
 2. Instead of page URL, the name of the page is displayed.

@@ -13,12 +13,12 @@ anchors:
 ---
 Introduction
 -------
- Selenoid is a robust implementation of the Selenium hub using Docker containers to launch browsers. No need to manually install browsers or dive into WebDriver documentation. Any browser session can be saved to the H.264 video. An API to list, download, and delete saved log files. Suitable for personal usage and in big clusters.
-- Consumes 10 times less memory than Java-based Selenium server under the same load
-- Small 6 Mb binary with no external dependencies (no need to install Java)
-- Browser consumption API working out of the box
-- Ability to send browser logs to centralized log storage
-- Fully isolated and reproducible environment
+ Selenoid is a robust implementation of the Selenium hub using Docker containers to launch browsers. No need to manually install browsers or dive into WebDriver documentation. Any browser session can be saved to the H.264 video. An API is available to list, download, and delete saved log files. Suitable for personal usage and in big clusters.
+- Consumes 10 times less memory than Java-based Selenium server under the same load.
+- Small 6 Mb binary with no external dependencies (no need to install Java).
+- Browser consumption API working out of the box.
+- Ability to send browser logs to centralized log storage.
+- Fully isolated and reproducible environment.
 
 [Detailed documentation](http://aerokube.com/selenoid/latest/)
 [GitHub](https://github.com/aerokube/selenoid)
@@ -76,7 +76,7 @@ Explanations
 ```csharp
 [Selenoid(BrowserType.Chrome, "77", Lifecycle.RestartEveryTime, recordVideo: true, enableVnc: true, saveSessionLogs: true)]
 ```
-To use BELLATRIX with Selenoid, you should use the **Selenoid** attribute instead of Browser. **Selenoid** has the same parameters as Browser but adds to additional ones- browser version, record video and save logs. As with the Browser attribute you can override the class behavior on Test level.
+To use BELLATRIX with Selenoid, you should use the **Selenoid** attribute instead of Browser. **Selenoid** has the same parameters as Browser but adds some additional ones; browser version, record video and save logs. As with the Browser attribute you can override the class behavior at the Test level.
 ```csharp
 [Test]
 [Selenoid(BrowserType.Chrome, "76", Lifecycle.RestartEveryTime, recordVideo: true, enableVnc: true,  saveSessionLogs: false)]
@@ -103,7 +103,7 @@ As you can see with the Remote attribute we can change the browser window size a
 
 Configuration
 -------------
-If you don't use the attribute, the default information from the configuration will be used placed under the executionSettings section. Also, you can add additional driver arguments under the arguments section array in the configuration file.
+If you don't use the attribute, the default configuration under the executionSettings section will be used. Also, you can add additional driver arguments under the arguments section array in the configuration file.
 ```json
 "executionSettings": {
   "executionType": "regular",

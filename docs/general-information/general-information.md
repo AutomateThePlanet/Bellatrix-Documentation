@@ -12,12 +12,12 @@ anchors:
 ---
 Overview
 --------
-BELLATRIX is not a single thing it contains multiple framework libraries, extensions and tools. The tool is built to be cross-platform.
+BELLATRIX is not a single thing, it contains multiple framework libraries, extensions and tools. The tool is built to be cross-platform.
 
 Simple Installation
 ------------------
-1. Download the BELLATRIX
-2. Unzip it. Open BellatrixTestFramework.sln in Visual Studio 
+1. Download BELLATRIX.
+2. Unzip it. Open BellatrixTestFramework.sln in Visual Studio. 
 3. Open one of the preconfigured projects. It works for both MSTest and NUnit without additional configuration.
 
 ![Bellatrix Preconfigured Web Project](images/bellatrix-web-preconfigured.PNG)

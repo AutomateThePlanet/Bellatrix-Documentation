@@ -55,7 +55,7 @@ Explanations
     recordScreenshots: true,
     recordVideo: true)]
 ```
-To execute BELLATRIX tests in SauceLabs cloud you should use the SauceLabs attribute instead of Browser. SauceLabs has the same parameters as Browser but adds to additional ones- browser version, platform type, recordVideo and recordScreenshots. As with the Browser attribute you can override the class behavior on Test level.
+To execute BELLATRIX tests in SauceLabs cloud you should use the SauceLabs attribute instead of Browser. SauceLabs has the same parameters as Browser but adds some additional ones; browser version, platform type, recordVideo and recordScreenshots. As with the Browser attribute you can override the class behavior at the Test level.
 ```csharp
 [Test]
 [SauceLabs(BrowserType.Chrome, "62", "Windows", DesktopWindowSize._1280_1024, Lifecycle.ReuseIfStarted)]
@@ -82,7 +82,7 @@ As you can see with the SauceLabs attribute we can change the browser window siz
 
 Configuration
 -------------
-If you don't use the attribute, the default information from the configuration will be used placed under the executionSettings section. Also, you can add additional driver arguments under the arguments section array in the configuration file.
+If you don't use the attribute, the default configuration under the executionSettings section will be used. Also, you can add additional driver arguments under the arguments section array in the configuration file.
 ```json
 "executionSettings": {
   "executionType": "regular",

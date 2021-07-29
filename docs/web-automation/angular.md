@@ -76,7 +76,7 @@ If the automatic wait for Angular is turned off, you can tell the framework expl
 
 Configuration
 -------------
-If you open the **testFrameworkSettings.json** file, you will find the property **waitForAngular**. If it is set to, **true** BELLATRIX automatically wait for Angular operations when a page is reloaded, or element is found.
+If you open the **testFrameworkSettings.json** file, you will find the property **waitForAngular**. If it is set to **true**, BELLATRIX automatically wait for Angular operations when a page is reloaded, or the element is found.
 ```json
 "webSettings": {
   "isParallelExecutionEnabled": "false",
@@ -91,7 +91,7 @@ If you open the **testFrameworkSettings.json** file, you will find the property 
 
 Available Create Methods
 ------------------------
-On top of all BELLATRIX element selectors you can find the following supporting Angular. They work on both **ComponentCreationService** and **App.Components** level.
+On top of all BELLATRIX element selectors you can find the following supporting Angular ones. They work on both **ComponentCreationService** and **App.Components** level.
 ### CreateByNgBinding ###
 ```csharp
 App.Components.CreateByNgBinding<Anchor>("youName");

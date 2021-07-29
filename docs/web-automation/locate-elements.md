@@ -38,17 +38,17 @@ Explanations
 var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 ```
 There are different ways to locate elements on the page. To do it you use the element create service.
-You need to know that BELLATRIX has a built-in complex mechanism for waiting for elements, so you do not need to worry about this anymore. Keep in mind that when you use the Create methods, the element is not searched on the page. All elements use lazy loading. Which means that they are searched once you perform an action or assertion on them. By default on each new action, the element is searched again and be refreshed.
+You need to know that BELLATRIX has a built-in complex mechanism for waiting for elements, so you do not need to worry about this anymore. Keep in mind that when you use the Create methods, the element is not searched on the page. All elements use lazy loading. Which means that they are searched once you perform an action or assertion on them. By default on each new action, the element is searched again and refreshed.
 ```csharp
 Console.WriteLine(promotionsLink.By.Value);
 ```
-Because of the proxy element mechanism (we have a separate type of element instead of single WebDriver IWebElement interface) we have several benefits. Each control (element type- **ComboBox**, **TextField** and so on) contains only the actions you can do with it, and the methods are named properly.
+Because of the proxy element mechanism (we have a separate type of element instead of single WebDriver IWebElement interface) there are several benefits. Each control (element type; **ComboBox**, **TextField** and so on) contains only the actions you can do with it, and the methods are named properly.
 In vanilla WebDriver to type the text you call **SendKeys** method.
-Also, we have some additional properties in the proxy web control such as- By. Now you can get the locator with which you element was found.
+Also, we have some additional properties in the proxy web control such as **By**. Now you can get the locator with which your element was found.
 ```csharp
 Console.WriteLine(promotionsLink.WrappedComponent.TagName);
 ```
-You can access the WebDriver wrapped element through WrappedElement and the current WebDriver instance through- WrappedDriver.
+You can access the WebDriver wrapped element through WrappedElement and the current WebDriver instance through WrappedDriver.
 
 Available Create Methods
 ------------------------
@@ -221,7 +221,7 @@ public void OpenSalesPage_When_LocatedSaleButtonInsideProductImage()
 ```
 The first products row is located. Then search inside it for the first product image, inside it search for the Sale! Span component.
 
-**Note**: *It is entirely legal to create a Button instead of Span. BELLATRIX library does not care about the real type of the HTML elements. The proxy types are convenience wrappers so to say. Meaning they give you a better interface of predefined properties and methods to make your tests more readable.*
+**Note**: *It is entirely legit to create a Button instead of Span. BELLATRIX library does not care about the real type of the HTML elements. The proxy types are convenience wrappers so to say. Meaning that they give you a better interface of predefined properties and methods to make your tests more readable.*
 
 Available Create Methods for Finding Nested Elements
 ----------------------------------------------------

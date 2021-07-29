@@ -12,7 +12,7 @@ anchors:
 ---
 Introduction
 ------------
-The test workflow plugins are way to execute your logic before each test. For example- taking screenshots or videos on test failures, creating custom logs and so on. In the example you can find a plugin that integrates a **ManualTestCase** attribute for the automated tests, containing the ID to the corresponding manual test case. The main purpose of the test workflow is to fail the test if the **ManualTestCase** attribute is not set.
+The test workflow plugins are a way to execute your logic before each test. For example; taking screenshots or videos on test failures, creating custom logs and so on. In the example you can find a plugin that integrates a **ManualTestCase** attribute for the automated tests, containing the ID to the corresponding manual test case. The main purpose of the test workflow is to fail the test if the **ManualTestCase** attribute is not set.
  
 Example
 -------
@@ -76,7 +76,7 @@ protected override void PreTestInit(object sender, PluginEventArgs e)
     ValidateManualTestCaseAttribute(e.TestMethodMemberInfo);
 }
 ```
-You can override all mentioned test workflow method hooks in your custom handlers. The method uses reflection to find out if the ManualTestCase attribute is set to the run test. If the attribute is not set or is set more than once an exception is thrown. The logic executes before the actual test run, during the **PreTestInit** phase.
+You can override all mentioned test workflow method hooks in your custom handlers. The method uses reflection to find out if the ManualTestCase attribute is set in the test run. If the attribute is not set or is set more than once an exception is thrown. The logic executes before the actual test run, during the **PreTestInit** phase.
 ```csharp
 [TestFixture]
 [Browser(BrowserType.Firefox, Lifecycle.RestartEveryTime)]
@@ -103,11 +103,11 @@ public void AssemblyInitialize()
     App.AddPlugin<AssociatedTestCaseExtension>();
 }
 ```
-It doesn't need to be added multiple times as will happen here with the **TestInit** method. Usually this is done in the **TestsInitialize** file in the **AssemblyInitialize** method.
+It doesn't need to be added multiple times as it will happen here with the **TestInit** method. Usually this is done in the **TestsInitialize** file in the **AssemblyInitialize** method.
 
 Screenshot and Video Generation Plug-ins
 ---------------------------------------
-Your plug-ins can plug in the screenshots and video generation on fail.
+Your plug-ins can run the screenshots and video generation on fail.
 To do a post-screenshot generation action, implement the **IScreenshotPlugin** interface and add your logic to **ScreenshotGenerated** method.
 To do a post-video generation action, implement the **IVideoPlugin** interface and add your logic to **VideoGenerated** method.
 Bellow you can find a sample usage from BELLATRIX Allure plug-in.

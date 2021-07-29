@@ -12,7 +12,7 @@ anchors:
 ---
 Introduction
 ------------
-Imagine that you want to wait for an element to have a specific style. First, you need to create a new 'WaitStrategy' class that inheriting the **WaitStrategy** class.
+Imagine that you want to wait for an element to have a specific style. First, you need to create a new class that inherits the **WaitStrategy** class.
 
 Example
 -------
@@ -52,7 +52,7 @@ public class WaitToHasStyleStrategy : WaitStrategy
     }
 }
 ```
-Find the element and check the current value in the style attribute. The internal **WaitUntil** will wait until the value changes in the specified time.
+Find the element and check the current value in the style attribute. The **WaitUntil** method will wait until the value changes in the specified time.
 
 The next and final step is to create an extension method for all UI elements.
 
@@ -93,7 +93,7 @@ namespace Bellatrix.Web.GettingStarted
     }
 }
 ```
-You need to add a using statement to the namespace where the new wait extension methods are situated.
+You need to add a using statement to the namespace where the new wait extension methods are located.
 
 ```csharp
 using Bellatrix.Web.GettingStarted.ExtensionMethodsWaits;

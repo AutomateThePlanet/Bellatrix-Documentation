@@ -28,7 +28,7 @@ public class FullPageScreenshotsOnFailTests : WebTest
 
 Explanations
 ------------
-The engine checks after each test, its result, if failed, makes the screenshots. We have a unique engine for the screenshots. We do not use vanilla WebDriver. If you use the WebDriver method, it makes a screenshot only of the visible part of the page. If you have to do it manually precisely, you need thousands of lines of code.
+The engine checks after each test its result, if failed, it takes the screenshots. We have a unique engine for screenshots. We do not use vanilla WebDriver. If you use the WebDriver method, it makes a screenshot only of the visible part of the page. If you have to do it precisely by yourself, you need thousands of lines of code.
 
 Configuration
 -------------
@@ -39,4 +39,4 @@ If you open the **testFrameworkSettings.json** file, you find the **screenshotsS
     "filePath": "C:\\Troubleshooting\\Screenshots"
 }
 ```
-You can turn off the making of screenshots for all tests and specify where the screenshots to be saved. In the extensibility chapters read more about how you can create different screenshots engine or change the saving strategy.
+You can turn off the taking of screenshots for all tests and specify where the screenshots are to be saved. In the extensibility chapters read more about how you can create a different screenshots engine or change the saving strategy.

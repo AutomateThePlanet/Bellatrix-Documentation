@@ -62,13 +62,14 @@ This is the attribute for automatic start/control of WebDriver browsers by BELLA
 
 **Note**: *Headless mode = executed in the browser but the browser's UI is not rendered, in theory, should be faster. In practice the time gain is little.*
 
-**Lifecycle** enum controls when the browser is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs. However you need to be careful because in case of tests failures the browser may need to be restarted.
+The **Lifecycle** enum controls when the browser is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs. However you need to be careful because in case of tests failures the browser may need to be restarted.
+
 Available options:
 - **RestartEveryTime**- for each test a separate WebDriver instance is created and the previous browser is closed. The new browser comes with new cookies and cache.
-- **RestartOnFail**- the browser is only restarted if the previous test failed. Alternatively, if the previous test's browser was different.
-- **ReuseIfStarted**- the browser is only restarted if the previous test's browser was different. In all other cases, the browser is reused if possible.
+- **RestartOnFail**- the browser is only restarted if the previous test failed or if the previous test's browser was different.
+- **ReuseIfStarted**- the browser is only restarted if the previous test's browser was different. 
 
-**Note**: *However, use this option with caution since in some rare cases if you have not properly setup your tests you may need to restart the browser if the test fails otherwise all other tests may fail too.*
+**Note**: *Use last option with caution since if a test failure occurs all subsequent tests may also fail.*
 
 ```csharp
 public class BellatrixBrowserLifecycleTests : WebTest
@@ -78,7 +79,7 @@ All web BELLATRIX test classes should inherit from the WebTest base class. This 
 [Browser(BrowserType.Firefox, Lifecycle.ReuseIfStarted)]
 public class BellatrixBrowserLifecycleTests : WebTest
 ```
-If you place attribute over the class all tests inherit the Lifecycle. It is possible to place it over each test and this way it overrides the class Lifecycle only for this particular test.
+If you place the attribute over the class all tests inherit the Lifecycle. It is possible to place it over a given test to override the class Lifecycle only for that particular test.
 ```csharp
 [Test]
 public void PromotionsPageOpened_When_PromotionsButtonClicked()
@@ -87,7 +88,7 @@ All MSTest tests should be marked with the **TestMethod** attribute.
 ```csharp
 App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 ```
-There is more about the App class in the next sections.However, it is the primary point where you access the BELLATRIX services. It comes from the **WebTest** class as a property.Here we use the BELLATRIX navigation service to navigate to the demo page.
+There is more about the App class in the next sections. It is the primary point for accessing BELLATRIX services. It comes from the **WebTest** class as a property. Here we use the BELLATRIX navigation service to navigate to the demo page.
 ```csharp
 var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 ```
@@ -108,8 +109,8 @@ As mentioned above you can override the browser Lifecycle for a particular test.
 
 Drivers Browsers Processes Cleanup
 ------------
-By default BELLATRIX includes internal module for handling residual browsers and drivers that for some reason wasn't closed or killed. You can call the service to handle other processes too. Just call the static class **ProcessCleanupService**.
-It is a bit tricky to handle such processes when the parallel execution is enabled. We use a different logic in this case. You need to let BELLATRIX know if you will execute the tests in parallel. You need to set the isParallelExecutionEnabled to true in the testFrameworkSettings.json configuration file.
+By default BELLATRIX includes internal module for handling residual browsers and drivers that for some reason weren't closed or killed. You can call the service to handle other processes too. Just call the static class **ProcessCleanupService**.
+It is a bit tricky to handle such processes when parallel execution is enabled. We use a different logic in this case. You need to let BELLATRIX know if you will execute the tests in parallel. You need to set the isParallelExecutionEnabled to true in the testFrameworkSettings.json configuration file.
 ```
 "processCleanupSettings": {
   "isParallelExecutionEnabled": "false"

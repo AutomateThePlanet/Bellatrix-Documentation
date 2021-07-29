@@ -13,19 +13,19 @@ anchors:
 ---
 Overview
 --------
-BELLATRIX is not a single thing it contains multiple framework libraries, extensions and tools. The tool is built to be cross-platform, however some of the features can be used under Windows since they are written for Visual Studio.
+BELLATRIX is not a single thing, it contains multiple framework libraries, extensions and tools. The tool is built to be cross-platform, however some of the features can only be used under Windows since they are written for Visual Studio.
 
 Space Requirements
 ------------------
 You need **~240 MB of free space** (full installation on Windows)
 
-**Note**: The space can vary based on which OS you install BELLATRIX. Also, the installer installs templates for each installed version of Visual Studio which can increase the space requirements.
+**Note**: The space may vary based on which OS you install BELLATRIX. Additionaly, templates for each installed version of Visual Studio are installed which may increase the space requirements.
 
 Supported Code Editors
 ----------------------
-The recommended code editor for writing BELLATRIX tests is Visual Studio 2019 or higher (preferably installed on Windows).
+The recommended code editor for writing BELLATRIX tests is Visual Studio 2019 or higher (preferably on Windows).
 
-NOTE: After the support for .NET Framework 5.0 and higher, Microsoft officially not support .NET Core development in older versions of Visual Studio 2015, 2017 and so on.
+NOTE: After the release of .NET Framework 5.0, Microsoft officially stopped support of .NET Core development in older versions of Visual Studio.
 
 ### Other Supported Editors: ###
 - Visual Studio Code

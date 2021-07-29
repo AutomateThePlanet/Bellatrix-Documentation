@@ -40,4 +40,4 @@ If you open the **testFrameworkSettings.json** file, you find the **videoRecordi
         "filePath": "C:\\Troubleshooting\\Videos"
 }
 ```
-You can turn off the making of videos for all tests and specify where the videos to be saved. **waitAfterFinishRecordingMilliseconds** adds some time to the end of the test, making the video not going black immediately. In the extensibility chapters read more about how you can create custom video recorder or change the saving strategy.
+You can turn off the making of videos for all tests and specify where the videos are to be saved. **waitAfterFinishRecordingMilliseconds** adds some time to the end of the test, making the video not going black immediately. In the extensibility chapters read more about how you can create custom video recorders or change the saving strategy.

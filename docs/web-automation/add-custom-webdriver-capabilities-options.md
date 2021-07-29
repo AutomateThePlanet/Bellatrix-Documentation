@@ -64,7 +64,7 @@ var firefoxOptions = new FirefoxOptions
 
 App.AddWebDriverOptions(firefoxOptions);
 ```
-BELLATRIX hides the complexity of initialisation of WebDriver and all related services. In some cases, you need to customise the set up of a browser with using WebDriver options, adding driver capabilities or using browser profile. Using the **App** service methods you can add all of these with ease. Make sure to call them in the **TestsArrange** which is called before the execution of the tests placed in the test class. These options are used only for the tests in this particular class.
+BELLATRIX hides the complexity of initialisation of WebDriver and all related services. In some cases, you need to customise the set up of a browser using WebDriver options, adding driver capabilities or using browser profiles. Using the **App** service methods you can add all of these with ease. Make sure to call them in **TestsArrange** which is called before the execution of the tests placed in the test class. These options are used only for the tests in this particular class.
 
 **Note**: *You can use all of these methods no matter which attributes you use- Browser, Remote, SauceLabs, BrowserStack or CrossBrowserTesting.*
 ```csharp

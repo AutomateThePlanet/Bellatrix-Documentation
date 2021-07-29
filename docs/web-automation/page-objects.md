@@ -18,7 +18,7 @@ anchors:
 Introduction
 ------------
 As you most probably noticed this is like the 4th time we use almost the same elements and logic inside our tests. Similar test writing approach leads to unreadable and hard to maintain tests.
-Because of that people use the so-called Page Object design pattern to reuse their elements and pages' logic. BELLATRIX comes with powerful built-in page objects which are much more readable and maintainable than regular vanilla WebDriver ones.
+Because of that people use the so called Page Object design pattern to reuse their elements and pages' logic. BELLATRIX comes with powerful built-in page objects which are much more readable and maintainable than regular vanilla WebDriver ones.
 
 Non-page-object Test Example
 ----------------------------
@@ -186,11 +186,11 @@ Page Object Example Explanations
 ```csharp
 public partial class CartPage : WebPage
 ```
-All BELLATRIX page objects are implemented as partial classes which means that you have separate files for different parts of it- actions, elements, assertions but at the end, they are all built into a single type. This makes the maintainability and readability of these classes much better. Also, you can easier locate what you need.
+All BELLATRIX page objects are implemented as partial classes which means that you have separate files for different parts of it; actions, elements, assertions but at the end, they are all built into a single type. This makes the maintainability and readability of these classes much better. Also, you can easier locate what you need.
 ```csharp
 public override string Url => "http://demos.bellatrix.solutions/cart/";
 ```
-Overriding the Url property that comes from the base page object you can later you the Open method to go to the page.
+Overriding the Url property that comes from the base page object so you can later use the Open method to go to the page.
 ```csharp
 public void ApplyCoupon(string coupon)
 {
@@ -201,7 +201,7 @@ public void ApplyCoupon(string coupon)
     MessageAlert.ValidateInnerTextIs(CouponSuccessfullyAdded);
 }
 ```
-These elements are always used together when coupon is applied. There are many test cases where you need to apply different coupons and so on. This way you reuse the code instead of copy-paste it. If there is a change in the way how the coupon is applied, change the workflow only here. Even single line of code is changed in your tests.
+These elements are always used together when coupon is applied. There are many test cases where you need to apply different coupons and so on. This way you reuse the code instead of copy-paste it. If there is a change in the way how the coupon is applied, change the workflow only here. Only single line of code is changed in your tests.
 Usually, it is not entirely correct to make assertions inside action methods. However, ensure methods are just waiting for something to happen.
 ```csharp
 public void UpdateProductQuantity(int productNumber, int newQuantity)
@@ -218,7 +218,7 @@ public void UpdateProductQuantity(int productNumber, int newQuantity)
 }
 ```
 Another method that we can add here is the one for updating the quantity of a product. This is an excellent place to put validations in your code. Here we make sure that the specified number of products that we want to update exists.
-CreateAll method returns a special BELLATRIX collection called ComponentsList<TComponentType> in this case ElementList<Number>. The collection has a couple of useful methods- Count, implements index which we use here.
+CreateAll method returns a special BELLATRIX collection called ComponentsList<TComponentType>, in this case ElementList<Number>. The collection has a couple of useful methods; Count, implements index which we use here.
 ```csharp
 foreach (var currentQuantityBox in QuantityBoxes)
 {
@@ -230,7 +230,7 @@ Also, you can use ComponentsList<T> directly in foreach statements since it impl
 ```csharp
 public TextField CouponCode => App.Components.CreateById<TextField>("coupon_code");
 ```
-All elements are placed inside the file **PageName.Elements** so that the declarations of your elements to be in a single place. It is convenient since if there is a change in some of the locators or elements types you can apply the fix only here. All elements are implements as properties. Here we use the short syntax for declaring properties, but you can always use the old one. **App.Components** property is actually a shorter version of **ComponentCreateService**.
+All elements are placed inside the file **PageName.Elements** so that the declarations of your elements are in a single place. It is convenient since if there is a change in some of the locators or elements types you can apply the fix just here. All elements are implementations as properties. Here we use the short syntax for declaring properties, but you can always use the old one. **App.Components** property is actually a shorter version of **ComponentCreateService**.
 ```csharp
 public ComponentsList<Number> QuantityBoxes => App.Components.CreateAllByClassContaining<Number>("input-text qty text");
 ```
@@ -241,7 +241,7 @@ public void AssertTotalPrice(string price)
     TotalSpan.ValidateInnerTextIs($"{price}€", 15000);
 }
 ```
-With this Assert, reuse the formatting of the currency and the timeout. Also, since the method is called from the page it makes your tests a little bit more readable.If there is a change what needs to be checked --> for example, not span but different element you can change it in a single place.
+With this Assert, reuse the formatting of the currency and the timeout. Also, since the method is called from the page it makes your tests a little bit more readable. If there is a change what needs to be checked --> for example, not span but different element you can change it in a single place.
 
 Page Object Test Example
 ------------------------

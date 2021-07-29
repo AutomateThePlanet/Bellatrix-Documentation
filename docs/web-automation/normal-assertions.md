@@ -51,7 +51,7 @@ Explanations
 ```csharp
 Assert.AreEqual("Coupon code", couponCodeTextField.Placeholder);
 ```
-We can assert the default text in the coupon text fiend through the BELLATRIX element Placeholder property. The different BELLATRIX web elements classes contain lots of these properties which are a representation of the most important HTML element attributes. The biggest drawback of using vanilla assertions is that the messages displayed on failure are not meaningful at all. This is so because most unit testing frameworks are created for much simpler and shorter unit tests. In next chapter, there is information how BELLATRIX solves the problems with the introduction of Ensure methods. If the bellow assertion fails the following message is displayed: "*Message: Assert.AreEqual failed. Expected:<Coupon code >. Actual:<Coupon code>.*"
+We can assert the default text in the coupon text field through the BELLATRIX element Placeholder property. The different BELLATRIX web elements classes contain lots of these properties which are a representation of the most important HTML element attributes. The biggest drawback of using vanilla assertions is that the messages displayed on failure are not meaningful at all. This is so because most unit testing frameworks are created for much simpler and shorter unit tests. In next chapter, there is information on how BELLATRIX solves the problems with the introduction of Ensure methods. If the bellow assertion fails the following message is displayed: "*Message: Assert.AreEqual failed. Expected:<Coupon code >. Actual:<Coupon code>.*"
 You can guess what happened, but you do not have information which element failed and on which page.
 ```csharp
 Assert.IsTrue(applyCouponButton.IsPresent);
