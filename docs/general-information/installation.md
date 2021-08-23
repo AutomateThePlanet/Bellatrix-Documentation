@@ -17,7 +17,7 @@ BELLATRIX is not a single thing, it contains multiple framework libraries, exten
 
 Simple Installation
 ------------------
-1. Download BELLATRIX.
+1. Download BELLATRIX file/zip.
 2. Unzip it. Open BellatrixTestFramework.sln in Visual Studio.
 3. Open one of the preconfigured projects. It works for both MSTest and NUnit without additional configuration.
 
