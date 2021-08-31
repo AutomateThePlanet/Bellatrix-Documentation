@@ -55,7 +55,7 @@ public class ImageRecognitionTests : WebTest
 var firstOrderCell = TestGrid.GetRow(0).GetCell(0).As<TextField>();
 firstOrderCell.SetText("BELLATRIX IS beautiful");
 ```
-Here we combine the BELLATRIX web library with the image recognition library. First, we navigate and perform actions on our web page. After that, we open the print-preview window of Chrome browser by clicking the "dots" button and afterward the "Print..." menu item. Since Chrome is a native app, you cannot use WebDriver to interact with its menus. This is where we use our Image Recognition library.
+Here we combine the BELLATRIX web library with the image recognition library. First, we navigate and perform actions on our web page. After that, we open the print-preview window of the Chrome browser by clicking the "dots" button and afterward the "Print..." menu item. Since Chrome is a native app, you cannot use WebDriver to interact with its menus. This is where we use our Image Recognition library.
 ```csharp
 Screen.Click("chrome-dots-button");
 Screen.Click("chrome-print-button");

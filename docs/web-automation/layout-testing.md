@@ -99,7 +99,7 @@ You need to add a using statement to Bellatrix.Layout
 ```csharp
 [Browser(BrowserType.Firefox, width: 600, height: 900, behavior: Lifecycle.RestartEveryTime)]
 ```
-After that 100 assertion extensions methods are available to you to check the exact position of your web elements. Browser attribute gives you the option to resize your browser window so that you can test the rearrangement of the web elements on your pages. To make it, even more, easier for you, we included a couple of enums containing the most popular desktop, mobile and tablet resolutions. Of course, you always have the option to set a custom size.
+Over a hundred assertion extensions methods are available to you to check the exact position of your web elements. Browser attribute gives you the option to resize your browser window so that you can test the rearrangement of the web elements on your pages. To make it even easier for you, we included a couple of enums containing the most popular desktop, mobile and tablet resolutions. Of course, you always have the option to set a custom size.
 ```csharp
 sortDropDown.AssertAboveOf(protonRocketAnchor);
 ```
@@ -109,7 +109,7 @@ sortDropDown.AssertAboveOf(protonRocketAnchor, 41);
 ```
 Assert with the exact distance between them.
 
-All layout assertion methods throw LayoutAssertFailedException if the check is not successful with beatified troubleshooting message:
+All layout assertion methods throw LayoutAssertFailedException if the check is not successful with an easy to read troubleshooting message:
 ########################################
 
 control (Name ending with orderby) should be 41 px above of control (href = /proton-rocket/) but was 42 px.
@@ -141,7 +141,7 @@ The expected px distance is between 30 and 50 px
 saturnVAnchor.AssertNearBottomRightOf(sortDropDown);
 sortDropDown.AssertNearTopLeftOf(saturnVAnchor);
 ```
-You can assert the position of elements again each other in all directions- above, below, right, left, top right, top left, below left, below right. Assert that the sort dropdown is positioned near the top right of the Saturn B link.
+You can assert the position of elements again each other in all directions; above, below, right, left, top right, top left, below left, below right. Assert that the sort dropdown is positioned near the top right of the Saturn B link.
 ```csharp
 LayoutAssert.AssertAlignedHorizontallyAll(protonRocketAnchor, protonMAnchor);
 ```
@@ -175,7 +175,7 @@ Verify the height and width of elements.
 saturnVRating.AssertInsideOf(SpecialElements.Viewport);
 saturnVRating.AssertInsideOf(SpecialElements.Screen);
 ```
-You can use for all layout assertions the special web elements- Viewport and Screen.
+You can use for all layout assertions the special web elements; Viewport and Screen.
 - **Screen** - represents the whole page area inside browser even that which is not visible.
 - **Viewport** - it takes the browsers client window.
 It is useful if you want to check some fixed element on the screen which sticks to viewport even when you scroll.

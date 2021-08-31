@@ -93,7 +93,7 @@ public abstract class AnchorsStyleTests : WebTest
     }
 }
 ```
- The class is marked as abstract, and as you can see, we haven't placed the **TestClass** attribute on top of it. The reason is that we don't want to execute the tests in the abstract class but rather in the child classes. Also, we added a protected virtual property for locating all anchors on the page, which will be most probably overridden in the child class- e.g., the locator may be different.
+ The class is marked as abstract, and as you can see, we haven't placed the **TestClass** attribute on top of it. The reason is that we don't want to execute the tests in the abstract class but rather in the child classes. Also, we added a protected virtual property for locating all anchors on the page which will be most probably overridden in the child class as the locator may be different.
 ```csharp
 [TestFixture]
 public class MultiPickerPopupAnchorStyleTests : AnchorsStyleTests
@@ -113,5 +113,5 @@ public class MultiPickerPopupAnchorStyleTests : AnchorsStyleTests
     }
 }
 ```
-Here we use the advanced feature of the BELLATRIX ElementList control, which allows you to initialize it with already found elements. In our case, we use the page object locators to find the anchors. Also, we override the Anchors property, which is used in our base style tests. The last thing we do is that in the TestsAct (executed only once for all tests in the class)- navigate to the particular area that we want to style check.
+Here we use the advanced feature of the BELLATRIX ElementList control, which allows you to initialize it with an already found elements. In our case, we use the page object locators to find the anchors. Also, we override the Anchors property, which is used in our base style tests. The last action in the TestsAct (executed only once for all tests in the class) is to navigate to the particular area that we want to style check.
  The class is marked as **TestFixture**, and as you will see, the tests will be displayed separately for each child class. Moreover, since we use the inheritance, we reuse the style tests instead of copy-pasting them.

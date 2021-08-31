@@ -8,9 +8,9 @@ permalink: /general-information/how-to-use-starter-kits/
 ---
 Overview
 --------
-The starter kits are one of the greatest features of BELLATRIX. For each module- web, API, desktop, mobile you have a project containing demos and explanations about each specific of the framework. Moreover, the starter kit contains exercises for you after each chapter.
-1. Download the BELLATRIX
-2. Unzip it. The projects are grouped by technology: web, desktop, mobile, API, load testing
+The starter kits are one of the greatest features of BELLATRIX. For each module; web, API, desktop, mobile, you have a project containing demos and explanations about each specific of the framework. Moreover, the starter kit contains exercises for you after each chapter.
+1. Download BELLATRIX file/zip.
+2. Unzip it. The projects are grouped by technology: web, desktop, mobile, API.
 3. Open the getting started project based on the test framework you prefer.
 4. Click on the csproj file.
 5. Run the sample tests.

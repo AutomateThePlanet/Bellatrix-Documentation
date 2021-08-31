@@ -130,11 +130,11 @@ public void PurchaseRocket()
 Explanations
 ------------
 As mentioned before BELLATRIX exposes 30+ web controls. All of them implement Proxy design pattern which means that they are not located immediately when they are created. Another benefit is that each of them includes only the actions that you should be able to do with the specific control and nothing more.
-For example, you cannot type into a button. Moreover, this way all of the actions has meaningful names- Type not SendKeys as in vanilla WebDriver.
+For example, you cannot type into a button. Moreover, this way all of the actions have meaningful names, for example; "Type" vs "SendKeys" as in vanilla WebDriver.
 ```csharp
 Select sortDropDown = App.Components.CreateByNameEndingWith<Select>("orderby");
 ```
-Create methods accept a generic parameter the type of the web control. Then only the methods for this specific control are accessible. Here we tell BELLATRIX to find your element by name attribute ending with 'orderby'.
+Create methods accept a generic parameter for the type of the web control. Only the methods for this specific control are accessible. Here we tell BELLATRIX to find your element by name attribute ending with 'orderby'.
 
 ```html
 <select name="orderby" class="orderby">
@@ -205,7 +205,7 @@ Wait for the message DIV to show up and have some content.
 ```csharp
 // Assert.AreEqual("Coupon code applied successfully.", messageAlert.InnerText);
 ```
-Sometimes you need to verify the content of some component. However, since the asynchronous nature of websites, the text or event may not happen immediately. This makes the simple Assert methods + vanilla WebDriver useless.
+Sometimes you need to verify the content of some component. However, since the asynchronous nature of websites, the text or event may not happen immediately. This renders the simple Assert methods plus vanilla WebDriver useless.
 The commented code fails 1 from 5 times.
 To handle these situations, BELLATRIX has hundreds of Ensure methods that wait for some condition to happen before asserting.
 Bellow the statement waits for the specific text to appear and assert it.

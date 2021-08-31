@@ -28,13 +28,13 @@ NuGet Dependencies
 <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004"/>
 ```
 We reference Microsoft configuration packages so that we can work with configuration files where the different framework settings are placed.
-**Microsoft.NET.Test.Sdk**, **MSTest.TestAdapter**,** MSTest.TestFramework** are prerequisites so that you can execute MSTest framework tests.
-Also, we use Unity inversion of control container inside BELLATRIX for many things.  You will not be able to use it directly, but there are a couple of ways that you will use it in your code for some more complex scenarios.
+**Microsoft.NET.Test.Sdk**, **MSTest.TestAdapter**, **MSTest.TestFramework** are prerequisites so that you can execute MSTest framework tests.
+Also, we use Unity inversion of control container inside BELLATRIX for many things. You will not be able to use it directly, but there are a couple of ways that you will use it in your code for some more complex scenarios.
 Lastly, we install StyleCop.Analyzers, we use it to enforce coding standards in the tests code.
 
 EditorConfig
 ------------
-**EditorConfig** helps developers define and maintain consistent coding styles between different editors and IDEs. The **EditorConfig** project consists of a file format for defining coding styles and a collection of text editor plugins that enable editors to read the file format and adhere to defined styles. **EditorConfig** files are easily readable, and they work nicely with version control systems. You can override the global Visual Studio settings through a **.editorconfig **file placed on solution level. All projects come with a predefined set of this rules that we advise you to use. You can always change them to follow your company's global coding standards.
+**EditorConfig** helps developers define and maintain consistent coding styles between different editors and IDEs. The **EditorConfig** project consists of a file format for defining coding styles and a collection of text editor plugins that enable editors to read the file format and adhere to defined styles. **EditorConfig** files are easily readable, and they work nicely with version control systems. You can override the global Visual Studio settings through a **.editorconfig** file placed at the solution level. All projects come with a predefined set of rules that we advise you to use. You can always change them to follow your company's global coding standards.
 
 **.editorconfig** You can read more about it [here](https://automatetheplanet.com/coding-styles-editorconfig/).
 
@@ -44,7 +44,7 @@ EditorConfig
 StyleCop
 --------
 **StyleCop** is an open source static code analysis tool from Microsoft that checks C# code for conformance to **StyleCop**'s recommended coding styles and a subset of Microsoft's .NET Framework Design Guidelines.
-The **StyleCopAnalyzers** open source project is similar to **EditorConfig**. It integrates with all versions of Visual Studio. It contains set of style and consistency rules. The code is checked on a build. If some of the rules are violated warning messaged are displayed. This way you can quickly locate the problems and fix them.
+The **StyleCopAnalyzers** open source project is similar to **EditorConfig**. It integrates with all versions of Visual Studio. It contains set of style and consistency rules. The code is checked on a build. If some of the rules are violated warning messages are displayed. This way you can quickly locate the problems and fix them.
 
 You can find more detailed information [here](https://automatetheplanet.com/style-consistency-rules-stylecop/).
 
@@ -56,9 +56,9 @@ All projects come with predefined StyleCop rules:
 
 Test Framework Settings
 -----------------------
-There are three files **testFrameworkSettings**. They are JSON files. These are the main settings files for .NET Core and .NET Standard libraries. Depending on your build configuration the different files are used. For example, if you run your tests in Debug the **testFrameworkSettings.Debug.json** file is used.
+There are three JSON **testFrameworkSettings.\*** files. Depending on your build configuration the relevant file is used. For example, if you run your tests in Debug the **testFrameworkSettings.Debug.json** file is used.
 
-**Note**: *There isn't a way as in .NET Framework to reuse the content, so if you want to make changes you need to do it in each file separately. *
+**Note**: *There isn't a way as in .NET Framework to reuse the content, so if you want to make changes you need to do it in each file separately.*
 
 There is a separate more detailed section in the guide describing how to use the configuration files.
 
@@ -66,7 +66,7 @@ TestsInitialize
 ---------------
 This is the entry point for all tests. The methods here are executed only once per tests execution. You need it to start and stop some BELLATRIX services that you can use in your tests.
 
-**Note**: *There are separate sections describing in more details the **WebTest** base class and the **App** class.*
+**Note**: *There are separate sections describing the **WebTest** base class and the **App** class in more details.*
 
 Categories
 ----------

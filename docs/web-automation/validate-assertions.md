@@ -56,7 +56,7 @@ We can assert the default text in the coupon text fiend through the BELLATRIX el
 The different BELLATRIX web elements classes contain lots of these properties which are a representation of the most important HTML element attributes. The biggest drawback of using vanilla assertions is that the messages displayed on failure are not meaningful at all. This is so because most unit testing frameworks are created for much simpler and shorter unit tests. There is information in next chapter how BELLATRIX solves
 If the commented assertion fails the following message is displayed: 
 "*Message: Assert.AreEqual failed. Expected:<Coupon code >. Actual:<Coupon code>.*"
-You can guess what happened, but you do not have information which element failed and on which page. If we use the Validate extension methods, BELLATRIX waits some time for the condition to pass. After this period if it is not successful, a beatified meaningful exception message is displayed:
+You can guess what happened, but you do not have information which element failed and on which page. If we use the Validate extension methods, BELLATRIX waits some time for the condition to pass. After this period if it is not successful, an easier to read and more meaningful exception message is displayed:
 "*The control's placeholder should be 'Coupon code ' but was 'Coupon code'. The test failed on URL: http://demos.bellatrix.solutions/cart/*"
 ```csharp
 Button applyCouponButton = App.Components.CreateByValueContaining<Button>("Apply coupon");

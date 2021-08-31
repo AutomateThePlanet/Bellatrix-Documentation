@@ -41,7 +41,7 @@ Explanations
 [ExecutionTimeUnder(2000, TimeUnit.Milliseconds)]
 public class MeasureTestExecutionTests : WebTest
 ```
-Sometimes it is useful to use your functional tests to measure performance. Or to just make sure that your app is not slow. To do that BELLATRIX libraries offer the **ExecutionTimeUnder** attribute. You specify a timeout and if the test is executed over it the test will fail.
+Sometimes it is useful to use your functional tests to measure performance or just to make sure that your app is not slow. To do that BELLATRIX libraries offer the **ExecutionTimeUnder** attribute. You specify a timeout and if the test is executed over it the test will fail.
 ```csharp
 using Bellatrix.TestExecutionExtensions.Common.ExecutionTime;
 ```

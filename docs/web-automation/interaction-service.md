@@ -44,7 +44,7 @@ public class InteractionsServiceTests : WebTest
 
 Explanations
 ------------
-BELLATRIX gives you an interface for easier execution of complex UI interactions such as drag & drop, move to element, double click, etc. BELLATRIX interaction APIs are simplified and made to be user-friendly as possible. Their usage can eliminate lots of code duplication and boilerplate code. You can access the interaction methods through the **App** class.
+BELLATRIX gives you an interface for easier execution of complex UI interactions such as drag & drop, move to element, double click, etc. BELLATRIX interaction APIs are simplified and made to be as user-friendly as possible. Their usage can eliminate lots of code duplication and boilerplate code. You can access the interaction methods through the **App** class.
 ```csharp
 App.Interactions.MoveToElement(protonRocketAnchor).Perform();
 ```

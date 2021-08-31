@@ -94,7 +94,7 @@ public class CaptureHttpTrafficTests : WebTest
 
 Explanations
 ------------
-Capture HTTP traffic is one of the most requested features for WebDriver. However by design WebDriver does not include such feature. Happily, for you, we added it to BELLATRIX.
+Capture HTTP traffic is one of the most requested features for WebDriver. However by design WebDriver does not include such feature. Fortunatelly, for you, we added it to BELLATRIX.
 ```csharp
 [Browser(BrowserType.Chrome, Lifecycle.RestartEveryTime, shouldCaptureHttpTraffic: true)]
 ```
@@ -139,4 +139,4 @@ Configuration
   "shouldCaptureHttpTraffic": "false",
   "pathToSslCertificate": "path",
 ```
-To turn it on you need to edit **testFrameworkSettings.json** file and set **shouldCaptureHttpTraffic** to true.
+To turn it on you need to edit the **testFrameworkSettings.json** file and set **shouldCaptureHttpTraffic** to true.

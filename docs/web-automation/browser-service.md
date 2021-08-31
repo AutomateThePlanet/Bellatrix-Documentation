@@ -77,7 +77,7 @@ BELLATRIX gives you an interface to most common operations for controlling the s
 ```csharp
 App.Browser.WaitUntilReady();
 ```
-Sometimes, some AJAX async calls are not caught natively by WebDriver. So you can use the BELLATRIX browser service's method. **WaitUntilReady** which waits for these calls automatically to finish. Keep in mind that usually this is not necessary since BELLATRIX has a complex built-in mechanism for handling element waits.
+Sometimes, some AJAX async calls are not caught natively by WebDriver. So you can use the BELLATRIX browser service's method **WaitUntilReady** which waits for these calls automatically to finish. Keep in mind that usually this is not necessary since BELLATRIX has a complex built-in mechanism for handling element waits.
 ```csharp
 Debug.WriteLine(App.Browser.Url);
 ```
@@ -115,4 +115,4 @@ To work with elements inside a frame, you should switch to it first. Search for 
 ```csharp
 App.Browser.SwitchToDefault();
 ```
-To continue searching in the whole page, you need to switch to default again. It is the same process of how you work with WebDriver.
+To continue searching in the whole page, you need to switch to default again. It is the same process as how you work with WebDriver.

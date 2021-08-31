@@ -40,13 +40,13 @@ public class LoggingTests : WebTest
 
 Explanations
 ------------
-By default, you can see the logs in the output window of each test. Also, a file called logs.txt is generated in the folder with the DLLs of your tests. If you execute your tests in CI with some CLI test runner the logs are printed there as well. **outputTemplate** - controls how the message is formatted. You can add additional info such as timestamp and much more. For more info visit- [**https://github.com/serilog/serilog/wiki/Formatting-Output**](https://github.com/serilog/serilog/wiki/Formatting-Output)
+By default, you can see the logs in the output window of each test. Also, a file called logs.txt is generated in the folder with the DLLs of your tests. If you execute your tests in CI with some CLI test runner the logs are printed there as well. **outputTemplate** controls how the message is formatted. You can add additional info such as timestamp and much more. For more info visit- [**https://github.com/serilog/serilog/wiki/Formatting-Output**](https://github.com/serilog/serilog/wiki/Formatting-Output)
 ```csharp
 Logger.LogInformation("Before adding Falcon 9 rocket to cart.");
 ```
 Sometimes is useful to add information to the generated test log. To do it you can use the BELLATRIX built-in logger through static class **Logger**.
 
-Generated Log, as you can see the above custom message is added to the log.
+As you can see the above custom message is added to the log.
 
 ```
 \#\#\#\# Start Chrome on PORT = 53153

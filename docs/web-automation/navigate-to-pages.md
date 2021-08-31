@@ -39,7 +39,7 @@ You can always navigate in each separate tests, but if all of them go to the sam
 ```csharp
 App.Browser.WaitUntilReady();
 ```
-Sometimes, some AJAX async calls are not caught natively by WebDriver. So you can use the BELLATRIX browser service's method. **WaitUntilReady** which waits for these calls automatically to finish. Keep in mind that usually this is not necessary since BELLATRIX has a complex built-in mechanism for handling element waits.
+Sometimes, some AJAX async calls are not caught natively by WebDriver. You can use the BELLATRIX browser service's method **WaitUntilReady** which waits for these calls automatically to finish. Keep in mind that usually this is not necessary since BELLATRIX has a complex built-in mechanism for handling element waits.
 
 Depending on the types of tests you want to write there are a couple of ways to navigate to specific pages.
 In later chapters, there are more details about the different test workflow hooks. Find here two of them.
