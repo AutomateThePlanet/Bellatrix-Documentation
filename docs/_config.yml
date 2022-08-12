@@ -409,3 +409,15 @@ navigation:
                 title: Computer Vision
             "lighthouse":
                 title: Google Lighthouse
+            "aws-rekognition":
+                title: AWS Rekognition
+            "aws-rekognition":
+                title: AWS Rekognition
+            "aws-s3":
+                title: AWS S3 Cloud Object Storage
+            "aws-secrets-manager":
+                title: AWS Secrets Manager
+            "mailslurp":
+                title: Email Testing - Mailslurp
+            "testmail":
+                title: Email Testing - Testmail
