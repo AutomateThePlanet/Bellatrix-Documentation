@@ -30,7 +30,7 @@ public class BellatrixBrowserLifecycleTests : WebTest
     {
         App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
-        var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
+        var blogLink1 = App.Components.CreateByLinkText<Anchor>("Blog");
 
         blogLink.Click();
     }
