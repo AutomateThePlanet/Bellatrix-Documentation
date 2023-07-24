@@ -1,14 +1,47 @@
 ---
 layout: default
-title:  "Custom Code"
+title: "Custom Code"
 excerpt: "Custom Code"
-date:   2021-02-20 06:50:17 +0200
+date: 2021-02-20 06:50:17 +0200
 permalink: /customcode/
 ---
-Bellatrix Test Automation Framework 
----------------------------------------------------------
+
+## Bellatrix Test Automation Framework
+
+3.1
+
+```java
+public class FluentBingTests {
+  @BeforeMethod
+  public void testInit() {
+    Driver.startBrowser();
+  }
+
+  @AfterMethod
+  public void testCleanup() {
+    Driver.stopBrowser();
+  }
+
+  @Test
+  public void searchImageInBing_when_NoFluentPageObjectPatternUsed() {
+    var bingMainPage = new BingMainPage();
+    bingMainPage.navigate();
+    bingMainPage.search("Automate The Planet");
+    bingMainPage.clickImages();
+    bingMainPage.clickImagesFilter();
+    bingMainPage.setSize(Size.LARGE);
+    bingMainPage.setColor(Color.COLOR_ONLY);
+    bingMainPage.setType(Type.CLIPART);
+    bingMainPage.setPeople(People.ALL);
+    bingMainPage.setDate(Date.PAST_YEAR);
+    bingMainPage.setLicense(License.ALL);
+  }
+}
+
+```
 
 3.2
+
 ```csharp
 [TestFixture]
 [Browser(BrowserType.Firefox, Lifecycle.ReuseIfStarted)]
@@ -37,13 +70,14 @@ public class BellatrixBrowserLifecycleTests : WebTest
 }
 ```
 
-
 3.8
+
 ```csharp
 TextField userNameField = App.Components.CreateById<TextField>("username");
 ```
 
 3.9
+
 ```csharp
 [Test]
 public void CorrectTextDisplayed_When_ClickDownloadButton()
@@ -69,6 +103,7 @@ Button loginButton = App.Components.CreateByXpath<Button>("//button[@name='login
 ```
 
 3.12
+
 ```csharp
 loginButton.Click();
 ```
@@ -86,11 +121,13 @@ myAccountContentDiv.EnsureInnerTextContains("Hello info1");
 ```
 
 3.16
+
 ```csharp
 Anchor logoutLink = App.Components.CreateByInnerTextContaining<Anchor>("Log out");
 ```
 
 3.17
+
 ```csharp
 logoutLink.EnsureIsVisible();
 ```
