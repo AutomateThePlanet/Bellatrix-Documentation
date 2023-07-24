@@ -10,29 +10,29 @@ Bellatrix Test Automation Framework
 
 3.2
 ```csharp
-using NUnit.Framework;
-
-namespace Bellatrix.Web.NUnit.Tests
+[TestFixture]
+[Browser(BrowserType.Firefox, Lifecycle.ReuseIfStarted)]
+public class BellatrixBrowserLifecycleTests : WebTest
 {
-    [TestFixture]
-    [Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
-    [VideoRecording(VideoRecordingMode.DoNotRecord)]
-    [ScreenshotOnFail(true)]
-    public class LoginTests : WebTest
+    [Test]
+    public void PromotionsPageOpened_When_PromotionsButtonClicked()
     {
-        public override void TestInit() => App.Navigation.Navigate("http://demos.bellatrix.solutions/my-account/");
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
-        [Test]
-        public void CorrectTextDisplayed_When_ClickDownloadButton()
-        {
-            var downloadButton = App.Components.CreateByInnerTextContaining<Anchor>("Download");
+        var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
 
-            downloadButton.Click();
+        promotionsLink.Click();
+    }
 
-            var heading1 = App.Components.CreateById<Heading>("feature-title");
+    [Test]
+    [Browser(BrowserType.Chrome, Lifecycle.RestartOnFail)]
+    public void BlogPageOpened_When_PromotionsButtonClicked()
+    {
+        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
 
-            heading1.EnsureInnerTextIs("Download");
-        }
+        var blogLink = App.Components.CreateByLinkText<Anchor>("Blog");
+
+        blogLink.Click();
     }
 }
 ```
