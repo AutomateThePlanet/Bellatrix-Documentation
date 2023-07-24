@@ -8,8 +8,6 @@ permalink: /customcode/
 
 ## Bellatrix Test Automation Framework
 
-3.1
-
 ```java
 public class FluentBingTests {
   @BeforeMethod
@@ -37,131 +35,236 @@ public class FluentBingTests {
     bingMainPage.setLicense(License.ALL);
   }
 }
+```
+
+```java
+public class BingMainPage
+  extends BasePage<BingMainPageElements, BingMainPageAssertions> {
+
+  @Override
+  protected String getUrl() {
+    return "http://www.bing.com/";
+  }
+
+  @Override
+  public BingMainPage navigate() {
+    super.navigate();
+    return this;
+  }
+
+  @Override
+  public BingMainPage navigate(String part) {
+    super.navigate(part);
+    return this;
+  }
+
+  public BingMainPage search(String textToType) {
+    elements().searchBox().clear();
+    elements().searchBox().sendKeys(textToType);
+    elements().goButton().click();
+    return this;
+  }
+
+  public BingMainPage clickImages() {
+    elements().imagesLink().click();
+    return this;
+  }
+
+  public BingMainPage clickImagesFilter() {
+    elements().filterMenu().click();
+    return this;
+  }
+
+  public BingMainPage setSize(Size size) {
+    waitForAsyncRefresh(elements().sizes());
+    elements().sizes().click();
+    elements().sizesOption().get(size.ordinal()).click();
+    return this;
+  }
+
+  public BingMainPage setColor(Color color) {
+    waitForAsyncRefresh(elements().color());
+    elements().color().click();
+    elements().colorOption().get(color.ordinal()).click();
+    return this;
+  }
+
+  public BingMainPage setType(Type type) {
+    waitForAsyncRefresh(elements().type());
+    elements().type().click();
+    elements().typeOption().get(type.ordinal()).click();
+    return this;
+  }
+
+  public BingMainPage setLayout(Layout layout) {
+    waitForAsyncRefresh(elements().layout());
+    elements().layout().click();
+    elements().layoutOption().get(layout.ordinal()).click();
+    return this;
+  }
+
+  public BingMainPage setPeople(People people) {
+    waitForAsyncRefresh(elements().people());
+    elements().people().click();
+    elements().peopleOption().get(people.ordinal()).click();
+    return this;
+  }
+
+  public BingMainPage setDate(Date date) {
+    waitForAsyncRefresh(elements().date());
+    elements().date().click();
+    elements().dateOption().get(date.ordinal()).click();
+    return this;
+  }
+
+  public BingMainPage setLicense(License license) {
+    waitForAsyncRefresh(elements().license());
+    elements().license().click();
+    elements().licenseOption().get(license.ordinal()).click();
+    return this;
+  }
+
+  private void waitForAsyncRefresh(WebElement element) {
+    Driver
+      .getBrowserWait()
+      .until(ExpectedConditions.elementToBeClickable(element));
+    Driver
+      .getBrowserWait()
+      .until(
+        ExpectedConditions.invisibilityOfElementLocated(By.id("ajaxMaskLayer"))
+      );
+  }
+}
 
 ```
 
-3.2
+```java
+return this;
 
-```csharp
-[TestFixture]
-[Browser(BrowserType.Firefox, Lifecycle.ReuseIfStarted)]
-public class BellatrixBrowserLifecycleTests : WebTest
-{
-    [Test]
-    public void PromotionsPageOpened_When_PromotionsButtonClicked()
-    {
-        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
+```
 
-        var promotionsLink = App.Components.CreateByLinkText<Anchor>("Promotions");
-
-        promotionsLink.Click();
-    }
-
-    [Test]
-    [Browser(BrowserType.Chrome, Lifecycle.RestartOnFail)]
-    public void BlogPageOpened_When_PromotionsButtonClicked()
-    {
-        App.Navigation.Navigate("http://demos.bellatrix.solutions/");
-
-        var blogLink1 = App.Components.CreateByLinkText<Anchor>("Blog");
-
-        blogLink.Click();
-    }
+```java
+public WebElement sizes() {
+return browser.findElement(By.xpath("//div/ul/li/span/span[text() = 'Image size']"));
+}
+public List<WebElement> sizesOption() {
+return browser.findElements(By.xpath("//div/ul/li/span/span[text() = 'Image size']/ancestor::li/div/div//a"));
+}
+public WebElement color() {
+return browser.findElement(By.xpath("//div/ul/li/span/span[text() = 'Color']"));
+}
+public List<WebElement> colorOption() {
+return browser.findElements(By.xpath("//div/ul/li/span/span[text() = 'Color']/ancestor::li/div/div//a"));
+}
+public WebElement type() {
+return browser.findElement(By.xpath("//div/ul/li/span/span[text() = 'Type']"));
+}
+public List<WebElement> typeOption() {
+return browser.findElements(By.xpath("//div/ul/li/span/span[text() = 'Type']/ancestor::li/div/div//a"));
+}
+public WebElement layout() {
+return browser.findElement(By.xpath("//div/ul/li/span/span[text() = 'Layout']"));
+}
+public List<WebElement> layoutOption() {
+return browser.findElements(By.xpath("//div/ul/li/span/span[text() = 'Layout']/ancestor::li/div/div//a"));
+}
+public WebElement people() {
+return browser.findElement(By.xpath("//div/ul/li/span/span[text() = 'People']"));
+}
+public List<WebElement> peopleOption() {
+return browser.findElements(By.xpath("//div/ul/li/span/span[text() = 'People']/ancestor::li/div/div//a"));
+}
+public WebElement date() {
+return browser.findElement(By.xpath("//div/ul/li/span/span[text() = 'Date']"));
+}
+public List<WebElement> dateOption() {
+return browser.findElements(By.xpath("//div/ul/li/span/span[text() = 'Date']/ancestor::li/div/div//a"));
+}
+public WebElement license() {
+return browser.findElement(By.xpath("//div/ul/li/span/span[text() = 'License']"));
+}
+public List<WebElement> licenseOption() {
+return browser.findElements(By.xpath("//div/ul/li/span/span[text() = 'License']/ancestor::li/div/div//a"));
 }
 ```
 
-3.8
-
-```csharp
-TextField userNameField = App.Components.CreateById<TextField>("username");
-```
-
-3.9
-
-```csharp
-[Test]
-public void CorrectTextDisplayed_When_ClickDownloadButton()
-{
-    TextField userNameField = App.Components.CreateById<TextField>("username");
-    Password passwordField = App.Components.CreateById<Password>("password");
+```java
+public enum Date {
+  ALL,
+  PAST_24_HOURS,
+  PAST_WEEK,
+  PAST_MONTH,
+  PAST_YEAR,
 }
 
 ```
 
-3.10
-
-```csharp
-userNameField.SetText("info@berlinspaceflowers.com");
-You have a similar method for the password field called SetPassword.
-passwordField.SetPassword("@purISQzt%%DYBnLCIhaoG6$");
-```
-
-3.11
-
-```csharp
-Button loginButton = App.Components.CreateByXpath<Button>("//button[@name='login']");
-```
-
-3.12
-
-```csharp
-loginButton.Click();
-```
-
-3.14
-
-```csharp
-Div myAccountContentDiv = App.Components.CreateByClass<Div>("woocommerce-MyAccount-content");
-```
-
-3.15
-
-```csharp
-myAccountContentDiv.EnsureInnerTextContains("Hello info1");
-```
-
-3.16
-
-```csharp
-Anchor logoutLink = App.Components.CreateByInnerTextContaining<Anchor>("Log out");
-```
-
-3.17
-
-```csharp
-logoutLink.EnsureIsVisible();
-```
-
-```csharp
-[TestFixture]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
-[VideoRecording(VideoRecordingMode.DoNotRecord)]
-[ScreenshotOnFail(true)]
-public class BellatrixLoginTests : WebTest
-{
-    public override void TestInit() => App.Navigation.Navigate("http://demos.bellatrix.solutions/my-account/");
-
-    [Test]
-    public void CorrectTextDisplayed_When_ClickDownloadButton()
-    {
-        TextField userNameField = App.Components.CreateById<TextField>("username");
-        Password passwordField = App.Components.CreateById<Password>("password");
-        Button loginButton = App.Components.CreateByXpath<Button>("//button[@name='login']");
-
-        userNameField.SetText("info@berlinspaceflowers.com");
-        passwordField.SetPassword("@purISQzt%%DYBnLCIhaoG6$");
-        loginButton.Click();
-
-        Div myAccountContentDiv = App.Components.CreateByClass<Div>("woocommerce-MyAccount-content");
-        myAccountContentDiv.EnsureInnerTextContains("Hello info1");
-
-        Anchor logoutLink = App.Components.CreateByInnerTextContaining<Anchor>("Log out");
-
-        logoutLink.EnsureIsVisible();
-    }
+```java
+public BingMainPage setDate(Date date) {
+    waitForAsyncRefresh(elements().date());
+    elements().date().click();
+    elements().dateOption().get(date.ordinal()).click();
+    return this;
 }
 ```
 
-```csharp
-test
+```java
+public class BingMainPageAssertions
+  extends BaseAssertions<BingMainPageElements> {
+
+  public void resultsCount(String expectedCount) {
+    Assert.assertTrue(
+      elements().resultsCountDiv().getText().contains(expectedCount),
+      "The results DIV doesn't contain the specified text."
+    );
+  }
+}
+
+```
+
+```java
+public class BingMainPageAssertions
+  extends BaseAssertions<BingMainPageElements> {
+
+  public BingMainPageAssertions resultsCountFluent(String expectedCount) {
+    Assert.assertTrue(
+      elements().resultsCountDiv().getText().contains(expectedCount),
+      "The results DIV doesn't contain the specified text."
+    );
+    return this;
+  }
+}
+
+```
+
+```java
+public class FluentBingTests {
+
+  @BeforeMethod
+  public void testInit() {
+    Driver.startBrowser();
+  }
+
+  @AfterMethod
+  public void testCleanup() {
+    Driver.stopBrowser();
+  }
+
+  @Test
+  public void searchImageInBing_when_FluentPageObjectPatternUsed() {
+    var bingMainPage = new BingMainPage();
+    bingMainPage
+      .navigate()
+      .search("Automate The Planet")
+      .clickImages()
+      .clickImagesFilter()
+      .setSize(Size.LARGE)
+      .setColor(Color.COLOR_ONLY)
+      .setType(Type.CLIPART)
+      .setPeople(People.ALL)
+      .setDate(Date.PAST_YEAR)
+      .setLicense(License.ALL);
+  }
+}
+
 ```
