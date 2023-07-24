@@ -606,94 +606,468 @@ fun locatingElementsInsideAnotherElementTest() {
 
 ```
 
-```java
+```kotlin
+@Test
+fun swipeTest() {
+    class PlatformTouchAction(performsTouchActions: PerformsTouchActions) :
+        TouchAction<PlatformTouchAction>(performsTouchActions)
+    driver.startActivity(Activity("com.example.android.apis", ".graphics.FingerPaint"))
+    val touchAction = PlatformTouchAction(driver)
+    val element = driver.findElementById("android:id/content")
+    val point = element.location
+    val size = element.size
+    touchAction
+        .press(PointOption.point(point.x + 5, point.y + 5))
+        .waitAction(WaitOptions.waitOptions(Duration.ofMillis(200)))
+        .moveTo(PointOption.point(point.x + size.width - 5, point.y + size.height - 5))
+        .release()
+        .perform()
+}
+
+```
+
+## Getting Started with Appium for iOS Java on macOS in 10 Minutes
+
+```bash
+Install Node.js
+```
+
+```bash
+npm install -g appium
 
 ```
 
 ```java
+private static IOSDriver < IOSElement > driver;
+@BeforeClass
+public void classInit() throws URISyntaxException, MalformedURLException {
+  URL testAppUrl = getClass().getClassLoader().getResource("TestApp.app.zip");
+  File testAppFile = Paths.get(Objects.requireNonNull(testAppUrl).toURI()).toFile();
+  String testAppPath = testAppFile.getAbsolutePath();
+  var desiredCaps = new DesiredCapabilities();
+  desiredCaps.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 12 Pro Max");
+  desiredCaps.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+  desiredCaps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "14.4");
+  desiredCaps.setCapability(MobileCapabilityType.APP, testAppPath);
+  driver = new IOSDriver < IOSElement > (new URL("http://127.0.0.1:4723/wd/hub"), desiredCaps);
+  driver.closeApp();
+}
+@BeforeMethod
+public void testInit() {
+  if (driver != null) {
+    driver.launchApp();
+  }
+}
+@AfterMethod
+public void testCleanup() {
+  if (driver != null) {
+    driver.closeApp();
+  }
+}
+```
+
+```java
+appiumLocalService = new AppiumServiceBuilder().usingAnyFreePort().build();
+appiumLocalService.start();
+```
+
+```java
+URL testAppUrl = getClass().getClassLoader().getResource("TestApp.app.zip");
+File testAppFile = Paths.get(Objects.requireNonNull(testAppUrl).toURI()).toFile();
+String testAppPath = testAppFile.getAbsolutePath();
+```
+
+```java
+URL testAppUrl = getClass().getClassLoader().getResource("TestApp.app.zip");
+File testAppFile = Paths.get(Objects.requireNonNull(testAppUrl).toURI()).toFile();
+String testAppPath = testAppFile.getAbsolutePath();
+var desiredCaps = new DesiredCapabilities();
+desiredCaps.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8");
+desiredCaps.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+desiredCaps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "14.4");
+desiredCaps.setCapability(MobileCapabilityType.APP, testAppPath);
+
+driver = new IOSDriver<IOSElement>(new URL("http://127.0.0.1:4723/wd/hub"), desiredCaps);
 
 ```
 
 ```java
-
+@Test
+public void addTwoNumbersTest() {
+  var numberOne = driver.findElementByName("IntegerA");
+  var numberTwo = driver.findElementByName("IntegerB");
+  var compute = driver.findElementByName("ComputeSumButton");
+  var answer = driver.findElementByName("Answer");
+  numberOne.clear();
+  numberOne.setValue("5");
+  numberTwo.clear();
+  numberTwo.setValue("6");
+  compute.click();
+  Assert.assertEquals("11", answer.getAttribute("value"));
+}
 ```
 
 ```java
-
+@Test
+public void locatingElementsInsideAnotherElementTest() {
+  var mainElement = driver.findElementByIosNsPredicate("type == \"XCUIElementTypeApplication\" AND name == \"TestApp\"");
+  var numberOne = mainElement.findElementById("IntegerA");
+  var numberTwo = mainElement.findElementById("IntegerB");
+  var compute = mainElement.findElementByName("ComputeSumButton");
+  var answer = mainElement.findElementByName("Answer");
+  numberOne.clear();
+  numberOne.setValue("5");
+  numberTwo.clear();
+  numberTwo.setValue("6");
+  compute.click();
+  Assert.assertEquals("11", answer.getAttribute("value"));
+}
 ```
 
 ```java
-
+@Test
+public void swipeTest() {
+  TouchAction touchAction = new TouchAction(driver);
+  var element = driver.findElementById("IntegerA");
+  Point point = element.getLocation();
+  Dimension size = element.getSize();
+  touchAction.press(PointOption.point(point.getX() + 5, point.getY() + 5))
+    .waitAction(WaitOptions.waitOptions(Duration.ofMillis(200)))
+    .moveTo(PointOption.point(point.getX() + size.getWidth() - 5, point.getY() + size.getHeight() - 5))
+    .release()
+    .perform();
+}
 ```
 
 ```java
-
+@Test
+public void moveToTest() {
+  TouchAction touchAction = new TouchAction(driver);
+  var element = driver.findElementById("IntegerA");
+  Point point = element.getLocation();
+  touchAction.moveTo(PointOption.point(point)).perform();
+}
 ```
 
 ```java
+@Test
+public void tapTest() {
+  TouchAction touchAction = new TouchAction(driver);
+  var element = driver.findElementById("IntegerA");
+  Point point = element.getLocation();
+  touchAction.tap(TapOptions.tapOptions().withPosition(PointOption.point(point)).withTapsCount(2)).perform();
+}
+```
+
+## Getting Started with Appium for Android Kotlin on macOS in 10 Minutes
+
+```bash
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
+```
+
+```bash
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+```
+
+```bash
+export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
+```
+
+```bash
+npm install -g appium
+```
+
+```bash
+export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"
+```
+
+```bash
+adb install pathToYourApk/yourTestApp.apk
+```
+
+```bash
+dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp'
+```
+
+```kotlin
+private lateinit var driver: AndroidDriver<AndroidElement>
+
+@BeforeClass
+fun classInit() {
+    val testAppUrl = javaClass.classLoader.getResource("ApiDemos.apk")
+    val testAppFile = Paths.get((testAppUrl!!).toURI()).toFile()
+    val testAppPath = testAppFile.absolutePath
+    val desiredCaps = DesiredCapabilities()
+    desiredCaps.setCapability(MobileCapabilityType.DEVICE_NAME, "android25-test")
+    desiredCaps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.example.android.apis")
+    desiredCaps.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android")
+    desiredCaps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1")
+    desiredCaps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".view.Controls1")
+    desiredCaps.setCapability(MobileCapabilityType.APP, testAppPath)
+    driver = AndroidDriver<AndroidElement>(URL("http://127.0.0.1:4723/wd/hub"), desiredCaps)
+    driver.closeApp()
+}
+
+@BeforeMethod
+fun testInit() {
+    driver.launchApp()
+    driver.startActivity(Activity("com.example.android.apis", ".view.Controls1"))
+}
+
+@AfterMethod
+fun testCleanup() {
+    driver.closeApp()
+}
 
 ```
 
-```java
+```kotlin
+appiumLocalService = AppiumServiceBuilder().usingAnyFreePort().build()
+appiumLocalService.start()
+```
+
+```kotlin
+val testAppUrl = javaClass.classLoader.getResource("ApiDemos.apk")
+val testAppFile = Paths.get((testAppUrl!!).toURI()).toFile()
+val testAppPath = testAppFile.absolutePath
+```
+
+```kotlin
+val testAppUrl = javaClass.classLoader.getResource("ApiDemos.apk")
+val testAppFile = Paths.get((testAppUrl!!).toURI()).toFile()
+val testAppPath = testAppFile.absolutePath
+val desiredCaps = DesiredCapabilities()
+desiredCaps.setCapability(MobileCapabilityType.DEVICE_NAME, "android25-test")
+desiredCaps.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.example.android.apis")
+desiredCaps.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android")
+desiredCaps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1")
+desiredCaps.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".view.Controls1")
+desiredCaps.setCapability(MobileCapabilityType.APP, testAppPath)
+```
+
+```kotlin
+
+@Test
+fun locatingElementsTest() {
+    val button = driver.findElementById("com.example.android.apis:id/button")
+    button.click()
+    val checkBox = driver.findElementByClassName("android.widget.CheckBox")
+    checkBox.click()
+    val secondButton =
+        driver.findElementByXPath("//*[@resource-id='com.example.android.apis:id/button']")
+    secondButton.click()
+    val thirdButton =
+        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(" BUTTO ");")
+    thirdButton.click()
+}
+```
+
+```kotlin
+@Test
+fun locatingElementsInsideAnotherElementTest() {
+    val mainElement = driver.findElementById("android:id/content")
+    val button = mainElement.findElementById("com.example.android.apis:id/button")
+    button.click()
+    val checkBox = mainElement.findElementByClassName("android.widget.CheckBox")
+    checkBox.click()
+    val secondButton =
+        mainElement.findElementByXPath("//*[@resource-id='com.example.android.apis:id/button']")
+    secondButton.click()
+    val thirdButton =
+        mainElement.findElementByAndroidUIAutomator("new UiSelector().textContains(\"BUTTO\");")
+    thirdButton.click()
+}
 
 ```
 
-```java
+```kotlin
+@Test
+fun swipeTest() {
+    class PlatformTouchAction(performsTouchActions: PerformsTouchActions) :
+        TouchAction<PlatformTouchAction>(performsTouchActions)
+    driver.startActivity(Activity("com.example.android.apis", ".graphics.FingerPaint"))
+    val touchAction = PlatformTouchAction(driver)
+    val element = driver.findElementById("android:id/content")
+    val point = element.location
+    val size = element.size
+    touchAction
+        .press(PointOption.point(point.x + 5, point.y + 5))
+        .waitAction(WaitOptions.waitOptions(Duration.ofMillis(200)))
+        .moveTo(PointOption.point(point.x + size.width - 5, point.y + size.height - 5))
+        .release()
+        .perform()
+}
 
 ```
 
-```java
+```kotlin
+@Test
+fun moveToTest() {
+    class PlatformTouchAction(performsTouchActions: PerformsTouchActions) :
+        TouchAction<PlatformTouchAction>(performsTouchActions)
+    val touchAction = PlatformTouchAction(driver)
+    val element = driver.findElementById("android:id/content")
+    val point = element.location
+    touchAction.moveTo(PointOption.point(point)).perform()
+}
 
 ```
 
-```java
+```kotlin
+@Test
+fun tapTest() {
+    class PlatformTouchAction(performsTouchActions: PerformsTouchActions) :
+        TouchAction<PlatformTouchAction>(performsTouchActions)
+    val touchAction = PlatformTouchAction(driver)
+    val element = driver.findElementById("android:id/content")
+    val point = element.location
+    touchAction
+        .tap(TapOptions.tapOptions().withPosition(PointOption.point(point)).withTapsCount(2))
+        .perform()
+}
 
 ```
 
-```java
+## Getting Started with Appium for iOS Kotlin on macOS in 10 Minutes
+
+```bash
+npm install -g appium
+```
+
+```kotlin
+class AppiumTests {
+    private lateinit var driver: IOSDriver<IOSElement>
+
+    @BeforeClass
+    fun classInit() {
+        val testAppUrl = javaClass.classLoader.getResource("TestApp.app.zip")
+        val testAppFile = Paths.get(Objects.requireNonNull(testAppUrl).toURI()).toFile()
+        val testAppPath = testAppFile.absolutePath
+        val desiredCaps = DesiredCapabilities()
+        desiredCaps.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8")
+        desiredCaps.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS")
+        desiredCaps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "14.4")
+        desiredCaps.setCapability(MobileCapabilityType.APP, testAppPath)
+        driver = IOSDriver(URL("http://127.0.0.1:4723/wd/hub"), desiredCaps)
+        driver.closeApp()
+    }
+
+    @BeforeMethod
+    fun testInit() {
+        driver.launchApp()
+    }
+
+    @AfterMethod
+    fun testCleanup() {
+        driver.closeApp()
+    }
+}
 
 ```
 
-```java
+```kotlin
+appiumLocalService = AppiumServiceBuilder().usingAnyFreePort().build()
+appiumLocalService.start()
+```
+
+```kotlin
+val testAppUrl = javaClass.classLoader.getResource("TestApp.app.zip")
+val testAppFile = Paths.get(Objects.requireNonNull(testAppUrl).toURI()).toFile()
+val testAppPath = testAppFile.absolutePath
+```
+
+```kotlin
+val testAppUrl = javaClass.classLoader.getResource("TestApp.app.zip")
+val testAppFile = Paths.get(Objects.requireNonNull(testAppUrl).toURI()).toFile()
+val testAppPath = testAppFile.absolutePath
+val desiredCaps = DesiredCapabilities()
+desiredCaps.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 8")
+desiredCaps.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS")
+desiredCaps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "14.4")
+desiredCaps.setCapability(MobileCapabilityType.APP, testAppPath)
+driver = IOSDriver(URL("http://127.0.0.1:4723/wd/hub"), desiredCaps)
+```
+
+```kotlin
+@Test
+fun addTwoNumbersTest() {
+    val numberOne = driver.findElementByName("IntegerA")
+    val numberTwo = driver.findElementByName("IntegerB")
+    val compute = driver.findElementByName("ComputeSumButton")
+    val answer = driver.findElementByName("Answer")
+    numberOne.clear()
+    numberOne.setValue("5")
+    numberTwo.clear()
+    numberTwo.setValue("6")
+    compute.click()
+    Assert.assertEquals("11", answer.getAttribute("value"))
+}
 
 ```
 
-```java
+```kotlin
+@Test
+fun locatingElementsInsideAnotherElementTest() {
+    val mainElement =
+        driver.findElementByIosNsPredicate(
+            "type == \"XCUIElementTypeApplication\" AND name == \"TestApp\""
+        )
+    val numberOne = mainElement.findElementById("IntegerA")
+    val numberTwo = mainElement.findElementById("IntegerB")
+    val compute = mainElement.findElementByName("ComputeSumButton")
+    val answer = mainElement.findElementByName("Answer")
+    numberOne.clear()
+    numberOne.setValue("5")
+    numberTwo.clear()
+    numberTwo.setValue("6")
+    compute.click()
+    Assert.assertEquals("11", answer.getAttribute("value"))
+}
+```
+
+```kotlin
+@Test
+fun swipeTest() {
+    class PlatformTouchAction(performsTouchActions: PerformsTouchActions) :
+        TouchAction<PlatformTouchAction>(performsTouchActions)
+    val touchAction = PlatformTouchAction(driver)
+    val element = driver.findElementById("IntegerA")
+    val point = element.location
+    val size = element.size
+    touchAction
+        .press(PointOption.point(point.x + 5, point.y + 5))
+        .waitAction(WaitOptions.waitOptions(Duration.ofMillis(200)))
+        .moveTo(PointOption.point(point.x + size.width - 5, point.y + size.height - 5))
+        .release()
+        .perform()
+}
 
 ```
 
-```java
+```kotlin
+@Test
+fun moveToTest() {
+    class PlatformTouchAction(performsTouchActions: PerformsTouchActions) :
+        TouchAction<PlatformTouchAction>(performsTouchActions)
+    val touchAction = PlatformTouchAction(driver)
+    val element = driver.findElementById("IntegerA")
+    val point = element.location
+    touchAction.moveTo(PointOption.point(point)).perform()
+}
 
 ```
 
-```java
-
-```
-
-```java
-
-```
-
-```java
-
-```
-
-```java
-
-```
-
-```java
-
-```
-
-```java
-
-```
-
-```java
-
-```
-
-```java
+```kotlin
+@Test
+fun tapTest() {
+    class PlatformTouchAction(performsTouchActions: PerformsTouchActions) :
+        TouchAction<PlatformTouchAction>(performsTouchActions)
+    val touchAction = PlatformTouchAction(driver)
+    val element = driver.findElementById("IntegerA")
+    val point = element.location
+    touchAction
+        .tap(TapOptions.tapOptions().withPosition(PointOption.point(point)).withTapsCount(2))
+        .perform()
+}
 
 ```
