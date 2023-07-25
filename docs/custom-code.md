@@ -9,19 +9,19 @@ permalink: /customcode/
 ## Bellatrix Test Automation Framework
 
 ```java
-@Test
-public void swipeTest() {
-  driver.startActivity(new Activity("com.example.android.apis", ".graphics.FingerPaint"));
-  TouchAction touchAction = new TouchAction(driver);
-  AndroidElement element = driver.findElementById("android:id/content");
-  Point point = element.getLocation();
-  Dimension size = element.getSize();
-  touchAction.press(PointOption.point(point.getX() + 5, point.getY() + 5))
-    .waitAction(WaitOptions.waitOptions(Duration.ofMillis(200)))
-    .moveTo(PointOption.point(point.getX() + size.getWidth() - 5, point.getY() + size.getHeight() - 5))
-    .release()
-    .perform();
-}
+AndroidElement button = driver.findElementById("com.example.android.apis:id/button");
+```
+
+```java
+AndroidElement checkBox = driver.findElementByClassName("android.widget.CheckBox");
+```
+
+```java
+AndroidElement secondButton = driver.findElementByXPath("//*[@resource-id='com.example.android.apis:id/button']");
+```
+
+```java
+AndroidElement thirdButton = driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"BUTTO\");");
 ```
 
 ## Most Complete WinAppDriver Java Cheat Sheet
