@@ -12,16 +12,15 @@ permalink: /customcode/
 
 ```java
 IOSElement textField = driver.findElementById("IntegerA");
-
 ```
 
-````java
+```java
 IOSElement textField = driver.findElementByClassName("XCUIElementTypeTextField");
 ```
 
 ```java
 IOSElement textField = driver.findElementByName("IntegerA");
-````
+```
 
 ```java
 IOSElement button = driver.findElementByXPath("//XCUIElementTypeButton[@name='ComputeSumButton']");
@@ -29,7 +28,6 @@ IOSElement button = driver.findElementByXPath("//XCUIElementTypeButton[@name='Co
 
 ```java
 IOSElement button = driver.findElementByIosNsPredicate("type == \"XCUIElementTypeButton\" AND name == \"ComputeSumButton\"");
-
 ```
 
 ## Getting Started with Appium for iOS Kotlin on macOS in 10 Minutes
