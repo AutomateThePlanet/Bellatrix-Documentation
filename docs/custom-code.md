@@ -52,7 +52,7 @@ public void navigateToFirstPage_GoToFirstPageButton() throws Exception {
 }
 ```
 
-````java
+```java
 @Test
 public void goToFirstPageButtonDisabled_WhenFirstPageIsLoaded() throws Exception {
   initializeInvoicesForPaging();
@@ -63,6 +63,8 @@ public void goToFirstPageButtonDisabled_WhenFirstPageIsLoaded() throws Exception
   waitForPageToLoad(targetPage, kendoGrid);
   Assert.assertFalse(goToFirstPageButton.isEnabled());
 }
+```
+
 ```java
 @Test
 public void navigateToLastPage_GoToLastPageButton() throws Exception {
@@ -77,6 +79,8 @@ public void navigateToLastPage_GoToLastPageButton() throws Exception {
     .findFirst().get().getOrderId(), results.stream().findFirst().get().getOrderId());
   assertPagerInfoLabel(targetPage, targetPage, testPagingItems.stream().count());
 }
+```
+
 ```java
 @Test
 public void goToLastPageButtonDisabled_WhenLastPageIsLoaded() throws Exception {
@@ -88,9 +92,9 @@ public void goToLastPageButtonDisabled_WhenLastPageIsLoaded() throws Exception {
   waitForPageToLoad(targetPage, kendoGrid);
   Assert.assertFalse(goToLastPage.isEnabled());
 }
-````
+```
 
-````java
+```java
 @Test
 public void navigateToPageNine_GoToPreviousPageButton() throws Exception {
   initializeInvoicesForPaging();
@@ -103,6 +107,7 @@ public void navigateToPageNine_GoToPreviousPageButton() throws Exception {
   Assert.assertEquals(testPagingItems.get(targetPage - 1).getOrderId(), results.stream().findFirst().get().getOrderId());
   assertPagerInfoLabel(targetPage, targetPage, testPagingItems.stream().count());
 }
+```
 
 ```java
 @Test
@@ -116,7 +121,7 @@ public void goToPreviousPageButtonDisabled_WhenFirstPageIsLoaded() throws Except
   var goToPreviousPage = driver.findElement(By.xpath("//*[@id='grid']/div[3]/a[2]/span"));
   Assert.assertFalse(goToPreviousPage.isEnabled());
 }
-````
+```
 
 ```java
 @Test
@@ -147,7 +152,7 @@ public void goToNextPageButtonDisabled_WhenLastPageIsLoaded() throws Exception {
 }
 ```
 
-````java
+```java
 @Test
 public void navigateToLastPage_MorePagesNextButton() throws Exception {
   initializeInvoicesForPaging();
@@ -160,6 +165,8 @@ public void navigateToLastPage_MorePagesNextButton() throws Exception {
   Assert.assertEquals(testPagingItems.get(targetPage - 1).getOrderId(), results.stream().findFirst().get().getOrderId());
   assertPagerInfoLabel(targetPage, targetPage, testPagingItems.stream().count());
 }
+```
+
 ```java
 @Test
 public void nextMorePageButtonDisabled_WhenLastPageIsLoaded() throws Exception {
@@ -172,7 +179,7 @@ public void nextMorePageButtonDisabled_WhenLastPageIsLoaded() throws Exception {
   var previousMorePages = driver.findElement(By.xpath("//*[@id='grid']/div[3]/ul/li[2]/a"));
   Assert.assertFalse(previousMorePages.isEnabled());
 }
-````
+```
 
 ```java
 @Test
