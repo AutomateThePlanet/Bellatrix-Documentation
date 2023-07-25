@@ -8,20 +8,52 @@ permalink: /customcode/
 
 ## Bellatrix Test Automation Framework
 
+## Getting Started with Appium for iOS Java on macOS in 10 Minutes
+
+```java
+IOSElement textField = driver.findElementById("IntegerA");
+
+```
+
+````java
+IOSElement textField = driver.findElementByClassName("XCUIElementTypeTextField");
+```
+
+```java
+IOSElement textField = driver.findElementByName("IntegerA");
+````
+
+```java
+IOSElement button = driver.findElementByXPath("//XCUIElementTypeButton[@name='ComputeSumButton']");
+```
+
+```java
+IOSElement button = driver.findElementByIosNsPredicate("type == \"XCUIElementTypeButton\" AND name == \"ComputeSumButton\"");
+
+```
+
+## Getting Started with Appium for iOS Kotlin on macOS in 10 Minutes
+
 ```kotlin
-val button = driver.findElementById("com.example.android.apis:id/button")
+val textField = driver.findElementById("IntegerA")
 ```
 
 ```kotlin
-val checkBox = driver.findElementByClassName("android.widget.CheckBox")
+val textField = driver.findElementByClassName("XCUIElementTypeTextField")
 ```
 
 ```kotlin
-val secondButton = driver.findElementByXPath("//*[@resource-id='com.example.android.apis:id/button']")
+val textField = driver.findElementByName("IntegerA")
+
 ```
 
 ```kotlin
-AndroidElement thirdButton = driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"BUTTO\");");
+val button = driver.findElementByXPath("//XCUIElementTypeButton[@name='ComputeSumButton']")
+
+```
+
+```kotlin
+val button = driver.findElementByIosNsPredicate("type == \"XCUIElementTypeButton\" AND name == \"ComputeSumButton\"")
 ```
 
 ## Most Complete WinAppDriver Java Cheat Sheet
