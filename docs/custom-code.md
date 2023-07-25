@@ -8,19 +8,19 @@ permalink: /customcode/
 
 ## Bellatrix Test Automation Framework
 
-```java
-AndroidElement button = driver.findElementById("com.example.android.apis:id/button");
+```kotlin
+val button = driver.findElementById("com.example.android.apis:id/button")
 ```
 
-```java
-AndroidElement checkBox = driver.findElementByClassName("android.widget.CheckBox");
+```kotlin
+val checkBox = driver.findElementByClassName("android.widget.CheckBox")
 ```
 
-```java
-AndroidElement secondButton = driver.findElementByXPath("//*[@resource-id='com.example.android.apis:id/button']");
+```kotlin
+val secondButton = driver.findElementByXPath("//*[@resource-id='com.example.android.apis:id/button']")
 ```
 
-```java
+```kotlin
 AndroidElement thirdButton = driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"BUTTO\");");
 ```
 
