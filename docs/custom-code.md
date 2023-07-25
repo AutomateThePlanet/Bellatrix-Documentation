@@ -4753,3 +4753,3173 @@ public void ScrollFocusToControl_InCloud_ShouldPass()
     Assert.AreEqual("TFS Test API Archives - Automate The Planet", _driver.Title);
 }
 ```
+
+# Enterprise Test Automation Framework
+
+## Enterprise Test Automation Framework: Plugin Architecture in SpecFlow
+
+```csharp
+public class TestWorkflowPluginEventArgs : EventArgs
+{
+    public TestWorkflowPluginEventArgs() { }
+
+    public TestWorkflowPluginEventArgs(
+        string featureName,
+        string scenarioName,
+        string consoleOutputMessage,
+        string consoleOutputStackTrace,
+        List<string> featureTags,
+        List<string> scenarioTags
+    )
+    {
+        FeatureName = featureName;
+        ScenarioName = scenarioName;
+        ConsoleOutputMessage = consoleOutputMessage;
+        ConsoleOutputStackTrace = consoleOutputStackTrace;
+        FeatureTags = featureTags;
+        ScenarioTags = scenarioTags;
+        TestFullName = $"{FeatureName}.{ScenarioName}";
+        Container = ServicesCollection.Current.FindCollection(featureName);
+    }
+
+    public TestWorkflowPluginEventArgs(
+        TestOutcome testOutcome,
+        string featureName,
+        string scenarioName,
+        string consoleOutputMessage,
+        string consoleOutputStackTrace,
+        List<string> featureTags,
+        List<string> scenarioTags
+    )
+        : this(
+            featureName,
+            scenarioName,
+            consoleOutputMessage,
+            consoleOutputStackTrace,
+            featureTags,
+            scenarioTags
+        )
+    {
+        TestOutcome = testOutcome;
+    }
+
+    public TestWorkflowPluginEventArgs(
+        Exception exception,
+        string featureName,
+        string scenarioName,
+        string consoleOutputMessage,
+        string consoleOutputStackTrace,
+        List<string> featureTags,
+        List<string> scenarioTags
+    )
+        : this(
+            featureName,
+            scenarioName,
+            consoleOutputMessage,
+            consoleOutputStackTrace,
+            featureTags,
+            scenarioTags
+        )
+    {
+        Exception = exception;
+    }
+
+    public Exception Exception { get; }
+    public TestOutcome TestOutcome { get; }
+    public string FeatureName { get; }
+    public string ScenarioName { get; }
+    public string TestFullName { get; }
+    public IServicesCollection Container { get; set; }
+    public string ConsoleOutputMessage { get; }
+    public string ConsoleOutputStackTrace { get; }
+    public List<string> FeatureTags { get; }
+    public List<string> ScenarioTags { get; }
+}
+```
+
+```csharp
+public class TestWorkflowPlugin
+{
+    public void Subscribe(ITestWorkflowPluginProvider provider)
+    {
+        provider.PreBeforeScenarioEvent += PreBeforeScenario;
+        provider.TestInitFailedEvent += TestInitFailed;
+        provider.PostBeforeScenarioEvent += PostBeforeScenario;
+        provider.PreAfterScenarioEvent += PreAfterScenario;
+        provider.PostAfterScenarioEvent += PostAfterScenario;
+        provider.TestCleanupFailedEvent += TestCleanupFailed;
+        provider.BeforeScenarioFailedEvent += BeforeScenarioFailed;
+        provider.PreBeforeFeatureArrangeEvent += PreBeforeFeatureArrange;
+        provider.PreBeforeFeatureActEvent += PreBeforeFeatureAct;
+        provider.PostBeforeFeatureActEvent += PostBeforeFeatureAct;
+        provider.PostBeforeFeatureArrangeEvent += PostBeforeFeatureArrange;
+    }
+
+    public void Unsubscribe(ITestWorkflowPluginProvider provider)
+    {
+        provider.PreBeforeScenarioEvent -= PreBeforeScenario;
+        provider.TestInitFailedEvent -= TestInitFailed;
+        provider.PostBeforeScenarioEvent -= PostBeforeScenario;
+        provider.PreAfterScenarioEvent -= PreAfterScenario;
+        provider.PostAfterScenarioEvent -= PostAfterScenario;
+        provider.TestCleanupFailedEvent -= TestCleanupFailed;
+        provider.BeforeScenarioFailedEvent -= BeforeScenarioFailed;
+        provider.PreBeforeFeatureArrangeEvent -= PreBeforeFeatureArrange;
+        provider.PreBeforeFeatureActEvent -= PreBeforeFeatureAct;
+        provider.PostBeforeFeatureActEvent -= PostBeforeFeatureAct;
+        provider.PostBeforeFeatureArrangeEvent -= PostBeforeFeatureArrange;
+    }
+
+    protected virtual void BeforeScenarioFailed(object sender, Exception ex) { }
+
+    protected virtual void PreBeforeScenario(object sender,
+                        TestWorkflowPluginEventArgs e) { }
+
+    protected virtual void TestInitFailed(object sender,
+                            TestWorkflowPluginEventArgs e) { }
+
+    protected virtual void PostBeforeScenario(object sender,
+                            TestWorkflowPluginEventArgs e) { }
+
+    protected virtual void PreAfterScenario(object sender,
+                            TestWorkflowPluginEventArgs e) { }
+
+    protected virtual void PostAfterScenario(object sender,
+                            TestWorkflowPluginEventArgs e) { }
+
+    protected virtual void TestCleanupFailed(object sender,
+                            TestWorkflowPluginEventArgs e) { }
+
+    protected virtual void PreBeforeFeatureAct(object sender,
+                            TestWorkflowPluginEventArgs e) { }
+
+    protected virtual void PreBeforeFeatureArrange(object sender,
+                            TestWorkflowPluginEventArgs e) { }
+
+    protected virtual void PostBeforeFeatureAct(object sender
+                            TestWorkflowPluginEventArgs e) { }
+
+    protected virtual void PostBeforeFeatureArrange(
+        object sender,
+        TestWorkflowPluginEventArgs e
+    ) { }
+}
+```
+
+```csharp
+public interface ITestWorkflowPluginProvider
+{
+    event EventHandler<TestWorkflowPluginEventArgs> PreBeforeScenarioEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> TestInitFailedEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PostBeforeScenarioEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PreAfterScenarioEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PostAfterScenarioEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> TestCleanupFailedEvent;
+    event EventHandler<Exception> BeforeScenarioFailedEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PreBeforeFeatureActEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PreBeforeFeatureArrangeEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PostBeforeFeatureActEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PostBeforeFeatureArrangeEvent;
+}
+```
+
+```csharp
+public class TestWorkflowPluginProvider : ITestWorkflowPluginProvider
+{
+    public event EventHandler<TestWorkflowPluginEventArgs> PreBeforeScenarioEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> TestInitFailedEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PostBeforeScenarioEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PreAfterScenarioEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PostAfterScenarioEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> TestCleanupFailedEvent;
+    public event EventHandler<Exception> BeforeScenarioFailedEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PreBeforeFeatureActEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PreBeforeFeatureArrangeEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PostBeforeFeatureActEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PostBeforeFeatureArrangeEvent;
+
+    public void PreBeforeFeatureAct(string featureName, List<string> featureTags)
+    {
+        RaiseTestEvent(PreBeforeFeatureActEvent, TestOutcome.Unknown, featureName, featureTags);
+    }
+
+    public void PreBeforeFeatureArrange(string featureName, List<string> featureTags)
+    {
+        RaiseTestEvent(PreBeforeFeatureArrangeEvent, TestOutcome.Unknown, featureName, featureTags);
+    }
+
+    public void PreBeforeScenario(
+        string featureName,
+        string scenarioName,
+        List<string> featureTags,
+        List<string> scenarioTags
+    )
+    {
+        RaiseTestEvent(
+            PreBeforeScenarioEvent,
+            TestOutcome.Unknown,
+            featureName,
+            scenarioName,
+            featureTags,
+            scenarioTags
+        );
+    }
+
+    public void TestInitFailed(
+        Exception ex,
+        string featureName,
+        string scenarioName,
+        List<string> featureTags,
+        List<string> scenarioTags,
+        string message,
+        string stackTrace
+    )
+    {
+        RaiseTestEvent(
+            TestInitFailedEvent,
+            ex,
+            featureName,
+            scenarioName,
+            featureTags,
+            scenarioTags,
+            message,
+            stackTrace
+        );
+    }
+
+    public void PostBeforeScenario(
+        string featureName,
+        string scenarioName,
+        List<string> featureTags,
+        List<string> scenarioTags
+    )
+    {
+        RaiseTestEvent(
+            PostBeforeScenarioEvent,
+            TestOutcome.Unknown,
+            featureName,
+            scenarioName,
+            featureTags,
+            scenarioTags
+        );
+    }
+
+    public void PreAfterScenario(
+        TestOutcome testOutcome,
+        string featureName,
+        string scenarioName,
+        List<string> featureTags,
+        List<string> scenarioTags,
+        string message,
+        string stackTrace
+    )
+    {
+        RaiseTestEvent(
+            PreAfterScenarioEvent,
+            testOutcome,
+            featureName,
+            scenarioName,
+            featureTags,
+            scenarioTags,
+            message,
+            stackTrace
+        );
+    }
+
+    public void PostAfterScenario(
+        TestOutcome testOutcome,
+        string featureName,
+        string scenarioName,
+        List<string> featureTags,
+        List<string> scenarioTags,
+        string message,
+        string stackTrace
+    )
+    {
+        RaiseTestEvent(
+            PostAfterScenarioEvent,
+            testOutcome,
+            featureName,
+            scenarioName,
+            featureTags,
+            scenarioTags,
+            message,
+            stackTrace
+        );
+    }
+
+    public void TestCleanupFailed(
+        Exception ex,
+        string featureName,
+        string scenarioName,
+        List<string> featureTags,
+        List<string> scenarioTags,
+        string message,
+        string stackTrace
+    )
+    {
+        RaiseTestEvent(
+            TestCleanupFailedEvent,
+            ex,
+            featureName,
+            scenarioName,
+            featureTags,
+            scenarioTags,
+            message,
+            stackTrace
+        );
+    }
+
+    public void BeforeFeatureFailed(Exception ex)
+    {
+        BeforeScenarioFailedEvent?.Invoke(this, ex);
+    }
+
+    public void PostBeforeFeatureAct(string featureName, List<string> featureTags)
+    {
+        RaiseTestEvent(PostBeforeFeatureActEvent, TestOutcome.Unknown, featureName, featureTags);
+    }
+
+    public void PostBeforeFeatureArrange(string featureName, List<string> featureTags)
+    {
+        RaiseTestEvent(
+            PostBeforeFeatureArrangeEvent,
+            TestOutcome.Unknown,
+            featureName,
+            featureTags
+        );
+    }
+
+    private void RaiseTestEvent(
+        EventHandler<TestWorkflowPluginEventArgs> eventHandler,
+        Exception exception,
+        string featureName,
+        string scenarioName,
+        List<string> featureTags,
+        List<string> scenarioTags,
+        string message = null,
+        string stackTrace = null
+    )
+    {
+        eventHandler?.Invoke(
+            this,
+            new TestWorkflowPluginEventArgs(
+                exception,
+                featureName,
+                scenarioName,
+                message,
+                stackTrace,
+                featureTags,
+                scenarioTags
+            )
+        );
+    }
+
+    private void RaiseTestEvent(
+        EventHandler<TestWorkflowPluginEventArgs> eventHandler,
+        TestOutcome testOutcome,
+        string featureName,
+        string scenarioName,
+        List<string> featureTags,
+        List<string> scenarioTags,
+        string message = null,
+        string stackTrace = null
+    )
+    {
+        eventHandler?.Invoke(
+            this,
+            new TestWorkflowPluginEventArgs(
+                testOutcome,
+                featureName,
+                scenarioName,
+                message,
+                stackTrace,
+                featureTags,
+                scenarioTags
+            )
+        );
+    }
+
+    private void RaiseTestEvent(
+        EventHandler<TestWorkflowPluginEventArgs> eventHandler,
+        TestOutcome testOutcome,
+        string featureName,
+        List<string> featureTags,
+        string message = null,
+        string stackTrace = null
+    )
+    {
+        eventHandler?.Invoke(
+            this,
+            new TestWorkflowPluginEventArgs(
+                testOutcome,
+                featureName,
+                string.Empty,
+                message,
+                stackTrace,
+                featureTags,
+                new List<string>()
+            )
+        );
+    }
+}
+```
+
+```csharp
+[Binding]
+public class BaseSpecFlowHooks
+{
+    protected static readonly TestWorkflowPluginProvider TestExecutionProvider;
+    protected static ThreadLocal<Exception> ThrownException;
+    private StringWriter _stringWriter = new StringWriter();
+
+    static BaseSpecFlowHooks()
+    {
+        TestExecutionProvider = new TestWorkflowPluginProvider();
+        AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
+        {
+            if(eventArgs.Exception.Source != "System.Private.CoreLib")
+            {
+                if(ThrownException == null)
+                {
+                    ThrownException = new ThreadLocal<Exception>(() => eventArgs.Exception);
+                }
+                else
+                {
+                    ThrownException.Value = eventArgs.Exception;
+                }
+            }
+        };
+    }
+
+    protected static void InitializeTestExecutionBehaviorObservers(
+        TestWorkflowPluginProvider testExecutionProvider
+    )
+    {
+        var observers = ServicesCollection.Current.ResolveAll<TestWorkflowPlugin>();
+        foreach (var observer in observers)
+        {
+            observer.Subscribe(testExecutionProvider);
+        }
+    }
+
+    [BeforeScenario(Order = 1)]
+    public void PreBeforeScenario(FeatureContext featureContext, ScenarioContext scenarioContext)
+    {
+        _stringWriter = new StringWriter();
+        Console.SetOut(_stringWriter);
+        try
+        {
+            TestExecutionProvider.PreBeforeScenario(
+                featureContext.FeatureInfo.Title,
+                scenarioContext.ScenarioInfo.Title,
+                featureContext.FeatureInfo.Tags.ToList(),
+                scenarioContext.ScenarioInfo.Tags.ToList()
+            );
+        }
+        catch(Exception ex)
+        {
+            TestExecutionProvider.BeforeFeatureFailed(ex);
+            throw;
+        }
+    }
+
+    [BeforeScenario(Order = 100)]
+    public void PostBeforeScenario(FeatureContext featureContext, ScenarioContext scenarioContext)
+    {
+        _stringWriter = new StringWriter();
+        Console.SetOut(_stringWriter);
+        try
+        {
+            TestExecutionProvider.PostBeforeScenario(
+                featureContext.FeatureInfo.Title,
+                scenarioContext.ScenarioInfo.Title,
+                featureContext.FeatureInfo.Tags.ToList(),
+                scenarioContext.ScenarioInfo.Tags.ToList()
+            );
+        }
+        catch(Exception ex)
+        {
+            TestExecutionProvider.BeforeFeatureFailed(ex);
+            throw;
+        }
+    }
+
+    [AfterScenario(Order = 1)]
+    public void PreAfterScenario(FeatureContext featureContext, ScenarioContext scenarioContext)
+    {
+        _stringWriter = new StringWriter();
+        Console.SetOut(_stringWriter);
+        try
+        {
+            TestOutcome testOutcome = GetTestOutcomeFromScenarioExecutionStatus(
+                scenarioContext.ScenarioExecutionStatus
+            );
+            string consoleOutput = _stringWriter.ToString();
+            string stackTrace = ThrownException?.Value?.ToString();
+            TestExecutionProvider.PreAfterScenario(
+                testOutcome,
+                featureContext.FeatureInfo.Title,
+                scenarioContext.ScenarioInfo.Title,
+                featureContext.FeatureInfo.Tags.ToList(),
+                scenarioContext.ScenarioInfo.Tags.ToList(),
+                consoleOutput,
+                stackTrace
+            );
+        }
+        catch (Exception ex)
+        {
+            TestExecutionProvider.BeforeFeatureFailed(ex);
+            throw;
+        }
+    }
+
+    [AfterScenario(Order = 100)]
+    public void PostAfterScenario(FeatureContext featureContext, ScenarioContext scenarioContext)
+    {
+        _stringWriter = new StringWriter();
+        Console.SetOut(_stringWriter);
+        try
+        {
+            TestOutcome testOutcome = GetTestOutcomeFromScenarioExecutionStatus(
+                scenarioContext.ScenarioExecutionStatus
+            );
+            string consoleOutput = _stringWriter.ToString();
+            string stackTrace = ThrownException?.Value?.ToString();
+            TestExecutionProvider.PostAfterScenario(
+                testOutcome,
+                featureContext.FeatureInfo.Title,
+                scenarioContext.ScenarioInfo.Title,
+                featureContext.FeatureInfo.Tags.ToList(),
+                scenarioContext.ScenarioInfo.Tags.ToList(),
+                consoleOutput,
+                stackTrace
+            );
+        }
+        catch (Exception ex)
+        {
+            TestExecutionProvider.BeforeFeatureFailed(ex);
+            throw;
+        }
+    }
+
+    private TestOutcome GetTestOutcomeFromScenarioExecutionStatus(
+        ScenarioExecutionStatus scenarioExecutionStatus
+    )
+    {
+        if (scenarioExecutionStatus == ScenarioExecutionStatus.OK)
+        {
+            return TestOutcome.Passed;
+        }
+        else if (scenarioExecutionStatus == ScenarioExecutionStatus.TestError)
+        {
+            return TestOutcome.Failed;
+        }
+        return TestOutcome.Unknown;
+    }
+}
+```
+
+```csharp
+Feature: CommonServices
+In order to use the browser
+As a automation engineer
+I want BELLATRIX to provide me handy method to do my job
+Background:
+Given I use Chrome browser on Windows
+And I reuse the browser if started
+And I take a screenshot for failed tests
+And I record a video for failed tests
+And I open browser
+Scenario: Browser Service Common Steps
+When I navigate to URL http://demos.bellatrix.solutions/product/falcon-9/
+And I refresh the browser
+When I wait until the browser is ready
+And I wait for all AJAX requests to finish
+And I maximize the browser
+And I navigate to URL http://demos.bellatrix.solutions/
+And I click browser's back button
+And I click browser's forward button
+And I click browser's back button
+And I wait for partial URL falcon-9
+Scenario: Cookies Service Common Steps
+When I navigate to URL http://demos.bellatrix.solutions/product/falcon-9/
+And I add cookie name = testCookie value = 99
+And I delete cookie testCookie
+And I add cookie name = testCookie1 value = 100
+And I delete all cookies
+```
+
+## Enterprise Test Automation Framework: Plugin Architecture in NUnit
+
+```csharp
+public class TestWorkflowPluginEventArgs : EventArgs
+{
+    public TestWorkflowPluginEventArgs() {}
+
+    public TestWorkflowPluginEventArgs(TestOutcome testOutcome,
+        string testName,
+        MemberInfo testMethodMemberInfo,
+        Type testClassType,
+        string consoleOutputMessage,
+        string consoleOutputStackTrace,
+        Exception exception,
+        List<string>categories,
+        List<string>authors,
+        List<string>descriptions) :
+        this(testOutcome,
+        testClassType,
+        consoleOutputMessage,
+        consoleOutputStackTrace)
+    {
+        TestMethodMemberInfo = testMethodMemberInfo;
+        TestName = testName;
+        Exception = exception;
+        Categories = categories;
+        Authors = authors;
+        Descriptions = descriptions;
+    }
+
+    public TestWorkflowPluginEventArgs(
+        TestOutcome testOutcome,
+        Type testClassType,
+        string consoleOutputMessage = null,
+        string consoleOutputStackTrace = null)
+    {
+        TestOutcome = testOutcome;
+        TestClassType = testClassType;
+        TestClassName = testClassType.FullName;
+        TestFullName = $"{TestClassName}.{TestName}";
+        ConsoleOutputMessage = consoleOutputMessage;
+        ConsoleOutputStackTrace = consoleOutputStackTrace;
+        Container = ServicesCollection.Current.FindCollection(testClassType.FullName);
+        ExecutionContext = Container.Resolve<ExecutionContext>();
+    }
+
+    public ExecutionContext ExecutionContext { get; set; }
+
+    public IServicesCollection Container { get; set; }
+
+    public Exception Exception { get; }
+
+    public MemberInfo TestMethodMemberInfo { get; }
+
+    public Type TestClassType  { get; }
+
+    public TestOutcome TestOutcome  { get; }
+
+    public string TestName  { get; }
+
+    public string TestClassName  { get; }
+
+    public string TestFullName  { get; }
+
+    public string ConsoleOutputMessage  { get; }
+
+    public string ConsoleOutputStackTrace  { get; }
+
+    public List <string> Categories  { get; }
+
+    public List <string> Authors  { get; }
+
+    public List <string> Descriptions { get; }
+}
+```
+
+```csharp
+public class TestWorkflowPlugin
+{
+    public void Subscribe(ITestWorkflowPluginProvider provider)
+    {
+        provider.PreTestInitEvent += PreTestInit;
+        provider.TestInitFailedEvent += TestInitFailed;
+        provider.PostTestInitEvent += PostTestInit;
+        provider.PreTestCleanupEvent += PreTestCleanup;
+        provider.PostTestCleanupEvent += PostTestCleanup;
+        provider.TestCleanupFailedEvent += TestCleanupFailed;
+        provider.PreTestsArrangeEvent += PreTestsArrange;
+        provider.TestsArrangeFailedEvent += TestsArrangeFailed;
+        provider.PreTestsActEvent += PreTestsAct;
+        provider.PostTestsActEvent += PostTestsAct;
+        provider.PostTestsArrangeEvent += PostTestsArrange;
+        provider.PreTestsCleanupEvent += PreTestsCleanup;
+        provider.PostTestsCleanupEvent += PostTestsCleanup;
+        provider.TestsCleanupFailedEvent += TestsCleanupFailed;
+    }
+
+    public void Unsubscribe(ITestWorkflowPluginProvider provider)
+    {
+        provider.PreTestInitEvent -= PreTestInit;
+        provider.TestInitFailedEvent -= TestInitFailed;
+        provider.PostTestInitEvent -= PostTestInit;
+        provider.PreTestCleanupEvent -= PreTestCleanup;
+        provider.PostTestCleanupEvent -= PostTestCleanup;
+        provider.TestCleanupFailedEvent -= TestCleanupFailed;
+        provider.PreTestsArrangeEvent -= PreTestsArrange;
+        provider.TestsArrangeFailedEvent -= TestsArrangeFailed;
+        provider.PreTestsActEvent -= PreTestsAct;
+        provider.PostTestsActEvent -= PostTestsAct;
+        provider.PostTestsArrangeEvent -= PostTestsArrange;
+        provider.PreTestsCleanupEvent -= PreTestsCleanup;
+        provider.PostTestsCleanupEvent -= PostTestsCleanup;
+        provider.TestsCleanupFailedEvent -= TestsCleanupFailed;
+    }
+
+    protected virtual void TestsCleanupFailed(object sender, Exception ex) { }
+
+    protected virtual void PreTestsCleanup(object sender,
+                                TestWorkflowPluginEventArgs e) { }
+    protected virtual void PostTestsCleanup(object sender,
+                                TestWorkflowPluginEventArgs e) { }
+    protected virtual void PreTestInit(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void TestInitFailed(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void PostTestInit(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void PreTestCleanup(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void PostTestCleanup(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void TestCleanupFailed(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void TestsArrangeFailed(object sender, Exception e) { }
+    protected virtual void PreTestsAct(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void PreTestsArrange(object sender
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void PostTestsAct(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void PostTestsArrange(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+
+    protected List<dynamic> GetAllAttributes<TAttribute>(MemberInfo memberInfo)
+        where TAttribute : Attribute
+    {
+        var classAttributes = GetClassAttributes<TAttribute>(memberInfo.DeclaringType);
+        var methodAttributes = GetMethodAttributes<TAttribute>(memberInfo);
+        var attributes = classAttributes.ToList();
+        attributes.AddRange(methodAttributes);
+        return attributes;
+    }
+
+    protected TAttribute GetOverridenAttribute<TAttribute>(MemberInfo memberInfo)
+        where TAttribute : Attribute
+    {
+        var classAttribute = GetClassAttribute<TAttribute>(memberInfo.DeclaringType);
+        var methodAttribute = GetMethodAttribute<TAttribute>(memberInfo);
+        if (methodAttribute != null)
+        {
+            return methodAttribute;
+        }
+        return classAttribute;
+    }
+
+    protected dynamic GetClassAttribute<TAttribute>(Type currentType)
+        where TAttribute : Attribute
+    {
+        var classAttribute = currentType.GetCustomAttribute<TAttribute>(true);
+        return classAttribute;
+    }
+
+    protected dynamic GetMethodAttribute<TAttribute>(MemberInfo memberInfo)
+        where TAttribute : Attribute
+    {
+        var methodAttribute = memberInfo?.GetCustomAttribute<TAttribute>(true);
+        return methodAttribute;
+    }
+
+    protected IEnumerable<dynamic> GetClassAttributes<TAttribute>(Type currentType)
+        where TAttribute : Attribute
+    {
+        var classAttributes = currentType.GetCustomAttributes<TAttribute>(true);
+        return classAttributes;
+    }
+
+    protected IEnumerable<dynamic> GetMethodAttributes<TAttribute>(MemberInfo memberInfo)
+        where TAttribute : Attribute
+    {
+        var methodAttributes = memberInfo?.GetCustomAttributes<TAttribute>(true);
+        return methodAttributes;
+    }
+}
+```
+
+```csharp
+public interface ITestWorkflowPluginProvider
+{
+    event EventHandler<TestWorkflowPluginEventArgs> PreTestInitEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> TestInitFailedEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PostTestInitEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PreTestCleanupEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PostTestCleanupEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> TestCleanupFailedEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PreTestsActEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PreTestsArrangeEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PostTestsActEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PostTestsArrangeEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PreTestsCleanupEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PostTestsCleanupEvent;
+    event EventHandler<Exception> TestsCleanupFailedEvent;
+    event EventHandler<Exception> TestsArrangeFailedEvent;
+}
+
+```
+
+```csharp
+public class TestWorkflowPluginProvider : ITestWorkflowPluginProvider
+{
+    public event EventHandler<TestWorkflowPluginEventArgs> PreTestInitEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> TestInitFailedEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PostTestInitEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PreTestCleanupEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PostTestCleanupEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> TestCleanupFailedEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PreTestsActEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PreTestsArrangeEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PostTestsActEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PostTestsArrangeEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PreTestsCleanupEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PostTestsCleanupEvent;
+    public event EventHandler<Exception> TestsCleanupFailedEvent;
+    public event EventHandler<Exception> TestsArrangeFailedEvent;
+
+    public void PreTestsArrange(Type testClassType) =>
+        RaiseClassTestEvent(PreTestsArrangeEvent, TestOutcome.Unknown, testClassType);
+
+    public void TestsArrangeFailed(Exception ex) => TestsArrangeFailedEvent.Invoke(this, ex);
+
+    public void PostTestsArrange(Type testClassType) =>
+        RaiseClassTestEvent(PostTestsArrangeEvent, TestOutcome.Unknown, testClassType);
+
+    public void PreTestsAct(Type testClassType) =>
+        RaiseClassTestEvent(PreTestsActEvent, TestOutcome.Unknown, testClassType);
+
+    public void PostTestsAct(Type testClassType) =>
+        RaiseClassTestEvent(PostTestsActEvent, TestOutcome.Unknown, testClassType);
+
+    public void PreTestInit(
+        string testName,
+        MemberInfo testMethodMemberInfo,
+        Type testClassType,
+        List<string> categories,
+        List<string> authors,
+        List<string> descriptions
+    ) =>
+        RaiseTestEvent(
+            PreTestInitEvent,
+            TestOutcome.Unknown,
+            testName,
+            testMethodMemberInfo,
+            testClassType,
+            categories,
+            authors,
+            descriptions
+        );
+
+    public void TestInitFailed(
+        Exception ex,
+        string testName,
+        MemberInfo testMethodMemberInfo,
+        Type testClassType,
+        List<string> categories,
+        List<string> authors,
+        List<string> descriptions
+    ) =>
+        RaiseTestEvent(
+            TestInitFailedEvent,
+            TestOutcome.Failed,
+            testName,
+            testMethodMemberInfo,
+            testClassType,
+            categories,
+            authors,
+            descriptions,
+            ex.Message,
+            ex.StackTrace
+        );
+
+    public void PostTestInit(
+        string testName,
+        MemberInfo testMethodMemberInfo,
+        Type testClassType,
+        List<string> categories,
+        List<string> authors,
+        List<string> descriptions
+    ) =>
+        RaiseTestEvent(
+            PostTestInitEvent,
+            TestOutcome.Unknown,
+            testName,
+            testMethodMemberInfo,
+            testClassType,
+            categories,
+            authors,
+            descriptions
+        );
+
+    public void PreTestCleanup(
+        TestOutcome testOutcome,
+        string testName,
+        MemberInfo testMethodMemberInfo,
+        Type testClassType,
+        List<string> categories,
+        List<string> authors,
+        List<string> descriptions,
+        string message,
+        string stackTrace,
+        Exception exception
+    ) =>
+        RaiseTestEvent(
+            PreTestCleanupEvent,
+            testOutcome,
+            testName,
+            testMethodMemberInfo,
+            testClassType,
+            categories,
+            authors,
+            descriptions,
+            message,
+            stackTrace,
+            exception
+        );
+
+    public void TestCleanupFailed(
+        Exception ex,
+        string testName,
+        MemberInfo testMethodMemberInfo,
+        Type testClassType,
+        List<string> categories,
+        List<string> authors,
+        List<string> descriptions
+    ) =>
+        RaiseTestEvent(
+            TestCleanupFailedEvent,
+            TestOutcome.Failed,
+            testName,
+            testMethodMemberInfo,
+            testClassType,
+            categories,
+            authors,
+            descriptions,
+            ex.Message,
+            ex.StackTrace
+        );
+
+    public void PostTestCleanup(
+        TestOutcome testOutcome,
+        string testName,
+        MemberInfo testMethodMemberInfo,
+        Type testClassType,
+        List<string> categories,
+        List<string> authors,
+        List<string> descriptions,
+        string message,
+        string stackTrace,
+        Exception exception
+    ) =>
+        RaiseTestEvent(
+            PostTestCleanupEvent,
+            testOutcome,
+            testName,
+            testMethodMemberInfo,
+            testClassType,
+            categories,
+            authors,
+            descriptions,
+            message,
+            stackTrace,
+            exception
+        );
+
+    public void PreClassCleanup(Type testClassType) =>
+        RaiseClassTestEvent(PreTestsCleanupEvent, TestOutcome.Unknown, testClassType);
+
+    public void TestsCleanupFailed(Exception ex) => TestsCleanupFailedEvent?.Invoke(this, ex);
+
+    public void PostClassCleanup(Type testClassType) =>
+        RaiseClassTestEvent(PostTestsCleanupEvent, TestOutcome.Unknown, testClassType);
+
+    private void RaiseClassTestEvent(
+        EventHandler<TestWorkflowPluginEventArgs> eventHandler,
+        TestOutcome testOutcome,
+        Type testClassType
+    )
+    {
+        var args = new TestWorkflowPluginEventArgs(testOutcome, testClassType);
+        eventHandler?.Invoke(this, args);
+    }
+
+    private void RaiseTestEvent(
+        EventHandler<TestWorkflowPluginEventArgs> eventHandler,
+        TestOutcome testOutcome,
+        string testName,
+        MemberInfo testMethodMemberInfo,
+        Type testClassType,
+        List<string> categories,
+        List<string> authors,
+        List<string> descriptions,
+        string message = null,
+        string stackTrace = null,
+        Exception exception = null
+    )
+    {
+        var args = new TestWorkflowPluginEventArgs(
+            testOutcome,
+            testName,
+            testMethodMemberInfo,
+            testClassType,
+            message,
+            stackTrace,
+            exception,
+            categories,
+            authors,
+            descriptions
+        );
+        eventHandler?.Invoke(this, args);
+    }
+}
+```
+
+```csharp
+public class NUnitBaseTest
+{
+    public ServicesCollection Container;
+    protected static ThreadLocal<Exception> ThrownException;
+    private TestWorkflowPluginProvider _currentTestExecutionProvider;
+
+    public NUnitBaseTest()
+    {
+        Container = ServicesCollection.Current;
+        AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
+        {
+            if (eventArgs.Exception.Source != "System.Private.CoreLib")
+            {
+                if (ThrownException == null)
+                {
+                    ThrownException = new ThreadLocal<Exception>(() => eventArgs.Exception);
+                }
+                else
+                {
+                    ThrownException.Value = eventArgs.Exception;
+                }
+            }
+        };
+    }
+
+    public TestContext TestContext => TestContext.CurrentContext;
+
+    [OneTimeSetUp]
+    public void OneTimeArrangeAct()
+    {
+        try
+        {
+            var testClassType = GetCurrentExecutionTestClassType();
+            Container = ServicesCollection.Current.CreateChildServicesCollection(
+                testClassType.FullName
+            );
+            Container.RegisterInstance(Container);
+            _currentTestExecutionProvider = new TestWorkflowPluginProvider();
+            Initialize();
+            InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
+            _currentTestExecutionProvider.PreTestsArrange(testClassType);
+            TestsArrange();
+            _currentTestExecutionProvider.PostTestsArrange(testClassType);
+            _currentTestExecutionProvider.PreTestsAct(testClassType);
+            TestsAct();
+            _currentTestExecutionProvider.PostTestsAct(testClassType);
+        }
+        catch (Exception ex)
+        {
+            _currentTestExecutionProvider.TestsArrangeFailed(ex);
+            throw ex;
+        }
+    }
+
+    [OneTimeTearDown]
+    public void ClassCleanup()
+    {
+        try
+        {
+            var testClassType = GetCurrentExecutionTestClassType();
+            Container = ServicesCollection.Current.CreateChildServicesCollection(
+                testClassType.FullName
+            );
+            Container.RegisterInstance(Container);
+            _currentTestExecutionProvider = new TestWorkflowPluginProvider();
+            InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
+            _currentTestExecutionProvider.PreClassCleanup(testClassType);
+            TestsCleanup();
+            _currentTestExecutionProvider.PostClassCleanup(testClassType);
+        }
+        catch (Exception ex)
+        {
+            _currentTestExecutionProvider.TestsCleanupFailed(ex);
+            throw;
+        }
+    }
+
+    [SetUp]
+    public void CoreTestInit()
+    {
+        if (ThrownException?.Value != null)
+        {
+            ThrownException.Value = null;
+        }
+        var testClassType = GetCurrentExecutionTestClassType();
+        Container = ServicesCollection.Current.FindCollection(testClassType.FullName);
+        var testMethodMemberInfo = GetCurrentExecutionMethodInfo();
+        var categories = GetAllTestCategories();
+        var authors = GetAllAuthors();
+        var descriptions = GetAllDescriptions();
+        _currentTestExecutionProvider = new TestWorkflowPluginProvider();
+        InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
+        try
+        {
+            _currentTestExecutionProvider.PreTestInit(
+                TestContext.Test.Name,
+                testMethodMemberInfo,
+                testClassType,
+                categories,
+                authors,
+                descriptions
+            );
+            TestInit();
+            _currentTestExecutionProvider.PostTestInit(
+                TestContext.Test.Name,
+                testMethodMemberInfo,
+                testClassType,
+                categories,
+                authors,
+                descriptions
+            );
+        }
+        catch (Exception ex)
+        {
+            _currentTestExecutionProvider.TestInitFailed(
+                ex,
+                TestContext.Test.Name,
+                testMethodMemberInfo,
+                testClassType,
+                categories,
+                authors,
+                descriptions
+            );
+            throw;
+        }
+    }
+
+    [TearDown]
+    public void CoreTestCleanup()
+    {
+        var testClassType = GetCurrentExecutionTestClassType();
+        Container = ServicesCollection.Current.FindCollection(testClassType.FullName);
+        var testMethodMemberInfo = GetCurrentExecutionMethodInfo();
+        var categories = GetAllTestCategories();
+        var authors = GetAllAuthors();
+        var descriptions = GetAllDescriptions();
+        try
+        {
+            _currentTestExecutionProvider = new TestWorkflowPluginProvider();
+            InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
+            _currentTestExecutionProvider.PreTestCleanup(
+                (TestOutcome)TestContext.Result.Outcome.Status,
+                TestContext.Test.Name,
+                testMethodMemberInfo,
+                testClassType,
+                categories,
+                authors,
+                descriptions,
+                TestContext.Result.Message,
+                TestContext.Result.StackTrace,
+                ThrownException?.Value
+            );
+            TestCleanup();
+            _currentTestExecutionProvider.PostTestCleanup(
+                (TestOutcome)TestContext.Result.Outcome.Status,
+                TestContext.Test.FullName,
+                testMethodMemberInfo,
+                testClassType,
+                categories,
+                authors,
+                descriptions,
+                TestContext.Result.Message,
+                TestContext.Result.StackTrace,
+                ThrownException?.Value
+            );
+        }
+        catch (Exception ex)
+        {
+            _currentTestExecutionProvider.TestCleanupFailed(
+                ex,
+                TestContext.Test.Name,
+                testMethodMemberInfo,
+                testClassType,
+                categories,
+                authors,
+                descriptions
+            );
+            throw;
+        }
+    }
+
+    public virtual void Initialize() { }
+
+    public virtual void TestsArrange() { }
+
+    public virtual void TestsAct() { }
+
+    public virtual void TestsCleanup() { }
+
+    public virtual void TestInit() { }
+
+    public virtual void TestCleanup() { }
+
+    protected static bool IsDebugRun()
+    {
+#if DEBUG
+        var isDebug = true;
+#else
+        bool isDebug = false;
+#endif
+        return isDebug;
+    }
+
+    private List<string> GetAllTestCategories()
+    {
+        var categories = new List<string>();
+        foreach (var property in GetTestProperties(PropertyNames.Category))
+        {
+            categories.Add(property);
+        }
+        return categories;
+    }
+
+    private List<string> GetAllAuthors()
+    {
+        var authors = new List<string>();
+        foreach (var property in GetTestProperties(PropertyNames.Author))
+        {
+            authors.Add(property);
+        }
+        return authors;
+    }
+
+    private IEnumerable<string> GetTestProperties(string name)
+    {
+        var list = new List<string>();
+        var currentTest = (ITest)TestExecutionContext.CurrentContext?.CurrentTest;
+        while (
+            currentTest?.GetType() != typeof(TestSuite)
+            && currentTest.ClassName != "NUnit.Framework.Internal.TestExecutionContext+AdhocContext"
+        )
+        {
+            if (currentTest.Properties.ContainsKey(name))
+            {
+                if (currentTest.Properties[name].Count > 0)
+                {
+                    for (var i = 0; i < currentTest.Properties[name].Count; i++)
+                    {
+                        list.Add(currentTest.Properties[name][i].ToString());
+                    }
+                }
+            }
+            currentTest = currentTest.Parent;
+        }
+        return list;
+    }
+
+    private List<string> GetAllDescriptions()
+    {
+        var descriptions = new List<string>();
+        foreach (var property in GetTestProperties(PropertyNames.Description))
+        {
+            descriptions.Add(property);
+        }
+        return descriptions;
+    }
+
+    private void InitializeTestExecutionBehaviorObservers(
+        TestWorkflowPluginProvider testExecutionProvider
+    )
+    {
+        var observers = ServicesCollection.Current.ResolveAll<TestWorkflowPlugin>();
+        foreach (var observer in observers)
+        {
+            observer.Subscribe(testExecutionProvider);
+        }
+    }
+
+    private MethodInfo GetCurrentExecutionMethodInfo()
+    {
+        var testMethodMemberInfo = GetType().GetMethod(TestContext.CurrentContext.Test.Name);
+        return testMethodMemberInfo;
+    }
+
+    private Type GetCurrentExecutionTestClassType()
+    {
+        var testClassType = GetType().Assembly.GetType(TestContext.CurrentContext.Test.ClassName);
+        return testClassType;
+    }
+}
+```
+
+```csharp
+[SetUp]
+public void CoreTestInit()
+{
+    if(ThrownException?.Value != null)
+    {
+        ThrownException.Value = null;
+    }
+
+    var testClassType = GetCurrentExecutionTestClassType();
+    Container = ServicesCollection.Current.FindCollection(testClassType.FullName);
+    var testMethodMemberInfo = GetCurrentExecutionMethodInfo();
+    var categories = GetAllTestCategories();
+    var authors = GetAllAuthors();
+    var descriptions = GetAllDescriptions();
+    _currentTestExecutionProvider = new TestWorkflowPluginProvider();
+    InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
+    try
+    {
+        _currentTestExecutionProvider.PreTestInit(
+            TestContext.Test.Name,
+            testMethodMemberInfo,
+            testClassType,
+            categories,
+            authors,
+            descriptions
+        );
+        TestInit();
+        _currentTestExecutionProvider.PostTestInit(
+            TestContext.Test.Name,
+            testMethodMemberInfo,
+            testClassType,
+            categories,
+            authors,
+            descriptions
+        );
+    }
+    catch(Exception ex)
+    {
+        _currentTestExecutionProvider.TestInitFailed(
+            ex,
+            TestContext.Test.Name,
+            testMethodMemberInfo,
+            testClassType,
+            categories,
+            authors,
+            descriptions
+        );
+        throw;
+    }
+}
+
+public virtual void TestInit() { }
+
+public virtual void TestCleanup() { }
+```
+
+```csharp
+[TestFixture]
+[ScreenshotOnFail(true)]
+[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
+public class FullPageScreenshotsOnFailTests : WebTest
+{
+    public override void TestInit()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    }
+
+    [Test]
+    public void PromotionsPageOpened_When_PromotionsButtonClicked()
+    {
+        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+        promotionsLink.Click();
+    }
+
+    [Test]
+    public void BlogsPageOpened_When_BlogsButtonClicked()
+    {
+        var blogsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blogs");
+        blogsLink.Click();
+    }
+}
+```
+
+## Enterprise Test Automation Framework: Plugin Architecture in MSTest
+
+```csharp
+public class TestWorkflowPluginEventArgs : EventArgs
+{
+    public TestWorkflowPluginEventArgs() { }
+
+    public TestWorkflowPluginEventArgs(
+        TestOutcome testOutcome,
+        string testName,
+        MemberInfo testMethodMemberInfo,
+        Type testClassType,
+        string consoleOutputMessage,
+        string consoleOutputStackTrace,
+        Exception exception,
+        List<string> categories,
+        List<string> authors,
+        List<string> descriptions
+    )
+        : this(testOutcome, testClassType, consoleOutputMessage, consoleOutputStackTrace)
+    {
+        TestMethodMemberInfo = testMethodMemberInfo;
+        TestName = testName;
+        Exception = exception;
+        Categories = categories;
+        Authors = authors;
+        Descriptions = descriptions;
+    }
+
+    public TestWorkflowPluginEventArgs(
+        TestOutcome testOutcome,
+        Type testClassType,
+        string consoleOutputMessage = null,
+        string consoleOutputStackTrace = null
+    )
+    {
+        TestOutcome = testOutcome;
+        TestClassType = testClassType;
+        TestClassName = testClassType.FullName;
+        TestFullName = $"{TestClassName}.{TestName}";
+        ConsoleOutputMessage = consoleOutputMessage;
+        ConsoleOutputStackTrace = consoleOutputStackTrace;
+        Container = ServicesCollection.Current.FindCollection(testClassType.FullName);
+        ExecutionContext = Container.Resolve<ExecutionContext>();
+    }
+
+    public ExecutionContext ExecutionContext { get; set; }
+    public IServicesCollection Container { get; set; }
+    public Exception Exception { get; }
+    public MemberInfo TestMethodMemberInfo { get; }
+    public Type TestClassType { get; }
+    public TestOutcome TestOutcome { get; }
+    public string TestName { get; }
+    public string TestClassName { get; }
+    public string TestFullName { get; }
+    public string ConsoleOutputMessage { get; }
+    public string ConsoleOutputStackTrace { get; }
+    public List<string> Categories { get; }
+    public List<string> Authors { get; }
+    public List<string> Descriptions { get; }
+}
+Here is the base class for all observers or I like to call them in BELLATRIX plugins.
+
+public class TestWorkflowPlugin
+{
+    public void Subscribe(ITestWorkflowPluginProvider provider)
+    {
+        provider.PreTestInitEvent += PreTestInit;
+        provider.TestInitFailedEvent += TestInitFailed;
+        provider.PostTestInitEvent += PostTestInit;
+        provider.PreTestCleanupEvent += PreTestCleanup;
+        provider.PostTestCleanupEvent += PostTestCleanup;
+        provider.TestCleanupFailedEvent += TestCleanupFailed;
+        provider.PreTestsArrangeEvent += PreTestsArrange;
+        provider.TestsArrangeFailedEvent += TestsArrangeFailed;
+        provider.PreTestsActEvent += PreTestsAct;
+        provider.PostTestsActEvent += PostTestsAct;
+        provider.PostTestsArrangeEvent += PostTestsArrange;
+        provider.PreTestsCleanupEvent += PreTestsCleanup;
+        provider.PostTestsCleanupEvent += PostTestsCleanup;
+        provider.TestsCleanupFailedEvent += TestsCleanupFailed;
+    }
+
+    public void Unsubscribe(ITestWorkflowPluginProvider provider)
+    {
+        provider.PreTestInitEvent -= PreTestInit;
+        provider.TestInitFailedEvent -= TestInitFailed;
+        provider.PostTestInitEvent -= PostTestInit;
+        provider.PreTestCleanupEvent -= PreTestCleanup;
+        provider.PostTestCleanupEvent -= PostTestCleanup;
+        provider.TestCleanupFailedEvent -= TestCleanupFailed;
+        provider.PreTestsArrangeEvent -= PreTestsArrange;
+        provider.TestsArrangeFailedEvent -= TestsArrangeFailed;
+        provider.PreTestsActEvent -= PreTestsAct;
+        provider.PostTestsActEvent -= PostTestsAct;
+        provider.PostTestsArrangeEvent -= PostTestsArrange;
+        provider.PreTestsCleanupEvent -= PreTestsCleanup;
+        provider.PostTestsCleanupEvent -= PostTestsCleanup;
+        provider.TestsCleanupFailedEvent -= TestsCleanupFailed;
+    }
+
+    protected virtual void TestsCleanupFailed(object sender, Exception ex) { }
+
+    protected virtual void PreTestsCleanup(object sender,
+                                TestWorkflowPluginEventArgs e) { }
+    protected virtual void PostTestsCleanup(object sender,
+                                TestWorkflowPluginEventArgs e) { }
+    protected virtual void PreTestInit(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void TestInitFailed(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void PostTestInit(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void PreTestCleanup(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void PostTestCleanup(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void TestCleanupFailed(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void TestsArrangeFailed(object sender, Exception e) { }
+    protected virtual void PreTestsAct(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void PreTestsArrange(object sender
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void PostTestsAct(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+    protected virtual void PostTestsArrange(object sender,
+                                    TestWorkflowPluginEventArgs e) { }
+
+    protected List<dynamic> GetAllAttributes<TAttribute>(MemberInfo memberInfo)
+        where TAttribute : Attribute
+    {
+        var classAttributes = GetClassAttributes<TAttribute>(memberInfo.DeclaringType);
+        var methodAttributes = GetMethodAttributes<TAttribute>(memberInfo);
+        var attributes = classAttributes.ToList();
+        attributes.AddRange(methodAttributes);
+        return attributes;
+    }
+
+    protected TAttribute GetOverridenAttribute<TAttribute>(MemberInfo memberInfo)
+        where TAttribute : Attribute
+    {
+        var classAttribute = GetClassAttribute<TAttribute>(memberInfo.DeclaringType);
+        var methodAttribute = GetMethodAttribute<TAttribute>(memberInfo);
+        if (methodAttribute != null)
+        {
+            return methodAttribute;
+        }
+        return classAttribute;
+    }
+
+    protected dynamic GetClassAttribute<TAttribute>(Type currentType)
+        where TAttribute : Attribute
+    {
+        var classAttribute = currentType.GetCustomAttribute<TAttribute>(true);
+        return classAttribute;
+    }
+
+    protected dynamic GetMethodAttribute<TAttribute>(MemberInfo memberInfo)
+        where TAttribute : Attribute
+    {
+        var methodAttribute = memberInfo?.GetCustomAttribute<TAttribute>(true);
+        return methodAttribute;
+    }
+
+    protected IEnumerable<dynamic> GetClassAttributes<TAttribute>(Type currentType)
+        where TAttribute : Attribute
+    {
+        var classAttributes = currentType.GetCustomAttributes<TAttribute>(true);
+        return classAttributes;
+    }
+
+    protected IEnumerable<dynamic> GetMethodAttributes<TAttribute>(MemberInfo memberInfo)
+        where TAttribute : Attribute
+    {
+        var methodAttributes = memberInfo?.GetCustomAttributes<TAttribute>(true);
+        return methodAttributes;
+    }
+}
+```
+
+```csharp
+public interface ITestWorkflowPluginProvider
+{
+    event EventHandler<TestWorkflowPluginEventArgs> PreTestInitEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> TestInitFailedEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PostTestInitEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PreTestCleanupEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PostTestCleanupEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> TestCleanupFailedEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PreTestsActEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PreTestsArrangeEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PostTestsActEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PostTestsArrangeEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PreTestsCleanupEvent;
+    event EventHandler<TestWorkflowPluginEventArgs> PostTestsCleanupEvent;
+    event EventHandler<Exception> TestsCleanupFailedEvent;
+    event EventHandler<Exception> TestsArrangeFailedEvent;
+}
+```
+
+```csharp
+public class TestWorkflowPluginProvider : ITestWorkflowPluginProvider
+{
+    public event EventHandler<TestWorkflowPluginEventArgs> PreTestInitEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> TestInitFailedEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PostTestInitEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PreTestCleanupEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PostTestCleanupEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> TestCleanupFailedEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PreTestsActEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PreTestsArrangeEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PostTestsActEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PostTestsArrangeEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PreTestsCleanupEvent;
+    public event EventHandler<TestWorkflowPluginEventArgs> PostTestsCleanupEvent;
+    public event EventHandler<Exception> TestsCleanupFailedEvent;
+    public event EventHandler<Exception> TestsArrangeFailedEvent;
+
+    public void PreTestsArrange(Type testClassType)
+        => RaiseClassTestEvent(PreTestsArrangeEvent, TestOutcome.Unknown, testClassType);
+
+    public void TestsArrangeFailed(Exception ex)
+        => TestsArrangeFailedEvent.Invoke(this, ex);
+
+    public void PostTestsArrange(Type testClassType)
+        => RaiseClassTestEvent(PostTestsArrangeEvent, TestOutcome.Unknown, testClassType);
+
+    public void PreTestsAct(Type testClassType)
+        => RaiseClassTestEvent(PreTestsActEvent, TestOutcome.Unknown, testClassType);
+
+    public void PostTestsAct(Type testClassType)
+        => RaiseClassTestEvent(PostTestsActEvent, TestOutcome.Unknown, testClassType);
+
+    public void PreTestInit(string testName, MemberInfo testMethodMemberInfo, Type testClassType, List<string> categories, List<string> authors, List <string> descriptions)
+        => RaiseTestEvent(PreTestInitEvent, TestOutcome.Unknown, testName, testMethodMemberInfo, testClassType, categories, authors, descriptions);
+
+    public void TestInitFailed(Exception ex, string testName, MemberInfo testMethodMemberInfo, Type testClassType, List<string> categories, List < string > authors, List < string > descriptions)
+        => RaiseTestEvent(TestInitFailedEvent, TestOutcome.Failed, testName, testMethodMemberInfo, testClassType, categories, authors, descriptions, ex.Message, ex.StackTrace);
+
+    public void PostTestInit(string testName, MemberInfo testMethodMemberInfo, Type testClassType, List<string > categories, List<string> authors, List<string> descriptions)
+        => RaiseTestEvent(PostTestInitEvent, TestOutcome.Unknown, testName, testMethodMemberInfo, testClassType, categories, authors, descriptions);
+
+    public void PreTestCleanup(TestOutcome testOutcome, string testName, MemberInfo testMethodMemberInfo, Type testClassType, List<string> categories, List<string> authors, List<string>descriptions, string message, string stackTrace, Exception exception)
+        => RaiseTestEvent(PreTestCleanupEvent, testOutcome, testName, testMethodMemberInfo, testClassType, categories, authors, descriptions, message, stackTrace, exception);
+
+    public void TestCleanupFailed(Exception ex, string testName, MemberInfo testMethodMemberInfo, Type testClassType, List < string > categories, List < string > authors, List < string > descriptions) => RaiseTestEvent(TestCleanupFailedEvent, TestOutcome.Failed, testName, testMethodMemberInfo, testClassType, categories, authors, descriptions, ex.Message, ex.StackTrace);
+
+    public void PostTestCleanup(TestOutcome testOutcome, string testName, MemberInfo testMethodMemberInfo, Type testClassType, List<string> categories, List<string> authors, List<string> descriptions, string message, string stackTrace, Exception exception)
+        => RaiseTestEvent(PostTestCleanupEvent, testOutcome, testName, testMethodMemberInfo, testClassType, categories, authors, descriptions, message, stackTrace, exception);
+
+    public void PreClassCleanup(Type testClassType)
+        => RaiseClassTestEvent(PreTestsCleanupEvent, TestOutcome.Unknown, testClassType);
+    public void TestsCleanupFailed(Exception ex)
+        => TestsCleanupFailedEvent?.Invoke(this, ex);
+    public void PostClassCleanup(Type testClassType)
+        => RaiseClassTestEvent(PostTestsCleanupEvent, TestOutcome.Unknown, testClassType);
+
+    private void RaiseClassTestEvent(EventHandler<TestWorkflowPluginEventArgs> eventHandler, TestOutcome testOutcome, Type testClassType)
+    {
+        var args = new TestWorkflowPluginEventArgs(testOutcome, testClassType);
+        eventHandler?.Invoke(this, args);
+    }
+
+    private void RaiseTestEvent(
+        EventHandler<TestWorkflowPluginEventArgs> eventHandler,
+        TestOutcome testOutcome,
+        string testName,
+        MemberInfo testMethodMemberInfo,
+        Type testClassType,
+        List<string> categories,
+        List<string> authors,
+        List<string> descriptions,
+        string message = null,
+        string stackTrace = null,
+        Exception exception = null)
+    {
+        var args = new TestWorkflowPluginEventArgs(testOutcome, testName, testMethodMemberInfo, testClassType, message, stackTrace, exception, categories, authors, descriptions);
+        eventHandler?.Invoke(this, args);
+    }
+}
+```
+
+```csharp
+[TestClass]
+public class MSTestBaseTest
+{
+    public IServicesCollection Container;
+    protected MSTestExecutionContext &#1045;xecutionContext;
+    private static readonly List<string> TypeForAlreadyExecutedClassInits =
+            new List<string>();
+    private TestWorkflowPluginProvider _currentTestExecutionProvider;
+    public TestContext TestContext { get; set; }
+
+    [TestInitialize]
+    public void CoreTestInit()
+    {
+        &#1045;xecutionContext = new MSTestExecutionContext(TestContext);
+        var testMethodMemberInfo = GetCurrentExecutionMethodInfo(&(ExecutionContext);
+        var testClassType = GetCurrentExecutionTestClassType(&#1045;xecutionContext);
+        ExecuteActArrangePhases();
+        Container = ServicesCollection.Current.FindCollection(testClassType.FullName);
+        Container.RegisterInstance<ExecutionContext>(&#1045;xecutionContext);
+        _currentTestExecutionProvider = new TestWorkflowPluginProvider();
+        InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
+        var categories = GetAllTestCategories(testMethodMemberInfo);
+        var authors = GetAllAuthors(testMethodMemberInfo);
+        var descriptions = GetAllDescriptions(testMethodMemberInfo);
+        try
+        {
+            Initialize();
+
+            _currentTestExecutionProvider.PreTestInit(
+            &#1045;xecutionContext.TestName,testMethodMemberInfo, testClassType,
+            categories, authors, descriptions);
+
+            TestInit();
+
+            _currentTestExecutionProvider.PostTestInit(
+            &#1045;xecutionContext.TestName,testMethodMemberInfo, testClassType,
+            categories, authors, descriptions);
+        }
+        catch (Exception ex)
+        {
+            _currentTestExecutionProvider.TestInitFailed(ex,
+            &#1045;xecutionContext.TestName,testMethodMemberInfo,
+            testClassType, categories, authors, descriptions);
+            throw;
+        }
+    }
+
+    [TestCleanup]
+    public void CoreTestCleanup()
+    {
+        if(&#1045;xecutionContext == null)
+        {
+            &#1045;xecutionContext = new MSTestExecutionContext(TestContext);
+        }
+
+        var testMethodMemberInfo = GetCurrentExecutionMethodInfo(&#1045;xecutionContext);
+        var testClassType = GetCurrentExecutionTestClassType(&#1045;xecutionContext);
+        var categories = GetAllTestCategories(testMethodMemberInfo);
+        var authors = GetAllAuthors(testMethodMemberInfo);
+        var descriptions = GetAllDescriptions(testMethodMemberInfo);
+        Container = ServicesCollection.Current.FindCollection(testClassType.FullName);
+        Container.RegisterInstance<ExecutionContext>(&#1045;xecutionContext);
+        _currentTestExecutionProvider = new TestWorkflowPluginProvider();
+        InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
+        try
+        {
+            _currentTestExecutionProvider.PreTestCleanup(
+            (TestOutcome) &#1045;xecutionContext.TestOutcome,
+            &#1045;xecutionContext.TestName, testMethodMemberInfo, testClassType,
+            categories, authors, descriptions,
+            &#1045;xecutionContext.ExceptionMessage,
+            &#1045;xecutionContext.ExceptionStackTrace, &#1045;xecutionContext.Exception);
+
+            TestCleanup();
+
+            _currentTestExecutionProvider.PostTestCleanup(
+            (TestOutcome) &#1045;xecutionContext.TestOutcome,
+            &#1045;xecutionContext.TestName, testMethodMemberInfo, testClassType,
+            categories, authors, descriptions,
+            &#1045;xecutionContext.ExceptionMessage,
+            &#1045;xecutionContext.ExceptionStackTrace, &#1045;xecutionContext.Exception);
+        }
+        catch (Exception ex)
+        {
+            _currentTestExecutionProvider.TestCleanupFailed(ex,
+            &#1045;xecutionContext.TestName, testMethodMemberInfo, testClassType,
+            categories, authors, descriptions);
+            throw;
+        }
+    }
+
+    public virtual void Initialize() {}
+    public virtual void TestsArrange() {}
+    public virtual void TestsAct() {}
+    public virtual void TestInit() {}
+    public virtual void TestCleanup() {}
+    public virtual void TestsCleanup() {}
+    protected static bool IsDebugRun()
+    {
+        #if DEBUG
+        var isDebug = true;
+        #else
+        bool isDebug = false;
+        #endif
+        return isDebug;
+    }
+
+    private List<string> GetAllTestCategories(MemberInfo memberInfo)
+    {
+        var categories = new List<string>();
+        var testCategoryAttributes = GetAllAttributes<TestCategoryAttribute>(memberInfo);
+        foreach(var testCategoryAttribute in testCategoryAttributes)
+        {
+            categories.AddRange(testCategoryAttribute.TestCategories);
+        }
+
+        return categories;
+    }
+
+    private List<string> GetAllAuthors(MemberInfo memberInfo)
+    {
+        var authors = new List < string > ();
+        var ownerAttributes = GetAllAttributes < OwnerAttribute > (memberInfo);
+        foreach(var ownerAttribute in ownerAttributes)
+        {
+            authors.Add(ownerAttribute.Owner);
+        }
+
+        return authors;
+    }
+
+    private List<string> GetAllDescriptions(MemberInfo memberInfo)
+    {
+        var descriptions = new List<string>();
+        var descriptionAttributes = GetAllAttributes < DescriptionAttribute > (memberInfo);
+        foreach(var descriptionAttribute in descriptionAttributes)
+        {
+            descriptions.Add(descriptionAttribute.Description);
+        }
+
+        return descriptions;
+    }
+
+    private void InitializeTestExecutionBehaviorObservers( TestWorkflowPluginProvider testExecutionProvider)
+    {
+        var observers = ServicesCollection.Current.ResolveAll<TestWorkflowPlugin>();
+        foreach(var observer in observers)
+        {
+            observer.Subscribe(testExecutionProvider);
+        }
+    }
+
+    private void ExecuteActArrangePhases()
+    {
+        try
+        {
+            var testClassType = GetCurrentExecutionTestClassType(&#1045;xecutionContext);
+            if (!TypeForAlreadyExecutedClassInits.Contains(&#1045;xecutionContext.TestClassName))
+            {
+                Container = ServicesCollection.Current
+                            .CreateChildServicesCollection(testClassType.FullName);
+                Container.RegisterInstance(Container);
+                Container.RegisterInstance<ExecutionContext>(&#1045;xecutionContext);
+                _currentTestExecutionProvider = new TestWorkflowPluginProvider();
+                InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
+                TypeForAlreadyExecutedClassInits.Add(&#1045;xecutionContext.TestClassName);
+                _currentTestExecutionProvider.PreTestsArrange(testClassType);
+                Initialize();
+                TestsArrange();
+                _currentTestExecutionProvider.PostTestsArrange(testClassType);
+                _currentTestExecutionProvider.PreTestsAct(testClassType);
+                TestsAct();
+                _currentTestExecutionProvider.PostTestsAct(testClassType);
+            }
+        }
+        catch (Exception ex)
+        {
+            _currentTestExecutionProvider.TestsArrangeFailed(ex);
+        }
+    }
+
+    private MethodInfo GetCurrentExecutionMethodInfo(MSTestExecutionContext executionContext)
+    {
+        var memberInfo = GetCurrentExecutionTestClassType(executionContext)
+                            .GetMethod(executionContext.TestName);
+        return memberInfo;
+    }
+
+    private Type GetCurrentExecutionTestClassType(MSTestExecutionContext executionContext)
+    {
+        var testClassType = GetType().Assembly.GetType(executionContext.TestClassName);
+        return testClassType;
+    }
+
+    private List<TAttribute> GetAllAttributes<TAttribute>(MemberInfo memberInfo)
+        where TAttribute: Attribute
+    {
+        var allureClassAttributes = GetClassAttributes<TAttribute>(memberInfo.DeclaringType);
+        var allureMethodAttributes = GetMethodAttributes<TAttribute>(memberInfo);
+        var allAllureAttributes = allureClassAttributes.ToList();
+        allAllureAttributes.AddRange(allureMethodAttributes);
+        return allAllureAttributes;
+    }
+
+    private IEnumerable<TAttribute> GetClassAttributes<TAttribute>(Type currentType)
+        where TAttribute: Attribute
+    {
+        var classAttributes = currentType.GetCustomAttributes<TAttribute>(true);
+        return classAttributes;
+    }
+
+    private IEnumerable<TAttribute> GetMethodAttributes<TAttribute> (MemberInfo memberInfo)
+        where TAttribute: Attribute
+    {
+        var methodAttributes = memberInfo.GetCustomAttributes<TAttribute>(true);
+        return methodAttributes;
+    }
+}
+```
+
+```csharp
+[TestClass]
+public class MSTestBaseTest
+{
+    public IServicesCollection Container;
+    protected MSTestExecutionContext &#1045;xecutionContext;
+    private static readonly List<string> TypeForAlreadyExecutedClassInits =
+            new List<string>();
+    private TestWorkflowPluginProvider _currentTestExecutionProvider;
+    public TestContext TestContext { get; set; }
+
+    [TestInitialize]
+    public void CoreTestInit()
+    {
+        &#1045;xecutionContext = new MSTestExecutionContext(TestContext);
+        var testMethodMemberInfo = GetCurrentExecutionMethodInfo(&#1045;xecutionContext);
+        var testClassType = GetCurrentExecutionTestClassType(&#1045;xecutionContext);
+        ExecuteActArrangePhases();
+        Container = ServicesCollection.Current.FindCollection(testClassType.FullName);
+        Container.RegisterInstance<ExecutionContext>(&#1045;xecutionContext);
+        _currentTestExecutionProvider = new TestWorkflowPluginProvider();
+        InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
+        var categories = GetAllTestCategories(testMethodMemberInfo);
+        var authors = GetAllAuthors(testMethodMemberInfo);
+        var descriptions = GetAllDescriptions(testMethodMemberInfo);
+        try
+        {
+            Initialize();
+
+            _currentTestExecutionProvider.PreTestInit(
+            &#1045;xecutionContext.TestName,testMethodMemberInfo, testClassType,
+            categories, authors, descriptions);
+
+            TestInit();
+
+            _currentTestExecutionProvider.PostTestInit(
+            &#1045;xecutionContext.TestName,testMethodMemberInfo, testClassType,
+            categories, authors, descriptions);
+        }
+        catch (Exception ex)
+        {
+            _currentTestExecutionProvider.TestInitFailed(ex,
+            &#1045;xecutionContext.TestName,testMethodMemberInfo,
+            testClassType, categories, authors, descriptions);
+            throw;
+        }
+    }
+
+    [TestCleanup]
+    public void CoreTestCleanup()
+    {
+        if(&#1045;xecutionContext == null)
+        {
+            &#1045;xecutionContext = new MSTestExecutionContext(TestContext);
+        }
+
+        var testMethodMemberInfo = GetCurrentExecutionMethodInfo(&#1045;xecutionContext);
+        var testClassType = GetCurrentExecutionTestClassType(&#1045;xecutionContext);
+        var categories = GetAllTestCategories(testMethodMemberInfo);
+        var authors = GetAllAuthors(testMethodMemberInfo);
+        var descriptions = GetAllDescriptions(testMethodMemberInfo);
+        Container = ServicesCollection.Current.FindCollection(testClassType.FullName);
+        Container.RegisterInstance<ExecutionContext>(&#1045;xecutionContext);
+        _currentTestExecutionProvider = new TestWorkflowPluginProvider();
+        InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
+        try
+        {
+            _currentTestExecutionProvider.PreTestCleanup(
+            (TestOutcome) &#1045;xecutionContext.TestOutcome,
+            &#1045;xecutionContext.TestName, testMethodMemberInfo, testClassType,
+            categories, authors, descriptions,
+            &#1045;xecutionContext.ExceptionMessage,
+            &#1045;xecutionContext.ExceptionStackTrace, &#1045;xecutionContext.Exception);
+
+            TestCleanup();
+
+            _currentTestExecutionProvider.PostTestCleanup(
+            (TestOutcome) &#1045;xecutionContext.TestOutcome,
+            &#1045;xecutionContext.TestName, testMethodMemberInfo, testClassType,
+            categories, authors, descriptions,
+            &#1045;xecutionContext.ExceptionMessage,
+            &#1045;xecutionContext.ExceptionStackTrace, &#1045;xecutionContext.Exception);
+        }
+        catch (Exception ex)
+        {
+            _currentTestExecutionProvider.TestCleanupFailed(ex,
+            &#1045;xecutionContext.TestName, testMethodMemberInfo, testClassType,
+            categories, authors, descriptions);
+            throw;
+        }
+    }
+
+    public virtual void Initialize() {}
+    public virtual void TestsArrange() {}
+    public virtual void TestsAct() {}
+    public virtual void TestInit() {}
+    public virtual void TestCleanup() {}
+    public virtual void TestsCleanup() {}
+    protected static bool IsDebugRun()
+    {
+        #if DEBUG
+        var isDebug = true;
+        #else
+        bool isDebug = false;
+        #endif
+        return isDebug;
+    }
+
+    private List<string> GetAllTestCategories(MemberInfo memberInfo)
+    {
+        var categories = new List<string>();
+        var testCategoryAttributes = GetAllAttributes<TestCategoryAttribute>(memberInfo);
+        foreach(var testCategoryAttribute in testCategoryAttributes)
+        {
+            categories.AddRange(testCategoryAttribute.TestCategories);
+        }
+
+        return categories;
+    }
+
+    private List<string> GetAllAuthors(MemberInfo memberInfo)
+    {
+        var authors = new List < string > ();
+        var ownerAttributes = GetAllAttributes < OwnerAttribute > (memberInfo);
+        foreach(var ownerAttribute in ownerAttributes)
+        {
+            authors.Add(ownerAttribute.Owner);
+        }
+
+        return authors;
+    }
+
+    private List<string> GetAllDescriptions(MemberInfo memberInfo)
+    {
+        var descriptions = new List<string>();
+        var descriptionAttributes = GetAllAttributes < DescriptionAttribute > (memberInfo);
+        foreach(var descriptionAttribute in descriptionAttributes)
+        {
+            descriptions.Add(descriptionAttribute.Description);
+        }
+
+        return descriptions;
+    }
+
+    private void InitializeTestExecutionBehaviorObservers( TestWorkflowPluginProvider testExecutionProvider)
+    {
+        var observers = ServicesCollection.Current.ResolveAll<TestWorkflowPlugin>();
+        foreach(var observer in observers)
+        {
+            observer.Subscribe(testExecutionProvider);
+        }
+    }
+
+    private void ExecuteActArrangePhases()
+    {
+        try
+        {
+            var testClassType = GetCurrentExecutionTestClassType(&#1045;xecutionContext);
+            if (!TypeForAlreadyExecutedClassInits.Contains(&#1045;xecutionContext.TestClassName))
+            {
+                Container = ServicesCollection.Current
+                            .CreateChildServicesCollection(testClassType.FullName);
+                Container.RegisterInstance(Container);
+                Container.RegisterInstance<ExecutionContext>(&#1045;xecutionContext);
+                _currentTestExecutionProvider = new TestWorkflowPluginProvider();
+                InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
+                TypeForAlreadyExecutedClassInits.Add(&#1045;xecutionContext.TestClassName);
+                _currentTestExecutionProvider.PreTestsArrange(testClassType);
+                Initialize();
+                TestsArrange();
+                _currentTestExecutionProvider.PostTestsArrange(testClassType);
+                _currentTestExecutionProvider.PreTestsAct(testClassType);
+                TestsAct();
+                _currentTestExecutionProvider.PostTestsAct(testClassType);
+            }
+        }
+        catch (Exception ex)
+        {
+            _currentTestExecutionProvider.TestsArrangeFailed(ex);
+        }
+    }
+
+    private MethodInfo GetCurrentExecutionMethodInfo(MSTestExecutionContext executionContext)
+    {
+        var memberInfo = GetCurrentExecutionTestClassType(executionContext)
+                            .GetMethod(executionContext.TestName);
+        return memberInfo;
+    }
+
+    private Type GetCurrentExecutionTestClassType(MSTestExecutionContext executionContext)
+    {
+        var testClassType = GetType().Assembly.GetType(executionContext.TestClassName);
+        return testClassType;
+    }
+
+    private List<TAttribute> GetAllAttributes<TAttribute>(MemberInfo memberInfo)
+        where TAttribute: Attribute
+    {
+        var allureClassAttributes = GetClassAttributes<TAttribute>(memberInfo.DeclaringType);
+        var allureMethodAttributes = GetMethodAttributes<TAttribute>(memberInfo);
+        var allAllureAttributes = allureClassAttributes.ToList();
+        allAllureAttributes.AddRange(allureMethodAttributes);
+        return allAllureAttributes;
+    }
+
+    private IEnumerable<TAttribute> GetClassAttributes<TAttribute>(Type currentType)
+        where TAttribute: Attribute
+    {
+        var classAttributes = currentType.GetCustomAttributes<TAttribute>(true);
+        return classAttributes;
+    }
+
+    private IEnumerable<TAttribute> GetMethodAttributes<TAttribute> (MemberInfo memberInfo)
+        where TAttribute: Attribute
+    {
+        var methodAttributes = memberInfo.GetCustomAttributes<TAttribute>(true);
+        return methodAttributes;
+    }
+}
+```
+
+```csharp
+[TestClass]
+[ScreenshotOnFail(true)]
+[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
+public class FullPageScreenshotsOnFailTests : WebTest
+{
+    public override void TestInit()
+    {
+        App.NavigationService
+            .Navigate("http://demos.bellatrix.solutions/");
+    }
+
+    [TestMethod]
+    public void PromotionsPageOpened_When_PromotionsButtonClicked()
+    {
+        var promotionsLink = App.ElementCreateService
+            .CreateByLinkText<Anchor>("Promotions");
+
+        promotionsLink.Click();
+    }
+
+    [TestMethod]
+    public void BlogsPageOpened_When_BlogsButtonClicked()
+    {
+        var blogsLink = App.ElementCreateService
+            .CreateByLinkText<Anchor>("Blogs");
+
+        blogsLink.Click();
+    }
+}
+```
+
+## Enterprise Test Automation Framework: Logging Module Design
+
+```json
+"logging": {
+    "isEnabled": true,
+    "isConsoleLoggingEnabled": true,
+    "isDebugLoggingEnabled": true,
+    "isFileLoggingEnabled": true,
+    "outputTemplate": "[{Timestamp:HH:mm:ss}] {Message:lj}{NewLine}"
+}
+```
+
+```xml
+<PackageReference Include="Bellatrix.ServicesCollection" Version="2.0.1" />
+<PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.9" />
+<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.9" />
+<PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="3.1.9" />
+<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.9" />
+<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.9" />
+<PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
+<PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+<PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+<PackageReference Include="Serilog.Sinks.Debug" Version="1.0.1" />
+<PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+```
+
+```csharp
+public interface IBellaLogger
+{
+    void LogInformation(string message, params object[] args);
+
+    void LogWarning(string message, params object[] args);
+}
+```
+
+```csharp
+public class LoggingSettings
+{
+    public bool IsEnabled { get; set; }
+
+    public bool IsConsoleLoggingEnabled { get; set; }
+
+    public bool IsDebugLoggingEnabled { get; set; }
+
+    public bool IsFileLoggingEnabled { get; set; }
+
+    public string OutputTemplate { get; set; }
+}
+```
+
+```csharp
+public class BellaLogger: IBellaLogger
+{
+    private readonly ILogger _logger;
+
+    static BellaLogger()
+    {
+        var loggingSettings = ConfigurationService.Instance
+                              .Root.GetSection("logging")?
+                              .Get<LoggingSettings>();
+        var loggerConfiguration = new LoggerConfiguration();
+
+        if (loggingSettings != null
+            && loggingSettings.IsEnabled)
+        {
+            if (loggingSettings.IsConsoleLoggingEnabled)
+            {
+                loggerConfiguration.WriteTo.Console(outputTemplate: loggingSettings.OutputTemplate);
+            }
+
+            if (loggingSettings.IsDebugLoggingEnabled)
+            {
+                loggerConfiguration.WriteTo.Debug(outputTemplate: loggingSettings.OutputTemplate);
+            }
+
+            if (loggingSettings.IsFileLoggingEnabled)
+            {
+                loggerConfiguration.WriteTo.File("bellatrix-log.txt",
+                                    rollingInterval: RollingInterval.Day,
+                                    outputTemplate: loggingSettings.OutputTemplate);
+            }
+        }
+
+        Log.Logger = loggerConfiguration.CreateLogger();
+    }
+
+    public BellaLogger(ILogger logger)
+            => _logger = logger;
+
+    public void LogInformation(string message, params object[] args)
+    {
+        try
+        {
+            _logger.Information(message, args);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
+    }
+
+    public void LogWarning(string message, params object[] args)
+    {
+        try
+        {
+            _logger.Warning(message, args);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
+    }
+}
+```
+
+```csharp
+public static class DebugLogger
+{
+    private static readonly IBellaLogger s_logger;
+
+    static DebugLogger()
+    {
+        s_logger = new BellaLogger(Log.Logger);
+    }
+
+    public static void LogInformation(string message, params object[] args)
+    {
+        s_logger.LogInformation(message, args);
+    }
+
+    public static void LogWarning(string message, params object[] args)
+    {
+        s_logger.LogWarning(message, args);
+    }
+}
+```
+
+```csharp
+protected override void PostTestCleanup(object sender, TestWorkflowPluginEventArgs e)
+{
+    if (!ConfigurationService.Instance.GetDynamicTestCasesSettings().IsEnabled)
+    {
+        return;
+    }
+
+    base.PostTestCleanup(sender, e);
+
+    try
+    {
+        if (e.TestOutcome == TestOutcome.Passed
+            && _dynamicTestCasesService?.Context != null)
+        {
+            _dynamicTestCasesService.Context.TestCase =
+                _testCaseManagementService.InitTestCase(_dynamicTestCasesService.Context);
+        }
+    }
+    catch (Exception ex)
+    {
+        DebugLogger.LogWarning($"Test case failed to update, {ex.Message}");
+    }
+
+    _dynamicTestCasesService?.ResetContext();
+}
+```
+
+```csharp
+public class QTestTestCaseManagementService : ITestCaseManagementService
+{
+    private QT.TestDesignService _testDesignService;
+    private QT.ProjectService _projectService;
+    private IBellaLogger _bellaLogger;
+
+    public QTestTestCaseManagementService(IBellaLogger bellaLogger)
+    {
+        // we must login first to be able to make any request to the server
+        // or we will get 401 error
+        try
+        {
+            LoginToService(_testDesignService = new QT.TestDesignService(ConfigurationService.Instance.GetQTestDynamicTestCasesSettings().ServiceAddress));
+            LoginToService(_projectService = new QT.ProjectService(ConfigurationService.Instance.GetQTestDynamicTestCasesSettings().ServiceAddress));
+        }
+        catch (Exception ex)
+        {
+            bellaLogger.LogWarning($"qTest Login was unsuccesful, {ex.Message}");
+        }
+    }
+}
+```
+
+## Enterprise Test Automation Framework: Inversion of Control Containers
+
+```csharp
+public interface ILogger
+{
+    void CreateLogEntry(string errorMessage);
+}
+```
+
+```csharp
+public class FileLogger: ILogger
+{
+    public void CreateLogEntry(string errorMessage)
+    {
+        File.WriteAllText(@"C:exceptions.txt", errorMessage);
+    }
+}
+
+public class EmailLogger: ILogger {
+    public void CreateLogEntry(string errorMessage)
+    {
+        EmailFactory.SendEmail(errorMessage);
+    }
+}
+
+public class SmsLogger: ILogger
+{
+    public void CreateLogEntry(string errorMessage)
+    }
+        SmsFactory.SendSms(errorMessage);
+    }
+}
+```
+
+```csharp
+public class CustomerOrder
+{
+    public void Create(OrderType orderType)
+    {
+        try {
+
+            // Database code goes here
+        }
+        catch (Exception ex)
+        {
+            switch (orderType)
+            {
+            case OrderType.Platinum:
+                new SmsLogger().CreateLogEntry(ex.Message);
+                break;
+            case OrderType.Gold:
+                new EmailLogger().CreateLogEntry(ex.Message);
+                break;
+            default:
+                new FileLogger().CreateLogEntry(ex.Message);
+                break;
+            }
+        }
+    }
+}
+```
+
+```csharp
+public class CustomerOrder
+{
+    private ILogger _logger;
+    public CustomerOrder(ILogger logger)
+    {
+        _logger = logger;
+    }
+
+    public void Create()
+    {
+        try
+        {
+            // Database code goes here
+        }
+        catch (Exception ex)
+        {
+            _logger.CreateLogEntry(ex.Message);
+        }
+    }
+}
+
+public class GoldCustomerOrder : CustomerOrder
+{
+    public GoldCustomerOrder() : base(new EmailLogger()) {}
+}
+
+public class PlatinumCustomerOrder : CustomerOrder
+{
+    public PlatinumCustomerOrder() : base(new SmsLogger()) {}
+}
+```
+
+```csharp
+public interface IServicesResolvingCollection {
+    T Resolve<T>(bool shouldThrowResolveException = false);
+    T Resolve<T>(string name, bool shouldThrowResolveException = false);
+    object Resolve(Type type, bool shouldThrowResolveException = false);
+    T Resolve<T>(bool shouldThrowResolveException = false,
+        params OverrideParameter[] overrides);
+    IEnumerable<T> ResolveAll<T>(bool shouldThrowResolveException = false);
+    IEnumerable<T> ResolveAll<T> (bool shouldThrowResolveException = false,
+        params OverrideParameter[] overrides);
+}
+```
+
+```csharp
+public interface IServicesRegisteringCollection
+{
+    bool IsRegistered<TInstance>();
+    void RegisterType<TFrom>();
+    void RegisterSingleInstance <TFrom,TTo>(InjectionConstructor injectionConstructor)
+                                where TTo : TFrom;
+    void RegisterSingleInstance<TFrom>(Type instanceType, InjectionConstructor injectionConstructor);
+    void UnregisterSingleInstance<TFrom>();
+    void UnregisterSingleInstance<TFrom>(string name);
+    void RegisterType<TFrom,TTo>(string name, InjectionConstructor injectionConstructor)
+                     where TTo : TFrom;
+    void RegisterNull<TFrom>();
+    void RegisterType<TFrom>(bool shouldUseSingleton);
+    void RegisterType<TFrom,TTo>()
+                    where TTo : TFrom;
+    void RegisterType<TFrom,TTo>(string name)
+                    where TTo : TFrom;
+    void RegisterType<TFrom,TTo>(bool shouldUseSingleton)
+                    where TTo : TFrom;
+    void RegisterInstance<TFrom>(TFrom instance, bool shouldUseSingleton = false);
+    void RegisterInstance<TFrom>(TFrom instance, string name);
+    object CreateInjectionParameter<TInstance>();
+    object CreateValueParameter(object value);
+}
+```
+
+```csharp
+public interface IServicesCollection : IServicesRegisteringCollection,
+                 IServicesResolvingCollection, IDisposable
+{
+    List <IServicesCollection> GetChildServicesCollections();
+    IServicesCollection CreateChildServicesCollection(string collectionName);
+    IServicesCollection FindCollection(string collectionName);
+    bool IsPresentServicesCollection(string collectionName);
+}
+```
+
+```csharp
+public class UnityServicesCollection : IServicesCollection
+{
+    private readonly IUnityContainer _container;
+    private readonly Dictionary<string,IServicesCollection> _containers;
+    private readonly object _lockObject = new object();
+    private bool _isDisposed;
+
+    public UnityServicesCollection()
+    {
+        _containers = new Dictionary<string,IServicesCollection>();
+    }
+
+    public UnityServicesCollection(IUnityContainer container)
+    {
+        _container = container;
+        _containers = new Dictionary<string,IServicesCollection>();
+    }
+
+    public T Resolve<T>(bool shouldThrowResolveException = false)
+    {
+        T result = default;
+        try
+        {
+            lock(_lockObject)
+            {
+                result = _container.Resolve<T>();
+            }
+        }
+        catch (Exception ex)
+        {
+            if (shouldThrowResolveException)
+            {
+                throw;
+            }
+        }
+
+        return result;
+    }
+
+    public IEnumerable<T> ResolveAll<T>(bool shouldThrowResolveException = false)
+    {
+        IEnumerable <T> result;
+        try
+        {
+            lock(_lockObject)
+            {
+                result = _container.ResolveAll<T>();
+            }
+        }
+        catch (Exception ex)
+        {
+            if (ex.InnerException != null && shouldThrowResolveException)
+            {
+                throw ex.InnerException;
+            }
+
+            throw;
+        }
+
+        return result;
+    }
+
+    public void RegisterType<TFrom,TTo>()
+                            where TTo: TFrom
+    {
+        lock(_lockObject)
+        {
+            _container.RegisterType<TFrom,TTo>();
+        }
+    }
+
+    public void RegisterType<TFrom,TTo>(bool useSingleInstance)
+                             where TTo: TFrom
+    {
+        lock(_lockObject)
+        {
+            _container.RegisterType<TFrom,TTo>(
+                new ContainerControlledLifetimeManager()
+            );
+        }
+    }
+
+    public void RegisterInstance<TFrom>(TFrom instance, bool useSingleInstance = false)
+    {
+        if (useSingleInstance)
+        {
+            lock(_lockObject)
+            {
+                _container.RegisterInstance(instance,
+                new ContainerControlledLifetimeManager()
+                );
+            }
+        }
+        else
+        {
+            lock(_lockObject)
+            {
+                _container.RegisterInstance(instance);
+            }
+        }
+    }
+
+    public IServicesCollection CreateChildServicesCollection(string collectionName)
+    {
+        lock(_lockObject)
+        {
+            var childNativeContainer = _container.CreateChildContainer();
+            var childServicesCollection =
+                    new UnityServicesCollection(childNativeContainer);
+            if (_containers.ContainsKey(collectionName))
+            {
+                _containers[collectionName] = childServicesCollection;
+            }
+            else
+            {
+                _containers.Add(collectionName, childServicesCollection);
+            }
+
+            return childServicesCollection;
+        }
+    }
+
+    public void Dispose()
+    {
+        if (!_isDisposed)
+        {
+            _container.Dispose();
+            GC.SuppressFinalize(this);
+            _isDisposed = true;
+        }
+    }
+
+    public IServicesCollection FindCollection(string collectionName)
+    {
+        lock(_lockObject)
+        {
+            if (_containers.ContainsKey(collectionName))
+            {
+                return _containers[collectionName];
+            }
+
+            return this;
+        }
+    }
+
+    public bool IsPresentServicesCollection(string collectionName)
+    {
+        lock(_lockObject)
+        {
+            if (_containers.ContainsKey(collectionName))
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    // the rest of the methods
+}
+```
+
+```csharp
+public sealed class ServicesCollection
+{
+    private static IServicesCollection _serviceProvider;
+
+    public static IServicesCollection Main
+    {
+        get
+        {
+            if (_serviceProvider == null)
+            {
+                var unityContainer = new UnityContainer();
+                _serviceProvider = new
+                    UnityServicesCollection(unityContainer);
+                _serviceProvider.RegisterInstance(unityContainer);
+            }
+
+            return _serviceProvider;
+        }
+    }
+}
+
+```
+
+```csharp
+public static void Dispose(IServicesCollection childContainer)
+{
+    var webDriver = childContainer.
+        Resolve<WindowsDriver<WindowsElement>>();
+    webDriver?.Quit();
+    webDriver?.Dispose();
+    childContainer
+        .UnregisterSingleInstance<WindowsDriver<WindowsElement>>();
+    webDriver = ServicesCollection.Main
+        .Resolve<WindowsDriver<WindowsElement>>();
+    webDriver?.Quit();
+    webDriver?.Dispose();
+    ServicesCollection.Main
+        .UnregisterSingleInstance<WindowsDriver<WindowsElement>>();
+}
+```
+
+## Enterprise Test Automation Framework: Define Features Part 3
+
+```csharp
+[TestClass]
+[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
+[DynamicTestCase(SuiteId = "8260474")]
+public class PageObjectsTests : WebTest
+{
+    [TestMethod]
+    [DynamicTestCase(
+        TestCaseId = "4d001440-bf6c-4a8b-b3e6-796cbad361e1",
+        Description = "Create a purchase of a rocket through the online rocket shop http://demos.bellatrix.solutions/")]
+    public void PurchaseRocketWithPageObjects()
+    {
+        App.TestCases
+            .AddPrecondition($"Navigate to http://demos.bellatrix.solutions/");
+        var homePage = App.GoTo<HomePage>();
+        homePage.FilterProducts(ProductFilter.Popularity);
+        homePage.AddProductById(28);
+        homePage.ViewCartButton.Click();
+        var cartPage = App.Create<CartPage>();
+        cartPage.ApplyCoupon("happybirthday");
+        cartPage.ProceedToCheckout.Click();
+        var billingInfo = new BillingInfo
+        {
+            FirstName = "In",
+            LastName = "Deepthought",
+            Company = "Automate The Planet Ltd.",
+            Country = "Bulgaria",
+            Address1 = "bul. Yerusalim 5",
+            Address2 = "bul. Yerusalim 6",
+            City = "Sofia",
+            State = "Sofia-Grad",
+            Zip = "1000",
+            Phone = "+00359894646464",
+            Email = "info@bellatrix.solutions",
+            ShouldCreateAccount = true,
+            OrderCommentsTextArea = "cool product",
+        };
+
+        var checkoutPage = App.Create<CheckoutPage>();
+        checkoutPage.FillBillingInfo(billingInfo);
+        checkoutPage.CheckPaymentsRadioButton.Click();
+    }
+}
+```
+
+```csharp
+[TestClass]
+[SauceLabs(BrowserType.Chrome,
+    "62",
+    "Windows",
+    BrowserBehavior.ReuseIfStarted,
+    recordScreenshots: true,
+    recordVideo: true)]
+public class SauceLabsTests : WebTest
+{
+        [TestMethod]
+        public void PromotionsPageOpened_When_PromotionsButtonClicked()
+        {
+            App.NavigationService
+                .Navigate("http://demos.bellatrix.solutions/");
+            var promotionsLink = App.ElementCreateService
+                                    .CreateByLinkText<Anchor>("Promotions");
+            promotionsLink.Click();
+        }
+}
+```
+
+```csharp
+[TestClass]
+[Selenoid(BrowserType.Chrome, "77",
+          BrowserBehavior.RestartEveryTime,
+          recordVideo: true,
+          enableVnc: true,
+          saveSessionLogs: true)]
+public class SeleniumGridTests : WebTest
+{
+    [TestMethod]
+    public void PromotionsPageOpened_When_PromotionsButtonClicked()
+    {
+        App.NavigationService
+            .Navigate("http://demos.bellatrix.solutions/");
+        var promotionsLink = App.ElementCreateService
+                                .CreateByLinkText<Anchor>("Promotions");
+        promotionsLink.Click();
+    }
+}
+```
+
+```csharp
+Screen.EnsureIsVisible("chrome-print-preview-grid", similarity: 0.7, timeoutInSeconds: 30);
+```
+
+```csharp
+[TestClass]
+[Browser(BrowserType.Chrome,
+        BrowserBehavior.ReuseIfStarted,
+        true)]
+public class DemandPlanningTests : WebTest
+{
+    [TestMethod]
+    [LoadTest]
+    public void NavigateToDemandPlanning()
+    {
+        App.NavigationService
+            .Navigate("http://demos.bellatrix.solutions/");
+        Select sortDropDown = App.ElementCreateService
+                .CreateByNameEndingWith<Select>("orderby");
+        Anchor protonMReadMoreButton = App.ElementCreateService
+                .CreateByInnerTextContaining<Anchor>("Read more");
+        Anchor addToCartFalcon9 = App.ElementCreateService
+                .CreateByAttributesContaining<Anchor>("data-product_id", "28")
+                .ToBeClickable();
+        Anchor viewCartButton = App.ElementCreateService
+                .CreateByClassContaining<Anchor>("added_to_cart wc-forward")
+                .ToBeClickable();
+        sortDropDown.SelectByText("Sort by price: low to high");
+        protonMReadMoreButton.Hover();
+        addToCartFalcon9.Focus();
+        addToCartFalcon9.Click();
+        viewCartButton.Click();
+    }
+}
+```
+
+```csharp
+[TestClass]
+public class DemandPlanningTests : LoadTest
+{
+    [TestMethod]
+    public void NavigateToDemandPlanning()
+    {
+        LoadTestEngine.Settings.LoadTestType = LoadTestType.ExecuteForTime;
+        LoadTestEngine.Settings.MixtureMode = MixtureMode.Equal;
+        LoadTestEngine.Settings.NumberOfProcesses = 1;
+        LoadTestEngine.Settings.PauseBetweenStartSeconds = 0;
+        LoadTestEngine.Settings.SecondsToBeExecuted = 60;
+        LoadTestEngine.Settings.ShouldExecuteRecordedRequestPauses = true;
+        LoadTestEngine.Settings
+                      .IgnoreUrlRequestsPatterns
+                      .Add(".*theming.js.*");
+        LoadTestEngine.Assertions.AssertAllRequestStatusesAreSuccessful();
+        LoadTestEngine.Assertions.AssertAllRecordedEnsureAssertions();
+        LoadTestEngine.Execute("loadTestResults.html");
+    }
+}
+```
+
+```csharp
+[TestClass]
+public class SoftwareManagementAutomationTests
+{
+    private static readonly string AssemblyFolder =
+        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+    private static IWebDriver _driver;
+
+    [AssemblyInitialize]
+    public static void AssemblyInitialize(TestContext testContext)
+    {
+        SoftwareAutomationService.InstallRequiredSoftware();
+    }
+}
+```
+
+```csharp
+[Browser(BrowserType.Chrome,
+         DesktopWindowSize._1280_1024,
+         BrowserBehavior.RestartEveryTime)]
+[TestClass]
+public class LayoutTestingTests : WebTest
+{
+    [TestMethod]
+    public void TestPageLayout()
+    {
+        App.NavigationService
+            .Navigate("http://demos.bellatrix.solutions/");
+        Select sortDropDown = App.ElementCreateService
+            .CreateByNameEndingWith<Select>("orderby");
+        Anchor protonRocketAnchor =App.ElementCreateService
+            .CreateByAttributesContaining<Anchor>("href", "/proton-rocket/");
+        Div saturnVRating = saturnVAnchor
+            .CreateByClassContaining<Div>("star-rating");
+        sortDropDown.AssertAboveOf(protonRocketAnchor, 41);
+        LayoutAssert.AssertAlignedHorizontallyAll(sortDropDown, protonRocketAnchor);
+        saturnVRating.AssertInsideOf(saturnVAnchor);
+        saturnVRating.AssertHeightLessThan(100);
+        saturnVRating.AssertWidthBetween(50, 70);
+    }
+}
+```
+
+```csharp
+[TestMethod]
+[TestCategory(Categories.CI)]
+public void TestStyles()
+{
+    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
+    Anchor protonRocketAnchor = App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/proton-rocket/");
+    Anchor saturnVAnchor = App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/saturn-v/");
+    sortDropDown.AssertFontSize("14px");
+    sortDropDown.AssertFontWeight("400");
+    sortDropDown.AssertFontFamily("Source Sans Pro");
+    protonRocketAnchor.AssertColor("rgba(150, 88, 138, 1)");
+    protonRocketAnchor.AssertBackgroundColor("rgba(0, 0, 0, 0)");
+    protonRocketAnchor.AssertBorderColor("rgb(150, 88, 138)");
+    protonRocketAnchor.AssertTextAlign("center");
+    protonRocketAnchor.AssertVerticalAlign("baseline");
+}
+```
+
+## Enterprise Test Automation Framework: Define Features Part 2
+
+```csharp
+public class ExecutionTimeUnderTestWorkflowPlugin : TestWorkflowPlugin
+{
+    protected override void PostTestInit(object sender,
+        TestWorkflowPluginEventArgs e)
+    {
+        // get the start time
+    }
+
+    protected override void PostTestCleanup(object sender,
+        TestWorkflowPluginEventArgs e)
+    {
+        // total time = start time - current time
+        // IF total time > specified time ===> FAIL TEST
+    }
+}
+```
+
+```csharp
+[AssemblyInitialize]
+public static void AssemblyInitialize(TestContext testContext)
+{
+    Button.OverrideClickGlobally = (e) =>
+    {
+        e.ToExists().ToBeClickable().WaitToBe();
+        App.JavaScriptService.Execute("arguments[0].click();", e);
+    };
+}
+```
+
+```csharp
+Anchor.OverrideFocusLocally = (e) =>
+{
+    App.JavaScriptService.Execute("window.focus();");
+    App.JavaScriptService.Execute("arguments[0].focus();", anchor);
+};
+```
+
+```csharp
+public void ClickingEventHandler(object sender, ElementActionEventArgs arg)
+{
+    Logger.LogInformation($"Click {arg.Element.ElementName}");
+}
+
+public void HoveringEventHandler(object sender, ElementActionEventArgs arg)
+{
+    Logger.LogInformation($"Hover {arg.Element.ElementName}");
+}
+```
+
+```csharp
+public static void OnElementNotFound(object sender, ExceptionEventArgs args)
+{
+    var exceptionAnalyser = new ExceptionAnalyser();
+    exceptionAnalyser.Analyse(args.Exception);
+    throw args.Exception;
+}
+```
+
+```csharp
+public static class ButtonExtensions
+{
+    public static void SubmitButtonWithEnter(this Button button)
+    {
+        var action = new Actions(button.WrappedDriver);
+        action.MoveToElement(button.WrappedElement)
+            .SendKeys(Keys.Enter)
+            .Perform();
+    }
+}
+```
+
+```csharp
+public class ExtendedButton : Button
+{
+    public void SubmitButtonWithEnter()
+    {
+        var action = new Actions(WrappedDriver);
+        action.MoveToElement(WrappedElement)
+            .SendKeys(Keys.Enter)
+            .Perform();
+    }
+}
+```
+
+```csharp
+public static class NavigationServiceExtensions
+{
+    public static void NavigateViaJavaScript(
+        this NavigationService navigationService,
+        string url)
+    {
+        var javaScriptService = new JavaScriptService();
+        javaScriptService.Execute($"window.location.href = '{url}';");
+    }
+}
+```
+
+```csharp
+public class ByIdEndingWith : By
+{
+    public ByIdEndingWith(string value): base(value) {}
+    public override OpenQA.Selenium.By Convert()
+            => OpenQA.Selenium.By.CssSelector($"[id^='{Value}']");
+}
+```
+
+```csharp
+[TestClass]
+[ScreenshotOnFail(true)]
+[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
+public class FullPageScreenshotsOnFailTests : WebTest
+{
+    [TestMethod]
+    public void PromotionsPageOpened_When_PromotionsButtonClicked()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var promotionsLink =
+            App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+        promotionsLink.Click();
+    }
+}
+```
+
+```csharp
+[TestClass]
+[VideoRecording(VideoRecordingMode.OnlyFail)]
+[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
+public class VideoRecordingTests : WebTest
+{
+    [TestMethod]
+    public void PromotionsPageOpened_When_PromotionsButtonClicked()
+    {
+        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+        var promotionsLink =
+            App.ElementCreateService.CreateByLinkText <Anchor>("Promotions");
+        promotionsLink.Click();
+    }
+}
+```
+
+```csharp
+[ExecutionTimeUnder(2)]
+public class MeasuredResponseTimesTests : WebTest
+```
+
+## Enterprise Test Automation Framework: Define Features Part 1
+
+```csharp
+updateCart.EnsureIsDisabled();
+
+```
+
+```csharp
+messageAlert.EnsureIsNotVisible();
+
+```
+
+```csharp
+totalSpan.EnsureInnerTextIs("120.00€", timeout: 30, sleepInterval: 2);
+
+```
+
+```csharp
+IWebElement agreeCheckBox = driver.FindElement(By.Id("agreeChB"));
+agreeCheckBox.Click();
+```
+
+```csharp
+CheckBox agreeCheckBox = App.ElementCreateService.CreateById<CheckBox>("agreeChB");
+agreeCheckBox.Check();
+```
+
+```csharp
+IWebDriver driver = new ChromeDriver();
+driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+```
+
+```csharp
+Thread.Sleep(2000);
+
+```
+
+```csharp
+[Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
+public class BellatrixBrowserBehaviourTests : WebTest
+```
+
+```csharp
+[Browser(BrowserType.FirefoxHeadless, BrowserBehavior.ReuseIfStarted)]
+
+```
+
+```csharp
+IWebElement agreeCheckBox = driver.FindElement(By.Id("agreeChB"));
+agreeCheckBox.Click();
+IWebElement firstNameTextField = driver.FindElement(By.Id("firstName"));
+firstNameTextField.SendKeys("John");
+IWebElement avatarUpload = driver.FindElement(By.Id("uploadAvatar"));
+avatarUpload.SendKeys("pathTomyAvatar.jpg");
+IWebElement saveBtn = driver.FindElement(By.Id("saveBtn"));
+agreeCheckBox.SendKeys(Keys.Enter);
+```
+
+```csharp
+CheckBox agreeCheckBox = App.ElementCreateService.CreateById<CheckBox>("agreeChB");
+agreeCheckBox.Check();
+TextField firstNameTextField = App.ElementCreateService.CreateById<TextField>("firstName");
+firstNameTextField.SetText("John");
+InputFile avatarUpload = App.ElementCreateService.CreateById<InputFile>("uploadAvatar");
+avatarUpload.Upload("pathTomyAvatar.jpg");
+Button saveBtn = App.ElementCreateService.CreateById<Button>("saveBtn");
+saveBtn.ClickByEnter();
+```
+
+```csharp
+var homePage = App.GoTo<HomePage>();
+homePage.FilterProducts(ProductFilter.Popularity);
+homePage.AddProductById(28);
+homePage.ViewCartButton.Click();
+var cartPage = App.Create<CartPage>();
+cartPage.ApplyCoupon("happybirthday");
+cartPage.UpdateProductQuantity(1, 2);
+cartPage.AssertTotalPrice("95.00");
+cartPage.ProceedToCheckout.Click();
+```
+
+```csharp
+Start Test
+Class = BDDLoggingTests Name = PurchaseRocketWithLogs
+Select 'Sort by price: low to high' on CartPage
+Click ApplyCupon on CartPage
+Ensure SuccessDiv on CartPage inner text is 'Coupon code applied successfully.'
+Set '0' into QuantityNumber on CartPage
+Click UpdateCartButton on CartPage
+Ensure OrderTotalSpan on CartPage inner text is '95.00€'
+
+
+```
+
+```csharp
+Feature: CommonServices
+In order to use the browser
+As a automation engineer
+I want BELLATRIX to provide me handy method to do my job
+Background:
+Given I use Firefox browser on Windows
+And I reuse the browser if started
+And I capture HTTP traffic
+And I take a screenshot for failed tests
+And I record a video for failed tests
+And I open browser
+Scenario: Browser Service Common Steps
+When I navigate to URL http://demos.bellatrix.solutions/product/falcon-9/
+And I refresh the browser
+When I wait until the browser is ready
+And I wait for all AJAX requests to finish
+And I maximize the browser
+And I navigate to URL http://demos.bellatrix.solutions/
+And I click browser's back button
+And I click browser's forward button
+And I click browser's back button
+And I wait for partial URL falcon-9
+```
