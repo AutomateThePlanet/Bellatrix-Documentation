@@ -1802,1467 +1802,175 @@ public void ScrollFocusToControl_InCloud_ShouldPass()
 }
 ```
 
-# Enterprise Test Automation Framework
-
-## Enterprise Test Automation Framework: Plugin Architecture in MSTest
+## Most Complete WinAppDriver C# Cheat Sheet
 
 ```csharp
-[TestClass]
-public class MSTestBaseTest
-{
-    public IServicesCollection Container;
-    protected MSTestExecutionContext &#1045;xecutionContext;
-    private static readonly List<string> TypeForAlreadyExecutedClassInits =
-            new List<string>();
-    private TestWorkflowPluginProvider _currentTestExecutionProvider;
-    public TestContext TestContext { get; set; }
-
-    [TestInitialize]
-    public void CoreTestInit()
-    {
-        &#1045;xecutionContext = new MSTestExecutionContext(TestContext);
-        var testMethodMemberInfo = GetCurrentExecutionMethodInfo(&(ExecutionContext);
-        var testClassType = GetCurrentExecutionTestClassType(&#1045;xecutionContext);
-        ExecuteActArrangePhases();
-        Container = ServicesCollection.Current.FindCollection(testClassType.FullName);
-        Container.RegisterInstance<ExecutionContext>(&#1045;xecutionContext);
-        _currentTestExecutionProvider = new TestWorkflowPluginProvider();
-        InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
-        var categories = GetAllTestCategories(testMethodMemberInfo);
-        var authors = GetAllAuthors(testMethodMemberInfo);
-        var descriptions = GetAllDescriptions(testMethodMemberInfo);
-        try
-        {
-            Initialize();
-
-            _currentTestExecutionProvider.PreTestInit(
-            &#1045;xecutionContext.TestName,testMethodMemberInfo, testClassType,
-            categories, authors, descriptions);
-
-            TestInit();
-
-            _currentTestExecutionProvider.PostTestInit(
-            &#1045;xecutionContext.TestName,testMethodMemberInfo, testClassType,
-            categories, authors, descriptions);
-        }
-        catch (Exception ex)
-        {
-            _currentTestExecutionProvider.TestInitFailed(ex,
-            &#1045;xecutionContext.TestName,testMethodMemberInfo,
-            testClassType, categories, authors, descriptions);
-            throw;
-        }
-    }
-
-    [TestCleanup]
-    public void CoreTestCleanup()
-    {
-        if(&#1045;xecutionContext == null)
-        {
-            &#1045;xecutionContext = new MSTestExecutionContext(TestContext);
-        }
-
-        var testMethodMemberInfo = GetCurrentExecutionMethodInfo(&#1045;xecutionContext);
-        var testClassType = GetCurrentExecutionTestClassType(&#1045;xecutionContext);
-        var categories = GetAllTestCategories(testMethodMemberInfo);
-        var authors = GetAllAuthors(testMethodMemberInfo);
-        var descriptions = GetAllDescriptions(testMethodMemberInfo);
-        Container = ServicesCollection.Current.FindCollection(testClassType.FullName);
-        Container.RegisterInstance<ExecutionContext>(&#1045;xecutionContext);
-        _currentTestExecutionProvider = new TestWorkflowPluginProvider();
-        InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
-        try
-        {
-            _currentTestExecutionProvider.PreTestCleanup(
-            (TestOutcome) &#1045;xecutionContext.TestOutcome,
-            &#1045;xecutionContext.TestName, testMethodMemberInfo, testClassType,
-            categories, authors, descriptions,
-            &#1045;xecutionContext.ExceptionMessage,
-            &#1045;xecutionContext.ExceptionStackTrace, &#1045;xecutionContext.Exception);
-
-            TestCleanup();
-
-            _currentTestExecutionProvider.PostTestCleanup(
-            (TestOutcome) &#1045;xecutionContext.TestOutcome,
-            &#1045;xecutionContext.TestName, testMethodMemberInfo, testClassType,
-            categories, authors, descriptions,
-            &#1045;xecutionContext.ExceptionMessage,
-            &#1045;xecutionContext.ExceptionStackTrace, &#1045;xecutionContext.Exception);
-        }
-        catch (Exception ex)
-        {
-            _currentTestExecutionProvider.TestCleanupFailed(ex,
-            &#1045;xecutionContext.TestName, testMethodMemberInfo, testClassType,
-            categories, authors, descriptions);
-            throw;
-        }
-    }
-
-    public virtual void Initialize() {}
-    public virtual void TestsArrange() {}
-    public virtual void TestsAct() {}
-    public virtual void TestInit() {}
-    public virtual void TestCleanup() {}
-    public virtual void TestsCleanup() {}
-    protected static bool IsDebugRun()
-    {
-        #if DEBUG
-        var isDebug = true;
-        #else
-        bool isDebug = false;
-        #endif
-        return isDebug;
-    }
-
-    private List<string> GetAllTestCategories(MemberInfo memberInfo)
-    {
-        var categories = new List<string>();
-        var testCategoryAttributes = GetAllAttributes<TestCategoryAttribute>(memberInfo);
-        foreach(var testCategoryAttribute in testCategoryAttributes)
-        {
-            categories.AddRange(testCategoryAttribute.TestCategories);
-        }
-
-        return categories;
-    }
-
-    private List<string> GetAllAuthors(MemberInfo memberInfo)
-    {
-        var authors = new List < string > ();
-        var ownerAttributes = GetAllAttributes < OwnerAttribute > (memberInfo);
-        foreach(var ownerAttribute in ownerAttributes)
-        {
-            authors.Add(ownerAttribute.Owner);
-        }
-
-        return authors;
-    }
-
-    private List<string> GetAllDescriptions(MemberInfo memberInfo)
-    {
-        var descriptions = new List<string>();
-        var descriptionAttributes = GetAllAttributes < DescriptionAttribute > (memberInfo);
-        foreach(var descriptionAttribute in descriptionAttributes)
-        {
-            descriptions.Add(descriptionAttribute.Description);
-        }
-
-        return descriptions;
-    }
-
-    private void InitializeTestExecutionBehaviorObservers( TestWorkflowPluginProvider testExecutionProvider)
-    {
-        var observers = ServicesCollection.Current.ResolveAll<TestWorkflowPlugin>();
-        foreach(var observer in observers)
-        {
-            observer.Subscribe(testExecutionProvider);
-        }
-    }
-
-    private void ExecuteActArrangePhases()
-    {
-        try
-        {
-            var testClassType = GetCurrentExecutionTestClassType(&#1045;xecutionContext);
-            if (!TypeForAlreadyExecutedClassInits.Contains(&#1045;xecutionContext.TestClassName))
-            {
-                Container = ServicesCollection.Current
-                            .CreateChildServicesCollection(testClassType.FullName);
-                Container.RegisterInstance(Container);
-                Container.RegisterInstance<ExecutionContext>(&#1045;xecutionContext);
-                _currentTestExecutionProvider = new TestWorkflowPluginProvider();
-                InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
-                TypeForAlreadyExecutedClassInits.Add(&#1045;xecutionContext.TestClassName);
-                _currentTestExecutionProvider.PreTestsArrange(testClassType);
-                Initialize();
-                TestsArrange();
-                _currentTestExecutionProvider.PostTestsArrange(testClassType);
-                _currentTestExecutionProvider.PreTestsAct(testClassType);
-                TestsAct();
-                _currentTestExecutionProvider.PostTestsAct(testClassType);
-            }
-        }
-        catch (Exception ex)
-        {
-            _currentTestExecutionProvider.TestsArrangeFailed(ex);
-        }
-    }
-
-    private MethodInfo GetCurrentExecutionMethodInfo(MSTestExecutionContext executionContext)
-    {
-        var memberInfo = GetCurrentExecutionTestClassType(executionContext)
-                            .GetMethod(executionContext.TestName);
-        return memberInfo;
-    }
-
-    private Type GetCurrentExecutionTestClassType(MSTestExecutionContext executionContext)
-    {
-        var testClassType = GetType().Assembly.GetType(executionContext.TestClassName);
-        return testClassType;
-    }
-
-    private List<TAttribute> GetAllAttributes<TAttribute>(MemberInfo memberInfo)
-        where TAttribute: Attribute
-    {
-        var allureClassAttributes = GetClassAttributes<TAttribute>(memberInfo.DeclaringType);
-        var allureMethodAttributes = GetMethodAttributes<TAttribute>(memberInfo);
-        var allAllureAttributes = allureClassAttributes.ToList();
-        allAllureAttributes.AddRange(allureMethodAttributes);
-        return allAllureAttributes;
-    }
-
-    private IEnumerable<TAttribute> GetClassAttributes<TAttribute>(Type currentType)
-        where TAttribute: Attribute
-    {
-        var classAttributes = currentType.GetCustomAttributes<TAttribute>(true);
-        return classAttributes;
-    }
-
-    private IEnumerable<TAttribute> GetMethodAttributes<TAttribute> (MemberInfo memberInfo)
-        where TAttribute: Attribute
-    {
-        var methodAttributes = memberInfo.GetCustomAttributes<TAttribute>(true);
-        return methodAttributes;
-    }
-}
+// NuGet: Appium.WebDriver
+var appiumOptions = new AppiumOptions();
+appiumOptions.AdditionalCapability("app", "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App"); // for Universal Windows Platform apps
+appiumOptions.AdditionalCapability("app", "C:\Windows\System32\notepad.exe"); // for classic Windows apps
+appiumOptions.AdditionalCapability("deviceName", "WindowsPC");
+_driver = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), options);
+_driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
 ```
 
 ```csharp
-[TestClass]
-public class MSTestBaseTest
-{
-    public IServicesCollection Container;
-    protected MSTestExecutionContext &#1045;xecutionContext;
-    private static readonly List<string> TypeForAlreadyExecutedClassInits =
-            new List<string>();
-    private TestWorkflowPluginProvider _currentTestExecutionProvider;
-    public TestContext TestContext { get; set; }
-
-    [TestInitialize]
-    public void CoreTestInit()
-    {
-        &#1045;xecutionContext = new MSTestExecutionContext(TestContext);
-        var testMethodMemberInfo = GetCurrentExecutionMethodInfo(&#1045;xecutionContext);
-        var testClassType = GetCurrentExecutionTestClassType(&#1045;xecutionContext);
-        ExecuteActArrangePhases();
-        Container = ServicesCollection.Current.FindCollection(testClassType.FullName);
-        Container.RegisterInstance<ExecutionContext>(&#1045;xecutionContext);
-        _currentTestExecutionProvider = new TestWorkflowPluginProvider();
-        InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
-        var categories = GetAllTestCategories(testMethodMemberInfo);
-        var authors = GetAllAuthors(testMethodMemberInfo);
-        var descriptions = GetAllDescriptions(testMethodMemberInfo);
-        try
-        {
-            Initialize();
-
-            _currentTestExecutionProvider.PreTestInit(
-            &#1045;xecutionContext.TestName,testMethodMemberInfo, testClassType,
-            categories, authors, descriptions);
-
-            TestInit();
-
-            _currentTestExecutionProvider.PostTestInit(
-            &#1045;xecutionContext.TestName,testMethodMemberInfo, testClassType,
-            categories, authors, descriptions);
-        }
-        catch (Exception ex)
-        {
-            _currentTestExecutionProvider.TestInitFailed(ex,
-            &#1045;xecutionContext.TestName,testMethodMemberInfo,
-            testClassType, categories, authors, descriptions);
-            throw;
-        }
-    }
-
-    [TestCleanup]
-    public void CoreTestCleanup()
-    {
-        if(&#1045;xecutionContext == null)
-        {
-            &#1045;xecutionContext = new MSTestExecutionContext(TestContext);
-        }
-
-        var testMethodMemberInfo = GetCurrentExecutionMethodInfo(&#1045;xecutionContext);
-        var testClassType = GetCurrentExecutionTestClassType(&#1045;xecutionContext);
-        var categories = GetAllTestCategories(testMethodMemberInfo);
-        var authors = GetAllAuthors(testMethodMemberInfo);
-        var descriptions = GetAllDescriptions(testMethodMemberInfo);
-        Container = ServicesCollection.Current.FindCollection(testClassType.FullName);
-        Container.RegisterInstance<ExecutionContext>(&#1045;xecutionContext);
-        _currentTestExecutionProvider = new TestWorkflowPluginProvider();
-        InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
-        try
-        {
-            _currentTestExecutionProvider.PreTestCleanup(
-            (TestOutcome) &#1045;xecutionContext.TestOutcome,
-            &#1045;xecutionContext.TestName, testMethodMemberInfo, testClassType,
-            categories, authors, descriptions,
-            &#1045;xecutionContext.ExceptionMessage,
-            &#1045;xecutionContext.ExceptionStackTrace, &#1045;xecutionContext.Exception);
-
-            TestCleanup();
-
-            _currentTestExecutionProvider.PostTestCleanup(
-            (TestOutcome) &#1045;xecutionContext.TestOutcome,
-            &#1045;xecutionContext.TestName, testMethodMemberInfo, testClassType,
-            categories, authors, descriptions,
-            &#1045;xecutionContext.ExceptionMessage,
-            &#1045;xecutionContext.ExceptionStackTrace, &#1045;xecutionContext.Exception);
-        }
-        catch (Exception ex)
-        {
-            _currentTestExecutionProvider.TestCleanupFailed(ex,
-            &#1045;xecutionContext.TestName, testMethodMemberInfo, testClassType,
-            categories, authors, descriptions);
-            throw;
-        }
-    }
-
-    public virtual void Initialize() {}
-    public virtual void TestsArrange() {}
-    public virtual void TestsAct() {}
-    public virtual void TestInit() {}
-    public virtual void TestCleanup() {}
-    public virtual void TestsCleanup() {}
-    protected static bool IsDebugRun()
-    {
-        #if DEBUG
-        var isDebug = true;
-        #else
-        bool isDebug = false;
-        #endif
-        return isDebug;
-    }
-
-    private List<string> GetAllTestCategories(MemberInfo memberInfo)
-    {
-        var categories = new List<string>();
-        var testCategoryAttributes = GetAllAttributes<TestCategoryAttribute>(memberInfo);
-        foreach(var testCategoryAttribute in testCategoryAttributes)
-        {
-            categories.AddRange(testCategoryAttribute.TestCategories);
-        }
-
-        return categories;
-    }
-
-    private List<string> GetAllAuthors(MemberInfo memberInfo)
-    {
-        var authors = new List < string > ();
-        var ownerAttributes = GetAllAttributes < OwnerAttribute > (memberInfo);
-        foreach(var ownerAttribute in ownerAttributes)
-        {
-            authors.Add(ownerAttribute.Owner);
-        }
-
-        return authors;
-    }
-
-    private List<string> GetAllDescriptions(MemberInfo memberInfo)
-    {
-        var descriptions = new List<string>();
-        var descriptionAttributes = GetAllAttributes < DescriptionAttribute > (memberInfo);
-        foreach(var descriptionAttribute in descriptionAttributes)
-        {
-            descriptions.Add(descriptionAttribute.Description);
-        }
-
-        return descriptions;
-    }
-
-    private void InitializeTestExecutionBehaviorObservers( TestWorkflowPluginProvider testExecutionProvider)
-    {
-        var observers = ServicesCollection.Current.ResolveAll<TestWorkflowPlugin>();
-        foreach(var observer in observers)
-        {
-            observer.Subscribe(testExecutionProvider);
-        }
-    }
-
-    private void ExecuteActArrangePhases()
-    {
-        try
-        {
-            var testClassType = GetCurrentExecutionTestClassType(&#1045;xecutionContext);
-            if (!TypeForAlreadyExecutedClassInits.Contains(&#1045;xecutionContext.TestClassName))
-            {
-                Container = ServicesCollection.Current
-                            .CreateChildServicesCollection(testClassType.FullName);
-                Container.RegisterInstance(Container);
-                Container.RegisterInstance<ExecutionContext>(&#1045;xecutionContext);
-                _currentTestExecutionProvider = new TestWorkflowPluginProvider();
-                InitializeTestExecutionBehaviorObservers(_currentTestExecutionProvider);
-                TypeForAlreadyExecutedClassInits.Add(&#1045;xecutionContext.TestClassName);
-                _currentTestExecutionProvider.PreTestsArrange(testClassType);
-                Initialize();
-                TestsArrange();
-                _currentTestExecutionProvider.PostTestsArrange(testClassType);
-                _currentTestExecutionProvider.PreTestsAct(testClassType);
-                TestsAct();
-                _currentTestExecutionProvider.PostTestsAct(testClassType);
-            }
-        }
-        catch (Exception ex)
-        {
-            _currentTestExecutionProvider.TestsArrangeFailed(ex);
-        }
-    }
-
-    private MethodInfo GetCurrentExecutionMethodInfo(MSTestExecutionContext executionContext)
-    {
-        var memberInfo = GetCurrentExecutionTestClassType(executionContext)
-                            .GetMethod(executionContext.TestName);
-        return memberInfo;
-    }
-
-    private Type GetCurrentExecutionTestClassType(MSTestExecutionContext executionContext)
-    {
-        var testClassType = GetType().Assembly.GetType(executionContext.TestClassName);
-        return testClassType;
-    }
-
-    private List<TAttribute> GetAllAttributes<TAttribute>(MemberInfo memberInfo)
-        where TAttribute: Attribute
-    {
-        var allureClassAttributes = GetClassAttributes<TAttribute>(memberInfo.DeclaringType);
-        var allureMethodAttributes = GetMethodAttributes<TAttribute>(memberInfo);
-        var allAllureAttributes = allureClassAttributes.ToList();
-        allAllureAttributes.AddRange(allureMethodAttributes);
-        return allAllureAttributes;
-    }
-
-    private IEnumerable<TAttribute> GetClassAttributes<TAttribute>(Type currentType)
-        where TAttribute: Attribute
-    {
-        var classAttributes = currentType.GetCustomAttributes<TAttribute>(true);
-        return classAttributes;
-    }
-
-    private IEnumerable<TAttribute> GetMethodAttributes<TAttribute> (MemberInfo memberInfo)
-        where TAttribute: Attribute
-    {
-        var methodAttributes = memberInfo.GetCustomAttributes<TAttribute>(true);
-        return methodAttributes;
-    }
-}
-```
-
-## Enterprise Test Automation Framework: Logging Module Design
-
-```json
-"logging": {
-    "isEnabled": true,
-    "isConsoleLoggingEnabled": true,
-    "isDebugLoggingEnabled": true,
-    "isFileLoggingEnabled": true,
-    "outputTemplate": "[{Timestamp:HH:mm:ss}] {Message:lj}{NewLine}"
-}
-```
-
-```xml
-<PackageReference Include="Bellatrix.ServicesCollection" Version="2.0.1" />
-<PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.9" />
-<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.9" />
-<PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="3.1.9" />
-<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.9" />
-<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.9" />
-<PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
-<PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
-<PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-<PackageReference Include="Serilog.Sinks.Debug" Version="1.0.1" />
-<PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+driver.FindElementById("42.333896.3.1");
+_driver.FindElementByAccessibilityId("AppNameTitle");
+_driver.FindElementByClassName("TextBlock");
+_driver.FindElementByWindowsUIAutomation("Views");
+_driver.FindElementByName("Calculator");
+_driver.FindElementByTagName("Text");
+// Find multiple elements
+_driver.FindElementsByClassName("TextBlock");
+// Search for an element inside another element
+_driver.FindElementByName("System")
+.FindElementByName("Minimize");
 ```
 
 ```csharp
-public interface IBellaLogger
-{
-    void LogInformation(string message, params object[] args);
-
-    void LogWarning(string message, params object[] args);
-}
+// Simple actions
+element.Click();
+element.SendKeys("textToType");
+element.Clear();
+// Chained actions
+Actions actions = new Actions(_driver);
+actions.MoveToElement(element);
+actions.MoveByOffset(x, y);
+actions.Click();
+actions.ClickAndHold();
+actions.Release();
+actions.ContextClick();
+actions.DoubleClick();
+actions.DragAndDrop(sourceElement, targetElement);
+actions.DragAndDropToOffset(sourceElement, x, y);
+actions.KeyDown(Keys.Shift);
+actions.KeyUp();
+actions.SendKeys("textToType");
+actions.Build().Perform();
+// Take screenshot
+_driver.GetScreenshot(); // returns Screenshot (base64 encoded PNG)
 ```
 
 ```csharp
-public class LoggingSettings
-{
-    public bool IsEnabled { get; set; }
-
-    public bool IsConsoleLoggingEnabled { get; set; }
-
-    public bool IsDebugLoggingEnabled { get; set; }
-
-    public bool IsFileLoggingEnabled { get; set; }
-
-    public string OutputTemplate { get; set; }
-}
+// Making a touch stroke
+PointerInputDevice device = new PointerInputDevice(PointerKind.Touch);
+ActionSequence sequence = new ActionSequence(penDevice, 0);
+sequence.AddAction(device.CreatePointerMove(element, 0, 0, TimeSpan.Zero));
+sequence.AddAction(device.CreatePointerDown(PointerButton.TouchContact));
+sequence.AddAction(device.CreatePointerMove(element, 10, 10, TimeSpan.Zero));
+sequence.AddAction(device.CreatePointerUp(PointerButton.TouchContact));
+_driver.PerformActions(new List<ActionSequence> { sequence });
+// Perform multitouch
+PointerInputDevice touch1 = new PointerInputDevice(PointerKind.Touch);
+ActionSequence touch1Sequence = new ActionSequence(touch1, 0);
+touch1Sequence.AddAction(touch1.CreatePointerMove(element, 50, -50, TimeSpan.Zero));
+touch1Sequence.AddAction(touch1.CreatePointerDown(PointerButton.TouchContact));
+touch1Sequence.AddAction(touch1.CreatePointerMove(element, 80, -80,
+TimeSpan.FromSeconds(1)));
+touch1Sequence.AddAction(touch1.CreatePointerUp(PointerButton.TouchContact));
+PointerInputDevice touch2 = new PointerInputDevice(PointerKind.Touch);
+ActionSequence touch2Sequence = new ActionSequence(touch2, 0);
+touch2Sequence.AddAction(touch2.CreatePointerMove(element, -50, 50, TimeSpan.Zero));
+touch2Sequence.AddAction(touch2.CreatePointerDown(PointerButton.TouchContact));
+touch2Sequence.AddAction(touch2.CreatePointerMove(element, -80, 80,
+TimeSpan.FromSeconds(1)));
+touch2Sequence.AddAction(touch2.CreatePointerUp(PointerButton.TouchContact));
+_driver.PerformActions(new List<ActionSequence> { touch1Sequence, touch2Sequence });
+// Pen actions and options
+PointerInputDevice device = new PointerInputDevice(PointerKind.Pen);
+ActionSequence sequence = new ActionSequence(device, 0);
+PenInfo penExtraAttributes = new PenInfo { TiltX = 45, TiltY = 45, Twist = 45 };
+sequence.AddAction(device.CreatePointerMove(element, 0, 0, TimeSpan.Zero));
+sequence.AddAction(device.CreatePointerDown(PointerButton.PenContact,
+ penExtraAttributes));
+sequence.AddAction(device.CreatePointerMove(element, 10, 10, TimeSpan.Zero, new
+PenInfo { Pressure = 1f }));
+sequence.AddAction(device.CreatePointerUp(PointerButton.PenContact));
+_driver.PerformActions(new List<ActionSequence> { sequence });
 ```
 
-```csharp
-public class BellaLogger: IBellaLogger
-{
-    private readonly ILogger _logger;
-
-    static BellaLogger()
-    {
-        var loggingSettings = ConfigurationService.Instance
-                              .Root.GetSection("logging")?
-                              .Get<LoggingSettings>();
-        var loggerConfiguration = new LoggerConfiguration();
-
-        if (loggingSettings != null
-            && loggingSettings.IsEnabled)
-        {
-            if (loggingSettings.IsConsoleLoggingEnabled)
-            {
-                loggerConfiguration.WriteTo.Console(outputTemplate: loggingSettings.OutputTemplate);
-            }
-
-            if (loggingSettings.IsDebugLoggingEnabled)
-            {
-                loggerConfiguration.WriteTo.Debug(outputTemplate: loggingSettings.OutputTemplate);
-            }
-
-            if (loggingSettings.IsFileLoggingEnabled)
-            {
-                loggerConfiguration.WriteTo.File("bellatrix-log.txt",
-                                    rollingInterval: RollingInterval.Day,
-                                    outputTemplate: loggingSettings.OutputTemplate);
-            }
-        }
-
-        Log.Logger = loggerConfiguration.CreateLogger();
-    }
-
-    public BellaLogger(ILogger logger)
-            => _logger = logger;
-
-    public void LogInformation(string message, params object[] args)
-    {
-        try
-        {
-            _logger.Information(message, args);
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex);
-        }
-    }
-
-    public void LogWarning(string message, params object[] args)
-    {
-        try
-        {
-            _logger.Warning(message, args);
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex);
-        }
-    }
-}
-```
-
-```csharp
-public static class DebugLogger
-{
-    private static readonly IBellaLogger s_logger;
-
-    static DebugLogger()
-    {
-        s_logger = new BellaLogger(Log.Logger);
-    }
-
-    public static void LogInformation(string message, params object[] args)
-    {
-        s_logger.LogInformation(message, args);
-    }
-
-    public static void LogWarning(string message, params object[] args)
-    {
-        s_logger.LogWarning(message, args);
-    }
-}
-```
-
-```csharp
-protected override void PostTestCleanup(object sender, TestWorkflowPluginEventArgs e)
-{
-    if (!ConfigurationService.Instance.GetDynamicTestCasesSettings().IsEnabled)
-    {
-        return;
-    }
-
-    base.PostTestCleanup(sender, e);
-
-    try
-    {
-        if (e.TestOutcome == TestOutcome.Passed
-            && _dynamicTestCasesService?.Context != null)
-        {
-            _dynamicTestCasesService.Context.TestCase =
-                _testCaseManagementService.InitTestCase(_dynamicTestCasesService.Context);
-        }
-    }
-    catch (Exception ex)
-    {
-        DebugLogger.LogWarning($"Test case failed to update, {ex.Message}");
-    }
-
-    _dynamicTestCasesService?.ResetContext();
-}
-```
-
-```csharp
-public class QTestTestCaseManagementService : ITestCaseManagementService
-{
-    private QT.TestDesignService _testDesignService;
-    private QT.ProjectService _projectService;
-    private IBellaLogger _bellaLogger;
-
-    public QTestTestCaseManagementService(IBellaLogger bellaLogger)
-    {
-        // we must login first to be able to make any request to the server
-        // or we will get 401 error
-        try
-        {
-            LoginToService(_testDesignService = new QT.TestDesignService(ConfigurationService.Instance.GetQTestDynamicTestCasesSettings().ServiceAddress));
-            LoginToService(_projectService = new QT.ProjectService(ConfigurationService.Instance.GetQTestDynamicTestCasesSettings().ServiceAddress));
-        }
-        catch (Exception ex)
-        {
-            bellaLogger.LogWarning($"qTest Login was unsuccesful, {ex.Message}");
-        }
-    }
-}
-```
-
-## Enterprise Test Automation Framework: Inversion of Control Containers
-
-```csharp
-public interface ILogger
-{
-    void CreateLogEntry(string errorMessage);
-}
-```
-
-```csharp
-public class FileLogger: ILogger
-{
-    public void CreateLogEntry(string errorMessage)
-    {
-        File.WriteAllText(@"C:exceptions.txt", errorMessage);
-    }
-}
-
-public class EmailLogger: ILogger {
-    public void CreateLogEntry(string errorMessage)
-    {
-        EmailFactory.SendEmail(errorMessage);
-    }
-}
-
-public class SmsLogger: ILogger
-{
-    public void CreateLogEntry(string errorMessage)
-    }
-        SmsFactory.SendSms(errorMessage);
-    }
-}
-```
-
-```csharp
-public class CustomerOrder
-{
-    public void Create(OrderType orderType)
-    {
-        try {
-
-            // Database code goes here
-        }
-        catch (Exception ex)
-        {
-            switch (orderType)
-            {
-            case OrderType.Platinum:
-                new SmsLogger().CreateLogEntry(ex.Message);
-                break;
-            case OrderType.Gold:
-                new EmailLogger().CreateLogEntry(ex.Message);
-                break;
-            default:
-                new FileLogger().CreateLogEntry(ex.Message);
-                break;
-            }
-        }
-    }
-}
-```
-
-```csharp
-public class CustomerOrder
-{
-    private ILogger _logger;
-    public CustomerOrder(ILogger logger)
-    {
-        _logger = logger;
-    }
-
-    public void Create()
-    {
-        try
-        {
-            // Database code goes here
-        }
-        catch (Exception ex)
-        {
-            _logger.CreateLogEntry(ex.Message);
-        }
-    }
-}
-
-public class GoldCustomerOrder : CustomerOrder
-{
-    public GoldCustomerOrder() : base(new EmailLogger()) {}
-}
-
-public class PlatinumCustomerOrder : CustomerOrder
-{
-    public PlatinumCustomerOrder() : base(new SmsLogger()) {}
-}
-```
-
-```csharp
-public interface IServicesResolvingCollection {
-    T Resolve<T>(bool shouldThrowResolveException = false);
-    T Resolve<T>(string name, bool shouldThrowResolveException = false);
-    object Resolve(Type type, bool shouldThrowResolveException = false);
-    T Resolve<T>(bool shouldThrowResolveException = false,
-        params OverrideParameter[] overrides);
-    IEnumerable<T> ResolveAll<T>(bool shouldThrowResolveException = false);
-    IEnumerable<T> ResolveAll<T> (bool shouldThrowResolveException = false,
-        params OverrideParameter[] overrides);
-}
-```
-
-```csharp
-public interface IServicesRegisteringCollection
-{
-    bool IsRegistered<TInstance>();
-    void RegisterType<TFrom>();
-    void RegisterSingleInstance <TFrom,TTo>(InjectionConstructor injectionConstructor)
-                                where TTo : TFrom;
-    void RegisterSingleInstance<TFrom>(Type instanceType, InjectionConstructor injectionConstructor);
-    void UnregisterSingleInstance<TFrom>();
-    void UnregisterSingleInstance<TFrom>(string name);
-    void RegisterType<TFrom,TTo>(string name, InjectionConstructor injectionConstructor)
-                     where TTo : TFrom;
-    void RegisterNull<TFrom>();
-    void RegisterType<TFrom>(bool shouldUseSingleton);
-    void RegisterType<TFrom,TTo>()
-                    where TTo : TFrom;
-    void RegisterType<TFrom,TTo>(string name)
-                    where TTo : TFrom;
-    void RegisterType<TFrom,TTo>(bool shouldUseSingleton)
-                    where TTo : TFrom;
-    void RegisterInstance<TFrom>(TFrom instance, bool shouldUseSingleton = false);
-    void RegisterInstance<TFrom>(TFrom instance, string name);
-    object CreateInjectionParameter<TInstance>();
-    object CreateValueParameter(object value);
-}
-```
-
-```csharp
-public interface IServicesCollection : IServicesRegisteringCollection,
-                 IServicesResolvingCollection, IDisposable
-{
-    List <IServicesCollection> GetChildServicesCollections();
-    IServicesCollection CreateChildServicesCollection(string collectionName);
-    IServicesCollection FindCollection(string collectionName);
-    bool IsPresentServicesCollection(string collectionName);
-}
-```
-
-```csharp
-public class UnityServicesCollection : IServicesCollection
-{
-    private readonly IUnityContainer _container;
-    private readonly Dictionary<string,IServicesCollection> _containers;
-    private readonly object _lockObject = new object();
-    private bool _isDisposed;
-
-    public UnityServicesCollection()
-    {
-        _containers = new Dictionary<string,IServicesCollection>();
-    }
-
-    public UnityServicesCollection(IUnityContainer container)
-    {
-        _container = container;
-        _containers = new Dictionary<string,IServicesCollection>();
-    }
-
-    public T Resolve<T>(bool shouldThrowResolveException = false)
-    {
-        T result = default;
-        try
-        {
-            lock(_lockObject)
-            {
-                result = _container.Resolve<T>();
-            }
-        }
-        catch (Exception ex)
-        {
-            if (shouldThrowResolveException)
-            {
-                throw;
-            }
-        }
-
-        return result;
-    }
-
-    public IEnumerable<T> ResolveAll<T>(bool shouldThrowResolveException = false)
-    {
-        IEnumerable <T> result;
-        try
-        {
-            lock(_lockObject)
-            {
-                result = _container.ResolveAll<T>();
-            }
-        }
-        catch (Exception ex)
-        {
-            if (ex.InnerException != null && shouldThrowResolveException)
-            {
-                throw ex.InnerException;
-            }
-
-            throw;
-        }
-
-        return result;
-    }
-
-    public void RegisterType<TFrom,TTo>()
-                            where TTo: TFrom
-    {
-        lock(_lockObject)
-        {
-            _container.RegisterType<TFrom,TTo>();
-        }
-    }
-
-    public void RegisterType<TFrom,TTo>(bool useSingleInstance)
-                             where TTo: TFrom
-    {
-        lock(_lockObject)
-        {
-            _container.RegisterType<TFrom,TTo>(
-                new ContainerControlledLifetimeManager()
-            );
-        }
-    }
-
-    public void RegisterInstance<TFrom>(TFrom instance, bool useSingleInstance = false)
-    {
-        if (useSingleInstance)
-        {
-            lock(_lockObject)
-            {
-                _container.RegisterInstance(instance,
-                new ContainerControlledLifetimeManager()
-                );
-            }
-        }
-        else
-        {
-            lock(_lockObject)
-            {
-                _container.RegisterInstance(instance);
-            }
-        }
-    }
-
-    public IServicesCollection CreateChildServicesCollection(string collectionName)
-    {
-        lock(_lockObject)
-        {
-            var childNativeContainer = _container.CreateChildContainer();
-            var childServicesCollection =
-                    new UnityServicesCollection(childNativeContainer);
-            if (_containers.ContainsKey(collectionName))
-            {
-                _containers[collectionName] = childServicesCollection;
-            }
-            else
-            {
-                _containers.Add(collectionName, childServicesCollection);
-            }
-
-            return childServicesCollection;
-        }
-    }
-
-    public void Dispose()
-    {
-        if (!_isDisposed)
-        {
-            _container.Dispose();
-            GC.SuppressFinalize(this);
-            _isDisposed = true;
-        }
-    }
-
-    public IServicesCollection FindCollection(string collectionName)
-    {
-        lock(_lockObject)
-        {
-            if (_containers.ContainsKey(collectionName))
-            {
-                return _containers[collectionName];
-            }
-
-            return this;
-        }
-    }
-
-    public bool IsPresentServicesCollection(string collectionName)
-    {
-        lock(_lockObject)
-        {
-            if (_containers.ContainsKey(collectionName))
-            {
-                return true;
-            }
-
-            return false;
-        }
-    }
-
-    // the rest of the methods
-}
-```
-
-```csharp
-public sealed class ServicesCollection
-{
-    private static IServicesCollection _serviceProvider;
-
-    public static IServicesCollection Main
-    {
-        get
-        {
-            if (_serviceProvider == null)
-            {
-                var unityContainer = new UnityContainer();
-                _serviceProvider = new
-                    UnityServicesCollection(unityContainer);
-                _serviceProvider.RegisterInstance(unityContainer);
-            }
-
-            return _serviceProvider;
-        }
-    }
-}
-
-```
-
-```csharp
-public static void Dispose(IServicesCollection childContainer)
-{
-    var webDriver = childContainer.
-        Resolve<WindowsDriver<WindowsElement>>();
-    webDriver?.Quit();
-    webDriver?.Dispose();
-    childContainer
-        .UnregisterSingleInstance<WindowsDriver<WindowsElement>>();
-    webDriver = ServicesCollection.Main
-        .Resolve<WindowsDriver<WindowsElement>>();
-    webDriver?.Quit();
-    webDriver?.Dispose();
-    ServicesCollection.Main
-        .UnregisterSingleInstance<WindowsDriver<WindowsElement>>();
-}
-```
-
-## Enterprise Test Automation Framework: Define Features Part 3
-
-```csharp
-[TestClass]
-[Browser(BrowserType.Chrome, BrowserBehavior.RestartEveryTime)]
-[DynamicTestCase(SuiteId = "8260474")]
-public class PageObjectsTests : WebTest
-{
-    [TestMethod]
-    [DynamicTestCase(
-        TestCaseId = "4d001440-bf6c-4a8b-b3e6-796cbad361e1",
-        Description = "Create a purchase of a rocket through the online rocket shop http://demos.bellatrix.solutions/")]
-    public void PurchaseRocketWithPageObjects()
-    {
-        App.TestCases
-            .AddPrecondition($"Navigate to http://demos.bellatrix.solutions/");
-        var homePage = App.GoTo<HomePage>();
-        homePage.FilterProducts(ProductFilter.Popularity);
-        homePage.AddProductById(28);
-        homePage.ViewCartButton.Click();
-        var cartPage = App.Create<CartPage>();
-        cartPage.ApplyCoupon("happybirthday");
-        cartPage.ProceedToCheckout.Click();
-        var billingInfo = new BillingInfo
-        {
-            FirstName = "In",
-            LastName = "Deepthought",
-            Company = "Automate The Planet Ltd.",
-            Country = "Bulgaria",
-            Address1 = "bul. Yerusalim 5",
-            Address2 = "bul. Yerusalim 6",
-            City = "Sofia",
-            State = "Sofia-Grad",
-            Zip = "1000",
-            Phone = "+00359894646464",
-            Email = "info@bellatrix.solutions",
-            ShouldCreateAccount = true,
-            OrderCommentsTextArea = "cool product",
-        };
-
-        var checkoutPage = App.Create<CheckoutPage>();
-        checkoutPage.FillBillingInfo(billingInfo);
-        checkoutPage.CheckPaymentsRadioButton.Click();
-    }
-}
-```
-
-```csharp
-[TestClass]
-[SauceLabs(BrowserType.Chrome,
-    "62",
-    "Windows",
-    BrowserBehavior.ReuseIfStarted,
-    recordScreenshots: true,
-    recordVideo: true)]
-public class SauceLabsTests : WebTest
-{
-        [TestMethod]
-        public void PromotionsPageOpened_When_PromotionsButtonClicked()
-        {
-            App.NavigationService
-                .Navigate("http://demos.bellatrix.solutions/");
-            var promotionsLink = App.ElementCreateService
-                                    .CreateByLinkText<Anchor>("Promotions");
-            promotionsLink.Click();
-        }
-}
-```
-
-```csharp
-[TestClass]
-[Selenoid(BrowserType.Chrome, "77",
-          BrowserBehavior.RestartEveryTime,
-          recordVideo: true,
-          enableVnc: true,
-          saveSessionLogs: true)]
-public class SeleniumGridTests : WebTest
-{
-    [TestMethod]
-    public void PromotionsPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService
-            .Navigate("http://demos.bellatrix.solutions/");
-        var promotionsLink = App.ElementCreateService
-                                .CreateByLinkText<Anchor>("Promotions");
-        promotionsLink.Click();
-    }
-}
-```
-
-```csharp
-Screen.EnsureIsVisible("chrome-print-preview-grid", similarity: 0.7, timeoutInSeconds: 30);
-```
-
-```csharp
-[TestClass]
-[Browser(BrowserType.Chrome,
-        BrowserBehavior.ReuseIfStarted,
-        true)]
-public class DemandPlanningTests : WebTest
-{
-    [TestMethod]
-    [LoadTest]
-    public void NavigateToDemandPlanning()
-    {
-        App.NavigationService
-            .Navigate("http://demos.bellatrix.solutions/");
-        Select sortDropDown = App.ElementCreateService
-                .CreateByNameEndingWith<Select>("orderby");
-        Anchor protonMReadMoreButton = App.ElementCreateService
-                .CreateByInnerTextContaining<Anchor>("Read more");
-        Anchor addToCartFalcon9 = App.ElementCreateService
-                .CreateByAttributesContaining<Anchor>("data-product_id", "28")
-                .ToBeClickable();
-        Anchor viewCartButton = App.ElementCreateService
-                .CreateByClassContaining<Anchor>("added_to_cart wc-forward")
-                .ToBeClickable();
-        sortDropDown.SelectByText("Sort by price: low to high");
-        protonMReadMoreButton.Hover();
-        addToCartFalcon9.Focus();
-        addToCartFalcon9.Click();
-        viewCartButton.Click();
-    }
-}
-```
-
-```csharp
-[TestClass]
-public class DemandPlanningTests : LoadTest
-{
-    [TestMethod]
-    public void NavigateToDemandPlanning()
-    {
-        LoadTestEngine.Settings.LoadTestType = LoadTestType.ExecuteForTime;
-        LoadTestEngine.Settings.MixtureMode = MixtureMode.Equal;
-        LoadTestEngine.Settings.NumberOfProcesses = 1;
-        LoadTestEngine.Settings.PauseBetweenStartSeconds = 0;
-        LoadTestEngine.Settings.SecondsToBeExecuted = 60;
-        LoadTestEngine.Settings.ShouldExecuteRecordedRequestPauses = true;
-        LoadTestEngine.Settings
-                      .IgnoreUrlRequestsPatterns
-                      .Add(".*theming.js.*");
-        LoadTestEngine.Assertions.AssertAllRequestStatusesAreSuccessful();
-        LoadTestEngine.Assertions.AssertAllRecordedEnsureAssertions();
-        LoadTestEngine.Execute("loadTestResults.html");
-    }
-}
-```
-
-```csharp
-[TestClass]
-public class SoftwareManagementAutomationTests
-{
-    private static readonly string AssemblyFolder =
-        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-    private static IWebDriver _driver;
-
-    [AssemblyInitialize]
-    public static void AssemblyInitialize(TestContext testContext)
-    {
-        SoftwareAutomationService.InstallRequiredSoftware();
-    }
-}
-```
-
-```csharp
-[Browser(BrowserType.Chrome,
-         DesktopWindowSize._1280_1024,
-         BrowserBehavior.RestartEveryTime)]
-[TestClass]
-public class LayoutTestingTests : WebTest
-{
-    [TestMethod]
-    public void TestPageLayout()
-    {
-        App.NavigationService
-            .Navigate("http://demos.bellatrix.solutions/");
-        Select sortDropDown = App.ElementCreateService
-            .CreateByNameEndingWith<Select>("orderby");
-        Anchor protonRocketAnchor =App.ElementCreateService
-            .CreateByAttributesContaining<Anchor>("href", "/proton-rocket/");
-        Div saturnVRating = saturnVAnchor
-            .CreateByClassContaining<Div>("star-rating");
-        sortDropDown.AssertAboveOf(protonRocketAnchor, 41);
-        LayoutAssert.AssertAlignedHorizontallyAll(sortDropDown, protonRocketAnchor);
-        saturnVRating.AssertInsideOf(saturnVAnchor);
-        saturnVRating.AssertHeightLessThan(100);
-        saturnVRating.AssertWidthBetween(50, 70);
-    }
-}
-```
-
-```csharp
-[TestMethod]
-[TestCategory(Categories.CI)]
-public void TestStyles()
-{
-    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-    Select sortDropDown = App.ElementCreateService.CreateByNameEndingWith<Select>("orderby");
-    Anchor protonRocketAnchor = App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/proton-rocket/");
-    Anchor saturnVAnchor = App.ElementCreateService.CreateByAttributesContaining<Anchor>("href", "/saturn-v/");
-    sortDropDown.AssertFontSize("14px");
-    sortDropDown.AssertFontWeight("400");
-    sortDropDown.AssertFontFamily("Source Sans Pro");
-    protonRocketAnchor.AssertColor("rgba(150, 88, 138, 1)");
-    protonRocketAnchor.AssertBackgroundColor("rgba(0, 0, 0, 0)");
-    protonRocketAnchor.AssertBorderColor("rgb(150, 88, 138)");
-    protonRocketAnchor.AssertTextAlign("center");
-    protonRocketAnchor.AssertVerticalAlign("baseline");
-}
-```
-
-## Enterprise Test Automation Framework: Define Features Part 2
-
-```csharp
-public class ExecutionTimeUnderTestWorkflowPlugin : TestWorkflowPlugin
-{
-    protected override void PostTestInit(object sender,
-        TestWorkflowPluginEventArgs e)
-    {
-        // get the start time
-    }
-
-    protected override void PostTestCleanup(object sender,
-        TestWorkflowPluginEventArgs e)
-    {
-        // total time = start time - current time
-        // IF total time > specified time ===> FAIL TEST
-    }
-}
-```
-
-```csharp
-[AssemblyInitialize]
-public static void AssemblyInitialize(TestContext testContext)
-{
-    Button.OverrideClickGlobally = (e) =>
-    {
-        e.ToExists().ToBeClickable().WaitToBe();
-        App.JavaScriptService.Execute("arguments[0].click();", e);
-    };
-}
-```
-
-```csharp
-Anchor.OverrideFocusLocally = (e) =>
-{
-    App.JavaScriptService.Execute("window.focus();");
-    App.JavaScriptService.Execute("arguments[0].focus();", anchor);
-};
-```
-
-```csharp
-public void ClickingEventHandler(object sender, ElementActionEventArgs arg)
-{
-    Logger.LogInformation($"Click {arg.Element.ElementName}");
-}
-
-public void HoveringEventHandler(object sender, ElementActionEventArgs arg)
-{
-    Logger.LogInformation($"Hover {arg.Element.ElementName}");
-}
-```
-
-```csharp
-public static void OnElementNotFound(object sender, ExceptionEventArgs args)
-{
-    var exceptionAnalyser = new ExceptionAnalyser();
-    exceptionAnalyser.Analyse(args.Exception);
-    throw args.Exception;
-}
-```
-
-```csharp
-public static class ButtonExtensions
-{
-    public static void SubmitButtonWithEnter(this Button button)
-    {
-        var action = new Actions(button.WrappedDriver);
-        action.MoveToElement(button.WrappedElement)
-            .SendKeys(Keys.Enter)
-            .Perform();
-    }
-}
-```
-
-```csharp
-public class ExtendedButton : Button
-{
-    public void SubmitButtonWithEnter()
-    {
-        var action = new Actions(WrappedDriver);
-        action.MoveToElement(WrappedElement)
-            .SendKeys(Keys.Enter)
-            .Perform();
-    }
-}
-```
-
-```csharp
-public static class NavigationServiceExtensions
-{
-    public static void NavigateViaJavaScript(
-        this NavigationService navigationService,
-        string url)
-    {
-        var javaScriptService = new JavaScriptService();
-        javaScriptService.Execute($"window.location.href = '{url}';");
-    }
-}
-```
-
-```csharp
-public class ByIdEndingWith : By
-{
-    public ByIdEndingWith(string value): base(value) {}
-    public override OpenQA.Selenium.By Convert()
-            => OpenQA.Selenium.By.CssSelector($"[id^='{Value}']");
-}
-```
-
-```csharp
-[TestClass]
-[ScreenshotOnFail(true)]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
-public class FullPageScreenshotsOnFailTests : WebTest
-{
-    [TestMethod]
-    public void PromotionsPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-        var promotionsLink =
-            App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
-        promotionsLink.Click();
-    }
-}
-```
-
-```csharp
-[TestClass]
-[VideoRecording(VideoRecordingMode.OnlyFail)]
-[Browser(BrowserType.Chrome, BrowserBehavior.ReuseIfStarted)]
-public class VideoRecordingTests : WebTest
-{
-    [TestMethod]
-    public void PromotionsPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-        var promotionsLink =
-            App.ElementCreateService.CreateByLinkText <Anchor>("Promotions");
-        promotionsLink.Click();
-    }
-}
-```
-
-```csharp
-[ExecutionTimeUnder(2)]
-public class MeasuredResponseTimesTests : WebTest
-```
-
-## Enterprise Test Automation Framework: Define Features Part 1
-
-```csharp
-updateCart.EnsureIsDisabled();
-
-```
-
-```csharp
-messageAlert.EnsureIsNotVisible();
-
-```
-
-```csharp
-totalSpan.EnsureInnerTextIs("120.00€", timeout: 30, sleepInterval: 2);
-
-```
-
-```csharp
-IWebElement agreeCheckBox = driver.FindElement(By.Id("agreeChB"));
-agreeCheckBox.Click();
-```
-
-```csharp
-CheckBox agreeCheckBox = App.ElementCreateService.CreateById<CheckBox>("agreeChB");
-agreeCheckBox.Check();
-```
-
-```csharp
-IWebDriver driver = new ChromeDriver();
-driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-```
-
-```csharp
-Thread.Sleep(2000);
-
-```
-
-```csharp
-[Browser(BrowserType.Firefox, BrowserBehavior.ReuseIfStarted)]
-public class BellatrixBrowserBehaviourTests : WebTest
-```
-
-```csharp
-[Browser(BrowserType.FirefoxHeadless, BrowserBehavior.ReuseIfStarted)]
-
-```
-
-```csharp
-IWebElement agreeCheckBox = driver.FindElement(By.Id("agreeChB"));
-agreeCheckBox.Click();
-IWebElement firstNameTextField = driver.FindElement(By.Id("firstName"));
-firstNameTextField.SendKeys("John");
-IWebElement avatarUpload = driver.FindElement(By.Id("uploadAvatar"));
-avatarUpload.SendKeys("pathTomyAvatar.jpg");
-IWebElement saveBtn = driver.FindElement(By.Id("saveBtn"));
-agreeCheckBox.SendKeys(Keys.Enter);
-```
-
-```csharp
-CheckBox agreeCheckBox = App.ElementCreateService.CreateById<CheckBox>("agreeChB");
-agreeCheckBox.Check();
-TextField firstNameTextField = App.ElementCreateService.CreateById<TextField>("firstName");
-firstNameTextField.SetText("John");
-InputFile avatarUpload = App.ElementCreateService.CreateById<InputFile>("uploadAvatar");
-avatarUpload.Upload("pathTomyAvatar.jpg");
-Button saveBtn = App.ElementCreateService.CreateById<Button>("saveBtn");
-saveBtn.ClickByEnter();
-```
-
-```csharp
-var homePage = App.GoTo<HomePage>();
-homePage.FilterProducts(ProductFilter.Popularity);
-homePage.AddProductById(28);
-homePage.ViewCartButton.Click();
-var cartPage = App.Create<CartPage>();
-cartPage.ApplyCoupon("happybirthday");
-cartPage.UpdateProductQuantity(1, 2);
-cartPage.AssertTotalPrice("95.00");
-cartPage.ProceedToCheckout.Click();
-```
-
-```csharp
-Start Test
-Class = BDDLoggingTests Name = PurchaseRocketWithLogs
-Select 'Sort by price: low to high' on CartPage
-Click ApplyCupon on CartPage
-Ensure SuccessDiv on CartPage inner text is 'Coupon code applied successfully.'
-Set '0' into QuantityNumber on CartPage
-Click UpdateCartButton on CartPage
-Ensure OrderTotalSpan on CartPage inner text is '95.00€'
-
-
-```
-
-```csharp
-Feature: CommonServices
-In order to use the browser
-As a automation engineer
-I want BELLATRIX to provide me handy method to do my job
-Background:
-Given I use Firefox browser on Windows
-And I reuse the browser if started
-And I capture HTTP traffic
-And I take a screenshot for failed tests
-And I record a video for failed tests
-And I open browser
-Scenario: Browser Service Common Steps
-When I navigate to URL http://demos.bellatrix.solutions/product/falcon-9/
-And I refresh the browser
-When I wait until the browser is ready
-And I wait for all AJAX requests to finish
-And I maximize the browser
-And I navigate to URL http://demos.bellatrix.solutions/
-And I click browser's back button
-And I click browser's forward button
-And I click browser's back button
-And I wait for partial URL falcon-9
+```vbnet
+Partial Public Class CalculatorStandardView
+Public ReadOnly Property ZeroButton As WindowsElement
+Get
+Return _driver.FindElementByName("Zero")
+End Get
+End Property
+Public ReadOnly Property OneButton As WindowsElement
+Get
+Return _driver.FindElementByName("One")
+End Get
+End Property
+Public ReadOnly Property TwoButton As WindowsElement
+Get
+Return _driver.FindElementByName("Two")
+End Get
+End Property
+Public ReadOnly Property ThreeButton As WindowsElement
+Get
+Return _driver.FindElementByName("Three")
+End Get
+End Property
+Public ReadOnly Property FourButton As WindowsElement
+Get
+Return _driver.FindElementByName("Four")
+End Get
+End Property
+Public ReadOnly Property FiveButton As WindowsElement
+Get
+Return _driver.FindElementByName("Five")
+End Get
+End Property
+Public ReadOnly Property SixButton As WindowsElement
+Get
+Return _driver.FindElementByName("Six")
+End Get
+End Property
+Public ReadOnly Property SevenButton As WindowsElement
+Get
+Return _driver.FindElementByName("Seven")
+End Get
+End Property
+Public ReadOnly Property EightButton As WindowsElement
+Get
+Return _driver.FindElementByName("Eight")
+End Get
+End Property
+Public ReadOnly Property NineButton As WindowsElement
+Get
+Return _driver.FindElementByName("Nine")
+End Get
+End Property
+Public ReadOnly Property PlusButton As WindowsElement
+Get
+Return _driver.FindElementByName("Plus")
+End Get
+End Property
+Public ReadOnly Property MinusButton As WindowsElement
+Get
+Return _driver.FindElementByName("Minus")
+End Get
+End Property
+Public ReadOnly Property EqualsButton As WindowsElement
+Get
+Return _driver.FindElementByName("Equals")
+End Get
+End Property
+Public ReadOnly Property DivideButton As WindowsElement
+Get
+Return _driver.FindElementByName("Divide by")
+End Get
+End Property
+Public ReadOnly Property MultiplyByButton As WindowsElement
+Get
+Return _driver.FindElementByName("Multiply by")
+End Get
+End Property
+Public ReadOnly Property ResultsInput As WindowsElement
+Get
+Return _driver.FindElementByAccessibilityId("CalculatorResults")
+End Get
+End Property
+End Class
 ```
