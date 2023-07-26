@@ -1890,87 +1890,423 @@ sequence.AddAction(device.CreatePointerUp(PointerButton.PenContact));
 _driver.PerformActions(new List<ActionSequence> { sequence });
 ```
 
-```vbnet
-Partial Public Class CalculatorStandardView
-Public ReadOnly Property ZeroButton As WindowsElement
-Get
-Return _driver.FindElementByName("Zero")
-End Get
-End Property
-Public ReadOnly Property OneButton As WindowsElement
-Get
-Return _driver.FindElementByName("One")
-End Get
-End Property
-Public ReadOnly Property TwoButton As WindowsElement
-Get
-Return _driver.FindElementByName("Two")
-End Get
-End Property
-Public ReadOnly Property ThreeButton As WindowsElement
-Get
-Return _driver.FindElementByName("Three")
-End Get
-End Property
-Public ReadOnly Property FourButton As WindowsElement
-Get
-Return _driver.FindElementByName("Four")
-End Get
-End Property
-Public ReadOnly Property FiveButton As WindowsElement
-Get
-Return _driver.FindElementByName("Five")
-End Get
-End Property
-Public ReadOnly Property SixButton As WindowsElement
-Get
-Return _driver.FindElementByName("Six")
-End Get
-End Property
-Public ReadOnly Property SevenButton As WindowsElement
-Get
-Return _driver.FindElementByName("Seven")
-End Get
-End Property
-Public ReadOnly Property EightButton As WindowsElement
-Get
-Return _driver.FindElementByName("Eight")
-End Get
-End Property
-Public ReadOnly Property NineButton As WindowsElement
-Get
-Return _driver.FindElementByName("Nine")
-End Get
-End Property
-Public ReadOnly Property PlusButton As WindowsElement
-Get
-Return _driver.FindElementByName("Plus")
-End Get
-End Property
-Public ReadOnly Property MinusButton As WindowsElement
-Get
-Return _driver.FindElementByName("Minus")
-End Get
-End Property
-Public ReadOnly Property EqualsButton As WindowsElement
-Get
-Return _driver.FindElementByName("Equals")
-End Get
-End Property
-Public ReadOnly Property DivideButton As WindowsElement
-Get
-Return _driver.FindElementByName("Divide by")
-End Get
-End Property
-Public ReadOnly Property MultiplyByButton As WindowsElement
-Get
-Return _driver.FindElementByName("Multiply by")
-End Get
-End Property
-Public ReadOnly Property ResultsInput As WindowsElement
-Get
-Return _driver.FindElementByAccessibilityId("CalculatorResults")
-End Get
-End Property
-End Class
+## Automate Windows Desktop Apps with WebDriver- WinAppDriver C#
+
+```xml
+<PackageReference Include="Microsoft.WinAppDriver.Appium.WebDriver" Version="*" />
+<PackageReference Include="Microsoft.CSharp" Version="*" />
+<PackageReference Include="Newtonsoft.Json" Version="*" />
+<PackageReference Include="Selenium.Support" Version="*" />
+<PackageReference Include="Selenium.WebDriver" Version="*" />
+<PackageReference Include="DotNetSeleniumExtras.PageObjects.Core" Version="*" />
+<PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="*" />
+<PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" />
+<PackageReference Include="NUnit" Version="*" />
+<PackageReference Include="NUnit3TestAdapter" Version="*">
+<PrivateAssets>all</PrivateAssets>
+<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+</PackageReference>
 ```
+
+```csharp
+var options = new AppiumOptions();
+options.AdditionalCapability("app", "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App");
+options.AdditionalCapability("deviceName", "WindowsPC");
+_driver = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), options);
+_driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+```
+
+```csharp
+function listAumids($userAccount)
+{
+  if ($userAccount - eq "allusers")
+  {
+    # Find installed packages
+    for all accounts.Must be run as an administrator in order to use this option.
+    $installedapps = Get - AppxPackage - allusers
+  }
+  elseif($userAccount)
+  {
+    # Find installed packages
+    for the specified account.Must be run as an administrator in order to use this option.
+    $installedapps = get - AppxPackage - user $userAccount
+  }
+  else
+  {
+    # Find installed packages
+    for the current account.
+    $installedapps = get - AppxPackage
+  }
+  $aumidList = @()
+  foreach($app in $installedapps)
+  {
+    foreach($id in (Get - AppxPackageManifest $app).package.applications.application.id)
+    {
+      $aumidList += $app.packagefamilyname + "!" + $id
+    }
+  }
+  return $aumidList
+}
+```
+
+```csharp
+[Test]
+public void Addition()
+{
+    _driver.FindElementByName("Five").Click();
+    _driver.FindElementByName("Plus").Click();
+    _driver.FindElementByName("Seven").Click();
+    _driver.FindElementByName("Equals").Click();
+    var calculatorResult = GetCalculatorResultText();
+    Assert.AreEqual("12", calculatorResult);
+}
+
+private string GetCalculatorResultText()
+{
+    return _driver.FindElementByAccessibilityId("CalculatorResults").Text.Replace("Display is", string.Empty).Trim();
+}
+```
+
+```csharp
+[TestFixture]
+public class CalculatorTests
+{
+    private WindowsDriver<WindowsElement> _driver;
+    [SetUp]
+    public void TestInit()
+    {
+        var options = new AppiumOptions();
+        options.AddAdditionalCapability("app", "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App");
+        options.AddAdditionalCapability("deviceName", "WindowsPC");
+        _driver = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), options);
+        _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+    }
+
+    [TearDown]
+    public void TestCleanup()
+    {
+        if (_driver != null)
+        {
+            _driver.Quit();
+            _driver = null;
+        }
+    }
+
+    [Test]
+    public void Addition()
+    {
+        _driver.FindElementByName("Five").Click();
+        _driver.FindElementByName("Plus").Click();
+        _driver.FindElementByName("Seven").Click();
+        _driver.FindElementByName("Equals").Click();
+        var calculatorResult = GetCalculatorResultText();
+        Assert.AreEqual("12", calculatorResult);
+    }
+
+    [Test]
+    public void Division()
+    {
+        _driver.FindElementByAccessibilityId("num8Button").Click();
+        _driver.FindElementByAccessibilityId("num8Button").Click();
+        _driver.FindElementByAccessibilityId("divideButton").Click();
+        _driver.FindElementByAccessibilityId("num1Button").Click();
+        _driver.FindElementByAccessibilityId("num1Button").Click();
+        _driver.FindElementByAccessibilityId("equalButton").Click();
+        Assert.AreEqual("8", GetCalculatorResultText());
+    }
+
+    [Test]
+    public void Multiplication()
+    {
+        _driver.FindElementByXPath("//Button[@Name='Nine']").Click();
+        _driver.FindElementByXPath("//Button[@Name='Multiply by']").Click();
+        _driver.FindElementByXPath("//Button[@Name='Nine']").Click();
+        _driver.FindElementByXPath("//Button[@Name='Equals']").Click();
+        Assert.AreEqual("81", GetCalculatorResultText());
+    }
+
+    [Test]
+    public void Subtraction()
+    {
+        _driver.FindElementByXPath("//Button[@AutomationId="num9Button"]").Click();
+        _driver.FindElementByXPath("//Button[@AutomationId="minusButton"]").Click();
+        _driver.FindElementByXPath("//Button[@AutomationId="num1Button"]").Click();
+        _driver.FindElementByXPath("//Button[@AutomationId="equalButton"]").Click();
+        Assert.AreEqual("8", GetCalculatorResultText());
+    }
+
+    [Test]
+    [TestCase("One", "Plus", "Seven", "8")]
+    [TestCase("Nine", "Minus", "One", "8")]
+    [TestCase("Eight", "Divide by", "Eight", "1")]
+    public void Templatized(string input1, string operation, string input2, string expectedResult)
+    {
+        _driver.FindElementByName(input1).Click();
+        _driver.FindElementByName(operation).Click();
+        _driver.FindElementByName(input2).Click();
+        _driver.FindElementByName("Equals").Click();
+        Assert.AreEqual(expectedResult, GetCalculatorResultText());
+    }
+
+    private string GetCalculatorResultText()
+    {
+        return _driver.FindElementByAccessibilityId("CalculatorResults").Text.Replace("Display is", string.Empty).Trim();
+    }
+```
+
+## Windows WebDriver- WinAppDriver- Page Objects C#
+
+```csharp
+public partial class CalculatorStandardView
+{
+    public WindowsElement ZeroButton => _driver.FindElementByName("Zero");
+    public WindowsElement OneButton => _driver.FindElementByName("One");
+    public WindowsElement TwoButton => _driver.FindElementByName("Two");
+    public WindowsElement ThreeButton => _driver.FindElementByName("Three");
+    public WindowsElement FourButton => _driver.FindElementByName("Four");
+    public WindowsElement FiveButton => _driver.FindElementByName("Five");
+    public WindowsElement SixButton => _driver.FindElementByName("Six");
+    public WindowsElement SevenButton => _driver.FindElementByName("Seven");
+    public WindowsElement EightButton => _driver.FindElementByName("Eight");
+    public WindowsElement NineButton => _driver.FindElementByName("Nine");
+    public WindowsElement PlusButton => _driver.FindElementByName("Plus");
+    public WindowsElement MinusButton => _driver.FindElementByName("Minus");
+    public WindowsElement EqualsButton => _driver.FindElementByName("Equals");
+    public WindowsElement DivideButton => _driver.FindElementByName("Divide by");
+    public WindowsElement MultiplyByButton => _driver.FindElementByName("Multiply by");
+    public WindowsElement ResultsInput => _driver.FindElementByAccessibilityId("CalculatorResults");
+}
+```
+
+````csharp
+
+public partial class CalculatorStandardView
+{
+    private readonly WindowsDriver<WindowsElement> _driver;
+    public CalculatorStandardView(WindowsDriver<WindowsElement> driver) => _driver = driver;
+    public void PerformCalculation(int num1, char operation, int num2)
+    {
+        ClickByDigit(num1);
+        PerformOperations(operation);
+        ClickByDigit(num2);
+        EqualsButton.Click();
+    }
+    private void ClickByDigit(int digit)
+    {
+        switch (digit)
+        {
+            case 1:
+                OneButton.Click();
+                break;
+            case 2:
+                TwoButton.Click();
+                break;
+            case 3:
+                ThreeButton.Click();
+                break;
+            case 4:
+                FourButton.Click();
+                break;
+            case 5:
+                FiveButton.Click();
+                break;
+            case 6:
+                SixButton.Click();
+                break;
+            case 7:
+                SevenButton.Click();
+                break;
+            case 8:
+                EightButton.Click();
+                break;
+            case 9:
+                NineButton.Click();
+                break;
+            default:
+                throw new NotSupportedException($"Not Supported digit = {digit}");
+        }
+    }
+    private void PerformOperations(char operation)
+    {
+        switch (operation)
+        {
+            case '+':
+                PlusButton.Click();
+                break;
+            case '-':
+                MinusButton.Click();
+                break;
+            case '=':
+                EqualsButton.Click();
+                break;
+            case '*':
+                MultiplyByButton.Click();
+                break;
+            case '/':
+                DivideButton.Click();
+                break;
+            default:
+                throw new NotSupportedException($"Not Supported operation = {operation}");
+        }
+    }
+    private string GetCalculatorResultText() => ResultsInput.Text.Replace("Display is", string.Empty).Trim();
+}
+```
+
+```csharp
+public partial class CalculatorStandardView
+{
+    public void AssertResult(decimal expectedReslt)
+    {
+        string strResult = GetCalculatorResultText();
+        var actualResult = decimal.Parse(strResult);
+        Assert.AreEqual(expectedReslt, actualResult);
+    }
+}
+```
+
+```csharp
+[TestFixture]
+public class CalculatorTests
+{
+    private WindowsDriver<WindowsElement> _driver;
+    [SetUp]
+    public void TestInit()
+    {
+        var options = new AppiumOptions();
+        options.AddAdditionalCapability("app", "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App");
+        options.AddAdditionalCapability("deviceName", "WindowsPC");
+        _driver = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), options);
+        _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+    }
+    [TearDown]
+    public void TestCleanup()
+    {
+        if (_driver != null)
+        {
+            _driver.Quit();
+            _driver = null;
+        }
+    }
+    [Test]
+    public void Addition()
+    {
+        _driver.FindElementByName("Five").Click();
+        _driver.FindElementByName("Plus").Click();
+        _driver.FindElementByName("Seven").Click();
+        _driver.FindElementByName("Equals").Click();
+        var calculatorResult = GetCalculatorResultText();
+        Assert.AreEqual("12", calculatorResult);
+    }
+    [Test]
+    public void Division()
+    {
+        _driver.FindElementByAccessibilityId("num8Button").Click();
+        _driver.FindElementByAccessibilityId("num8Button").Click();
+        _driver.FindElementByAccessibilityId("divideButton").Click();
+        _driver.FindElementByAccessibilityId("num1Button").Click();
+        _driver.FindElementByAccessibilityId("num1Button").Click();
+        _driver.FindElementByAccessibilityId("equalButton").Click();
+        Assert.AreEqual("8", GetCalculatorResultText());
+    }
+    [Test]
+    public void Multiplication()
+    {
+        _driver.FindElementByXPath("//Button[@Name='Nine']").Click();
+        _driver.FindElementByXPath("//Button[@Name='Multiply by']").Click();
+        _driver.FindElementByXPath("//Button[@Name='Nine']").Click();
+        _driver.FindElementByXPath("//Button[@Name='Equals']").Click();
+        Assert.AreEqual("81", GetCalculatorResultText());
+    }
+    [Test]
+    public void Subtraction()
+    {
+        _driver.FindElementByXPath("//Button[@AutomationId="num9Button"]").Click();
+        _driver.FindElementByXPath("//Button[@AutomationId="minusButton"]").Click();
+        _driver.FindElementByXPath("//Button[@AutomationId="num1Button"]").Click();
+        _driver.FindElementByXPath("//Button[@AutomationId="equalButton"]").Click();
+        Assert.AreEqual("8", GetCalculatorResultText());
+    }
+    [Test]
+    [TestCase("One", "Plus", "Seven", "8")]
+    [TestCase("Nine", "Minus", "One", "8")]
+    [TestCase("Eight", "Divide by", "Eight", "1")]
+    public void Templatized(string input1, string operation, string input2, string expectedResult)
+    {
+        _driver.FindElementByName(input1).Click();
+        _driver.FindElementByName(operation).Click();
+        _driver.FindElementByName(input2).Click();
+        _driver.FindElementByName("Equals").Click();
+        Assert.AreEqual(expectedResult, GetCalculatorResultText());
+    }
+    private string GetCalculatorResultText()
+    {
+        return _driver.FindElementByAccessibilityId("CalculatorResults").Text.Replace("Display is", string.Empty).Trim();
+    }
+}
+```
+
+
+```csharp
+[TestFixture]
+public class CalculatorPageObjectsTests
+{
+    private WindowsDriver<WindowsElement> _driver;
+    private CalculatorStandardView _calcStandardView;
+    [SetUp]
+    public void TestInit()
+    {
+        var options = new AppiumOptions();
+        options.AdditionalCapability("app", "Microsoft.WindowsCalculator_8wekyb3d8bbwe!App");
+        options.AddAdditionalCapability("deviceName", "WindowsPC");
+        _driver = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), options);
+        _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+        _calcStandardView = new CalculatorStandardView(_driver);
+    }
+    [TearDown]
+    public void TestCleanup()
+    {
+        if (_driver != null)
+        {
+            _driver.Quit();
+            _driver = null;
+        }
+    }
+    [Test]
+    public void Addition()
+    {
+        _calcStandardView.PerformCalculation(5, '+', 7);
+        _calcStandardView.AssertResult(12);
+    }
+    [Test]
+    public void Division()
+    {
+        _calcStandardView.PerformCalculation(8, '/', 1);
+        _calcStandardView.AssertResult(8);
+    }
+    [Test]
+    public void Multiplication()
+    {
+        _calcStandardView.PerformCalculation(9, '*', 9);
+        _calcStandardView.AssertResult(81);
+    }
+    [Test]
+    public void Subtraction()
+    {
+        _calcStandardView.PerformCalculation(9, '-', 1);
+        _calcStandardView.AssertResult(8);
+    }
+    [Test]
+    [TestCase(1, '+', 7, 8)]
+    [TestCase(9, '-', 7, 2)]
+    [TestCase(8, '/', 4, 2)]
+    public void Templatized(int num1, char operation, int num2, decimal result)
+    {
+        _calcStandardView.PerformCalculation(num1, operation, num2);
+        _calcStandardView.AssertResult(result);
+    }
+}
+```
+
+
+````
