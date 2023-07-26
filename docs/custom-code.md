@@ -2235,3 +2235,2261 @@ public class CalculatorPageObjectsTests
 	<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 </PackageReference>
 ```
+
+# Design and Architecture
+
+## Serverless Execution of WebDriver Tests via Azure Functions
+
+```csharp
+public class RunSauceLabsChrome
+{
+    [FunctionName("RunSauceLabsChrome")]
+    public IActionResult Run(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+        ILogger logger
+    )
+    {
+        string result = "Nothing Happend";
+        try
+        {
+            var options = new ChromeOptions();
+            options.AddAdditionalOption("browserName", "Chrome");
+            options.AddAdditionalOption("platform", "Windows 8.1");
+            options.AddAdditionalOption("version", "49.0");
+            options.AddAdditionalOption("username", "autoCloudTester");
+            options.AddAdditionalOption("accessKey", "70dccdcf-a9fd-4f55-aa07-12b051f6c83e");
+            using var _driver = new RemoteWebDriver(
+                new Uri("http://ondemand.saucelabs.com:80/wd/hub"),
+                options
+            );
+            _driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(30);
+            _driver.Navigate().GoToUrl(new Uri("http://demos.bellatrix.solutions/"));
+            result = _driver.Title;
+        }
+        catch (Exception ex)
+        {
+            result = ex.Message;
+        }
+        return new OkObjectResult(result);
+    }
+}
+```
+
+```yaml
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+FROM mcr.microsoft.com/azure-functions/dotnet:3.0 AS base
+WORKDIR /home/site/wwwroot
+EXPOSE 80
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+WORKDIR /src
+COPY ["WebDriverTestsAzureFunctions/WebDriverTestsAzureFunctions.csproj", "WebDriverTestsAzureFunctions/"]
+RUN dotnet restore "WebDriverTestsAzureFunctions/WebDriverTestsAzureFunctions.csproj"
+COPY . .
+WORKDIR "/src/WebDriverTestsAzureFunctions"
+RUN dotnet build "WebDriverTestsAzureFunctions.csproj" -c Release -o /app/build
+FROM build AS publish
+RUN dotnet publish "WebDriverTestsAzureFunctions.csproj" -c Release -o /app/publish
+RUN apt-get update &&
+apt-get install -y gnupg wget curl unzip --no-install-recommends &&
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - &&
+echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list &&
+apt-get update -y &&
+apt-get install -y google-chrome-stable &&
+CHROMEVER=$(google-chrome --product-version | grep -o "[^.]*.[^.]*.[^.]*") &&
+DRIVERVER=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROMEVER") &&
+wget -q --continue -P /chromedriver "//chromedriver.storage.googleapis.com/$DRIVERVER/chromedriver_linux64.zip" &&
+unzip /chromedriver/chromedriver* -d /usr/bin/
+FROM base AS final
+WORKDIR /home/site/wwwroot
+COPY --from=publish /app/publish .
+ENV AzureWebJobsScriptRoot=/home/site/wwwroot
+AzureFunctionsJobHost__Logging__Console__IsEnabled=true
+```
+
+```csharp
+public class RunStandaloneChrome
+{
+    [FunctionName("RunStandaloneChrome")]
+    public IActionResult Run(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+        ILogger logger
+    )
+    {
+        string result = "Nothing Happend";
+        try
+        {
+            var chromeOptions = new ChromeOptions();
+            chromeOptions.AddArguments(
+                "--headless",
+                "--no-sandbox",
+                "--disable-gpu",
+                "--whitelisted-ips"
+            );
+            var service = ChromeDriverService.CreateDefaultService("/usr/bin/", "chromedriver");
+            using IWebDriver driver = new ChromeDriver(service, chromeOptions);
+            driver.Navigate().GoToUrl(new Uri("http://demos.bellatrix.solutions/"));
+            result = driver.Title;
+        }
+        catch (Exception ex)
+        {
+            result = ex.Message;
+        }
+        return new OkObjectResult(result);
+    }
+}
+```
+
+## Black Hole Proxy Pattern for Reducing Test Instability
+
+```csharp
+[TestClass]
+public class CaptureHttpTrafficTests
+{
+    private static IWebDriver _driver;
+    private static ProxyServer _proxyServer;
+    private static IDictionary<int, Proxy.Request> _requestsHistory;
+    private static IDictionary<int, Proxy.Response> _responsesHistory;
+    private static ConcurrentBag<string> _blockUrls;
+
+    [ClassInitialize]
+    public static void OnClassInitialize(TestContext context)
+    {
+        _proxyServer = new ProxyServer();
+        _blockUrls = new ConcurrentBag<string>();
+        _responsesHistory = new ConcurrentDictionary<int, Proxy.Response>();
+        _requestsHistory = new ConcurrentDictionary<int, Proxy.Request>();
+        var explicitEndPoint = new ExplicitProxyEndPoint(System.Net.IPAddress.Any, 18882, true);
+        _proxyServer.AddEndPoint(explicitEndPoint);
+        _proxyServer.Start();
+        _proxyServer.SetAsSystemHttpProxy(explicitEndPoint);
+        _proxyServer.SetAsSystemHttpsProxy(explicitEndPoint);
+        _proxyServer.BeforeRequest += OnRequestBlockResourceEventHandler;
+        _proxyServer.BeforeRequest += OnRequestCaptureTrafficEventHandler;
+        _proxyServer.BeforeResponse += OnResponseCaptureTrafficEventHandler;
+    }
+
+    [ClassCleanup]
+    public static void ClassCleanup()
+    {
+        _proxyServer.Stop();
+    }
+
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        var proxy = new OpenQA.Selenium.Proxy
+        {
+            HttpProxy = "http://localhost:18882",
+            SslProxy = "http://localhost:18882",
+            FtpProxy = "http://localhost:18882"
+        };
+        var options = new ChromeOptions { Proxy = proxy };
+        _driver = new ChromeDriver(Environment.CurrentDirectory, options);
+    }
+
+    [TestCleanup]
+    public void TestCleanup()
+    {
+        _driver.Dispose();
+        _requestsHistory.Clear();
+        _responsesHistory.Clear();
+    }
+
+    [TestMethod]
+    public void FontRequestsNotMade_When_FontRequestSetToBeBlocked()
+    {
+        _blockUrls.Add("fontawesome-webfont.woff");
+        _driver.Navigate().GoToUrl("https://automatetheplanet.com/");
+    }
+
+    private static async Task OnRequestBlockResourceEventHandler(
+        object sender,
+        SessionEventArgs e
+    ) =>
+        await Task.Run(() =>
+        {
+            if (_blockUrls.Count > 0)
+            {
+                foreach (var urlToBeBlocked in _blockUrls)
+                {
+                    if (e.HttpClient.Request.RequestUri.ToString().Contains(urlToBeBlocked))
+                    {
+                        string customBody = string.Empty;
+                        e.Ok(Encoding.UTF8.GetBytes(customBody));
+                    }
+                }
+            }
+        });
+
+    private static async Task OnRequestCaptureTrafficEventHandler(
+        object sender,
+        SessionEventArgs e
+    ) =>
+        await Task.Run(() =>
+        {
+            if (
+                !_requestsHistory.ContainsKey(e.HttpClient.Request.GetHashCode())
+                && e.HttpClient.Request != null
+            )
+            {
+                _requestsHistory.Add(e.HttpClient.Request.GetHashCode(), e.HttpClient.Request);
+            }
+        });
+
+    private static async Task OnResponseCaptureTrafficEventHandler(
+        object sender,
+        SessionEventArgs e
+    ) =>
+        await Task.Run(() =>
+        {
+            if (
+                !_responsesHistory.ContainsKey(e.HttpClient.Response.GetHashCode())
+                && e.HttpClient.Response != null
+            )
+            {
+                _responsesHistory.Add(e.HttpClient.Response.GetHashCode(), e.HttpClient.Response);
+            }
+        });
+}
+```
+
+```csharp
+[TestClass]
+public class CaptureHttpTrafficDevToolsTests
+{
+    private ChromeDriver _driver;
+
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        _driver = new ChromeDriver();
+    }
+
+    [TestCleanup]
+    public void TestCleanup()
+    {
+        _driver.Quit();
+    }
+
+    [TestMethod]
+    public void FontRequestsNotMade_When_FontRequestSetToBeBlocked_DevTools()
+    {
+        var devToolssession = _driver.CreateDevToolsSession();
+        var blockedUrlSettings = new SetBlockedURLsCommandSettings();
+        blockedUrlSettings.Urls = new string[]
+        {
+            "http://demos.bellatrix.solutions/wp-content/themes/storefront/assets/fonts/fontawesome-webfont.woff2?v=4.7.0"
+        };
+
+        devToolssession.Network.SetBlockedURLs(blockedUrlSettings);
+        _driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+        IWebElement imageTitle = _driver.FindElement(By.XPath("//h2[text()='Falcon 9']"));
+
+        IWebElement falconSalesButton = _driver.FindElement(
+            RelativeBy.WithTagName("span").Below(imageTitle)
+        );
+
+        falconSalesButton.Click();
+    }
+}
+```
+
+## Composite Design Pattern in Automated Testing
+
+```csharp
+public class DriverAdapter : IDriver
+{
+    private readonly IWebDriver _driver;
+    public DriverAdapter(IWebDriver driver)
+    {
+        _driver = driver;
+    }
+    public void GoToUrl(string url)
+    {
+        _driver.Navigate().GoToUrl(url);
+    }
+    public Uri Url
+    {
+        get => new Uri(_driver.Url);
+        set => _driver.Url = value.ToString();
+    }
+    public IElement Create(By locator)
+    {
+        return new ElementAdapter(_driver, locator);
+    }
+    public IElementsList CreateElements(By locator)
+    {
+        return new ElementsList(_driver, locator);
+    }
+    public void WaitForAjax()
+    {
+        var timeout = TimeSpan.FromSeconds(30);
+        var sleepInterval = TimeSpan.FromSeconds(2);
+        var webDriverWait = new WebDriverWait(new SystemClock(), _driver, timeout, sleepInterval);
+        var js = (IJavaScriptExecutor)_driver;
+        webDriverWait.Until(wd => js.ExecuteScript("return jQuery.active").ToString() == "0");
+    }
+    public void Close()
+    {
+        _driver.Quit();
+        _driver.Dispose();
+    }
+}
+```
+
+```csharp
+public class ElementAdapter : IElement
+{
+    private readonly IWebDriver _driver;
+    private readonly ElementFinderService _elementFinder;
+
+    public ElementAdapter(IWebDriver driver, By by)
+    {
+        _driver = driver;
+        By = by;
+        _elementFinder = new ElementFinderService(driver);
+    }
+
+    public IWebElement NativeWebElement
+    {
+        get => _elementFinder.Find(By);
+    }
+
+    public By By
+    {
+        get;
+    }
+
+    public string Text => NativeWebElement?.Text;
+    public bool? Enabled => NativeWebElement?.Enabled;
+    public bool? Displayed => NativeWebElement?.Displayed;
+
+    public void Click()
+    {
+        WaitToBeClickable(By);
+        NativeWebElement?.Click();
+    }
+
+    public IElement CreateElement(By locator)
+    {
+        return new ElementAdapter(_driver, locator);
+    }
+
+    public IElementsList CreateElements(By locator)
+    {
+        return new ElementsList(_driver, locator);
+    }
+
+    public void TypeText(string text)
+    {
+        var webElement = NativeWebElement;
+        webElement?.Clear();
+        webElement?.SendKeys(text);
+    }
+
+    private void WaitToBeClickable(By by)
+    {
+        var webDriverWait = new WebDriverWait(_driver, TimeSpan.FromSeconds(30));
+        webDriverWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(by));
+    }
+}
+```
+
+```csharp
+public class ElementsList : IElementsList
+{
+    private readonly By _by;
+    private readonly ElementFinderService _elementFinder;
+    private readonly IWebDriver _driver;
+
+    public ElementsList(IWebDriver driver, By by)
+    {
+        _by = by;
+        _elementFinder = new ElementFinderService(driver);
+        _driver = driver;
+    }
+
+    public IElement this[int i] => GetAndWaitWebDriverElements().ElementAt(i);
+    public IEnumerator<IElement> GetEnumerator() => GetAndWaitWebDriverElements().GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    public int Count()
+    {
+        return _elementFinder.FindAll(_by).Count();
+    }
+
+    public void ForEach(Action<IElement> action)
+    {
+        foreach (var element in this)
+        {
+            action(element);
+        }
+    }
+    private IEnumerable<IElement> GetAndWaitWebDriverElements()
+    {
+        var nativeElements = _elementFinder.FindAll(_by);
+        foreach (var nativeElement in nativeElements)
+        {
+            IElement element = new ElementAdapter(_driver, _by);
+            yield
+            return element;
+        }
+    }
+}
+```
+
+```csharp
+public void AssertBackgroundColor(string expectedBackgroundColor)
+{
+    Assert.AreEqual(expectedBackgroundColor, NativeWebElement.GetCssValue("background-color"));
+}
+public void AssertBorderColor(string expectedBorderColor)
+{
+    Assert.AreEqual(expectedBorderColor, NativeWebElement.GetCssValue("border-color"));
+}
+public void AssertColor(string expectedColor)
+{
+    Assert.AreEqual(expectedColor, NativeWebElement.GetCssValue("color"));
+}
+public void AssertFontFamily(string expectedFontFamily)
+{
+    Assert.AreEqual(expectedFontFamily, NativeWebElement.GetCssValue("font-family"));
+}
+public void AssertFontWeight(string expectedFontWeight)
+{
+    Assert.AreEqual(expectedFontWeight, NativeWebElement.GetCssValue("font-weight"));
+}
+public void AssertFontSize(string expectedFontSize)
+{
+    Assert.AreEqual(expectedFontSize, NativeWebElement.GetCssValue("font-size"));
+}
+public void AssertTextAlign(string expectedTextAlign)
+{
+    Assert.AreEqual(expectedTextAlign, NativeWebElement.GetCssValue("text-align"));
+}
+public void AssertVerticalAlign(string expectedVerticalAlign)
+{
+    Assert.AreEqual(expectedVerticalAlign, NativeWebElement.GetCssValue("vertical-align"));
+}
+```
+
+```csharp
+[TestMethod]
+public void VerifyStylesOfAddToCartButton()
+{
+    _driver.GoToUrl("http://demos.bellatrix.solutions/");
+    var falcon0AddToCartButton = _driver.Create(By.CssSelector("[data-product_id*='28']"));
+    falcon0AddToCartButton.AssertFontSize("14px");
+    falcon0AddToCartButton.AssertFontWeight("600");
+}
+```
+
+```csharp
+[TestMethod]
+public void VerifyStylesOfAddToCartButtons()
+{
+    _driver.GoToUrl("http://demos.bellatrix.solutions/");
+    var addToCartButtons = _driver.CreateElements(By.XPath("//a[contains(text(),'Add to cart')]"));
+    foreach (var addToCartButton in addToCartButtons)
+    {
+        addToCartButton.AssertFontSize("14px");
+        addToCartButton.AssertFontWeight("600");
+    }
+}
+```
+
+```csharp
+[TestMethod]
+public void VerifyStylesOfAddToCartButtons()
+{
+    _driver.GoToUrl("http://demos.bellatrix.solutions/");
+    var addToCartButtons = _driver.CreateElements(By.XPath("//a[contains(text(),'Add to cart')]"));
+    addToCartButtons.ForEach(e => e.AssertFontSize("14px"));
+    addToCartButtons.ForEach(e => e.AssertFontWeight("600"));
+}
+```
+
+```csharp
+[TestMethod]
+public void VerifyStylesOfAddToCartButtons()
+{
+    _driver.GoToUrl("http://demos.bellatrix.solutions/");
+    var addToCartButtons = _driver.CreateElements(By.XPath("//a[contains(text(),'Add to cart')]"));
+    addToCartButtons.AssertFontSize("14px");
+    addToCartButtons.AssertFontWeight("600");
+}
+```
+
+```csharp
+public interface IStyleAssertedElement
+{
+    void AssertBackgroundColor(string expectedBackgroundColor);
+    void AssertBorderColor(string expectedBorderColor);
+    void AssertColor(string expectedColor);
+    void AssertFontFamily(string expectedFontFamily);
+    void AssertFontWeight(string expectedFontWeight);
+    void AssertFontSize(string expectedFontSize);
+    void AssertTextAlign(string expectedTextAlign);
+    void AssertVerticalAlign(string expectedVerticalAlign);
+}
+```
+
+```csharp
+public class ElementsList : IElementsList
+{
+    private readonly By _by;
+    private readonly ElementFinderService _elementFinder;
+    private readonly IWebDriver _driver;
+    public ElementsList(IWebDriver driver, By by)
+    {
+        _by = by;
+        _elementFinder = new ElementFinderService(driver);
+        _driver = driver;
+    }
+    public IElement this[int i] => GetAndWaitWebDriverElements().ElementAt(i);
+    public IEnumerator<IElement> GetEnumerator() => GetAndWaitWebDriverElements().GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public int Count()
+    {
+        return _elementFinder.FindAll(_by).Count();
+    }
+    public void ForEach(Action<IElement> action)
+    {
+        foreach (var element in this)
+        {
+            action(element);
+        }
+    }
+    public void AssertBackgroundColor(string expectedBackgroundColor)
+    {
+        ForEach(e => e.AssertBackgroundColor(expectedBackgroundColor));
+    }
+    public void AssertBorderColor(string expectedBorderColor)
+    {
+        ForEach(e => e.AssertBorderColor(expectedBorderColor));
+    }
+    public void AssertColor(string expectedColor)
+    {
+        ForEach(e => e.AssertColor(expectedColor));
+    }
+    public void AssertFontFamily(string expectedFontFamily)
+    {
+        ForEach(e => e.AssertFontFamily(expectedFontFamily));
+    }
+    public void AssertFontWeight(string expectedFontWeight)
+    {
+        ForEach(e => e.AssertFontWeight(expectedFontWeight));
+    }
+    public void AssertFontSize(string expectedFontSize)
+    {
+        ForEach(e => e.AssertFontSize(expectedFontSize));
+    }
+    public void AssertTextAlign(string expectedTextAlign)
+    {
+        ForEach(e => e.AssertTextAlign(expectedTextAlign));
+    }
+    public void AssertVerticalAlign(string expectedVerticalAlign)
+    {
+        ForEach(e => e.AssertVerticalAlign(expectedVerticalAlign));
+    }
+    private IEnumerable<IElement> GetAndWaitWebDriverElements()
+    {
+        var nativeElements = _elementFinder.FindAll(_by);
+        foreach (var nativeElement in nativeElements)
+        {
+            IElement element = new ElementAdapter(_driver, _by);
+            yield return element;
+        }
+    }
+}
+```
+
+## Lazy Loading Design Pattern in Automated Testing
+
+```csharp
+[TestClass]
+public class ProductPurchaseTestsHardCodedPauses
+{
+    private IWebDriver _driver;
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        _driver = new ChromeDriver();
+    }
+    [TestCleanup]
+    public void TestCleanup()
+    {
+        _driver.Quit();
+    }
+    [TestMethod]
+    public void CompletePurchaseSuccessfully_WhenNewClientAndHardCodedPauses()
+    {
+        _driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+        var addToCartFalcon9 = _driver.FindElement(By.CssSelector("[data-product_id*='28']"));
+        addToCartFalcon9.Click();
+        Thread.Sleep(5000);
+        var viewCartButton = _driver.FindElement(By.CssSelector("[class*='added_to_cart wc-forward']"));
+        viewCartButton.Click();
+        var couponCodeTextField = _driver.FindElement(By.Id("coupon_code"));
+        couponCodeTextField.Clear();
+        couponCodeTextField.SendKeys("happybirthday");
+        var applyCouponButton = _driver.FindElement(By.CssSelector("[value*='Apply coupon']"));
+        applyCouponButton.Click();
+        Thread.Sleep(5000);
+        var messageAlert = _driver.FindElement(By.CssSelector("[class*='woocommerce-message']"));
+        Assert.AreEqual("Coupon code applied successfully.", messageAlert.Text);
+        var quantityBox = _driver.FindElement(By.CssSelector("[class*='input-text qty text']"));
+        quantityBox.Clear();
+        Thread.Sleep(500);
+        quantityBox.SendKeys("2");
+        Thread.Sleep(5000);
+        var updateCart = _driver.FindElement(By.CssSelector("[value*='Update cart']"));
+        updateCart.Click();
+        Thread.Sleep(5000);
+        var totalSpan = _driver.FindElement(By.XPath("//*[@class='order-total']//span"));
+        Assert.AreEqual("114.00€", totalSpan.Text);
+        var proceedToCheckout = _driver.FindElement(By.CssSelector("[class*='checkout-button button alt wc-forward']"));
+        proceedToCheckout.Click();
+        var billingFirstName = _driver.FindElement(By.Id("billing_first_name"));
+        billingFirstName.SendKeys("Anton");
+        var billingLastName = _driver.FindElement(By.Id("billing_last_name"));
+        billingLastName.SendKeys("Angelov");
+        var billingCompany = _driver.FindElement(By.Id("billing_company"));
+        billingCompany.SendKeys("Space Flowers");
+        var billingCountryWrapper = _driver.FindElement(By.Id("select2-billing_country-container"));
+        billingCountryWrapper.Click();
+        var billingCountryFilter = _driver.FindElement(By.ClassName("select2-search__field"));
+        billingCountryFilter.SendKeys("Germany");
+        var germanyOption = _driver.FindElement(By.XPath("//*[contains(text(),'Germany')]"));
+        germanyOption.Click();
+        var billingAddress1 = _driver.FindElement(By.Id("billing_address_1"));
+        billingAddress1.SendKeys("1 Willi Brandt Avenue Tiergarten");
+        var billingAddress2 = _driver.FindElement(By.Id("billing_address_2"));
+        billingAddress2.SendKeys("Lützowplatz 17");
+        var billingCity = _driver.FindElement(By.Id("billing_city"));
+        billingCity.SendKeys("Berlin");
+        var billingZip = _driver.FindElement(By.Id("billing_postcode"));
+        billingZip.Clear();
+        billingZip.SendKeys("10115");
+        var billingPhone = _driver.FindElement(By.Id("billing_phone"));
+        billingPhone.SendKeys("+00498888999281");
+        var billingEmail = _driver.FindElement(By.Id("billing_email"));
+        billingEmail.SendKeys("info@berlinspaceflowers.com");
+        Thread.Sleep(5000);
+        var placeOrderButton = _driver.FindElement(By.Id("place_order"));
+        placeOrderButton.Click();
+        Thread.Sleep(10000);
+        var receivedMessage = _driver.FindElement(By.XPath("/html/body/div[1]/div/div/div/main/div/header/h1"));
+        Assert.AreEqual("Order received", receivedMessage.Text);
+    }
+}
+```
+
+```csharp
+[TestClass]
+public class ProductPurchaseTestsProxy
+{
+    private IWebDriver _driver;
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        _driver = new WebDriverProxy(new ChromeDriver());
+    }
+    [TestCleanup]
+    public void TestCleanup()
+    {
+        _driver.Quit();
+    }
+    [TestMethod]
+    public void CompletePurchaseSuccessfully_WhenNewClientAndWaitProxy()
+    {
+        _driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+        var addToCartFalcon9 = _driver.FindElement(By.CssSelector("[data-product_id*='28']"));
+        addToCartFalcon9.Click();
+        ////Thread.Sleep(5000);
+        var viewCartButton = _driver.FindElement(By.CssSelector("[class*='added_to_cart wc-forward']"));
+        viewCartButton.Click();
+        var couponCodeTextField = _driver.FindElement(By.Id("coupon_code"));
+        couponCodeTextField.Clear();
+        couponCodeTextField.SendKeys("happybirthday");
+        var applyCouponButton = _driver.FindElement(By.CssSelector("[value*='Apply coupon']"));
+        applyCouponButton.Click();
+        ////Thread.Sleep(5000);
+        var messageAlert = _driver.FindElement(By.CssSelector("[class*='woocommerce-message']"));
+        Assert.AreEqual("Coupon code applied successfully.", messageAlert.Text);
+        var quantityBox = _driver.FindElement(By.CssSelector("[class*='input-text qty text']"));
+        quantityBox.Clear();
+        ////Thread.Sleep(500);
+        quantityBox.SendKeys("2");
+        ////Thread.Sleep(5000);
+        var updateCart = _driver.FindElement(By.CssSelector("[value*='Update cart']"));
+        updateCart.Click();
+        Thread.Sleep(5000);
+        var totalSpan = _driver.FindElement(By.XPath("//*[@class='order-total']//span"));
+        Assert.AreEqual("114.00€", totalSpan.Text);
+        var proceedToCheckout = _driver.FindElement(By.CssSelector("[class*='checkout-button button alt wc-forward']"));
+        proceedToCheckout.Click();
+        var billingFirstName = _driver.FindElement(By.Id("billing_first_name"));
+        billingFirstName.SendKeys("Anton");
+        var billingLastName = _driver.FindElement(By.Id("billing_last_name"));
+        billingLastName.SendKeys("Angelov");
+        var billingCompany = _driver.FindElement(By.Id("billing_company"));
+        billingCompany.SendKeys("Space Flowers");
+        var billingCountryWrapper = _driver.FindElement(By.Id("select2-billing_country-container"));
+        billingCountryWrapper.Click();
+        var billingCountryFilter = _driver.FindElement(By.ClassName("select2-search__field"));
+        billingCountryFilter.SendKeys("Germany");
+        var germanyOption = _driver.FindElement(By.XPath("//*[contains(text(),'Germany')]"));
+        germanyOption.Click();
+        var billingAddress1 = _driver.FindElement(By.Id("billing_address_1"));
+        billingAddress1.SendKeys("1 Willi Brandt Avenue Tiergarten");
+        var billingAddress2 = _driver.FindElement(By.Id("billing_address_2"));
+        billingAddress2.SendKeys("Lützowplatz 17");
+        var billingCity = _driver.FindElement(By.Id("billing_city"));
+        billingCity.SendKeys("Berlin");
+        var billingZip = _driver.FindElement(By.Id("billing_postcode"));
+        billingZip.Clear();
+        billingZip.SendKeys("10115");
+        var billingPhone = _driver.FindElement(By.Id("billing_phone"));
+        billingPhone.SendKeys("+00498888999281");
+        var billingEmail = _driver.FindElement(By.Id("billing_email"));
+        billingEmail.SendKeys("info@berlinspaceflowers.com");
+        Thread.Sleep(5000);
+        var placeOrderButton = _driver.FindElement(By.Id("place_order"));
+        placeOrderButton.Click();
+        Thread.Sleep(10000);
+        var receivedMessage = _driver.FindElement(By.XPath("/html/body/div[1]/div/div/div/main/div/header/h1"));
+        Assert.AreEqual("Order received", receivedMessage.Text);
+    }
+}
+```
+
+```csharp
+[TestClass]
+public class ProductPurchaseTestsAdapter
+{
+    private IDriver _driver;
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        _driver = new DriverAdapter(new ChromeDriver());
+    }
+    [TestCleanup]
+    public void TestCleanup()
+    {
+        _driver.Close();
+    }
+    [TestMethod]
+    public void CompletePurchaseSuccessfully_WhenNewClient()
+    {
+        _driver.GoToUrl("http://demos.bellatrix.solutions/");
+        var addToCartFalcon9 = _driver.FindElement(By.CssSelector("[data-product_id*='28']"));
+        addToCartFalcon9.Click();
+        var viewCartButton = _driver.FindElement(By.CssSelector("[class*='added_to_cart wc-forward']"));
+        viewCartButton.Click();
+        var couponCodeTextField = _driver.FindElement(By.Id("coupon_code"));
+        couponCodeTextField.TypeText("happybirthday");
+        var applyCouponButton = _driver.FindElement(By.CssSelector("[value*='Apply coupon']"));
+        applyCouponButton.Click();
+        var messageAlert = _driver.FindElement(By.CssSelector("[class*='woocommerce-message']"));
+        Assert.AreEqual("Coupon code applied successfully.", messageAlert.Text);
+        var quantityBox = _driver.FindElement(By.CssSelector("[class*='input-text qty text']"));
+        quantityBox.TypeText("2");
+        var updateCart = _driver.FindElement(By.CssSelector("[value*='Update cart']"));
+        updateCart.Click();
+        _driver.WaitForAjax();
+        var totalSpan = _driver.FindElement(By.XPath("//*[@class='order-total']//span"));
+        Assert.AreEqual("114.00€", totalSpan.Text);
+        var proceedToCheckout = _driver.FindElement(By.CssSelector("[class*='checkout-button button alt wc-forward']"));
+        proceedToCheckout.Click();
+        var billingFirstName = _driver.FindElement(By.Id("billing_first_name"));
+        billingFirstName.TypeText("Anton");
+        var billingLastName = _driver.FindElement(By.Id("billing_last_name"));
+        billingLastName.TypeText("Angelov");
+        var billingCompany = _driver.FindElement(By.Id("billing_company"));
+        billingCompany.TypeText("Space Flowers");
+        var billingCountryWrapper = _driver.FindElement(By.Id("select2-billing_country-container"));
+        billingCountryWrapper.Click();
+        var billingCountryFilter = _driver.FindElement(By.ClassName("select2-search__field"));
+        billingCountryFilter.TypeText("Germany");
+        var germanyOption = _driver.FindElement(By.XPath("//*[contains(text(),'Germany')]"));
+        germanyOption.Click();
+        var billingAddress1 = _driver.FindElement(By.Id("billing_address_1"));
+        billingAddress1.TypeText("1 Willi Brandt Avenue Tiergarten");
+        var billingAddress2 = _driver.FindElement(By.Id("billing_address_2"));
+        billingAddress2.TypeText("Lützowplatz 17");
+        var billingCity = _driver.FindElement(By.Id("billing_city"));
+        billingCity.TypeText("Berlin");
+        var billingZip = _driver.FindElement(By.Id("billing_postcode"));
+        billingZip.TypeText("10115");
+        var billingPhone = _driver.FindElement(By.Id("billing_phone"));
+        billingPhone.TypeText("+00498888999281");
+        var billingEmail = _driver.FindElement(By.Id("billing_email"));
+        billingEmail.TypeText("info@berlinspaceflowers.com");
+        _driver.WaitForAjax();
+        var placeOrderButton = _driver.FindElement(By.Id("place_order"));
+        placeOrderButton.Click();
+        _driver.WaitForAjax();
+        var receivedMessage = _driver.FindElement(By.XPath("/html/body/div[1]/div/div/div/main/div/header/h1"));
+        Assert.AreEqual("Order received", receivedMessage.Text);
+    }
+}
+```
+
+```csharp
+public class DriverAdapter : IDriver
+{
+    private readonly IWebDriver _driver;
+    private readonly WebDriverWait _webDriverWait;
+    public DriverAdapter(IWebDriver driver)
+    {
+        _driver = driver;
+        var timeout = TimeSpan.FromSeconds(30);
+        var sleepInterval = TimeSpan.FromSeconds(2);
+        _webDriverWait = new WebDriverWait(new SystemClock(), _driver, timeout, sleepInterval);
+    }
+    public void GoToUrl(string url)
+    {
+        _driver.Navigate().GoToUrl(url);
+    }
+    public Uri Url
+    {
+        get => new Uri(_driver.Url);
+        set => _driver.Url = value.ToString();
+    }
+    public IElement FindElement(By locator)
+    {
+        IWebElement nativeElement =
+        _webDriverWait.Until(ExpectedConditions.ElementExists(locator));
+        return new ElementAdapter(_driver, nativeElement, locator);
+    }
+    public IEnumerable<IElement> FindElements(By locator)
+    {
+        ReadOnlyCollection<IWebElement> nativeElements =
+        _webDriverWait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(locator));
+        var elements = new List<IElement>();
+        foreach (var nativeElement in nativeElements)
+        {
+            IElement element = new ElementAdapter(_driver, nativeElement, locator);
+            elements.Add(element);
+        }
+        return elements;
+    }
+    public void WaitForAjax()
+    {
+        var js = (IJavaScriptExecutor)_driver;
+        _webDriverWait.Until(wd => js.ExecuteScript("return jQuery.active").ToString() == "0");
+    }
+    public void Close()
+    {
+        _driver.Quit();
+        _driver.Dispose();
+    }
+}
+```
+
+```csharp
+public class ElementAdapter : IElement
+{
+    private readonly IWebDriver _webDriver;
+    private readonly IWebElement _webElement;
+    public ElementAdapter(IWebDriver webDriver, IWebElement webElement, By by)
+    {
+        _webDriver = webDriver;
+        _webElement = webElement;
+        By = by;
+    }
+    public By By { get; }
+    public string Text => _webElement?.Text;
+    public bool? Enabled => _webElement?.Enabled;
+    public bool? Displayed => _webElement?.Displayed;
+    public void Click()
+    {
+        WaitToBeClickable(By);
+        _webElement?.Click();
+    }
+    public IElement FindElement(By locator)
+    {
+        return new ElementAdapter(_webDriver, _webElement?.FindElement(locator), locator);
+    }
+    public void TypeText(string text)
+    {
+        _webElement?.Clear();
+        _webElement?.SendKeys(text);
+    }
+    private void WaitToBeClickable(By by)
+    {
+        var webDriverWait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(30));
+        webDriverWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(by));
+    }
+}
+```
+
+```csharp
+public class DriverAdapter : IDriver
+{
+    private readonly IWebDriver _driver;
+    public DriverAdapter(IWebDriver driver)
+    {
+        _driver = driver;
+    }
+    public void GoToUrl(string url)
+    {
+        _driver.Navigate().GoToUrl(url);
+    }
+    public Uri Url
+    {
+        get => new Uri(_driver.Url);
+        set => _driver.Url = value.ToString();
+    }
+    public IElement Create(By locator)
+    {
+        return new ElementAdapter(_driver, locator);
+    }
+    public IElementsList CreateElements(By locator)
+    {
+        return new ElementsList(_driver, locator);
+    }
+    public void WaitForAjax()
+    {
+        var timeout = TimeSpan.FromSeconds(30);
+        var sleepInterval = TimeSpan.FromSeconds(2);
+        var webDriverWait = new WebDriverWait(new SystemClock(), _driver, timeout, sleepInterval);
+        var js = (IJavaScriptExecutor)_driver;
+        webDriverWait.Until(wd => js.ExecuteScript("return jQuery.active").ToString() == "0");
+    }
+    public void Close()
+    {
+        _driver.Quit();
+        _driver.Dispose();
+    }
+}
+```
+
+```csharp
+public interface IElementsList : IEnumerable<IElement>
+{
+    IElement this[int i] { get; }
+    int Count();
+    void ForEach(Action<IElement> action);
+}
+```
+
+```csharp
+public class ElementsList : IElementsList
+{
+    private readonly By _by;
+    private readonly ElementFinderService _elementFinder;
+    private readonly IWebDriver _driver;
+    public ElementsList(IWebDriver driver, By by)
+    {
+        _by = by;
+        _elementFinder = new ElementFinderService(driver);
+        _driver = driver;
+    }
+    public IElement this[int i] => GetAndWaitWebDriverElements().ElementAt(i);
+    public IEnumerator<IElement> GetEnumerator() => GetAndWaitWebDriverElements().GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public int Count()
+    {
+        return _elementFinder.FindAll(_by).Count();
+    }
+    public void ForEach(Action<IElement> action)
+    {
+        foreach (var element in this)
+        {
+            action(element);
+        }
+    }
+    private IEnumerable<IElement> GetAndWaitWebDriverElements()
+    {
+        var nativeElements = _elementFinder.FindAll(_by);
+        foreach (var nativeElement in nativeElements)
+        {
+            IElement element = new ElementAdapter(_driver, _by);
+            yield return element;
+        }
+    }
+}
+```
+
+```csharp
+public class ElementFinderService
+{
+    private readonly WebDriverWait _webDriverWait;
+    public ElementFinderService(IWebDriver driver)
+    {
+        var timeout = TimeSpan.FromSeconds(30);
+        var sleepInterval = TimeSpan.FromSeconds(2);
+        _webDriverWait = new WebDriverWait(new SystemClock(), driver, timeout, sleepInterval);
+    }
+    public IWebElement Find(By by)
+    {
+        return _webDriverWait.Until(ExpectedConditions.ElementExists(by));
+    }
+    public IEnumerable<IWebElement> FindAll(By by)
+    {
+        return _webDriverWait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(by));
+    }
+}
+```
+
+```csharp
+public class ElementAdapter : IElement
+{
+    private readonly IWebDriver _driver;
+    private readonly ElementFinderService _elementFinder;
+    public ElementAdapter(IWebDriver driver, By by)
+    {
+        _driver = driver;
+        By = by;
+        _elementFinder = new ElementFinderService(driver);
+    }
+    public IWebElement NativeWebElement
+    {
+        get => _elementFinder.Find(By);
+    }
+    public By By { get; }
+    public string Text => NativeWebElement?.Text;
+    public bool? Enabled => NativeWebElement?.Enabled;
+    public bool? Displayed => NativeWebElement?.Displayed;
+    public void Click()
+    {
+        WaitToBeClickable(By);
+        NativeWebElement?.Click();
+    }
+    public IElement CreateElement(By locator)
+    {
+        return new ElementAdapter(_driver, locator);
+    }
+    public IElementsList CreateElements(By locator)
+    {
+        return new ElementsList(_driver, locator);
+    }
+    public void TypeText(string text)
+    {
+        var webElement = NativeWebElement;
+        webElement?.Clear();
+        webElement?.SendKeys(text);
+    }
+    private void WaitToBeClickable(By by)
+    {
+        var webDriverWait = new WebDriverWait(_driver, TimeSpan.FromSeconds(30));
+        webDriverWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(by));
+    }
+}
+```
+
+```csharp
+[TestClass]
+public class ProductPurchaseTestsAdapter
+{
+    private IDriver _driver;
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        _driver = new DriverAdapter(new ChromeDriver());
+    }
+    [TestCleanup]
+    public void TestCleanup()
+    {
+        _driver.Close();
+    }
+    [TestMethod]
+    public void CompletePurchaseSuccessfully_WhenNewClient()
+    {
+        _driver.GoToUrl("http://demos.bellatrix.solutions/");
+        var addToCartFalcon9 = _driver.Create(By.CssSelector("[data-product_id*='28']"));
+        var viewCartButton = _driver.Create(By.CssSelector("[class*='added_to_cart wc-forward']"));
+        var couponCodeTextField = _driver.Create(By.Id("coupon_code"));
+        var applyCouponButton = _driver.Create(By.CssSelector("[value*='Apply coupon']"));
+        var messageAlert = _driver.Create(By.CssSelector("[class*='woocommerce-message']"));
+        var quantityBox = _driver.Create(By.CssSelector("[class*='input-text qty text']"));
+        var totalSpan = _driver.Create(By.XPath("//*[@class='order-total']//span"));
+        var proceedToCheckout = _driver.Create(By.CssSelector("[class*='checkout-button button alt wc-forward']"));
+        var billingFirstName = _driver.Create(By.Id("billing_first_name"));
+        var billingCountryWrapper = _driver.Create(By.Id("select2-billing_country-container"));
+        var billingCountryFilter = _driver.Create(By.ClassName("select2-search__field"));
+        var updateCart = _driver.Create(By.CssSelector("[value*='Update cart']"));
+        var germanyOption = _driver.Create(By.XPath("//*[contains(text(),'Germany')]"));
+        var billingAddress1 = _driver.Create(By.Id("billing_address_1"));
+        var billingAddress2 = _driver.Create(By.Id("billing_address_2"));
+        var billingCity = _driver.Create(By.Id("billing_city"));
+        var billingZip = _driver.Create(By.Id("billing_postcode"));
+        var billingLastName = _driver.Create(By.Id("billing_last_name"));
+        var billingCompany = _driver.Create(By.Id("billing_company"));
+        var billingPhone = _driver.Create(By.Id("billing_phone"));
+        var billingEmail = _driver.Create(By.Id("billing_email"));
+        var placeOrderButton = _driver.Create(By.Id("place_order"));
+        var receivedMessage = _driver.Create(By.XPath("/html/body/div[1]/div/div/div/main/div/header/h1"));
+        addToCartFalcon9.Click();
+        viewCartButton.Click();
+        couponCodeTextField.TypeText("happybirthday");
+        applyCouponButton.Click();
+        Assert.AreEqual("Coupon code applied successfully.", messageAlert.Text);
+        quantityBox.TypeText("2");
+        updateCart.Click();
+        _driver.WaitForAjax();
+        Assert.AreEqual("114.00€", totalSpan.Text);
+        proceedToCheckout.Click();
+        billingFirstName.TypeText("Anton");
+        billingLastName.TypeText("Angelov");
+        billingCompany.TypeText("Space Flowers");
+        billingCountryWrapper.Click();
+        billingCountryFilter.TypeText("Germany");
+        germanyOption.Click();
+        billingAddress1.TypeText("1 Willi Brandt Avenue Tiergarten");
+        billingAddress2.TypeText("Lützowplatz 17");
+        billingCity.TypeText("Berlin");
+        billingZip.TypeText("10115");
+        billingPhone.TypeText("+00498888999281");
+        billingEmail.TypeText("info@berlinspaceflowers.com");
+        _driver.WaitForAjax();
+        placeOrderButton.Click();
+        _driver.WaitForAjax();
+        Assert.AreEqual("Order received", receivedMessage.Text);
+    }
+}
+```
+
+## Adapter Design Pattern in Automated Testing
+
+```csharp
+[TestClass]
+public class ProductPurchaseTestsHardCodedPauses
+{
+    private IWebDriver _driver;
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        _driver = new ChromeDriver();
+    }
+    [TestCleanup]
+    public void TestCleanup()
+    {
+        _driver.Quit();
+    }
+    [TestMethod]
+    public void CompletePurchaseSuccessfully_WhenNewClientAndHardCodedPauses()
+    {
+        _driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+        var addToCartFalcon9 = _driver.FindElement(By.CssSelector("[data-product_id*='28']"));
+        addToCartFalcon9.Click();
+        Thread.Sleep(5000);
+        var viewCartButton = _driver.FindElement(By.CssSelector("[class*='added_to_cart wc-forward']"));
+        viewCartButton.Click();
+        var couponCodeTextField = _driver.FindElement(By.Id("coupon_code"));
+        couponCodeTextField.Clear();
+        couponCodeTextField.SendKeys("happybirthday");
+        var applyCouponButton = _driver.FindElement(By.CssSelector("[value*='Apply coupon']"));
+        applyCouponButton.Click();
+        Thread.Sleep(5000);
+        var messageAlert = _driver.FindElement(By.CssSelector("[class*='woocommerce-message']"));
+        Assert.AreEqual("Coupon code applied successfully.", messageAlert.Text);
+        var quantityBox = _driver.FindElement(By.CssSelector("[class*='input-text qty text']"));
+        quantityBox.Clear();
+        Thread.Sleep(500);
+        quantityBox.SendKeys("2");
+        Thread.Sleep(5000);
+        var updateCart = _driver.FindElement(By.CssSelector("[value*='Update cart']"));
+        updateCart.Click();
+        Thread.Sleep(5000);
+        var totalSpan = _driver.FindElement(By.XPath("//*[@class='order-total']//span"));
+        Assert.AreEqual("114.00€", totalSpan.Text);
+        var proceedToCheckout = _driver.FindElement(By.CssSelector("[class*='checkout-button button alt wc-forward']"));
+        proceedToCheckout.Click();
+        var billingFirstName = _driver.FindElement(By.Id("billing_first_name"));
+        billingFirstName.SendKeys("Anton");
+        var billingLastName = _driver.FindElement(By.Id("billing_last_name"));
+        billingLastName.SendKeys("Angelov");
+        var billingCompany = _driver.FindElement(By.Id("billing_company"));
+        billingCompany.SendKeys("Space Flowers");
+        var billingCountryWrapper = _driver.FindElement(By.Id("select2-billing_country-container"));
+        billingCountryWrapper.Click();
+        var billingCountryFilter = _driver.FindElement(By.ClassName("select2-search__field"));
+        billingCountryFilter.SendKeys("Germany");
+        var germanyOption = _driver.FindElement(By.XPath("//*[contains(text(),'Germany')]"));
+        germanyOption.Click();
+        var billingAddress1 = _driver.FindElement(By.Id("billing_address_1"));
+        billingAddress1.SendKeys("1 Willi Brandt Avenue Tiergarten");
+        var billingAddress2 = _driver.FindElement(By.Id("billing_address_2"));
+        billingAddress2.SendKeys("Lützowplatz 17");
+        var billingCity = _driver.FindElement(By.Id("billing_city"));
+        billingCity.SendKeys("Berlin");
+        var billingZip = _driver.FindElement(By.Id("billing_postcode"));
+        billingZip.Clear();
+        billingZip.SendKeys("10115");
+        var billingPhone = _driver.FindElement(By.Id("billing_phone"));
+        billingPhone.SendKeys("+00498888999281");
+        var billingEmail = _driver.FindElement(By.Id("billing_email"));
+        billingEmail.SendKeys("info@berlinspaceflowers.com");
+        Thread.Sleep(5000);
+        var placeOrderButton = _driver.FindElement(By.Id("place_order"));
+        placeOrderButton.Click();
+        Thread.Sleep(10000);
+        var receivedMessage = _driver.FindElement(By.XPath("/html/body/div[1]/div/div/div/main/div/header/h1"));
+        Assert.AreEqual("Order received", receivedMessage.Text);
+    }
+}
+```
+
+```csharp
+IWebDriver driver = new ChromeDriver();
+driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+```
+
+```csharp
+[TestClass]
+public class ProductPurchaseTestsProxy
+{
+    private IWebDriver _driver;
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        _driver = new WebDriverProxy(new ChromeDriver());
+    }
+    [TestCleanup]
+    public void TestCleanup()
+    {
+        _driver.Quit();
+    }
+    [TestMethod]
+    public void CompletePurchaseSuccessfully_WhenNewClientAndWaitProxy()
+    {
+        _driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+        var addToCartFalcon9 = _driver.FindElement(By.CssSelector("[data-product_id*='28']"));
+        addToCartFalcon9.Click();
+        ////Thread.Sleep(5000);
+        var viewCartButton = _driver.FindElement(By.CssSelector("[class*='added_to_cart wc-forward']"));
+        viewCartButton.Click();
+        var couponCodeTextField = _driver.FindElement(By.Id("coupon_code"));
+        couponCodeTextField.Clear();
+        couponCodeTextField.SendKeys("happybirthday");
+        var applyCouponButton = _driver.FindElement(By.CssSelector("[value*='Apply coupon']"));
+        applyCouponButton.Click();
+        ////Thread.Sleep(5000);
+        var messageAlert = _driver.FindElement(By.CssSelector("[class*='woocommerce-message']"));
+        Assert.AreEqual("Coupon code applied successfully.", messageAlert.Text);
+        var quantityBox = _driver.FindElement(By.CssSelector("[class*='input-text qty text']"));
+        quantityBox.Clear();
+        ////Thread.Sleep(500);
+        quantityBox.SendKeys("2");
+        ////Thread.Sleep(5000);
+        var updateCart = _driver.FindElement(By.CssSelector("[value*='Update cart']"));
+        updateCart.Click();
+        Thread.Sleep(5000);
+        var totalSpan = _driver.FindElement(By.XPath("//*[@class='order-total']//span"));
+        Assert.AreEqual("114.00€", totalSpan.Text);
+        var proceedToCheckout = _driver.FindElement(By.CssSelector("[class*='checkout-button button alt wc-forward']"));
+        proceedToCheckout.Click();
+        var billingFirstName = _driver.FindElement(By.Id("billing_first_name"));
+        billingFirstName.SendKeys("Anton");
+        var billingLastName = _driver.FindElement(By.Id("billing_last_name"));
+        billingLastName.SendKeys("Angelov");
+        var billingCompany = _driver.FindElement(By.Id("billing_company"));
+        billingCompany.SendKeys("Space Flowers");
+        var billingCountryWrapper = _driver.FindElement(By.Id("select2-billing_country-container"));
+        billingCountryWrapper.Click();
+        var billingCountryFilter = _driver.FindElement(By.ClassName("select2-search__field"));
+        billingCountryFilter.SendKeys("Germany");
+        var germanyOption = _driver.FindElement(By.XPath("//*[contains(text(),'Germany')]"));
+        germanyOption.Click();
+        var billingAddress1 = _driver.FindElement(By.Id("billing_address_1"));
+        billingAddress1.SendKeys("1 Willi Brandt Avenue Tiergarten");
+        var billingAddress2 = _driver.FindElement(By.Id("billing_address_2"));
+        billingAddress2.SendKeys("Lützowplatz 17");
+        var billingCity = _driver.FindElement(By.Id("billing_city"));
+        billingCity.SendKeys("Berlin");
+        var billingZip = _driver.FindElement(By.Id("billing_postcode"));
+        billingZip.Clear();
+        billingZip.SendKeys("10115");
+        var billingPhone = _driver.FindElement(By.Id("billing_phone"));
+        billingPhone.SendKeys("+00498888999281");
+        var billingEmail = _driver.FindElement(By.Id("billing_email"));
+        billingEmail.SendKeys("info@berlinspaceflowers.com");
+        Thread.Sleep(5000);
+        var placeOrderButton = _driver.FindElement(By.Id("place_order"));
+        placeOrderButton.Click();
+        Thread.Sleep(10000);
+        var receivedMessage = _driver.FindElement(By.XPath("/html/body/div[1]/div/div/div/main/div/header/h1"));
+        Assert.AreEqual("Order received", receivedMessage.Text);
+    }
+}
+```
+
+```csharp
+public interface IDriver
+{
+    void GoToUrl(string url);
+    Uri Url { get; set; }
+    IElement FindElement(By locator);
+    IEnumerable<IElement> FindElements(By locator);
+    void WaitForAjax();
+    void Close();
+}
+```
+
+```csharp
+public class DriverAdapter : IDriver
+{
+    private readonly IWebDriver _driver;
+    private readonly WebDriverWait _webDriverWait;
+    public DriverAdapter(IWebDriver driver)
+    {
+        _driver = driver;
+        var timeout = TimeSpan.FromSeconds(30);
+        var sleepInterval = TimeSpan.FromSeconds(2);
+        _webDriverWait = new WebDriverWait(new SystemClock(), _driver, timeout, sleepInterval);
+    }
+    public void GoToUrl(string url)
+    {
+        _driver.Navigate().GoToUrl(url);
+    }
+    public Uri Url
+    {
+        get => new Uri(_driver.Url);
+        set => _driver.Url = value.ToString();
+    }
+    public IElement FindElement(By locator)
+    {
+        IWebElement nativeElement =
+        _webDriverWait.Until(ExpectedConditions.ElementExists(locator));
+        return new ElementAdapter(_driver, nativeElement, locator);
+    }
+    public IEnumerable<IElement> FindElements(By locator)
+    {
+        ReadOnlyCollection<IWebElement> nativeElements =
+        _webDriverWait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(locator));
+        var elements = new List<IElement>();
+        foreach (var nativeElement in nativeElements)
+        {
+            IElement element = new ElementAdapter(_driver, nativeElement, locator);
+            elements.Add(element);
+        }
+        return elements;
+    }
+    public void WaitForAjax()
+    {
+        var js = (IJavaScriptExecutor)_driver;
+        _webDriverWait.Until(wd => js.ExecuteScript("return jQuery.active").ToString() == "0");
+    }
+    public void Close()
+    {
+        _driver.Quit();
+        _driver.Dispose();
+    }
+}
+```
+
+```csharp
+public interface IElement
+{
+    By By { get; }
+    string Text { get; }
+    void TypeText(string text);
+    IElement FindElement(By locator);
+    void Click();
+}
+```
+
+```csharp
+public class ElementAdapter : IElement
+{
+    private readonly IWebDriver _webDriver;
+    private readonly IWebElement _webElement;
+    public ElementAdapter(IWebDriver webDriver, IWebElement webElement, By by)
+    {
+        _webDriver = webDriver;
+        _webElement = webElement;
+        By = by;
+    }
+    public By By { get; }
+    public string Text => _webElement?.Text;
+    public bool? Enabled => _webElement?.Enabled;
+    public bool? Displayed => _webElement?.Displayed;
+    public void Click()
+    {
+        WaitToBeClickable(By);
+        _webElement?.Click();
+    }
+    public IElement FindElement(By locator)
+    {
+        return new ElementAdapter(_webDriver, _webElement?.FindElement(locator), locator);
+    }
+    public void TypeText(string text)
+    {
+        _webElement?.Clear();
+        _webElement?.SendKeys(text);
+    }
+    private void WaitToBeClickable(By by)
+    {
+        var webDriverWait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(30));
+        webDriverWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(by));
+    }
+}
+```
+
+```csharp
+[TestClass]
+public class ProductPurchaseTestsAdapter
+{
+    private IDriver _driver;
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        _driver = new DriverAdapter(new ChromeDriver());
+    }
+    [TestCleanup]
+    public void TestCleanup()
+    {
+        _driver.Close();
+    }
+    [TestMethod]
+    public void CompletePurchaseSuccessfully_WhenNewClient()
+    {
+        _driver.GoToUrl("http://demos.bellatrix.solutions/");
+        var addToCartFalcon9 = _driver.FindElement(By.CssSelector("[data-product_id*='28']"));
+        addToCartFalcon9.Click();
+        var viewCartButton = _driver.FindElement(By.CssSelector("[class*='added_to_cart wc-forward']"));
+        viewCartButton.Click();
+        var couponCodeTextField = _driver.FindElement(By.Id("coupon_code"));
+        couponCodeTextField.TypeText("happybirthday");
+        var applyCouponButton = _driver.FindElement(By.CssSelector("[value*='Apply coupon']"));
+        applyCouponButton.Click();
+        var messageAlert = _driver.FindElement(By.CssSelector("[class*='woocommerce-message']"));
+        Assert.AreEqual("Coupon code applied successfully.", messageAlert.Text);
+        var quantityBox = _driver.FindElement(By.CssSelector("[class*='input-text qty text']"));
+        quantityBox.TypeText("2");
+        var updateCart = _driver.FindElement(By.CssSelector("[value*='Update cart']"));
+        updateCart.Click();
+        _driver.WaitForAjax();
+        var totalSpan = _driver.FindElement(By.XPath("//*[@class='order-total']//span"));
+        Assert.AreEqual("114.00€", totalSpan.Text);
+        var proceedToCheckout = _driver.FindElement(By.CssSelector("[class*='checkout-button button alt wc-forward']"));
+        proceedToCheckout.Click();
+        var billingFirstName = _driver.FindElement(By.Id("billing_first_name"));
+        billingFirstName.TypeText("Anton");
+        var billingLastName = _driver.FindElement(By.Id("billing_last_name"));
+        billingLastName.TypeText("Angelov");
+        var billingCompany = _driver.FindElement(By.Id("billing_company"));
+        billingCompany.TypeText("Space Flowers");
+        var billingCountryWrapper = _driver.FindElement(By.Id("select2-billing_country-container"));
+        billingCountryWrapper.Click();
+        var billingCountryFilter = _driver.FindElement(By.ClassName("select2-search__field"));
+        billingCountryFilter.TypeText("Germany");
+        var germanyOption = _driver.FindElement(By.XPath("//*[contains(text(),'Germany')]"));
+        germanyOption.Click();
+        var billingAddress1 = _driver.FindElement(By.Id("billing_address_1"));
+        billingAddress1.TypeText("1 Willi Brandt Avenue Tiergarten");
+        var billingAddress2 = _driver.FindElement(By.Id("billing_address_2"));
+        billingAddress2.TypeText("Lützowplatz 17");
+        var billingCity = _driver.FindElement(By.Id("billing_city"));
+        billingCity.TypeText("Berlin");
+        var billingZip = _driver.FindElement(By.Id("billing_postcode"));
+        billingZip.TypeText("10115");
+        var billingPhone = _driver.FindElement(By.Id("billing_phone"));
+        billingPhone.TypeText("+00498888999281");
+        var billingEmail = _driver.FindElement(By.Id("billing_email"));
+        billingEmail.TypeText("info@berlinspaceflowers.com");
+        _driver.WaitForAjax();
+        var placeOrderButton = _driver.FindElement(By.Id("place_order"));
+        placeOrderButton.Click();
+        _driver.WaitForAjax();
+        var receivedMessage = _driver.FindElement(By.XPath("/html/body/div[1]/div/div/div/main/div/header/h1"));
+        Assert.AreEqual("Order received", receivedMessage.Text);
+    }
+}
+```
+
+## Proxy Design Pattern in Automated Testing
+
+```csharp
+[TestClass]
+public class ProductPurchaseTestsHardCodedPauses
+{
+    private IWebDriver _driver;
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        _driver = new ChromeDriver();
+    }
+    [TestCleanup]
+    public void TestCleanup()
+    {
+        _driver.Quit();
+    }
+    [TestMethod]
+    public void CompletePurchaseSuccessfully_WhenNewClientAndHardCodedPauses()
+    {
+        _driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+        var addToCartFalcon9 = _driver.FindElement(By.CssSelector("[data-product_id*='28']"));
+        addToCartFalcon9.Click();
+        Thread.Sleep(5000);
+        var viewCartButton = _driver.FindElement(By.CssSelector("[class*='added_to_cart wc-forward']"));
+        viewCartButton.Click();
+        var couponCodeTextField = _driver.FindElement(By.Id("coupon_code"));
+        couponCodeTextField.Clear();
+        couponCodeTextField.SendKeys("happybirthday");
+        var applyCouponButton = _driver.FindElement(By.CssSelector("[value*='Apply coupon']"));
+        applyCouponButton.Click();
+        Thread.Sleep(5000);
+        var messageAlert = _driver.FindElement(By.CssSelector("[class*='woocommerce-message']"));
+        Assert.AreEqual("Coupon code applied successfully.", messageAlert.Text);
+        var quantityBox = _driver.FindElement(By.CssSelector("[class*='input-text qty text']"));
+        quantityBox.Clear();
+        Thread.Sleep(500);
+        quantityBox.SendKeys("2");
+        Thread.Sleep(5000);
+        var updateCart = _driver.FindElement(By.CssSelector("[value*='Update cart']"));
+        updateCart.Click();
+        Thread.Sleep(5000);
+        var totalSpan = _driver.FindElement(By.XPath("//*[@class='order-total']//span"));
+        Assert.AreEqual("114.00€", totalSpan.Text);
+        var proceedToCheckout = _driver.FindElement(By.CssSelector("[class*='checkout-button button alt wc-forward']"));
+        proceedToCheckout.Click();
+        var billingFirstName = _driver.FindElement(By.Id("billing_first_name"));
+        billingFirstName.SendKeys("Anton");
+        var billingLastName = _driver.FindElement(By.Id("billing_last_name"));
+        billingLastName.SendKeys("Angelov");
+        var billingCompany = _driver.FindElement(By.Id("billing_company"));
+        billingCompany.SendKeys("Space Flowers");
+        var billingCountryWrapper = _driver.FindElement(By.Id("select2-billing_country-container"));
+        billingCountryWrapper.Click();
+        var billingCountryFilter = _driver.FindElement(By.ClassName("select2-search__field"));
+        billingCountryFilter.SendKeys("Germany");
+        var germanyOption = _driver.FindElement(By.XPath("//*[contains(text(),'Germany')]"));
+        germanyOption.Click();
+        var billingAddress1 = _driver.FindElement(By.Id("billing_address_1"));
+        billingAddress1.SendKeys("1 Willi Brandt Avenue Tiergarten");
+        var billingAddress2 = _driver.FindElement(By.Id("billing_address_2"));
+        billingAddress2.SendKeys("Lützowplatz 17");
+        var billingCity = _driver.FindElement(By.Id("billing_city"));
+        billingCity.SendKeys("Berlin");
+        var billingZip = _driver.FindElement(By.Id("billing_postcode"));
+        billingZip.Clear();
+        billingZip.SendKeys("10115");
+        var billingPhone = _driver.FindElement(By.Id("billing_phone"));
+        billingPhone.SendKeys("+00498888999281");
+        var billingEmail = _driver.FindElement(By.Id("billing_email"));
+        billingEmail.SendKeys("info@berlinspaceflowers.com");
+        Thread.Sleep(5000);
+        var placeOrderButton = _driver.FindElement(By.Id("place_order"));
+        placeOrderButton.Click();
+        Thread.Sleep(10000);
+        var receivedMessage = _driver.FindElement(By.XPath("/html/body/div[1]/div/div/div/main/div/header/h1"));
+        Assert.AreEqual("Order received", receivedMessage.Text);
+    }
+}
+```
+
+```csharp
+IWebDriver driver = new ChromeDriver();
+driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+```
+
+```csharp
+public class WebDriverProxy : IWebDriver
+{
+    private readonly IWebDriver _driver;
+    private readonly WebDriverWait _webDriverWait;
+    public WebDriverProxy(IWebDriver driver)
+    {
+        _driver = driver;
+        var timeout = TimeSpan.FromSeconds(30);
+        var sleepInterval = TimeSpan.FromSeconds(2);
+        _webDriverWait = new WebDriverWait(new SystemClock(), _driver, timeout, sleepInterval);
+    }
+    public IWebElement FindElement(By @by)
+    {
+        return _webDriverWait.Until(ExpectedConditions.ElementExists(@by));
+    }
+    public ReadOnlyCollection<IWebElement> FindElements(By @by)
+    {
+        return _webDriverWait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(@by));
+    }
+    public void Dispose()
+    {
+        _driver.Dispose();
+    }
+    public void Close()
+    {
+        _driver.Close();
+    }
+    public void Quit()
+    {
+        _driver.Quit();
+    }
+    public IOptions Manage()
+    {
+        return _driver.Manage();
+    }
+    public INavigation Navigate()
+    {
+        return _driver.Navigate();
+    }
+    public ITargetLocator SwitchTo()
+    {
+        return _driver.SwitchTo();
+    }
+    public string Url
+    {
+        get => _driver.Url;
+        set => _driver.Url = value;
+    }
+    public string Title
+    {
+        get => _driver.Title;
+    }
+    public string PageSource
+    {
+        get => _driver.PageSource;
+    }
+    public string CurrentWindowHandle
+    {
+        get => _driver.CurrentWindowHandle;
+    }
+    public ReadOnlyCollection<string> WindowHandles
+    {
+        get => _driver.WindowHandles;
+    }
+}
+```
+
+```csharp
+[TestClass]
+public class ProductPurchaseTestsProxy
+{
+    private IWebDriver _driver;
+    [TestInitialize]
+    public void TestInitialize()
+    {
+        _driver = new WebDriverProxy(new ChromeDriver());
+    }
+    [TestCleanup]
+    public void TestCleanup()
+    {
+        _driver.Quit();
+    }
+    [TestMethod]
+    public void CompletePurchaseSuccessfully_WhenNewClientAndWaitProxy()
+    {
+        _driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+        var addToCartFalcon9 = _driver.FindElement(By.CssSelector("[data-product_id*='28']"));
+        addToCartFalcon9.Click();
+        ////Thread.Sleep(5000);
+        var viewCartButton = _driver.FindElement(By.CssSelector("[class*='added_to_cart wc-forward']"));
+        viewCartButton.Click();
+        var couponCodeTextField = _driver.FindElement(By.Id("coupon_code"));
+        couponCodeTextField.Clear();
+        couponCodeTextField.SendKeys("happybirthday");
+        var applyCouponButton = _driver.FindElement(By.CssSelector("[value*='Apply coupon']"));
+        applyCouponButton.Click();
+        ////Thread.Sleep(5000);
+        var messageAlert = _driver.FindElement(By.CssSelector("[class*='woocommerce-message']"));
+        Assert.AreEqual("Coupon code applied successfully.", messageAlert.Text);
+        var quantityBox = _driver.FindElement(By.CssSelector("[class*='input-text qty text']"));
+        quantityBox.Clear();
+        ////Thread.Sleep(500);
+        quantityBox.SendKeys("2");
+        ////Thread.Sleep(5000);
+        var updateCart = _driver.FindElement(By.CssSelector("[value*='Update cart']"));
+        updateCart.Click();
+        Thread.Sleep(5000);
+        var totalSpan = _driver.FindElement(By.XPath("//*[@class='order-total']//span"));
+        Assert.AreEqual("114.00€", totalSpan.Text);
+        var proceedToCheckout = _driver.FindElement(By.CssSelector("[class*='checkout-button button alt wc-forward']"));
+        proceedToCheckout.Click();
+        var billingFirstName = _driver.FindElement(By.Id("billing_first_name"));
+        billingFirstName.SendKeys("Anton");
+        var billingLastName = _driver.FindElement(By.Id("billing_last_name"));
+        billingLastName.SendKeys("Angelov");
+        var billingCompany = _driver.FindElement(By.Id("billing_company"));
+        billingCompany.SendKeys("Space Flowers");
+        var billingCountryWrapper = _driver.FindElement(By.Id("select2-billing_country-container"));
+        billingCountryWrapper.Click();
+        var billingCountryFilter = _driver.FindElement(By.ClassName("select2-search__field"));
+        billingCountryFilter.SendKeys("Germany");
+        var germanyOption = _driver.FindElement(By.XPath("//*[contains(text(),'Germany')]"));
+        germanyOption.Click();
+        var billingAddress1 = _driver.FindElement(By.Id("billing_address_1"));
+        billingAddress1.SendKeys("1 Willi Brandt Avenue Tiergarten");
+        var billingAddress2 = _driver.FindElement(By.Id("billing_address_2"));
+        billingAddress2.SendKeys("Lützowplatz 17");
+        var billingCity = _driver.FindElement(By.Id("billing_city"));
+        billingCity.SendKeys("Berlin");
+        var billingZip = _driver.FindElement(By.Id("billing_postcode"));
+        billingZip.Clear();
+        billingZip.SendKeys("10115");
+        var billingPhone = _driver.FindElement(By.Id("billing_phone"));
+        billingPhone.SendKeys("+00498888999281");
+        var billingEmail = _driver.FindElement(By.Id("billing_email"));
+        billingEmail.SendKeys("info@berlinspaceflowers.com");
+        Thread.Sleep(5000);
+        var placeOrderButton = _driver.FindElement(By.Id("place_order"));
+        placeOrderButton.Click();
+        Thread.Sleep(10000);
+        var receivedMessage = _driver.FindElement(By.XPath("/html/body/div[1]/div/div/div/main/div/header/h1"));
+        Assert.AreEqual("Order received", receivedMessage.Text);
+    }
+}
+```
+
+## Defining High-Quality Test Attributes for Automated Tests
+
+```csharp
+public class CustomerOrder
+{
+    public void Create()
+    {
+        try
+        {
+            // Database code goes here
+        }
+        catch (Exception ex)
+        {
+            File.WriteAllText(@"C:exception.txt", ex.ToString());
+        }
+    }
+}
+```
+
+```csharp
+public class FileLogger
+{
+    public void CreateLogEntry(string error)
+    {
+        File.WriteAllText(@"C:error.txt", error);
+    }
+}
+```
+
+```csharp
+public class CustomerOrder
+{
+    private FileLogger _fileLogger = new FileLogger();
+    public void Create()
+    {
+        try
+        {
+            // Database code goes here
+        }
+        catch (Exception ex)
+        {
+            _fileLogger.CreateLogEntry(ex.Message);
+        }
+    }
+}
+```
+
+```csharp
+public enum OrderType
+{
+    Normal,
+    Silver,
+}
+public class DiscountCalculator
+{
+    public double CalculateDiscount(OrderType orderType, double totalPrice)
+    {
+        if (orderType == OrderType.Silver)
+        {
+            return totalPrice - 20;
+        }
+        else
+        {
+            return totalPrice;
+        }
+    }
+}
+```
+
+```csharp
+public class DiscountCalculator
+{
+    public virtual double CalculateDiscount(double totalPrice)
+    {
+        return totalPrice;
+    }
+}
+public class SilverDiscountCalculator : DiscountCalculator
+{
+    public override double CalculateDiscount(double totalPrice)
+    {
+        return base.CalculateDiscount(totalPrice) - 20;
+    }
+}
+public class GoldDiscountCalculator : DiscountCalculator
+{
+    public override double CalculateDiscount(double totalPrice)
+    {
+        return base.CalculateDiscount(totalPrice) - 50;
+    }
+}
+```
+
+```csharp
+public abstract class DiscountCalculator
+{
+    public virtual double CalculateRegularDiscount(double totalPrice)
+    {
+        return totalPrice;
+    }
+    public virtual double CalculateBonusPointsDiscount(double totalPrice, int points)
+    {
+        return totalPrice - points * 0.1;
+    }
+}
+```
+
+```csharp
+public class SilverDiscountCalculator : DiscountCalculator
+{
+    public override double CalculateRegularDiscount(double totalPrice)
+    {
+        return base.CalculateRegularDiscount(totalPrice) - 20;
+    }
+    public override double CalculateBonusPointsDiscount(double totalPrice, int points)
+    {
+        return totalPrice - points * 0.5;
+    }
+}
+public class GoldDiscountCalculator : DiscountCalculator
+{
+    public override double CalculateRegularDiscount(double totalPrice)
+    {
+        return base.CalculateRegularDiscount(totalPrice) - 50;
+    }
+    public override double CalculateBonusPointsDiscount(double totalPrice, int points)
+    {
+        return totalPrice - points * 1;
+    }
+}
+public class PlatinumDiscountCalculator : DiscountCalculator
+{
+    public override double CalculateRegularDiscount(double totalPrice)
+    {
+        return base.CalculateRegularDiscount(totalPrice) - 100;
+    }
+    public override double CalculateBonusPointsDiscount(double totalPrice, int points)
+    {
+        throw new InvalidOperationException("Not applicable for Platinum orders.");
+    }
+}
+```
+
+```csharp
+var _discountCalculators = new List<DiscountCalculator>();
+_discountCalculators.Add(new SilverDiscountCalculator());
+_discountCalculators.Add(new GoldDiscountCalculator());
+_discountCalculators.Add(new PlatinumDiscountCalculator());
+foreach (DiscountCalculator discountCalculator in _discountCalculators)
+{
+    double bonusPointsDiscount = discountCalculator.CalculateBonusPointsDiscount(1250);
+}
+```
+
+```csharp
+public interface IRegularDiscountCalculator
+{
+    double CalculateRegularDiscount(double totalPrice);
+}
+public interface IBonusPointsDiscountCalculator
+{
+    double CalculateBonusPointsDiscount(double totalPrice, int points);
+}
+```
+
+```csharp
+var _discountCalculators = new List<IBonusPointsDiscountCalculator>();
+_discountCalculators.Add(new SilverDiscountCalculator());
+_discountCalculators.Add(new GoldDiscountCalculator());
+// _discountCalculators.Add(new PlatinumDiscountCalculator()); // we cannot add it
+foreach (IRegularDiscountCalculator discountCalculator in _discountCalculators)
+{
+    double bonusPointsDiscount = discountCalculator.CalculateBonusPointsDiscount(1250);
+}
+```
+
+```csharp
+public interface IDiscountCalculator
+{
+    double CalculateRegularDiscount(double totalPrice);
+    double CalculateBonusPointsDiscount(double totalPrice, int points);
+}
+public class GoldDiscountCalculator : IDiscountCalculator
+{
+    public double CalculateRegularDiscount(double totalPrice)
+    {
+        return totalPrice - 50;
+    }
+    public double CalculateBonusPointsDiscount(double totalPrice, int points)
+    {
+        return totalPrice - points * 1;
+    }
+}
+public class PlatinumDiscountCalculator : IDiscountCalculator
+{
+    public double CalculateRegularDiscount(double totalPrice)
+    {
+        return totalPrice - 100;
+    }
+    public double CalculateBonusPointsDiscount(double totalPrice, int points)
+    {
+        throw new NotImplementedException("Not applicable for Platinum orders.");
+    }
+}
+```
+
+```csharp
+public interface ILogger
+{
+    void CreateLogEntry(string errorMessage);
+}
+```
+
+```csharp
+public class FileLogger : ILogger
+{
+    public void CreateLogEntry(string errorMessage)
+    {
+        File.WriteAllText(@"C:exceptions.txt", errorMessage);
+    }
+}
+public class EmailLogger : ILogger
+{
+    public void CreateLogEntry(string errorMessage)
+    {
+        EmailFactory.SendEmail(errorMessage);
+    }
+}
+public class SmsLogger : ILogger
+{
+    public void CreateLogEntry(string errorMessage)
+    {
+        SmsFactory.SendSms(errorMessage);
+    }
+}
+```
+
+```csharp
+public class CustomerOrder
+{
+    public void Create(OrderType orderType)
+    {
+        try
+        {
+            // Database code goes here
+        }
+        catch (Exception ex)
+        {
+            switch (orderType)
+            {
+                case OrderType.Platinum:
+                    new SmsLogger().CreateLogEntry(ex.Message);
+                    break;
+                case OrderType.Gold:
+                    new EmailLogger().CreateLogEntry(ex.Message);
+                    break;
+                default:
+                    new FileLogger().CreateLogEntry(ex.Message);
+                    break;
+            }
+        }
+    }
+}
+```
+
+```csharp
+public class CustomerOrder
+{
+    private ILogger _logger;
+    public CustomerOrder(ILogger logger)
+    {
+        _logger = logger;
+    }
+    public void Create()
+    {
+        try
+        {
+            // Database code goes here
+        }
+        catch (Exception ex)
+        {
+            _logger.CreateLogEntry(ex.Message);
+        }
+    }
+}
+public class GoldCustomerOrder : CustomerOrder
+{
+    public GoldCustomerOrder()
+    : base(new EmailLogger())
+    {
+    }
+}
+public class PlatinumCustomerOrder : CustomerOrder
+{
+    public PlatinumCustomerOrder()
+    : base(new SmsLogger())
+    {
+    }
+}
+```
+
+## Generic Repository Design Pattern- Test Data Preparation
+
+```csharp
+public class User
+{
+    public int Id { get; set; }
+    public string Email { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Password { get; set; }
+}
+```
+
+```csharp
+public sealed class UsersDBContext : DbContext
+{
+    public UsersDBContext(DbContextOptions<UsersDBContext> options)
+    : base(options)
+    {
+        Database.EnsureCreated();
+    }
+    public DbSet<User> Users { get; set; }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlite("Data Source=users.db");
+        }
+    }
+}
+```
+
+```csharp
+public abstract class DbRepository<TContext> : IDisposable
+where TContext : DbContext
+{
+    private TContext _context;
+    public void Dispose()
+    {
+        _context?.Dispose();
+        GC.SuppressFinalize(this);
+    }
+    public IQueryable<TEntity> GetAllQuery<TEntity>()
+    where TEntity : class
+    {
+        return Context.Set<TEntity>();
+    }
+    public IQueryable<TEntity> GetAllQueryWithInclude<TEntity>(params Expression<Func<TEntity, object>>[] actions)
+    where TEntity : class
+    {
+        DbSet<TEntity> dbSet = Context.Set<TEntity>();
+        IQueryable<TEntity> result = dbSet;
+        foreach (var action in actions)
+        {
+            result = result.Include(action);
+        }
+        return result;
+    }
+    public IQueryable<TEntity> GetQueryType<TEntity>()
+    where TEntity : class
+    {
+        return Context.Query<TEntity>();
+    }
+    public void Delete<TEntity>(TEntity entityToBeRemoved)
+    where TEntity : class
+    {
+        Context.Set<TEntity>().Remove(entityToBeRemoved);
+        Save<TEntity>(Context);
+    }
+    public void DeleteRange<TEntity>(IEnumerable<TEntity> entitiesToBeDeleted)
+    where TEntity : class
+    {
+        Context.RemoveRange(entitiesToBeDeleted);
+        Save<TEntity>(Context);
+    }
+    public TEntity Insert<TEntity>(TEntity entityToBeInserted)
+    where TEntity : class
+    {
+        Context.Set<TEntity>().Add(entityToBeInserted);
+        Save<TEntity>(Context);
+        return entityToBeInserted;
+    }
+    public void InsertRange<TEntity>(IEnumerable<TEntity> entitiesToBeInserted)
+    where TEntity : class
+    {
+        Context.Set<TEntity>().AddRange(entitiesToBeInserted);
+        Save<TEntity>(Context);
+    }
+    public TEntity Update<TEntity>(TEntity entityToBeUpdated)
+    where TEntity : class
+    {
+        Context.Set<TEntity>().Update(entityToBeUpdated);
+        Save<TEntity>(Context);
+        return entityToBeUpdated;
+    }
+    public IEnumerable<TEntity> UpdateRange<TEntity>(IEnumerable<TEntity> entitiesToBeUpdated)
+    where TEntity : class
+    {
+        Context.UpdateRange(entitiesToBeUpdated);
+        Save<TEntity>(Context);
+        return entitiesToBeUpdated;
+    }
+    protected abstract TContext CreateDbContextObject();
+    protected TContext Context
+    {
+        get
+        {
+            if (_context == null)
+            {
+                _context = CreateDbContextObject();
+            }
+            return _context;
+        }
+    }
+    private void Save<TEntity>(TContext context)
+    where TEntity : class
+    {
+        context.SaveChanges();
+        DetachEntities<TEntity>(context);
+    }
+    private void DetachEntities<TEntity>(TContext context)
+    where TEntity : class
+    {
+        context.Set<TEntity>().Local.ToList().ForEach(c =>
+        {
+            context.Entry(c).State = EntityState.Detached;
+        });
+    }
+}
+```
+
+```csharp
+public class UsersRepository : DbRepository<UsersDBContext>
+{
+    protected override UsersDBContext CreateDbContextObject()
+    {
+        return new UsersDBContext(new DbContextOptions<UsersDBContext>());
+    }
+}
+```
+
+```csharp
+public static class TimestampBuilder
+{
+    public static string GenerateUniqueText(string text)
+    {
+        var newTimestamp = GenerateUniqueText();
+        var result = string.Concat(text, newTimestamp);
+        return result;
+    }
+    public static string GenerateUniqueText()
+    {
+        var newTimestamp = DateTime.Now.ToString("MM-dd-yyyy-hh-mm-ss-ffff");
+        return newTimestamp;
+    }
+    public static string GenerateUniqueTextMonthNameOneWord()
+    {
+        var newTimestamp = DateTime.Now.ToString("MMMMddyyyyhhmmss");
+        return newTimestamp;
+    }
+}
+```
+
+```csharp
+public static class UniqueEmailGenerator
+{
+    public static string EmailPrefix { get; set; } = "atp";
+    public static string EmailSuffix { get; set; } = "bellatrix.solutions";
+    public static string GenerateUniqueEmail(string prefix, string sufix)
+    {
+        var result = string.Concat(prefix, "_", TimestampBuilder.GenerateUniqueText(), "@", sufix);
+        return result;
+    }
+    public static string GenerateUniqueEmailTimestamp()
+    {
+        var result = $"{EmailPrefix}-{TimestampBuilder.GenerateUniqueText()}@{EmailSuffix}";
+        return result;
+    }
+    public static string GenerateUniqueEmailGuid()
+    {
+        var result = $"{EmailPrefix}-{Guid.NewGuid()}@{EmailSuffix}";
+        return result;
+    }
+    public static string GenerateUniqueEmail(string prefix)
+    {
+        var result = $"{prefix}{TimestampBuilder.GenerateUniqueText()}@{EmailSuffix}";
+        return result;
+    }
+    public static string GenrateUniqueEmail(char specialSymbol)
+    {
+        var result = $"{EmailPrefix}-{TimestampBuilder.GenerateUniqueText()}{specialSymbol}@{EmailSuffix}";
+        return result;
+    }
+}
+```
+
+```csharp
+public class UsersFactory
+{
+    private readonly UsersRepository _usersRepository;
+    public UsersFactory(UsersRepository usersRepository)
+    {
+        _usersRepository = usersRepository;
+    }
+    public void GenerateUsers(int usersCount)
+    {
+        var activeUsers = _usersRepository.GetAllQuery<User>()
+        .Where(x => !x.LastName.EndsWith("used") && x.Email.StartsWith("atp"));
+        if (activeUsers.Count() < usersCount)
+        {
+            int numberOfUsersToBeGenerated = usersCount - activeUsers.Count();
+            for (int i = 0; i < numberOfUsersToBeGenerated; i++)
+            {
+                var fixture = new Fixture();
+                var newUser = new User()
+                {
+                    Email = UniqueEmailGenerator.GenerateUniqueEmailTimestamp(),
+                    FirstName = fixture.Create<string>(),
+                    LastName = fixture.Create<string>(),
+                    Password = fixture.Create<Guid>().ToString(),
+                };
+                _usersRepository.Insert(newUser);
+            }
+        }
+    }
+    public User GetUser()
+    {
+        var user = _usersRepository.GetAllQuery<User>().First(x => x.Email.StartsWith("atp"));
+        user.LastName += "used";
+        _usersRepository.Update(user);
+        return user;
+    }
+}
+```
+
+```csharp
+[TestMethod]
+public void PurchaseSaturnVWithRandomNoteFacade()
+{
+    var purchaseInfo = new PurchaseInfo();
+    var fixture = new Fixture();
+    purchaseInfo.Note = fixture.Create<string>();
+    _purchaseFirstVersionFacade.PurchaseItem("Saturn V", "happybirthday", 3, "355.00€", purchaseInfo);
+}
+```
+
+```csharp
+public class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Start Generating Users....");
+        var usersFactory = new UsersFactory(new UsersRepository());
+        usersFactory.GenerateUsers(5000);
+        Console.WriteLine("DONE");
+    }
+}
+```
