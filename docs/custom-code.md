@@ -8,6 +8,4341 @@ permalink: /customcode/
 
 ## Bellatrix Test Automation Framework
 
+# Web automation
+
+## Most Complete Selenium WebDriver 4.0 Overview
+
+```bash
+java -jar selenium-server-4.0.0-alpha-1.jar hub
+
+java -jar selenium-server-4.0.0-alpha-1.jar node --detect-drivers
+
+java -jar selenium-server-4.0.0-alpha-1.jar distributor --sessions http://localhost:5556
+```
+
+```bash
+java -jar selenium-server-4.0.0-alpha-1.jar standalone -D selenium/standalone-firefox:latest '{"browserName": "firefox"}' --detect-drivers false
+```
+
+## Execute Tests in Docker Containers Using Selenoid
+
+```bash
+./cm selenoid start --vnc
+```
+
+```bash
+./cm selenoid-ui start
+```
+
+## Full Page Screenshots in WebDriver via Custom-built Browser Extension
+
+```bash
+rd /s /q "$(TargetDir)"
+```
+
+```bash
+xcopy $(ProjectDir)FullPageScreenshotsExtension-Chrome* $(ProjectDir)$(OutDir)FullPageScreenshotsExtension-Chrome /Y /I /E
+```
+
+```bash
+xcopy $(ProjectDir)FullPageScreenshotsExtension-Edge* $(ProjectDir)$(OutDir)FullPageScreenshotsExtension-Edge /Y /I /E
+```
+
+```bash
+xcopy $(ProjectDir)FullPageScreenshotsExtension-Firefox* $(ProjectDir)$(OutDir)FullPageScreenshotsExtension-Firefox /Y /I /E
+```
+
+## Selenium WebDriver + .NET 5.0 – What Everyone Ought to Know
+
+```bash
+dotnet test --logger=trx
+```
+
+## Getting Started with SpecFlow in 10 Minutes
+
+```csharp
+public partial class HomePage : BasePage
+{
+    public HomePage(IWebDriver driver) : base(driver)
+    {
+    }
+    public override string Url
+    {
+        get
+        {
+            return "http://www.metric-conversions.org/";
+        }
+    }
+}
+public partial class HomePage
+{
+    public IWebElement EnergyAndPowerAnchor
+    {
+        get
+        {
+            return this.driver.FindElement(By.XPath("//a[contains(@title,'Energy Conversion')]"));
+        }
+    }
+    public IWebElement KilowattHours
+    {
+        get
+        {
+            return this.driver.FindElement(By.XPath("//a[contains(text(),'Kilowatt-hours')]"));
+        }
+    }
+}
+```
+
+## Design Grid Control Automated Tests Part 2
+
+```csharp
+[TestMethod]
+public void OrderDateIsBeforeOrEqualToFilter()
+{
+    this.driver.Navigate().GoToUrl(
+    @"http://demos.telerik.com/kendo-ui/grid/remote-data-binding");
+    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
+    var allItems = this.GetAllItemsFromDb().OrderBy(x => x.OrderDate);
+    var lastOrderDate = allItems.First().OrderDate;
+    var newItem = this.CreateNewItemInDb();
+    newItem.OrderDate = lastOrderDate.AddDays(-1);
+    this.UpdateItemInDb(newItem);
+    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
+    secondNewItem.OrderDate = lastOrderDate.AddDays(-2);
+    this.UpdateItemInDb(secondNewItem);
+    kendoGrid.Filter(
+    new GridFilter(
+    OrderDateColumnName,
+    Enums.FilterOperator.IsBeforeOrEqualTo,
+    newItem.OrderDate.ToString()),
+    new GridFilter(
+    ShipNameColumnName,
+    Enums.FilterOperator.EqualTo,
+    newItem.ShipName));
+    this.WaitForGridToLoadAtLeast(2, kendoGrid);
+    var results = kendoGrid.GetItems<Order>();
+    Assert.IsTrue(results.Count() == 2);
+    Assert.AreEqual(secondNewItem.ToString(), results[0].OrderDate);
+    Assert.AreEqual(newItem.ToString(), results[1].OrderDate);
+}
+```
+
+## Design Grid Control Automated Tests Part 1
+
+```csharp
+[TestMethod]
+public void ShipNameNotEqualToFilter()
+{
+    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/filter-row");
+    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
+    var newItem = this.CreateNewItemInDb();
+    kendoGrid.Filter(
+    new GridFilter(ShipNameColumnName, Enums.FilterOperator.NotEqualTo, newItem.ShipName),
+    new GridFilter(OrderIdColumnName, Enums.FilterOperator.EqualTo, newItem.OrderId));
+    this.WaitForGridToLoad(0, kendoGrid);
+    var items = kendoGrid.GetItems<GridItem>();
+    Assert.AreEqual(0, items.Count);
+}
+```
+
+## 10 Advanced WebDriver Tips and Tricks Part 3
+
+```csharp
+public void WaitForAjaxComplete(int maxSeconds)
+{
+    bool isAjaxCallComplete = false;
+    for (int i = 1; i <= maxSeconds; i++)
+    {
+        isAjaxCallComplete = (bool)((IJavaScriptExecutor)driver).
+        ExecuteScript("return window.jQuery != undefined && jQuery.active == 0");
+        if (isAjaxCallComplete)
+        {
+            return;
+        }
+        Thread.Sleep(1000);
+    }
+    throw new Exception(string.Format("Timed out after {0} seconds", maxSeconds));
+}
+```
+
+## 10 Advanced WebDriver Tips and Tricks Part 1
+
+```csharp
+public void TakeFullScreenshot(IWebDriver driver, String filename)
+{
+    Screenshot screenshot = ((ITakesScreenshot)driver).GetScreenshot();
+    screenshot.SaveAsFile(filename, ImageFormat.Png);
+}
+```
+
+```csharp
+public void TakeScreenshotOfElement(IWebDriver driver, By by, string fileName)
+{
+    // 1. Make screenshot of all screen
+    var screenshotDriver = driver as ITakesScreenshot;
+    Screenshot screenshot = screenshotDriver.GetScreenshot();
+    var bmpScreen = new Bitmap(new MemoryStream(screenshot.AsByteArray));
+    // 2. Get screenshot of specific element
+    IWebElement element = driver.FindElement(by);
+    var cropArea = new Rectangle(element.Location, element.Size);
+    var bitmap = bmpScreen.Clone(cropArea, bmpScreen.PixelFormat);
+    bitmap.Save(fileName);
+}
+```
+
+```csharp
+this.driver.Manage().Timeouts().SetPageLoadTimeout(new TimeSpan(0, 0, 10));
+```
+
+```csharp
+private void WaitUntilLoaded()
+{
+    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+    wait.Until((x) =>
+    {
+        return ((IJavaScriptExecutor)this.driver)
+    .ExecuteScript("return document.readyState").Equals("complete");
+    });
+}
+```
+
+## Automate Telerik Kendo Grid with WebDriver and JavaScript
+
+```csharp
+public class KendoGrid
+{
+    private readonly string gridId;
+    private readonly IJavaScriptExecutor driver;
+
+    public KendoGrid(IWebDriver driver, IWebElement gridDiv)
+    {
+        this.gridId = gridDiv.GetAttribute("id");
+        this.driver = (IJavaScriptExecutor)driver;
+    }
+
+    public void NavigateToPage(int pageNumber)
+    {
+        string jsToBeExecuted = this.GetGridReference();
+        jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.page(", pageNumber, ");");
+        this.driver.ExecuteScript(jsToBeExecuted);
+    }
+
+    private string GetGridReference()
+    {
+        string initializeKendoGrid = string.Format("var grid = $('#{0}').data('kendoGrid');", this.gridId);
+
+        return initializeKendoGrid;
+    }
+}
+```
+
+```csharp
+var grid = $("#grid").data("kendoGrid");
+
+```
+
+```csharp
+grid.dataSource.page("5");
+
+```
+
+```csharp
+public void Sort(string columnName, SortType sortType)
+{
+    string jsToBeExecuted = this.GetGridReference();
+    jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.sort({field: '", columnName, "', dir: '", sortType.ToString().ToLower(), "'});");
+    this.driver.ExecuteScript(jsToBeExecuted);
+}
+```
+
+```csharp
+public void ChangePageSize(int newSize)
+{
+    string jsToBeExecuted = this.GetGridReference();
+    jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.pageSize(", newSize, ");");
+    this.driver.ExecuteScript(jsToBeExecuted);
+}
+```
+
+```csharp
+public List<T> GetItems<T>() where T : class
+{
+    string jsToBeExecuted = this.GetGridReference();
+    jsToBeExecuted = string.Concat(jsToBeExecuted, "return JSON.stringify(grid.dataSource.data());");
+    var jsResults = this.driver.ExecuteScript(jsToBeExecuted);
+    var items = JsonConvert.DeserializeObject<List<T>>(jsResults.ToString());
+    return items;
+}
+```
+
+```csharp
+public void Filter(string columnName, FilterOperator filterOperator, string filterValue)
+{
+    this.Filter(new GridFilter(columnName, filterOperator, filterValue));
+}
+
+public void Filter(params GridFilter[] gridFilters)
+{
+    string jsToBeExecuted = this.GetGridReference();
+    StringBuilder sb = new StringBuilder();
+    sb.Append(jsToBeExecuted);
+    sb.Append("grid.dataSource.filter({ logic: \"and\", filters: [");
+    foreach (var currentFilter in gridFilters)
+    {
+        DateTime filterDateTime;
+        bool isFilterDateTime = DateTime.TryParse(currentFilter.FilterValue, out filterDateTime);
+        string filterValueToBeApplied =
+                                        isFilterDateTime ? string.Format("new Date({0}, {1}, {2})", filterDateTime.Year, filterDateTime.Month - 1, filterDateTime.Day) :
+                                        string.Format("\"{0}\"", currentFilter.FilterValue);
+        string kendoFilterOperator = this.ConvertFilterOperatorToKendoOperator(currentFilter.FilterOperator);
+        sb.Append(string.Concat("{ field: \"", currentFilter.ColumnName, "\", operator: \"", kendoFilterOperator, "\", value: ", filterValueToBeApplied, " },"));
+    }
+    sb.Append("] });");
+    jsToBeExecuted = sb.ToString().Replace(",]", "]");
+    this.driver.ExecuteScript(jsToBeExecuted);
+}
+
+private string ConvertFilterOperatorToKendoOperator(FilterOperator filterOperator)
+{
+    string kendoFilterOperator = string.Empty;
+    switch (filterOperator)
+    {
+        case FilterOperator.EqualTo:
+            kendoFilterOperator = "eq";
+            break;
+        case FilterOperator.NotEqualTo:
+            kendoFilterOperator = "neq";
+            break;
+        case FilterOperator.LessThan:
+            kendoFilterOperator = "lt";
+            break;
+        case FilterOperator.LessThanOrEqualTo:
+            kendoFilterOperator = "lte";
+            break;
+        case FilterOperator.GreaterThan:
+            kendoFilterOperator = "gt";
+            break;
+        case FilterOperator.GreaterThanOrEqualTo:
+            kendoFilterOperator = "gte";
+            break;
+        case FilterOperator.StartsWith:
+            kendoFilterOperator = "startswith";
+            break;
+        case FilterOperator.EndsWith:
+            kendoFilterOperator = "endswith";
+            break;
+        case FilterOperator.Contains:
+            kendoFilterOperator = "contains";
+            break;
+        case FilterOperator.NotContains:
+            kendoFilterOperator = "doesnotcontain";
+            break;
+        case FilterOperator.IsAfter:
+            kendoFilterOperator = "gt";
+            break;
+        case FilterOperator.IsAfterOrEqualTo:
+            kendoFilterOperator = "gte";
+            break;
+        case FilterOperator.IsBefore:
+            kendoFilterOperator = "lt";
+            break;
+        case FilterOperator.IsBeforeOrEqualTo:
+            kendoFilterOperator = "lte";
+            break;
+        default:
+            throw new ArgumentException("The specified filter operator is not supported.");
+    }
+
+    return kendoFilterOperator;
+}
+```
+
+```csharp
+public enum FilterOperator
+{
+    EqualTo,
+    NotEqualTo,
+    LessThan,
+    LessThanOrEqualTo,
+    GreaterThan,
+    GreaterThanOrEqualTo,
+    StartsWith,
+    EndsWith,
+    Contains,
+    NotContains,
+    IsAfter,
+    IsAfterOrEqualTo,
+    IsBefore,
+    IsBeforeOrEqualTo
+}
+```
+
+```csharp
+public class KendoGrid
+{
+    private readonly string gridId;
+    private readonly IJavaScriptExecutor driver;
+
+    public KendoGrid(IWebDriver driver, IWebElement gridDiv)
+    {
+        this.gridId = gridDiv.GetAttribute("id");
+        this.driver = (IJavaScriptExecutor)driver;
+    }
+
+    public void RemoveFilters()
+    {
+        string jsToBeExecuted = this.GetGridReference();
+        jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.filter([]);");
+        this.driver.ExecuteScript(jsToBeExecuted);
+    }
+
+    public int TotalNumberRows()
+    {
+        string jsToBeExecuted = this.GetGridReference();
+        jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.total();");
+        var jsResult = this.driver.ExecuteScript(jsToBeExecuted);
+        return int.Parse(jsResult.ToString());
+    }
+
+    public void Reload()
+    {
+        string jsToBeExecuted = this.GetGridReference();
+        jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.read();");
+        this.driver.ExecuteScript(jsToBeExecuted);
+    }
+
+    public int GetPageSize()
+    {
+        string jsToBeExecuted = this.GetGridReference();
+        jsToBeExecuted = string.Concat(jsToBeExecuted, "return grid.dataSource.pageSize();");
+        var currentResponse = this.driver.ExecuteScript(jsToBeExecuted);
+        int pageSize = int.Parse(currentResponse.ToString());
+        return pageSize;
+    }
+
+    public void ChangePageSize(int newSize)
+    {
+        string jsToBeExecuted = this.GetGridReference();
+        jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.pageSize(", newSize, ");");
+        this.driver.ExecuteScript(jsToBeExecuted);
+    }
+
+    public void NavigateToPage(int pageNumber)
+    {
+        string jsToBeExecuted = this.GetGridReference();
+        jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.page(", pageNumber, ");");
+        this.driver.ExecuteScript(jsToBeExecuted);
+    }
+
+    public void Sort(string columnName, SortType sortType)
+    {
+        string jsToBeExecuted = this.GetGridReference();
+        jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.sort({field: '", columnName, "', dir: '", sortType.ToString().ToLower(), "'});");
+        this.driver.ExecuteScript(jsToBeExecuted);
+    }
+
+    public List<T> GetItems<T>() where T : class
+    {
+        string jsToBeExecuted = this.GetGridReference();
+        jsToBeExecuted = string.Concat(jsToBeExecuted, "return JSON.stringify(grid.dataSource.data());");
+        var jsResults = this.driver.ExecuteScript(jsToBeExecuted);
+        var items = JsonConvert.DeserializeObject<List<T>>(jsResults.ToString());
+        return items;
+    }
+
+    public void Filter(string columnName, FilterOperator filterOperator, string filterValue)
+    {
+        this.Filter(new GridFilter(columnName, filterOperator, filterValue));
+    }
+
+    public void Filter(params GridFilter[] gridFilters)
+    {
+        string jsToBeExecuted = this.GetGridReference();
+        StringBuilder sb = new StringBuilder();
+        sb.Append(jsToBeExecuted);
+        sb.Append("grid.dataSource.filter({ logic: \"and\", filters: [");
+        foreach (var currentFilter in gridFilters)
+        {
+            DateTime filterDateTime;
+            bool isFilterDateTime = DateTime.TryParse(currentFilter.FilterValue, out filterDateTime);
+            string filterValueToBeApplied =
+                                            isFilterDateTime ? string.Format("new Date({0}, {1}, {2})", filterDateTime.Year, filterDateTime.Month - 1, filterDateTime.Day) :
+                                            string.Format("\"{0}\"", currentFilter.FilterValue);
+            string kendoFilterOperator = this.ConvertFilterOperatorToKendoOperator(currentFilter.FilterOperator);
+            sb.Append(string.Concat("{ field: \"", currentFilter.ColumnName, "\", operator: \"", kendoFilterOperator, "\", value: ", filterValueToBeApplied, " },"));
+        }
+        sb.Append("] });");
+        jsToBeExecuted = sb.ToString().Replace(",]", "]");
+        this.driver.ExecuteScript(jsToBeExecuted);
+    }
+
+    public int GetCurrentPageNumber()
+    {
+        string jsToBeExecuted = this.GetGridReference();
+        jsToBeExecuted = string.Concat(jsToBeExecuted, "return grid.dataSource.page();");
+        var result = this.driver.ExecuteScript(jsToBeExecuted);
+        int pageNumber = int.Parse(result.ToString());
+        return pageNumber;
+    }
+
+    private string GetGridReference()
+    {
+        string initializeKendoGrid = string.Format("var grid = $('#{0}').data('kendoGrid');", this.gridId);
+
+        return initializeKendoGrid;
+    }
+
+    private string ConvertFilterOperatorToKendoOperator(FilterOperator filterOperator)
+    {
+        string kendoFilterOperator = string.Empty;
+        switch (filterOperator)
+        {
+            case FilterOperator.EqualTo:
+                kendoFilterOperator = "eq";
+                break;
+            case FilterOperator.NotEqualTo:
+                kendoFilterOperator = "neq";
+                break;
+            case FilterOperator.LessThan:
+                kendoFilterOperator = "lt";
+                break;
+            case FilterOperator.LessThanOrEqualTo:
+                kendoFilterOperator = "lte";
+                break;
+            case FilterOperator.GreaterThan:
+                kendoFilterOperator = "gt";
+                break;
+            case FilterOperator.GreaterThanOrEqualTo:
+                kendoFilterOperator = "gte";
+                break;
+            case FilterOperator.StartsWith:
+                kendoFilterOperator = "startswith";
+                break;
+            case FilterOperator.EndsWith:
+                kendoFilterOperator = "endswith";
+                break;
+            case FilterOperator.Contains:
+                kendoFilterOperator = "contains";
+                break;
+            case FilterOperator.NotContains:
+                kendoFilterOperator = "doesnotcontain";
+                break;
+            case FilterOperator.IsAfter:
+                kendoFilterOperator = "gt";
+                break;
+            case FilterOperator.IsAfterOrEqualTo:
+                kendoFilterOperator = "gte";
+                break;
+            case FilterOperator.IsBefore:
+                kendoFilterOperator = "lt";
+                break;
+            case FilterOperator.IsBeforeOrEqualTo:
+                kendoFilterOperator = "lte";
+                break;
+            default:
+                throw new ArgumentException("The specified filter operator is not supported.");
+        }
+
+        return kendoFilterOperator;
+    }
+}
+```
+
+```csharp
+[TestClass]
+public class KendoGridTests
+{
+    private IWebDriver driver;
+
+    [TestInitialize]
+    public void SetupTest()
+    {
+        this.driver = new FirefoxDriver();
+        this.driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(5));
+    }
+
+    [TestCleanup]
+    public void TeardownTest()
+    {
+        this.driver.Quit();
+    }
+
+    [TestMethod]
+    public void FilterContactName()
+    {
+        this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/index");
+        var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
+        kendoGrid.Filter("ContactName", Enums.FilterOperator.Contains, "Thomas");
+        var items = kendoGrid.GetItems<GridItem>();
+        Assert.AreEqual(1, items.Count);
+    }
+
+    [TestMethod]
+    public void SortContactTitleDesc()
+    {
+        this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/index");
+        var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
+        kendoGrid.Sort("ContactTitle", SortType.Desc);
+        var items = kendoGrid.GetItems<GridItem>();
+        Assert.AreEqual("Sales Representative", items[0]);
+        Assert.AreEqual("Sales Representative", items[1]);
+    }
+
+    [TestMethod]
+    public void TestCurrentPage()
+    {
+        this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/index");
+        var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
+        var pageNumber = kendoGrid.GetCurrentPageNumber();
+        Assert.AreEqual(1, pageNumber);
+    }
+
+    [TestMethod]
+    public void GetPageSize()
+    {
+        this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/index");
+        var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
+        var pageNumber = kendoGrid.GetPageSize();
+        Assert.AreEqual(20, pageNumber);
+    }
+
+    [TestMethod]
+    public void GetAllItems()
+    {
+        this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/index");
+        var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
+
+        var items = kendoGrid.GetItems<GridItem>();
+        Assert.AreEqual(91, items.Count);
+    }
+}
+```
+
+## Test URL Redirects with WebDriver and HttpWebRequest
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<sites>
+  <site url="http://automatetheplanet.com/" name="AutomateThePlanet">
+    <redirects>
+      <redirect from="http://automatetheplanet.com/singleton-design-pattern-design-patterns-in-automation-testing/" to="/singleton-design-pattern/" />
+      <redirect from="/advanced-strategy-design-pattern-design-patterns-in-automation-testing/" to="/advanced-strategy-design-pattern/" />
+    </redirects>
+  </site>
+</sites>
+```
+
+```csharp
+[XmlRoot(ElementName = "sites")]
+public class Sites
+{
+    [XmlElement(ElementName = "site")]
+    public List<Site> Site { get; set; }
+}
+
+[XmlRoot(ElementName = "site")]
+public class Site
+{
+    [XmlElement(ElementName = "redirects")]
+    public Redirects Redirects { get; set; }
+
+    [XmlAttribute(AttributeName = "url")]
+    public string Url { get; set; }
+
+    [XmlAttribute(AttributeName = "name")]
+    public string Name { get; set; }
+}
+
+[XmlRoot(ElementName = "redirects")]
+public class Redirects
+{
+    [XmlElement(ElementName = "redirect")]
+    public List<Redirect> Redirect { get; set; }
+}
+
+[XmlRoot(ElementName = "redirect")]
+public class Redirect
+{
+    [XmlAttribute(AttributeName = "from")]
+    public string From { get; set; }
+
+    [XmlAttribute(AttributeName = "to")]
+    public string To { get; set; }
+}
+```
+
+```csharp
+public class RedirectService : IDisposable
+{
+    readonly IRedirectStrategy redirectEngine;
+    private Sites sites;
+
+    public RedirectService(IRedirectStrategy redirectEngine)
+    {
+        this.redirectEngine = redirectEngine;
+        this.redirectEngine.Initialize();
+        this.InitializeRedirectUrls();
+    }
+
+    public void TestRedirects()
+    {
+        bool shouldFail = false;
+
+        foreach (var currentSite in this.sites.Site)
+        {
+            Uri baseUri = new Uri(currentSite.Url);
+
+            foreach (var currentRedirect in currentSite.Redirects.Redirect)
+            {
+                Uri currentFromUrl = new Uri(baseUri, currentRedirect.From);
+                Uri currentToUrl = new Uri(baseUri, currentRedirect.To);
+
+                string currentSitesUrl = this.redirectEngine.NavigateToFromUrl(currentFromUrl.AbsoluteUri);
+                try
+                {
+                    Assert.AreEqual<string>(currentToUrl.AbsoluteUri, currentSitesUrl);
+                    Console.WriteLine(string.Format("{0} \n OK", currentFromUrl));
+                }
+                catch (Exception)
+                {
+                    shouldFail = true;
+                    Console.WriteLine(string.Format("{0} \n was NOT redirected to \n {1}", currentFromUrl, currentToUrl));
+                }
+            }
+        }
+        if (shouldFail)
+        {
+            throw new Exception("There were incorrect redirects!");
+        }
+    }
+
+    public void Dispose()
+    {
+        redirectEngine.Dispose();
+    }
+
+    private void InitializeRedirectUrls()
+    {
+        XmlSerializer deserializer = new XmlSerializer(typeof(Sites));
+        TextReader reader = new StreamReader(@"redirect-URLs.xml");
+        this.sites = (Sites)deserializer.Deserialize(reader);
+        reader.Close();
+    }
+}
+```
+
+```csharp
+public interface IRedirectStrategy : IDisposable
+{
+    void Initialize();
+
+    string NavigateToFromUrl(string fromUrl);
+
+    void Dispose();
+}
+```
+
+```csharp
+public class WebDriverRedirectStrategy : IRedirectStrategy
+{
+    private IWebDriver driver;
+
+    public void Initialize()
+    {
+        this.driver = new FirefoxDriver();
+    }
+
+    public void Dispose()
+    {
+        this.driver.Quit();
+    }
+
+    public string NavigateToFromUrl(string fromUrl)
+    {
+        this.driver.Navigate().GoToUrl(fromUrl);
+        string currentSitesUrl = this.driver.Url;
+
+        return currentSitesUrl;
+    }
+}
+```
+
+```csharp
+public class WebRequestRedirectStrategy : IRedirectStrategy
+{
+    public void Initialize()
+    {
+    }
+
+    public string NavigateToFromUrl(string fromUrl)
+    {
+        HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(fromUrl);
+        request.Method = "HEAD";
+        request.Timeout = (int)TimeSpan.FromHours(1).TotalMilliseconds;
+        string currentSitesUrl = string.Empty;
+        try
+        {
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                currentSitesUrl = response.ResponseUri.ToString();
+            }
+        }
+        catch (WebException)
+        {
+            currentSitesUrl = null;
+        }
+
+        return currentSitesUrl;
+    }
+    public void Dispose()
+    {
+    }
+}
+```
+
+```csharp
+[TestClass]
+public class RedirectsTester
+{
+    [TestMethod]
+    public void TestRedirects()
+    {
+        var redirectService = new RedirectService(new WebRequestRedirectStrategy());
+        using (redirectService)
+        {
+            redirectService.TestRedirects();
+        }
+    }
+}
+```
+
+## Getting Started with WebDriver C# in 10 Minutes
+
+```csharp
+IWebDriver firefoxDriver = new FirefoxDriver();
+IWebDriver ieDriver = new InternetExlorerDriver();
+IWebDriver edgeDriver = new EdgeDriver();
+IWebDriver chromeDriver = new ChromeDriver();
+```
+
+```csharp
+new DriverManager().SetUpDriver(new ChromeConfig());
+new DriverManager().SetUpDriver(new FirefoxConfig());
+new DriverManager().SetUpDriver(new EdgeConfig());
+new DriverManager().SetUpDriver(new OperaConfig());
+```
+
+```csharp
+driverOne.Navigate().GoToUrl("http://automatetheplanet.com/");
+
+```
+
+```csharp
+// By ID
+IWebElement element = driverOne.FindElement(By.Id("myUniqueId"));
+// By Class (Find more than one element on the page)
+IList<IWebElement> elements = driverOne.FindElements(By.ClassName("green"));
+// By Tag Name
+IWebElement frame = driverOne.FindElement(By.TagName("iframe"));
+// By Name
+IWebElement cheese = driverOne.FindElement(By.Name("goran"));
+// By Link Text
+IWebElement link = driverOne.FindElement(By.LinkText("best features"));
+// By XPath
+IList<IWebElement> inputs = driverOne.FindElements(By.XPath("//input"));
+// By CSS Selector
+IWebElement css = driverOne.FindElement(By.CssSelector("#green span.dairy.baged"));
+```
+
+```csharp
+IWebElement hardToFind = this.driverOne.FindElement(By.ClassName(“firstElementTable")).FindElement(By.Id(“secondElement"));
+```
+
+```csharp
+IWebElement element = driverOne.FindElement(By.Name("search"));
+element.Clear();
+element.SendKeys("Automate The Planet!");
+```
+
+```csharp
+SelectElement selectElement = new SelectElement(driver.FindElement(By.XPath("/html/body/select")));
+selectElement.SelectByText("Planet");
+```
+
+# Development
+
+## Embracing Non-Nullable Reference Types in C# 8
+
+```csharp
+static void Main(string[] args)
+{
+    PassNull(null);
+}
+public static void PassNull(string? text)
+{
+    Console.WriteLine("The first char is " + text?[0]);
+}
+```
+
+```csharp
+static void Main(string[] args)
+{
+    PassNull(null);
+}
+public static int? PassNull(string? text)
+{
+    return text?.Length;
+}
+```
+
+```csharp
+public class Cat
+{
+    public int Id { get; set; }
+    public string? Name { get; set; }
+}
+```
+
+```csharp
+public static string PassNull(bool returnNullIfTrue)
+{
+    return returnNullIfTrue ? "Not null" : null;
+}
+```
+
+```csharp
+public static string? PassNull(bool returnNullIfTrue)
+{
+    return returnNullIfTrue ? "Not null" : null;
+}
+```
+
+```csharp
+static void Main(string[] args)
+{
+    var result = PassNull(true);
+    string test = result!;
+}
+```
+
+```csharp
+static void Main(string[] args)
+{
+    var result = PassNull(true)!;
+    string test = result;
+}
+```
+
+```csharp
+static void Main(string[] args)
+{
+    var result = PassNull(true);
+    string test = null!;
+}
+```
+
+```csharp
+#nullable disable
+static void Main(string[] args)
+{
+    var result = PassNull(true);
+    string test = null;
+}
+#nullable restore
+```
+
+```csharp
+static void Main(string[] args)
+{
+    PassNull(null);
+}
+public static void PassNull([AllowNull] string text)
+{
+    Console.WriteLine(text);
+}
+```
+
+```csharp
+[return: NotNullIfNotNull("parameter")]
+public static string PassNull(string text)
+{
+    return text ?? "Test";
+}
+```
+
+```csharp
+static void Main(string[] args)
+{
+    string test = PassNull("Test");
+}
+```
+
+```csharp
+public static void GenericMethod<TKey>()
+where TKey : notnull
+{
+}
+```
+
+```csharp
+static void Main(string[] args)
+{
+    GenericMethod<int>();
+}
+```
+
+## Dynamic – A Bad Practice Turned Great
+
+```csharp
+var assembly = Assembly.Load(new AssemblyName("Microsoft.AspNetCore.Hosting"));
+var startUpLoader = assembly.GetType("Microsoft.AspNetCore.Hosting.StartupLoader");
+var loadMethodsMethod = startUpLoader.GetMethod("LoadMethods", BindingFlags.NonPublic | BindingFlags.Static);
+loadMethodsMethod.Invoke(null, new object[] {
+serviceCollection.BuildServiceProviderFromFactory(),
+StartupType,
+TestWebServer.Environment.EnvironmentName});
+```
+
+```csharp
+var startupLoader = WebFramework.Internals.StartupLoader.Exposed();
+startupMethods = startupLoader.LoadMethods(
+serviceCollection.BuildServiceProviderFromFactory(),
+StartupType,
+TestWebServer.Environment.EnvironmentName);
+```
+
+```csharp
+using System;
+namespace CoolLibrary
+{
+    internal static class SomeCoolClass
+    {
+        public static void CoolMethod()
+        {
+            Console.WriteLine(42);
+        }
+    }
+}
+```
+
+```csharp
+static void Main(string[] args)
+{
+    var assembly = Assembly.Load(new AssemblyName("CoolLibrary"));
+}
+```
+
+```csharp
+static void Main(string[] args)
+{
+    var assembly = Assembly.Load(new AssemblyName("CoolLibrary"));
+    var type = assembly.GetType("CoolLibrary.SomeCoolClass");
+    var method = type.GetMethod("CoolMethod");
+}
+```
+
+```csharp
+tatic void Main(string[] args)
+{
+    var assembly = Assembly.Load(new AssemblyName("CoolLibrary"));
+    var type = assembly.GetType("CoolLibrary.SomeCoolClass");
+    var method = type.GetMethod("CoolMethod");
+}
+```
+
+```csharp
+internal static class SomeCoolClass
+{
+    internal static void CoolMethod()
+    {
+        Console.WriteLine(42);
+    }
+}
+```
+
+```csharp
+private readonly BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Static;
+var method = type.GetMethod("CoolMethod", flags);
+
+```
+
+```csharp
+method.Invoke(null, new object[0]);
+
+```
+
+```csharp
+internal static void CoolMethod(string text, int number)
+{
+    Console.WriteLine(text + number);
+}
+method.Invoke(null, new object[] { "some text", 42 });
+```
+
+```csharp
+internal static string CoolMethod(string text, int number)
+{
+    Console.WriteLine(text);
+    Console.WriteLine(number);
+    return text + " " + number;
+}
+```
+
+```csharp
+var result = (string)method.Invoke(null, new object[] { "some text", 42 });
+```
+
+```csharp
+namespace BeautifyReflectionCode
+{
+    public class ExposedObject
+    {
+    }
+}
+```
+
+```csharp
+dynamic someDynamic = 42;
+someDynamic.WhateverILike();
+```
+
+```csharp
+using System.Dynamic;
+namespace BeautifyReflectionCode
+{
+    public class ExposedObject : DynamicObject
+    {
+    }
+}
+```
+
+```csharp
+dynamic myBlackHole = new object();
+```
+
+```csharp
+myBlackHole.Name = "MyTested";
+myBlackHole.LastName = "ASP.NET";
+Console.WriteLine(myBlackHole.FirstName);
+```
+
+```csharp
+using System.Dynamic;
+namespace BeautifyReflectionCode
+{
+    public class ExposedObject : DynamicObject
+    {
+        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
+        {
+            return base.TryInvokeMember(binder, args, out result);
+        }
+    }
+}
+```
+
+```csharp
+static void Main(string[] args)
+{
+    dynamic someDynamic = new ExposedObject();
+    someDynamic.WhateverILike();
+}
+```
+
+```csharp
+public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
+{
+    Console.WriteLine(binder.Name);
+    for (int i = 0; i < args.Length; i++)
+    {
+        Console.WriteLine(" " + args[i]);
+    }
+    result = "MyCoolResult";
+    return true;
+}
+```
+
+```csharp
+var assembly = Assembly.Load(new AssemblyName("CoolLibrary"));
+var type = assembly.GetType("CoolLibrary.SomeCoolClass");
+var method = type.GetMethod("CoolMethod", BindingFlags.NonPublic | BindingFlags.Static);
+var result = (string)method.Invoke(null, new object[] { "some text", 42 });
+```
+
+```csharp
+static void Main(string[] args)
+{
+    var assembly = Assembly.Load(new AssemblyName("CoolLibrary"));
+    var type = assembly.GetType("CoolLibrary.SomeCoolClass");
+    dynamic someCoolClass = new ExposedObject(type);
+    someCoolClass.CoolMethod("Something cool", 42);
+}
+```
+
+```csharp
+string result = someCoolClass.CoolMethod("Something cool", 42);
+Console.WriteLine(result);
+```
+
+```csharp
+internal static class SomeCoolClass
+{
+    internal static string Name { get; set; }
+    internal static string CoolMethod(string text, int number)
+    {
+        return text + " " + number;
+    }
+}
+static void Main(string[] args)
+{
+    var assembly = Assembly.Load(new AssemblyName("CoolLibrary"));
+    var type = assembly.GetType("CoolLibrary.SomeCoolClass");
+    dynamic someCoolClass = new ExposedObject(type);
+    someCoolClass.Name = "My Tested ASP.NET";
+}
+```
+
+```csharp
+private readonly BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Static;
+public override bool TrySetMember(SetMemberBinder binder, object value)
+{
+    var property = this.type.GetProperty(binder.Name, flags);
+    if (property == null)
+    {
+        return base.TrySetMember(binder, value);
+    }
+    property.SetValue(null, value);
+    return true;
+}
+```
+
+```csharp
+static void Main(string[] args)
+{
+    var assembly = Assembly.Load(new AssemblyName("CoolLibrary"));
+    var type = assembly.GetType("CoolLibrary.SomeCoolClass");
+    dynamic someCoolClass = new ExposedObject(type);
+    string result = someCoolClass.CoolMethod("Something cool", 42);
+    string name = someCoolClass.Name = "My Tested ASP.NET";
+    Console.WriteLine(name);
+}
+```
+
+```csharp
+public override bool TryGetMember(GetMemberBinder binder, out object result)
+{
+    var property = this.type.GetProperty(binder.Name, flags);
+    if (property == null)
+    {
+        return base.TryGetMember(binder, out result);
+    }
+    result = property.GetValue(null);
+    return true;
+}
+```
+
+## Optimize C# Reflection Up to 10 Times by Using Delegates
+
+```csharp
+public class HomeController
+{
+    public IDictionary<string, object> Data { get; set; }
+}
+```
+
+```csharp
+var homeController = new HomeController();
+var homeControllerType = homeController.GetType();
+var property = homeControllerType.GetProperty(nameof(HomeController.Data));
+var getMethod = property.GetMethod;
+var dict = (IDictionary<string, object>)getMethod.Invoke(homeController, Array.Empty<object>());
+```
+
+```csharp
+var getMethod = property.GetMethod;
+var declaringClass = property.DeclaringType;
+var typeOfResult = typeof(IDictionary<string, object>);
+// Func<ControllerType, TResult>
+var getMethodDelegateType = typeof(Func<,>).MakeGenericType(declaringClass, typeOfResult);
+// c => c.Data
+var getMethodDelegate = getMethod.CreateDelegate(getMethodDelegateType);
+var finalDelegate = (Func < HomeController, IDictionary<string, object>)getMethodDelegate;
+var dict = finalDelegate(homeController);
+```
+
+```csharp
+public class PropertyHelper
+{
+    private static readonly ConcurrentDictionary<Type, PropertyHelper[]> Cache
+    = new ConcurrentDictionary<Type, PropertyHelper[]>();
+    private static readonly MethodInfo CallInnerDelegateMethod =
+    typeof(PropertyHelper).GetMethod(nameof(CallInnerDelegate), BindingFlags.NonPublic | BindingFlags.Static);
+    public string Name { get; set; }
+    public Func<object, object> Getter { get; set; }
+    public static PropertyHelper[] GetProperties(Type type)
+    => Cache
+    .GetOrAdd(type, _ => type
+    .GetProperties()
+    .Select(property =>
+    {
+        var getMethod = property.GetMethod;
+        var declaringClass = property.DeclaringType;
+        var typeOfResult = property.PropertyType;
+        // Func<Type, TResult>
+        var getMethodDelegateType = typeof(Func<,>).MakeGenericType(declaringClass, typeOfResult);
+        // c => c.Data
+        var getMethodDelegate = getMethod.CreateDelegate(getMethodDelegateType);
+        // CallInnerDelegate<Type, TResult>
+        var callInnerGenericMethodWithTypes = CallInnerDelegateMethod
+    .MakeGenericMethod(declaringClass, typeOfResult);
+        // Func<object, object>
+        var result = (Func<object, object>)callInnerGenericMethodWithTypes.Invoke(null, new[] { getMethodDelegate });
+        return new PropertyHelper
+        {
+            Name = property.Name,
+            Getter = result
+        };
+    })
+    .ToArray());
+    // Called via reflection.
+    private static Func<object, object> CallInnerDelegate<TClass, TResult>(
+    Func<TClass, TResult> deleg)
+    => instance => deleg((TClass)instance);
+}
+```
+
+```csharp
+var controller = new HomeController();
+var properties = PropertyHelper.GetProperties(typeof(HomeController));
+foreach (var property in properties)
+{
+    Console.WriteLine(property.Name);
+    Console.WriteLine(property.Getter(controller));
+}
+```
+
+## Most Complete NUnit Unit Testing Framework Cheat Sheet
+
+```bash
+Install-Package NUnit
+Install-Package NUnit.TestAdapter
+Install-Package Microsoft.NET.Test.Sdk
+```
+
+```csharp
+using NUnit.Framework;
+namespace NUnitUnitTests
+{
+    // A class that contains NUnit unit tests. (Required)
+    [TestFixture]
+    public class NonBellatrixTests
+    {
+        [OneTimeSetUp]
+        public void ClassInit()
+        {
+            // Executes once for the test class. (Optional)
+        }
+        [SetUp]
+        public void TestInit()
+        {
+            // Runs before each test. (Optional)
+        }
+        [Test]
+        public void TestMethod()
+        {
+        }
+        [TearDown]
+        public void TestCleanup()
+        {
+            // Runs after each test. (Optional)
+        }
+        [OneTimeTearDown]
+        public void ClassCleanup()
+        {
+            // Runs once after all tests in this class are executed. (Optional)
+            // Not guaranteed that it executes instantly after all tests from the class.
+        }
+    }
+}
+// A SetUpFixture outside of any namespace provides SetUp and TearDown for the entire assembly.
+[SetUpFixture]
+public class MySetUpClass
+{
+    [OneTimeSetUp]
+    public void RunBeforeAnyTests()
+    {
+        // Executes once before the test run. (Optional)
+    }
+    [OneTimeTearDown]
+    public void RunAfterAnyTests()
+    {
+        // Executes once after the test run. (Optional)
+    }
+}
+```
+
+```csharp
+Assert.AreEqual(28, _actualFuel); // Tests whether the specified values are equal.
+Assert.AreNotEqual(28, _actualFuel); // Tests whether the specified values are unequal. Same as AreEqual for numeric values.
+Assert.AreSame(_expectedRocket, _actualRocket); // Tests whether the specified objects both refer to the same object
+Assert.AreNotSame(_expectedRocket, _actualRocket); // Tests whether the specified objects refer to different objects
+Assert.IsTrue(_isThereEnoughFuel); // Tests whether the specified condition is true
+Assert.IsFalse(_isThereEnoughFuel); // Tests whether the specified condition is false
+Assert.IsNull(_actualRocket); // Tests whether the specified object is null
+Assert.IsNotNull(_actualRocket); // Tests whether the specified object is non-null
+Assert.IsInstanceOf(_actualRocket, typeof(Falcon9Rocket)); // Tests whether the specified object is an instance of the expected type
+Assert.IsNotInstanceOf(_actualRocket, typeof(Falcon9Rocket)); // Tests whether the specified object is not an instance of type
+StringAssert.AreEqualIgnoringCase(_expectedBellatrixTitle, "Bellatrix"); // Tests whether the specified strings are equal ignoring their casing
+StringAssert.Contains(_expectedBellatrixTitle, "Bellatrix"); // Tests whether the specified string contains the specified substring
+StringAssert.DoesNotContain(_expectedBellatrixTitle, "Bellatrix"); // Tests whether the specified string doesn't contain the specified substring
+StringAssert.StartsWith(_expectedBellatrixTitle, "Bellatrix"); // Tests whether the specified string begins with the specified substring
+StringAssert.StartsWith(_expectedBellatrixTitle, "Bellatrix"); // Tests whether the specified string begins with the specified substring
+StringAssert.IsMatch("(281)388-0388", @"(?d{3})?-? *d{3}-? *-?d{4}"); // Tests whether the specified string matches a regular expression
+StringAssert.DoesNotMatch("281)388-0388", @"(?d{3})?-? *d{3}-? *-?d{4}"); // Tests whether the specified string does not match a regular expression
+CollectionAssert.AreEqual(_expectedRockets, _actualRockets); // Tests whether the specified collections have the same elements in the same order and quantity.
+CollectionAssert.AreNotEqual(_expectedRockets, _actualRockets); // Tests whether the specified collections does not have the same elements or the elements are in a different order and quantity.
+CollectionAssert.AreEquivalent(_expectedRockets, _actualRockets); // Tests whether two collections contain the same elements.
+CollectionAssert.AreNotEquivalent(_expectedRockets, _actualRockets); // Tests whether two collections contain different elements.
+CollectionAssert.AllItemsAreInstancesOfType(_expectedRockets, _actualRockets); // Tests whether all elements in the specified collection are instances of the expected type
+CollectionAssert.AllItemsAreNotNull(_expectedRockets); // Tests whether all items in the specified collection are non-null
+CollectionAssert.AllItemsAreUnique(_expectedRockets); // Tests whether all items in the specified collection are unique
+CollectionAssert.Contains(_actualRockets, falcon9); // Tests whether the specified collection contains the specified element
+CollectionAssert.DoesNotContain(_actualRockets, falcon9); // Tests whether the specified collection does not contain the specified element
+CollectionAssert.IsSubsetOf(_expectedRockets, _actualRockets); // Tests whether one collection is a subset of another collection
+CollectionAssert.IsNotSubsetOf(_expectedRockets, _actualRockets); // Tests whether one collection is not a subset of another collection
+Assert.Throws<ArgumentNullException>(() => new Regex(null)); // Tests whether the code specified by delegate throws exact given exception of type T
+```
+
+```csharp
+Assert.That(28, Is.EqualTo(_actualFuel)); // Tests whether the specified values are equal.
+Assert.That(28, Is.Not.EqualTo(_actualFuel)); // Tests whether the specified values are unequal. Same as AreEqual for numeric values.
+Assert.That(_expectedRocket, Is.SameAs(_actualRocket)); // Tests whether the specified objects both refer to the same object
+Assert.That(_expectedRocket, Is.Not.SameAs(_actualRocket)); // Tests whether the specified objects refer to different objects
+Assert.That(_isThereEnoughFuel, Is.True); // Tests whether the specified condition is true
+Assert.That(_isThereEnoughFuel, Is.False); // Tests whether the specified condition is false
+Assert.That(_actualRocket, Is.Null); // Tests whether the specified object is null
+Assert.That(_actualRocket, Is.Not.Null); // Tests whether the specified object is non-null
+Assert.That(_actualRocket, Is.InstanceOf<Falcon9Rocket>()); // Tests whether the specified object is an instance of the expected type
+Assert.That(_actualRocket, Is.Not.InstanceOf<Falcon9Rocket>()); // Tests whether the specified object is not an instance of type
+Assert.That(_actualFuel, Is.GreaterThan(20)); // Tests whether the specified object greater than the specified value
+Assert.That(28, Is.EqualTo(_actualFuel).Within(0.50));
+// Tests whether the specified values are nearly equal within the specified tolerance.
+Assert.That(28, Is.EqualTo(_actualFuel).Within(2).Percent);
+// Tests whether the specified values are nearly equal within the specified % tolerance.
+Assert.That(_actualRocketParts, Has.Exactly(10).Items);
+// Tests whether the specified collection has exactly the stated number of items in it.
+Assert.That(_actualRocketParts, Is.Unique);
+// Tests whether the items in the specified collections are unique.
+Assert.That(_actualRocketParts, Does.Contain(_expectedRocketPart));
+// Tests whether a given items is present in the specified list of items.
+Assert.That(_actualRocketParts, Has.Exactly(1).Matches<RocketPart>(part => part.Name == "Door" && part.Height == "200"));
+// Tests whether the specified collection has exactly the stated item in it.
+```
+
+```csharp
+[TestFixture]
+[Author("Joro Doev", "joro.doev@bellatrix.solutions")]
+public class RocketFuelTests
+{
+    [Test]
+    public void RocketFuelMeassuredCorrectly_When_Landing() { /* ... */ }
+    [Test]
+    [Author("Ivan Penchev")]
+    public void RocketFuelMeassuredCorrectly_When_Flying() { /* ... */ }
+}
+```
+
+```csharp
+[Test]
+[Repeat(10)]
+public void RocketFuelMeassuredCorrectly_When_Flying()
+{ /* ... */ }
+
+```
+
+```csharp
+[Test, Combinatorial]
+public void CorrectFuelMeassured_When_X_Site([Values(1, 2, 3)] int x, [Values("A", "B")] string s)
+{
+    ...
+}
+```
+
+```csharp
+[Test, Pairwise]
+public void ValidateLandingSiteOfRover_When_GoingToMars
+([Values("a", "b", "c")] string a, [Values("+", "-")] string b, [Values("x", "y")] string c)
+{
+    Debug.WriteLine("{0} {1} {2}", a, b, c);
+}
+```
+
+```csharp
+[Test]
+public void GenerateRandomLandingSiteOnMoon([Values(1, 2, 3)] int x, [Random(-1.0, 1.0, 5)] double d)
+{
+    ...
+}
+```
+
+```csharp
+[Test]
+public void CalculateJupiterBaseLandingPoint([Values(1, 2, 3)] int x, [Range(0.2, 0.6)] double y)
+{
+    //...
+}
+```
+
+```csharp
+[Test]
+[Retry(3)]
+public void CalculateJupiterBaseLandingPoint([Values(1, 2, 3)] int x, [Range(0.2, 0.6)] double y)
+{
+    //...
+}
+```
+
+```csharp
+[Test, Timeout(2000)]
+public void FireRocketToProximaCentauri()
+{
+    ...
+}
+```
+
+```csharp
+[assembly: Parallelizable(ParallelScope.Fixtures)]
+[assembly: LevelOfParallelism(3)]
+```
+
+```csharp
+[TestFixture]
+[Parallelizable(ParallelScope.Fixtures)]
+public class TestFalcon9EngineLevels
+{
+    // ...
+}
+```
+
+## Most Complete MSTest Unit Testing Framework Cheat Sheet
+
+```bash
+Install-Package MSTest.TestFramework
+Install-Package MSTest.TestAdapter
+Install-Package Microsoft.NET.Test.Sdk
+```
+
+```csharp
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+namespace MSTestUnitTests
+{
+    // A class that contains MSTest unit tests. (Required)
+    [TestClass]
+    public class YourUnitTests
+    {
+        [AssemblyInitialize]
+        public static void AssemblyInit(TestContext context)
+        {
+            // Executes once before the test run. (Optional)
+        }
+        [ClassInitialize]
+        public static void TestFixtureSetup(TestContext context)
+        {
+            // Executes once for the test class. (Optional)
+        }
+        [TestInitialize]
+        public void Setup()
+        {
+            // Runs before each test. (Optional)
+        }
+        [AssemblyCleanup]
+        public static void AssemblyCleanup()
+        {
+            // Executes once after the test run. (Optional)
+        }
+        [ClassCleanup]
+        public static void TestFixtureTearDown()
+        {
+            // Runs once after all tests in this class are executed. (Optional)
+            // Not guaranteed that it executes instantly after all tests from the class.
+        }
+        [TestCleanup]
+        public void TearDown()
+        {
+            // Runs after each test. (Optional)
+        }
+        // Mark that this is a unit test method. (Required)
+        [TestMethod]
+        public void YouTestMethod()
+        {
+            // Your test code goes here.
+        }
+    }
+}
+```
+
+```csharp
+[DataRow(0, 0)]
+[DataRow(1, 1)]
+[DataRow(2, 1)]
+[DataRow(80, 23416728348467685)]
+[DataTestMethod]
+public void GivenDataFibonacciReturnsResultsOk(int number, int result)
+{
+    var fib = new Fib();
+    var actual = fib.Fibonacci(number);
+    Assert.AreEqual(result, actual);
+}
+```
+
+```csharp
+[DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "TestsData.csv", "TestsData#csv", DataAccessMethod.Sequential)]
+[TestMethod]
+public void DataDrivenTest()
+{
+    int valueA = Convert.ToInt32(this.TestContext.DataRow["valueA"]);
+    int valueB = Convert.ToInt32(this.TestContext.DataRow["valueB"]);
+    int expected = Convert.ToInt32(this.TestContext.DataRow["expectedResult"]);
+}
+```
+
+```csharp
+[DataTestMethod]
+[DynamicData(nameof(GetData), DynamicDataSourceType.Method)]
+public void TestAddDynamicDataMethod(int a, int b, int expected)
+{
+    var actual = _calculator.Add(a, b);
+    Assert.AreEqual(expected, actual);
+}
+public static IEnumerable<object[]> GetData()
+{
+    yield return new object[] { 1, 1, 2 };
+    yield return new object[] { 12, 30, 42 };
+    yield return new object[] { 14, 1, 15 };
+}
+```
+
+```csharp
+Assert.AreEqual(28, _actualFuel); // Tests whether the specified values are equal.
+Assert.AreNotEqual(28, _actualFuel); // Tests whether the specified values are unequal. Same as AreEqual for numeric values.
+Assert.AreSame(_expectedRocket, _actualRocket); // Tests whether the specified objects both refer to the same object
+Assert.AreNotSame(_expectedRocket, _actualRocket); // Tests whether the specified objects refer to different objects
+Assert.IsTrue(_isThereEnoughFuel); // Tests whether the specified condition is true
+Assert.IsFalse(_isThereEnoughFuel); // Tests whether the specified condition is false
+Assert.IsNull(_actualRocket); // Tests whether the specified object is null
+Assert.IsNotNull(_actualRocket); // Tests whether the specified object is non-null
+Assert.IsInstanceOfType(_actualRocket, typeof(Falcon9Rocket)); // Tests whether the specified object is an instance of the expected type
+Assert.IsNotInstanceOfType(_actualRocket, typeof(Falcon9Rocket)); // Tests whether the specified object is not an instance of type
+StringAssert.Contains(_expectedBellatrixTitle, "Bellatrix"); // Tests whether the specified string contains the specified substring
+StringAssert.StartsWith(_expectedBellatrixTitle, "Bellatrix"); // Tests whether the specified string begins with the specified substring
+StringAssert.Matches("(281)388-0388", @"(?d{3})?-? *d{3}-? *-?d{4}"); // Tests whether the specified string matches a regular expression
+StringAssert.DoesNotMatch("281)388-0388", @"(?d{3})?-? *d{3}-? *-?d{4}"); // Tests whether the specified string does not match a regular expression
+CollectionAssert.AreEqual(_expectedRockets, _actualRockets); // Tests whether the specified collections have the same elements in the same order and quantity.
+CollectionAssert.AreNotEqual(_expectedRockets, _actualRockets); // Tests whether the specified collections does not have the same elements or the elements are in a different order and quantity.
+CollectionAssert.AreEquivalent(_expectedRockets, _actualRockets); // Tests whether two collections contain the same elements.
+CollectionAssert.AreNotEquivalent(_expectedRockets, _actualRockets); // Tests whether two collections contain different elements.
+CollectionAssert.AllItemsAreInstancesOfType(_expectedRockets, _actualRockets); // Tests whether all elements in the specified collection are instances of the expected type
+CollectionAssert.AllItemsAreNotNull(_expectedRockets); // Tests whether all items in the specified collection are non-null
+CollectionAssert.AllItemsAreUnique(_expectedRockets); // Tests whether all items in the specified collection are unique
+CollectionAssert.Contains(_actualRockets, falcon9); // Tests whether the specified collection contains the specified element
+CollectionAssert.DoesNotContain(_actualRockets, falcon9); // Tests whether the specified collection does not contain the specified element
+CollectionAssert.IsSubsetOf(_expectedRockets, _actualRockets); // Tests whether one collection is a subset of another collection
+CollectionAssert.IsNotSubsetOf(_expectedRockets, _actualRockets); // Tests whether one collection is not a subset of another collection
+Assert.ThrowsException<ArgumentNullException>(() => new Regex(null)); // Tests whether the code specified by delegate throws exact given exception of type T
+```
+
+```csharp
+[assembly: Parallelize(Workers = 0, Scope = ExecutionScope.MethodLevel)]
+```
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+	<MSTest>
+		<Parallelize>
+			<Workers>8</Workers>
+			<Scope>MethodLevel</Scope>
+		</Parallelize>
+	</MSTest>
+</RunSettings>
+```
+
+## Get Property Names Using Lambda Expressions in C#
+
+```csharp
+public static string GetMemberName<T>(Expression<Func<T, object>> expression)
+{
+    return GetMemberName(expression.Body);
+}
+```
+
+```csharp
+private static string GetMemberName(Expression expression)
+{
+    if (expression == null)
+    {
+        throw new ArgumentException(expressionCannotBeNullMessage);
+    }
+
+    if (expression is MemberExpression)
+    {
+        // Reference type property or field
+        var memberExpression = (MemberExpression)expression;
+        return memberExpression.Member.Name;
+    }
+
+    if (expression is MethodCallExpression)
+    {
+        // Reference type method
+        var methodCallExpression = (MethodCallExpression)expression;
+        return methodCallExpression.Method.Name;
+    }
+
+    if (expression is UnaryExpression)
+    {
+        // Property, field of method returning value type
+        var unaryExpression = (UnaryExpression)expression;
+        return GetMemberName(unaryExpression);
+    }
+
+    throw new ArgumentException(invalidExpressionMessage);
+}
+
+private static string GetMemberName(UnaryExpression unaryExpression)
+{
+    if (unaryExpression.Operand is MethodCallExpression)
+    {
+        var methodExpression = (MethodCallExpression)unaryExpression.Operand;
+        return methodExpression.Method.Name;
+    }
+
+    return ((MemberExpression)unaryExpression.Operand).Member.Name;
+}
+```
+
+```csharp
+public static class NameReaderExtensions
+{
+    private static readonly string expressionCannotBeNullMessage = "The expression cannot be null.";
+    private static readonly string invalidExpressionMessage = "Invalid expression.";
+
+    public static string GetMemberName<T>(this T instance, Expression<Func<T, object>> expression)
+    {
+        return GetMemberName(expression.Body);
+    }
+
+    public static List<string> GetMemberNames<T>(this T instance, params Expression<Func<T, object>>[] expressions)
+    {
+        List<string> memberNames = new List<string>();
+        foreach (var cExpression in expressions)
+        {
+            memberNames.Add(GetMemberName(cExpression.Body));
+        }
+
+        return memberNames;
+    }
+
+    public static string GetMemberName<T>(this T instance, Expression<Action<T>> expression)
+    {
+        return GetMemberName(expression.Body);
+    }
+
+    private static string GetMemberName(Expression expression)
+    {
+        if (expression == null)
+        {
+            throw new ArgumentException(expressionCannotBeNullMessage);
+        }
+
+        if (expression is MemberExpression)
+        {
+            // Reference type property or field
+            var memberExpression = (MemberExpression)expression;
+            return memberExpression.Member.Name;
+        }
+
+        if (expression is MethodCallExpression)
+        {
+            // Reference type method
+            var methodCallExpression = (MethodCallExpression)expression;
+            return methodCallExpression.Method.Name;
+        }
+
+        if (expression is UnaryExpression)
+        {
+            // Property, field of method returning value type
+            var unaryExpression = (UnaryExpression)expression;
+            return GetMemberName(unaryExpression);
+        }
+
+        throw new ArgumentException(invalidExpressionMessage);
+    }
+
+    private static string GetMemberName(UnaryExpression unaryExpression)
+    {
+        if (unaryExpression.Operand is MethodCallExpression)
+        {
+            var methodExpression = (MethodCallExpression)unaryExpression.Operand;
+            return methodExpression.Method.Name;
+        }
+
+        return ((MemberExpression)unaryExpression.Operand).Member.Name;
+    }
+}
+```
+
+```csharp
+Client client = new Client();
+var propertyNames = client.GetMemberNames(c => c.FistName, c => c.LastName, c => c.City);
+foreach (var cPropertyName in propertyNames)
+{
+    Console.WriteLine(cPropertyName);
+}
+string nameOfTheMethod = client.GetMemberName(c => c.ToString());
+Console.WriteLine(nameOfTheMethod);
+```
+
+```csharp
+public class ObjectToAssertValidator : PropertiesValidator<ObjectToAssertValidator, ObjectToAssert>
+{
+    public void Validate(ObjectToAssert expected, ObjectToAssert actual)
+    {
+        this.Validate(expected, actual, "FirstName");
+    }
+}
+```
+
+```csharp
+public void Assert<T>(T expectedObject, T realObject, params Expression<Func<T, object>>[] propertiesNotToCompareExpressions)
+{
+    PropertyInfo[] properties = realObject.GetType().GetProperties();
+    List<string> propertiesNotToCompare = expectedObject.GetMemberNames(propertiesNotToCompareExpressions);
+    foreach (PropertyInfo currentRealProperty in properties)
+    {
+        if (!propertiesNotToCompare.Contains(currentRealProperty.Name))
+        {
+            PropertyInfo currentExpectedProperty = expectedObject.GetType().GetProperty(currentRealProperty.Name);
+            string exceptionMessage =
+            string.Format("The property {0} of class {1} was not as expected.", currentRealProperty.Name, currentRealProperty.DeclaringType.Name);
+
+            if (currentRealProperty.PropertyType != typeof(DateTime) && currentRealProperty.PropertyType != typeof(DateTime?))
+            {
+                MSU.Assert.AreEqual(currentExpectedProperty.GetValue(expectedObject, null), currentRealProperty.GetValue(realObject, null), exceptionMessage);
+            }
+            else
+            {
+                DateTimeAssert.AreEqual(
+                currentExpectedProperty.GetValue(expectedObject, null) as DateTime?,
+                currentRealProperty.GetValue(realObject, null) as DateTime?,
+                DateTimeDeltaType.Minutes,
+                5);
+            }
+        }
+    }
+}
+```
+
+```csharp
+public class ObjectToAssertAsserter : PropertiesAsserter<ObjectToAssertAsserter, ObjectToAssert>
+{
+    public void Assert(ObjectToAssert expected, ObjectToAssert actual)
+    {
+        this.Assert(expected,
+        actual,
+        e => e.LastName,
+        e => e.FirstName,
+        e => e.PoNumber);
+    }
+}
+```
+
+## Specification-based Test Design Techniques for Enhancing Unit Tests
+
+```csharp
+public static class TransportSubscriptionCardPriceCalculator
+{
+    public static decimal CalculateSubscriptionPrice(string ageInput)
+    {
+        decimal subscriptionPrice = default(decimal);
+        int age = default(int);
+        bool isInteger = int.TryParse(ageInput, out age);
+
+        if (!isInteger)
+        {
+            throw new ArgumentException("The age input should be an integer value between 0 - 122.");
+        }
+
+        if (age <= 0)
+        {
+            throw new ArgumentException("The age should be greater than zero.");
+        }
+        else if (age > 0 && age <= 5)
+        {
+            subscriptionPrice = 0;
+        }
+        else if (age > 5 && age <= 18)
+        {
+            subscriptionPrice = 20;
+        }
+        else if (age > 18 && age < 65)
+        {
+            subscriptionPrice = 40;
+        }
+        else if (age >= 65 && age <= 122)
+        {
+            subscriptionPrice = 5;
+        }
+        else
+        {
+            throw new ArgumentException("The age should be smaller than 123.");
+        }
+
+        return subscriptionPrice;
+    }
+}
+```
+
+```csharp
+[TestFixture]
+public class TransportSubscriptionCardPriceCalculatorTests
+{
+    private const string GreaterThanZeroExpectionMessage = "The age should be greater than zero.";
+    private const string SmallerThan123ExpectionMessage = "The age should be smaller than 123.";
+    private const string ShouldBeIntegerExpectionMessage = "The age input should be an integer value between 0 - 122.";
+
+    [Test]
+    public void ValidateCalculateSubscriptionPrice_Free([Random(min: 1, max: 5, count: 1)]
+                                                                        int ageInput)
+    {
+        decimal actualPrice = TransportSubscriptionCardPriceCalculator.CalculateSubscriptionPrice(ageInput.ToString());
+
+        Assert.AreEqual(0, actualPrice);
+    }
+
+    [Test]
+    public void ValidateCalculateSubscriptionPrice_20lv([Random(min: 6, max: 18, count: 1)]
+                                                                        int ageInput)
+    {
+        decimal actualPrice = TransportSubscriptionCardPriceCalculator.CalculateSubscriptionPrice(ageInput.ToString());
+
+        Assert.AreEqual(20, actualPrice);
+    }
+
+    [Test]
+    public void ValidateCalculateSubscriptionPrice_40lv([Random(min: 19, max: 64, count: 1)]
+                                                                        int ageInput)
+    {
+        decimal actualPrice = TransportSubscriptionCardPriceCalculator.CalculateSubscriptionPrice(ageInput.ToString());
+
+        Assert.AreEqual(40, actualPrice);
+    }
+
+    [Test]
+    public void ValidateCalculateSubscriptionPrice_5lv([Random(min: 65, max: 122, count: 1)]
+                                                                        int ageInput)
+    {
+        decimal actualPrice = TransportSubscriptionCardPriceCalculator.CalculateSubscriptionPrice(ageInput.ToString());
+
+        Assert.AreEqual(5, actualPrice);
+    }
+
+    [Test]
+    [ExpectedException(typeof(ArgumentException), ExpectedMessage = ShouldBeIntegerExpectionMessage)]
+    public void ValidateCalculateSubscriptionPrice_NotInteger()
+    {
+        decimal actualPrice = TransportSubscriptionCardPriceCalculator.CalculateSubscriptionPrice("invalid");
+
+        Assert.AreEqual(5, actualPrice);
+    }
+
+    [Test]
+    [ExpectedException(typeof(ArgumentException), ExpectedMessage = GreaterThanZeroExpectionMessage)]
+    public void ValidateCalculateSubscriptionPrice_InvalidZero()
+    {
+        decimal actualPrice = TransportSubscriptionCardPriceCalculator.CalculateSubscriptionPrice("0");
+
+        Assert.AreEqual(5, actualPrice);
+    }
+
+    [Test]
+    [ExpectedException(typeof(ArgumentException), ExpectedMessage = SmallerThan123ExpectionMessage)]
+    public void ValidateCalculateSubscriptionPrice_InvalidGreater122()
+    {
+        decimal actualPrice = TransportSubscriptionCardPriceCalculator.CalculateSubscriptionPrice("1000");
+
+        Assert.AreEqual(5, actualPrice);
+    }
+}
+```
+
+```csharp
+else if (age > 0 && age <= 5)
+{
+    subscriptionPrice = 0;
+}
+```
+
+```csharp
+else if (age > 5 && age <= 18)
+{
+    subscriptionPrice = 20;
+}
+```
+
+```csharp
+еlse if (age > 18 && age < 65)
+{
+    subscriptionPrice = 40;
+}
+```
+
+```csharp
+else if (age >= 65 && age <= 122)
+{
+    subscriptionPrice = 5;
+}
+```
+
+```csharp
+if (!isInteger)
+{
+    throw new ArgumentException("The age input should be an integer value between 0 - 122.");
+}
+```
+
+```csharp
+if (age <= 0)
+{
+    throw new ArgumentException("The age should be greater than zero.");
+}
+```
+
+```csharp
+else
+{
+    throw new ArgumentException("The age should be smaller than 123.");
+}
+```
+
+```csharp
+private const string GreaterThanZeroExpectionMessage = "The age should be greater than zero.";
+private const string SmallerThan123ExpectionMessage = "The age should be smaller than 123.";
+private const string ShouldBeIntegerExpectionMessage = "The age input should be an integer value between 0 - 122.";
+
+[TestCase("0", 0, ExpectedException = typeof(ArgumentException), ExpectedMessage = GreaterThanZeroExpectionMessage)]
+[TestCase("5", 0)]
+[TestCase("15", 20)]
+[TestCase("25", 40)]
+[TestCase("80", 5)]
+[TestCase("1000", 0, ExpectedException = typeof(ArgumentException), ExpectedMessage = SmallerThan123ExpectionMessage)]
+[TestCase("invalid", 0, ExpectedException = typeof(ArgumentException), ExpectedMessage = ShouldBeIntegerExpectionMessage)]
+public void ValidateCalculateSubscriptionPrice(string ageInput, decimal expectedPrice)
+{
+    decimal actualPrice = TransportSubscriptionCardPriceCalculator.CalculateSubscriptionPrice(ageInput);
+
+    Assert.AreEqual(expectedPrice, actualPrice);
+}
+```
+
+```csharp
+private const string GreaterThanZeroExpectionMessage = "The age should be greater than zero.";
+private const string SmallerThan123ExpectionMessage = "The age should be smaller than 123.";
+private const string ShouldBeIntegerExpectionMessage = "The age input should be an integer value between 0 - 122.";
+
+[TestCase("-1", 0, ExpectedException = typeof(ArgumentException), ExpectedMessage = GreaterThanZeroExpectionMessage)]
+[TestCase("0", 0, ExpectedException = typeof(ArgumentException), ExpectedMessage = GreaterThanZeroExpectionMessage)]
+[TestCase("1", 0)]
+[TestCase("4", 0)]
+[TestCase("5", 0)]
+[TestCase("6", 20)]
+[TestCase("17", 20)]
+[TestCase("18", 20)]
+[TestCase("19", 40)]
+[TestCase("64", 40)]
+[TestCase("65", 5)]
+[TestCase("66", 5)]
+[TestCase("121", 5)]
+[TestCase("122", 5)]
+[TestCase("123", 0, ExpectedException = typeof(ArgumentException), ExpectedMessage = SmallerThan123ExpectionMessage)]
+[TestCase("a", 0, ExpectedException = typeof(ArgumentException), ExpectedMessage = ShouldBeIntegerExpectionMessage)]
+[TestCase("", 0, ExpectedException = typeof(ArgumentException), ExpectedMessage = ShouldBeIntegerExpectionMessage)]
+[TestCase(null, 0, ExpectedException = typeof(ArgumentException), ExpectedMessage = ShouldBeIntegerExpectionMessage)]
+[TestCase("2147483648", 0, ExpectedException = typeof(ArgumentException), ExpectedMessage = ShouldBeIntegerExpectionMessage)]
+[TestCase("–2147483649", 0, ExpectedException = typeof(ArgumentException), ExpectedMessage = ShouldBeIntegerExpectionMessage)]
+public void ValidateCalculateSubscriptionPrice1(string ageInput, decimal expectedPrice)
+{
+    decimal actualPrice = TransportSubscriptionCardPriceCalculator.CalculateSubscriptionPrice(ageInput);
+
+    Assert.AreEqual(expectedPrice, actualPrice);
+}
+```
+
+## Which Works Faster- Null Coalescing Operator or GetValueOrDefault or Conditional
+
+```csharp
+
+int? x = null;
+int y = x ?? –1;
+Console.WriteLine("y now equals -1 because x was null => {0}", y);
+int i = DefaultValueOperatorTest.GetNullableInt() ?? default(int);
+Console.WriteLine("i equals now 0 because GetNullableInt() returned null => {0}", i);
+string s = DefaultValueOperatorTest.GetStringValue();
+Console.WriteLine("Returns 'Unspecified' because s is null => {0}", s ?? "Unspecified");
+```
+
+```csharp
+
+float? yourSingle = –1.0f;
+Console.WriteLine(yourSingle.GetValueOrDefault());
+yourSingle = null;
+Console.WriteLine(yourSingle.GetValueOrDefault());
+// assign different default value
+Console.WriteLine(yourSingle.GetValueOrDefault(–2.4f));
+// returns the same result as the above statement
+Console.WriteLine(yourSingle ?? –2.4f);
+```
+
+```csharp
+int input = Convert.ToInt32(Console.ReadLine());
+// ?: conditional operator.
+string classify = (input > 0) ? "positive" : "negative";
+```
+
+```csharp
+[System.Runtime.Versioning.NonVersionable]
+public T GetValueOrDefault()
+{
+    return value;
+}
+
+[System.Runtime.Versioning.NonVersionable]
+public T GetValueOrDefault(T defaultValue)
+{
+    return hasValue ? value : defaultValue;
+}
+```
+
+```csharp
+public class GetValueOrDefaultAndNullCoalescingOperatorInternals
+{
+    public void GetValueOrDefaultInternals()
+    {
+        int? a = null;
+        var x = a.GetValueOrDefault(7);
+    }
+
+    public void NullCoalescingOperatorInternals()
+    {
+        int? a = null;
+        var x = a ?? 7;
+    }
+}
+```
+
+```csharp
+.method public hidebysig instance void GetValueOrDefaultInternals() cil managed
+{
+    .locals init (
+        [0] valuetype[mscorlib]System.Nullable`1 < int32 > a
+    )
+
+    IL_0000: ldloca.s a
+    IL_0002: initobj valuetype[mscorlib]System.Nullable`1 < int32 >
+    IL_0008: ldloca.s a
+    IL_000a: ldc.i4.7
+    IL_000b: call instance int32 valuetype[mscorlib]System.Nullable`1 < int32 >::GetValueOrDefault(!0)
+    IL_0010: pop
+    IL_0011: ret
+}
+```
+
+```csharp
+.method public hidebysig instance void NullCoalescingOperatorInternals() cil managed
+{
+    .locals init (
+        [0] valuetype[mscorlib]System.Nullable`1 < int32 > a,
+        [1] valuetype[mscorlib]System.Nullable`1 < int32 > CS$0$0000
+    )
+
+    IL_0000: ldloca.s a
+    IL_0002: initobj valuetype[mscorlib]System.Nullable`1 < int32 >
+    IL_0008: ldloc.0
+    IL_0009: stloc.1
+    IL_000a: ldloca.s CS$0$0000
+    IL_000c: call instance bool valuetype[mscorlib]System.Nullable`1 < int32 >::get_HasValue()
+    IL_0011: brtrue.s IL_0014
+
+    IL_0013: ret
+
+    IL_0014: ldloca.s CS$0$0000
+    IL_0016: call instance int32 valuetype[mscorlib]System.Nullable`1 < int32 >::GetValueOrDefault()
+    IL_001b: pop
+    IL_001c: ret
+}
+```
+
+```csharp
+public static class Profiler
+{
+    public static TimeSpan Profile(long iterations, Action actionToProfile)
+    {
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+
+        var watch = new Stopwatch();
+        watch.Start();
+        for (int i = 0; i < iterations; i++)
+        {
+            actionToProfile();
+        }
+        watch.Stop();
+
+        return watch.Elapsed;
+    }
+
+    public static string FormatProfileResults(long iterations, TimeSpan profileResults)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine(string.Format("Total: {0:0.00} ms ({1:N0} ticks) (over {2:N0} iterations)",
+            profileResults.TotalMilliseconds, profileResults.Ticks, iterations));
+        var avgElapsedMillisecondsPerRun = profileResults.TotalMilliseconds / (double)iterations;
+        var avgElapsedTicksPerRun = profileResults.Ticks / (double)iterations;
+        sb.AppendLine(string.Format("AVG: {0:0.00} ms ({1:N0} ticks) (over {2:N0} iterations)",
+            avgElapsedMillisecondsPerRun, avgElapsedTicksPerRun, iterations));
+
+        return sb.ToString();
+    }
+}
+```
+
+```csharp
+GC.Collect();
+GC.WaitForPendingFinalizers();
+```
+
+```csharp
+public static class GetValueOrDefaultVsNullCoalescingOperatorTest
+{
+    public static void ExecuteWithGetValueOrDefault()
+    {
+        int? a = null;
+        int? b = 3;
+        int? d = null;
+        int? f = null;
+        int? g = null;
+        int? h = null;
+        int? j = null;
+        int? k = 7;
+
+        var profileResult = Profiler.Profile(100000,
+            () =>
+            {
+                var x = a.GetValueOrDefault(7);
+                var y = b.GetValueOrDefault(7);
+                var z = d.GetValueOrDefault(6) + f.GetValueOrDefault(3) + g.GetValueOrDefault(1) + h.GetValueOrDefault(1) + j.GetValueOrDefault(5) + k.GetValueOrDefault(8);
+            });
+        string formattedProfileResult = Profiler.FormatProfileResults(100000, profileResult);
+        FileWriter.WriteToDesktop("ExecuteWithGetValueOrDefaultT", formattedProfileResult);
+    }
+
+    public static void ExecuteWithNullCoalescingOperator()
+    {
+        int? a = null;
+        int? b = 3;
+        int? d = null;
+        int? f = null;
+        int? g = null;
+        int? h = null;
+        int? j = null;
+        int? k = 7;
+
+        var profileResult = Profiler.Profile(100000,
+            () =>
+            {
+                var x = a ?? 7;
+                var y = b ?? 7;
+                var z = (d ?? 6) + (f ?? 3) + (g ?? 1) + (h ?? 1) + (j ?? 5) + (k ?? 8);
+            });
+        string formattedProfileResult = Profiler.FormatProfileResults(100000, profileResult);
+        FileWriter.WriteToDesktop("ExecuteWithNullCoalescingOperatorT", formattedProfileResult);
+    }
+
+    public static void ExecuteWithConditionalOperator()
+    {
+        int? a = null;
+        int? b = 3;
+        int? d = null;
+        int? f = null;
+        int? g = null;
+        int? h = null;
+        int? j = null;
+        int? k = 7;
+
+        var profileResult = Profiler.Profile(100000,
+            () =>
+            {
+                var x = a.HasValue ? a : 7;
+                var y = b.HasValue ? b : 7;
+                var z = (d.HasValue ? d : 6) + (f.HasValue ? f : 3) + (g.HasValue ? g : 1) + (h.HasValue ? h : 1) + (j.HasValue ? j : 5) + (k.HasValue ? k : 8);
+            });
+        string formattedProfileResult = Profiler.FormatProfileResults(100000, profileResult);
+        FileWriter.WriteToDesktop("ExecuteWithConditionalOperatorT", formattedProfileResult);
+    }
+
+    public static void ExecuteWithGetValueOrDefaultZero()
+    {
+        int? a = null;
+
+        var profileResult = Profiler.Profile(100000,
+            () =>
+            {
+                var x = a.GetValueOrDefault();
+            });
+        string formattedProfileResult = Profiler.FormatProfileResults(100000, profileResult);
+        FileWriter.WriteToDesktop("ExecuteWithGetValueOrDefaultZeroT", formattedProfileResult);
+    }
+
+    public static void ExecuteWithNullCoalescingOperatorZero()
+    {
+        int? a = null;
+
+        var profileResult = Profiler.Profile(100000,
+            () =>
+            {
+                var x = a ?? 0;
+            });
+        string formattedProfileResult = Profiler.FormatProfileResults(100000, profileResult);
+        FileWriter.WriteToDesktop("ExecuteWithNullCoalescingOperatorZeroT", formattedProfileResult);
+    }
+
+    public static void ExecuteWithConditionalOperatorZero()
+    {
+        int? a = null;
+
+        var profileResult = Profiler.Profile(100000,
+            () =>
+            {
+                var x = a.HasValue ? a : 0;
+            });
+        string formattedProfileResult = Profiler.FormatProfileResults(100000, profileResult);
+        FileWriter.WriteToDesktop("ExecuteWithConditionalOperatorZeroT", formattedProfileResult);
+    }
+}
+```
+
+## Neat Tricks for Effortlessly Formatting Currency in C#
+
+```csharp
+[Flags]
+public enum DigitsFormattingSettings
+{
+    None = 0,
+    NoComma = 1,
+    PrefixDollar = 2,
+    PrefixMinus = 4,
+    SufixDollar = 8
+}
+```
+
+```csharp
+[Flags]
+public enum DigitsFormattingSettingsBitShifting
+{
+    None = 0,
+    NoComma = 1 << 0,
+    PrefixDollar = 1 << 1,
+    PrefixMinus = 1 << 2,
+    SufixDollar = 1 << 3
+}
+```
+
+```csharp
+public static class CurrencyDelimiterFormatter
+{
+    private static readonly CultureInfo usCultureInfo = CultureInfo.CreateSpecificCulture("en-US");
+
+    public static string ToStringUsDigitsFormatting(
+        this double number,
+        DigitsFormattingSettings digitsFormattingSettings = DigitsFormattingSettings.None,
+        int precesion = 2)
+    {
+        string result = ToStringUsDigitsFormattingInternal(number, digitsFormattingSettings, precesion);
+
+        return result;
+    }
+
+    public static string ToStringUsDigitsFormatting(
+        this decimal number,
+        DigitsFormattingSettings digitsFormattingSettings = DigitsFormattingSettings.None,
+        int precesion = 2)
+    {
+        string result = ToStringUsDigitsFormattingInternal(number, digitsFormattingSettings, precesion);
+
+        return result;
+    }
+
+    private static string ToStringUsDigitsFormattingInternal(
+        dynamic number,
+        DigitsFormattingSettings digitsFormattingSettings = DigitsFormattingSettings.None,
+        int precesion = 2)
+    {
+        string formattedDigits = string.Empty;
+        string currentNoComaFormatSpecifier = string.Concat("#.", new string('0', precesion));
+        string currentComaFormatSpecifier = string.Concat("##,#.", new string('0', precesion));
+        formattedDigits =
+                            digitsFormattingSettings.HasFlag(DigitsFormattingSettings.NoComma) ? number.ToString(currentNoComaFormatSpecifier, usCultureInfo) :
+                            number.ToString(currentComaFormatSpecifier, usCultureInfo);
+        if (digitsFormattingSettings.HasFlag(DigitsFormattingSettings.PrefixDollar))
+        {
+            formattedDigits = string.Concat("$", formattedDigits);
+        }
+        if (digitsFormattingSettings.HasFlag(DigitsFormattingSettings.PrefixMinus))
+        {
+            formattedDigits = string.Concat("-", formattedDigits);
+        }
+        if (digitsFormattingSettings.HasFlag(DigitsFormattingSettings.SufixDollar))
+        {
+            formattedDigits = string.Concat(formattedDigits, "$");
+        }
+        return formattedDigits;
+    }
+}
+```
+
+```csharp
+private static string ToStringUsDigitsFormattingInternal<T>(
+    T number,
+    DigitsFormattingSettings digitsFormattingSettings = DigitsFormattingSettings.None,
+    int precesion = 2)
+    where T : struct,
+                IComparable,
+                IComparable<T>,
+                IConvertible,
+                IEquatable<T>,
+                IFormattable
+{
+    string formattedDigits = string.Empty;
+    string currentNoComaFormatSpecifier = string.Concat("#.", new string('0', precesion));
+    string currentComaFormatSpecifier = string.Concat("##,#.", new string('0', precesion));
+    formattedDigits =
+                        digitsFormattingSettings.HasFlag(DigitsFormattingSettings.NoComma) ? number.ToString(currentNoComaFormatSpecifier, usCultureInfo) :
+                        number.ToString(currentComaFormatSpecifier, usCultureInfo);
+    if (digitsFormattingSettings.HasFlag(DigitsFormattingSettings.PrefixDollar))
+    {
+        formattedDigits = string.Concat("$", formattedDigits);
+    }
+    if (digitsFormattingSettings.HasFlag(DigitsFormattingSettings.PrefixMinus))
+    {
+        formattedDigits = string.Concat("-", formattedDigits);
+    }
+    if (digitsFormattingSettings.HasFlag(DigitsFormattingSettings.SufixDollar))
+    {
+        formattedDigits = string.Concat(formattedDigits, "$");
+    }
+
+    return formattedDigits;
+}
+```
+
+```csharp
+string currentNoComaFormatSpecifier = string.Concat("#.", new string('0', precesion));
+string currentComaFormatSpecifier = string.Concat("##,#.", new string('0', precesion));
+```
+
+```csharp
+public static unsafe void Main(string[] args)
+{
+    Console.WriteLine(1220.5.ToStringUsDigitsFormatting(DigitsFormattingSettings.PrefixDollar));
+    // Result- $1,220.50
+    Console.WriteLine(1220.5.ToStringUsDigitsFormatting(DigitsFormattingSettings.SufixDollar | DigitsFormattingSettings.NoComma));
+    // Result- 1220.50$
+    Console.WriteLine(1220.53645.ToStringUsDigitsFormatting(DigitsFormattingSettings.SufixDollar | DigitsFormattingSettings.NoComma | DigitsFormattingSettings.PrefixMinus, 4));
+    // Result- -1220.5365$
+}
+```
+
+## Top 15 Underutilized Features of .NET Part 2
+
+```csharp
+dynamic dynamicVariable;
+int i = 20;
+dynamicVariable = (dynamic)i;
+Console.WriteLine(dynamicVariable);
+
+string stringVariable = "Example string.";
+dynamicVariable = (dynamic)stringVariable;
+Console.WriteLine(dynamicVariable);
+
+DateTime dateTimeVariable = DateTime.Today;
+dynamicVariable = (dynamic)dateTimeVariable;
+Console.WriteLine(dynamicVariable);
+
+// The expression returns true unless dynamicVariable has the value null.
+if (dynamicVariable is dynamic)
+{
+    Console.WriteLine("d variable is dynamic");
+}
+
+// dynamic and the as operator.
+dynamicVariable = i as dynamic;
+
+// throw RuntimeBinderException if the associated object doesn't have the specified method.
+// The code is still compiling successfully.
+Console.WriteLine(dynamicVariable.ToNow1);
+```
+
+```csharp
+dynamic samplefootballLegendObject = new ExpandoObject();
+
+samplefootballLegendObject.FirstName = "Joro";
+samplefootballLegendObject.LastName = "Beckham-a";
+samplefootballLegendObject.Team = "Loko Mezdra";
+samplefootballLegendObject.Salary = 380.5m;
+samplefootballLegendObject.AsString = new Action(
+            () =>
+            Console.WriteLine("{0} {1} {2} {3}",
+            samplefootballLegendObject.FirstName,
+            samplefootballLegendObject.LastName,
+            samplefootballLegendObject.Team,
+            samplefootballLegendObject.Salary)
+            );
+```
+
+```csharp
+float? yourSingle = –1.0f;
+Console.WriteLine(yourSingle.GetValueOrDefault());
+yourSingle = null;
+Console.WriteLine(yourSingle.GetValueOrDefault());
+// assign different default value
+Console.WriteLine(yourSingle.GetValueOrDefault(–2.4f));
+// returns the same result as the above statement
+Console.WriteLine(yourSingle ?? –2.4f);
+```
+
+```csharp
+public static class DictionaryExtensions
+{
+    public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dic, TKey key)
+    {
+        TValue result;
+        return dic.TryGetValue(key, out result) ? result : default(TValue);
+    }
+}
+```
+
+```csharp
+Dictionary<int, string> names = new Dictionary<int, string>();
+names.Add(0, "Willy");
+Console.WriteLine(names.GetValueOrDefault(1));
+```
+
+```csharp
+string startPath = Path.Combine(string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "\\Start"));
+string resultPath = Path.Combine(string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "\\Result"));
+Directory.CreateDirectory(startPath);
+Directory.CreateDirectory(resultPath);
+string zipPath = Path.Combine(string.Concat(resultPath, "\\", Guid.NewGuid().ToString(), ".zip"));
+string extractPath = Path.Combine(string.Concat(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "\\Extract"));
+Directory.CreateDirectory(extractPath);
+
+ZipFile.CreateFromDirectory(startPath, zipPath);
+
+ZipFile.ExtractToDirectory(zipPath, extractPath);
+```
+
+```csharp
+#if LIVE
+#warning A day without sunshine is like, you know, night.
+#endif
+```
+
+```csharp
+#error Deprecated code in this method.
+
+```
+
+```csharp
+#line 100 "Pandiculation"
+int i;    // CS0168 on line 101
+int j;    // CS0168 on line 102
+#line default
+char c;   // CS0168 on line 288
+float f;  // CS0168 on line 289
+```
+
+```csharp
+#region Thomas Sowell Quote
+Console.WriteLine("It takes considerable knowledge just to realize the extent of your own ignorance.");
+#endregion
+```
+
+```csharp
+static unsafe void Fibonacci()
+{
+    const int arraySize = 20;
+    int* fib = stackalloc int[arraySize];
+    int* p = fib;
+    *p++ = *p++ = 1;
+    for (int i = 2; i < arraySize; ++i, ++p)
+    {
+        *p = p[–1] + p[–2];
+    }
+    for (int i = 0; i < arraySize; ++i)
+    {
+        Console.WriteLine(fib[i]);
+    }
+}
+```
+
+```csharp
+private static string GetMacro(int macroId, int row, int endCol)
+{
+    StringBuilder sb = new StringBuilder();
+    string range = "ActiveSheet.Range(Cells(" + row + "," + 3 +
+        "), Cells(" + row + "," + (endCol + 3) + ")).Select";
+    sb.AppendLine("Sub Macro" + macroId + "()");
+    sb.AppendLine("On Error Resume Next");
+    sb.AppendLine(range);
+    sb.AppendLine("ActiveSheet.Shapes.AddChart.Select");
+    sb.AppendLine("ActiveChart.ChartType = xlLine");
+    sb.AppendLine("ActiveChart.SetSourceData Source:=" + range);
+    sb.AppendLine("On Error GoTo 0");
+    sb.AppendLine("End Sub");
+
+    return sb.ToString();
+}
+
+private static void AddChartButton(MSExcel.Workbook workBook, MSExcel.Worksheet xlWorkSheetNew,
+    MSExcel.Range currentRange, int macroId, int currentRow, int endCol, string buttonImagePath)
+{
+    MSExcel.Range cell = currentRange.Next;
+    var width = cell.Width;
+    var height = 15;
+    var left = cell.Left;
+    var top = Math.Max(cell.Top + cell.Height – height, 0);
+    MSExcel.Shape button = xlWorkSheetNew.Shapes.AddPicture(@buttonImagePath, MsoTriState.msoFalse,
+        MsoTriState.msoCTrue, left, top, width, height);
+
+    VBIDE.VBComponent module = workBook.VBProject.VBComponents.Add(VBIDE.vbext_ComponentType.vbext_ct_StdModule);
+    module.CodeModule.AddFromString(GetMacro(macroId, currentRow, endCol));
+    button.OnAction = "Macro" + macroId;
+
+}
+```
+
+```csharp
+volatile bool shouldPartyContinue = true;
+
+public static unsafe void Main(string[] args)
+{
+    Program firstDimension = new Program();
+    Thread secondDimension = new Thread(firstDimension.StartPartyInAnotherDimension);
+    secondDimension.Start(firstDimension);
+    Thread.Sleep(5000);
+    firstDimension.shouldPartyContinue = false;
+    Console.WriteLine("Party Grand Finish");
+}
+
+private void StartPartyInAnotherDimension(object input)
+{
+    Program currentDimensionInput = (Program)input;
+    Console.WriteLine("let the party begin");
+    while (currentDimensionInput.shouldPartyContinue)
+    {
+    }
+    Console.WriteLine("Party ends :(");
+}
+```
+
+```csharp
+public static unsafe void Main(string[] args)
+{
+    global::System.Console.WriteLine("Wine is constant proof that God loves us and loves to see us happy. -Benjamin Franklin");
+}
+
+public class System { }
+
+// Define a constant called 'Console' to cause more problems.
+const int Console = 7;
+const int number = 66;
+```
+
+```csharp
+[DebuggerDisplay("{DebuggerDisplay}")]
+public class DebuggerDisplayTest
+{
+    private string squirrelFirstNameName;
+    private string squirrelLastNameName;
+
+    public string SquirrelFirstNameName
+    {
+        get
+        {
+            return squirrelFirstNameName;
+        }
+        set
+        {
+            squirrelFirstNameName = value;
+        }
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Collapsed)]
+    public string SquirrelLastNameName
+    {
+        get
+        {
+            return squirrelLastNameName;
+        }
+        set
+        {
+            squirrelLastNameName = value;
+        }
+    }
+
+    public int Age { get; set; }
+
+    private string DebuggerDisplay
+    {
+        get { return string.Format("{0} de {1}", SquirrelFirstNameName, SquirrelLastNameName); }
+    }
+}
+```
+
+```csharp
+[DebuggerDisplay("Age {Age > 0 ? Age : 5}")]
+public class DebuggerDisplayTest
+{
+    private string squirrelFirstNameName;
+    private string squirrelLastNameName;
+
+    public string SquirrelFirstNameName
+    {
+        get
+        {
+            return squirrelFirstNameName;
+        }
+        set
+        {
+            squirrelFirstNameName = value;
+        }
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Collapsed)]
+    public string SquirrelLastNameName
+    {
+        get
+        {
+            return squirrelLastNameName;
+        }
+        set
+        {
+            squirrelLastNameName = value;
+        }
+    }
+
+    public int Age { get; set; }
+
+    private string DebuggerDisplay
+    {
+        get { return string.Format("{0} de {1}", SquirrelFirstNameName, SquirrelLastNameName); }
+    }
+}
+```
+
+```csharp
+[DebuggerStepThroughAttribute]
+public class DebuggerDisplayTest
+{
+    private string squirrelFirstNameName;
+    private string squirrelLastNameName;
+
+    public string SquirrelFirstNameName
+    {
+        get
+        {
+            return squirrelFirstNameName;
+        }
+        set
+        {
+            squirrelFirstNameName = value;
+        }
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Collapsed)]
+    public string SquirrelLastNameName
+    {
+        get
+        {
+            return squirrelLastNameName;
+        }
+        set
+        {
+            squirrelLastNameName = value;
+        }
+    }
+
+    public int Age { get; set; }
+
+    private string DebuggerDisplay
+    {
+        get { return string.Format("{0} de {1}", SquirrelFirstNameName, SquirrelLastNameName); }
+    }
+}
+```
+
+```csharp
+public static unsafe void Main(string[] args)
+{
+    StartBugsParty();
+}
+
+[Conditional("LIVE")]
+public static void StartBugsParty()
+{
+    Console.WriteLine("Let the bugs free. Start the Party.");
+}
+```
+
+```csharp
+using static System.Math;
+using static System.Console;
+
+```
+
+```csharp
+WriteLine(Sqrt(42563));
+
+```
+
+```csharp
+using IntList = System.Collections.Generic.List<int>;
+
+```
+
+```csharp
+IntList intList = new IntList();
+intList.Add(1);
+intList.Add(2);
+intList.Add(3);
+intList.ForEach(x => WriteLine(x));
+```
+
+## Types Of Code Coverage- Examples In C#
+
+```csharp
+private void PeformAction(int x, int y)
+{
+    this.DoSomething();
+    if (x > 3 && y < 6)
+    {
+        this.DoSomethingElse();
+    }
+    this.DoSomething();
+}
+
+```
+
+```csharp
+private void PeformAction(int x, int y)
+{
+    this.DoSomething();
+    if (x > 3 && y < 6)
+    {
+        this.DoSomethingElse();
+    }
+    else
+    {
+        System.Console.WriteLine(x + y);
+    }
+    this.DoSomething();
+}
+```
+
+```csharp
+private void PeformAction(int x, int y, bool shouldExecute)
+{
+    if (shouldExecute)
+    {
+        this.DoSomething();
+        if (x > 3 && y < 6)
+        {
+            this.DoSomethingElse();
+        }
+        else
+        {
+            System.Console.WriteLine(x + y);
+        }
+        this.DoSomething();
+    }
+}
+```
+
+```csharp
+private void PeformAction(int x, int y, int z)
+{
+    this.DoSomething();
+    if ((x > 3 && y < 6) || z == 20)
+    {
+        this.DoSomethingElse();
+    }
+    else
+    {
+        System.Console.WriteLine(x + y);
+    }
+    this.DoSomething();
+}
+```
+
+```csharp
+private void PeformAction(int x, int y)
+{
+    this.DoSomething();
+    if (x > 3 && y < 6)
+    {
+        this.DoSomethingElse();
+    }
+    else
+    {
+        System.Console.WriteLine(x + y);
+    }
+    this.DoSomething();
+}
+```
+
+```csharp
+private void PeformAction(int x, int y)
+{
+    this.DoSomething();
+    if (3 <= x && x < 5)
+    {
+        this.DoSomethingElse();
+    }
+    else
+    {
+        System.Console.WriteLine(x + y);
+    }
+    this.DoSomething();
+}
+```
+
+```csharp
+private void PeformAction(int x, int y)
+{
+    this.DoSomething();
+    if (4 <= x || y < 6)
+    {
+        this.DoSomethingElse();
+    }
+    else
+    {
+        System.Console.WriteLine(x + y);
+    }
+    this.DoSomething();
+}
+```
+
+## Reduced AutoMapper- Auto-Map Objects 180% Faster
+
+```csharp
+public class FirstObject
+{
+    public FirstObject()
+    {
+    }
+
+    public string FirstName { get; set; }
+    public string SecondName { get; set; }
+    public string PoNumber { get; set; }
+    public decimal Price { get; set; }
+    public DateTime SkipDateTime { get; set; }
+    public SecondObject SecondObjectEntity { get; set; }
+    public List<SecondObject> SecondObjects { get; set; }
+    public List<int> IntCollection { get; set; }
+    public int[] IntArr { get; set; }
+    public SecondObject[] SecondObjectArr { get; set; }
+}
+```
+
+```csharp
+[DataContract]
+public class MapFirstObject
+{
+    [DataMember]
+    public string FirstName { get; set; }
+    [DataMember]
+    public string SecondName { get; set; }
+    [DataMember]
+    public string PoNumber { get; set; }
+    [DataMember]
+    public decimal Price { get; set; }
+    [DataMember]
+    public MapSecondObject SecondObjectEntity { get; set; }
+
+    public MapFirstObject()
+    {
+    }
+}
+```
+
+```csharp
+private Dictionary<object, object> mappingTypes;
+public Dictionary<object, object> MappingTypes
+{
+    get
+    {
+        return this.mappingTypes;
+    }
+    set
+    {
+        this.mappingTypes = value;
+    }
+}
+
+public void CreateMap<TSource, TDestination>()
+    where TSource : new()
+    where TDestination : new()
+{
+    if (!this.MappingTypes.ContainsKey(typeof(TSource)))
+    {
+        this.MappingTypes.Add(typeof(TSource), typeof(TDestination));
+    }
+}
+```
+
+```csharp
+ReducedAutoMapper.Instance.CreateMap<FirstObject, MapFirstObject>();
+
+```
+
+```csharp
+public TDestination Map<TSource, TDestination>(
+    TSource realObject,
+    TDestination dtoObject = default(TDestination),
+    Dictionary<object, object> alreadyInitializedObjects = null,
+    bool shouldMapInnerEntities = true)
+    where TSource : class, new()
+    where TDestination : class, new()
+{
+    if (realObject == null)
+    {
+        return null;
+    }
+    if (alreadyInitializedObjects == null)
+    {
+        alreadyInitializedObjects = new Dictionary<object, object>();
+    }
+    if (dtoObject == null)
+    {
+        dtoObject = new TDestination();
+    }
+
+    var realObjectType = realObject.GetType();
+    PropertyInfo[] properties = realObjectType.GetProperties();
+    foreach (PropertyInfo currentRealProperty in properties)
+    {
+        PropertyInfo currentDtoProperty = dtoObject.GetType().GetProperty(currentRealProperty.Name);
+        if (currentDtoProperty == null)
+        {
+            ////Debug.WriteLine("The property {0} was not found in the DTO object in order to be mapped. Because of that we skip to map it.", currentRealProperty.Name);
+        }
+        else
+        {
+            if (this.MappingTypes.ContainsKey(currentRealProperty.PropertyType) && shouldMapInnerEntities)
+            {
+                object mapToObject = this.mappingTypes[currentRealProperty.PropertyType];
+                var types = new Type[] { currentRealProperty.PropertyType, (Type)mapToObject };
+                MethodInfo method = GetType().GetMethod("Map").MakeGenericMethod(types);
+                var realObjectPropertyValue = currentRealProperty.GetValue(realObject, null);
+                var objects = new object[]
+                {
+                    realObjectPropertyValue,
+                    null,
+                    alreadyInitializedObjects,
+                    shouldMapInnerEntities
+                };
+                if (objects != null && realObjectPropertyValue != null)
+                {
+                    if (alreadyInitializedObjects.ContainsKey(realObjectPropertyValue) && currentDtoProperty.CanWrite)
+                    {
+                        // Set the cached version of the same object (optimization)
+                        currentDtoProperty.SetValue(dtoObject, alreadyInitializedObjects[realObjectPropertyValue]);
+                    }
+                    else
+                    {
+                        // Add the object to cached objects collection.
+                        alreadyInitializedObjects.Add(realObjectPropertyValue, null);
+                        // Recursively call Map method again to get the new proxy object.
+                        var newProxyProperty = method.Invoke(this, objects);
+                        if (currentDtoProperty.CanWrite)
+                        {
+                            currentDtoProperty.SetValue(dtoObject, newProxyProperty);
+                        }
+
+                        if (alreadyInitializedObjects.ContainsKey(realObjectPropertyValue) && alreadyInitializedObjects[realObjectPropertyValue] == null)
+                        {
+                            alreadyInitializedObjects[realObjectPropertyValue] = newProxyProperty;
+                        }
+                    }
+                }
+                else if (realObjectPropertyValue == null && currentDtoProperty.CanWrite)
+                {
+                    // If the original value of the object was null set null to the destination property.
+                    currentDtoProperty.SetValue(dtoObject, null);
+                }
+            }
+            else if (!this.MappingTypes.ContainsKey(currentRealProperty.PropertyType))
+            {
+                // If the property is not custom type just set normally the value.
+                if (currentDtoProperty.CanWrite)
+                {
+                    currentDtoProperty.SetValue(dtoObject, currentRealProperty.GetValue(realObject, null));
+                }
+            }
+        }
+    }
+
+    return dtoObject;
+}
+```
+
+```csharp
+var realObjectType = realObject.GetType();
+PropertyInfo[] properties = realObjectType.GetProperties();
+```
+
+```csharp
+else if (!this.MappingTypes.ContainsKey(currentRealProperty.PropertyType))
+{
+    // If the property is not custom type just set normally the value.
+    if (currentDtoProperty.CanWrite)
+    {
+        currentDtoProperty.SetValue(dtoObject, currentRealProperty.GetValue(realObject, null));
+    }
+}
+```
+
+```csharp
+public List<TDestination> MapList<TSource, TDestination>(List<TSource> realObjects, Dictionary<object, object> alreadyInitializedObjects = null)
+    where TSource : class, new()
+    where TDestination : class, new()
+{
+    List<TDestination> mappedEntities = new List<TDestination>();
+    foreach (var currentRealObject in realObjects)
+    {
+        TDestination currentMappedItem = this.Map<TSource, TDestination>(currentRealObject, alreadyInitializedObjects: alreadyInitializedObjects);
+        mappedEntities.Add(currentMappedItem);
+    }
+
+    return mappedEntities;
+}
+```
+
+```csharp
+public class SecondObject
+{
+    public SecondObject(string firstNameS, string secondNameS, string poNumberS, decimal priceS)
+    {
+        this.FirstNameS = firstNameS;
+        this.SecondNameS = secondNameS;
+        this.PoNumberS = poNumberS;
+        this.PriceS = priceS;
+        ThirdObject1 = new ThirdObject();
+        ThirdObject2 = new ThirdObject();
+        ThirdObject3 = new ThirdObject();
+        ThirdObject4 = new ThirdObject();
+        ThirdObject5 = new ThirdObject();
+        ThirdObject6 = new ThirdObject();
+    }
+
+    public SecondObject()
+    {
+    }
+
+    public string FirstNameS { get; set; }
+    public string SecondNameS { get; set; }
+    public string PoNumberS { get; set; }
+    public decimal PriceS { get; set; }
+    public ThirdObject ThirdObject1 { get; set; }
+    public ThirdObject ThirdObject2 { get; set; }
+    public ThirdObject ThirdObject3 { get; set; }
+    public ThirdObject ThirdObject4 { get; set; }
+    public ThirdObject ThirdObject5 { get; set; }
+    public ThirdObject ThirdObject6 { get; set; }
+}
+```
+
+```csharp
+ublic class ThirdObject
+{
+    public ThirdObject()
+    {
+    }
+
+    public DateTime DateTime1 { get; set; }
+    public DateTime DateTime2 { get; set; }
+    public DateTime DateTime3 { get; set; }
+    //.. it contains 996 properties more
+    public DateTime DateTime1000 { get; set; }
+}
+```
+
+```csharp
+public class Program
+{
+    static void Main(string[] args)
+    {
+        Profile("Test Reduced AutoMapper 10 Runs 10k Objects", 10, () => MapObjectsReduceAutoMapper());
+        System.Console.ReadLine();
+    }
+
+    static void Profile(string description, int iterations, Action actionToProfile)
+    {
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+
+        var watch = new Stopwatch();
+        watch.Start();
+        for (int i = 0; i < iterations; i++)
+        {
+            actionToProfile();
+        }
+        watch.Stop();
+        System.Console.WriteLine(description);
+        System.Console.WriteLine("Total: {0:0.00} ms ({1:N0} ticks) (over {2:N0} iterations)",
+            watch.ElapsedMilliseconds, watch.ElapsedTicks, iterations);
+        var avgElapsedMillisecondsPerRun = watch.ElapsedMilliseconds / iterations;
+        var avgElapsedTicksPerRun = watch.ElapsedMilliseconds / iterations;
+        System.Console.WriteLine("AVG: {0:0.00} ms ({1:N0} ticks) (over {2:N0} iterations)",
+            avgElapsedMillisecondsPerRun, avgElapsedTicksPerRun, iterations);
+    }
+
+    static void MapObjectsReduceAutoMapper()
+    {
+        List<FirstObject> firstObjects = new List<FirstObject>();
+        List<MapFirstObject> mapFirstObjects = new List<MapFirstObject>();
+
+        ReducedAutoMapper.Instance.CreateMap<FirstObject, MapFirstObject>();
+        ReducedAutoMapper.Instance.CreateMap<SecondObject, MapSecondObject>();
+        ReducedAutoMapper.Instance.CreateMap<ThirdObject, MapThirdObject>();
+        for (int i = 0; i < 10000; i++)
+        {
+            FirstObject firstObject =
+                new FirstObject(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), (decimal)12.2, DateTime.Now,
+                    new SecondObject(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), (decimal)11.2));
+            firstObjects.Add(firstObject);
+        }
+        foreach (var currentObject in firstObjects)
+        {
+            MapFirstObject mapSecObj = ReducedAutoMapper.Instance.Map<FirstObject, MapFirstObject>(currentObject);
+            mapFirstObjects.Add(mapSecObj);
+        }
+    }
+}
+```
+
+```csharp
+public class Program
+{
+    static void Main(string[] args)
+    {
+        Profile("Test Original AutoMapper 10 Runs 10k Objects", 10, () => MapObjectsAutoMapper());
+        System.Console.ReadLine();
+    }
+
+    static void Profile(string description, int iterations, Action actionToProfile)
+    {
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+
+        var watch = new Stopwatch();
+        watch.Start();
+        for (int i = 0; i < iterations; i++)
+        {
+            actionToProfile();
+        }
+        watch.Stop();
+        System.Console.WriteLine(description);
+        System.Console.WriteLine("Total: {0:0.00} ms ({1:N0} ticks) (over {2:N0} iterations)",
+            watch.ElapsedMilliseconds, watch.ElapsedTicks, iterations);
+        var avgElapsedMillisecondsPerRun = watch.ElapsedMilliseconds / iterations;
+        var avgElapsedTicksPerRun = watch.ElapsedMilliseconds / iterations;
+        System.Console.WriteLine("AVG: {0:0.00} ms ({1:N0} ticks) (over {2:N0} iterations)",
+            avgElapsedMillisecondsPerRun, avgElapsedTicksPerRun, iterations);
+    }
+
+    static void MapObjectsAutoMapper()
+    {
+        List<FirstObject> firstObjects = new List<FirstObject>();
+        List<MapFirstObject> mapFirstObjects = new List<MapFirstObject>();
+
+        AutoMapper.Mapper.CreateMap<FirstObject, MapFirstObject>();
+        AutoMapper.Mapper.CreateMap<SecondObject, MapSecondObject>();
+        AutoMapper.Mapper.CreateMap<ThirdObject, MapThirdObject>();
+        for (int i = 0; i < 10000; i++)
+        {
+            FirstObject firstObject =
+                new FirstObject(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), (decimal)12.2, DateTime.Now,
+                    new SecondObject(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), (decimal)11.2));
+            firstObjects.Add(firstObject);
+        }
+        foreach (var currentObject in firstObjects)
+        {
+            MapFirstObject mapSecObj = AutoMapper.Mapper.Map<FirstObject, MapFirstObject>(currentObject);
+            mapFirstObjects.Add(mapSecObj);
+        }
+    }
+}
+```
+
+## Hints For Arranging Usings in Visual Studio Efficiently
+
+```csharp
+using System;
+using System.IO;
+using Microsoft.TeamFoundation.TestManagement.Client;
+using Microsoft.TeamFoundation.Client;
+using System.Collections.Generic;
+using System.Dynamic;
+```
+
+## 7 New Cool Features in C# 6.0
+
+```csharp
+public class Person
+{
+    public string FirstName { get; set; } = "Anton";
+    public string LastName { get; set; } = "Angelov";
+}
+```
+
+```csharp
+public class Person(string firstName, string lastName)
+{
+    public string FirstName { get; set; } = firstName;
+    public string LastName { get; set; } = lastName;
+}
+```
+
+```csharp
+public class Person(string firstName, string lastName)
+{
+ {
+    if (firstName == null)
+     throw new ArgumentNullException("firstName");
+    if (lastName == null)
+     throw new ArgumentNullException("lastName");
+}
+public string FirstName { get; } = firstName;
+public string LastName { get; } = lastName;
+}
+```
+
+```csharp
+using System.Console;
+
+namespace ConsoleApplicationTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //Use writeLine method of Console class
+            //Without specifying the class name
+            WriteLine("Hellow World");
+        }
+    }
+}
+
+```
+
+```csharp
+try
+{
+    throw new Exception("C#");
+}
+catch (Exception ex) if (ex.Message == "C#")
+{
+    // this one will execute.
+}
+catch (Exception ex) if (ex.Message == "VB.NET")
+{
+    // this one will not execute
+}
+```
+
+```csharp
+int? length = animals?.Length; //null if animals is null
+Animal first = animals?[0]; //null if animals is null
+
+```
+
+```csharp
+int length = animals?.Length ?? 0; // 0 if animals null
+
+```
+
+```csharp
+var animals = new Dictionary<int, string> {
+   { 5, "cat" },
+   { 9, "dog" },
+   { 8, "rat" }
+};
+```
+
+```csharp
+var animals = new Dictionary<int, string>
+{
+    [5] = "cat",
+    [9] = "dog",
+    [8] = "rat"
+};
+```
+
+```csharp
+var names = new Dictionary<string, string>()
+{
+   // using inside the intializer
+   $first = "Anton"
+};
+
+//Assign value to member
+//the old way:
+names["first"] = "Anton";
+
+// the new way
+names.$first = "Anton";
+```
+
+## 19 Must-Know Visual Studio Keyboard Shortcuts – Part 2
+
+## Generic Properties Validator C# Code
+
+```csharp
+public class ObjectToAssert
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string PoNumber { get; set; }
+    public decimal Price { get; set; }
+    public DateTime SkipDateTime { get; set; }
+}
+```
+
+```csharp
+ObjectToAssert expectedObject = new ObjectToAssert()
+{
+    FirstName = "Anton",
+    PoNumber = "TestPONumber",
+    LastName = "Angelov",
+    Price = 12.3M,
+    SkipDateTime = new DateTime(1989, 10, 28)
+};
+
+ObjectToAssert actualObject = new ObjectToAssert()
+{
+    FirstName = "AntonE",
+    PoNumber = "TestPONumber",
+    LastName = "Angelov",
+    Price = 12.3M,
+    SkipDateTime = new DateTime(1989, 10, 28)
+};
+
+Assert.AreEqual<string>(expectedObject.FirstName, actualObject.FirstName, "The first name was not as expected.");
+Assert.AreEqual<string>(expectedObject.LastName, actualObject.LastName, "The last name was not as expected.");
+Assert.AreEqual<string>(expectedObject.PoNumber, actualObject.PoNumber, "The PO Number was not as expected.");
+Assert.AreEqual<decimal>(expectedObject.Price, actualObject.Price, "The price was not as expected.");
+DateTimeAssert.Validate(
+expectedObject.SkipDateTime,
+actualObject.SkipDateTime,
+DateTimeDeltaType.Days,
+1);
+```
+
+```csharp
+public class PropertiesValidator<K, T> where T : new() where K : new()
+{
+    private static K instance;
+    public static K Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new K();
+            }
+            return instance;
+        }
+    }
+
+    public void Validate(T expectedObject, T realObject, params string[] propertiesNotToCompare)
+    {
+        PropertyInfo[] properties = realObject.GetType().GetProperties();
+        foreach (PropertyInfo currentRealProperty in properties)
+        {
+            if (!propertiesNotToCompare.Contains(currentRealProperty.Name))
+            {
+                PropertyInfo currentExpectedProperty = expectedObject.GetType().GetProperty(currentRealProperty.Name);
+                string exceptionMessage =
+                    string.Format("The property {0} of class {1} was not as expected.", currentRealProperty.Name, currentRealProperty.DeclaringType.Name);
+
+                if (currentRealProperty.PropertyType != typeof(DateTime) && currentRealProperty.PropertyType != typeof(DateTime?))
+                {
+                    Assert.AreEqual(currentExpectedProperty.GetValue(expectedObject, null), currentRealProperty.GetValue(realObject, null), exceptionMessage);
+                }
+                else
+                {
+                    DateTimeAssert.Validate(
+                    currentExpectedProperty.GetValue(expectedObject, null) as DateTime?,
+                    currentRealProperty.GetValue(realObject, null) as DateTime?,
+                    DateTimeDeltaType.Minutes,
+                    5);
+                }
+            }
+        }
+    }
+}
+```
+
+```csharp
+public class ObjectToAssertValidator : PropertiesValidator<ObjectToAssertValidator, ObjectToAssert>
+{
+    public void Validate(ObjectToAssert expected, ObjectToAssert actual)
+    {
+        this.Validate(expected, actual, "FirstName");
+    }
+}
+```
+
+```csharp
+ObjectToAssertValidator.Instance.Validate(expectedObject, actualObject);
+
+```
+
+## Assert DateTime the Right Way MSTest NUnit C# Code
+
+```csharp
+DateTime now = DateTime.Now;
+DateTime later = now + TimeSpan.FromHours(1.0);
+
+Assert.That(later.Is.EqualTo(now).Within(TimeSpan.FromHours(3.0));
+Assert.That(later, Is.EqualTo(now).Within(3).Hours;
+```
+
+```csharp
+public enum DateTimeDeltaType
+{
+    Days,
+    Minutes
+}
+```
+
+```csharp
+public static class DateTimeAssert
+{
+    public static void AreEqual(DateTime? expectedDate, DateTime? actualDate, DateTimeDeltaType deltaType, int count)
+    {
+        if (expectedDate == null && actualDate == null)
+        {
+            return;
+        }
+        else if (expectedDate == null)
+        {
+            throw new NullReferenceException("The expected date was null");
+        }
+        else if (actualDate == null)
+        {
+            throw new NullReferenceException("The actual date was null");
+        }
+        TimeSpan expectedDelta = GetTimeSpanDeltaByType(deltaType, count);
+        double totalSecondsDifference = Math.Abs(((DateTime)actualDate – (DateTime)expectedDate).TotalSeconds);
+
+        if (totalSecondsDifference > expectedDelta.TotalSeconds)
+        {
+            throw new Exception(string.Format("Expected Date: {0}, Actual Date: {1} \nExpected Delta: {2}, Actual Delta in seconds- {3} (Delta Type: {4})",
+                                            expectedDate,
+                                            actualDate,
+                                            expectedDelta,
+                                            totalSecondsDifference,
+                                            deltaType));
+        }
+    }
+
+    private static TimeSpan GetTimeSpanDeltaByType(DateTimeDeltaType type, int count)
+    {
+        TimeSpan result = default(TimeSpan);
+
+        switch (type)
+        {
+            case DateTimeDeltaType.Days:
+                result = new TimeSpan(count, 0, 0, 0);
+                break;
+            case DateTimeDeltaType.Minutes:
+                result = new TimeSpan(0, count, 0);
+                break;
+            default: throw new NotImplementedException("The delta type is not implemented.");
+        }
+
+        return result;
+    }
+}
+```
+
+```csharp
+DateTimeAssert.AreEqual(
+    new DateTime(2014, 10, 10, 20, 22, 16),
+    new DateTime(2014, 10, 11, 20, 22, 16),
+    DateTimeDeltaType.Days,
+    1);
+```
+
+```csharp
+public static class DateTimeAssert
+{
+    public static void AreEqual(DateTime? expectedDate, DateTime? actualDate, TimeSpan maximumDelta)
+    {
+        if (expectedDate == null && actualDate == null)
+        {
+            return;
+        }
+        else if (expectedDate == null)
+        {
+            throw new NullReferenceException("The expected date was null");
+        }
+        else if (actualDate == null)
+        {
+            throw new NullReferenceException("The actual date was null");
+        }
+        double totalSecondsDifference = Math.Abs(((DateTime)actualDate – (DateTime)expectedDate).TotalSeconds);
+
+        if (totalSecondsDifference > maximumDelta.TotalSeconds)
+        {
+            throw new Exception(string.Format("Expected Date: {0}, Actual Date: {1} \nExpected Delta: {2}, Actual Delta in seconds- {3}",
+                                            expectedDate,
+                                            actualDate,
+                                            maximumDelta,
+                                            totalSecondsDifference));
+        }
+    }
+}
+```
+
+```csharp
+DateTimeAssert.AreEqual(
+    new DateTime(2014, 10, 10, 20, 22, 16),
+    new DateTime(2014, 10, 11, 20, 22, 16),
+    TimeSpan.FromMilliSeconds(500);
+DateTimeAssert.AreEqual(
+    new DateTime(2014, 10, 10, 20, 22, 16),
+    new DateTime(2014, 10, 11, 20, 22, 16),
+    TimeSpan.FromMinutes(0.5); // half a minute = 30s
+```
+
+## Windows Registry Read Write C# Code
+
+```csharp
+RegistryKey key;
+key = Registry.CurrentUser.CreateSubKey("Names");
+key.SetValue("Name", "Isabella");
+key.Close();
+```
+
+```csharp
+public abstract class BaseRegistryService
+{
+    private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+    protected string MainRegistrySubKey;
+
+    protected void Write(string subKeys, Object value)
+    {
+        string[] subKeyNames = subKeys.Split('/');
+        List<RegistryKey> registryKeys = new List<RegistryKey>();
+        for (int i = 0; i < subKeyNames.Length; i++)
+        {
+            RegistryKey currentRegistryKey = default(RegistryKey);
+            if (i == 0)
+            {
+                currentRegistryKey = Registry.CurrentUser.CreateSubKey(subKeyNames[i]);
+            }
+            else if (i < subKeyNames.Length – 1)
+            {
+            currentRegistryKey = registryKeys[i – 1].CreateSubKey(subKeyNames[i]);
+        }
+            else
+        {
+            registryKeys.Last().SetValue(subKeyNames.Last(), value);
+        }
+        registryKeys.Add(currentRegistryKey);
+    }
+
+        this.CloseAllRegistryKeys(registryKeys);
+}
+
+protected Object Read(string subKeys)
+{
+    Object result = default(Object);
+
+    try
+    {
+        string[] subKeyNames = subKeys.Split('/');
+        List<RegistryKey> registryKeys = new List<RegistryKey>();
+        for (int i = 0; i < subKeyNames.Length – 1; i++)
+            {
+    RegistryKey currentRegistryKey = default(RegistryKey);
+    if (i == 0)
+    {
+        currentRegistryKey = Registry.CurrentUser.OpenSubKey(subKeyNames[i]);
+    }
+    else
+    {
+        currentRegistryKey = registryKeys[i – 1].OpenSubKey(subKeyNames[i]);
+    }
+    registryKeys.Add(currentRegistryKey);
+    if (registryKeys.Last() != null && subKeyNames.Last() != null)
+    {
+        result = registryKeys.Last().GetValue(subKeyNames.Last());
+    }
+}
+        }
+        catch (Exception ex)
+        {
+    log.Error(ex);
+}
+
+return result;
+    }
+
+    protected int ReadInt(string subKeys)
+{
+    int result = (int)this.Read(subKeys);
+
+    return result;
+}
+
+protected double? ReadDouble(string subKeys)
+{
+    object obj = this.Read(subKeys);
+    double? result = null;
+    if (obj != null)
+    {
+        result = double.Parse(obj.ToString());
+    }
+
+    return result;
+}
+
+protected bool ReadBool(string subKeys)
+{
+    bool result = default(bool);
+    string resultStr = (string)this.Read(subKeys);
+    if (!string.IsNullOrEmpty(resultStr))
+    {
+        result = bool.Parse(resultStr);
+    }
+
+    return result;
+}
+
+protected string ReadStr(string subKeys)
+{
+    string result = string.Empty;
+    string resultStr = (string)this.Read(subKeys);
+    if (!string.IsNullOrEmpty(resultStr))
+    {
+        result = resultStr;
+    }
+
+    return result;
+}
+
+protected string GenerateMergedKey(params string[] keys)
+{
+    string result = this.MainRegistrySubKey;
+    foreach (var currentKey in keys)
+    {
+        result = string.Join("/", result, currentKey);
+    }
+
+    return result;
+}
+
+private void CloseAllRegistryKeys(List<RegistryKey> registryKeys)
+{
+    for (int i = 0; i < registryKeys.Count – 1; i++)
+        {
+    registryKeys[i].Close();
+}
+    }
+}
+```
+
+```csharp
+public class UIRegistryManager : BaseRegistryManager
+{
+    private static UIRegistryManager instance;
+
+    private readonly string themeRegistrySubKeyName = "theme";
+
+    private readonly string shouldOpenDropDownOnHoverRegistrySubKeyName = "shouldOpenDropDrownOnHover";
+
+    private readonly string titlePromptDialogRegistrySubKeyName = "titlePromptDialog";
+
+    public UIRegistryManager(string mainRegistrySubKey)
+    {
+        this.MainRegistrySubKey = mainRegistrySubKey;
+    }
+
+    public static UIRegistryManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                string mainRegistrySubKey = ConfigurationManager.AppSettings["mainUIRegistrySubKey"];
+                instance = new UIRegistryManager(mainRegistrySubKey);
+            }
+            return instance;
+        }
+    }
+
+    public void WriteCurrentTheme(string theme)
+    {
+        this.Write(this.GenerateMergedKey(this.themeRegistrySubKeyName), theme);
+    }
+
+    public void WriteTitleTitlePromtDialog(string title)
+    {
+        this.Write(this.GenerateMergedKey(this.titlePromptDialogRegistrySubKeyName, this.titleTitlePromptDialogIsCanceledRegistrySubKeyName), title);
+    }
+
+    public bool ReadIsCheckboxDialogSubmitted()
+    {
+        return this.ReadBool(this.GenerateMergedKey(this.checkboxPromptDialogIsSubmittedRegistrySubKeyName));
+    }
+
+    public string ReadTheme()
+    {
+        return this.ReadStr(this.GenerateMergedKey(this.themeRegistrySubKeyName));
+    }
+}
+```
+
+## Specify Assembly References Based On Build Configuration in Visual Studio
+
+```xml
+<Reference Include="Microsoft.TeamFoundation.Client, Version=11.0.0.0, Culture=neutral,
+PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"/>
+```
+
+```xml
+<Reference Include="Microsoft.TeamFoundation.Client, Version=11.0.0.0, Culture=neutral,
+PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+Condition="'$(Configuration)' == 'VisualStudio_2012'
+OR '$(Configuration)' == 'Debug' OR '$(Configuration)' == 'Release'"/>
+```
+
+```xml
+<Reference Include="Microsoft.TeamFoundation.Client, Version=12.0.0.0,
+Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+Condition="'$(Configuration)' == 'VisualStudio_2013'"/>
+```
+
+## Fidely Open Source .NET Search Query Compiler
+
+```csharp
+public IEnumerable<TestCase> Search()
+{
+    var setting = SearchQueryCompilerBuilder.Instance.BuildUpDefaultObjectCompilerSetting<TestCase>();
+    SearchQueryCompiler<TestCase> compiler = SearchQueryCompilerBuilder.Instance.BuildUpCompiler<TestCase>(setting);
+    Expression<Func<TestCase, bool>> filter = compiler.Compile(this.InitialViewFilters.AdvancedSearchFilter);
+    IEnumerable<TestCase> result = this.InitialTestCaseCollection.AsQueryable().Where(filter);
+    return result;
+}
+```
+
+```csharp
+[Alias("title", Description = "The title of item")]
+public string Title
+{
+    get
+    {
+        return this.title;
+    }
+
+    set
+    {
+        if (this.isInitialized)
+        {
+            UndoRedoManager.Instance().Push(t => this.Title = t, this.title, "Change the test case title");
+        }
+        this.title = value;
+        this.NotifyPropertyChanged();
+    }
+}
+
+[Alias("createdOn", Description = "The creation date of item")]
+public DateTime DateCreated
+{
+    get
+    {
+        return this.dateCreated;
+    }
+
+    set
+    {
+        this.dateCreated = value;
+        this.NotifyPropertyChanged();
+    }
+}
+```
+
+```csharp
+[SuppressMessage("Microsoft.Usage", "CA1801", Justification = "To make the extension method for SearchQueryCompilerBuilder, the instance parameter is needed.")]
+public static ObjectCompilerSetting BuildUpDefaultObjectCompilerSetting<T>(this SearchQueryCompilerBuilder instance)
+{
+    var setting = new ObjectCompilerSetting();
+
+    RegisterDynamicVariableEvaluatorForYearTimeSpan(setting.DynamicVariableEvaluator);
+    RegisterDynamicVariableEvaluatorForMonthTimeSpan(setting.DynamicVariableEvaluator);
+    RegisterDynamicVariableEvaluatorForDayTimeSpan(setting.DynamicVariableEvaluator);
+
+    setting.StaticVariableEvaluator.RegisterVariable("Now", () => DateTime.Now, "Now");
+    setting.StaticVariableEvaluator.RegisterVariable("Today", () => DateTime.Today, "Today");
+
+    setting.Evaluators.Add(new PropertyEvaluator<T>());
+    setting.Evaluators.Add(setting.DynamicVariableEvaluator);
+    setting.Evaluators.Add(setting.StaticVariableEvaluator);
+    setting.Evaluators.Add(new TypeConversionEvaluator());
+
+    setting.Operators.Add(new NotPartialMatch<T>("!:", true, OperatorIndependency.Strong, "Not Partial matching operator"));
+    setting.Operators.Add(new PartialMatch<T>(":", true, OperatorIndependency.Strong, "Partial matching operator"));
+    setting.Operators.Add(new PrefixSearch<T>("=:", true, OperatorIndependency.Strong, "Prefix search operator"));
+    setting.Operators.Add(new SuffixSearch<T>(":=", true, OperatorIndependency.Strong, "Suffix search operator"));
+    setting.Operators.Add(new Equal<T>("=", true, OperatorIndependency.Strong, "Equal operator"));
+    setting.Operators.Add(new NotEqual<T>("!=", true, OperatorIndependency.Strong, "Not equal operator"));
+    setting.Operators.Add(new LessThan<T>("<", OperatorIndependency.Strong, "Less than operator"));
+    setting.Operators.Add(new LessThanOrEqual<T>("<=", OperatorIndependency.Strong, "Less than or equal operator"));
+    setting.Operators.Add(new GreaterThan<T>(">", OperatorIndependency.Strong, "Greater than operator"));
+    setting.Operators.Add(new GreaterThanOrEqual<T>(">=", OperatorIndependency.Strong, "Greater than or equal operator"));
+    setting.Operators.Add(new Add("+", 1, OperatorIndependency.Strong, "Add operator"));
+    setting.Operators.Add(new Subtract("–", 1, OperatorIndependency.Strong, "Subtract operator"));
+    setting.Operators.Add(new Multiply("*", 0, OperatorIndependency.Strong, "Multiply operator"));
+    setting.Operators.Add(new Divide("/", 0, OperatorIndependency.Strong, "Divide operator"));
+
+    return setting;
+}
+```
+
+```csharp
+protected internal override Expression Compare(Operand left, Operand right)
+{
+    Logger.Info("Comparing operands (left = '{0}', right = '{1}').", left.OperandType.FullName, right.OperandType.FullName);
+
+    var l = Expression.Call(null, typeof(Convert).GetMethod("ToString", new Type[] { typeof(object) }), Expression.Convert(left.Expression, typeof(object)));
+    var r = Expression.Call(null, typeof(Convert).GetMethod("ToString", new Type[] { typeof(object) }), Expression.Convert(right.Expression, typeof(object)));
+
+    if (ignoreCase)
+    {
+        var contains = typeof(string).GetMethod("Contains");
+        var toLower = typeof(string).GetMethod("ToLower", BindingFlags.Instance | BindingFlags.Public, null, new Type[] { }, null);
+        return Expression.Not(Expression.Call(Expression.Call(l, toLower), contains, Expression.Call(r, toLower)));
+    }
+    else
+    {
+        var contains = typeof(string).GetMethod("Contains");
+        return Expression.Not(Expression.Call(l, contains, r));
+    }
+}
+```
+
+## MSBuild TCP IP Logger C# Code
+
+```csharp
+
+using Microsoft.Build.Utilities;
+using Microsoft.Build.Framework;
+```
+
+```csharp
+protected virtual void InitializeParameters()
+{
+    try
+    {
+        this.paramaterBag = new Dictionary<string, string>();
+        log.Info("Initialize Logger params");
+        if (!string.IsNullOrEmpty(Parameters))
+        {
+            foreach (string paramString in this.Parameters.Split(";".ToCharArray()))
+            {
+                string[] keyValue = paramString.Split("=".ToCharArray());
+                if (keyValue == null || keyValue.Length < 2)
+                {
+                    continue;
+                }
+                this.ProcessParam(keyValue[0].ToLower(), keyValue[1]);
+            }
+        }
+    }
+    catch (Exception e)
+    {
+        throw new LoggerException("Unable to initialize parameters; message=" + e.Message, e);
+    }
+}
+```
+
+```csharp
+clientSocketWriter = new System.Net.Sockets.TcpClient();
+clientSocketWriter.Connect(ipServer, port);
+networkStream = clientSocketWriter.GetStream();
+
+```
+
+```csharp
+private void SubscribeToEvents(IEventSource eventSource)
+{
+    eventSource.BuildStarted += new BuildStartedEventHandler(this.BuildStarted);
+    eventSource.BuildFinished += new BuildFinishedEventHandler(this.BuildFinished);
+    eventSource.ProjectStarted += new ProjectStartedEventHandler(this.ProjectStarted);
+    eventSource.ProjectFinished += new ProjectFinishedEventHandler(this.ProjectFinished);
+    eventSource.TargetStarted += new TargetStartedEventHandler(this.TargetStarted);
+    eventSource.TargetFinished += new TargetFinishedEventHandler(this.TargetFinished);
+    eventSource.TaskStarted += new TaskStartedEventHandler(this.TaskStarted);
+    eventSource.TaskFinished += new TaskFinishedEventHandler(this.TaskFinished);
+    eventSource.ErrorRaised += new BuildErrorEventHandler(this.BuildError);
+    eventSource.WarningRaised += new BuildWarningEventHandler(this.BuildWarning);
+    eventSource.MessageRaised += new BuildMessageEventHandler(this.BuildMessage);
+}
+```
+
+```csharp
+private void ProjectStarted(object sender, ProjectStartedEventArgs e)
+{
+    SendMessage(FormatMessage(e));
+}
+
+private void SendMessage(string line)
+{
+    Byte[] sendBytes = Encoding.ASCII.GetBytes(line);
+    networkStream.Write(sendBytes, 0, sendBytes.Length);
+    networkStream.Flush();
+    log.InfoFormat("MS Build logger send to server the message {0}", line);
+}
+
+private static string FormatMessage(BuildStatusEventArgs e)
+{
+    return string.Format("{0}:{1}$$", e.HelpKeyword, e.Message);
+}
+```
+
+```csharp
+public override void Shutdown()
+{
+    clientSocketWriter.GetStream().Close();
+    clientSocketWriter.Close();
+}
+```
+
+```csharp
+public const string MSBUILD_PATH = @"C:\Windows\Microsoft.NET\Framework\v4.0.30319\MsBuild.exe";
+
+public Process ExecuteMsbuildProject(string msbuildProjPath, IpAddressSettings ipAddressSettings, string additionalArgs = "")
+{
+    string currentAssemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+    string currentAssemblyFullpath = String.Format(currentAssemblyLocation, "\\YourDll.dll");
+    string additionalArguments =
+    BuildMsBuildAdditionalArguments(msbuildProjPath, ipAddressSettings, additionalArgs, currentAssemblyFullpath);
+    ProcessStartInfo procStartInfo = new ProcessStartInfo(MSBUILD_PATH, additionalArguments);
+    procStartInfo.RedirectStandardOutput = false;
+    //procStartInfo.UseShellExecute = true;
+    //procStartInfo.CreateNoWindow = false;
+    procStartInfo.UseShellExecute = false;
+    procStartInfo.CreateNoWindow = true;
+    Process proc = new Process();
+    proc.StartInfo = procStartInfo;
+    proc.Start();
+    return proc;
+}
+
+private string BuildMsBuildAdditionalArguments(string msbuildProjPath, IpAddressSettings ipAddressSettings,
+string additionalArgs, string currentAssemblyFullpath)
+{
+    string additionalArguments = String.Concat(msbuildProjPath, " ", additionalArgs, " ",
+    "/fileLoggerParameters:LogFile=MsBuildLog.txt;append=true;Verbosity=normal;Encoding=UTF-8 /l:YourDll.MsBuildLogger.TcpIpLogger,",
+    currentAssemblyFullpath, ";Ip=", ipAddressSettings.GetIPAddress(), ";Port=", ipAddressSettings.Port, ";");
+
+    return additionalArguments;
+}
+```
+
+# Mobile Automation
+
+## Develop ADB Shell Commands Library Appium C#
+
+```bash
+npm install -g appium
+```
+
+```bash
+appium --relaxed-security
+```
+
+## Most Complete ADB Cheat Sheet
+
+```bash
+adb devices (lists connected devices)
+adb root (restarts adbd with root permissions)
+adb start-server (starts the adb server)
+adb kill-server (kills the adb server)
+adb reboot (reboots the device)
+adb devices -l (list of devices by product/model)
+adb shell (starts the backround terminal)
+exit (exits the background terminal)
+adb help (list all commands)
+adb -s <deviceName> <command> (redirect command to specific device)
+adb –d <command> (directs command to only attached USB device)
+adb –e <command> (directs command to only attached emulator)
+```
+
+```bash
+adb shell install <apk> (install app)
+adb shell install <path> (install app from phone path)
+adb shell install -r <path> (install app from phone path)
+adb shell uninstall <name> (remove the app)
+```
+
+```bash
+/data/data/<package>/databases (app databases)
+/data/data/<package>/shared_prefs/ (shared preferences)
+/data/app (apk installed by user)
+/system/app (pre-installed APK files)
+/mmt/asec (encrypted apps) (App2SD)
+/mmt/emmc (internal SD Card)
+/mmt/adcard (external/Internal SD Card)
+/mmt/adcard/external_sd (external SD Card)
+
+adb shell ls (list directory contents)
+adb shell ls -s (print size of each file)
+adb shell ls -R (list subdirectories recursively)
+```
+
+```bash
+adb push <local> <remote> (copy file/dir to device)
+adb pull <remote> <local> (copy file/dir from device)
+run-as <package> cat <file> (access the private package files)
+```
+
+```bash
+adb get-statе (print device state)
+adb get-serialno (get the serial number)
+adb shell dumpsys iphonesybinfo (get the IMEI)
+adb shell netstat (list TCP connectivity)
+adb shell pwd (print current working directory)
+adb shell dumpsys battery (battery status)
+adb shell pm list features (list phone features)
+adb shell service list (list all services)
+adb shell dumpsys activity <package>/<activity> (activity info)
+adb shell ps (print process status)
+adb shell wm size (displays the current screen resolution)
+dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp' (print current app's opened activity)
+
+
+```
+
+```bash
+adb shell list packages (list package names)
+adb shell list packages -r (list package name + path to apks)
+adb shell list packages -3 (list third party package names)
+adb shell list packages -s (list only system packages)
+adb shell list packages -u (list package names + uninstalled)
+adb shell dumpsys package packages (list info on all apps)
+adb shell dump <name> (list info on one package)
+adb shell path <package> (path to the apk file)
+```
+
+```bash
+adb shell dumpsys battery set level <n> (change the level from 0 to 100)
+adb shell dumpsys battery set status<n> (change the level to unknown, charging, discharging, not charging or full)
+adb shell dumpsys battery reset (reset the battery)
+adb shell dumpsys battery set usb <n> (change the status of USB connection. ON or OFF)
+adb shell wm size WxH (sets the resolution to WxH)
+```
+
+```bash
+adb reboot-recovery (reboot device into recovery mode)
+adb reboot fastboot (reboot device into recovery mode)
+adb shell screencap -p "/path/to/screenshot.png" (capture screenshot)
+adb shell screenrecord "/path/to/record.mp4" (record device screen)
+adb backup -apk -all -f backup.ab (backup settings and apps)
+adb backup -apk -shared -all -f backup.ab (backup settings, apps and shared storage)
+adb backup -apk -nosystem -all -f backup.ab (backup only non-system apps)
+adb restore backup.ab (restore a previous backup)
+adb shell am start|startservice|broadcast <INTENT>[<COMPONENT>]
+-a <ACTION> e.g. android.intent.action.VIEW
+-c <CATEGORY> e.g. android.intent.category.LAUNCHER (start activity intent)
+
+adb shell am start -a android.intent.action.VIEW -d URL (open URL)
+adb shell am start -t image/* -a android.intent.action.VIEW (opens gallery)
+```
+
+```bash
+adb logcat [options] [filter] [filter] (view device log)
+adb bugreport (print bug reports)
+```
+
+```bash
+adb shell permissions groups (list permission groups definitions)
+adb shell list permissions -g -r (list permissions details)
+```
+
+## Getting Started with Appium for Android C# on Mac in 10 Minutes
+
+```bash
+npm install -g appium
+```
+
+```bash
+echo "export PATH=\$PATH:/Users/${USER}/Library/Android/sdk/platform-tools/" >> ~/.bash_profile && source ~/.bash_profile
+```
+
+```bash
+adb shell
+```
+
+```bash
+adb install pathToYourApk/yourTestApp.apk
+```
+
+```bash
+dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp'
+```
+
+```csharp
+private static AndroidDriver<AndroidElement> _driver;
+[ClassInitialize]
+public static void ClassInitialize(TestContext context)
+{
+    string testAppPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "ApiDemos-debug.apk");
+    var desiredCaps = new AppiumOptions();
+    desiredCaps.AddAdditionalCapability(MobileCapabilityType.DeviceName, "Android_Accelerated_x86_Oreo");
+    desiredCaps.AddAdditionalCapability(AndroidMobileCapabilityType.AppPackage, "io.appium.android.apis");
+    desiredCaps.AddAdditionalCapability(MobileCapabilityType.PlatformName, "Android");
+    desiredCaps.AddAdditionalCapability(MobileCapabilityType.PlatformVersion, "7.1");
+    desiredCaps.AddAdditionalCapability(AndroidMobileCapabilityType.AppActivity, ".ApiDemos");
+    desiredCaps.AddAdditionalCapability(MobileCapabilityType.App, testAppPath);
+    _driver = new AndroidDriver<AndroidElement>(new Uri("http://127.0.0.1:4723/wd/hub"), desiredCaps);
+    _driver.CloseApp();
+}
+[TestInitialize]
+public void TestInitialize()
+{
+    if (_driver != null)
+    {
+        _driver.LaunchApp();
+        _driver.StartActivity("io.appium.android.apis", ".ApiDemos");
+    }
+}
+[TestCleanup]
+public void TestCleanup()
+{
+    _driver?.CloseApp();
+}
+```
+
+## Getting Started with Appium for iOS C# in 10 Minutes
+
+```bash
+npm install -g appium
+```
+
+```bash
+bash brew install carthage
+```
+
+## Getting Started with Appium for Android C# on Windows in 10 Minutes
+
+```bash
+npm install -g appium
+```
+
+```bash
+adb shell
+```
+
+```bash
+adb install pathToYourApk/yourTestApp.apk
+```
+
+```bash
+dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp'
+```
+
+# Desktop Automation
+
+## Automate Windows Desktop Apps with WebDriver- WinAppDriver VB.NET
+
+```powershell
+function listAumids( $userAccount ) {
+        if ($userAccount -eq "allusers")
+        {
+        # Find installed packages for all accounts. Must be run as an administrator in order to use this option.
+        $installedapps = Get-AppxPackage -allusers
+        }
+elseif ($userAccount)
+        {
+        # Find installed packages for the specified account. Must be run as an administrator in order to use this option.
+        $installedapps = get-AppxPackage -user $userAccount
+        }
+else
+        {
+        # Find installed packages for the current account.
+        $installedapps = get-AppxPackage
+        }
+        $aumidList = @()
+        foreach ($app in $installedapps)
+        {
+        foreach ($id in (Get-AppxPackageManifest $app).package.applications.application.id)
+        {
+        $aumidList += $app.packagefamilyname + "!" + $id
+        }
+        }
+        return $aumidList
+        }
+```
+
+## Automate Windows Desktop Apps with WebDriver- WinAppDriver C#
+
+```powershell
+function listAumids( $userAccount )
+{
+    if ($userAccount - eq "allusers")
+{
+# Find installed packages for all accounts. Must be run as an administrator in order to use this option.
+$installedapps = Get - AppxPackage - allusers
+}
+elseif($userAccount)
+{
+# Find installed packages for the specified account. Must be run as an administrator in order to use this option.
+$installedapps = get - AppxPackage - user $userAccount
+}
+else
+{
+# Find installed packages for the current account.
+$installedapps = get - AppxPackage
+}
+$aumidList = @()
+foreach ($app in $installedapps)
+{
+    foreach ($id in (Get - AppxPackageManifest $app).package.applications.application.id)
+{
+$aumidList += $app.packagefamilyname + "!" + $id
+}
+}
+return $aumidList
+}
+```
+
 # Design and Architecture
 
 ## How to Test the Test Automation Framework- Types of Tests
@@ -157,6 +4492,147 @@ public class ButtonControlTests : IOSTest
         answerLabel.EnsureTextIs("0");
     }
 }
+```
+
+## Full-Stack Test Automation Frameworks- API Usability Part 1
+
+```csharp
+[TestMethod]
+public void OpenBellatrixDemoPromotions()
+{
+    IWebDriver driver = new ChromeDriver();
+    driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+    var promotionsLink = driver.FindElement(By.Id("Promotions"));
+    promotionsLink.Click();
+    Console.WriteLine(promotionsLink.TagName);
+}
+```
+
+```csharp
+[TestMethod]
+public void OpenBellatrixDemoPromotions()
+{
+    IWebDriver driver = new ChromeDriver();
+    driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+    var promotionsLink = driver.FindElement(By.Id("Promotions"));
+    promotionsLink.Click();
+    var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+    wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.Id("Promotions")));
+    Console.WriteLine(promotionsLink.TagName);
+}
+```
+
+```csharp
+[TestMethod]
+public void OpenBellatrixDemoPromotions()
+{
+    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
+    promotionsLink.Click();
+    Console.WriteLine(promotionsLink.By.Value);
+    Console.WriteLine(promotionsLink.WrappedElement.TagName);
+}
+```
+
+```csharp
+[TestMethod]
+public void OpenBellatrixDemoPromotions()
+{
+    App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
+    var promotionsLink = App.ElementCreateService.CreateById<Button>("Promotions");
+    promotionsLink.Click();
+    promotionsLink.EnsureIsNotVisible();
+}
+```
+
+```csharp
+[TestMethod]
+public void OpenBellatrixDemoPromotions()
+{
+    IWebDriver driver = new ChromeDriver();
+    driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+    var promotionsLink = driver.FindElement(By.Id("Promotions"));
+    promotionsLink.Click();
+    var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+    wait.Until(ExpectedConditions.ElementToBeClickable(By.Id("Promotions")));
+}
+```
+
+```csharp
+var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+wait.Until(ExpectedConditions.ElementToBeSelected(By.Id("Promotions")));
+```
+
+```csharp
+var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+wait.Until(ExpectedConditions.TextToBePresentInElement(promotionsLink, "Bellatrix"));
+```
+
+```csharp
+var promotionsLink = App.ElementCreateService.CreateByLinkText<Button>("Promotions");
+promotionsLink.Click();
+promotionsLink.ValidateIsDisabled();
+```
+
+```csharp
+IWebDriver driver = new ChromeDriver();
+driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+```
+
+```csharp
+IWebDriver driver = new ChromeDriver();
+driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+var promotionsLink = wait.Until(ExpectedConditions.ElementExists(By.Id("Promotions")));
+promotionsLink.Click();
+```
+
+```csharp
+IWebDriver driver = new ChromeDriver();
+driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+var promotionsLocator = By.Id("Promotions");
+wait.Until(ExpectedConditions.ElementExists(promotionsLocator));
+var promotionsLink = wait.Until(ExpectedConditions.ElementToBeClickable(promotionsLocator));
+promotionsLink.Click();
+```
+
+```csharp
+var promotionsLink = App.ElementCreateService.CreateByLinkText<Button>("Promotions").ToBeVisible().ToBeClickable().ToExists();
+promotionsLink.Click();
+promotionsLink.EnsureIsDisabled();
+
+```
+
+```csharp
+IWebDriver driver = new ChromeDriver();
+driver.Navigate().GoToUrl("http://demos.bellatrix.solutions/");
+var wait15Seconds = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
+var wait30Seconds = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+var wait45Seconds = new WebDriverWait(driver, TimeSpan.FromSeconds(45));
+var promotionsLocator = By.Id("Promotions");
+wait15Seconds.Until(ExpectedConditions.ElementExists(promotionsLocator)); // same 30 seconds
+var promotionsLink = wait30Seconds.Until(ExpectedConditions.ElementToBeClickable(promotionsLocator));
+promotionsLink.Click();
+```
+
+```json
+"timeoutSettings": {
+    "waitForAjaxTimeout": "30",
+    "sleepInterval": "1",
+    "elementToBeVisibleTimeout": "30",
+    "elementToExistTimeout": "30",
+    "elementToNotExistTimeout": "30",
+    "elementToBeClickableTimeout": "30",
+    "elementNotToBeVisibleTimeout": "30",
+    "elementToHaveContentTimeout": "15"
+},
+```
+
+```csharp
+var promotionsLink = App.ElementCreateService.CreateByLinkText<Button>("Promotions").ToBeVisible(30).ToBeClickable(20, 2).ToExists(10, 1);
+promotionsLink.Click();
+promotionsLink.EnsureIsDisabled();
 ```
 
 ## Advanced Behaviours Design Pattern in Automated Testing Part 1
@@ -341,731 +4817,6 @@ public void Purchase_SimpleBehaviourEngine()
     new PlaceOrderPageAssertFinalAmountsBehaviour(itemPrice));
 }
 ```
-
-## Behaviours Design Pattern in Automated Testing
-
-```csharp
-public interface IBehaviour
-{
-    void PerformAct();
-    void PerformPostAct();
-    void PerformPostActAsserts();
-    void PerformPreActAsserts();
-}
-```
-
-```csharp
-public class Behaviour : IBehaviour
-{
-    public virtual void PerformAct()
-    {
-    }
-    public virtual void PerformPostAct()
-    {
-    }
-    public virtual void PerformPostActAsserts()
-    {
-    }
-    public virtual void PerformPreActAsserts()
-    {
-    }
-}
-```
-
-```csharp
-public class ItemPageBuyBehaviour : Behaviour
-{
-    private readonly ItemPage itemPage;
-    public ItemPageBuyBehaviour(ItemPage itemPage)
-    {
-        this.itemPage = itemPage;
-    }
-    public override void PerformAct()
-    {
-        this.itemPage.ClickBuyNowButton();
-    }
-}
-```
-
-```csharp
-public class SignInPageLoginBehaviour : Behaviour
-{
-    private readonly SignInPage signInPage;
-    private readonly ShippingAddressPage shippingAddressPage;
-    public SignInPageLoginBehaviour(
-    SignInPage signInPage,
-    ShippingAddressPage shippingAddressPage)
-    {
-        this.signInPage = signInPage;
-        this.shippingAddressPage = shippingAddressPage;
-    }
-    public override void PerformAct()
-    {
-        this.signInPage.Login(
-        PurchaseTestContext.ClientLoginInfo.Email,
-        PurchaseTestContext.ClientLoginInfo.Password);
-    }
-    public override void PerformPostAct()
-    {
-        this.shippingAddressPage.WaitForPageToLoad();
-    }
-}
-```
-
-```csharp
-public static class SimpleBehaviourEngine
-{
-    public static void Execute(params Type[] pageBehaviours)
-    {
-        foreach (Type pageBehaviour in pageBehaviours)
-        {
-            var currentbehaviour = Activator.CreateInstance(pageBehaviour) as Behaviour;
-            currentbehaviour.PerformPreActAsserts();
-            currentbehaviour.PerformAct();
-            currentbehaviour.PerformPostActAsserts();
-            currentbehaviour.PerformPostAct();
-        }
-    }
-}
-```
-
-```csharp
-[TestMethod]
-public void Purchase_SimpleBehaviourEngine()
-{
-    PurchaseTestContext.ItemUrl = "/Selenium-Testing-Cookbook-Gundecha-Unmesh/dp/1849515743";
-    PurchaseTestContext.ItemPrice = "40.49";
-    PurchaseTestContext.ClientPurchaseInfo = new ClientPurchaseInfo(
-    new ClientAddressInfo()
-    {
-        FullName = "John Smith",
-        Country = "United States",
-        Address1 = "950 Avenue of the Americas",
-        State = "New York",
-        City = "New York City",
-        Zip = "10001-2121",
-        Phone = "00164644885569"
-    });
-    PurchaseTestContext.ClientPurchaseInfo.CouponCode = "99PERDIS";
-    PurchaseTestContext.ClientLoginInfo = new ClientLoginInfo()
-    {
-        Email = "g3984159@trbvm.com",
-        Password = "ASDFG_12345"
-    };
-    SimpleBehaviourEngine.Execute(
-    typeof(ItemPageNavigationBehaviour),
-    typeof(ItemPageBuyBehaviour),
-    typeof(PreviewShoppingCartPageProceedBehaviour),
-    typeof(SignInPageLoginBehaviour),
-    typeof(ShippingAddressPageFillShippingBehaviour),
-    typeof(ShippingAddressPageFillDifferentBillingBehaviour),
-    typeof(ShippingAddressPageContinueBehaviour),
-    typeof(ShippingPaymentPageContinueBehaviour),
-    typeof(PlaceOrderPageAssertFinalAmountsBehaviour));
-}
-```
-
-```csharp
-public static class GenericBehaviourEngine
-{
-    public static void Execute(params Type[] pageBehaviours)
-    {
-        foreach (Type pageBehaviour in pageBehaviours)
-        {
-            var currentbehaviour = Activator.CreateInstance(pageBehaviour) as Behaviour;
-            currentbehaviour.PerformPreActAsserts();
-            currentbehaviour.PerformAct();
-            currentbehaviour.PerformPostActAsserts();
-            currentbehaviour.PerformPostAct();
-        }
-    }
-    public static void Execute<T1>()
-    where T1 : Behaviour
-    {
-        Execute(typeof(T1));
-    }
-    public static void Execute<T1, T2>()
-    where T1 : Behaviour
-    where T2 : Behaviour
-    {
-        Execute(typeof(T1), typeof(T2));
-    }
-    public static void Execute<T1, T2, T3>()
-    where T1 : Behaviour
-    where T2 : Behaviour
-    where T3 : Behaviour
-    {
-        Execute(typeof(T1), typeof(T2), typeof(T3));
-    }
-    public static void Execute<T1, T2, T3, T4>()
-    where T1 : Behaviour
-    where T2 : Behaviour
-    where T3 : Behaviour
-    where T4 : Behaviour
-    {
-        Execute(typeof(T1), typeof(T2), typeof(T3), typeof(T4));
-    }
-    // contains 15 more overloads...
-    public static void Execute<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>()
-    where T1 : Behaviour
-    where T2 : Behaviour
-    where T3 : Behaviour
-    where T4 : Behaviour
-    where T5 : Behaviour
-    where T6 : Behaviour
-    where T7 : Behaviour
-    where T8 : Behaviour
-    where T9 : Behaviour
-    where T10 : Behaviour
-    where T11 : Behaviour
-    where T12 : Behaviour
-    where T13 : Behaviour
-    where T14 : Behaviour
-    where T15 : Behaviour
-    where T16 : Behaviour
-    where T17 : Behaviour
-    where T18 : Behaviour
-    where T19 : Behaviour
-    where T20 : Behaviour
-    {
-        Execute(
-        typeof(T1),
-        typeof(T2),
-        typeof(T3),
-        typeof(T4),
-        typeof(T5),
-        typeof(T6),
-        typeof(T7),
-        typeof(T8),
-        typeof(T9),
-        typeof(T10),
-        typeof(T12),
-        typeof(T13),
-        typeof(T14),
-        typeof(T15),
-        typeof(T16),
-        typeof(T17),
-        typeof(T18),
-        typeof(T19),
-        typeof(T20),
-        typeof(T11));
-    }
-}
-```
-
-```csharp
-[TestMethod]
-public void Purchase_GenericBehaviourEngine()
-{
-    PurchaseTestContext.ItemUrl = "/Selenium-Testing-Cookbook-Gundecha-Unmesh/dp/1849515743";
-    PurchaseTestContext.ItemPrice = "40.49";
-    PurchaseTestContext.ClientPurchaseInfo = new ClientPurchaseInfo(
-    new ClientAddressInfo()
-    {
-        FullName = "John Smith",
-        Country = "United States",
-        Address1 = "950 Avenue of the Americas",
-        State = "New York",
-        City = "New York City",
-        Zip = "10001-2121",
-        Phone = "00164644885569"
-    });
-    PurchaseTestContext.ClientPurchaseInfo.CouponCode = "99PERDIS";
-    PurchaseTestContext.ClientLoginInfo = new ClientLoginInfo()
-    {
-        Email = "g3984159@trbvm.com",
-        Password = "ASDFG_12345"
-    };
-    GenericBehaviourEngine.Execute<
-    ItemPageNavigationBehaviour,
-    ItemPageBuyBehaviour,
-    PreviewShoppingCartPageProceedBehaviour,
-    SignInPageLoginBehaviour,
-    ShippingAddressPageFillShippingBehaviour,
-    ShippingAddressPageFillDifferentBillingBehaviour,
-    ShippingAddressPageContinueBehaviour,
-    ShippingPaymentPageContinueBehaviour,
-    PlaceOrderPageAssertFinalAmountsBehaviour>();
-}
-```
-
-```csharp
-public class OverridenActionsBehaviourEngine
-{
-    private readonly Dictionary<Type, Dictionary<BehaviourActions, Action>>
-    overridenBehavioursActions;
-    public OverridenActionsBehaviourEngine()
-    {
-        this.overridenBehavioursActions =
-        new Dictionary<Type, Dictionary<BehaviourActions, Action>>();
-    }
-    public void Execute(params Type[] pageBehaviours)
-    {
-        foreach (Type pageBehaviour in pageBehaviours)
-        {
-            var currentbehaviour = Activator.CreateInstance(pageBehaviour) as Behaviour;
-            this.ExecuteBehaviourOperation(
-            pageBehaviour,
-            BehaviourActions.PreActAsserts,
-            () => currentbehaviour.PerformPreActAsserts());
-            this.ExecuteBehaviourOperation(
-            pageBehaviour,
-            BehaviourActions.Act,
-            () => currentbehaviour.PerformAct());
-            this.ExecuteBehaviourOperation(
-            pageBehaviour,
-            BehaviourActions.PostActAsserts,
-            () => currentbehaviour.PerformPostActAsserts());
-            this.ExecuteBehaviourOperation(
-            pageBehaviour,
-            BehaviourActions.PostAct,
-            () => currentbehaviour.PerformPostAct());
-        }
-    }
-    public void ConfugureCustomBehaviour<ТBehavior>(
-    BehaviourActions behaviourAction,
-    Action action)
-    where ТBehavior : IBehaviour
-    {
-        if (!this.overridenBehavioursActions.ContainsKey(typeof(ТBehavior)))
-        {
-            this.overridenBehavioursActions.Add(
-            typeof(ТBehavior),
-            new Dictionary<BehaviourActions, Action>());
-        }
-        if (!this.overridenBehavioursActions[typeof(ТBehavior)].ContainsKey(
-        behaviourAction))
-        {
-            this.overridenBehavioursActions[typeof(ТBehavior)].Add(behaviourAction, action);
-        }
-        else
-        {
-            this.overridenBehavioursActions[typeof(ТBehavior)][behaviourAction] = action;
-        }
-    }
-    private void ExecuteBehaviourOperation(
-    Type pageBehaviour,
-    BehaviourActions behaviourAction,
-    Action defaultBehaviourOperation)
-    {
-        if (this.overridenBehavioursActions.ContainsKey(pageBehaviour.GetType()) &&
-        this.overridenBehavioursActions[pageBehaviour.GetType()].ContainsKey(
-        behaviourAction))
-        {
-            this.overridenBehavioursActions[pageBehaviour.GetType()][behaviourAction].Invoke();
-        }
-        else
-        {
-            defaultBehaviourOperation.Invoke();
-        }
-    }
-}
-```
-
-```csharp
-[TestMethod]
-public void Purchase_OverridenActionsBehaviourEngine()
-{
-    PurchaseTestContext.ItemUrl = "/Selenium-Testing-Cookbook-Gundecha-Unmesh/dp/1849515743";
-    PurchaseTestContext.ItemPrice = "40.49";
-    PurchaseTestContext.ClientPurchaseInfo = new ClientPurchaseInfo(
-    new ClientAddressInfo()
-    {
-        FullName = "John Smith",
-        Country = "United States",
-        Address1 = "950 Avenue of the Americas",
-        State = "New York",
-        City = "New York City",
-        Zip = "10001-2121",
-        Phone = "00164644885569"
-    });
-    PurchaseTestContext.ClientPurchaseInfo.CouponCode = "99PERDIS";
-    PurchaseTestContext.ClientLoginInfo = new ClientLoginInfo()
-    {
-        Email = "g3984159@trbvm.com",
-        Password = "ASDFG_12345"
-    };
-    var behaviourEngine = new OverriddenActionsBehaviourEngine();
-    behaviourEngine.ConfugureCustomBehaviour<SignInPageLoginBehaviour>(
-    BehaviourActions.PostAct,
-    () =>
-    {
-        // wait for different URL for this case.
-    });
-    behaviourEngine.Execute(
-    typeof(ItemPageNavigationBehaviour),
-    typeof(ItemPageBuyBehaviour),
-    typeof(PreviewShoppingCartPageProceedBehaviour),
-    typeof(SignInPageLoginBehaviour),
-    typeof(ShippingAddressPageFillShippingBehaviour),
-    typeof(ShippingAddressPageFillDifferentBillingBehaviour),
-    typeof(ShippingAddressPageContinueBehaviour),
-    typeof(ShippingPaymentPageContinueBehaviour),
-    typeof(PlaceOrderPageAssertFinalAmountsBehaviour));
-}
-```
-
-```csharp
-public class UnityBehaviourEngine
-{
-    private readonly IUnityContainer unityContainer;
-    private readonly Dictionary<Type, Dictionary<BehaviourActions, Action>>
-    overridenBehavioursActions;
-    public UnityBehaviourEngine(IUnityContainer unityContainer)
-    {
-        this.unityContainer = unityContainer;
-        this.overridenBehavioursActions =
-        new Dictionary<Type, Dictionary<BehaviourActions, Action>>();
-    }
-    public void Execute(params Type[] pageBehaviours)
-    {
-        foreach (Type pageBehaviour in pageBehaviours)
-        {
-            var currentbehaviour = this.unityContainer.Resolve(pageBehaviour) as Behaviour;
-            this.ExecuteBehaviourOperation(
-            pageBehaviour,
-            BehaviourActions.PreActAsserts,
-            () => currentbehaviour.PerformPreActAsserts());
-            this.ExecuteBehaviourOperation(
-            pageBehaviour,
-            BehaviourActions.Act,
-            () => currentbehaviour.PerformAct());
-            this.ExecuteBehaviourOperation(
-            pageBehaviour,
-            BehaviourActions.PostActAsserts,
-            () => currentbehaviour.PerformPostActAsserts());
-            this.ExecuteBehaviourOperation(
-            pageBehaviour,
-            BehaviourActions.PostAct,
-            () => currentbehaviour.PerformPostAct());
-        }
-    }
-    public void ConfugureCustomBehaviour<ТBehavior>(
-    BehaviourActions behaviourAction,
-    Action action)
-    where ТBehavior : IBehaviour
-    {
-        if (!this.overridenBehavioursActions.ContainsKey(typeof(ТBehavior)))
-        {
-            this.overridenBehavioursActions.Add(typeof(ТBehavior),
-            new Dictionary<BehaviourActions, Action>());
-        }
-        if (!this.overridenBehavioursActions[typeof(ТBehavior)].ContainsKey(behaviourAction))
-        {
-            this.overridenBehavioursActions[typeof(ТBehavior)].Add(behaviourAction, action);
-        }
-        else
-        {
-            this.overridenBehavioursActions[typeof(ТBehavior)][behaviourAction] = action;
-        }
-    }
-    private void ExecuteBehaviourOperation(
-    Type pageBehaviour,
-    BehaviourActions behaviourAction,
-    Action defaultBehaviourOperation)
-    {
-        if (this.overridenBehavioursActions.ContainsKey(pageBehaviour.GetType()) &&
-        this.overridenBehavioursActions[pageBehaviour.GetType()].ContainsKey(
-        behaviourAction))
-        {
-            this.overridenBehavioursActions[pageBehaviour.GetType()][behaviourAction].Invoke();
-        }
-        else
-        {
-            defaultBehaviourOperation.Invoke();
-        }
-    }
-}
-```
-
-```csharp
-[TestMethod]
-public void Purchase_UnityBehaviourEngine()
-{
-    PurchaseTestContext.ItemUrl = "/Selenium-Testing-Cookbook-Gundecha-Unmesh/dp/1849515743";
-    PurchaseTestContext.ItemPrice = "40.49";
-    PurchaseTestContext.ClientPurchaseInfo = new ClientPurchaseInfo(
-    new ClientAddressInfo()
-    {
-        FullName = "John Smith",
-        Country = "United States",
-        Address1 = "950 Avenue of the Americas",
-        State = "New York",
-        City = "New York City",
-        Zip = "10001-2121",
-        Phone = "00164644885569"
-    });
-    PurchaseTestContext.ClientPurchaseInfo.CouponCode = "99PERDIS";
-    PurchaseTestContext.ClientLoginInfo = new ClientLoginInfo()
-    {
-        Email = "g3984159@trbvm.com",
-        Password = "ASDFG_12345"
-    };
-    var behaviourEngine = new UnityBehaviourEngine(container);
-    behaviourEngine.ConfugureCustomBehaviour<SignInPageLoginBehaviour>(
-    BehaviourActions.PostAct,
-    () =>
-    {
-        // wait for different URL for this case.
-    });
-    behaviourEngine.Execute(
-    typeof(ItemPageNavigationBehaviour),
-    typeof(ItemPageBuyBehaviour),
-    typeof(PreviewShoppingCartPageProceedBehaviour),
-    typeof(SignInPageLoginBehaviour),
-    typeof(ShippingAddressPageFillShippingBehaviour),
-    typeof(ShippingAddressPageFillDifferentBillingBehaviour),
-    typeof(ShippingAddressPageContinueBehaviour),
-    typeof(ShippingPaymentPageContinueBehaviour),
-    typeof(PlaceOrderPageAssertFinalAmountsBehaviour));
-}
-```
-
-## Advanced Null Object Design Pattern in Automated Testing
-
-```csharp
-public abstract class BasePromotionalCodeStrategy : IPurchasePromotionalCodeStrategy
-{
-    public abstract void AssertPromotionalCodeDiscount();
-    public abstract double GetPromotionalCodeDiscountAmount();
-    public abstract void ApplyPromotionalCode(string couponCode);
-    #region NULL
-    static readonly NullPurchasePromotionalCodeStrategy nullPurchasePromotionalCodeStrategy =
-    new NullPurchasePromotionalCodeStrategy();
-    public static NullPurchasePromotionalCodeStrategy NULL
-    {
-        get
-        {
-            return nullPurchasePromotionalCodeStrategy;
-        }
-    }
-    public class NullPurchasePromotionalCodeStrategy : BasePromotionalCodeStrategy
-    {
-        public override void AssertPromotionalCodeDiscount()
-        {
-        }
-        public override double GetPromotionalCodeDiscountAmount()
-        {
-            return 0;
-        }
-        public override void ApplyPromotionalCode(string couponCode)
-        {
-        }
-    }
-    #endregion
-}
-```
-
-```csharp
-public class UiPurchasePromotionalCodeStrategy : BasePromotionalCodeStrategy
-{
-    private readonly PlaceOrderPage placeOrderPage;
-    private readonly double couponDiscountAmount;
-    public UiPurchasePromotionalCodeStrategy(
-    PlaceOrderPage placeOrderPage,
-    double couponDiscountAmount)
-    {
-        this.placeOrderPage = placeOrderPage;
-        this.couponDiscountAmount = couponDiscountAmount;
-    }
-    public override void AssertPromotionalCodeDiscount()
-    {
-        Assert.AreEqual(
-        this.couponDiscountAmount.ToString(),
-        this.placeOrderPage.PromotionalDiscountPrice.Text);
-    }
-    public override double GetPromotionalCodeDiscountAmount()
-    {
-        return this.couponDiscountAmount;
-    }
-    public override void ApplyPromotionalCode(string couponCode)
-    {
-        this.placeOrderPage.PromotionalCode.SendKeys(couponCode);
-    }
-}
-```
-
-```csharp
-[TestMethod]
-public void Purchase_SeleniumTestingToolsCookbook()
-{
-    string itemUrl = "/Selenium-Testing-Cookbook-Gundecha-Unmesh/dp/1849515743";
-    string itemPrice = "40.49";
-    ClientPurchaseInfo clientPurchaseInfo =
-    new ClientPurchaseInfo(
-    new ClientAddressInfo()
-    {
-        FullName = "John Smith",
-        Country = "United States",
-        Address1 = "950 Avenue of the Americas",
-        State = "New York",
-        City = "New York City",
-        Zip = "10001-2121",
-        Phone = "00164644885569"
-    });
-    clientPurchaseInfo.CouponCode = "99PERDIS";
-    ClientLoginInfo clientLoginInfo = new ClientLoginInfo()
-    {
-        Email = "g3984159@trbvm.com",
-        Password = "ASDFG_12345"
-    };
-    var purchaseContext = new PurchaseContext(
-    UiPurchasePromotionalCodeStrategy.NULL,
-    new ItemPage(Driver.Browser),
-    new PreviewShoppingCartPage(Driver.Browser),
-    new SignInPage(Driver.Browser),
-    new ShippingAddressPage(Driver.Browser),
-    new ShippingPaymentPage(Driver.Browser),
-    new PlaceOrderPage(Driver.Browser));
-    purchaseContext.PurchaseItem(
-    itemUrl,
-    itemPrice,
-    clientLoginInfo,
-    clientPurchaseInfo);
-}
-```
-
-```csharp
-public class NullPurchasePromotionalCodeStrategy : IPurchasePromotionalCodeStrategy
-{
-    private static NullPurchasePromotionalCodeStrategy instance;
-    public static NullPurchasePromotionalCodeStrategy NULL
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new NullPurchasePromotionalCodeStrategy();
-            }
-            return instance;
-        }
-    }
-    public void AssertPromotionalCodeDiscount()
-    {
-    }
-    public double GetPromotionalCodeDiscountAmount()
-    {
-        return 0;
-    }
-    public void ApplyPromotionalCode(string couponCode)
-    {
-    }
-}
-```
-
-```csharp
-[TestMethod]
-public void Purchase_SeleniumTestingToolsCookbook()
-{
-    string itemUrl = "/Selenium-Testing-Cookbook-Gundecha-Unmesh/dp/1849515743";
-    string itemPrice = "40.49";
-    ClientPurchaseInfo clientPurchaseInfo = new ClientPurchaseInfo(
-    new ClientAddressInfo()
-    {
-        FullName = "John Smith",
-        Country = "United States",
-        Address1 = "950 Avenue of the Americas",
-        State = "New York",
-        City = "New York City",
-        Zip = "10001-2121",
-        Phone = "00164644885569"
-    });
-    clientPurchaseInfo.CouponCode = "99PERDIS";
-    ClientLoginInfo clientLoginInfo = new ClientLoginInfo()
-    {
-        Email = "g3984159@trbvm.com",
-        Password = "ASDFG_12345"
-    };
-    var purchaseContext = new PurchaseContext(NullPurchasePromotionalCodeStrategy.NULL,
-    new ItemPage(Driver.Browser),
-    new PreviewShoppingCartPage(Driver.Browser),
-    new SignInPage(Driver.Browser),
-    new ShippingAddressPage(Driver.Browser),
-    new ShippingPaymentPage(Driver.Browser),
-    new PlaceOrderPage(Driver.Browser));
-    purchaseContext.PurchaseItem(itemUrl, itemPrice, clientLoginInfo, clientPurchaseInfo);
-}
-```
-
-```csharp
-private static IUnityContainer container = new UnityContainer();
-[TestInitialize]
-public void SetupTest()
-{
-    Driver.StartBrowser();
-    container.RegisterType<ItemPage>(new ContainerControlledLifetimeManager());
-    container.RegisterType<PreviewShoppingCartPage>(new ContainerControlledLifetimeManager());
-    container.RegisterType<SignInPage>(new ContainerControlledLifetimeManager());
-    container.RegisterType<ShippingAddressPage>(new ContainerControlledLifetimeManager());
-    container.RegisterType<ShippingPaymentPage>(new ContainerControlledLifetimeManager());
-    container.RegisterType<PlaceOrderPage>(new ContainerControlledLifetimeManager());
-    container.RegisterType<PurchaseContext>(new ContainerControlledLifetimeManager());
-    container.RegisterType<
-    IPurchasePromotionalCodeStrategy,
-    NullPurchasePromotionalCodeStrategy>(new ContainerControlledLifetimeManager());
-    container.RegisterInstance<IWebDriver>(Driver.Browser);
-}
-```
-
-```csharp
-[TestMethod]
-public void Purchase_SeleniumTestingToolsCookbook()
-{
-    string itemUrl = "/Selenium-Testing-Cookbook-Gundecha-Unmesh/dp/1849515743";
-    string itemPrice = "40.49";
-    ClientPurchaseInfo clientPurchaseInfo = new ClientPurchaseInfo(
-    new ClientAddressInfo()
-    {
-        FullName = "John Smith",
-        Country = "United States",
-        Address1 = "950 Avenue of the Americas",
-        State = "New York",
-        City = "New York City",
-        Zip = "10001-2121",
-        Phone = "00164644885569"
-    });
-    clientPurchaseInfo.CouponCode = "99PERDIS";
-    ClientLoginInfo clientLoginInfo = new ClientLoginInfo()
-    {
-        Email = "g3984159@trbvm.com",
-        Password = "ASDFG_12345"
-    };
-    var purchaseContext = container.Resolve<PurchaseContext>();
-    purchaseContext.PurchaseItem(itemUrl, itemPrice, clientLoginInfo, clientPurchaseInfo);
-}
-```
-
-```csharp
-[TestMethod]
-public void Purchase_SeleniumTestingToolsCookbook()
-{
-    string itemUrl = "/Selenium-Testing-Cookbook-Gundecha-Unmesh/dp/1849515743";
-    string itemPrice = "40.49";
-    ClientPurchaseInfo clientPurchaseInfo = new ClientPurchaseInfo(
-    new ClientAddressInfo()
-    {
-        FullName = "John Smith",
-        Country = "United States",
-        Address1 = "950 Avenue of the Americas",
-        State = "New York",
-        City = "New York City",
-        Zip = "10001-2121",
-        Phone = "00164644885569"
-    });
-    clientPurchaseInfo.CouponCode = "99PERDIS";
-    ClientLoginInfo clientLoginInfo = new ClientLoginInfo()
-    {
-        Email = "g3984159@trbvm.com",
-        Password = "ASDFG_12345"
-    };
-    container.RegisterInstance<IPurchasePromotionalCodeStrategy>(
-    new UiPurchasePromotionalCodeStrategy(container.Resolve<PlaceOrderPage>(), 40.49));
-    var purchaseContext = container.Resolve<PurchaseContext>();
-    purchaseContext.PurchaseItem(itemUrl, itemPrice, clientLoginInfo, clientPurchaseInfo);
-}
-```
-
-## Null Object Design Pattern in Automated Testing
 
 ```csharp
 public interface IPurchasePromotionalCodeStrategy
@@ -5956,1261 +9707,7 @@ public class SearchEngineTests
 }
 ```
 
-# Mobile Automation
-
-## Getting Started with Appium for Android C# on Windows in 10 Minutes
-
-```csharp
-private static AndroidDriver<AppiumWebElement> _driver;
-private static AppiumLocalService _appiumLocalService;
-[ClassInitialize]
-public static void ClassInitialize(TestContext context)
-{
-    _appiumLocalService = new AppiumServiceBuilder().UsingAnyFreePort().Build();
-    _appiumLocalService.Start();
-    var appiumOptions = new AppiumOptions();
-    appiumOptions.AddAdditionalCapability(MobileCapabilityType.DeviceName, "Android_Accelerated_x86_Oreo");
-    appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, "Android");
-    appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformVersion, "7.1");
-    appiumOptions.AddAdditionalCapability(MobileCapabilityType.BrowserName, "Chrome");
-    _driver = new AndroidDriver<AppiumWebElement>(_appiumLocalService, appiumOptions);
-    _driver.CloseApp();
-}
-[TestInitialize]
-public void TestInitialize()
-{
-    _driver?.LaunchApp();
-}
-[TestCleanup]
-public void TestCleanup()
-{
-    _driver?.CloseApp();
-}
-[ClassCleanup]
-public static void ClassCleanup()
-{
-    _appiumLocalService.Dispose();
-}
-```
-
-```csharp
-_appiumLocalService = new AppiumServiceBuilder().UsingAnyFreePort().Build();
-_appiumLocalService.Start();
-```
-
-```csharp
-string testAppPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "ApiDemos-debug.apk");
-```
-
-```csharp
-_appiumLocalService = new AppiumServiceBuilder().UsingAnyFreePort().Build();
-_appiumLocalService.Start();
-var appiumOptions = new AppiumOptions();
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.DeviceName, "Android_Accelerated_x86_Oreo");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, "Android");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformVersion, "7.1");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.BrowserName, "Chrome");
-_driver = new AndroidDriver<AppiumWebElement>(_appiumLocalService, appiumOptions);
-```
-
-```csharp
-AndroidElement button = _driver.FindElementById("button");
-
-```
-
-```csharp
-AndroidElement checkBox = _driver.FindElementByClassName("android.widget.CheckBox");
-
-```
-
-```csharp
-AndroidElement thirdButton = _driver.FindElementByXPath("//*[@resource-id='com.example.android.apis:id/button']");
-
-```
-
-```csharp
-AndroidElement secondButton = _driver.FindElementByAndroidUIAutomator("new UiSelector().textContains("BUTTO");");
-
-```
-
-```csharp
-[TestMethod]
-public void LocatingElementInsideAnotherElementTest()
-{
-    var mainElement = _driver.FindElementById("decor_content_parent");
-    var button = mainElement.FindElementById("button");
-    button.Click();
-    var checkBox = mainElement.FindElementByClassName("android.widget.CheckBox");
-    checkBox.Click();
-    var thirdButton = mainElement.FindElementByXPath("//*[@resource-id='com.example.android.apis:id/button']");
-    thirdButton.Click();
-}
-```
-
-```csharp
-[TestMethod]
-public void SwipeTest()
-{
-    _driver.StartActivity("io.appium.android.apis", ".graphics.FingerPaint");
-    var element = _driver.FindElementById("android:id/content");
-    Point point = element.Coordinates.LocationInDom;
-    Size size = element.Size;
-    new TouchAction(_driver)
-    .Press(point.X + 5, point.Y + 5)
-    .Wait(200)
-    .MoveTo(point.X + size.Width - 5, point.Y + size.Height - 5)
-    .Release()
-    .Perform();
-}
-```
-
-## Getting Started with Appium for iOS C# in 10 Minutes
-
-```csharp
-private static IOSDriver<IOSElement> _driver;
-[ClassInitialize]
-public static void ClassInitialize(TestContext context)
-{
-    string testAppPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "TestApp.app.zip");
-    var appiumOptions = new AppiumOptions();
-    appiumOptions.AddAdditionalCapability(MobileCapabilityType.DeviceName, "iPhone 6");
-    appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, "iOS");
-    appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformVersion, "11.3");
-    appiumOptions.AddAdditionalCapability(MobileCapabilityType.App, testAppPath);
-    _driver = new IOSDriver<IOSElement>(new Uri("http://127.0.0.1:4723/wd/hub"), appiumOptions);
-    _driver.CloseApp();
-}
-[TestInitialize]
-public void TestInitialize()
-{
-    _driver?.LaunchApp();
-}
-[TestCleanup]
-public void TestCleanup()
-{
-    _driver?.CloseApp();
-}
-```
-
-```csharp
-var args = new OptionCollector().AddArguments(GeneralOptionList.PreLaunch());
-_appiumLocalService = new AppiumServiceBuilder().UsingAnyFreePort().Build();
-_appiumLocalService.Start();
-```
-
-```csharp
-string testAppPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "TestApp.app.zip");
-```
-
-```csharp
-string testAppPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "TestApp.app.zip");
-var appiumOptions = new AppiumOptions();
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.DeviceName, "iPhone 6");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, "iOS");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformVersion, "11.3");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.App, testAppPath);
-_driver = new IOSDriver<IOSElement>(new Uri("http://127.0.0.1:4723/wd/hub"), appiumOptions);
-```
-
-```csharp
-IOSElement textField = _driver.FindElementById("IntegerA");
-```
-
-```csharp
-IOSElement textField = _driver.FindElementByClass("XCUIElementTypeTextField");
-
-```
-
-```csharp
-IOSElement textField = _driver.FindElementByName("IntegerA");
-
-```
-
-```csharp
-IOSElement button = _driver.FindElementByXPath("//XCUIElementTypeButton[@name="ComputeSumButton"]");
-
-```
-
-```csharp
-IOSElement button = _driver.FindElementByIOSNsPredicate("type == "XCUIElementTypeButton" AND name == "ComputeSumButton"");
-
-```
-
-```csharp
-[TestMethod]
-public void AddTwoNumbersTest()
-{
-    IOSElement numberOne = _driver.FindElementById("IntegerA");
-    var numberTwo = _driver.FindElementById("IntegerB");
-    var compute = _driver.FindElementByName("ComputeSumButton");
-    var answer = _driver.FindElementByName("Answer");
-    numberOne.Clear();
-    numberOne.SetImmediateValue("5");
-    numberTwo.Clear();
-    numberTwo.SetImmediateValue("6");
-    compute.Click();
-    Assert.AreEqual("11", answer.GetAttribute("value"));
-}
-```
-
-```csharp
-[TestMethod]
-public void LocatingElementInsideAnotherElementTest()
-{
-    var mainElement = _driver.FindElementByIosNsPredicate("type == "XCUIElementTypeApplication" AND name == "TestApp"");
-    var numberOne = mainElement.FindElementById("IntegerA");
-    var numberTwo = mainElement.FindElementById("IntegerB");
-    var compute = mainElement.FindElementByName("ComputeSumButton");
-    var answer = mainElement.FindElementByName("Answer");
-    numberOne.Clear();
-    numberOne.SetImmediateValue("5");
-    numberTwo.Clear();
-    numberTwo.SetImmediateValue("6");
-    compute.Click();
-    Assert.AreEqual("11", answer.GetAttribute("value"));
-}
-```
-
-```csharp
-[TestMethod]
-public void SwipeTest()
-{
-    ITouchAction touchAction = new TouchAction(_driver);
-    var element = _driver.FindElementById("IntegerA");
-    Point point = element.Coordinates.LocationInDom;
-    Size size = element.Size;
-    touchAction
-    .Press(point.X + 5, point.Y + 5)
-    .Wait(200).MoveTo(point.X + size.Width - 5, point.Y + size.Height - 5)
-    .Release()
-    .Perform();
-}
-```
-
-```csharp
-[TestMethod]
-public void MoveToTest()
-{
-    ITouchAction touchAction = new TouchAction(_driver);
-    var element = _driver.FindElementById("IntegerA");
-    Point point = element.Coordinates.LocationInDom;
-    touchAction.MoveTo(point.X, point.Y).Perform();
-}
-```
-
-```csharp
-[TestMethod]
-public void TapTest()
-{
-    ITouchAction touchAction = new TouchAction(_driver);
-    var element = _driver.FindElementById("IntegerA");
-    Point point = element.Coordinates.LocationInDom;
-    touchAction.Tap(point.X, point.Y, 2).Perform();
-}
-```
-
-## Getting Started with Appium for Android C# on Mac in 10 Minutes
-
-```csharp
-private static AndroidDriver<AndroidElement> _driver;
-[ClassInitialize]
-public static void ClassInitialize(TestContext context)
-{
-    string testAppPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "ApiDemos-debug.apk");
-    var desiredCaps = new AppiumOptions();
-    desiredCaps.AddAdditionalCapability(MobileCapabilityType.DeviceName, "Android_Accelerated_x86_Oreo");
-    desiredCaps.AddAdditionalCapability(AndroidMobileCapabilityType.AppPackage, "io.appium.android.apis");
-    desiredCaps.AddAdditionalCapability(MobileCapabilityType.PlatformName, "Android");
-    desiredCaps.AddAdditionalCapability(MobileCapabilityType.PlatformVersion, "7.1");
-    desiredCaps.AddAdditionalCapability(AndroidMobileCapabilityType.AppActivity, ".ApiDemos");
-    desiredCaps.AddAdditionalCapability(MobileCapabilityType.App, testAppPath);
-    _driver = new AndroidDriver<AndroidElement>(new Uri("http://127.0.0.1:4723/wd/hub"), desiredCaps);
-    _driver.CloseApp();
-}
-[TestInitialize]
-public void TestInitialize()
-{
-    if (_driver != null)
-    {
-        _driver.LaunchApp();
-        _driver.StartActivity("io.appium.android.apis", ".ApiDemos");
-    }
-}
-[TestCleanup]
-public void TestCleanup()
-{
-    _driver?.CloseApp();
-}
-private static AndroidDriver<AndroidElement> _driver;
-[ClassInitialize]
-public static void ClassInitialize(TestContext context)
-{
-    string testAppPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "ApiDemos-debug.apk");
-    var desiredCaps = new AppiumOptions();
-    desiredCaps.AddAdditionalCapability(MobileCapabilityType.DeviceName, "Android_Accelerated_x86_Oreo");
-    desiredCaps.AddAdditionalCapability(AndroidMobileCapabilityType.AppPackage, "io.appium.android.apis");
-    desiredCaps.AddAdditionalCapability(MobileCapabilityType.PlatformName, "Android");
-    desiredCaps.AddAdditionalCapability(MobileCapabilityType.PlatformVersion, "7.1");
-    desiredCaps.AddAdditionalCapability(AndroidMobileCapabilityType.AppActivity, ".ApiDemos");
-    desiredCaps.AddAdditionalCapability(MobileCapabilityType.App, testAppPath);
-    _driver = new AndroidDriver<AndroidElement>(new Uri("http://127.0.0.1:4723/wd/hub"), desiredCaps);
-    _driver.CloseApp();
-}
-[TestInitialize]
-public void TestInitialize()
-{
-    if (_driver != null)
-    {
-        _driver.LaunchApp();
-        _driver.StartActivity("io.appium.android.apis", ".ApiDemos");
-    }
-}
-[TestCleanup]
-public void TestCleanup()
-{
-    _driver?.CloseApp();
-}
-```
-
-```csharp
-var args = new OptionCollector().AddArguments(GeneralOptionList.PreLaunch());
-_appiumLocalService = new AppiumServiceBuilder().UsingAnyFreePort().Build();
-_appiumLocalService.Start();
-```
-
-```csharp
-string testAppPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "ApiDemos-debug.apk");
-```
-
-```csharp
-string testAppPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "ApiDemos-debug.apk");
-var appiumOptions = new AppiumOptions();
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.DeviceName, "Android_Accelerated_x86_Oreo");
-appiumOptions.AddAdditionalCapability(AndroidMobileCapabilityType.AppPackage, "io.appium.android.apis");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, "Android");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformVersion, "7.1");
-appiumOptions.AddAdditionalCapability(AndroidMobileCapabilityType.AppActivity, ".ApiDemos");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.App, testAppPath);
-```
-
-```csharp
-AndroidElement button = _driver.FindElementById("button");
-```
-
-```csharp
-AndroidElement checkBox = _driver.FindElementByClassName("android.widget.CheckBox");
-
-```
-
-```csharp
-AndroidElement thirdButton = _driver.FindElementByXPath("//*[@resource-id='com.example.android.apis:id/button']");
-
-```
-
-```csharp
-AndroidElement secondButton = _driver.FindElementByAndroidUIAutomator("new UiSelector().textContains("BUTTO");");
-
-```
-
-```csharp
-[TestMethod]
-public void LocatingElementsTest()
-{
-    AndroidElement button = _driver.FindElementById("button");
-    button.Click();
-    AndroidElement checkBox = _driver.FindElementByClassName("android.widget.CheckBox");
-    checkBox.Click();
-    AndroidElement secondButton = _driver.FindElementByAndroidUIAutomator("new UiSelector().textContains("BUTTO");");
-    secondButton.Click();
-    AndroidElement thirdButton = _driver.FindElementByXPath("//*[@resource-id='com.example.android.apis:id/button']");
-    thirdButton.Click();
-}
-```
-
-```csharp
-[TestMethod]
-public void LocatingElementInsideAnotherElementTest()
-{
-    var mainElement = _driver.FindElementById("decor_content_parent");
-    var button = mainElement.FindElementById("button");
-    button.Click();
-    var checkBox = mainElement.FindElementByClassName("android.widget.CheckBox");
-    checkBox.Click();
-    var thirdButton = mainElement.FindElementByXPath("//*[@resource-id='com.example.android.apis:id/button']");
-    thirdButton.Click();
-}
-```
-
-```csharp
-[TestMethod]
-public void SwipeTest()
-{
-    _driver.StartActivity("io.appium.android.apis", ".graphics.FingerPaint");
-    ITouchAction touchAction = new TouchAction(_driver);
-    var element = _driver.FindElementById("android:id/content");
-    Point point = element.Coordinates.LocationInDom;
-    Size size = element.Size;
-    touchAction
-    .Press(point.X + 5, point.Y + 5)
-    .Wait(200).MoveTo(point.X + size.Width - 5, point.Y + size.Height - 5)
-    .Release()
-    .Perform();
-}
-```
-
-```csharp
-[TestMethod]
-public void MoveToTest()
-{
-    ITouchAction touchAction = new TouchAction(_driver);
-    var element = _driver.FindElementById("android:id/content");
-    Point point = element.Coordinates.LocationInDom;
-    touchAction.MoveTo(point.X, point.Y).Perform();
-}
-```
-
-```csharp
-[TestMethod]
-public void TapTest()
-{
-    ITouchAction touchAction = new TouchAction(_driver);
-    var element = _driver.FindElementById("android:id/content");
-    Point point = element.Coordinates.LocationInDom;
-    touchAction.Tap(point.X, point.Y, 2).Perform();
-}
-```
-
-## Develop ADB Shell Commands Library Appium C#
-
-```csharp
-[TestClass]
-public class AppiumTests
-{
-    private static AndroidDriver<AndroidElement> _driver;
-    private static AppiumLocalService _appiumLocalService;
-    [ClassInitialize]
-    public static void ClassInitialize(TestContext context)
-    {
-        var args = new OptionCollector()
-        .AddArguments(GeneralOptionList.PreLaunch())
-        .AddArguments(new KeyValuePair<string, string>("--relaxed-security", string.Empty));
-        _appiumLocalService = new AppiumServiceBuilder().WithArguments(args).UsingAnyFreePort().Build();
-        _appiumLocalService.Start();
-        string testAppPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "ApiDemos-debug.apk");
-        var appiumOptions = new AppiumOptions();
-        appiumOptions.AddAdditionalCapability(MobileCapabilityType.AutomationName, "UiAutomator2");
-        appiumOptions.AddAdditionalCapability(MobileCapabilityType.DeviceName, "android25-test");
-        appiumOptions.AddAdditionalCapability(AndroidMobileCapabilityType.AppPackage, "com.example.android.apis");
-        appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, "Android");
-        appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformVersion, "7.1");
-        appiumOptions.AddAdditionalCapability(AndroidMobileCapabilityType.AppActivity, ".ApiDemos");
-        appiumOptions.AddAdditionalCapability(MobileCapabilityType.App, testAppPath);
-        _driver = new AndroidDriver<AndroidElement>(_appiumLocalService, appiumOptions);
-        _driver.CloseApp();
-    }
-    [TestInitialize]
-    public void TestInitialize()
-    {
-        _driver?.LaunchApp();
-        _driver?.StartActivity("com.example.android.apis", ".ApiDemos");
-    }
-    [TestCleanup]
-    public void TestCleanup()
-    {
-        _driver?.CloseApp();
-    }
-    [ClassCleanup]
-    public static void ClassCleanup()
-    {
-        _appiumLocalService.Dispose();
-    }
-    // tests...
-}
-```
-
-```csharp
-var args = new OptionCollector()
-.AddArguments(GeneralOptionList.PreLaunch())
-.AddArguments(new KeyValuePair<string, string>("--relaxed-security", string.Empty));
-_appiumLocalService = new AppiumServiceBuilder().WithArguments(args).UsingAnyFreePort().Build();
-_appiumLocalService.Start();
-```
-
-```csharp
-[TestMethod]
-public void PerformRandomShellCommandAsJson()
-{
-    string result = _driver.ExecuteScript("mobile: shell", "{"command": "dumpsys", "args": ["battery", "reset"]}").ToString();
-    Debug.WriteLine(result);
-}
-```
-
-```csharp
-public class AdbCommand
-{
-    public AdbCommand(string command)
-    {
-        Command = command;
-        Args = new List<string>();
-    }
-    public AdbCommand(string command, params string[] args)
-    {
-        Command = command;
-        Args = new List<string>(args);
-    }
-    [JsonProperty("command")]
-    public string Command { get; set; }
-    [JsonProperty("args")]
-    public List<string> Args { get; set; }
-    public override string ToString()
-    {
-        return JsonConvert.SerializeObject(this);
-    }
-}
-```
-
-```csharp
-[TestMethod]
-public void PerformRandomShellCommand()
-{
-    string result = _driver.ExecuteScript("mobile: shell", new AdbCommand("dumpsys", "battery", "reset").ToString()).ToString();
-    Debug.WriteLine(result);
-}
-```
-
-```csharp
-public static class AppiumDriverAbdExtensionMethods
-{
-    public static string GetLogs(this AndroidDriver<AndroidElement> androidDriver)
-    {
-        return ExecuteShellAdbCommand(androidDriver, "logcat"); ;
-    }
-    public static void ChangeBatteryLevel(this AndroidDriver<AndroidElement> androidDriver, int level)
-    {
-        ExecuteShellAdbCommand(androidDriver, $"dumpsys battery set level {level}");
-    }
-    public static void ChangeBatteryReset(this AndroidDriver<AndroidElement> androidDriver)
-    {
-        ExecuteShellAdbCommand(androidDriver, "adb shell dumpsys battery reset");
-    }
-    public static string GetBatteryStatus(this AndroidDriver<AndroidElement> androidDriver)
-    {
-        return ExecuteShellAdbCommand(androidDriver, "adb shell dumpsys battery"); ;
-    }
-    private static string ExecuteShellAdbCommand(AndroidDriver<AndroidElement> androidDriver, string command, params string[] args)
-    {
-        return androidDriver.ExecuteScript("mobile: shell", new AdbCommand(command, args).ToString()).ToString();
-    }
-}
-```
-
-```csharp
-[TestMethod]
-public void PerformShellCommandViaExtensionMethod()
-{
-    _driver.ResetBattery();
-}
-```
-
-## Execute Android Appium Tests in Docker Containers Using Selenoid
-
-```json
-{
-  "chrome": {
-    "default": "mobile-79.0",
-    "versions": {
-      "mobile-79.0": {
-        "image": "selenoid/chrome-mobile:79.0",
-        "port": "4444",
-        "path": "/wd/hub"
-      }
-    }
-  },
-  "android": {
-    "default": "7.0",
-    "versions": {
-      "7.0": {
-        "image": "selenoid/android:7.0",
-        "port": "4444",
-        "path": "/wd/hub"
-      }
-    }
-  }
-}
-```
-
-```xml
-<ItemGroup>
-    <PackageReference Include="Appium.WebDriver" Version="4.1.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
-</ItemGroup>
-```
-
-```csharp
-private static AndroidDriver<AndroidElement> _driver;
-[ClassInitialize]
-public static void ClassInitialize(TestContext context)
-{
-    var appiumOptions = new AppiumOptions();
-    appiumOptions.AddAdditionalCapability("deviceName", "android");
-    appiumOptions.AddAdditionalCapability("appPackage", "io.appium.android.apis");
-    appiumOptions.AddAdditionalCapability("version", "6.0");
-    appiumOptions.AddAdditionalCapability("appActivity", ".ApiDemos");
-    appiumOptions.AddAdditionalCapability("app", "https://exampleFileshare.com/ApiDemos-debug.apk"); // upload ApiDemos-debug.apk from Resources folder to public file share.
-    appiumOptions.AddAdditionalCapability("enableVNC", true);
-    appiumOptions.AddAdditionalCapability("enableVideo", true);
-    var timeout = TimeSpan.FromSeconds(120);
-    // Change with your Selenoid hub instance URL.
-    _driver = new AndroidDriver<AndroidElement>(new Uri("http://127.0.0.1:4444/wd/hub"), appiumOptions, timeout);
-    _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(120);
-    _driver.Manage().Timeouts().AsynchronousJavaScript = TimeSpan.FromSeconds(120);
-}
-[TestCleanup]
-public void TestCleanup()
-{
-    _driver?.CloseApp();
-    _driver?.Quit();
-    _driver?.Dispose();
-}
-```
-
-```csharp
-[TestMethod]
-public void PerformActionsButtons()
-{
-    By byScrollLocator = new ByAndroidUIAutomator("new UiSelector().text("Views");");
-    var viewsButton = _driver.FindElement(byScrollLocator);
-    viewsButton.Click();
-    var controlsViewButton = _driver.FindElementByXPath("//*[@text='Controls']");
-    controlsViewButton.Click();
-    var lightThemeButton = _driver.FindElementByXPath("//*[@text='1. Light Theme']");
-    lightThemeButton.Click();
-    var saveButton = _driver.FindElementByXPath("//*[@text='Save']");
-    Assert.IsTrue(saveButton.Enabled);
-}
-```
-
-```csharp
-private static AndroidDriver<AndroidElement> _driver;
-[ClassInitialize]
-public static void ClassInitialize(TestContext context)
-{
-    var appiumOptions = new AppiumOptions();
-    appiumOptions.AddAdditionalCapability(MobileCapabilityType.BrowserName, "chrome");
-    appiumOptions.AddAdditionalCapability("version", "mobile-79.0");
-    appiumOptions.AddAdditionalCapability("enableVNC", true);
-    appiumOptions.AddAdditionalCapability("enableVideo", true);
-    appiumOptions.AddAdditionalCapability("desired-skin", "WSVGA");
-    appiumOptions.AddAdditionalCapability("desired-screen-resolution", "1024x600");
-    var timeout = TimeSpan.FromSeconds(120);
-    _driver = new AndroidDriver<AndroidElement>(new Uri("http://127.0.0.1:4444/wd/hub"), appiumOptions, timeout);
-    _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(120);
-    _driver.Manage().Timeouts().AsynchronousJavaScript = TimeSpan.FromSeconds(120);
-}
-[TestCleanup]
-public void TestCleanup()
-{
-    _driver?.Quit();
-    _driver?.Dispose();
-}
-```
-
-```csharp
-[TestMethod]
-public void GoToWebSite()
-{
-    _driver.Navigate().GoToUrl("https://www.bing.com/");
-    Console.WriteLine(_driver.PageSource);
-    Assert.IsTrue(_driver.PageSource.Contains("Bing"));
-}
-```
-
-## Execute Appium Tests in the Cloud – pCloudy
-
-````xml
-<ItemGroup>
-    <PackageReference Include="Appium.WebDriver" Version="4.1.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
-    ```csharp
-
-    `<PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
-</ItemGroup>
-````
-
-```csharp
-[TestClass]
-public class AppiumTests
-{
-    private static AndroidDriver<AndroidElement> _driver;
-    [ClassInitialize]
-    public static void ClassInitialize(TestContext context)
-    {
-        var appiumOptions = new AppiumOptions();
-        appiumOptions.AddAdditionalCapability("pCloudy_Username", "yourUserName");
-        appiumOptions.AddAdditionalCapability("pCloudy_ApiKey", "yourKey");
-        appiumOptions.AddAdditionalCapability("pCloudy_DurationInMinutes", 10);
-        appiumOptions.AddAdditionalCapability("newCommandTimeout", 600);
-        appiumOptions.AddAdditionalCapability("launchTimeout", 90000);
-        appiumOptions.AddAdditionalCapability("pCloudy_DeviceFullName", "SAMSUNG_GalaxyJ52016_Android_7.1.1_09c99");
-        appiumOptions.AddAdditionalCapability("platformVersion", "09c99");
-        appiumOptions.AddAdditionalCapability("platformName", "Android");
-        appiumOptions.AddAdditionalCapability("pCloudy_ApplicationName", "ApiDemos-debug.apk");
-        appiumOptions.AddAdditionalCapability("appPackage", "io.appium.android.apis");
-        appiumOptions.AddAdditionalCapability("appActivity", ".ApiDemos");
-        appiumOptions.AddAdditionalCapability("pCloudy_WildNet", "true");
-        var timeout = TimeSpan.FromSeconds(120);
-        _driver = new AndroidDriver<AndroidElement>(new Uri("https://device.pcloudy.com/appiumcloud/wd/hub"), appiumOptions, timeout);
-        _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(120);
-        _driver.Manage().Timeouts().AsynchronousJavaScript = TimeSpan.FromSeconds(120);
-    }
-    [TestCleanup]
-    public void TestCleanup()
-    {
-        _driver?.CloseApp();
-        _driver?.Quit();
-        _driver?.Dispose();
-    }
-    [TestMethod]
-    public void PerformActionsButtons()
-    {
-        By byScrollLocator = new ByAndroidUIAutomator("new UiSelector().text("Views");");
-        var viewsButton = _driver.FindElement(byScrollLocator);
-        viewsButton.Click();
-        var controlsViewButton = _driver.FindElementByXPath("//*[@text='Controls']");
-        controlsViewButton.Click();
-        var lightThemeButton = _driver.FindElementByXPath("//*[@text='1. Light Theme']");
-        lightThemeButton.Click();
-        var saveButton = _driver.FindElementByXPath("//*[@text='Save']");
-        Assert.IsTrue(saveButton.Enabled);
-    }
-}
-```
-
-## Most Complete Appium C# Cheat Sheet
-
-```csharp
-// NuGet: Appium.WebDriver
-_appiumLocalService = new AppiumServiceBuilder().UsingAnyFreePort().Build(); // Creates local Appium server instance
-_appiumLocalService.Start(); // Starts local Appium server instance
-var appiumOptions = new AppiumOptions();
-// Android capabilities
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.AutomationName, "UiAutomator2");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.DeviceName, "Android Virtual Device");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, "Android");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformVersion, "7.1");
-// iOS capabilities
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.AutomationName, "XCUITest");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.DeviceName, "iPhone 11");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, "iOS");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformVersion, "13.2");
-// Install and start an app on Android
-appiumOptions.AddAdditionalCapability(AndroidMobileCapabilityType.AppPackage, "com.example.android.apis");
-appiumOptions.AddAdditionalCapability(AndroidMobileCapabilityType.AppActivity, ".ApiDemos");
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.App, "path/to/TestApp.apk");
-// Install and start an app on iOS
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.App, "path/to/TestApp.app.zip");
-// Start mobile browser on Android
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.BrowserName, "Chrome");
-// Start mobile browser on iOS
-appiumOptions.AddAdditionalCapability(MobileCapabilityType.BrowserName, "safari");
-// Set WebView Context for Hybrid Apps
-((IContextAware)_driver).Context = ((IContextAware)_driver).Contexts.FirstOrDefault(c => c.Contains("WEBVIEW"));
-// Use local server instance
-_driver = new AndroidDriver<AndroidElement>(_appiumLocalService, appiumOptions); // initialize Android driver on local server instance
-_driver = new IOSDriver<IOSElement>(_appiumLocalService, appiumOptions); // initialize iOS driver on local server instance
-// Use remote Appium driver
-_driver = new AndroidDriver<AndroidElement>(new Uri("127.0.0.1:4723/wd/hub"), appiumOptions); // initialize Android remote driver
-_driver = new IOSDriver<IOSElement>(new Uri("127.0.0.1:4723/wd/hub"), appiumOptions); // initialize iOS remote driver
-```
-
-```csharp
-_driver.FindElementById("android:id/text1");
-_driver.FindElementByClassName("android.widget.CheckBox");
-_driver.FindElementByXPath("//*[@text='Views']");
-_driver.FindElementByAccessibilityId("Views");
-_driver.FindElementByImage(base64EncodedImageFile);
-_driver.FindElementByAndroidUIAutomator("new UiSelector().text("Views");");
-_driver.FindElementByIOSNsPredicate("type == 'XCUIElementBottn' AND name == 'ComputeSumButton'");
-// Find multiple elements
-_driver.FindElementsByClassName("android.widget.CheckBox");
-```
-
-```csharp
-// Alert handling
-_driver.SwitchTo().Alert().Accept()
-_driver.SwitchTo().Alert().Dismiss()
-// Basic actions;
-element.Click();
-element.SendKeys("textToType");
-element.Clear();
-// Change orientation
-var rotatable = (IRotatable)_driver;
-rotatable.Orientation = ScreenOrientation.Landscape; // Portrait
-// Clipboard
-_driver.SetClipboardText("1234", "plaintext");
-string clipboard = _driver.GetClipboardText();
-// Mobile gestures
-TouchAction touchAction = new TouchAction(_driver);
-touchAction.Tap(x, y, count);
-touchAction.Press(x, y);
-touchAction.Wait(200);
-touchAction.MoveTo(x, y);
-touchAction.Release();
-touchAction.LongPress(x, y);
-touchAction.Perform();
-// Simulate phone call (Emulator only)
-_driver.MakeGsmCall("5551237890", GsmCallActions.Accept);
-_driver.MakeGsmCall("5551237890", GsmCallActions.Call);
-_driver.MakeGsmCall("5551237890", GsmCallActions.Cancel);
-_driver.MakeGsmCall("5551237890", GsmCallActions.Hold);
-// Set GSM voice state (Emulator only)
-_driver.SetGsmVoice(GsmVoiceState.Denied);
-_driver.SetGsmVoice(GsmVoiceState.Home);
-_driver.SetGsmVoice(GsmVoiceState.Off);
-_driver.SetGsmVoice(GsmVoiceState.On);
-_driver.SetGsmVoice(GsmVoiceState.Roaming);
-_driver.SetGsmVoice(GsmVoiceState.Searching);
-_driver.SetGsmVoice(GsmVoiceState.Unregistered);
-// Set GSM signal strength (Emulator only)
-_driver.SetGsmSignalStrength(GsmSignalStrength.Good);
-_driver.SetGsmSignalStrength(GsmSignalStrength.Great);
-_driver.SetGsmSignalStrength(GsmSignalStrength.Moderate);
-_driver.SetGsmSignalStrength(GsmSignalStrength.NoneOrUnknown);
-_driver.SetGsmSignalStrength(GsmSignalStrength.Poor);
-// Simulate receiving SMS message (Emulator only)
-_driver.SendSms("555-555-5555", "Your code is 123456");
-// Toggle services
-_driver.ToggleAirplaneMode();
-_driver.ToggleData();
-_driver.ToggleLocationServices();
-_driver.ToggleWifi();
-// Soft keyboard actions
-_driver.IsKeyboardShown(); // returns bool
-_driver.HideKeyboard();
-// Lock device
-_driver.IsLocked(); // returns bool
-_driver.Lock();
-_driver.Unlock();
-// Notifications
-_driver.OpenNotifications();
-// Geolocation actions
-_driver.Location; // returns Location {Latitude, Longitude, Altitude}
-_driver.Location.Altitude = 94.23;
-_driver.Location.Latitude = 121.21;
-_driver.Location.Longitude = 11.56;
-// Get system time
-_driver.DeviceTime; // returns string
-// Get display density
-_driver.GetDisplayDensity(); // returns float
-// File actions
-_driver.PushFile("/data/local/tmp/file", new FileInfo("path/to/file"))
-_driver.PullFile("/path/to/device/file"); // returns byte[]
-_driver.PullFolder("/path/to/device"); // returns byte[]
-```
-
-```csharp
-// Multitouch action
-TouchAction actionOne = new TouchAction(_driver);
-actionOne.Press(10, 10);
-actionOne.MoveTo(10, 100);
-actionOne.Release();
-TouchAction actionTwo = new TouchAction(_driver);
-actionTwo.Press(20, 20);
-actionTwo.MoveTo(20, 200);
-actionTwo.Release();
-MultiAction action = new MultiAction(_driver);
-action.Add(actionOne);
-action.Add(actionTwo);
-action.Perform();
-// Swipe using touch action
-TouchAction touchAction = new TouchAction(_driver);
-var element = _driver.FindElementById("android:id/text1");
-Point point = element.Coordinates.LocationInDom;
-Size size = element.Size;
-touchAction
-.Press(point.X + 5, point.Y + 5).Wait(200)
-.MoveTo(point.X + size.Width - 5, point.Y + size.Height - 5)
-.Release().Perform()
-// Scroll using IJavaScriptExecutor
-var js = (IJavaScriptExecutor)_driver;
-var swipe = new Dictionary<string, string>();
-swipe.Add("direction", "down"); // "up", "right", "left"
-swipe.Add("element", element.Id);
-js.ExecuteScript("mobile:swipe", swipe);
-// Scroll element into veiw by Android UI automator
-_driver.FindElementByAndroidUIAutomator(
-"new UiScrollable(new UiSelector()).scrollIntoView(new UiSelector().text("Views"));");
-// Update Device Settings
-_driver.SetSetting("sample", "value");
-_driver.Settings // Dictionary<string, object> property
-```
-
-```csharp
-// Add photos
-driver.PushFile("/mnt/sdcard/Pictures/img.jpg", new FileInfo("path/to/img.jpg"))
-// Simulate hardware key
-_driver.PressKeyCode(new KeyEvent(AndroidKeyCode.Home));
-_driver.LongPressKeyCode(new KeyEvent(AndroidKeyCode.Keycode_POWER));
-// Get current battery percentage
-_driver.ExecuteScript("mobile: shell", "{"command": "dumpsys", "args": ["battery"]}").ToString();
-// Set battery percentage
-_driver.ExecuteScript("mobile: shell", "{"command": "dumpsys", "args": ["battery", "set", "level", "100"]}").ToString();
-// Reset battery percentage
-_driver.ExecuteScript("mobile: shell", "{"command": "dumpsys", "args": ["battery", "reset"]}").ToString();
-// Take screenshot
-_driver.GetScreenshot(); // returns Screenshot (base64 encoded PNG)
-// Screen record
-_driver.StartRecordingScreen(
-AndroidStartScreenRecordingOptions.GetAndroidStartScreenRecordingOptions()
-.WithTimeLimit(TimeSpan.FromSeconds(10))
-.WithBitRate(500000)
-.WithVideoSize("720x1280"));
-_driver.StopRecordingScreen();
-```
-
-```csharp
-// Add photos
-driver.PushFile("img.jpg", new FileInfo("path/to/img.jpg"))
-// Simulate hardware key
-var args = new Dictionary<string, string>();
-args.Add("name", "home"); // volumeup; volumedown
-_driver.ExecuteScript("mobile: pressButton", args);
-// Sending voice commands to Siri
-var args = new Dictionary<string, string>();
-args.Add("text", "Hey Siri, what's happening?");
-_driver.ExecuteScript("mobile: siriCommand", args);
-// Perform Touch ID in iOS Simulator
-_driver.PerformTouchID(false); // Simulates a failed touch ID
-_driver.PerformTouchID(true); // Simulates a passing touch ID
-// Shake device
-_driver.ShakeDevice();
-```
-
-```csharp
-// Install app
-_driver.InstallApp("path/to/app.apk");
-// Remove app
-_driver.RemoveApp("com.example.AppName");
-// Verify app is installed
-_driver.IsAppInstalled("com.example.android.apis"); // returns bool
-// Launch app
-_driver.LaunchApp();
-// Start activity
-_driver.StartActivity("com.example.android.apis", ".ApiDemos");
-// Start activity with intent
-_driver.StartActivityWithIntent("com.example.android.apis", ".ApiDemos", "intentAction");
-// Get current activity
-_driver.CurrentActivity; // string property
-// Get current package
-_driver.CurrentPackage; // string property
-// Reset app
-_driver.ResetApp();
-// Close app
-_driver.CloseApp();
-// Run current app in background
-_driver.BackgroundApp(10); // 10 seconds
-// Terminate app
-_driver.TerminateApp("com.example.android.apis"); // returns bool
-// Check app's current state
-_driver.GetAppState("com.example.android.apis"); // returns AppState
-// Get app strings
-_driver.GetAppStringDictionary("en", "/path/to/file"); // returns Dictionary<string, object>
-```
-
-```csharp
-// Install app
-var args = new Dictionary<string, string>();
-args.Add("app", "path/to/app.ipa");
-_driver.ExecuteScript("mobile: installApp", args);
-// Remove app
-var args = new Dictionary<string, string>();
-args.Add("bundleId", "com.myapp");
-_driver.ExecuteScript("mobile: removeApp", args);
-// Verify app is installed
-var args = new Dictionary<string, string>();
-args.Add("bundleId", "com.myapp");
-(bool)_driver.ExecuteScript("mobile: isAppInstalled", args);
-// Launch app
-var args = new Dictionary<string, string>();
-args.Add("bundleId", "com.apple.calculator");
-_driver.ExecuteScript("mobile: launchApp", args);
-// Switch app to foreground
-var args = new Dictionary<string, string>();
-args.Add("bundleId", "com.myapp");
-_driver.ExecuteScript("mobile: activateApp", args);
-// Terminate app
-var args = new Dictionary<string, string>();
-args.Add("bundleId", "com.myapp");
-// will return false if app is not running, otherwise true
-(bool)_driver.ExecuteScript("mobile: terminateApp", args);
-// Check app's current state
-var args = new Dictionary<string, string>();
-args.Add("bundleId", "com.myapp");
-(AppState)_driver.ExecuteScript("mobile: queryAppState", args);
-```
-
-## Most Complete Appium Java Cheat Sheet
-
-```java
-// Maven: io.appium.java_client
-appiumLocalService = new AppiumServiceBuilder().usingAnyFreePort().build(); // Creates local Appium server instance
-appiumLocalService.start(); // Starts local Appium server instance
-var desiredCapabilities = new DesiredCapabilities();
-// Android capabilities
-desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
-desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Virtual Device");
-desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "7.1");
-// iOS capabilities
-desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "XCUITest");
-desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 11");
-desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
-desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "13.2");
-// Install and start an app on Android
-desiredCapabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.example.android.apis");
-desiredCapabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".ApiDemos");
-desiredCapabilities.setCapability(MobileCapabilityType.APP, "path/to/TestApp.apk");
-// Install and start an app on iOS
-desiredCapabilities.setCapability(MobileCapabilityType.APP, "path/to/TestApp.app.zip");
-// Start mobile browser on Android
-desiredCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "Chrome");
-// Start mobile browser on iOS
-desiredCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "safari");
-// Set WebView Context for Hybrid Apps
-driver.context(driver.getContextHandles().stream().filter(c -> c.contains("WEBVIEW")).findFirst().orElse(null));
-// Use local server instance
-driver = new AndroidDriver<AndroidElement>(appiumLocalService, desiredCapabilities); // initialize Android driver on local server instance
-driver = new IOSDriver<IOSElement>(appiumLocalService, desiredCapabilities); // initialize iOS driver on local server instance
-// Use remote Appium driver
-driver = new AndroidDriver<AndroidElement>(new URL("http://127.0.0.1:4723/wd/hub"), desiredCapabilities); // initialize Android remote driver
-driver = new IOSDriver<IOSElement>(new URL("http://0.0.0.0:4723/wd/hub"), desiredCapabilities); // initialize iOS remote driver
-```
-
-```java
-driver.findElementById("android:id/text1");
-driver.findElementByClassName("android.widget.CheckBox");
-driver.findElementByXPath("//*[@text='Views']");
-driver.findElementByAccessibilityId("Views");
-driver.findElementByImage(base64EncodedImageFile);
-driver.findElementByAndroidUIAutomator("new UiSelector().text("Views");");
-driver.findElementByIosNsPredicate("type == 'XCUIElementBottn' AND name == 'ComputeSumButton'");
-// Find multiple elements
-driver.findElementsByClassName("android.widget.CheckBox");
-```
-
-```java
-// Alert handling
-driver.switchTo().alert().accept();
-driver.switchTo().alert().dismiss();
-// Basic actions;
-element.click();
-element.sendKeys("textToType");
-element.clear();
-// Change orientation
-driver.rotate(ScreenOrientation.LANDSCAPE); // PORTRAIT
-// Clipboard
-driver.setClipboardText("1234", "plaintext");
-String clipboard = driver.getClipboardText();
-// Mobile gestures
-TouchAction touchAction = new TouchAction(driver);
-touchAction.tap(TapOptions.tapOptions()
-.withPosition(PointOption.point(x, y)).withTapsCount(count));
-touchAction.press(PointOption.point(x, y));
-touchAction.waitAction(WaitOptions
-.waitOptions(Duration.ofMillis(200)));
-touchAction.moveTo(PointOption.point(x, y));
-touchAction.release();
-touchAction.longPress(PointOption.point(x, y));
-touchAction.perform();
-// Simulate phone call (Emulator only)
-driver.makeGsmCall("5551237890", GsmCallActions.ACCEPT);
-driver.makeGsmCall("5551237890", GsmCallActions.CALL);
-driver.makeGsmCall("5551237890", GsmCallActions.CALL);
-driver.makeGsmCall("5551237890", GsmCallActions.HOLD);
-// Set GSM voice state (Emulator only)
-driver.setGsmVoice(GsmVoiceState.DENIED);
-driver.setGsmVoice(GsmVoiceState.HOME);
-driver.setGsmVoice(GsmVoiceState.OFF);
-driver.setGsmVoice(GsmVoiceState.ON);
-driver.setGsmVoice(GsmVoiceState.ROAMING);
-driver.setGsmVoice(GsmVoiceState.SEARCHING);
-driver.setGsmVoice(GsmVoiceState.UNREGISTERED);
-// Set GSM signal strength (Emulator only)
-driver.setGsmSignalStrength(GsmSignalStrength.GOOD);
-driver.setGsmSignalStrength(GsmSignalStrength.GREAT);
-driver.setGsmSignalStrength(GsmSignalStrength.MODERATE);
-driver.setGsmSignalStrength(GsmSignalStrength.NONE_OR_UNKNOWN);
-driver.setGsmSignalStrength(GsmSignalStrength.POOR);
-// Set network speed (Emulator only)
-driver.setNetworkSpeed(NetworkSpeed.LTE);
-// Simulate receiving SMS message (Emulator only)
-driver.sendSMS("555-555-5555", "Your code is 123456");
-// Toggle services
-driver.toggleAirplaneMode();
-driver.toggleData();
-driver.toggleLocationServices();
-driver.toggleWifi();
-// Soft keyboard actions
-driver.isKeyboardShown(); // returns boolean
-driver.hideKeyboard();
-// Lock device
-driver.isDeviceLocked(); // returns boolean
-driver.lockDevice();
-driver.unlockDevice();
-// Notifications
-driver.openNotifications();
-// Geolocation actions
-driver.location(); // returns Location {Latitude, Longitude, Altitude}
-driver.setLocation(new Location(94.23, 121.21, 11.56));
-// Get system time
-driver.getDeviceTime(); // returns String
-// Get display density
-driver.getDisplayDensity(); // returns long
-// File actions
-driver.pushFile("/data/local/tmp/file", new File("path/to/file"));
-driver.pullFile("/path/to/device/file"); // returns byte[]
-driver.pullFolder("/path/to/device"); // returns byte[]
-```
-
-```java
-// Multitouch action
-TouchAction actionOne = new TouchAction(driver);
-actionOne.press(PointOption.point(10, 10));
-actionOne.moveTo(PointOption.point(10, 100));
-actionOne.release();
-TouchAction actionTwo = new TouchAction(driver);
-actionTwo.press(PointOption.point(20, 20));
-actionTwo.moveTo(PointOption.point(20, 200));
-actionTwo.release();
-MultiTouchAction action = new MultiTouchAction(driver);
-action.add(actionOne);
-action.add(actionTwo);
-action.perform();
-// Swipe using touch action
-TouchAction touchAction = new TouchAction(driver);
-var element = driver.findElementById("android:id/text1");
-Point point = element.getCoordinates().onPage();
-Dimension size = element.getSize();
-touchAction
-.press(PointOption.point(point.getX() + 5, point.getY() + 5))
-.waitAction(WaitOptions.waitOptions(Duration.ofMillis(200)))
-.moveTo(PointOption.point(point.getX() + size.getWidth() - 5, point.getY() + size.getHeight() - 5))
-.release().perform();
-// Scroll using JavascriptExecutor
-var js = (JavascriptExecutor)driver;
-Map<String, String> swipe = new HashMap<>();
-swipe.put("direction", "down"); // "up", "right", "left"
-swipe.put("element", element.getId());
-js.executeScript("mobile:swipe", swipe);
-// Scroll element into view by Android UI automator
-driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(new UiSelector().text("Views"));");
-// Update Device Settings
-driver.setSetting(Setting.KEYBOARD_AUTOCORRECTION, false);
-driver.getSettings(); // returns Map<String, Object>
-// Take screenshot
-((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE); // BYTES, BASE64 – returns File, byte[] or String (base64 encoded PNG)
-// Screen record
-driver.startRecordingScreen();
-driver.stopRecordingScreen();
-```
-
-```java
-// Add photos
-driver.pushFile("/mnt/sdcard/Pictures/img.jpg", new File("path/to/img.jpg"));
-// Simulate hardware key
-driver.pressKey(new KeyEvent().withKey(AndroidKey.HOME));
-driver.longPressKey(new KeyEvent().withKey(AndroidKey.POWER));
-// Set battery percentage
-driver.setPowerCapacity(100);
-// Set the state of the battery charger to connected or not
-driver.setPowerAC(PowerACState.ON);
-driver.setPowerAC(PowerACState.OFF);
-// Get performance data
-driver.getPerformanceData("my.app.package", "cpuinfo", 5); // returns List<List<Object>>
-```
-
-```java
-// Add photos
-driver.pushFile("img.jpg", new File("path/to/img.jpg"));
-// Simulate hardware key
-Map<String, Object> args = new HashMap<>();
-args.put("name", "home"); // volumeup; volumedown
-driver.executeScript("mobile: pressButton", args);
-// Sending voice commands to Siri
-Map<String, Object> args = new HashMap<>();
-args.put("text", "Hey Siri, what's happening?");
-driver.executeScript("mobile: siriCommand", args);
-// Perform Touch ID in iOS Simulator
-driver.performTouchID(false); // Simulates a failed touch ID
-driver.performTouchID(true); // Simulates a passing touch ID
-// Shake device
-driver.shake();
-```
-
-```java
-// Install app
-driver.installApp("path/to/app.apk");
-// Remove app
-driver.removeApp("com.example.AppName");
-// Verify app is installed
-driver.isAppInstalled("com.example.android.apis"); // returns boolean
-// Launch app
-driver.launchApp();
-// Start activity
-driver.startActivity(new Activity("com.example.android.apis", ".ApiDemos"));
-// Get current activity
-driver.currentActivity(); // returns String
-// Get current package
-driver.getCurrentPackage(); // returns String
-// Reset app
-driver.resetApp();
-// Close app
-driver.closeApp();
-// Run current app in background
-driver.runAppInBackground(Duration.ofSeconds(10)); // 10 seconds
-// Terminate app
-driver.terminateApp("com.example.android.apis"); // returns bool
-// Check app's current state
-driver.queryAppState("com.example.android.apis"); // returns ApplicationState
-// Get app strings
-driver.getAppStringMap("en", "path/to/file"); // returns Map<String, String>
-```
-
-```java
-// Install app
-Map<String, Object> args = new HashMap<>();
-args.put("app", "path/to/app.ipa");
-driver.executeScript("mobile: installApp", args);
-// Remove app
-Map<String, Object> args = new HashMap<>();
-args.put("bundleId", "com.myapp");
-driver.executeScript("mobile: removeApp", args);
-// Verify app is installed
-Map<String, Object> args = new HashMap<>();
-args.put("bundleId", "com.myapp");
-(boolean)driver.executeScript("mobile: isAppInstalled", args);
-// Launch app
-Map<String, Object> args = new HashMap<>();
-args.put("bundleId", "com.apple.calculator");
-driver.executeScript("mobile: launchApp", args);
-// Switch app to foreground
-Map<String, Object> args = new HashMap<>();
-args.put("bundleId", "com.myapp");
-driver.executeScript("mobile: activateApp", args);
-// Terminate app
-Map<String, Object> args = new HashMap<>();
-args.put("bundleId", "com.myapp");
-// will return false if app is not running, otherwise true
-(boolean)driver.executeScript("mobile: terminateApp", args);
-// Check app's current state
-Map<String, Object> args = new HashMap<>();
-args.put("bundleId", "com.myapp");
-// will return false if app is not running, otherwise true
-(ApplicationState)driver.executeScript("mobile: queryAppState", args);
-```
+# Enterprise Test Framework
 
 ## Enterprise Test Automation Framework: Plugin Architecture in MSTest
 
@@ -7743,1949 +10240,1174 @@ public class MSTestBaseTest
 }
 ```
 
-# Web Automation
+## Enterprise Test Automation Framework: Configuration Module Design
 
-## Selenium C# MSTest Test Automating Angular, React, VueJS and 20 More
-
-```csharp
-[TestMethod]
-public void VerifyTodoListCreatedSuccessfully_When_jQuery()
+```json
 {
-    _driver.Navigate().GoToUrl("https://todomvc.com/");
-    OpenTechnologyApp("jQuery");
-    AddNewToDoItem("Clean the car");
-    AddNewToDoItem("Clean the house");
-    AddNewToDoItem("Buy Ketchup");
-    GetItemCheckBox("Buy Ketchup").Click();
-    AssertLeftItems(2);
-}
-private void AssertLeftItems(int expectedCount)
-{
-    var resultSpan = WaitAndFindElement(By.XPath("//footer/*/span | //footer/span"));
-    if (expectedCount <= 0)
-    {
-        ValidateInnerTextIs(resultSpan, $"{expectedCount} item left");
-    }
-    else
-    {
-        ValidateInnerTextIs(resultSpan, $"{expectedCount} items left");
-    }
-}
-private void ValidateInnerTextIs(IWebElement resultSpan, string expectedText)
-{
-    _webDriverWait.Until(ExpectedConditions.TextToBePresentInElement(resultSpan, expectedText));
-}
-private IWebElement GetItemCheckBox(string todoItem)
-{
-    return WaitAndFindElement(By.XPath($"//label[text()='{todoItem}']/preceding-sibling::input");
-}
-private void AddNewToDoItem(string todoItem)
-{
-    var todoInput = WaitAndFindElement(By.XPath("//input[@placeholder='What needs to be done?']"));
-    todoInput.SendKeys(todoItem);
-    _actions.Click(todoInput).SendKeys(Keys.Enter).Perform();
-}
-private void OpenTechnologyApp(string name)
-{
-    var technologyLink = WaitAndFindElement(By.LinkText(name));
-    technologyLink.Click();
-}
-private IWebElement WaitAndFindElement(By locator)
-{
-    return _webDriverWait.Until(ExpectedConditions.ElementExists(locator));
+  "timeoutSettings": {
+    "waitForAjaxTimeout": 60,
+    "sleepInterval": 1,
+    "elementToBeVisibleTimeout": 60,
+    "elementToExistTimeout": 60,
+    "elementToNotExistTimeout": 60,
+    "elementToBeClickableTimeout": 60,
+    "elementNotToBeVisibleTimeout": 60,
+    "elementToHaveContentTimeout": 15
+  },
+  "videoRecordingSettings": {
+    "isEnabled": true,
+    "waitAfterFinishRecordingMilliseconds": 500,
+    "filePath": "ApplicationDataTroubleshootingVideos"
+  },
+  "screenshotsSettings": {
+    "isEnabled": true,
+    "filePath": "ApplicationDataTroubleshootingScreenshots"
+  },
+  "logging": {
+    "isEnabled": true,
+    "isConsoleLoggingEnabled": true,
+    "isDebugLoggingEnabled": true,
+    "isEventLoggingEnabled": false,
+    "isFileLoggingEnabled": true,
+    "outputTemplate": "[{Timestamp:HH:mm:ss}] {Message:lj}{NewLine}",
+    "addUrlToBddLogging": true
+  }
 }
 ```
 
 ```csharp
-[TestClass]
-public class TodoTests
-{
-    private const int WAIT_FOR_ELEMENT_TIMEOUT = 30;
-    private IWebDriver _driver;
-    private WebDriverWait _webDriverWait;
-    private Actions _actions;
-    [TestInitialize]
-    public void TestInit()
-    {
-        _driver = new ChromeDriver();
-        _driver.Manage().Window.Maximize();
-        _webDriverWait = new WebDriverWait(_driver, TimeSpan.FromSeconds(WAIT_FOR_ELEMENT_TIMEOUT));
-        _actions = new Actions(_driver);
-    }
-    [TestCleanup]
-    public void TestCleanup()
-    {
-        _driver.Quit();
-    }
-    [DataRow("Backbone.js")]
-    [DataRow("AngularJS")]
-    [DataRow("React")]
-    [DataRow("Vue.js")]
-    [DataRow("CanJS")]
-    [DataRow("Ember.js")]
-    [DataRow("KnockoutJS")]
-    [DataRow("Marionette.js")]
-    [DataRow("Polymer")]
-    [DataRow("Angular 2.0")]
-    [DataRow("Dart")]
-    [DataRow("Elm")]
-    [DataRow("Closure")]
-    [DataRow("Vanilla JS")]
-    [DataRow("jQuery")]
-    [DataRow("cujoJS")]
-    [DataRow("Spine")]
-    [DataRow("Dojo")]
-    [DataRow("Mithril")]
-    [DataRow("Kotlin + React")]
-    [DataRow("Firebase + AngularJS")]
-    [DataRow("Vanilla ES6")]
-    [DataTestMethod]
-    public void VerifyTodoListCreatedSuccessfully(string technology)
-    {
-        _driver.Navigate().GoToUrl("https://todomvc.com/");
-        OpenTechnologyApp(technology);
-        AddNewToDoItem("Clean the car");
-        AddNewToDoItem("Clean the house");
-        AddNewToDoItem("Buy Ketchup");
-        GetItemCheckBox("Buy Ketchup").Click();
-        AssertLeftItems(2);
-    }
-    // private methods
-}
+bool shouldTakeVideos = ConfigurationService.Instance.GetVideoSettings().IsEnabled;
 ```
 
-## Selenium C# xUnit Test Automating Angular, React, VueJS and 20 More
+```xml
+<ItemGroup>
+    <None Update="testFrameworkSettings.$(Configuration).json">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+<ItemGroup>
+```
 
 ```csharp
-[Fact]
-public void VerifyTodoListCreatedSuccessfully_When_jQuery()
+public sealed class ConfigurationService
 {
-    _driver.Navigate().GoToUrl("https://todomvc.com/");
-    OpenTechnologyApp("jQuery");
-    AddNewToDoItem("Clean the car");
-    AddNewToDoItem("Clean the house");
-    AddNewToDoItem("Buy Ketchup");
-    GetItemCheckBox("Buy Ketchup").Click();
-    AssertLeftItems(2);
-}
-private void AssertLeftItems(int expectedCount)
-{
-    var resultSpan = WaitAndFindElement(By.XPath("//footer/*/span | //footer/span"));
-    if (expectedCount <= 0)
+    private static ConfigurationService _instance;
+
+    public ConfigurationService()
     {
-        ValidateInnerTextIs(resultSpan, $"{expectedCount} item left");
+        Root = InitializeConfiguration();
     }
-    else
+
+    public static ConfigurationService Instance
     {
-        ValidateInnerTextIs(resultSpan, $"{expectedCount} items left");
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new ConfigurationService();
+            }
+
+            return _instance;
+        };
     }
-}
-private void ValidateInnerTextIs(IWebElement resultSpan, string expectedText)
-{
-    _webDriverWait.Until(ExpectedConditions.TextToBePresentInElement(resultSpan, expectedText));
-}
-private IWebElement GetItemCheckBox(string todoItem)
-{
-    return WaitAndFindElement(By.XPath($"//label[text()='{todoItem}']/preceding-sibling::input")
-    );
-}
-private void AddNewToDoItem(string todoItem)
-{
-    var todoInput = WaitAndFindElement(
-        By.XPath("//input[@placeholder='What needs to be done?']")
-    );
-    todoInput.SendKeys(todoItem);
-    _actions.Click(todoInput).SendKeys(Keys.Enter).Perform();
-}
-private void OpenTechnologyApp(string name)
-{
-    var technologyLink = WaitAndFindElement(By.LinkText(name));
-    technologyLink.Click();
-}
-private IWebElement WaitAndFindElement(By locator)
-{
-    return _webDriverWait.Until(ExpectedConditions.ElementExists(locator));
+
+    public IConfigurationRoot Root { get; }
+
+    private IConfigurationRoot InitializeConfiguration()
+    {
+        var builder = new ConfigurationBuilder();
+        if (string.IsNullOrEmpty(ExecutionContext.SettingsFileContent))
+        {
+            var executionDir = ExecutionDirectoryResolver.GetDriverExecutablePath();
+            var filesInExecutionDir = Directory.GetFiles(executionDir);
+            var settingsFile =
+                filesInExecutionDir.FirstOrDefault(x => x.Contains("testFrameworkSettings") && x.EndsWith(".json"));
+            if (settingsFile != null)
+            {
+                builder.AddJsonFile(settingsFile, optional: true, reloadOnChange: true);
+            }
+        }
+
+        else
+        {
+            builder.AddJsonStream(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(ExecutionContext.SettingsFileContent)));
+        }
+        builder.AddEnvironmentVariables();
+        return builder.Build();
+    }
 }
 ```
 
 ```csharp
-public class TodoTests : IDisposable
+public static class ConfigurationExtensions
 {
-    private const int WAIT_FOR_ELEMENT_TIMEOUT = 30;
-    private readonly IWebDriver _driver;
-    private readonly WebDriverWait _webDriverWait;
-    private readonly Actions _actions;
-    public TodoTests()
+    public static string NormalizeAppPath(this string appPath)
     {
-        _driver = new ChromeDriver();
-        _driver.Manage().Window.Maximize();
-        _webDriverWait = new WebDriverWait(_driver, TimeSpan.FromSeconds(WAIT_FOR_ELEMENT_TIMEOUT));
-        _actions = new Actions(_driver);
+        if (string.IsNullOrEmpty(appPath))
+        {
+            return appPath;
+        }
+        else if (appPath.StartsWith("AssemblyFolder", StringComparison.Ordinal))
+        {
+            var executionFolder = ExecutionDirectoryResolver.GetDriverExecutablePath();
+            appPath = appPath.Replace("AssemblyFolder", executionFolder);
+        }
+
+        return appPath;
     }
+}
+```
+
+```csharp
+public class VideoRecordingSettings
+{
+    public int WaitAfterFinishRecordingMilliseconds { get; set; } = 500;
+    public string FilePath { get; set; }
+    public bool IsEnabled { get; set; }
+}
+```
+
+```csharp
+namespace Bellatrix
+{
+    public static class ConfigurationServiceExtensions
+    {
+        public static VideoRecordingSettings GetVideoSettings(this ConfigurationService service)
+                => ConfigurationService.Instance
+                                        .Root
+                                        .GetSection("videoRecordingSettings")
+                                        .Get<VideoRecordingSettings>();
+    }
+}
+```
+
+```csharp
+bool shouldTakeVideos = ConfigurationService.Instance.GetVideoSettings().IsEnabled;
+```
+
+## Enterprise Test Automation Framework: Inversion of Control Containers
+
+```csharp
+public interface ILogger
+{
+    void CreateLogEntry(string errorMessage);
+}
+```
+
+```csharp
+public class FileLogger : ILogger
+{
+    public void CreateLogEntry(string errorMessage)
+    {
+        File.WriteAllText(@"C:exceptions.txt", errorMessage);
+    }
+}
+
+public class EmailLogger : ILogger
+{
+    public void CreateLogEntry(string errorMessage)
+    {
+        EmailFactory.SendEmail(errorMessage);
+    }
+}
+
+public class SmsLogger : ILogger
+{
+    public void CreateLogEntry(string errorMessage)
+    }
+SmsFactory.SendSms(errorMessage);
+    }
+}
+```
+
+```csharp
+public class CustomerOrder
+{
+    public void Create(OrderType orderType)
+    {
+        try
+        {
+
+            // Database code goes here
+        }
+        catch (Exception ex)
+        {
+            switch (orderType)
+            {
+                case OrderType.Platinum:
+                    new SmsLogger().CreateLogEntry(ex.Message);
+                    break;
+                case OrderType.Gold:
+                    new EmailLogger().CreateLogEntry(ex.Message);
+                    break;
+                default:
+                    new FileLogger().CreateLogEntry(ex.Message);
+                    break;
+            }
+        }
+    }
+}
+```
+
+```csharp
+public class CustomerOrder
+{
+    private ILogger _logger;
+    public CustomerOrder(ILogger logger)
+    {
+        _logger = logger;
+    }
+
+    public void Create()
+    {
+        try
+        {
+            // Database code goes here
+        }
+        catch (Exception ex)
+        {
+            _logger.CreateLogEntry(ex.Message);
+        }
+    }
+}
+
+public class GoldCustomerOrder : CustomerOrder
+{
+    public GoldCustomerOrder() : base(new EmailLogger()) { }
+}
+
+public class PlatinumCustomerOrder : CustomerOrder
+{
+    public PlatinumCustomerOrder() : base(new SmsLogger()) { }
+}
+```
+
+```csharp
+public interface IServicesResolvingCollection
+{
+    T Resolve<T>(bool shouldThrowResolveException = false);
+    T Resolve<T>(string name, bool shouldThrowResolveException = false);
+    object Resolve(Type type, bool shouldThrowResolveException = false);
+    T Resolve<T>(bool shouldThrowResolveException = false,
+        params OverrideParameter[] overrides);
+    IEnumerable<T> ResolveAll<T>(bool shouldThrowResolveException = false);
+    IEnumerable<T> ResolveAll<T>(bool shouldThrowResolveException = false,
+        params OverrideParameter[] overrides);
+}
+```
+
+```csharp
+public interface IServicesRegisteringCollection
+{
+    bool IsRegistered<TInstance>();
+    void RegisterType<TFrom>();
+    void RegisterSingleInstance<TFrom, TTo>(InjectionConstructor injectionConstructor)
+                                where TTo : TFrom;
+    void RegisterSingleInstance<TFrom>(Type instanceType, InjectionConstructor injectionConstructor);
+    void UnregisterSingleInstance<TFrom>();
+    void UnregisterSingleInstance<TFrom>(string name);
+    void RegisterType<TFrom, TTo>(string name, InjectionConstructor injectionConstructor)
+                     where TTo : TFrom;
+    void RegisterNull<TFrom>();
+    void RegisterType<TFrom>(bool shouldUseSingleton);
+    void RegisterType<TFrom, TTo>()
+                    where TTo : TFrom;
+    void RegisterType<TFrom, TTo>(string name)
+                    where TTo : TFrom;
+    void RegisterType<TFrom, TTo>(bool shouldUseSingleton)
+                    where TTo : TFrom;
+    void RegisterInstance<TFrom>(TFrom instance, bool shouldUseSingleton = false);
+    void RegisterInstance<TFrom>(TFrom instance, string name);
+    object CreateInjectionParameter<TInstance>();
+    object CreateValueParameter(object value);
+}
+```
+
+```csharp
+public interface IServicesCollection : IServicesRegisteringCollection,
+                 IServicesResolvingCollection, IDisposable
+{
+    List<IServicesCollection> GetChildServicesCollections();
+    IServicesCollection CreateChildServicesCollection(string collectionName);
+    IServicesCollection FindCollection(string collectionName);
+    bool IsPresentServicesCollection(string collectionName);
+}
+```
+
+```csharp
+public class UnityServicesCollection : IServicesCollection
+{
+    private readonly IUnityContainer _container;
+    private readonly Dictionary<string, IServicesCollection> _containers;
+    private readonly object _lockObject = new object();
+    private bool _isDisposed;
+
+    public UnityServicesCollection()
+    {
+        _containers = new Dictionary<string, IServicesCollection>();
+    }
+
+    public UnityServicesCollection(IUnityContainer container)
+    {
+        _container = container;
+        _containers = new Dictionary<string, IServicesCollection>();
+    }
+
+    public T Resolve<T>(bool shouldThrowResolveException = false)
+    {
+        T result = default;
+        try
+        {
+            lock (_lockObject)
+            {
+                result = _container.Resolve<T>();
+            }
+        }
+        catch (Exception ex)
+        {
+            if (shouldThrowResolveException)
+            {
+                throw;
+            }
+        }
+
+        return result;
+    }
+
+    public IEnumerable<T> ResolveAll<T>(bool shouldThrowResolveException = false)
+    {
+        IEnumerable<T> result;
+        try
+        {
+            lock (_lockObject)
+            {
+                result = _container.ResolveAll<T>();
+            }
+        }
+        catch (Exception ex)
+        {
+            if (ex.InnerException != null && shouldThrowResolveException)
+            {
+                throw ex.InnerException;
+            }
+
+            throw;
+        }
+
+        return result;
+    }
+
+    public void RegisterType<TFrom, TTo>()
+                            where TTo : TFrom
+    {
+        lock (_lockObject)
+        {
+            _container.RegisterType<TFrom, TTo>();
+        }
+    }
+
+    public void RegisterType<TFrom, TTo>(bool useSingleInstance)
+                             where TTo : TFrom
+    {
+        lock (_lockObject)
+        {
+            _container.RegisterType<TFrom, TTo>(
+                new ContainerControlledLifetimeManager()
+            );
+        }
+    }
+
+    public void RegisterInstance<TFrom>(TFrom instance, bool useSingleInstance = false)
+    {
+        if (useSingleInstance)
+        {
+            lock (_lockObject)
+            {
+                _container.RegisterInstance(instance,
+                new ContainerControlledLifetimeManager()
+                );
+            }
+        }
+        else
+        {
+            lock (_lockObject)
+            {
+                _container.RegisterInstance(instance);
+            }
+        }
+    }
+
+    public IServicesCollection CreateChildServicesCollection(string collectionName)
+    {
+        lock (_lockObject)
+        {
+            var childNativeContainer = _container.CreateChildContainer();
+            var childServicesCollection =
+                    new UnityServicesCollection(childNativeContainer);
+            if (_containers.ContainsKey(collectionName))
+            {
+                _containers[collectionName] = childServicesCollection;
+            }
+            else
+            {
+                _containers.Add(collectionName, childServicesCollection);
+            }
+
+            return childServicesCollection;
+        }
+    }
+
     public void Dispose()
     {
-        _driver.Quit();
-        GC.SuppressFinalize(this);
-    }
-    [Theory]
-    [InlineData("Backbone.js")]
-    [InlineData("AngularJS")]
-    [InlineData("React")]
-    [InlineData("Vue.js")]
-    [InlineData("CanJS")]
-    [InlineData("Ember.js")]
-    [InlineData("KnockoutJS")]
-    [InlineData("Marionette.js")]
-    [InlineData("Polymer")]
-    [InlineData("Angular 2.0")]
-    [InlineData("Dart")]
-    [InlineData("Elm")]
-    [InlineData("Closure")]
-    [InlineData("Vanilla JS")]
-    [InlineData("jQuery")]
-    [InlineData("cujoJS")]
-    [InlineData("Spine")]
-    [InlineData("Dojo")]
-    [InlineData("Mithril")]
-    [InlineData("Kotlin + React")]
-    [InlineData("Firebase + AngularJS")]
-    [InlineData("Vanilla ES6")]
-    public void VerifyTodoListCreatedSuccessfully(string technology)
-    {
-        _driver.Navigate().GoToUrl("https://todomvc.com/");
-        OpenTechnologyApp(technology);
-        AddNewToDoItem("Clean the car");
-        AddNewToDoItem("Clean the house");
-        AddNewToDoItem("Buy Ketchup");
-        GetItemCheckBox("Buy Ketchup").Click();
-        AssertLeftItems(2);
-    }
-    // private methods
-}
-```
-
-## Selenium C# NUnit Test Automating Angular, React, VueJS and 20 More
-
-```csharp
-[Test]
-public void VerifyTodoListCreatedSuccessfully_When_jQuery()
-{
-    _driver.Navigate().GoToUrl("https://todomvc.com/");
-    OpenTechnologyApp("jQuery");
-    AddNewToDoItem("Clean the car");
-    AddNewToDoItem("Clean the house");
-    AddNewToDoItem("Buy Ketchup");
-    GetItemCheckBox("Buy Ketchup").Click();
-    AssertLeftItems(2);
-}
-private void AssertLeftItems(int expectedCount)
-{
-    var resultSpan = WaitAndFindElement(By.XPath("//footer/*/span | //footer/span"));
-    if (expectedCount <= 0)
-    {
-        ValidateInnerTextIs(resultSpan, $"{expectedCount} item left");
-    }
-    else
-    {
-        ValidateInnerTextIs(resultSpan, $"{expectedCount} items left");
-    }
-}
-private void ValidateInnerTextIs(IWebElement resultSpan, string expectedText)
-{
-    _webDriverWait.Until(ExpectedConditions.TextToBePresentInElement(resultSpan, expectedText));
-}
-private IWebElement GetItemCheckBox(string todoItem)
-{
-    return WaitAndFindElement(
-        By.XPath($"//label[text()='{todoItem}']/preceding-sibling::input")
-    );
-}
-private void AddNewToDoItem(string todoItem)
-{
-    var todoInput = WaitAndFindElement(
-        By.XPath("//input[@placeholder='What needs to be done?']")
-    );
-    todoInput.SendKeys(todoItem);
-    _actions.Click(todoInput).SendKeys(Keys.Enter).Perform();
-}
-private void OpenTechnologyApp(string name)
-{
-    var technologyLink = WaitAndFindElement(By.LinkText(name));
-    technologyLink.Click();
-}
-private IWebElement WaitAndFindElement(By locator)
-{
-    return _webDriverWait.Until(ExpectedConditions.ElementExists(locator));
-}
-```
-
-```csharp
-[TestFixture]
-public class TodoTests
-{
-    private const int WAIT_FOR_ELEMENT_TIMEOUT = 30;
-    private IWebDriver _driver;
-    private WebDriverWait _webDriverWait;
-    private Actions _actions;
-    [SetUp]
-    public void TestInit()
-    {
-        _driver = new ChromeDriver();
-        _driver.Manage().Window.Maximize();
-        _webDriverWait = new WebDriverWait(_driver, TimeSpan.FromSeconds(WAIT_FOR_ELEMENT_TIMEOUT));
-        _actions = new Actions(_driver);
-    }
-    [TearDown]
-    public void TestCleanup()
-    {
-        _driver.Quit();
-    }
-    [TestCase("Backbone.js")]
-    [TestCase("AngularJS")]
-    [TestCase("React")]
-    [TestCase("Vue.js")]
-    [TestCase("CanJS")]
-    [TestCase("Ember.js")]
-    [TestCase("KnockoutJS")]
-    [TestCase("Marionette.js")]
-    [TestCase("Polymer")]
-    [TestCase("Angular 2.0")]
-    [TestCase("Dart")]
-    [TestCase("Elm")]
-    [TestCase("Closure")]
-    [TestCase("Vanilla JS")]
-    [TestCase("jQuery")]
-    [TestCase("cujoJS")]
-    [TestCase("Spine")]
-    [TestCase("Dojo")]
-    [TestCase("Mithril")]
-    [TestCase("Kotlin + React")]
-    [TestCase("Firebase + AngularJS")]
-    [TestCase("Vanilla ES6")]
-    public void VerifyTodoListCreatedSuccessfully(string technology)
-    {
-        _driver.Navigate().GoToUrl("https://todomvc.com/");
-        OpenTechnologyApp(technology);
-        AddNewToDoItem("Clean the car");
-        AddNewToDoItem("Clean the house");
-        AddNewToDoItem("Buy Ketchup");
-        GetItemCheckBox("Buy Ketchup").Click();
-        AssertLeftItems(2);
-    }
-    // private methods
-}
-
-```
-
-## Headless Execution of WebDriver Tests- Edge Browser
-
-```csharp
-private void PerformTestOperations(IWebDriver driver)
-{
-    string testPagePath =
-        "http://htmlpreview.github.io/?https://github.com/angelovstanton/AutomateThePlanet/blob/master/WebDriver-Series/TestPage.html";
-    driver.Navigate().GoToUrl(testPagePath);
-    driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(10);
-    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-    var textBoxes = driver.FindElements(By.Name("fname"));
-    foreach (var textBox in textBoxes)
-    {
-        textBox.SendKeys(Guid.NewGuid().ToString());
-    }
-    var selects = driver.FindElements(By.TagName("select"));
-    foreach (var select in selects)
-    {
-        var selectElement = new SelectElement(select);
-        selectElement.SelectByText("Mercedes");
-    }
-    var submits = driver.FindElements(By.XPath("//input[@type='submit']"));
-    foreach (var submit in submits)
-    {
-        submit.Click();
-    }
-    var colors = driver.FindElements(By.XPath("//input[@type='color']"));
-    foreach (var color in colors)
-    {
-        SetValueAttribute(driver, color, "#000000");
-    }
-    var dates = driver.FindElements(By.XPath("//input[@type='date']"));
-    foreach (var date in dates)
-    {
-        SetValueAttribute(driver, date, "2020-06-01");
-    }
-    var radioButtons = driver.FindElements(By.XPath("//input[@type='radio']"));
-    foreach (var radio in radioButtons)
-    {
-        radio.Click();
-    }
-}
-private void SetValueAttribute(IWebDriver driver, IWebElement element, string value)
-{
-    SetAttribute(driver, element, "value", value);
-}
-private void SetAttribute(
-    IWebDriver driver,
-    IWebElement element,
-    string attributeName,
-    string attributeValue
-)
-{
-    driver.ExecuteJavaScript(
-        "arguments[0].setAttribute(arguments[1], arguments[2]);",
-        element,
-        attributeName,
-        attributeValue
-    );
-}
-```
-
-```csharp
-private void PerformTestOperations(IWebDriver driver)
-{
-    string testPagePath =
-        "http://htmlpreview.github.io/?https://github.com/angelovstanton/AutomateThePlanet/blob/master/WebDriver-Series/TestPage.html";
-    driver.Navigate().GoToUrl(testPagePath);
-    driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(10);
-    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-    var textBoxes = driver.FindElements(By.Name("fname"));
-    foreach (var textBox in textBoxes)
-    {
-        textBox.SendKeys(Guid.NewGuid().ToString());
-    }
-    var selects = driver.FindElements(By.TagName("select"));
-    foreach (var select in selects)
-    {
-        var selectElement = new SelectElement(select);
-        selectElement.SelectByText("Mercedes");
-    }
-    var submits = driver.FindElements(By.XPath("//input[@type='submit']"));
-    foreach (var submit in submits)
-    {
-        submit.Click();
-    }
-    var colors = driver.FindElements(By.XPath("//input[@type='color']"));
-    foreach (var color in colors)
-    {
-        SetValueAttribute(driver, color, "#000000");
-    }
-    var dates = driver.FindElements(By.XPath("//input[@type='date']"));
-    foreach (var date in dates)
-    {
-        SetValueAttribute(driver, date, "2020-06-01");
-    }
-    var radioButtons = driver.FindElements(By.XPath("//input[@type='radio']"));
-    foreach (var radio in radioButtons)
-    {
-        radio.Click();
-    }
-}
-private void SetValueAttribute(IWebDriver driver, IWebElement element, string value)
-{
-    SetAttribute(driver, element, "value", value);
-}
-private void SetAttribute(
-    IWebDriver driver,
-    IWebElement element,
-    string attributeName,
-    string attributeValue
-)
-{
-    driver.ExecuteJavaScript(
-        "arguments[0].setAttribute(arguments[1], arguments[2]);",
-        element,
-        attributeName,
-        attributeValue
-    );
-}
-```
-
-```csharp
-private void Profile(string testResultsFileName, int iterations, Action actionToProfile)
-{
-    var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-    var resultsPath = Path.Combine(
-        desktopPath,
-        "BenchmarkTestResults",
-        string.Concat(testResultsFileName, "_", Guid.NewGuid().ToString(), ".txt")
-    );
-    var writer = new StreamWriter(resultsPath);
-    GC.Collect();
-    GC.WaitForPendingFinalizers();
-    GC.Collect();
-    var watch = new Stopwatch();
-    watch.Start();
-    for (var i = 0; i < iterations; i++)
-    {
-        actionToProfile();
-    }
-    watch.Stop();
-    writer.WriteLine(
-        "Total: {0:0.00} ms ({1:N0} ticks) (over {2:N0} iterations)",
-        watch.ElapsedMilliseconds,
-        watch.ElapsedTicks,
-        iterations
-    );
-    var avgElapsedMillisecondsPerRun = watch.ElapsedMilliseconds / iterations;
-    var avgElapsedTicksPerRun = watch.ElapsedMilliseconds / iterations;
-    writer.WriteLine(
-        "AVG: {0:0.00} ms ({1:N0} ticks) (over {2:N0} iterations)",
-        avgElapsedMillisecondsPerRun,
-        avgElapsedTicksPerRun,
-        iterations
-    );
-    writer.Flush();
-    writer.Close();
-}
-```
-
-```csharp
-[Test]
-public void TestChromeExecutionTime()
-{
-    Profile(
-        "TestChromeExecutionTime",
-        10,
-        () =>
+        if (!_isDisposed)
         {
-            using (IWebDriver driver = new ChromeDriver())
-            {
-                PerformTestOperations(driver);
-            }
+            _container.Dispose();
+            GC.SuppressFinalize(this);
+            _isDisposed = true;
         }
-    );
-}
-[Test]
-public void TestFirefoxExecutionTime()
-{
-    Profile(
-        "TestFirefoxExecutionTime",
-        10,
-        () =>
-        {
-            using (IWebDriver driver = new FirefoxDriver())
-            {
-                PerformTestOperations(driver);
-            }
-        }
-    );
-}
-[Test]
-public void TestEdgeHeadlessExecutionTime()
-{
-    Profile(
-        "TestEdgeHeadlessExecutionTime",
-        10,
-        () =>
-        {
-            var edgeDriverService =
-                Microsoft.Edge.SeleniumTools.EdgeDriverService.CreateChromiumService();
-            var edgeOptions = new Microsoft.Edge.SeleniumTools.EdgeOptions();
-            edgeOptions.PageLoadStrategy = PageLoadStrategy.Normal;
-            edgeOptions.UseChromium = true;
-            edgeOptions.AddArguments("--headless");
-            using (
-                IWebDriver driver = new Microsoft.Edge.SeleniumTools.EdgeDriver(
-                    edgeDriverService,
-                    edgeOptions
-                )
-            )
-            {
-                PerformTestOperations(driver);
-            }
-        }
-    );
-}
-[Test]
-public void TestEdgeExecutionTime()
-{
-    Profile(
-        "TestEdgeExecutionTime",
-        10,
-        () =>
-        {
-            var edgeDriverService =
-                Microsoft.Edge.SeleniumTools.EdgeDriverService.CreateChromiumService();
-            var edgeOptions = new Microsoft.Edge.SeleniumTools.EdgeOptions();
-            edgeOptions.PageLoadStrategy = PageLoadStrategy.Normal;
-            edgeOptions.UseChromium = true;
-            using (
-                IWebDriver driver = new Microsoft.Edge.SeleniumTools.EdgeDriver(
-                    edgeDriverService,
-                    edgeOptions
-                )
-            )
-            {
-                PerformTestOperations(driver);
-            }
-        }
-    );
-}
-[Test]
-public void TestChromeHeadlessExecutionTime()
-{
-    Profile(
-        "TestChromeHeadlessExecutionTime",
-        10,
-        () =>
-        {
-            var options = new ChromeOptions();
-            options.AddArguments("headless");
-            using (IWebDriver driver = new ChromeDriver(options))
-            {
-                PerformTestOperations(driver);
-            }
-        }
-    );
-}
-[Test]
-public void TestFirefoxHeadlessExecutionTime()
-{
-    Profile(
-        "TestFirefoxHeadlessExecutionTime",
-        10,
-        () =>
-        {
-            var options = new FirefoxOptions();
-            options.AddArguments("--headless");
-            using (IWebDriver driver = new FirefoxDriver(options))
-            {
-                PerformTestOperations(driver);
-            }
-        }
-    );
-}
-```
-
-## Most Complete Selenium WebDriver 4.0 Overview
-
-```csharp
-var edgeDriverService = Microsoft.Edge.SeleniumTools.EdgeDriverService.CreateChromiumService();
-var edgeOptions = new Microsoft.Edge.SeleniumTools.EdgeOptions();
-edgeOptions.PageLoadStrategy = PageLoadStrategy.Normal;
-edgeOptions.UseChromium = true;
-wrappedWebDriver = new Microsoft.Edge.SeleniumTools.EdgeDriver(edgeDriverService, edgeOptions);
-```
-
-```csharp
-var options = new ChromeOptions();
-options.AddArguments("headless");
-using (IWebDriver driver = new ChromeDriver(options))
-{
-    // the rest of your test
-}
-var options = new FirefoxOptions();
-options.AddArguments("--headless");
-using (IWebDriver driver = new FirefoxDriver(options))
-{
-    // the rest of your test
-}
-```
-
-```csharp
-IWebElement imageTitle = _driver.FindElement(By.XPath("//h2[text()='Falcon 9']"));
-IWebElement falconSalesButton = _driver.FindElement(RelativeBy.WithTagName("span").Below(imageTitle));
-falconSalesButton.Click();
-```
-
-```csharp
-ChromeDriver _driver = new ChromeDriver();
-var session = _driver.CreateDevToolsSession();
-```
-
-```csharp
-var blockedUrlSettings = new SetBlockedURLsCommandSettings();
-blockedUrlSettings.Urls = new string[] { "http://demos.bellatrix.solutions/wp-content/uploads/2018/04/440px-Launch_Vehicle__Verticalization__Proton-M-324x324.jpg" };
-devToolssession.Network.SetBlockedURLs(blockedUrlSettings);
-```
-
-```csharp
-var setExtraHTTPHeadersCommandSettings = new SetExtraHTTPHeadersCommandSettings();
-setExtraHTTPHeadersCommandSettings.Headers.Add("Accept-Encoding", "gzip, deflate");
-devToolssession.Network.SetExtraHTTPHeaders(setExtraHTTPHeadersCommandSettings);
-```
-
-```csharp
-EventHandler<RequestInterceptedEventArgs> requestIntercepted = (sender, e) =>
-{
-    Assert.IsTrue(e.Request.Url.EndsWith("jpg"));
-};
-RequestPattern requestPattern = new RequestPattern();
-requestPattern.InterceptionStage = InterceptionStage.HeadersReceived;
-requestPattern.ResourceType = ResourceType.Image;
-requestPattern.UrlPattern = "*.jpg";
-var setRequestInterceptionCommandSettings = new SetRequestInterceptionCommandSettings();
-setRequestInterceptionCommandSettings.Patterns = new RequestPattern[] { requestPattern };
-devToolssession.Network.SetRequestInterception(setRequestInterceptionCommandSettings);
-devToolssession.Network.RequestIntercepted += requestIntercepted;
-```
-
-```csharp
-EventHandler<MessageAddedEventArgs> messageAdded = (sender, e) =>
-{
-    Assert.AreEqual("BELLATRIX is cool", e.Message);
-};
-devToolssession.Console.Enable();
-devToolssession.Console.ClearMessages();
-devToolssession.Console.MessageAdded += messageAdded;
-_driver.ExecuteScript("console.log('BELLATRIX is cool');");
-```
-
-```csharp
-var setIgnoreCertificateErrorsCommandSettings = new SetIgnoreCertificateErrorsCommandSettings();
-setIgnoreCertificateErrorsCommandSettings.Ignore = true;
-devToolssession.Security.SetIgnoreCertificateErrors(setIgnoreCertificateErrorsCommandSettings);
-```
-
-```csharp
-var setCacheDisabledCommandSettings = new SetCacheDisabledCommandSettings();
-setCacheDisabledCommandSettings.CacheDisabled = true;
-devToolssession.Network.SetCacheDisabled(setCacheDisabledCommandSettings);
-devToolssession.Network.ClearBrowserCache();
-
-```
-
-```csharp
-var emulationSettings = new EmulateNetworkConditionsCommandSettings();
-emulationSettings.ConnectionType = ConnectionType.Cellular3g;
-emulationSettings.DownloadThroughput = 20;
-emulationSettings.Latency = 1.2;
-emulationSettings.UploadThroughput = 50;
-devToolssession.Network.EmulateNetworkConditions(emulationSettings);
-```
-
-```csharp
-var metrics = devToolssession.Performance.GetMetrics();
-foreach (var metric in metrics.Result.Metrics)
-{
-    Console.WriteLine($"{metric.Name} = {metric.Value}");
-}
-```
-
-```csharp
-var setUserAgentOverrideCommandSettings = new SetUserAgentOverrideCommandSettings();
-setUserAgentOverrideCommandSettings.UserAgent = "Mozilla/5.0 CK={} (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";
-devToolssession.Network.SetUserAgentOverride(setUserAgentOverrideCommandSettings);
-```
-
-```csharp
-_driver.SwitchTo().NewWindow(WindowType.Tab);
-_driver.SwitchTo().NewWindow(WindowType.Window);
-_driver.SwitchTo().ParentFrame();
-```
-
-## Execute Tests in Docker Containers Using Selenoid
-
-```csharp
-[TestClass]
-[Selenoid(BrowserType.Chrome, "77",
-BrowserBehavior.RestartEveryTime, recordVideo: true)]
-public class SeleniumGridTests : WebTest
-{
-    [TestMethod]
-    public void PromotionsPageOpened_When_PromotionsButtonClicked()
-    {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-        var promotionsLink = App.ElementCreateService.CreateByLinkText<Anchor>("Promotions");
-        promotionsLink.Click();
     }
-    [TestMethod]
-    [Selenoid(BrowserType.Chrome, "76", BrowserBehavior.RestartEveryTime, recordVideo: true)]
-    public void BlogPageOpened_When_PromotionsButtonClicked()
+
+    public IServicesCollection FindCollection(string collectionName)
     {
-        App.NavigationService.Navigate("http://demos.bellatrix.solutions/");
-        var blogLink = App.ElementCreateService.CreateByLinkText<Anchor>("Blog");
-        blogLink.Click();
+        lock (_lockObject)
+        {
+            if (_containers.ContainsKey(collectionName))
+            {
+                return _containers[collectionName];
+            }
+
+            return this;
+        }
     }
+
+    public bool IsPresentServicesCollection(string collectionName)
+    {
+        lock (_lockObject)
+        {
+            if (_containers.ContainsKey(collectionName))
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    // the rest of the methods
+}
+```
+
+```csharp
+public sealed class ServicesCollection
+{
+    private static IServicesCollection _serviceProvider;
+
+    public static IServicesCollection Main
+    {
+        get
+        {
+            if (_serviceProvider == null)
+            {
+                var unityContainer = new UnityContainer();
+                _serviceProvider = new
+                    UnityServicesCollection(unityContainer);
+                _serviceProvider.RegisterInstance(unityContainer);
+            }
+
+            return _serviceProvider;
+        }
+    }
+}
+
+```
+
+```csharp
+public static void Dispose(IServicesCollection childContainer)
+{
+    var webDriver = childContainer.
+        Resolve<WindowsDriver<WindowsElement>>();
+    webDriver?.Quit();
+    webDriver?.Dispose();
+    childContainer
+        .UnregisterSingleInstance<WindowsDriver<WindowsElement>>();
+    webDriver = ServicesCollection.Main
+        .Resolve<WindowsDriver<WindowsElement>>();
+    webDriver?.Quit();
+    webDriver?.Dispose();
+    ServicesCollection.Main
+        .UnregisterSingleInstance<WindowsDriver<WindowsElement>>();
+}
+```
+
+# Testing practices
+
+## Be More Efficient with AutoHotkey Scripts
+
+```bash
+^!d::
+Send  https://automatetheplanet.com/
+RETURN
+```
+
+````csharp
+
+^!c::
+Send  4111111111111111{ TAB}
+123{ TAB}
+{ TAB}```csharp
+
+````
+
+{ DOWN}
+{ DOWN}
+{ DOWN}
+{ TAB}
+{ DOWN}
+{ DOWN}
+{ DOWN}
+{ TAB}
+{ Enter}
+
+````
+
+```csharp
+^!-::
+Send----------------------------------------------
+RETURN
+````
+
+```csharp
+^SPACE::Winset, Alwaysontop, , A
+
+```
+
+```csharp
+^!1::Send USE yourDB;
+{ Enter}
+{ Enter}
+
+```
+
+```csharp
+!2::Send SELECT * { Enter}
+FROM dbo.YourTable WITH(NOLOCK) { Enter}
+WHERE YourTableId =
+
+```
+
+```csharp
+^!v::
+Send  MY - COUPON - DISCOUNT{ Enter}
+return
+```
+
+```csharp
+^!e::
+FormatTime, TimeString,, dd-MMM-yyyy-HH-mm-ss
+clipboard=anton-%TimeString%@angelov.com
+Send %clipboard%
+return
+```
+
+```csharp
+^!t::
+FormatTime, TimeString,, dd-MMM-yyyy HH:mm: ss
+clipboard =% TimeString %
+Send % clipboard %
+return
+```
+
+```csharp
+!UP::
+SoundSet + 10
+return
+```
+
+```csharp
+!DOWN::
+SoundSet - 10
+return
+```
+
+# Automation Tools
+
+## Software Management Automation in Automated Testing
+
+```xml
+<PackageReference Include="Microsoft.PowerShell.Commands.Diagnostics" Version="6.2.3" />
+<PackageReference Include="Microsoft.PowerShell.Commands.Utility" Version="6.2.3" />
+<PackageReference Include="Microsoft.PowerShell.SDK" Version="6.2.3" />
+<PackageReference Include="System.Management.Automation" Version="6.2.3" />
+```
+
+```json
+{
+  "machineAutomationSettings": {
+    "isEnabled": "true",
+    "packagesToBeInstalled": [
+      "firefox --version=65.0.2",
+      "https-everywhere-firefox",
+      "opera"
+    ]
+  }
 }
 ```
 
 ```xml
-<ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version=16.4.0 />
-    <PackageReference Include="NUnit" Version=3.12.0 />
-    <PackageReference Include="NUnit3TestAdapter" Version=3.15.1 />
-    <PackageReference Include="Selenium.Support" Version=3.141.0 />
-    <PackageReference Include="Selenium.WebDriver" Version=3.141.0 />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version=79.0.3945.3600 />
-</ItemGroup>
+<PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.0" />
+<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.2.4" />
 ```
 
 ```csharp
-private IWebDriver _driver;
-[SetUp]
-public void SetupTest()
+public class MachineAutomationSettings
 {
-    var driverOptions = new ChromeOptions();
-    var runName = GetType().Assembly.GetName().Name;
-    var timestamp = $"{DateTime.Now:yyyyMMdd.HHmm}";
-    driverOptions.AddAdditionalCapability("name", runName, true);
-    driverOptions.AddAdditionalCapability("videoName", $"{runName}.{timestamp}.mp4", true);
-    driverOptions.AddAdditionalCapability("logName", $"{runName}.{timestamp}.log", true);
-    driverOptions.AddAdditionalCapability("enableVNC", true, true);
-    driverOptions.AddAdditionalCapability("enableVideo", true, true);
-    driverOptions.AddAdditionalCapability("enableLog", true, true);
-    driverOptions.AddAdditionalCapability("screenResolution", "1920x1080x24", true);
-    _driver = new RemoteWebDriver(new Uri("http://127.0.0.1:4444/wd/hub"), driverOptions);
-    _driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(30);
-}
-[TearDown]
-public void TeardownTest()
-{
-    _driver.Quit();
+    public bool IsEnabled { get; set; }
+    public List<string> PackagesToBeInstalled { get; set; }
 }
 ```
 
 ```csharp
-[Test]
-public void FillAllTextFields()
+public sealed class ConfigurationService
 {
-    string testPagePath = "http://htmlpreview.github.io/?https://github.com/angelovstanton/AutomateThePlanet/blob/master/WebDriver-Series/TestPage.html";
-    _driver.Navigate().GoToUrl(testPagePath);
-    var textBoxes = _driver.FindElements(By.Name("fname"));
-    foreach (var textBox in textBoxes)
+    private static ConfigurationService _instance;
+    public ConfigurationService() => Root = InitializeConfiguration();
+    public static ConfigurationService Instance
     {
-        textBox.SendKeys(Guid.NewGuid().ToString());
-    }
-}
-[Test]
-public void FillAllSelects()
-{
-    string testPagePath = "http://htmlpreview.github.io/?https://github.com/angelovstanton/AutomateThePlanet/blob/master/WebDriver-Series/TestPage.html";
-    _driver.Navigate().GoToUrl(testPagePath);
-    var selects = _driver.FindElements(By.TagName("select"));
-    foreach (var select in selects)
-    {
-        var selectElement = new SelectElement(select);
-        selectElement.SelectByText("Mercedes");
-    }
-}
-[Test]
-public void FillAllColors()
-{
-    string testPagePath = "http://htmlpreview.github.io/?https://github.com/angelovstanton/AutomateThePlanet/blob/master/WebDriver-Series/TestPage.html";
-    _driver.Navigate().GoToUrl(testPagePath);
-    var colors = _driver.FindElements(By.XPath("//input[@type='color']"));
-    foreach (var color in colors)
-    {
-        SetValueAttribute(_driver, color, "#000000");
-    }
-}
-[Test]
-public void SetAllDates()
-{
-    string testPagePath = "http://htmlpreview.github.io/?https://github.com/angelovstanton/AutomateThePlanet/blob/master/WebDriver-Series/TestPage.html";
-    _driver.Navigate().GoToUrl(testPagePath);
-    var dates = _driver.FindElements(By.XPath("//input[@type='date']"));
-    foreach (var date in dates)
-    {
-        SetValueAttribute(_driver, date, "2020-06-01");
-    }
-}
-[Test]
-public void ClickAllRadioButtons()
-{
-    string testPagePath = "http://htmlpreview.github.io/?https://github.com/angelovstanton/AutomateThePlanet/blob/master/WebDriver-Series/TestPage.html";
-    _driver.Navigate().GoToUrl(testPagePath);
-    var radioButtons = _driver.FindElements(By.XPath("//input[@type='radio']"));
-    foreach (var radio in radioButtons)
-    {
-        radio.Click();
-    }
-}
-private void SetValueAttribute(IWebDriver driver, IWebElement element, string value)
-{
-    SetAttribute(driver, element, "value", value);
-}
-private void SetAttribute(IWebDriver driver, IWebElement element, string attributeName, string attributeValue)
-{
-    driver.ExecuteJavaScript
-    (
-    "arguments[0].setAttribute(arguments[1], arguments[2]);",
-    element,
-    attributeName,
-    attributeValue);
-}
-```
-
-```csharp
-[TestFixture]
-[Parallelizable(ParallelScope.Children)]
-public class RunTestsInSelenoid
-```
-
-## Execute UI Tests in the Cloud- LambdaTest
-
-```xml
-<ItemGroup>
-  <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
-  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
-  <PackageReference Include="coverlet.collector" Version="1.0.1" />
-  <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
-  <PackageReference Include="NUnit" Version="3.12.0" />
-  <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
-  <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-  <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="76.0.3809.12600" />
-</ItemGroup>
-```
-
-```csharp
-[SetUp]
-public void SetupTest()
-{
-    var desiredCapabilities = new DesiredCapabilities();
-    desiredCapabilities.SetCapability("build", "1.0");
-    desiredCapabilities.SetCapability("browserName", "Chrome");
-    desiredCapabilities.SetCapability("platform", "win8");
-    desiredCapabilities.SetCapability("version", "76.0");
-    desiredCapabilities.SetCapability("screenResolution", "1280x800");
-    desiredCapabilities.SetCapability("visual", "true");
-    desiredCapabilities.SetCapability("video", "true");
-    desiredCapabilities.SetCapability("console", "true");
-    desiredCapabilities.SetCapability("network", "true");
-    desiredCapabilities.SetCapability("name", TestContext.CurrentContext.Test.Name);
-    desiredCapabilities.SetCapability("user", UserName);
-    desiredCapabilities.SetCapability("accessKey", AccessKey);
-    _driver = new RemoteWebDriver(new Uri("https://hub.lambdatest.com/wd/hub"), desiredCapabilities);
-    _driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(30);
-}
-[TearDown]
-public void TeardownTest()
-{
-    var passed = TestContext.CurrentContext.Result.Outcome == ResultState.Success;
-    try
-    {
-        // Logs the result to LambdaTest
-        ((IJavaScriptExecutor)_driver).ExecuteScript("lambda-status=" + (passed ? "passed" : "failed"));
-    }
-    finally
-    {
-        _driver.Quit();
-    }
-}
-```
-
-```csharp
-[Test]
-public void ScrollFocusToControl_InCloud_ShouldFail()
-{
-    _driver.Navigate().GoToUrl(@"https://automatetheplanet.com/compelling-sunday-14022016/");
-    var link = _driver.FindElement(By.PartialLinkText("Previous post"));
-    var jsToBeExecuted = $"window.scroll(0, {link.Location.Y});";
-    ((IJavaScriptExecutor)_driver).ExecuteScript(jsToBeExecuted);
-    link.Click();
-    Assert.AreEqual("10 Advanced WebDriver Tips and Tricks - Part 1", _driver.Title);
-}
-[Test]
-public void ScrollFocusToControl_InCloud_ShouldPass()
-{
-    _driver.Navigate().GoToUrl(@"https://automatetheplanet.com/multiple-files-page-objects-item-templates/");
-    var link = _driver.FindElement(By.PartialLinkText("TFS Test API"));
-    var jsToBeExecuted = $"window.scroll(0, {link.Location.Y});";
-    ((IJavaScriptExecutor)_driver).ExecuteScript(jsToBeExecuted);
-    var wait = new WebDriverWait(_driver, TimeSpan.FromMinutes(1));
-    var clickableElement = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("TFS Test API")));
-    clickableElement.Click();
-    Assert.AreEqual("TFS Test API Archives - Automate The Planet", _driver.Title);
-}
-```
-
-## Most Complete Selenium WebDriver C# Cheat Sheet
-
-```csharp
-// NuGet: Selenium.WebDriver.ChromeDriver
-using OpenQA.Selenium.Chrome;
-IWebDriver driver = new ChromeDriver();
-// NuGet: Selenium.Mozilla.Firefox.Webdriver
-using OpenQA.Selenium.Firefox;
-IWebDriver driver = new FirefoxDriver();
-// NuGet: Selenium.WebDriver.PhantomJS
-using OpenQA.Selenium.PhantomJS;
-IWebDriver driver = new PhantomJSDriver();
-// NuGet: Selenium.WebDriver.IEDriver
-using OpenQA.Selenium.IE;
-IWebDriver driver = new InternetExplorerDriver();
-// NuGet: Selenium.WebDriver.EdgeDriver
-using OpenQA.Selenium.Edge;
-IWebDriver driver = new EdgeDriver();
-```
-
-```csharp
-this.driver.FindElement(By.ClassName("className"));
-this.driver.FindElement(By.CssSelector("css"));
-this.driver.FindElement(By.Id("id"));
-this.driver.FindElement(By.LinkText("text"));
-this.driver.FindElement(By.Name("name"));
-this.driver.FindElement(By.PartialLinkText("pText"));
-this.driver.FindElement(By.TagName("input"));
-this.driver.FindElement(By.XPath("//*[@id='editor']"));
-// Find multiple elements
-IReadOnlyCollection<IWebElement> anchors = this.driver.FindElements(By.TagName("a"));
-// Search for an element inside another
-var div = this.driver.FindElement(By.TagName("div")).FindElement(By.TagName("a"));
-```
-
-```csharp
-IWebElement element = driver.FindElement(By.Id("id"));
-element.Click();
-element.SendKeys("someText");
-element.Clear();
-element.Submit();
-string innerText = element.Text;
-bool isEnabled = element.Enabled;
-bool isDisplayed = element.Displayed;
-bool isSelected = element.Selected;
-IWebElement element = driver.FindElement(By.Id("id"));
-SelectElement select = new SelectElement(element);
-select.SelectByIndex(1);
-select.SelectByText("Ford");
-select.SelectByValue("ford");
-select.DeselectAll();
-select.DeselectByIndex(1);
-select.DeselectByText("Ford");
-select.DeselectByValue("ford");
-IWebElement selectedOption = select.SelectedOption;
-IList<IWebElement> allSelected = select.AllSelectedOptions;
-bool isMultipleSelect = select.IsMultiple;
-```
-
-```csharp
-// Drag and Drop
-IWebElement element =
-driver.FindElement(By.XPath("//*[@id='project']/p[1]/div/div[2]"));
-Actions move = new Actions(driver);
-move.DragAndDropToOffset(element, 30, 0).Perform();
-// How to check if an element is visible
-Assert.IsTrue(driver.FindElement(By.XPath("//*[@id='tve_editor']/div")).Displayed);
-// Upload a file
-IWebElement element = driver.FindElement(By.Id("RadUpload1file0"));
-String filePath = @"D:WebDriver.Series.TestsWebDriver.xml";
-element.SendKeys(filePath);
-// Scroll focus to control
-IWebElement link = driver.FindElement(By.PartialLinkText("Previous post"));
-string js = string.Format("window.scroll(0, {0});", link.Location.Y);
-((IJavaScriptExecutor)driver).ExecuteScript(js);
-link.Click();
-// Taking an element screenshot
-IWebElement element = driver.FindElement(By.XPath("//*[@id='tve_editor']/div"));
-var cropArea = new Rectangle(element.Location, element.Size);
-var bitmap = bmpScreen.Clone(cropArea, bmpScreen.PixelFormat);
-bitmap.Save(fileName);
-// Focus on a control
-IWebElement link = driver.FindElement(By.PartialLinkText("Previous post"));
-// Wait for visibility of an element
-WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(
-By.XPath("//*[@id='tve_editor']/div[2]/div[2]/div/div")));
-```
-
-```csharp
-// Navigate to a page
-this.driver.Navigate().GoToUrl(@"http://google.com");
-// Get the title of the page
-string title = this.driver.Title;
-// Get the current URL
-string url = this.driver.Url;
-// Get the current page HTML source
-string html = this.driver.PageSource;
-```
-
-```csharp
-/ Handle JavaScript pop-ups
-IAlert a = driver.SwitchTo().Alert();
-a.Accept();
-a.Dismiss();
-// Switch between browser windows or tabs
-ReadOnlyCollection<string> windowHandles = driver.WindowHandles;
-string firstTab = windowHandles.First();
-string lastTab = windowHandles.Last();
-driver.SwitchTo().Window(lastTab);
-// Navigation history
-this.driver.Navigate().Back();
-this.driver.Navigate().Refresh();
-this.driver.Navigate().Forward();
-// Option 1.
-link.SendKeys(string.Empty);
-// Option 2.
-((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].focus();", link);
-// Maximize window
-this.driver.Manage().Window.Maximize();
-// Add a new cookie
-Cookie cookie = new OpenQA.Selenium.Cookie("key", "value");
-this.driver.Manage().Cookies.AddCookie(cookie);
-// Get all cookies
-var cookies = this.driver.Manage().Cookies.AllCookies;
-// Delete a cookie by name
-this.driver.Manage().Cookies.DeleteCookieNamed("CookieName");
-// Delete all cookies
-this.driver.Manage().Cookies.DeleteAllCookies();
-//Taking a full-screen screenshot
-Screenshot screenshot = ((ITakesScreenshot)driver).GetScreenshot();
-screenshot.SaveAsFile(@"pathToImage", ImageFormat.Png);
-// Wait until a page is fully loaded via JavaScript
-WebDriverWait wait = new WebDriverWait(this.driver, TimeSpan.FromSeconds(30));
-wait.Until((x) =>
-{
-    return ((IJavaScriptExecutor)this.driver).ExecuteScript("return document.readyState").Equals("complete");
-});
-// Switch to frames
-this.driver.SwitchTo().Frame(1);
-this.driver.SwitchTo().Frame("frameName");
-IWebElement element = this.driver.FindElement(By.Id("id"));
-this.driver.SwitchTo().Frame(element);
-// Switch to the default document
-this.driver.SwitchTo().DefaultContent();
-```
-
-```csharp
-// Use a specific Firefox profile
-FirefoxProfileManager profileManager = new FirefoxProfileManager();
-FirefoxProfile profile = profileManager.GetProfile("HARDDISKUSER");
-IWebDriver driver = new FirefoxDriver(profile);
-// Set a HTTP proxy Firefox
-FirefoxProfile firefoxProfile = new FirefoxProfile();
-firefoxProfile.SetPreference("network.proxy.type", 1);
-firefoxProfile.SetPreference("network.proxy.http", "myproxy.com");
-firefoxProfile.SetPreference("network.proxy.http_port", 3239);
-IWebDriver driver = new FirefoxDriver(firefoxProfile);
-// Set a HTTP proxy Chrome
-ChromeOptions options = new ChromeOptions();
-var proxy = new Proxy();
-proxy.Kind = ProxyKind.Manual;
-proxy.IsAutoDetect = false;
-proxy.HttpProxy =
-proxy.SslProxy = "127.0.0.1:3239";
-options.Proxy = proxy;
-options.AddArgument("ignore-certificate-errors");
-IWebDriver driver = new ChromeDriver(options);
-// Accept all certificates Firefox
-FirefoxProfile firefoxProfile = new FirefoxProfile();
-firefoxProfile.AcceptUntrustedCertificates = true;
-firefoxProfile.AssumeUntrustedCertificateIssuer = false;
-IWebDriver driver = new FirefoxDriver(firefoxProfile);
-// Accept all certificates Chrome
-DesiredCapabilities capability = DesiredCapabilities.Chrome();
-Environment.SetEnvironmentVariable("webdriver.chrome.driver", "C:PathToChromeDriver.exe");
-capability.SetCapability(CapabilityType.AcceptSslCertificates, true);
-IWebDriver driver = new RemoteWebDriver(capability);
-// Set Chrome options.
-ChromeOptions options = new ChromeOptions();
-DesiredCapabilities dc = DesiredCapabilities.Chrome();
-dc.SetCapability(ChromeOptions.Capability, options);
-IWebDriver driver = new RemoteWebDriver(dc);
-// Turn off the JavaScript Firefox
-FirefoxProfileManager profileManager = new FirefoxProfileManager();
-FirefoxProfile profile = profileManager.GetProfile("HARDDISKUSER");
-profile.SetPreference("javascript.enabled", false);
-IWebDriver driver = new FirefoxDriver(profile);
-// Set the default page load timeout
-driver.Manage().Timeouts().SetPageLoadTimeout(new TimeSpan(10));
-// Start Firefox with plugins
-FirefoxProfile profile = new FirefoxProfile();
-profile.AddExtension(@"C:extensionsLocationextension.xpi");
-IWebDriver driver = new FirefoxDriver(profile);
-// Start Chrome with an unpacked extension
-ChromeOptions options = new ChromeOptions();
-options.AddArguments("load-extension=/pathTo/extension");
-DesiredCapabilities capabilities = new DesiredCapabilities();
-capabilities.SetCapability(ChromeOptions.Capability, options);
-DesiredCapabilities dc = DesiredCapabilities.Chrome();
-dc.SetCapability(ChromeOptions.Capability, options);
-IWebDriver driver = new RemoteWebDriver(dc);
-// Start Chrome with a packed extension
-ChromeOptions options = new ChromeOptions();
-options.AddExtension(Path.GetFullPath("localpathto/extension.crx"));
-DesiredCapabilities capabilities = new DesiredCapabilities();
-capabilities.SetCapability(ChromeOptions.Capability, options);
-DesiredCapabilities dc = DesiredCapabilities.Chrome();
-dc.SetCapability(ChromeOptions.Capability, options);
-IWebDriver driver = new RemoteWebDriver(dc);
-// Change the default files??T save location
-String downloadFolderPath = @"c:temp";
-FirefoxProfile profile = new FirefoxProfile();
-profile.SetPreference("browser.download.folderList", 2);
-profile.SetPreference("browser.download.dir", downloadFolderPath);
-profile.SetPreference("browser.download.manager.alertOnEXEOpen", false);
-profile.SetPreference("browser.helperApps.neverAsk.saveToDisk",
-"application/msword, application/binary, application/ris, text/csv, image/png, application/pdf,
-text / html, text / plain, application / zip, application / x - zip, application / x - zip - compressed, application / download,
-application / octet - stream");
-this.driver = new FirefoxDriver(profile);
-```
-
-## WebDriver- Capture and Modify HTTP Traffic- C# Code
-
-```csharp
-private IWebDriver _driver;
-private ProxyServer _proxyServer;
-private readonly IDictionary<Guid, Proxy.Request> _requestsHistory =
-new ConcurrentDictionary<Guid, Proxy.Request>();
-private readonly IDictionary<Guid, Proxy.Response> _responsesHistory =
-new ConcurrentDictionary<Guid, Proxy.Response>();
-[OneTimeSetUp]
-public void ClassInit()
-{
-    _proxyServer = new ProxyServer
-    {
-        TrustRootCertificate = true
-    };
-    var explicitEndPoint = new ExplicitProxyEndPoint(System.Net.IPAddress.Any, 18882, true);
-    _proxyServer.AddEndPoint(explicitEndPoint);
-    _proxyServer.Start();
-    _proxyServer.SetAsSystemHttpProxy(explicitEndPoint);
-    _proxyServer.SetAsSystemHttpsProxy(explicitEndPoint);
-    _proxyServer.BeforeRequest += OnRequestCaptureTrafficEventHandler;
-    _proxyServer.BeforeResponse += OnResponseCaptureTrafficEventHandler;
-}
-[OneTimeTearDown]
-public void ClassCleanup()
-{
-    _proxyServer.Stop();
-}
-[SetUp]
-public void TestInit()
-{
-    var proxy = new OpenQA.Selenium.Proxy
-    {
-        HttpProxy = "http://localhost:18882",
-        SslProxy = "http://localhost:18882",
-        FtpProxy = "http://localhost:18882"
-    };
-    var options = new ChromeOptions
-    {
-        Proxy = proxy
-    };
-    _driver = new ChromeDriver(options);
-}
-[TearDown]
-public void TestCleanup()
-{
-    _driver.Dispose();
-    _requestsHistory.Clear();
-    _responsesHistory.Clear();
-}
-```
-
-```csharp
-private async Task OnRequestCaptureTrafficEventHandler(object sender, SessionEventArgs e) => await Task.Run(
-() =>
-{
-    if (!_requestsHistory.ContainsKey(e.HttpClient.Request.GetHashCode()) && e.HttpClient != null && e.HttpClient.Request != null)
-    {
-        _requestsHistory.Add(e.HttpClient.Request.GetHashCode(), e.HttpClient.Request);
-    }
-});
-```
-
-```csharp
-private async Task OnRequestBlockResourceEventHandler(object sender, SessionEventArgs e)
-=> await Task.Run(
-() =>
-{
-    if (e.HttpClient.Request.RequestUri.ToString().Contains("analytics"))
-    {
-        string customBody = string.Empty;
-        e.Ok(Encoding.UTF8.GetBytes(customBody));
-    }
-});
-```
-
-```csharp
-private async Task OnRequestRedirectTrafficEventHandler(object sender, SessionEventArgs e)
-{
-    if (e.WebSession.Request.RequestUri.AbsoluteUri.Contains("logo.svg"))
-    {
-        await e.Redirect("https://automatetheplanet.com/wp-content/uploads/2016/12/homepage-img-1.svg");
-    }
-}
-```
-
-```csharp
-private async Task OnRequestModifyTrafficEventHandler(object sender, SessionEventArgs e)
-=> await Task.Run(
-() =>
-{
-    var method = e.HttpClient.Request.Method.ToUpper();
-    if ((method == "POST" || method == "PUT" || method == "PATCH" || method == "GET"))
-    {
-        //Get/Set request body bytes
-        byte[] bodyBytes = e.GetRequestBody().Result;
-        e.SetRequestBody(bodyBytes);
-        //Get/Set request body as string
-        string bodyString = e.GetRequestBodyAsString().Result;
-        e.SetRequestBodyString(bodyString);
-    }
-});
-```
-
-```csharp
-private async Task OnResponseCaptureTrafficEventHandler(object sender, SessionEventArgs e) => await Task.Run(
-() =>
-{
-    if (!_responsesHistory.ContainsKey(e.HttpClient.Response.GetHashCode()) && e.HttpClient != null && e.HttpClient.Response != null)
-    {
-        _responsesHistory.Add(e.HttpClient.Response.GetHashCode(), e.HttpClient.Response);
-    }
-});
-```
-
-```csharp
-private async Task OnResponseModifyTrafficEventHandler(object sender, SessionEventArgs e) => await Task.Run(
-() =>
-{
-    if (e.HttpClient.Request.Method == "GET" || e.HttpClient.Request.Method == "POST")
-    {
-        if (e.HttpClient.Response.StatusCode == 200)
+        get
         {
-            if (e.HttpClient.Response.ContentType != null && e.HttpClient.Response.ContentType.Trim().ToLower().Contains("text/html"))
+            if (_instance == null)
             {
-                byte[] bodyBytes = e.GetResponseBody().Result;
-                e.SetResponseBody(bodyBytes);
-                string body = e.GetResponseBodyAsString().Result;
-                e.SetResponseBodyString(body);
+                _instance = new ConfigurationService();
+            }
+            return _instance;
+        }
+    }
+    public IConfigurationRoot Root { get; }
+    public MachineAutomationSettings GetMachineAutomationSettings()
+    => ConfigurationService.Instance.Root.GetSection("machineAutomationSettings").Get<MachineAutomationSettings>();
+    private IConfigurationRoot InitializeConfiguration()
+    {
+        var filesInExecutionDir = Directory.GetFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+        var settingsFile =
+        filesInExecutionDir.FirstOrDefault(x => x.Contains("testFrameworkSettings") && x.EndsWith(".json"));
+        var builder = new ConfigurationBuilder();
+        if (settingsFile != null)
+        {
+            builder.AddJsonFile(settingsFile, optional: true, reloadOnChange: true);
+        }
+        return builder.Build();
+    }
+}
+```
+
+```csharp
+public static class SoftwareAutomationService
+{
+    public static void InstallRequiredSoftware()
+    {
+        var machineAutomationSettings = ConfigurationService.Instance.GetMachineAutomationSettings();
+        if (machineAutomationSettings.IsEnabled && machineAutomationSettings.PackagesToBeInstalled.Any())
+        {
+            using (var powerShellInstance = PowerShell.Create())
+            {
+                // install Chocolatey
+                powerShellInstance.AddScript("Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))");
+                // Remove agree prompt.
+                powerShellInstance.AddScript("choco feature enable -n=allowGlobalConfirmation");
+                foreach (var packageToBeInstalled in machineAutomationSettings.PackagesToBeInstalled)
+                {
+                    Console.WriteLine($"INSTALL {packageToBeInstalled}");
+                    string[] packageParts = packageToBeInstalled.Split(' ');
+                    powerShellInstance.AddScript($"choco install {packageParts.First()}");
+                    powerShellInstance.AddParameter("--allow-downgrade");
+                    powerShellInstance.AddParameter("--force");
+                    if (packageParts.Length >= 2)
+                    {
+                        string version = packageParts[1].Split('=').Last();
+                        powerShellInstance.AddParameter("version", version);
+                    }
+                }
+                try
+                {
+                    var psOutput = powerShellInstance.Invoke();
+                    if (powerShellInstance.Streams.Error.Count > 0)
+                    {
+                        foreach (var outputItem in psOutput)
+                        {
+                            if (outputItem != null)
+                            {
+                                Console.WriteLine(outputItem.BaseObject.ToString());
+                            }
+                        }
+                    }
+                }
+                catch (Exception e) when (e.Message.Contains("Installation of Chocolatey to default folder requires Administrative permissions"))
+                {
+                    throw new InvalidOperationException("To use the Machine Automation module please start Visual Studio in Administrative Mode.", e);
+                }
             }
         }
     }
-});
-```
-
-```csharp
-[Test]
-public void FontRequestMade_When_NavigateToHomePage()
-{
-    _driver.Navigate().GoToUrl("https://automatetheplanet.com/");
-    AssertRequestMade("fontawesome-webfont.woff2?v=4.7.0");
-}
-private void AssertRequestMade(string url)
-{
-    bool areRequestsMade = _requestsHistory.Values.Any(r => r.RequestUri.ToString().Contains(url));
-    Assert.IsTrue(areRequestsMade);
 }
 ```
 
 ```csharp
-[Test]
-public void NoErrorCodes_When_NavigateToHomePage()
-{
-    _driver.Navigate().GoToUrl("https://automatetheplanet.com/");
-    AssertNoErrorCodes();
-}
-private void AssertNoErrorCodes()
-{
-    bool areThereErrorCodes = _responsesHistory.Values.Any(r => r.StatusCode > 400 && r.StatusCode < 599);
-    Assert.IsFalse(areThereErrorCodes);
-}
+powerShellInstance.AddScript("Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))");
+powerShellInstance.AddScript("choco feature enable -n=allowGlobalConfirmation");
 ```
 
 ```csharp
-[Test]
-public void TestNoLargeImages_When_NavigateToHomePage()
+var psOutput = powerShellInstance.Invoke();
+if (powerShellInstance.Streams.Error.Count > 0)
 {
-    _driver.Navigate().GoToUrl("https://automatetheplanet.com/");
-    AssertNoLargeImagesRequested();
-}
-private void AssertNoLargeImagesRequested()
-{
-    bool areThereLargeImages =
-    _requestsHistory.Values.Any(r =>
-    r.ContentType != null
-    && r.ContentType.StartsWith("image")
-    && r.ContentLength < 40000);
-    Assert.IsFalse(areThereLargeImages);
-}
-```
-
-## Headless Execution of WebDriver Tests- Firefox Browser
-
-```csharp
-var options = new FirefoxOptions();
-options.AddArguments("--headless");
-using (IWebDriver driver = new FirefoxDriver(options))
-{
-    // the rest of your test
-}
-```
-
-```csharp
-private void PerformTestOperations(IWebDriver driver)
-{
-    string testPagePath =
-    "http://htmlpreview.github.io/?https://github.com/angelovstanton/AutomateThePlanet/blob/master/WebDriver-Series/TestPage.html";
-    driver.Navigate().GoToUrl(testPagePath);
-    driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(10);
-    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-    var textBoxes = driver.FindElements(By.Name("fname"));
-    foreach (var textBox in textBoxes)
+    foreach (var outputItem in psOutput)
     {
-        textBox.SendKeys(Guid.NewGuid().ToString());
-    }
-    var selects = driver.FindElements(By.TagName("select"));
-    foreach (var select in selects)
-    {
-        var selectElement = new SelectElement(select);
-        selectElement.SelectByText("Mercedes");
-    }
-    var submits = driver.FindElements(By.XPath("//input[@type='submit']"));
-    foreach (var submit in submits)
-    {
-        submit.Click();
-    }
-    var colors = driver.FindElements(By.XPath("//input[@type='color']"));
-    foreach (var color in colors)
-    {
-        SetValueAttribute(driver, color, "#000000");
-    }
-    var dates = driver.FindElements(By.XPath("//input[@type='date']"));
-    foreach (var date in dates)
-    {
-        SetValueAttribute(driver, date, "2020-06-01");
-    }
-    var radioButtons = driver.FindElements(By.XPath("//input[@type='radio']"));
-    foreach (var radio in radioButtons)
-    {
-        radio.Click();
-    }
-}
-private void SetValueAttribute(IWebDriver driver, IWebElement element, string value)
-{
-    SetAttribute(driver, element, "value", value);
-}
-private void SetAttribute(IWebDriver driver, IWebElement element, string attributeName, string attributeValue)
-{
-    driver.ExecuteJavaScript
-    (
-    "arguments[0].setAttribute(arguments[1], arguments[2]);",
-    element,
-    attributeName,
-    attributeValue);
-}
-```
-
-```csharp
-private void Profile(string testResultsFileName, int iterations, Action actionToProfile)
-{
-    var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-    var resultsPath = Path.Combine(desktopPath, "BenchmarkTestResults",
-    string.Concat(testResultsFileName, "_", Guid.NewGuid().ToString(), ".txt"));
-    var writer = new StreamWriter(resultsPath);
-    GC.Collect();
-    GC.WaitForPendingFinalizers();
-    GC.Collect();
-    var watch = new Stopwatch();
-    watch.Start();
-    for (var i = 0; i < iterations; i++)
-    {
-        actionToProfile();
-    }
-    watch.Stop();
-    writer.WriteLine("Total: {0:0.00} ms ({1:N0} ticks) (over {2:N0} iterations)",
-    watch.ElapsedMilliseconds, watch.ElapsedTicks, iterations);
-    var avgElapsedMillisecondsPerRun = watch.ElapsedMilliseconds / iterations;
-    var avgElapsedTicksPerRun = watch.ElapsedMilliseconds / iterations;
-    writer.WriteLine("AVG: {0:0.00} ms ({1:N0} ticks) (over {2:N0} iterations)",
-    avgElapsedMillisecondsPerRun, avgElapsedTicksPerRun, iterations);
-    writer.Flush();
-    writer.Close();
-}
-```
-
-```csharp
-[Test]
-public void TestChromeExecutionTime()
-{
-    Profile
-    (
-    "TestChromeExecutionTime",
-    10,
-    () =>
-    {
-        using (IWebDriver driver = new ChromeDriver())
+        if (outputItem != null)
         {
-            PerformTestOperations(driver);
+            Console.WriteLine(outputItem.BaseObject.ToString());
         }
     }
-    );
-}
-[Test]
-public void TestFirefoxExecutionTime()
-{
-    Profile
-    (
-    "TestFirefoxExecutionTime",
-    10,
-    () =>
-    {
-        using (IWebDriver driver = new FirefoxDriver())
-        {
-            PerformTestOperations(driver);
-        }
-    }
-    );
-}
-[Test]
-public void TestEdgeExecutionTime()
-{
-    Profile
-    (
-    "TestEdgeExecutionTime",
-    10,
-    () =>
-    {
-        using (IWebDriver driver = new EdgeDriver())
-        {
-            PerformTestOperations(driver);
-        }
-    }
-    );
-}
-[Test]
-public void TestPhantomJsExecutionTime()
-{
-    Profile
-    (
-    "TestPhantomJsExecutionTime",
-    10,
-    () =>
-    {
-        using (IWebDriver driver = new PhantomJSDriver())
-        {
-            PerformTestOperations(driver);
-        }
-    }
-    );
-}
-[Test]
-public void TestChromeHeadlessExecutionTime()
-{
-    Profile
-    (
-    "TestChromeHeadlessExecutionTime",
-    10,
-    () =>
-    {
-        var options = new ChromeOptions();
-        options.AddArguments("headless");
-        using (IWebDriver driver = new ChromeDriver(options))
-        {
-            PerformTestOperations(driver);
-        }
-    }
-    );
-}
-[Test]
-public void TestFirefoxHeadlessExecutionTime()
-{
-    Profile
-    (
-    "TestFirefoxHeadlessExecutionTime",
-    10,
-    () =>
-    {
-        var options = new FirefoxOptions();
-        options.AddArguments("--headless");
-        using (IWebDriver driver = new FirefoxDriver(options))
-        {
-            PerformTestOperations(driver);
-        }
-    }
-    );
-}
-```
-
-## Finish Him- Kill All the WebDrivers C# Code
-
-```csharp
-public partial class SearchEngineMainPage
-{
-    private readonly IWebDriver _driver;
-    private readonly string _url = @"searchEngineUrl";
-    public SearchEngineMainPage(IWebDriver browser) => _driver = browser;
-    public void Navigate() => _driver.Navigate().GoToUrl(_url);
-    public void Search(string textToType)
-    {
-        SearchBox = textToType;
-        GoButton.Click();
-    }
 }
 ```
 
 ```csharp
-public partial class SearchEngineMainPage
+catch (Exception e) when(e.Message.Contains("Installation of Chocolatey to default folder requires Administrative permissions"))
 {
-    public IWebElement GoButton => _driver.FindElement(By.Id("sb_form_go"));
-    public IWebElement ResultsCountDiv => _driver.FindElement(By.Id("b_tween"));
-    public string SearchBox
-    {
-        get => _driver.FindElement(By.Id("sb_form_q")).Text;
-        set => _driver.FindElement(By.Id("sb_form_q")).SendKeys(value);
-    }
-}
-```
-
-```csharp
-public partial class SearchEngineMainPage
-{
-    public void AssertResultsCount(string expectedCount) => Assert.AreEqual(ResultsCountDiv.Text, expectedCount);
+    throw new InvalidOperationException("To use the Machine Automation please start Visual Studio in Administrative Mode.", e);
 }
 ```
 
 ```csharp
 [TestClass]
-public class SearchEngineTests
+public class SoftwareManagementAutomationTests
 {
-    private IWebDriver _driver;
-    [TestInitialize]
-    public void TestInit()
-    {
-        _driver = new ChromeDriver();
-        _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-    }
-    [TestCleanup]
-    public void TestCleanup()
-    {
-        _driver.Quit();
-    }
-    [TestMethod]
-    public void SearchTextInSearchEngine_First()
-    {
-        var searchEngineMainPage = new SearchEngineMainPage(_driver);
-        searchEngineMainPage.Navigate();
-        searchEngineMainPage.Search("Automate The Planet");
-        searchEngineMainPage.AssertResultsCount("236,000 RESULTS");
-    }
-}
-```
-
-```csharp
-[TestClass]
-public class SearchEngineTests
-{
+    private static readonly string AssemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     private static IWebDriver _driver;
     [AssemblyInitialize]
     public static void AssemblyInitialize(TestContext testContext)
     {
-        DisposeDriverService.TestRunStartTime = DateTime.Now;
-        _driver = new ChromeDriver();
-        _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+        SoftwareAutomationService.InstallRequiredSoftware();
     }
-    [AssemblyCleanup]
-    public static void AssemblyCleanUp()
+    [ClassInitialize]
+    public static void ClassInit(TestContext testContext)
     {
-        DisposeDriverService.FinishHim(_driver);
+        _driver = new ChromeDriver(AssemblyFolder);
+    }
+    [ClassCleanup]
+    public static void ClassCleanup()
+    {
+        _driver?.Dispose();
     }
     [TestMethod]
-    public void SearchTextInSearchEngine_First()
+    public void CheckCurrentIpAddressEqualToSetProxyIp()
     {
-        var searchEngineMainPage = new SearchEngineMainPage(_driver);
-        searchEngineMainPage.Navigate();
-        searchEngineMainPage.Search("Automate The Planet");
-        searchEngineMainPage.AssertResultsCount("236,000 RESULTS");
+        _driver.Navigate().GoToUrl("https://whatismyipaddress.com/");
+        var element = _driver.FindElement(By.XPath("//*[@id="ipv4"]/a"));
+        Console.WriteLine(element.Text);
+    }
+}
+```
+
+## Effortless Integration Tests with My Tested ASP.NET
+
+```csharp
+public class ArticlesController : Controller
+{
+    private readonly IArticleService articleService;
+    public ArticlesController(IArticleService articleService)
+    => this.articleService = articleService;
+    [HttpGet]
+    [Authorize]
+    public IActionResult Create() => this.View();
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> Create(ArticleFormModel article)
+    {
+        if (this.ModelState.IsValid)
+        {
+            await this.articleService.Add(article.Title, article.Content, this.User.GetId());
+            this.TempData.Add(ControllerConstants.SuccessMessage, "Article created successfully it is waiting for approval!");
+            return this.RedirectToAction(nameof(UsersController.Mine), ControllerConstants.Users);
+        }
+        return this.View(article);
     }
 }
 ```
 
 ```csharp
-public static class DisposeDriverService
+public class ArticleService : IArticleService
 {
-    private static readonly List<string> _processesToCheck = new List<string> {
-    "opera",    "chrome",    "firefox", "ie",
-    "gecko",    "phantomjs", "edge",    "microsoftwebdriver",
-    "webdriver"
-  };
-    public static DateTime? TestRunStartTime { get; set; }
-    public static void FinishHim(IWebDriver driver)
+    private readonly BlogDbContext db;
+    private readonly IDateTimeProvider dateTimeProvider;
+    public ArticleService(
+    BlogDbContext db,
+    IDateTimeProvider dateTimeProvider)
     {
-        driver?.Dispose();
-        var processes = Process.GetProcesses();
-        foreach (var process in processes)
+        this.db = db;
+        this.dateTimeProvider = dateTimeProvider;
+    }
+    public async Task<int> Add(string title, string content, string userId)
+    {
+        var article = new Article
         {
-            try
-            {
-                Debug.WriteLine(process.ProcessName);
-                if (process.StartTime > TestRunStartTime)
-                {
-                    var shouldKill = false;
-                    foreach (var processName in _processesToCheck)
-                    {
-                        if (process.ProcessName.ToLower().Contains(processName))
-                        {
-                            shouldKill = true;
-                            break;
-                        }
-                    }
-                    if (shouldKill)
-                    {
-                        process.Kill();
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-            }
+            Title = title,
+            Content = content,
+            UserId = userId,
+            PublishedOn = this.dateTimeProvider.Now();
+    };
+this.db.Articles.Add(article);
+await this.db.SaveChangesAsync();
+return article.Id;
+    }
+}
+```
+
+```csharp
+public class DateTimeProvider : IDateTimeProvider
+{
+    public DateTime Now() => DateTime.UtcNow;
+}
+```
+
+```csharp
+// The TestStartup class provides all globally registered services for our tests.
+public class TestStartup : Startup
+{
+    public TestStartup(IConfiguration configuration)
+    : base(configuration)
+    {
+    }
+    public void ConfigureTestServices(IServiceCollection services)
+    {
+        // Register all web application services.
+        base.ConfigureServices(services);
+        // Replace all custom services which need mocks.
+        services.ReplaceTransient<IDateTimeProvider>(_ => DateTimeProviderMock.Create);
+    }
+}
+```
+
+```csharp
+public class DateTimeProviderMock
+{
+    public static IDateTimeProvider Create
+    {
+        get
+        {
+            var moq = new Mock<IDateTimeProvider>();
+            moq.Setup(m => m.Now()).Returns(new DateTime(1, 1, 1));
+            return moq.Object;
         }
     }
 }
 ```
 
-## Headless Execution of WebDriver Tests- Chrome Browser
+```csharp
+[Fact]
+public void GetCreateShouldBeRoutedCorrectly()
+=> MyRouting // Start a route test.
+.Configuration() // Use the globally registered configuration.
+.ShouldMap(request => request // Provide the request data.
+.WithLocation("/Articles/Create") // Set the URL of the Get request.
+.WithUser()) // Specify that the route needs an authenticated user.
+.To<ArticlesController>(c => c.Create()); // Map the route to the specific action and controller.
+```
 
 ```csharp
-var options = new ChromeOptions();
-options.AddArguments("headless");
-using (IWebDriver driver = new ChromeDriver(options))
+[Theory]
+[InlineData("Test Article", "Test Article Content")]
+public void PostCreateShouldBeRoutedCorrectly(string title, string content)
+=> MyRouting // Start a route test.
+.Configuration() // Use the globally registered configuration.
+.ShouldMap(request => request // Provide the request data.
+.WithMethod(HttpMethod.Post) // Set the method of the request.
+.WithLocation("/Articles/Create") // Set the URL of the Post request.
+.WithFormFields(new // Add form field data to the request.
 {
-    // the rest of your test
+    Title = title,
+    Content = content
+})
+.WithUser() // Specify that the route needs an authenticated user.
+.WithAntiForgeryToken()) // Add an Anti-Forgery token, if needed.
+.To<ArticlesController>(c => c.Create(new ArticleFormModel // Map the route to the specific route values.
+{
+    Title = title,
+    Content = content
+}));
+```
+
+```csharp
+[Fact]
+public void CreateGetShouldHaveRestrictionsForHttpGetOnlyAndAuthorizedUsersAndShouldReturnView()
+=> MyController<ArticlesController> // Specify the controller under test.
+    .Instance() // Create it from the globally registered services.
+    .Calling(c => c.Create()) // Specify the action under test.
+    .ShouldHave()
+    .ActionAttributes(attrs => attrs // Assert action attributes.
+    .RestrictingForHttpMethod(HttpMethod.Get)
+    .RestrictingForAuthorizedRequests())
+    .AndAlso() // Provide additional assertions.
+    .ShouldReturn()
+    .View(); // Validate the view result.
+```
+
+```csharp
+[Fact]
+public void CreatePostShouldReturnViewWithSameModelWhenInvalidModelState()
+=> MyController<ArticlesController> // Specify the controller under test.
+    .Instance() // Create it from the globally registered services.
+    .Calling(c => c.Create(With.Default<ArticleFormModel>())) // Specify the action under test and provide empty model.
+    .ShouldHave()
+    .InvalidModelState() // Assert invalid model state.
+    .AndAlso() // Provide additional assertions.
+    .ShouldReturn()
+    .View(With.Default<ArticleFormModel>()); // Validate the view result and the same empty model.
+```
+
+```csharp
+[Theory]
+[InlineData("Article Title", "Article Content")]
+public void CreatePostShouldSaveArticleSetModelStateMessageAndRedirectWhenValidModelState(string title, string content)
+=> MyController<ArticlesController> // Specify the controller under test.
+    .Instance() // Create it from the globally registered services.
+    .Calling(c => c.Create(new ArticleFormModel // Specify the action under test and provide valid model.
+    {
+        Title = title,
+        Content = content
+    }))
+    .ShouldHave()
+    .ValidModelState() // Assert valid model state.
+    .AndAlso() // Provide additional assertions.
+    .ShouldHave()
+    .Data(data => data // Assert the database.
+    .WithSet<Article>(set => // Assert the Article database set.
+    {
+        set.ShouldNotBeEmpty();
+        set.SingleOrDefault(a => a.Title == title).ShouldNotBeNull(); // Validate our article is saved.
+    }))
+    .AndAlso() // Provide additional assertions.
+    .ShouldHave()
+    .TempData(tempData => tempData // Validate the TempData success message..
+    .ContainingEntryWithKey(ControllerConstants.SuccessMessage))
+    .AndAlso() // Provide additional assertions.
+    .ShouldReturn()
+    .Redirect(redirect => redirect // Validate redirect result.
+    .To<UsersController>(c => c.Mine())); // Validate correct redirect to action.
+```
+
+```csharp
+[Fact]
+public void CreatePostShouldHaveRestrictionsForHttpPostOnlyAndAuthorizedUsers()
+=> MyController<ArticlesController> // Specify the controller under test.
+    .Instance() // Create it from the globally registered services.
+    .Calling(c => c.Create(With.Empty<ArticleFormModel>())) // Specify the action under test and provide empty model.
+    .ShouldHave()
+    .ActionAttributes(attrs => attrs // Assert action attributes.
+    .RestrictingForHttpMethod(HttpMethod.Post)
+    .RestrictingForAuthorizedRequests());
+```
+
+```csharp
+[Fact]
+public void GetCreateShouldShouldReturnView()
+=> MyMvc
+    .Pipeline() // Start a pipeline test.
+    .ShouldMap(request => request // Provide the request data.
+    .WithLocation("/Articles/Create")
+    .WithUser())
+    .To<ArticlesController>(c => c.Create()) // Validate the route values.
+    .Which() // Provide additional assertions on the controller.
+    .ShouldReturn()
+    .View(); // Validate the view result.
+```
+
+## Testing for Developers- Isolation Frameworks Fundamentals
+
+```csharp
+public List<string> GeneratePiesNamesByCurrentYear()
+{
+    var brandedPiesNames = new List<string>();
+    foreach (var pie in _originalPiesNames)
+    {
+        brandedPiesNames.Add($"{DateTime.Now.Year} {pie}");
+    }
+    return brandedPiesNames;
 }
 ```
 
 ```csharp
-private void PerformTestOperations(IWebDriver driver)
+public interface IDateTimeFacade
 {
-    string testPagePath =
-        "http://htmlpreview.github.io/?https://github.com/angelovstanton/AutomateThePlanet/blob/master/WebDriver-Series/TestPage.html";
-    driver.Navigate().GoToUrl(testPagePath);
-    driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(10);
-    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-    var textBoxes = driver.FindElements(By.Name("fname"));
-    foreach (var textBox in textBoxes)
-    {
-        textBox.SendKeys(Guid.NewGuid().ToString());
-    }
-    var selects = driver.FindElements(By.TagName("select"));
-    foreach (var select in selects)
-    {
-        var selectElement = new SelectElement(select);
-        selectElement.SelectByText("Mercedes");
-    }
-    var submits = driver.FindElements(By.XPath("//input[@type='submit']"));
-    foreach (var submit in submits)
-    {
-        submit.Click();
-    }
-    var colors = driver.FindElements(By.XPath("//input[@type='color']"));
-    foreach (var color in colors)
-    {
-        SetValueAttribute(driver, color, "#000000");
-    }
-    var dates = driver.FindElements(By.XPath("//input[@type='date']"));
-    foreach (var date in dates)
-    {
-        SetValueAttribute(driver, date, "2020-06-01");
-    }
-    var radioButtons = driver.FindElements(By.XPath("//input[@type='radio']"));
-    foreach (var radio in radioButtons)
-    {
-        radio.Click();
-    }
-}
-private void SetValueAttribute(IWebDriver driver, IWebElement element,
-                               string value)
-{
-    SetAttribute(driver, element, "value", value);
-}
-private void SetAttribute(IWebDriver driver, IWebElement element,
-                          string attributeName, string attributeValue)
-{
-    driver.ExecuteJavaScript(
-        "arguments[0].setAttribute(arguments[1], arguments[2]);", element,
-        attributeName, attributeValue);
+    DateTime GetCurrentDateTime();
 }
 ```
 
 ```csharp
-private void PerformTestOperations(IWebDriver driver)
+public List<string> GeneratePiesNamesByCurrentYear()
 {
-    string testPagePath =
-        "http://htmlpreview.github.io/?https://github.com/angelovstanton/AutomateThePlanet/blob/master/WebDriver-Series/TestPage.html";
-    driver.Navigate().GoToUrl(testPagePath);
-    driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(10);
-    driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-    var textBoxes = driver.FindElements(By.Name("fname"));
-    foreach (var textBox in textBoxes)
+    var brandedPiesNames = new List<string>();
+    foreach (var pie in _originalPiesNames)
     {
-        textBox.SendKeys(Guid.NewGuid().ToString());
+        brandedPiesNames.Add($"{_dateTimeFacade.GetCurrentDateTime().Year} {pie}");
     }
-    var selects = driver.FindElements(By.TagName("select"));
-    foreach (var select in selects)
-    {
-        var selectElement = new SelectElement(select);
-        selectElement.SelectByText("Mercedes");
-    }
-    var submits = driver.FindElements(By.XPath("//input[@type='submit']"));
-    foreach (var submit in submits)
-    {
-        submit.Click();
-    }
-    var colors = driver.FindElements(By.XPath("//input[@type='color']"));
-    foreach (var color in colors)
-    {
-        SetValueAttribute(driver, color, "#000000");
-    }
-    var dates = driver.FindElements(By.XPath("//input[@type='date']"));
-    foreach (var date in dates)
-    {
-        SetValueAttribute(driver, date, "2020-06-01");
-    }
-    var radioButtons = driver.FindElements(By.XPath("//input[@type='radio']"));
-    foreach (var radio in radioButtons)
-    {
-        radio.Click();
-    }
-}
-private void SetValueAttribute(IWebDriver driver, IWebElement element,
-                               string value)
-{
-    SetAttribute(driver, element, "value", value);
-}
-private void SetAttribute(IWebDriver driver, IWebElement element,
-                          string attributeName, string attributeValue)
-{
-    driver.ExecuteJavaScript(
-        "arguments[0].setAttribute(arguments[1], arguments[2]);", element,
-        attributeName, attributeValue);
+    return brandedPiesNames;
 }
 ```
 
 ```csharp
-[Test]
-public void TestChromeExecutionTime()
+public class AlwaysValidFakeExtensionManager : IExtensionManager
 {
-    Profile("TestChromeExecutionTime", 10, () =>
+    public bool IsValid(string fileName)
     {
-        using (IWebDriver driver = new ChromeDriver())
-        {
-            PerformTestOperations(driver);
-        }
-    });
-}
-[Test]
-public void TestFirefoxExecutionTime()
-{
-    Profile("TestFirefoxExecutionTime", 10, () =>
-    {
-        using (IWebDriver driver = new FirefoxDriver())
-        {
-            PerformTestOperations(driver);
-        }
-    });
-}
-[Test]
-public void TestEdgeExecutionTime()
-{
-    Profile("TestEdgeExecutionTime", 10, () =>
-    {
-        using (IWebDriver driver = new EdgeDriver())
-        {
-            PerformTestOperations(driver);
-        }
-    });
-}
-[Test]
-public void TestPhantomJsExecutionTime()
-{
-    Profile("TestPhantomJsExecutionTime", 10, () =>
-    {
-        using (IWebDriver driver = new PhantomJSDriver())
-        {
-            PerformTestOperations(driver);
-        }
-    });
-}
-[Test]
-public void TestChromeHeadlessExecutionTime()
-{
-    Profile("TestChromeHeadlessExecutionTime", 10, () =>
-    {
-        var options = new ChromeOptions();
-        options.AddArguments("headless");
-        using (IWebDriver driver = new ChromeDriver(options))
-        {
-            PerformTestOperations(driver);
-        }
-    });
-}
-```
-
-## Full Page Screenshots in WebDriver via Custom-built Browser Extension
-
-```csharp
-[Test]
-public void TakingHTML2CanvasFullPageScreenshot()
-{
-    using (var driver = new ChromeDriver())
-    {
-        driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
-        driver.Navigate().GoToUrl(@"https://automatetheplanet.com");
-        IJavaScriptExecutor js = driver;
-        var html2canvasJs = File.ReadAllText($"{GetAssemblyDirectory()}html2canvas.js");
-        js.ExecuteScript(html2canvasJs);
-        string generateScreenshotJS =
-        @"function genScreenshot () {
-var canvasImgContentDecoded;
-html2canvas(document.body).then(function(canvas) {
-window.canvasImgContentDecoded = canvas.toDataURL(""image/png"");
-});
-}
-genScreenshot();";
-        js.ExecuteScript(generateScreenshotJS);
-        var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-        wait.IgnoreExceptionTypes(typeof(InvalidOperationException));
-        wait.Until(
-        wd =>
-        {
-            string response = (string)js.ExecuteScript
-    ("return (typeof canvasImgContentDecoded === 'undefined' || canvasImgContentDecoded === null)");
-            if (string.IsNullOrEmpty(response))
-            {
-                return false;
-            }
-            return bool.Parse(response);
-        });
-        wait.Until(wd => !string.IsNullOrEmpty((string)js.ExecuteScript("return canvasImgContentDecoded;")));
-        var pngContent = (string)js.ExecuteScript("return canvasImgContentDecoded;");
-        pngContent = pngContent.Replace("data:image/png;base64,", string.Empty);
-        var tempFilePath = Path.GetTempFileName().Replace(".tmp", ".png");
-        File.WriteAllBytes(tempFilePath, Convert.FromBase64String(pngContent));
+        return true;
     }
-}
-private string GetAssemblyDirectory()
-{
-    string codeBase = Assembly.GetExecutingAssembly().Location;
-    var uri = new UriBuilder(codeBase);
-    string path = Uri.UnescapeDataString(uri.Path);
-    return Path.GetDirectoryName(path);
 }
 ```
 
 ```csharp
-[Test]
-public void TakingHTML2CanvasFullPageScreenshot()
+private readonly ILogger<TestCaseRunsController> _logger;
+private readonly MeissaRepository _meissaRepository;
+public TestCaseRunsController(ILogger<TestCaseRunsController> logger, MeissaRepository repository)
 {
-    var options = new ChromeOptions();
-    options.AddArguments($"load-extension={GetAssemblyDirectory()}FullPageScreenshotsExtension-Chrome");
-    var capabilities = new DesiredCapabilities();
-    capabilities.SetCapability(ChromeOptions.Capability, options);
-    var dc = DesiredCapabilities.Chrome();
-    dc.SetCapability(ChromeOptions.Capability, options);
-    using (var driver = new ChromeDriver(options))
+    _logger = logger;
+    _meissaRepository = repository;
+}
+```
+
+```csharp
+public TestCaseRunsController(ILogger<TestCaseRunsController> logger, MeissaRepository repository)
+{
+    _logger = logger;
+}
+public MeissaRepository MeissaRepository { get; set; }
+```
+
+```csharp
+public async Task SetAllActiveAgentsToVerifyTheirStatusAsync(IServiceClient<TestAgentDto> testAgentRepository, string tag)
+{
+    var testAgents = await GetAllActiveTestAgentsByTagAsync(tag);
+    if (testAgents.Count > 0)
     {
-        driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
-        driver.Navigate().GoToUrl(@"https://automatetheplanet.com");
-        var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-        var fullPageImg = wait.Until(ExpectedConditions.ElementExists(By.Id("fullPageScreenshotId")));
-        var pngContent = fullPageImg.GetAttribute("src");
-        pngContent = pngContent.Replace("data:image/png;base64,", string.Empty);
-        byte[] data = Convert.FromBase64String(pngContent);
-        var tempFilePath = Path.GetTempFileName().Replace(".tmp", ".png");
-        Image image;
-        using (var ms = new MemoryStream(data))
-        {
-            image = Image.FromStream(ms);
-        }
-        image.Save(tempFilePath, ImageFormat.Png);
+        await UpdateAgentsStatusAsync(testAgents, TestAgentStatus.RequestActiveConfirmation);
     }
 }
-private string GetAssemblyDirectory()
+```
+
+```csharp
+public async Task SetAllActiveAgentsToVerifyTheirStatusAsync(string tag)
+{
+    var repo = CreateTestAgentRepo();
+    var testAgents = await repo.GetAllActiveTestAgentsByTagAsync(tag);
+    if (testAgents.Count > 0)
+    {
+        await UpdateAgentsStatusAsync(testAgents, TestAgentStatus.RequestActiveConfirmation);
+    }
+}
+private IServiceClient<TestAgentDto> CreateTestAgentRepo() => new TestAgentServiceClient();
+```
+
+```csharp
+public class TestAgentRepoFactory : ITestAgentRepoFactory
+{
+    public IServiceClient<TestAgentDto> CreateTestAgentRepo()
+    {
+        return new TestAgentServiceClient();
+    }
+}
+```
+
+```csharp
+internal class FakeExtensionManager : IExtensionManager
+{
+    public bool WillBeValid = false;
+    public bool IsValid(string fileName)
+    {
+        return WillBeValid;
+    }
+}
+public class LogAnalyzer
+{
+    private IExtensionManager manager;
+    public LogAnalyzer(IExtensionManager mgr)
+    {
+        manager = mgr;
+    }
+    public bool IsValidLogFileName(string fileName)
+    {
+        return manager.IsValid(fileName);
+    }
+}
+public interface IExtensionManager
+{
+    bool IsValid(string fileName);
+}
+[Test]
+public void IsValidFileName_NameSupportedExtension_ReturnsTrue()
+{
+    FakeExtensionManager myFakeManager = new FakeExtensionManager();
+    myFakeManager.WillBeValid = true;
+    LogAnalyzer log = new LogAnalyzer(myFakeManager);
+    bool result = log.IsValidLogFileName("short.ext");
+    Assert.True(result);
+}
+```
+
+```csharp
+public class LogAnalyzer
+{
+    private IExtensionManager manager;
+    public LogAnalyzer()
+    {
+        manager = new FileExtensionManager();
+    }
+    public IExtensionManager ExtensionManager
+    {
+        get { return manager; }
+        set { manager = value; }
+    }
+    public bool IsValidLogFileName(string fileName)
+    {
+        return manager.IsValid(fileName);
+    }
+}
+[Test]
+public void IsValidFileName_SupportedExtension_ReturnsTrue()
+{
+    //set up the stub to use, make sure it returns true
+    // ...
+    //create analyzer and inject stub
+    LogAnalyzer log = new LogAnalyzer();
+    log.ExtensionManager = someFakeManagerCreatedEarlier;
+    //Assert logic assuming extension is supported
+    //...
+}
+```
+
+```csharp
+public class DateTimeProvider : IDateTimeProvider
+{
+    public DateTime GetCurrentTime() => DateTime.Now;
+}
+```
+
+```csharp
+public class LogAnalyzer
+{
+    //...
+    internal LogAnalyzer(IExtensionManager extentionMgr)
+    {
+        manager = extentionMgr;
+    }
+    //...
+}
+using System.Runtime.CompilerServices;
+[assembly:
+InternalsVisibleTo("Meissa.Infrastructure")]
+```
+
+```csharp
+[Conditional("DEBUG")]
+public string GetRunningAssemblyPath()
 {
     string codeBase = Assembly.GetExecutingAssembly().CodeBase;
     var uri = new UriBuilder(codeBase);
@@ -9695,513 +11417,1664 @@ private string GetAssemblyDirectory()
 ```
 
 ```csharp
-var options = new ChromeOptions();
-options.AddArguments($"load-extension={GetAssemblyDirectory()}FullPageScreenshotsExtension-Chrome");
-var capabilities = new DesiredCapabilities();
-capabilities.SetCapability(ChromeOptions.Capability, options);
-var dc = DesiredCapabilities.Chrome();
-dc.SetCapability(ChromeOptions.Capability, options);
-```
-
-```ps1
-rd /s /q "$(TargetDir)"
-
-```
-
-```ps1
-xcopy $(ProjectDir)FullPageScreenshotsExtension-Chrome* $(ProjectDir)$(OutDir)FullPageScreenshotsExtension-Chrome /Y /I /E
-```
-
-```ps1
-xcopy $(ProjectDir)FullPageScreenshotsExtension-Edge* $(ProjectDir)$(OutDir)FullPageScreenshotsExtension-Edge /Y /I /E
-
-
-```
-
-```ps1
-xcopy $(ProjectDir)FullPageScreenshotsExtension-Firefox* $(ProjectDir)$(OutDir)FullPageScreenshotsExtension-Firefox /Y /I /E
-
-```
-
-```csharp
-var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-var fullPageImg = wait.Until(ExpectedConditions.ElementExists(By.Id("fullPageScreenshotId")));
-var pngContent = fullPageImg.GetAttribute("src");
-```
-
-```json
+#if DEBUG
+public LogAnalyzer (IExtensionManager extensionMgr)
 {
-  "name": "WebDriver Full Page Screenshots",
-  "version": "0.0.2",
-  "manifest_version": 2,
-  "description": "Used to create full page screenshots in Selenium WebDriver tests.",
-  "background": {
-    "scripts": ["background.js"],
-    "persistent": true
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["contentScript.js"]
-    }
-  ],
-  "browser_action": {
-    "default_title": "WebDriver Full Page Screenshots"
-  },
-  "permissions": ["https://*/*", "http://*/*", "tabs", "<all_urls>"]
+manager = extensionMgr;
 }
-```
-
-```csharp
-chrome.runtime.sendMessage({ greeting: "screenshot" });
-
-```
-
-```csharp
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request.greeting == "screenshot")
-    {
-        chrome.tabs.query(
-        { currentWindow: true, active: true },
-      function(tabArray) {
-            chrome.tabs.executeScript(tabArray[0].id, { file: "html2canvas.js" });
-        }
-    );
-    }
-});
-```
-
-```csharp
-// ...
-// all of the rest HTML2Canvas.js
-(function() {
-    html2canvas(document.body, {
-    onrendered: function(canvas) {
-            var img = document.createElement("img");
-            img.src = canvas.toDataURL("image/png");
-            img.style.visibility = "hidden";
-            img.id = "fullPageScreenshotId";
-            document.body.appendChild(img);
-        },
-  });
-})();
-```
-
-## Capture Full Page Screenshots Using WebDriver with HTML2Canvas.js
-
-```csharp
-[Test]
-public void TakingWebDriverScreenshot()
-{
-    using (var driver = new InternetExplorerDriver())
-    {
-        driver.Navigate().GoToUrl(@"https://automatetheplanet.com");
-        var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
-        var tempFilePath = Path.GetTempFileName().Replace(".tmp", ".png");
-        screenshot.SaveAsFile(tempFilePath, ScreenshotImageFormat.Png);
-    }
-}
+#endif
 ```
 
 ```csharp
 [Test]
-public void TakingHTML2CanvasFullPageScreenshot()
+public async Task InsertCurrentTestAgent_When_TestAgentForCurrentMachineIsNotExistingInDatabase()
 {
-    using (var driver = new ChromeDriver())
-    {
-        driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
-        driver.Navigate().GoToUrl(@"https://automatetheplanet.com");
-        IJavaScriptExecutor js = driver;
-        var html2canvasJs = File.ReadAllText($"{GetAssemblyDirectory()}html2canvas.js");
-        js.ExecuteScript(html2canvasJs);
-        string generateScreenshotJS =
-        @"function genScreenshot () {
-var canvasImgContentDecoded;
-html2canvas(document.body).then(function(canvas) {
-window.canvasImgContentDecoded = canvas.toDataURL(""image/png"");
-});
+    // Arrange
+    var testAgents = TestAgentFactory.CreateWithoutCurrentMachineName(TestAgentStatus.Inactive);
+    var insertedTestAgent = default(Task<TestAgentDto>);
+    _testAgentRepositoryMock.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(testAgents));
+    _testAgentRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<TestAgentDto>())).
+    Returns((Task<TestAgentDto> a) => insertedTestAgent = a);
+    // Act
+    await _testAgentStateSwitcher.SetTestAgentAsActiveAsync(testAgents.First().AgentTag);
+    // Assert
+    // ...
 }
-genScreenshot();";
-        js.ExecuteScript(generateScreenshotJS);
-        var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-        wait.IgnoreExceptionTypes(typeof(InvalidOperationException));
-        wait.Until(
-        wd =>
+```
+
+```csharp
+Assert.That(insertedTestAgent.Result.TestAgentId, Is.Not.Null);
+Assert.That(insertedTestAgent.Result.AgentTag, Is.EqualTo(testAgents.First().AgentTag));
+Assert.That(insertedTestAgent.Result.MachineName, Is.EqualTo(Environment.MachineName));
+Assert.That(insertedTestAgent.Status, Is.EqualTo(TestAgentStatus.Active));
+```
+
+```csharp
+_testRunRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<int>(),
+It.Is<TestRunDto>(i => i.TestRunId == _testRunId && i.Status == status)), Times.Once);
+_testRunRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<int>(),
+It.IsAny<TestRunDto>()), Times.Once);
+```
+
+```csharp
+private Mock<IServiceClient<TestAgentDto>> _testAgentRepositoryMock;
+private ITestAgentsService _testAgentsService;
+[SetUp]
+public void TestInit()
+{
+    _testAgentRepositoryMock = new Mock<IServiceClient<TestAgentDto>>();
+    _testAgentsService = new TestAgentsService(_testAgentRepositoryMock.Object);
+}
+```
+
+```csharp
+_directoryProvider.Setup(x => x.DoesDirectoryExists(It.IsAny<string>())).Returns(true);
+_dateTimeProvider.Setup(x => x.GetCurrentTime()).Returns(DateTime.Now);
+
+```
+
+```csharp
+var logs = LogFactory.CreateEmpty();
+_logRepositoryMock.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(logs));
+```
+
+```csharp
+_pathProvider.Setup(x => x.Combine(It.IsAny<string>(), It.IsAny<string>())).
+Returns((string path1, string filePath) => Path.Combine(path1, filePath));
+_fileProvider.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).
+Callback((string filePath, string content) => File.WriteAllText(filePath, content));
+```
+
+```csharp
+Mock<IFileConnection> fileConnection = new Mock<IFileConnection>();
+fileConnection.Setup(item => item.Get(It.IsAny<string>, It.IsAny<string>))
+.Throws(new IOException());
+```
+
+```csharp
+var mockHeater = new Mock<IHeater>();
+var mockThermostat = new Mock<IThermostat>();
+mockThermostat.Setup(m => m.StartAsyncSelfCheck()).Raises(
+m => m.HealthCheckComplete += null, new ThermoEventArgs { OK = false });
+var controller = new Services.HeatingController(mockHeater.Object, mockThermostat.Object);
+// Act
+controller.PerformHealthChecks();
+// Assert
+mockHeater.Verify(m => m.SwitchOff());
+```
+
+```csharp
+[Test]
+public void EventFiringManual()
+{
+    bool loadFired = false;
+    SomeView view = new SomeView();
+    view.Load += delegate
+    {
+        loadFired = true;
+    };
+    view.DoSomethingThatEventuallyFiresThisEvent();
+    Assert.IsTrue(loadFired);
+}
+```
+
+```csharp
+// Arrange
+var mockHeater = new Mock<IHeater>();
+var mockThermostat = new Mock<IThermostat>();
+mockThermostat.Setup(m => m.StartAsyncSelfCheck()).Raises(
+m => m.HealthCheckComplete += null, new ThermoEventArgs { OK = false });
+var controller = new Services.HeatingController(mockHeater.Object, mockThermostat.Object);
+// Act
+controller.PerformHealthChecks();
+// Assert
+mockHeater.Verify(m => m.SwitchOff());
+// Arrange
+var mockHeater = new Mock<IHeater>();
+var mockThermostat = new Mock<IThermostat>();
+mockThermostat.Setup(m => m.StartAsyncSelfCheck()).Raises(
+m => m.HealthCheckComplete += null, new ThermoEventArgs { OK = true });
+var controller = new Services.HeatingController(mockHeater.Object, mockThermostat.Object);
+// Act
+controller.PerformHealthChecks();
+// Assert
+mockHeater.Verify(m => m.SwitchOff(), Times.Never());
+```
+
+## Test Automation Reporting with Azure DevOps CI in .NET Projects
+
+```csharp
+TestContext.AddTestAttachment("screenshotPath", "image on fail");
+```
+
+## Test Automation Reporting with ReportPortal in .NET Projects
+
+```powershell
+curl https://raw.githubusercontent.com/reportportal/reportportal/master/docker-compose.yml -o docker-compose.yml
+```
+
+```powershell
+docker-compose -p reportportal up -d --force-recreate
+```
+
+```csharp
+public class Calculator
+{
+    public int Square(int num) => num * num;
+    public int Add(int num1, int num2) => num1 + num2;
+    public int Multiply(int num1, int num2) => num1 * num2;
+    public int Subtract(int num1, int num2)
+    {
+        if (num1 > num2)
         {
-            string response = (string)js.ExecuteScript
-    ("return (typeof canvasImgContentDecoded === 'undefined' || canvasImgContentDecoded === null)");
-            if (string.IsNullOrEmpty(response))
-            {
-                return false;
-            }
-            return bool.Parse(response);
-        });
-        wait.Until(wd => !string.IsNullOrEmpty((string)js.ExecuteScript("return canvasImgContentDecoded;")));
-        var pngContent = (string)js.ExecuteScript("return canvasImgContentDecoded;");
-        pngContent = pngContent.Replace("data:image/png;base64,", string.Empty);
-        var tempFilePath = Path.GetTempFileName().Replace(".tmp", ".png");
-        File.WriteAllBytes(tempFilePath, Convert.FromBase64String(pngContent));
+            return num1 - num2;
+        }
+        return num2 - num1;
     }
-}
-private string GetAssemblyDirectory()
-{
-    string codeBase = Assembly.GetExecutingAssembly().Location;
-    var uri = new UriBuilder(codeBase);
-    string path = Uri.UnescapeDataString(uri.Path);
-    return Path.GetDirectoryName(path);
-}
-```
-
-```csharp
-IJavaScriptExecutor js = driver;
-var html2canvasJs = File.ReadAllText($"{GetAssemblyDirectory()}html2canvas.js");
-js.ExecuteScript(html2canvasJs);
-```
-
-```javascript
-function genScreenshot(){
-    var canvasImgContentDecoded;
-    html2canvas(document.body).then(function(canvas) {
-        window.canvasImgContentDecoded = canvas.toDataURL(""image / png"");
-    });
-  }
-  genScreenshot();
-
-```
-
-```csharp
-var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-wait.IgnoreExceptionTypes(typeof(InvalidOperationException));
-wait.Until(
-wd =>
-{
-    string response = (string)js.ExecuteScript
-    ("return (typeof canvasImgContentDecoded === 'undefined' || canvasImgContentDecoded === null)");
-    if (string.IsNullOrEmpty(response))
-    {
-        return false;
-    }
-    return bool.Parse(response);
-});
-wait.Until(wd => !string.IsNullOrEmpty((string)js.ExecuteScript("return canvasImgContentDecoded;")));
-var pngContent = (string)js.ExecuteScript("return canvasImgContentDecoded;");
-```
-
-```csharp
-var pngContent = (string)js.ExecuteScript("return canvasImgContentDecoded;");
-
-```
-
-```csharp
-var pngContent = (string)js.ExecuteScript("return canvasImgContentDecoded;");
-
-```
-
-## Selenium WebDriver + .NET 5.0 – What Everyone Ought to Know
-
-```xml
-<PackageReference Include="Selenium.Support" Version="3.141.0" />
-<PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-<PackageReference Include="DotNetSeleniumExtras.PageObjects.Core" Version="3.12.0" />
-<PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
-<PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="*" />
-<PackageReference Include="Selenium.Firefox.WebDriver" Version="*" />
-```
-
-```xml
-<PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" />
-<PackageReference Include="NUnit" Version="*" />
-<PackageReference Include="NUnit3TestAdapter" Version="*">
-<PrivateAssets>all</PrivateAssets>
-<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-</PackageReference>
-```
-
-```xml
-<PackageReference Include="Selenium.Support" Version="3.141.0" />
-<PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-<PackageReference Include="DotNetSeleniumExtras.PageObjects.Core" Version="3.12.0" />
-<PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
-<PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="*" />
-<PackageReference Include="Selenium.Firefox.WebDriver" Version="*" />
-<PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" />
-<PackageReference Include="MSTest.TestAdapter" Version="*" />
-<PackageReference Include="MSTest.TestFramework" Version="*" />
-<PackageReference Include="xunit" Version="*" />
-<PackageReference Include="xunit.runner.visualstudio" Version="*" />
-<PackageReference Include="NUnit" Version="*" />
-<PackageReference Include="NUnit3TestAdapter" Version="*">
-<PrivateAssets>all</PrivateAssets>
-<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-</PackageReference>
-```
-
-```csharp
-[Test]
-public void TestWithFirefoxDriver()
-{
-    using (var driver = new FirefoxDriver())
-    {
-        driver.Navigate().GoToUrl(@"https://automatetheplanet.com/multiple-files-page-objects-item-templates/");
-        var link = driver.FindElement(By.PartialLinkText("TFS Test API"));
-        var jsToBeExecuted = $"window.scroll(0, {link.Location.Y});";
-        ((IJavaScriptExecutor)driver).ExecuteScript(jsToBeExecuted);
-        var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
-        var clickableElement = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("TFS Test API")));
-        clickableElement.Click();
-    }
-}
-```
-
-```csharp
-[Test]
-public void TestWithChromeDriver()
-{
-    using (var driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
-    {
-        driver.Navigate().GoToUrl(@"https://automatetheplanet.com/multiple-files-page-objects-item-templates/");
-        var link = driver.FindElement(By.PartialLinkText("TFS Test API"));
-        var jsToBeExecuted = $"window.scroll(0, {link.Location.Y});";
-        ((IJavaScriptExecutor)driver).ExecuteScript(jsToBeExecuted);
-        var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
-        var clickableElement = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("TFS Test API")));
-        clickableElement.Click();
-    }
-}
-```
-
-```csharp
-[Test]
-public void TestWithEdgeDriver()
-{
-    using (var driver = new EdgeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
-    {
-        driver.Navigate().GoToUrl(@"https://automatetheplanet.com/multiple-files-page-objects-item-templates/");
-        var link = driver.FindElement(By.PartialLinkText("TFS Test API"));
-        var jsToBeExecuted = $"window.scroll(0, {link.Location.Y});";
-        ((IJavaScriptExecutor)driver).ExecuteScript(jsToBeExecuted);
-        var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
-        var clickableElement = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("TFS Test API")));
-        clickableElement.Click();
-    }
+    public float Division(float num1, float num2) => num1 / num2;
 }
 ```
 
 ```csharp
 [TestClass]
-public class AutomateThePlanetTestsMsTest
+public class CalculatorDivisionTests
 {
     [TestMethod]
-    public void TestWithFirefoxDriver()
+    public void Return4_WhenMultiply2And2()
     {
-        using (var driver = new FirefoxDriver())
-        {
-            driver.Navigate().GoToUrl(@"https://automatetheplanet.com/multiple-files-page-objects-item-templates/");
-            var link = driver.FindElement(By.PartialLinkText("TFS Test API"));
-            var jsToBeExecuted = $"window.scroll(0, {link.Location.Y});";
-            ((IJavaScriptExecutor)driver).ExecuteScript(jsToBeExecuted);
-            var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
-            var clickableElement = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("TFS Test API")));
-            clickableElement.Click();
-        }
+        var calculator = new Calculator();
+        int actualResult = calculator.Multiply(2, 2);
+        Assert.AreEqual(4, actualResult);
     }
+
     [TestMethod]
-    public void TestWithEdgeDriver()
+    public void Return0_WhenMultiply0And0()
     {
-        using (var driver = new EdgeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
-        {
-            driver.Navigate().GoToUrl(@"https://automatetheplanet.com/multiple-files-page-objects-item-templates/");
-            var link = driver.FindElement(By.PartialLinkText("TFS Test API"));
-            var jsToBeExecuted = $"window.scroll(0, {link.Location.Y});";
-            ((IJavaScriptExecutor)driver).ExecuteScript(jsToBeExecuted);
-            var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
-            var clickableElement = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("TFS Test API")));
-            clickableElement.Click();
-        }
+        var calculator = new Calculator();
+        int actualResult = calculator.Multiply(0, 0);
+        Assert.AreEqual(0, actualResult);
     }
+
     [TestMethod]
-    public void TestWithChromeDriver()
+    public void ReturnMinus5_WhenMultiply5AndMinus1()
     {
-        using (var driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
-        {
-            driver.Navigate().GoToUrl(@"https://automatetheplanet.com/multiple-files-page-objects-item-templates/");
-            var link = driver.FindElement(By.PartialLinkText("TFS Test API"));
-            var jsToBeExecuted = $"window.scroll(0, {link.Location.Y});";
-            ((IJavaScriptExecutor)driver).ExecuteScript(jsToBeExecuted);
-            var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
-            var clickableElement = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("TFS Test API")));
-            clickableElement.Click();
-        }
+        var calculator = new Calculator();
+        int actualResult = calculator.Multiply(5, -1);
+        Assert.AreEqual(0, actualResult);
     }
+}
+```
+
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/reportportal/agent-net-vstest/master/ReportPortal.VSTest.TestLogger/ReportPortal.config.schema",
+  "enabled": true,
+  "server": {
+    "url": "http://127.0.0.1:8080/api/v1/",
+    "project": "superadmin_personal",
+    "authentication": {
+      "uuid": "d8685bb4-2f2a-4335-9c8b-1f2a5d176d02"
+    }
+  },
+  "launch": {
+    "name": "Automate The Planet Test Portal Demo",
+    "description": "This is a demo run of the ATP demo examples for a demonstration of Test Portal integration with MSTest tests.",
+    "debugMode": false,
+    "tags": ["Automate The Planet", "Test Reporting", "MSTEST"]
+  }
+}
+```
+
+```powershell
+dotnet vstest Bellatrix.Web.Tests.dll --testcasefilter:TestCategory=CI --logger:ReportPortal
+```
+
+## Test Automation Reporting with Allure in .NET Projects
+
+```csharp
+public class Calculator
+{
+    public int Square(int num) => num * num;
+    public int Add(int num1, int num2) => num1 ez_plus num2;
+    public int Multiply(int num1, int num2) => num1 * num2;
+    public int Subtract(int num1, int num2)
+    {
+        if (num1 > num2)
+        {
+            return num1 - num2;
+        }
+        return num2 - num1;
+    }
+    public float Division(float num1, float num2) => num1 / num2;
 }
 ```
 
 ```csharp
 [TestFixture]
-public class AutomateThePlanetTests
+[AllureNUnit]
+[AllureSuite("CalculatorTests")]
+[AllureDisplayIgnored]
+class CalculatorAddTests
+{
+    [Test(Description = "Add two integers and returns the sum")]
+    [AllureTag("CI")]
+    [AllureSeverity(SeverityLevel.critical)]
+    [AllureIssue("8911")]
+    [AllureTms("532")]
+    [AllureOwner("Anton")]
+    [AllureSubSuite("Add")]
+    public void Return4_WhenAdd2And2()
+    {
+        var calculator = new Calculator();
+        int actualResult = calculator.Add(2, 2);
+        Assert.AreEqual(4, actualResult);
+    }
+
+    [Test(Description = "Add two integers and returns the sum")]
+    [AllureTag("CI")]
+    [AllureSeverity(SeverityLevel.critical)]
+    [AllureSubSuite("Add")]
+    public void Return0_WhenAdd0And0()
+    {
+        var calculator = new Calculator();
+        int actualResult = calculator.Add(0, 0);
+        Assert.AreEqual(0, actualResult);
+    }
+
+    [Test(Description = "Add two integers and returns the sum")]
+    [AllureTag("CI")]
+    [AllureSeverity(SeverityLevel.critical)]
+    [AllureSubSuite("Add")]
+    public void ReturnMinus5_WhenAddMinus3AndMinus2()
+    {
+        var calculator = new Calculator();
+        int actualResult = calculator.Add(0, 0);
+        Assert.AreEqual(1, actualResult);
+    }
+}
+```
+
+```json
+{
+  "allure": {
+    "directory": "allure-results",
+    "links": [
+      "https://github.com/AutomateThePlanet/Meissa/issues/{issue}",
+      "https://github.com/AutomateThePlanet/Meissa/projects/2#card-{tms}",
+      "{link}"
+    ]
+  }
+}
+```
+
+```json
+[
+  {
+    "name": "Ignored tests",
+    "matchedStatuses": ["skipped"]
+  },
+  {
+    "name": "Product Bug",
+    "matchedStatuses": ["broken", "failed"],
+    "messageRegex": ".*AssertionException.*"
+  },
+  {
+    "name": "Calculator Problem",
+    "matchedStatuses": ["failed"],
+    "traceRegex": ".*DivideByZeroException.*"
+  }
+]
+```
+
+```xml
+<ItemGroup>
+    <Categories Include="categories.json" />
+</ItemGroup>
+<Target Name="CopyCategoriesToAllureFolder">
+    <Copy SourceFiles="@(Categories)" DestinationFolder="$(OutputPath)allure-results" />
+</Target>
+<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <CallTarget Targets="CopyCategoriesToAllureFolder" />
+</Target>
+```
+
+```powershell
+allure generate "allure-results-directory" --clean
+
+
+```
+
+```powershell
+allure open "allure-report-directory"
+
+
+```
+
+## Test Automation Reporting with Zafira in .NET Projects
+
+```powershell
+git clone git@github.com:qaprosoft/zafira.git
+```
+
+```bash
+$ docker-compose up -d
+```
+
+```bash
+$ docker ps
+```
+
+```csharp
+[ZafiraSuite, ZafiraTest]
+public class ZafiraTests : ZafiraListener
+{
+    [OneTimeSetUp]
+    public void StartDriver()
+    {
+        //...
+    }
+}
+```
+
+```csharp
+public class BaseTest : ZafiraListener
+{
+    [OneTimeSetUp]
+    public void StartDriver()
+    {
+        //...
+    }
+}
+[ZafiraSuite, ZafiraTest]
+public class ZafiraTests : BaseTest
 {
     [Test]
-    public void TestWithFirefoxDriver()
+    public void NavigateToHomePage()
     {
-        using (var driver = new FirefoxDriver())
-        {
-            driver.Navigate().GoToUrl(@"https://automatetheplanet.com/multiple-files-page-objects-item-templates/");
-            var link = driver.FindElement(By.PartialLinkText("TFS Test API"));
-            var jsToBeExecuted = $"window.scroll(0, {link.Location.Y});";
-            ((IJavaScriptExecutor)driver).ExecuteScript(jsToBeExecuted);
-            var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
-            var clickableElement = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("TFS Test API")));
-            clickableElement.Click();
-        }
+        //...
     }
-    [Test]
-    public void TestWithEdgeDriver()
+}
+```
+
+## Speed up Automated Tests Writing with .NET Core Project Templates
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netcoreapp2.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<Configurations>Debug;Release</Configurations>
+	</PropertyGroup>
+	<PropertyGroup>
+		<CodeAnalysisRuleSet>StyleCopeRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0-preview-20180807-05" />
+		<PackageReference Include="MSTest.TestAdapter" Version="1.3.2" />
+		<PackageReference Include="MSTest.TestFramework" Version="1.3.2" />
+		<PackageReference Include="Selenium.Firefox.WebDriver" Version="0.21.0" />
+		<PackageReference Include="Selenium.Support" Version="3.14.0" />
+		<PackageReference Include="Selenium.WebDriver" Version="3.14.0" />
+		<PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="2.41.0" />
+		<PackageReference Include="Selenium.WebDriver.IEDriver" Version="3.14.0" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008">
+			<NoWarn>NU1701</NoWarn>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<None Update=".editorconfig">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="stylecop.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="StyleCopeRules.ruleset">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>
+```
+
+```json
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Anton Angelov",
+  "classifications": ["WebDriver", "Test", "UITest"],
+  "identity": "WebDriverTestsProject",
+  "name": "MSTest WebDriver Test Project",
+  "shortName": "mstest-webdriver-test-proj"
+}
+```
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<package
+	xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+	<metadata>
+		<id>WebDriverTestsProject</id>
+		<version>1.0.0</version>
+		<description>
+Creates the WebDriver MSTest test project.
+</description>
+		<authors>Anton Angelov</authors>
+		<packageTypes>
+			<packageType name="Template" />
+		</packageTypes>
+	</metadata>
+</package>
+```
+
+```powershell
+nuget pack <pathToProject>WebDriverTestsProjectTemplate.nuspec
+
+```
+
+```powershell
+dotnet new -i <pathToPackage>WebDriverTestsProject.1.0.0.nupkg
+
+```
+
+```powershell
+dotnet new -i WebDriverTestsProject.1.0.0.nupkg
+
+```
+
+## Speed up Automated Tests Writing with Visual Studio Project Templates
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netcoreapp2.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<Configurations>Debug;Release</Configurations>
+	</PropertyGroup>
+	<PropertyGroup>
+		<CodeAnalysisRuleSet>StyleCopeRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0-preview-20180807-05" />
+		<PackageReference Include="MSTest.TestAdapter" Version="1.3.2" />
+		<PackageReference Include="MSTest.TestFramework" Version="1.3.2" />
+		<PackageReference Include="Selenium.Firefox.WebDriver" Version="0.21.0" />
+		<PackageReference Include="Selenium.Support" Version="3.14.0" />
+		<PackageReference Include="Selenium.WebDriver" Version="3.14.0" />
+		<PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="2.41.0" />
+		<PackageReference Include="Selenium.WebDriver.IEDriver" Version="3.14.0" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008">
+			<NoWarn>NU1701</NoWarn>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<None Update=".editorconfig">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="stylecop.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="StyleCopeRules.ruleset">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>
+```
+
+## High-Quality Code- Naming Methods
+
+```csharp
+public SendActionKeys(IKeyboard keyboard, IMouse mouse, ILocatable actionTarget, string keysToSend)
+{
+    //...
+}
+```
+
+```csharp
+public Send_Action_Keys(IKeyboard keyboard, IMouse mouse, ILocatable actionTarget, string keysToSend)
+{
+    //...
+}
+```
+
+```csharp
+int count = GetCountByStampId(Tenant tennat, long stampId);
+```
+
+```csharp
+// get objects count filtered by stampId
+int count = GetAllByStampCount(Tenant tennat, long stampId);
+```
+
+```csharp
+var meanDemand = CalculateMeanDemand();
+```
+
+```csharp
+// calculate mean demand
+double meanDemand = Calculate();
+```
+
+```csharp
+protected virtual DependentDemandValue InitDe-pendentDemand(
+DateTime startDate,
+DateTime endDate,
+int counter,
+int futureCounter,
+bool isForDailyBucket)
+{
+    //..
+}
+```
+
+```csharp
+protected virtual void InitDependentDemand(
+DateTime startDate,
+DateTime endDate,
+int counter,
+int futureCounter,
+bool isForDailyBucket,
+out double dependentDemand,
+out double dependentDemandFirm,
+out double futureDependentDemand,
+out double upperLevelForecast,
+out double dependantDemandWithoutDestinationSO)
+{
+    // ...
+}
+```
+
+## High-Quality Code- Naming Classes, Interfaces, Enumerations
+
+```csharp
+public partial class TwelveMonthRecurringBillingOrdersPanelAdminBasePage : AdminBasePage
+{
+}
+```
+
+```csharp
+public partial class 12Month_RecurringBilling_OrdersPanel_AdminPage: AdminBasePage
+{
+}
+```
+
+```csharp
+public class ElementsList<TElement> : IEnumerable<TElement>
+where TElement : Element
+{
+    public TElement this[int i] => GetWebDriverElements().ElementAt(i);
+    public IEnumerator<TElement> GetEnumerator() => GetAWebDriverElements().GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public int Count() => GetWebDriverElements().Count();
+    //...
+}
+```
+
+```csharp
+SalesOrdersReportEngine engine;
+SuggestedOrdersReportEngine engine;
+```
+
+```csharp
+// engine to generete report with sales orders
+ReportEngine engine;
+//engine to generete report with suggested orders
+ReportEngine2 engine;
+```
+
+```csharp
+public interface ITimeouts
+{
+    // New API
+    TimeSpan ImplicitWait { get; set; }
+    [Obsolete("This method will be removed in a future version. Please set the ImplicitWait property instead.")]
+    ITimeouts ImplicitlyWait(TimeSpan timeToWait);
+    // ... rest
+}
+```
+
+```csharp
+// old API
+[Obsolete("This type is obsolete. Please use the new version of the same class, X509Certificate2.")]
+public class X509Certificate
+{//...}
+ // new API
+    public class X509Certificate2 {//...}
+```
+
+```csharp
+public enum CarColor
+{
+    Black,
+    Blue,
+    Red,
+    Cyan,
+    // ...
+}
+```
+
+```csharp
+[Flags]
+public enum ConsoleModifiers
+{
+    Alt,
+    Control,
+    Shift,
+}
+```
+
+## High-Quality Automated Tests- Top 10 ReSharper Coding Styles
+
+```csharp
+void LandMarsRover(
+int x,
+int y,
+int z,
+double fuelNeeded)
+{
+}
+```
+
+```csharp
+void LandMarsRover(int x,
+int y,
+int z,
+double fuelNeeded)
+{
+}
+```
+
+```csharp
+LandMarsRover(
+int x,
+int y,
+int z,
+double fuelNeeded);
+```
+
+```csharp
+LandMarsRover(int x,
+int y,
+int z,
+double fuelNeeded);
+```
+
+```csharp
+if (isRoverLandedSuccessfully)
+{
+    Celebrate();
+}
+else
+{
+    SendAnotherRover();
+}
+```
+
+```csharp
+if (isRoverLandedSuccessfully)
+{
+    Celebrate();
+}
+else
+{
+    PlaySadSong();
+}
+```
+
+```csharp
+totalFuel = engineFuel + upperRocket - upperBathroomFuel;
+```
+
+```csharp
+totalFuel = engineFuel + upperRocket - upperBathroomFuel;
+
+```
+
+```csharp
+LaunchSatellite(_xSky, _ySky, _fuel);
+
+```
+
+```csharp
+LaunchSatellite(_xSky, _ySky, _fuel);
+
+```
+
+```csharp
+Action calculateMoonBaseFuel = rover => roverFuel * 4.5;
+
+```
+
+```csharp
+Action calculateMoonBaseFuel = rover => roverFuel * 4.5;
+
+```
+
+```csharp
+LandMarsRover(
+int x,
+int y,
+int z,
+double fuelNeeded);
+```
+
+```csharp
+LandMarsRover(
+int x,
+int y,
+int z,
+double fuelNeeded);
+```
+
+```csharp
+private string secretJupiterBase = string.Empty;
+```
+
+```csharp
+private string secretJupiterBase = "";
+```
+
+## High-Quality Automated Tests- Top StyleCop Coding Styles Part 3
+
+```csharp
+int xTarget = 5 + b;
+string yTarget = this.GetTargetCoordinates().ToString();
+return xTarget.FuelNeeded;
+```
+
+```csharp
+int xTarget = (5 + b);
+string yTarget = (this.GetTargetCoordinates()).ToString();
+return (xTarget.FuelNeeded);
+```
+
+```csharp
+public string LandMoonPioneer(int x, int y, double fuelToSave)
+{
+}
+public string LandMoonPioneer(
+int x, int y, double fuelToSave)
+{
+}
+public string LandMoonPioneer(
+int x,
+int y,
+double fuelToSave)
+{
+}
+```
+
+```csharp
+public string LandMoonPioneer(int x, int y,
+double fuelToSave)
+{
+}
+```
+
+```csharp
+public bool LandMoonPioneer(int x, int y, double fuelToSave)
+{
+    bool isLandingSuccessfull = TryToLand(
+    x,
+    y);
+}
+```
+
+```csharp
+public bool LandMoonPioneer(int x, int y, double fuelToSave)
+{
+    bool isLandingSuccessfull = TryToLand(
+    x,
+    y
+    );
+}
+```
+
+```csharp
+int xTarget = 5 + b;
+string yTarget = GetTargetCoordinates().ToString();
+```
+
+```csharp
+int xTarget = 5 + b; string yTarget = GetTargetCoordinates().ToString();
+
+```
+
+```csharp
+string newMoonName = CreateNewMoonName("Jupiter", "Europa New");
+
+```
+
+```csharp
+string newMoonName = base.CreateNewMoonName("Jupiter", "Europa New");
+
+```
+
+```csharp
+public class JupiterMoonFactory<TPlanetType> : MoonFactory
+{
+    public JupiterMoonFactory(int size) : base(size)
     {
-        using (var driver = new EdgeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
-        {
-            driver.Navigate().GoToUrl(@"https://automatetheplanet.com/multiple-files-page-objects-item-templates/");
-            var link = driver.FindElement(By.PartialLinkText("TFS Test API"));
-            var jsToBeExecuted = $"window.scroll(0, {link.Location.Y});";
-            ((IJavaScriptExecutor)driver).ExecuteScript(jsToBeExecuted);
-            var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
-            var clickableElement = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("TFS Test API")));
-            clickableElement.Click();
-        }
     }
-    [Test]
-    public void TestWithChromeDriver()
+}
+```
+
+```csharp
+public class JupiterMoonFactory<TPlanetType> : MoonFactory
+{
+    public JupiterMoonFactory(int size) : base(size)
     {
-        using (var driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
+    }
+}
+```
+
+```csharp
+private Location secretMilitarySpaceBase = GetLocation("Space Zebra 2");
+
+```
+
+```csharp
+Location secretMilitarySpaceBase = GetLocation("Space Zebra 2");
+
+```
+
+```csharp
+public class JupiterMoonFactory<TPlanetType> : MoonFactory
+{
+    public JupiterMoonFactory(int size) : base(size)
+    {
+    }
+}
+```
+
+```csharp
+public class JupiterMoonFactory<TPlanetType> : MoonFactory
+{
+    public JupiterMoonFactory(int Size) : base(Size)
+    {
+    }
+}
+```
+
+```csharp
+bool isPetrolOnMoon = LocateResources(ResourcesType.Petrol);
+if (isTherePetrolOnMoon)
+{
+    // go there...
+}
+```
+
+```csharp
+bool IsPetrolOnMoon = LocateResources(ResourcesType.Petrol);
+if (IsPetrolOnMoon)
+{
+    // go there...
+}
+```
+
+```csharp
+private Location _secretMilitarySpaceBase = new Location(107, 45);
+```
+
+```csharp
+private Location secretMilitarySpaceBase = new Location(107, 45);
+
+```
+
+```csharp
+private readonly Location SecretMilitarySpaceBase = new Location(107, 45);
+```
+
+```csharp
+private readonly Location secretMilitarySpaceBase = new Location(107, 45);
+
+```
+
+```csharp
+public const string SecretSaturnBaseName = "Titan Chocolate Corns 2.1";
+
+```
+
+```csharp
+public const string secretSaturnBaseName = "Titan Chocolate Corns 2.1";
+public const string SECRET_SATURN_BASE_NAME = "Titan Chocolate Corns 2.1";
+
+```
+
+## High-Quality Automated Tests- Top StyleCop Coding Styles Part 2
+
+```csharp
+private const string warningMessage = "Beware Evil Cookie Robots behind the Door!!";
+private int fuelQuanlity;
+```
+
+```csharp
+private int fuelQuanlity;
+private const string warningMessage = "Beware Evil Cookie Robots behind the Door!!";
+```
+
+```csharp
+public void ShouldShootTheMissile(string missileType)
+{
+    if (missileType == null)
+    {
+        throw new ArgumentNullException(nameof(missileType));
+    }
+}
+```
+
+```csharp
+public void ShouldShootTheMissile(string missileType)
+{
+    if (null == missileType)
+    {
+        throw new ArgumentNullException(nameof(missileType));
+    }
+}
+```
+
+```csharp
+Action calculateTargetX = () => { x = 0; };
+Action calculateTargetY = () => { y = 0; };
+Func<int, int, int> calculateDefense = (m, n) => m + n;
+```
+
+```csharp
+Action calculateTargetX = delegate { x = 0; };
+Action calculateTargetY = delegate () { y = 0; };
+Func<int, int, int> calculateDefence = delegate (int m, int n) { return m + n; };
+```
+
+```csharp
+public class RobotGardner
+{
+    public RobotGardner()
+    : this(30)
+    {
+    }
+    public RobotGardner()
+    : base(50)
+    {
+    }
+}
+```
+
+```csharp
+public class RobotGardner
+{
+    public RobotGardner() : this(30)
+    {
+    }
+    public RobotGardner() : base(50)
+    {
+    }
+}
+```
+
+```csharp
+private void CleanMoonDust<TRockType, TTool>()
+where TRockType : class
+where TTool : class, new()
+{
+}
+```
+
+```csharp
+private void CleanMoonDust<TRockType, TTool>() where TRockType : class where TTool : class, new()
+{
+}
+```
+
+```csharp
+private DateTime? launchStart;
+
+```
+
+```csharp
+private Nullable<DateTime> launchStart;
+
+```
+
+```csharp
+private DateTime? landingTime;
+
+```
+
+```csharp
+#region Variables
+private DateTime? landingTime;
+#endregion
+```
+
+```csharp
+private DateTime? archiveOldMoonBase; // maybe we should go there and clean the kitchen
+```
+
+```csharp
+private DateTime? archiveOldMoonBase; //
+
+```
+
+## 6 Common Challenges Running WebDriver UI Tests in Parallel
+
+```csharp
+public static void Dispose()
+{
+    var processes = Process.GetProcesses();
+    var processesToCheck = new List<string> { "edge", "chrome", "firefox" };
+    foreach (var process in processes)
+    {
+        if (processesToCheck.Contains(process.ProcessName.ToLower()))
         {
-            driver.Navigate().GoToUrl(@"https://automatetheplanet.com/multiple-files-page-objects-item-templates/");
-            var link = driver.FindElement(By.PartialLinkText("TFS Test API"));
-            var jsToBeExecuted = $"window.scroll(0, {link.Location.Y});";
-            ((IJavaScriptExecutor)driver).ExecuteScript(jsToBeExecuted);
-            var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
-            var clickableElement = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("TFS Test API")));
-            clickableElement.Click();
+            process.Kill();
+            process.WaitForExit();
         }
     }
 }
 ```
 
 ```csharp
-public class AutomateThePlanetTestsXUnit
+private static int GetFreeTcpPort()
 {
-    [Fact]
-    public void TestWithFirefoxDriver()
+    Thread.Sleep(100);
+    var tcpListener = new TcpListener(IPAddress.Loopback, 0);
+    tcpListener.Start();
+    int port = ((IPEndPoint)tcpListener.LocalEndpoint).Port;
+    tcpListener.Stop();
+    return port;
+}
+```
+
+## High-Quality Automated Tests- Top 9 StyleCop Coding Styles Part 1
+
+```csharp
+if (true)
+{
+    return this.value;
+}
+```
+
+```csharp
+if (true)
+    return this.value;
+
+```
+
+```csharp
+public bool Enabled
+{
+    get
     {
-        using (var driver = new FirefoxDriver())
-        {
-            driver.Navigate().GoToUrl(@"https://automatetheplanet.com/multiple-files-page-objects-item-templates/");
-            var link = driver.FindElement(By.PartialLinkText("TFS Test API"));
-            var jsToBeExecuted = $"window.scroll(0, {link.Location.Y});";
-            ((IJavaScriptExecutor)driver).ExecuteScript(jsToBeExecuted);
-            var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
-            var clickableElement = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("TFS Test API")));
-            clickableElement.Click();
-        }
+        Console.WriteLine("Getting the enabled flag.");
+        // Return the value of the 'enabled' field.
+        return this.enabled;
     }
-    [Fact]
-    public void TestWithEdgeDriver()
+}
+public bool Enabled
+{
+    get
     {
-        using (var driver = new EdgeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
-        {
-            driver.Navigate().GoToUrl(@"https://automatetheplanet.com/multiple-files-page-objects-item-templates/");
-            var link = driver.FindElement(By.PartialLinkText("TFS Test API"));
-            var jsToBeExecuted = $"window.scroll(0, {link.Location.Y});";
-            ((IJavaScriptExecutor)driver).ExecuteScript(jsToBeExecuted);
-            var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
-            var clickableElement = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("TFS Test API")));
-            clickableElement.Click();
-        }
-    }
-    [Fact]
-    public void TestWithChromeDriver()
-    {
-        using (var driver = new ChromeDriver(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
-        {
-            driver.Navigate().GoToUrl(@"https://automatetheplanet.com/multiple-files-page-objects-item-templates/");
-            var link = driver.FindElement(By.PartialLinkText("TFS Test API"));
-            var jsToBeExecuted = $"window.scroll(0, {link.Location.Y});";
-            ((IJavaScriptExecutor)driver).ExecuteScript(jsToBeExecuted);
-            var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
-            var clickableElement = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("TFS Test API")));
-            clickableElement.Click();
-        }
+        Console.WriteLine("Getting the enabled flag.");
+        ////return false;
+        return this.enabled;
     }
 }
 ```
 
-```ps1
-dotnet test --logger=trx
-```
-
-## Most Exhaustive WebDriver Locators Cheat Sheet
-
 ```csharp
-_driver.FindElement(By.Id("userName"));
-_driver.FindElement(By.ClassName("panel other"));
-_driver.FindElement(By.CssSelector("#userName"));
-_driver.FindElement(By.LinkText("Automate The Planet"));
-_driver.FindElement(By.Name("webDriverCheatSheet"));
-_driver.FindElement(By.PartialLinkText("Automate"));
-_driver.FindElement(By.TagName("a"));
-_driver.FindElement(By.XPath("//*[@id='panel']/div/h1"));
-```
-
-```csharp
-[FindsBy(How = How.Id, Using = "userName")]
-[FindsBy(How = How.ClassName, Using = "panel other")]
-[FindsBy(How = How.CssSelector, Using = "#userName")]
-[FindsBy(How = How.LinkText, Using = "Automate The Planet")]
-[FindsBy(How = How.Name, Using = "webDriverCheatSheet")]
-[FindsBy(How = How.PartialLinkText, Using = "Automate")]
-[FindsBy(How = How.TagName, Using = "a")]
-[FindsBy(How = How.XPath, Using = "//*[@id='panel']/div/h1")]
-private IWebElement _myElement;
-```
-
-## Enhanced Selenium WebDriver Tests with the New Improved C# 6.0
-
-```csharp
-public class SearchEngineMainPage
+public bool Enabled
 {
-    private readonly IWebDriver driver;
-    public SearchEngineMainPage(IWebDriver browser)
+    get
     {
-        this.driver = browser;
-        PageFactory.InitElements(browser, this);
-    }
-    public string Url
-    {
-        get
-        {
-            return @"searchEngineUrl";
-        }
-    }
-    [FindsBy(How = How.Id, Using = "sb_form_q")]
-    public IWebElement SearchBox { get; set; }
-    [FindsBy(How = How.Id, Using = "sb_form_go")]
-    public IWebElement GoButton { get; set; }
-    [FindsBy(How = How.Id, Using = "b_tween")]
-    public IWebElement ResultsCountDiv { get; set; }
-    public void Navigate()
-    {
-        this.driver.Navigate().GoToUrl(this.Url);
-    }
-    public void Search(string textToType)
-    {
-        this.SearchBox.Clear();
-        this.SearchBox.SendKeys(textToType);
-        this.GoButton.Click();
-    }
-    public void AssertResultsCount(string expectedCount)
-    {
-        Assert.AreEqual(this.ResultsCountDiv.Text, expectedCount);
+        Console.WriteLine("Getting the enabled flag.");
+        // Return the value of the 'enabled' field.
+        return this.enabled;
     }
 }
 ```
+
+```csharp
+if (AmIHungry)
+{
+    MakePancakes();
+}
+return pancakesList;
+```
+
+```csharp
+if (AmIHungry)
+{
+    MakePancakes();
+}
+return pancakesList;
+```
+
+```csharp
+public bool ShouldBuyTheMoon
+{
+    get
+    {
+        Console.WriteLine("TODO: Should check the stocks after 1 month...");
+        return this.shouldBuyTheMoon;
+    }
+}
+```
+
+```csharp
+public bool ShouldBuyTheMoon
+{
+    get
+    {
+        Console.WriteLine("TODO: Should check the stocks after 1 month...");
+        return this.shouldBuyTheMoon;
+    }
+}
+```
+
+````csharp
+public object DefuseTheRockets()```csharp
+private static bool ShouldMakePancakesWeeklyForecast;
+private bool shouldTodayMakePancakes;
+````
+
+{
+return null;
+}
+
+````
+
+```csharp
+public object DefuseTheRockets() { return null; }
+````
+
+```csharp
+public object Teleport()
+{
+    lock (this)
+    {
+        return this.allMyParticles;
+    }
+}
+```
+
+```csharp
+public object Teleport()
+{
+    lock (this)
+    {
+        return this.allMyParticles;
+    }
+}
+```
+
+```csharp
+/// <summary>
+/// </summary>
+/// <remarks></remarks>
+/// <param name="firstName">Your first name.</param>
+/// <param name="lastName">Your last name.</param>
+/// <returns>The application status.</returns>
+public bool ApplyForJoiningTheDarkForce(string firstName, string lastName)
+{
+    ...
+}
+```
+
+```csharp
+private void VisitMarsSometimes()
+{
+    // TODO: 1. Visit grandma there.
+    // TODO: 2. Buy some refrigerator magnets.
+}
+```
+
+```csharp
+private void VisitMarsSometimes()
+{
+    // TODO: 1. Visit grandma there.
+    // TODO: 2. Buy some refrigerator magnets.
+}
+```
+
+```csharp
+private static bool ShouldMakePancakesWeeklyForecast;
+private bool shouldTodayMakePancakes;
+```
+
+```csharp
+private bool shouldTodayMakePancakes;
+private static bool ShouldMakePancakesWeeklyForecast;
+```
+
+## High-Quality Automated Tests- Enforce Style and Consistency Rules Using StyleCop
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="StyleCopeRules" Description="StyleCopeRules custom ruleset" ToolsVersion="15.0">
+	<IncludeAll Action="Warning" />
+	<Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+		<Rule Id="SA1101" Action="None" />
+		<Rule Id="SA1108" Action="None" />
+		<Rule Id="SA1115" Action="None" />
+		<Rule Id="SA1116" Action="None" />
+		<Rule Id="SA1118" Action="None" />
+		<Rule Id="SA1123" Action="None" />
+		<Rule Id="SA1129" Action="None" />
+		<Rule Id="SA1200" Action="None" />
+		<Rule Id="SA1201" Action="None" />
+		<Rule Id="SA1202" Action="None" />
+		<Rule Id="SA1208" Action="None" />
+		<Rule Id="SA1300" Action="None" />
+		<Rule Id="SA1306" Action="None" />
+		<Rule Id="SA1308" Action="None" />
+		<Rule Id="SA1309" Action="None" />
+		<Rule Id="SA1310" Action="None" />
+		<Rule Id="SA1311" Action="None" />
+		<Rule Id="SA1401" Action="None" />
+		<Rule Id="SA1402" Action="None" />
+		<Rule Id="SA1407" Action="None" />
+		<Rule Id="SA1408" Action="None" />
+		<Rule Id="SA1516" Action="None" />
+		<Rule Id="SA1600" Action="None" />
+		<Rule Id="SA1601" Action="None" />
+		<Rule Id="SA1602" Action="None" />
+		<Rule Id="SA1604" Action="None" />
+		<Rule Id="SA1611" Action="None" />
+		<Rule Id="SA1612" Action="None" />
+		<Rule Id="SA1615" Action="None" />
+		<Rule Id="SA1623" Action="None" />
+		<Rule Id="SA1633" Action="None" />
+		<Rule Id="SA1649" Action="None" />
+		<Rule Id="SA1652" Action="None" />
+		<Rule Id="SX1101" Action="Warning" />
+		<Rule Id="SX1309" Action="Warning" />
+	</Rules>
+</RuleSet>
+```
+
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": "Automate The Planet Ltd.",
+      "copyrightText": "This source code is Copyright © {companyName} and MAY NOT be copied, reproduced,published, distributed or transmitted to or stored in any manner without priorwritten consent from {companyName} (bellatrix.solutions).",
+      "documentExposedElements": "false",
+      "documentInternalElements": "false",
+      "documentPrivateElements": "false",
+      "documentPrivateFields": "false"
+    },
+    "layoutRules": {
+      "newlineAtEndOfFile": "require"
+    },
+    "orderingRules": {
+      "systemUsingDirectivesFirst": "true",
+      "usingDirectivesPlacement": "outsideNamespace"
+    }
+  }
+}
+```
+
+```xml
+<PropertyGroup>
+	<TargetFramework>netstandard2.0</TargetFramework>
+	<RunCodeAnalysis>True</RunCodeAnalysis>
+</PropertyGroup>
+<PropertyGroup>
+	<CodeAnalysisRuleSet>$(SolutionDir)StyleCopeRules.ruleset</CodeAnalysisRuleSet>
+</PropertyGroup>
+<ItemGroup>
+	<AdditionalFiles Include="$(SolutionDir)stylecop.json" Link="stylecop.json" />
+</ItemGroup>
+<ItemGroup>
+	<None Update="StyleCopeRules.ruleset">
+		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</None>
+</ItemGroup>
+```
+
+```xml
+<ItemGroup>
+    <ExcludeFromStyleCop Include="***.cs" Condition=" '$(Configuration)' == 'Release' " />
+<ItemGroup/>
+```
+
+## High-Quality Automated Tests- Top 10 EditorConfig Coding Styles Part 2
+
+```csharp
+// csharp_style_expression_bodied_properties = true:error
+public int PlanetsCount => 42;
+```
+
+```csharp
+// csharp_style_expression_bodied_properties = false:error
+public int MoonsCount
+{
+    get { return 13; }
+}
+```
+
+```csharp
+// csharp_style_throw_expression = true:error
+FuelType = fuelType ?? throw new ArgumentNullException(nameof(FuelType));
+```
+
+```csharp
+// csharp_style_throw_expression = false:error
+if (fuelType == null)
+{
+    throw new ArgumentNullException(nameof(fuelType));
+}
+this.FuelType = fuelType;
+```
+
+```csharp
+// csharp_style_var_elsewhere = true:error
+int moonSize = CalculateMoonSize();
+```
+
+```csharp
+// csharp_style_var_elsewhere = false:error
+var secondMoonSize = CalculateMoonSize();
+```
+
+```csharp
+// csharp_style_var_for_built_in_types = true:error
+var planetSize = 42;
+```
+
+```csharp
+// csharp_style_var_for_built_in_types = false:error
+int secondPlanetSize = 42;
+```
+
+```csharp
+// csharp_style_var_when_type_is_apparent = true:error
+var robots = new List<int>();
+```
+
+```csharp
+// csharp_style_var_when_type_is_apparent = false:error
+List<int> robots = new List<int>();
+```
+
+```csharp
+// dotnet_sort_system_directives_first = true
+using System;
+using System.Collections.Generic;
+```
+
+```csharp
+// dotnet_sort_system_directives_first = false
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
+```
+
+```csharp
+// dotnet_style_coalesce_expression = true:error
+int? sunSize = null;
+var blackHole = sunSize ?? 10000;
+```
+
+```csharp
+
+// dotnet_style_coalesce_expression = false:error
+var secondBlackHole = sunSize != null ? sunSize : 10000;
+```
+
+```csharp
+// dotnet_style_collection_initializer = true:error
+var shieldsPower = new List<int> { 42, 13 };
+```
+
+```csharp
+// dotnet_style_collection_initializer = false:error
+var shieldsPower = new List<int>();
+shieldsPower.Add(42);
+shieldsPower.Add(13);
+```
+
+```csharp
+// dotnet_style_null_propagation = true:error
+var smallSpaceShip = spaceShipFactory?.Build();
+```
+
+```csharp
+// dotnet_style_null_propagation = false:error
+var smallSpaceShip = spaceShipFactory == null ? null : spaceShipFactory.Build();
+```
+
+```csharp
+// dotnet_style_object_initializer = true:error
+var bigSpaceShip = new SpaceShip
+{
+    Name = "Meissa"
+};
+```
+
+```csharp
+// dotnet_style_object_initializer = false:error
+var bigSpaceShip = new SpaceShip();
+bigSpaceShip.Name = "Meissa";
+```
+
+## High-Quality Automated Tests- Top 10 EditorConfig Coding Styles Part 1
+
+```csharp
+bool isEarthRound = false;
+// csharp_indent_block_contents = true
+if (isEarthRound)
+{
+    var answerOfUniverse = 42;
+}
+```
+
+```csharp
+// csharp_indent_block_contents = false
+if (isEarthRound)
+{
+    var answerOfUniverse = 42;
+}
+```
+
+```csharp
+var answerOfEverything = 42;
+// csharp_indent_case_contents = true
+switch (answerOfEverything)
+{
+    case 42:
+        break;
+    case 13:
+        break;
+}
+```
+
+```csharp
+var answerOfEverything = 42;
+// csharp_indent_case_contents = false
+switch (answerOfEverything)
+{
+    case 42:
+        break;
+    case 13:
+        break;
+}
+```
+
+```csharp
+// csharp_prefer_braces = true:error
+if (isEarthRound)
+{
+    return;
+}
+```
+
+```csharp
+// csharp_prefer_braces = false:error
+if (isEarthRound)
+    return;
+```
+
+```csharp
+// csharp_space_after_keywords_in_control_flow_statements = true
+if (isEarthRound)
+{
+}
+while (isEarthRound)
+{
+}
+```
+
+```csharp
+// csharp_space_after_keywords_in_control_flow_statements = false
+if (isEarthRound)
+{
+}
+while (isEarthRound)
+{
+}
+```
+
+```csharp
+// csharp_space_before_colon_in_inheritance_clause = true
+public class SpaceShipOne : Rocket
+```
+
+```csharp
+// csharp_space_before_colon_in_inheritance_clause = false
+public class SpaceShipOne : Rocket
+```
+
+```csharp
+// csharp_style_conditional_delegate_call = true:error
+spaceshipOne?.Invoke("98");
+```
+
+```csharp
+// csharp_style_conditional_delegate_call = false:error
+if (spaceshipOne != null)
+{
+    spaceshipOne("98");
+}
+```
+
+```csharp
+// csharp_style_expression_bodied_accessors = true:error
+private int? fuelType;
+public int? FuelType
+{
+    get => this.fuelType;
+    set => this.fuelType = value;
+}
+```
+
+```csharp
+// csharp_style_expression_bodied_accessors = false:error
+private int fuelType1;
+public int FuelType1
+{
+    get { return this.fuelType1; }
+    set { this.fuelType1 = value; }
+}
+```
+
+```csharp
+// csharp_style_expression_bodied_constructors = true:error
+public SampleRulesCode() => FuelType = 100;
+```
+
+```csharp
+// csharp_style_expression_bodied_constructors = false:error
+public SampleRulesCode()
+{
+    FuelType = 100;
+}
+```
+
+```csharp
+// csharp_style_expression_bodied_indexers = false:error
+public int this[int i]
+{
+    get { return 42; }
+}
+```
+
+```csharp
+// csharp_style_expression_bodied_methods = true:error
+public int CalculateAnswerOfEverything() => 42;
+```
+
+```csharp
+// csharp_style_expression_bodied_methods = false:error
+public int CalculateAnswerOfEverything()
+{
+    return 42;
+}
+```
+
+## High-Quality Automated Tests- Consistent Coding Styles Using EditorConfig
+
+```csharp
+# top-most EditorConfig file
+root = true
+# Don't use tabs for indentation.
+[*]
+indent_style = space
+end_of_line = crlf
+# CSharp code style settings:
+[*.cs]
+# Prefer "var" everywhere
+csharp_style_var_for_built_in_types = true : suggestion
+csharp_style_var_when_type_is_apparent = true : suggestion
+csharp_style_var_elsewhere = true : suggestion
+# Prefer method-like constructs to have a block body
+csharp_style_expression_bodied_methods = false : none
+csharp_style_expression_bodied_constructors = false : none
+csharp_style_expression_bodied_operators = false : none
+# Prefer property-like constructs to have an expression-body
+csharp_style_expression_bodied_properties = true : none
+csharp_style_expression_bodied_indexers = true : none
+csharp_style_expression_bodied_accessors = true : none
+# Suggest more modern language features when available
+csharp_style_pattern_matching_over_is_with_cast_check = true : suggestion
+csharp_style_pattern_matching_over_as_with_null_check = true : suggestion
+csharp_style_inlined_variable_declaration = true : suggestion
+csharp_style_throw_expression = true : suggestion
+csharp_style_conditional_delegate_call = true : suggestion
+# Newline settings
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+# Dotnet code style settings:
+[*.{cs, vb}]
+# Sort using and Import directives with System.* appearing first
+dotnet_sort_system_directives_first = true
+# Avoid "this." and "Me." if not necessary
+dotnet_style_qualification_for_field = false : suggestion
+dotnet_style_qualification_for_property = false : suggestion
+dotnet_style_qualification_for_method = false : suggestion
+dotnet_style_qualification_for_event = false : suggestion
+# Use language keywords instead of framework type names for type references
+dotnet_style_predefined_type_for_locals_parameters_members = true : suggestion
+dotnet_style_predefined_type_for_member_access = true : suggestion
+# Suggest more modern language features when available
+dotnet_style_object_initializer = true : suggestion
+dotnet_style_collection_initializer = true : suggestion
+dotnet_style_coalesce_expression = true : suggestion
+dotnet_style_null_propagation = true : suggestion
+dotnet_style_explicit_tuple_names = true : suggestion
+```
+
+## Create Multiple Files Page Objects with Visual Studio Item Templates
 
 ```csharp
 public class SearchEngineMainPage
@@ -10213,3507 +13086,55 @@ public class SearchEngineMainPage
         this.driver = browser;
         PageFactory.InitElements(browser, this);
     }
-    public string Url => @"searchEngineUrl";
     [FindsBy(How = How.Id, Using = "sb_form_q")]
     public IWebElement SearchBox { get; set; }
     [FindsBy(How = How.Id, Using = "sb_form_go")]
     public IWebElement GoButton { get; set; }
     [FindsBy(How = How.Id, Using = "b_tween")]
     public IWebElement ResultsCountDiv { get; set; }
-    public void Navigate() => this.driver.Navigate().GoToUrl(this.url);
-    public void Search(string textToType)
+    public void Navigate()
     {
-        this.SearchBox.Clear();
-        this.SearchBox.SendKeys(textToType);
-        this.GoButton.Click();
-    }
-    public void AssertResultsCount(string expectedCount) => Assert.AreEqual(this.ResultsCountDiv.Text, expectedCount);
-}
-```
-
-```csharp
-public partial class SearchEngineMainPage
-{
-    public IWebElement SearchBox
-    {
-        get
-        {
-            return this.driver.FindElement(By.Id("sb_form_q"));
-        }
-    }
-    public IWebElement GoButton
-    {
-        get
-        {
-            return this.driver.FindElement(By.Id("sb_form_go"));
-        }
-    }
-    public IWebElement ResultsCountDiv
-    {
-        get
-        {
-            return this.driver.FindElement(By.Id("b_tween"));
-        }
-    }
-}
-```
-
-```csharp
-public partial class SearchEngineMainPage
-{
-    public IWebElement SearchBox => this.driver.FindElement(By.Id("sb_form_q"));
-    public IWebElement GoButton => this.driver.FindElement(By.Id("sb_form_go"));
-    public IWebElement ResultsCountDiv => this.driver.FindElement(By.Id("b_tween"));
-}
-```
-
-```csharp
-public partial class SearchEngineMainPage
-{
-    private readonly IWebDriver driver;
-    public SearchEngineMainPage(IWebDriver browser)
-    {
-        this.driver = browser;
-        PageFactory.InitElements(browser, this);
-    }
-    public string Url => @"searchEngineUrl";
-    public void Navigate() => this.driver.Navigate().GoToUrl(this.Url);
-    public void Search(string textToType)
-    {
-        this.SearchBox.Clear();
-        this.SearchBox.SendKeys(textToType);
-        this.GoButton.Click();
-    }
-}
-```
-
-```csharp
-public class Client
-{
-    public Client(string firstName, string lastName, string email, string password)
-    {
-        this.FirstName = firstName;
-        this.LastName = lastName;
-        this.Email = email;
-        this.Password = password;
-    }
-    public Client()
-    {
-        this.FirstName = "Default First Name";
-        this.LastName = "Default Last Name";
-        this.Email = "myDefaultClientEmail@gmail.com";
-        this.Password = "12345";
-    }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-    public string Password { get; set; }
-}
-```
-
-```csharp
-public class Client
-{
-    public Client(string firstName, string lastName, string email, string password)
-    {
-        this.FirstName = firstName;
-        this.LastName = lastName;
-        this.Email = email;
-        this.Password = password;
-    }
-    public string FirstName { get; set; } = "Default First Name";
-    public string LastName { get; set; } = "Default Last Name";
-    public string Email { get; set; } = "myDefaultClientEmail@gmail.com";
-    public string Password { get; set; } = "12345";
-}
-```
-
-```csharp
-public void Login(string email, string password)
-{
-    if (string.IsNullOrEmpty(email))
-    {
-        throw new ArgumentException("Email cannot be null or empty.");
-    }
-    if (string.IsNullOrEmpty(password))
-    {
-        throw new ArgumentException("Password cannot be null or empty.");
-    }
-    // login the user
-}
-```
-
-```csharp
-public void Login(string email, string password)
-{
-    if (string.IsNullOrEmpty(email))
-    {
-        throw new ArgumentException(nameof(email) + " cannot be null or empty.");
-    }
-    if (string.IsNullOrEmpty(password))
-    {
-        throw new ArgumentException(nameof(password) + " cannot be null or empty.");
-    }
-    // login the user
-}
-```
-
-```csharp
-public partial class ShippingAddressPage
-{
-    private readonly IWebDriver driver;
-    private readonly string url = @"onlineStoreUrlshippingPage";
-    public ShippingAddressPage(IWebDriver browser)
-    {
-        this.driver = browser;
-        PageFactory.InitElements(browser, this);
-    }
-    // some other actions
-    private void FillAddressInfoInternal(ClientPurchaseInfo clientInfo)
-    {
-        this.Country.SelectByText(clientInfo.Country);
-        this.FullName.SendKeys(clientInfo.FullName);
-        this.Address.SendKeys(clientInfo.Address);
-        this.City.SendKeys(clientInfo.City);
-        this.Zip.SendKeys(clientInfo.Zip == null ? string.Empty : clientInfo.Zip);
-        this.Phone.SendKeys(clientInfo.Phone == null ? string.Empty : clientInfo.Phone);
-        this.Vat.SendKeys(clientInfo.Vat == null ? string.Empty : clientInfo.Vat);
-    }
-}
-```
-
-```csharp
-public partial class ShippingAddressPage
-{
-    private readonly IWebDriver driver;
-    private readonly string url = @"onlineStoreUrlshippingPage";
-    public ShippingAddressPage(IWebDriver browser)
-    {
-        this.driver = browser;
-        PageFactory.InitElements(browser, this);
-    }
-    // some other actions
-    private void FillAddressInfoInternal(ClientPurchaseInfo clientInfo)
-    {
-        this.Country.SelectByText(clientInfo.Country);
-        this.FullName.SendKeys(clientInfo.FullName);
-        this.Address.SendKeys(clientInfo.Address);
-        this.City.SendKeys(clientInfo.City);
-        this.Zip.SendKeys(clientInfo?.Zip ?? string.Empty);
-        this.Phone.SendKeys(clientInfo?.Phone ?? string.Empty);
-        this.Vat.SendKeys(clientInfo?.Vat ?? string.Empty);
-    }
-}
-```
-
-```csharp
-public class RegistrationPage
-{
-    private readonly IWebDriver driver;
-    private readonly string url = @"http://www.automatetheplanet.com/register";
-    public RegistrationPage(IWebDriver browser)
-    {
-        this.driver = browser;
-        PageFactory.InitElements(browser, this);
-    }
-    [FindsBy(How = How.Id, Using = "emailId")]
-    public IWebElement Email { get; set; }
-    [FindsBy(How = How.Id, Using = "passId")]
-    public IWebElement Pass { get; set; }
-    [FindsBy(How = How.Id, Using = "userNameId")]
-    public IWebElement UserName { get; set; }
-    [FindsBy(How = How.Id, Using = "registerBtnId")]
-    public IWebElement RegisterButton { get; set; }
-    public User RegisterUser(string email = null, string password = null, string userName = null)
-    {
-        var user = new User();
         this.driver.Navigate().GoToUrl(this.url);
-        if (string.IsNullOrEmpty(email))
-        {
-            email = UniqueEmailGenerator.BuildUniqueEmailTimestamp();
-        }
-        user.Email = email;
-        this.Email.SendKeys(email);
-        if (string.IsNullOrEmpty(password))
-        {
-            password = TimestampBuilder.GenerateUniqueText();
-        }
-        user.Pass = password;
-        this.Pass.SendKeys(password);
-        if (string.IsNullOrEmpty(userName))
-        {
-            userName = TimestampBuilder.GenerateUniqueText();
-        }
-        user.UserName = userName;
-        this.UserName.SendKeys(userName);
-        this.RegisterButton.Click();
-        return user;
+    }
+    public void Search(string textToType)
+    {
+        this.SearchBox.Clear();
+        this.SearchBox.SendKeys(textToType);
+        this.GoButton.Click();
+    }
+    public void ValidateResultsCount(string expectedCount)
+    {
+        Assert.IsTrue(this.ResultsCountDiv.Text.Contains(expectedCount), "The results DIV doesn't contains the specified text.");
     }
 }
 ```
 
 ```csharp
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.PageObjects;
-using static WebDriverTestsCSharpSix.CSharpSix.StaticUsingSyntax.TimestampBuilder;
-using static WebDriverTestsCSharpSix.CSharpSix.StaticUsingSyntax.UniqueEmailGenerator;
-namespace WebDriverTestsCSharpSix.CSharpSix.StaticUsingSyntax
+public partial class SearchEngineMainPage : BasePage
 {
-    public class RegistrationPage
-    {
-        private readonly IWebDriver driver;
-        private readonly string url = @"http://www.automatetheplanet.com/register";
-        public RegistrationPage(IWebDriver browser)
-        {
-            this.driver = browser;
-            PageFactory.InitElements(browser, this);
-        }
-        [FindsBy(How = How.Id, Using = "emailId")]
-        public IWebElement Email { get; set; }
-        [FindsBy(How = How.Id, Using = "passId")]
-        public IWebElement Pass { get; set; }
-        [FindsBy(How = How.Id, Using = "userNameId")]
-        public IWebElement UserName { get; set; }
-        [FindsBy(How = How.Id, Using = "registerBtnId")]
-        public IWebElement RegisterButton { get; set; }
-        public User RegisterUser(string email = null, string password = null, string userName = null)
-        {
-            var user = new User();
-            this.driver.Navigate().GoToUrl(this.url);
-            if (string.IsNullOrEmpty(email))
-            {
-                email = BuildUniqueEmailTimestamp();
-            }
-            user.Email = email;
-            this.Email.SendKeys(email);
-            if (string.IsNullOrEmpty(password))
-            {
-                password = GenerateUniqueText();
-            }
-            user.Pass = password;
-            this.Pass.SendKeys(password);
-            if (string.IsNullOrEmpty(userName))
-            {
-                userName = GenerateUniqueText();
-            }
-            user.UserName = userName;
-            this.UserName.SendKeys(userName);
-            this.RegisterButton.Click();
-            return user;
-        }
-    }
-}
-```
-
-```csharp
-using static WebDriverTestsCSharpSix.CSharpSix.StaticUsingSyntax.TimestampBuilder;
-using static WebDriverTestsCSharpSix.CSharpSix.StaticUsingSyntax.UniqueEmailGenerator;
-//....
-public User RegisterUser(string email = null, string password = null, string userName = null)
-{
-    //..
-    if (string.IsNullOrEmpty(email))
-    {
-        email = BuildUniqueEmailTimestamp();
-    }
-    //..
-    return user;
-}
-```
-
-```csharp
-public class ResourcesPage
-{
-    private readonly IWebDriver driver;
-    private readonly string url = @"https://automatetheplanet.com/resources/";
-    public ResourcesPage(IWebDriver browser)
-    {
-        this.driver = browser;
-        PageFactory.InitElements(browser, this);
-    }
-    public string Url => this.url;
-    [FindsBy(How = How.Id, Using = "emailId")]
-    public IWebElement Email { get; set; }
-    [FindsBy(How = How.Id, Using = "nameId")]
-    public IWebElement Name { get; set; }
-    [FindsBy(How = How.Id, Using = "downloadBtnId")]
-    public IWebElement DownloadButton { get; set; }
-    [FindsBy(How = How.Id, Using = "successMessageId")]
-    public IWebElement SuccessMessage { get; set; }
-    public IWebElement GetGridElement(string productName, int rowNumber)
-    {
-        var xpathLocator = string.Format("(//span[text()='{0}'])[{1}]/ancestor::td[1]/following-sibling::td[7]/span", productName, rowNumber);
-        return this.driver.FindElement(By.XPath(xpathLocator));
-    }
-    public void Navigate() => this.driver.Navigate().GoToUrl(this.url);
-    public void DownloadSourceCode(string email, string name)
-    {
-        this.Email.SendKeys(email);
-        this.Name.SendKeys(name);
-        this.DownloadButton.Click();
-        var successMessage = string.Format("Thank you for downloading {0}! An email was sent to {1}. Check your inbox.", name, email);
-        var waitElem = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-        waitElem.Until(ExpectedConditions.TextToBePresentInElementLocated(By.Id("successMessageId"), successMessage));
-    }
-    public void AssertSuccessMessage(string name, string email)
-    {
-        var successMessage = string.Format("Thank you for downloading {0}! An email was sent to {1}. Check your inbox.", name, email);
-        Assert.AreEqual(successMessage, this.SuccessMessage.Text);
-    }
-}
-```
-
-```csharp
-public class ResourcesPage
-{
-    private readonly IWebDriver driver;
-    private readonly string url = @"https://automatetheplanet.com/resources/";
-    public ResourcesPage(IWebDriver browser)
-    {
-        this.driver = browser;
-        PageFactory.InitElements(browser, this);
-    }
-    public string Url => this.url;
-    [FindsBy(How = How.Id, Using = "emailId")]
-    public IWebElement Email { get; set; }
-    [FindsBy(How = How.Id, Using = "nameId")]
-    public IWebElement Name { get; set; }
-    [FindsBy(How = How.Id, Using = "downloadBtnId")]
-    public IWebElement DownloadButton { get; set; }
-    [FindsBy(How = How.Id, Using = "successMessageId")]
-    public IWebElement SuccessMessage { get; set; }
-    public IWebElement GetGridElement(string productName, int rowNumber)
-    {
-        var xpathLocator = $"(//span[text()='{productName}'])[{rowNumber}]/ancestor::td[1]/following-sibling::td[7]/span";
-        return this.driver.FindElement(By.XPath(xpathLocator));
-    }
-    public void Navigate() => this.driver.Navigate().GoToUrl(this.url);
-    public void DownloadSourceCode(string email, string name)
-    {
-        this.Email.SendKeys(email);
-        this.Name.SendKeys(name);
-        this.DownloadButton.Click();
-        var successMessage = $"Thank you for downloading {name}! An email was sent to {email}. Check your inbox.";
-        var waitElem = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-        waitElem.Until(ExpectedConditions.TextToBePresentInElementLocated(By.Id("successMessageId"), successMessage));
-    }
-    public void AssertSuccessMessage(string name, string email)
-    {
-        var successMessage = $"Thank you for downloading {name}! An email was sent to {email}. Check your inbox.";
-        Assert.AreEqual(successMessage, this.SuccessMessage.Text);
-    }
-}
-```
-
-## Mixing Specflow with Behaviours Design Pattern
-
-```csharp
-public class ItemPageNavigationBehaviour : ActionBehaviour
-{
-    private readonly ItemPage itemPage;
-    private readonly string itemUrl;
-    public ItemPageNavigationBehaviour(string itemUrl)
-    {
-        this.itemPage = UnityContainerFactory.GetContainer().Resolve<ItemPage>();
-        this.itemUrl = itemUrl;
-    }
-    protected override void PerformAct()
-    {
-        this.itemPage.Navigate(this.itemUrl);
-    }
-}
-```
-
-```csharp
-public class ShippingAddressPageFillShippingBehaviour : ActionBehaviour
-{
-    private readonly ShippingAddressPage shippingAddressPage;
-    private readonly ClientPurchaseInfo clientPurchaseInfo;
-    public ShippingAddressPageFillShippingBehaviour(
-    ClientPurchaseInfo clientPurchaseInfo)
-    {
-        this.shippingAddressPage =
-        UnityContainerFactory.GetContainer().Resolve<ShippingAddressPage>();
-        this.clientPurchaseInfo = clientPurchaseInfo;
-    }
-    protected override void PerformAct()
-    {
-        this.shippingAddressPage.FillShippingInfo(this.clientPurchaseInfo);
-    }
-}
-```
-
-```csharp
-[TestMethod]
-public void Purchase_SimpleBehaviourEngine()
-{
-    var itemUrl = "/Selenium-Testing-Cookbook-Gundecha-Unmesh/dp/1849515743";
-    var itemPrice = "40.49";
-    var clientPurchaseInfo = new ClientPurchaseInfo(
-    new ClientAddressInfo()
-    {
-        FullName = "John Smith",
-        Country = "United States",
-        Address1 = "950 Avenue of the Americas",
-        State = "New York",
-        City = "New York City",
-        Zip = "10001-2121",
-        Phone = "00164644885569"
-    });
-    clientPurchaseInfo.CouponCode = "99PERDIS";
-    var clientLoginInfo = new ClientLoginInfo()
-    {
-        Email = "g3984159@trbvm.com",
-        Password = "ASDFG_12345"
-    };
-    PerfectSystemTestsDesign.Behaviours.Core.BehaviourExecutor.Execute(
-    new ItemPageNavigationBehaviour(itemUrl),
-    new ItemPageBuyBehaviour(),
-    new PreviewShoppingCartPageProceedBehaviour(),
-    new SignInPageLoginBehaviour(clientLoginInfo),
-    new ShippingAddressPageFillShippingBehaviour(clientPurchaseInfo),
-    new ShippingAddressPageFillDifferentBillingBehaviour(clientPurchaseInfo),
-    new ShippingAddressPageContinueBehaviour(),
-    new ShippingPaymentPageContinueBehaviour(),
-    new PlaceOrderPageAssertFinalAmountsBehaviour(itemPrice));
-}
-```
-
-```csharp
-Feature: Create Purchase in Online Store
-In order to receive a book online
-As a client
-I want to be able to choose it through the browser and pay for it online
-@testingFramework
-Scenario: Create Successfull Purchase When Billing Country Is United States with American Express Card
-When I navigate to "/Selenium-Testing-Cookbook-Gundecha-Unmesh/dp/1849515743"
-And I click the 'buy now' button
-And then I click the 'proceed to checkout' button
-#When the login page loads
-And I login with email = "g3984159@trbvm.com" and pass = "ASDFG_12345"
-#When the shipping address page loads
-And I type full name = "John Smith", country = "United States", Adress = "950 Avenue of the Americas", city = "New Your City", state = "New Your", zip = "10001-2121" and phone = "00164644885569"
-And I choose to fill different billing, full name = "John Smith", country = "United States", Adress = "950 Avenue of the Americas", city = "New Your City", state = "New Your", zip = "10001-2121" and phone = "00164644885569"
-And click shipping address page 'continue' button
-And click shipping payment top 'continue' button
-Then assert that order total price = "40.49"
-```
-
-```csharp
-[Binding]
-public class CreatePurchaseSteps
-{
-    [When(@"I navigate to ""([^""]*)""")]
-    public void NavigateToItemUrl(string itemUrl)
-    {
-        var itemPage = UnityContainerFactory.GetContainer().Resolve<ItemPage>();
-        itemPage.Navigate(itemUrl);
-    }
-    [When(@"I click the 'buy now' button")]
-    public void ClickBuyNowButtonItemPage()
-    {
-        var itemPage = UnityContainerFactory.GetContainer().Resolve<ItemPage>();
-        itemPage.ClickBuyNowButton();
-    }
-    [When(@"then I click the 'proceed to checkout' button")]
-    public void ClickProceedToCheckoutButtonPreviewShoppingCartPage()
-    {
-        var previewShoppingCartPage = UnityContainerFactory.GetContainer().Resolve<PreviewShoppingCartPage>();
-        previewShoppingCartPage.ClickProceedToCheckoutButton();
-    }
-    [When(@"the login page loads")]
-    public void SignInPageLoads()
-    {
-        var signInPage = UnityContainerFactory.GetContainer().Resolve<SignInPage>();
-        signInPage.WaitForPageToLoad();
-    }
-    [When(@"I login with email = ""([^""]*)"" and pass = ""([^""]*)""")]
-    public void LoginWithEmailAndPass(string email, string password)
-    {
-        var signInPage = UnityContainerFactory.GetContainer().Resolve<SignInPage>();
-        signInPage.Login(email, password);
-    }
-    [When(@"the shipping address page loads")]
-    public void ShippingPageLoads()
-    {
-        var shippingAddressPage = UnityContainerFactory.GetContainer().Resolve<ShippingAddressPage>();
-        shippingAddressPage.WaitForPageToLoad();
-    }
-    [When(@"I type full name = ""([^""]*)"", country = ""([^""]*)"", Adress = ""([^""]*)"", city = ""([^""]*)"", state = ""([^""]*)"", zip = ""([^""]*)"" and phone = ""([^""]*)""")]
-    public void FillShippingInfo(string fullName, string country, string address, string state, string city, string zip, string phone)
-    {
-        var shippingAddressPage = UnityContainerFactory.GetContainer().Resolve<ShippingAddressPage>();
-        var clientPurchaseInfo = new ClientPurchaseInfo(
-        new ClientAddressInfo()
-        {
-            FullName = fullName,
-            Country = country,
-            Address1 = address,
-            State = state,
-            City = city,
-            Zip = zip,
-            Phone = phone
-        });
-        shippingAddressPage.FillShippingInfo(clientPurchaseInfo);
-    }
-    [When(@"I choose to fill different billing, full name = ""([^""]*)"", country = ""([^""]*)"", Adress = ""([^""]*)"", city = ""([^""]*)"", state = ""([^""]*)"", zip = ""([^""]*)"" and phone = ""([^""]*)""")]
-    public void FillDifferentBillingInfo(string fullName, string country, string address, string state, string city, string zip, string phone)
-    {
-        var shippingAddressPage = UnityContainerFactory.GetContainer().Resolve<ShippingAddressPage>();
-        var shippingPaymentPage = UnityContainerFactory.GetContainer().Resolve<ShippingPaymentPage>();
-        var clientPurchaseInfo = new ClientPurchaseInfo(
-        new ClientAddressInfo()
-        {
-            FullName = fullName,
-            Country = country,
-            Address1 = address,
-            State = state,
-            City = city,
-            Zip = zip,
-            Phone = phone
-        });
-        shippingAddressPage.ClickDifferentBillingCheckBox(clientPurchaseInfo);
-        shippingAddressPage.ClickContinueButton();
-        shippingPaymentPage.ClickBottomContinueButton();
-        shippingAddressPage.FillBillingInfo(clientPurchaseInfo);
-    }
-    [When(@"click shipping address page 'continue' button")]
-    public void ClickContinueButtonShippingAddressPage()
-    {
-        var shippingAddressPage = UnityContainerFactory.GetContainer().Resolve<ShippingAddressPage>();
-        shippingAddressPage.ClickContinueButton();
-    }
-    [When(@"click shipping payment top 'continue' button")]
-    public void WhenClickTopPaymentButton()
-    {
-        var shippingPaymentPage = UnityContainerFactory.GetContainer().Resolve<ShippingPaymentPage>();
-        shippingPaymentPage.ClickTopContinueButton();
-    }
-    [Then(@"assert that order total price = ""([^""]*)""")]
-    public void AssertOrderTotalPrice(string itemPrice)
-    {
-        var placeOrderPage = UnityContainerFactory.GetContainer().Resolve<PlaceOrderPage>();
-        double totalPrice = double.Parse(itemPrice);
-        placeOrderPage.AssertOrderTotalPrice(totalPrice);
-    }
-}
-```
-
-```csharp
-[Binding]
-public class CreatePurchaseStepsBehaviours
-{
-    [When(@"I navigate to ""([^""]*)""")]
-    public void NavigateToItemUrl(string itemUrl)
-    {
-        new ItemPageNavigationBehaviour(itemUrl).Execute();
-    }
-    [When(@"I click the 'buy now' button")]
-    public void ClickBuyNowButtonItemPage()
-    {
-        new ItemPageBuyBehaviour().Execute();
-    }
-    [When(@"then I click the 'proceed to checkout' button")]
-    public void ClickProceedToCheckoutButtonPreviewShoppingCartPage()
-    {
-        new PreviewShoppingCartPageProceedBehaviour().Execute();
-    }
-    [When(@"I login with email = ""([^""]*)"" and pass = ""([^""]*)""")]
-    public void LoginWithEmailAndPass(string email, string password)
-    {
-        new SignInPageLoginBehaviour(
-        new ClientLoginInfo()
-        {
-            Email = email,
-            Password = password
-        })
-        .Execute();
-    }
-    [When(@"the shipping address page loads")]
-    public void ShippingPageLoads()
-    {
-        var shippingAddressPage = UnityContainerFactory.GetContainer().Resolve<ShippingAddressPage>();
-        shippingAddressPage.WaitForPageToLoad();
-    }
-    [When(@"I type full name = ""([^""]*)"", country = ""([^""]*)"", Adress = ""([^""]*)"", city = ""([^""]*)"", state = ""([^""]*)"", zip = ""([^""]*)"" and phone = ""([^""]*)""")]
-    public void FillShippingInfo(string fullName, string country, string address, string state, string city, string zip, string phone)
-    {
-        var clientPurchaseInfo = new ClientPurchaseInfo(
-        new ClientAddressInfo()
-        {
-            FullName = fullName,
-            Country = country,
-            Address1 = address,
-            State = state,
-            City = city,
-            Zip = zip,
-            Phone = phone
-        });
-        new ShippingAddressPageFillShippingBehaviour(clientPurchaseInfo).Execute();
-    }
-    [When(@"I choose to fill different billing, full name = ""([^""]*)"", country = ""([^""]*)"", Adress = ""([^""]*)"", city = ""([^""]*)"", state = ""([^""]*)"", zip = ""([^""]*)"" and phone = ""([^""]*)""")]
-    public void FillDifferentBillingInfo(string fullName, string country, string address, string state, string city, string zip, string phone)
-    {
-        var clientPurchaseInfo = new ClientPurchaseInfo(
-        new ClientAddressInfo()
-        {
-            FullName = fullName,
-            Country = country,
-            Address1 = address,
-            State = state,
-            City = city,
-            Zip = zip,
-            Phone = phone
-        });
-        new ShippingAddressPageFillDifferentBillingBehaviour(clientPurchaseInfo).Execute();
-    }
-    [When(@"click shipping address page 'continue' button")]
-    public void ClickContinueButtonShippingAddressPage()
-    {
-        new ShippingPaymentPageContinueBehaviour().Execute();
-    }
-    [When(@"click shipping payment top 'continue' button")]
-    public void WhenClickTopPaymentButton()
-    {
-        new ShippingPaymentPageContinueBehaviour().Execute();
-    }
-    [Then(@"assert that order total price = ""([^""]*)""")]
-    public void AssertOrderTotalPrice(string itemPrice)
-    {
-        new PlaceOrderPageAssertFinalAmountsBehaviour(itemPrice).Execute();
-    }
-}
-```
-
-```csharp
-public abstract class ActionBehaviour
-{
-    public virtual void Execute()
-    {
-        this.PerformAct();
-    }
-    protected abstract void PerformAct();
-}
-```
-
-```csharp
-[Binding]
-public class ItemPageNavigationBehaviour : ActionBehaviour
-{
-    private readonly ItemPage itemPage;
-    private string itemUrl;
-    public ItemPageNavigationBehaviour()
-    {
-        this.itemPage = UnityContainerFactory.GetContainer().Resolve<ItemPage>();
-    }
-    [When(@"I navigate to ""([^""]*)""")]
-    public void NavigateToItemUrl(string itemUrl)
-    {
-        this.itemUrl = itemUrl;
-        base.Execute();
-    }
-    protected override void PerformAct()
-    {
-        this.itemPage.Navigate(this.itemUrl);
-    }
-}
-```
-
-```csharp
-[Binding]
-public class ShippingAddressPageFillShippingBehaviour : ActionBehaviour
-{
-    private readonly ShippingAddressPage shippingAddressPage;
-    private ClientPurchaseInfo clientPurchaseInfo;
-    public ShippingAddressPageFillShippingBehaviour()
-    {
-        this.shippingAddressPage = UnityContainerFactory.GetContainer().Resolve<ShippingAddressPage>();
-    }
-    [When(@"I type full name = ""([^""]*)"", country = ""([^""]*)"", Adress = ""([^""]*)"", city = ""([^""]*)"", state = ""([^""]*)"", zip = ""([^""]*)"" and phone = ""([^""]*)""")]
-    public void FillShippingInfo(string fullName, string country, string address, string state, string city, string zip, string phone)
-    {
-        this.clientPurchaseInfo = new ClientPurchaseInfo(
-        new ClientAddressInfo()
-        {
-            FullName = fullName,
-            Country = country,
-            Address1 = address,
-            State = state,
-            City = city,
-            Zip = zip,
-            Phone = phone
-        });
-        shippingAddressPage.FillShippingInfo(clientPurchaseInfo);
-        base.Execute();
-    }
-    protected override void PerformAct()
-    {
-        this.shippingAddressPage.FillShippingInfo(this.clientPurchaseInfo);
-    }
-}
-```
-
-## Advanced SpecFlow: 4 Ways for Handling Parameters Properly
-
-```csharp
-Scenario: Successfully Convert Kilowatt - hours to Newton-meters
-When I navigate to Metric Conversions
-And navigate to Energy and power section
-And navigate to Kilowatt-hours
-And choose conversions to Newton-meters
-And type "30" kWh
-Then assert that 1.080000e+8 Nm are displayed as answer
-Scenario: Successfully Convert Kilowatt-hours to Newton-meters in Fractions format
-When I navigate to Metric Conversions
-And navigate to Energy and power section
-And navigate to Kilowatt-hours
-And choose conversions to Newton-meters
-And type 30 kWh in Fractions format
-Then assert that 1079999999??,64 Nm are displayed as answer
-```
-
-```csharp
-[When(@"type (.*) kWh")]
-public void WhenTypeKWh(double kWh)
-{
-    this.kilowattHoursPage.ConvertKilowattHoursToNewtonMeters(kWh);
-}
-[When(@"type (.*) kWh in (.*) format")]
-public void WhenTypeKWhInFormat(double kWh, Format format)
-{
-    this.kilowattHoursPage.ConvertKilowattHoursToNewtonMeters(kWh, format);
-}
-```
-
-```csharp
-public void ConvertKilowattHoursToNewtonMeters(
-double kWh,
-Format format = CelsiusFahrenheitPage.Format.Decimal)
-{
-    this.CelsiusInput.SendKeys(kWh.ToString());
-    if (format != CelsiusFahrenheitPage.Format.Decimal)
-    {
-        string formatText =
-        Enum.GetName(typeof(CelsiusFahrenheitPage.Format), format);
-        new SelectElement(this.Format).SelectByText(formatText);
-    }
-    this.driverWait.Until(drv => this.Answer != null);
-}
-```
-
-```csharp
-Scenario: Successfully Convert Seconds to Minutes
-When I navigate to Seconds to Minutes Page
-And type seconds for 1 day, 1 hour, 1 minute, 1 second
-Then assert that 1501 minutes are displayed as answer
-Scenario: Successfully Convert Seconds to Minutes No Minutes
-When I navigate to Seconds to Minutes Page
-And type seconds for 1 day, 1 hour, 1 second
-Then assert that 1500 minutes are displayed as answer
-```
-
-```csharp
-[When(@"type seconds for (.*)")]
-public void WhenTypeSeconds(TimeSpan seconds)
-{
-    this.secondsToMinutesPage.ConvertSecondsToMintes(seconds.TotalSeconds);
-}
-[Then(@"assert that (.*) minutes are displayed as answer")]
-public void ThenAssertThatSecondsAreDisplayedAsAnswer(int expectedMinutes)
-{
-    this.secondsToMinutesPage.AssertMinutes(expectedMinutes.ToString());
-}
-[StepArgumentTransformation(@"(?:(d*) day(?:s)?(?:, )?)?(?:(d*) hour(?:s)?(?:, )?)?(?:(d*) minute(?:s)?(?:, )?)?(?:(d*) second(?:s)?(?:, )?)?")]
-public TimeSpan TimeSpanTransform(string days, string hours, string minutes, string seconds)
-{
-    int daysParsed;
-    int hoursParsed;
-    int minutesParsed;
-    int secondsParsed;
-    int.TryParse(days, out daysParsed);
-    int.TryParse(hours, out hoursParsed);
-    int.TryParse(minutes, out minutesParsed);
-    int.TryParse(seconds, out secondsParsed);
-    return new TimeSpan(daysParsed, hoursParsed, minutesParsed, secondsParsed);
-}
-```
-
-```csharp
-Scenario Outline: Successfully Convert Seconds to Minutes Table
-When I navigate to Seconds to Minutes Page
-And type seconds for <seconds>
-Then assert that <minutes> minutes are displayed as answer
-Examples:
-| seconds | minutes |
-| 1 day, 1 hour, 1 second | 1500 |
-| 5 days, 3 minutes | 7203 |
-| 4 hours | 240 |
-| 180 seconds | 3 |
-```
-
-```csharp
-Scenario: Add Online Store Products with Affiliate Codes
-When add products
-| Url | AffilicateCode |
-| /dp/B00TSUGXKE/ref=ods_gw_d_h1_tab_fd_c3 | affiliate3 |
-| /dp/B00KC6I06S/ref=fs_ods_fs_tab_al | affiliate4 |
-| /dp/B0189XYY0Q/ref=fs_ods_fs_tab_ts | affiliate5 |
-| /dp/B018Y22C2Y/ref=fs_ods_fs_tab_fk | affiliate6 |
-```
-
-```csharp
-[When(@"add products")]
-public void NavigateToItemUrl(Table productsTable)
-{
-    var itemPage = UnityContainerFactory.GetContainer().Resolve<ItemPage>();
-    IEnumerable<dynamic> products = productsTable.CreateDynamicSet();
-    foreach (var product in products)
-    {
-        itemPage.Navigate(string.Concat(product.Url, "?", product.AffilicateCode));
-        itemPage.ClickBuyNowButton();
-    }
-}
-```
-
-## Advanced SpecFlow: Using Hooks to Extend Test Execution Workflow
-
-```csharp
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TechTalk.SpecFlow;
-namespace ExtendTestExecutionWorkflowUsingHooks
-{
-    [Binding]
-    public sealed class Hooks
-    {
-        // For additional details on SpecFlow hooks see http://go.specflow.org/doc-hooks
-        [BeforeScenario]
-        public void BeforeScenario()
-        {
-            //TODO: implement logic that has to run before executing each scenario
-        }
-        [AfterScenario]
-        public void AfterScenario()
-        {
-            //TODO: implement logic that has to run after executing each scenario
-        }
-    }
-}
-```
-
-```csharp
-[BeforeTestRun]
-[BeforeFeature]
-[BeforeScenario]
-[BeforeScenarioBlock]
-[BeforeStep]
-[AfterStep]
-[AfterScenarioBlock]
-[AfterScenario]
-[AfterFeature]
-[AfterTestRun]
-```
-
-```csharp
-Feature: Convert Metrics for Nuclear Science
-To do my nuclear-related job
-As a Nuclear Engineer
-I want to be able to convert different metrics.
-Background:
-Given web browser is opened
-@testingFramework
-Scenario: Successfully Convert Kilowatt-hours to Newton-meters
-When I navigate to Metric Conversions
-And navigate to Energy and power section
-And navigate to Kilowatt-hours
-And choose conversions to Newton-meters
-And type 30 kWh
-Then assert that 1.080000e+8 Nm are displayed as answer
-Then close web browser
-```
-
-```csharp
-[Binding]
-public class ConvertMetricsForNuclearScienceSteps
-{
-    private HomePage homePage;
-    private KilowattHoursPage kilowattHoursPage;
-    [Given(@"web browser is opened")]
-    public void GivenWebBrowserIsOpened()
-    {
-        Driver.StartBrowser(BrowserTypes.Chrome);
-    }
-    [Then(@"close web browser")]
-    public void ThenCloseWebBrowser()
-    {
-        Driver.StopBrowser();
-    }
-    [When(@"I navigate to Metric Conversions")]
-    public void WhenINavigateToMetricConversions_()
-    {
-        this.homePage = new HomePage(Driver.Browser);
-        this.homePage.Open();
-    }
-    [When(@"navigate to Energy and power section")]
-    public void WhenNavigateToEnergyAndPowerSection()
-    {
-        this.homePage.EnergyAndPowerAnchor.Click();
-    }
-    [When(@"navigate to Kilowatt-hours")]
-    public void WhenNavigateToKilowatt_Hours()
-    {
-        this.homePage.KilowattHours.Click();
-    }
-    [When(@"choose conversions to Newton-meters")]
-    public void WhenChooseConversionsToNewton_Meters()
-    {
-        this.kilowattHoursPage = new KilowattHoursPage(Driver.Browser);
-        this.kilowattHoursPage.KilowatHoursToNewtonMetersAnchor.Click();
-    }
-    [When(@"type (.*) kWh")]
-    public void WhenTypeKWh(double kWh)
-    {
-        this.kilowattHoursPage.ConvertKilowattHoursToNewtonMeters(kWh);
-    }
-    [Then(@"assert that (.*) Nm are displayed as answer")]
-    public void ThenAssertThatENmAreDisplayedAsAnswer(string expectedNewtonMeters)
-    {
-        this.kilowattHoursPage.AssertFahrenheit(expectedNewtonMeters);
-    }
-}
-```
-
-```csharp
-[Binding]
-public sealed class TestRunSingleBrowserHooks
-{
-    [BeforeTestRun]
-    public static void RegisterPages()
-    {
-        Driver.StartBrowser(BrowserTypes.Chrome);
-        UnityContainerFactory.GetContainer().RegisterType<HomePage>(new ContainerControlledLifetimeManager());
-        UnityContainerFactory.GetContainer().RegisterType<KilowattHoursPage>(new ContainerControlledLifetimeManager());
-        UnityContainerFactory.GetContainer().RegisterInstance<IWebDriver>(Driver.Browser);
-    }
-    // Reuse browser for the whole run.
-    [AfterTestRun]
-    public static void AfterTestRun()
-    {
-        Driver.StopBrowser();
-    }
-}
-```
-
-```csharp
-[Binding]
-public sealed class TestScenarioBrowserHooks
-{
-    [BeforeTestRun]
-    public static void RegisterPages()
-    {
-        UnityContainerFactory.GetContainer().RegisterType<HomePage>(new ContainerControlledLifetimeManager());
-        UnityContainerFactory.GetContainer().RegisterType<KilowattHoursPage>(new ContainerControlledLifetimeManager());
-    }
-    [BeforeScenario
-    public static void StartBrowser()
-    {
-        Driver.StartBrowser(BrowserTypes.Chrome);
-        UnityContainerFactory.GetContainer().RegisterInstance<IWebDriver>(Driver.Browser);
-    }
-    [AfterScenario]
-    public static void CloseBrowser()
-    {
-        Driver.StopBrowser();
-    }
-}
-```
-
-```csharp
-@firefox
-Feature: Convert Metrics for Nuclear Science
-To do my nuclear-related job
-As a Nuclear Engineer
-I want to be able to convert different metrics.
-@hooksExample @firefox
-Scenario: Successfully Convert Kilowatt-hours to Newton-meters
-When I navigate to Metric Conversions
-And navigate to Energy and power section
-And navigate to Kilowatt-hours
-And choose conversions to Newton-meters
-And type 30 kWh
-Then assert that 1.080000e+8 Nm are displayed as answer
-```
-
-```csharp
-[Binding]
-public class ConvertMetricsForNuclearScienceSteps
-{
-    private readonly HomePage homePage;
-    private readonly KilowattHoursPage kilowattHoursPage;
-    public ConvertMetricsForNuclearScienceSteps()
-    {
-        this.homePage =
-        UnityContainerFactory.GetContainer().Resolve<HomePage>();
-        this.kilowattHoursPage =
-        UnityContainerFactory.GetContainer().Resolve<KilowattHoursPage>();
-    }
-    ////[Given(@"web browser is opened")]
-    ////public void GivenWebBrowserIsOpened()
-    ////{
-    //// Driver.StartBrowser(BrowserTypes.Chrome);
-    ////}
-    ////[Then(@"close web browser")]
-    ////public void ThenCloseWebBrowser()
-    ////{
-    //// Driver.StopBrowser();
-    ////}
-    [When(@"I navigate to Metric Conversions")]
-    public void WhenINavigateToMetricConversions_()
-    {
-        ////this.homePage = new HomePage(Driver.Browser);
-        ////this.homePage = UnityContainerFactory.GetContainer().Resolve<HomePage>();
-        this.homePage.Open();
-    }
-    [When(@"navigate to Energy and power section")]
-    public void WhenNavigateToEnergyAndPowerSection()
-    {
-        this.homePage.EnergyAndPowerAnchor.Click();
-    }
-    [When(@"navigate to Kilowatt-hours")]
-    public void WhenNavigateToKilowatt_Hours()
-    {
-        this.homePage.KilowattHours.Click();
-    }
-    [When(@"choose conversions to Newton-meters")]
-    public void WhenChooseConversionsToNewton_Meters()
-    {
-        ////this.kilowattHoursPage = new KilowattHoursPage(Driver.Browser);
-        this.kilowattHoursPage.KilowatHoursToNewtonMetersAnchor.Click();
-    }
-    [When(@"type (.*) kWh")]
-    public void WhenTypeKWh(double kWh)
-    {
-        this.kilowattHoursPage.ConvertKilowattHoursToNewtonMeters(kWh);
-    }
-    [Then(@"assert that (.*) Nm are displayed as answer")]
-    public void ThenAssertThatENmAreDisplayedAsAnswer(string expectedNewtonMeters)
-    {
-        this.kilowattHoursPage.AssertFahrenheit(expectedNewtonMeters);
-    }
-}
-```
-
-```csharp
-[Binding]
-public sealed class Hooks
-{
-    // Reuse browser for the whole run.
-    [BeforeTestRun(Order = 1)]
-    public static void RegisterPages()
-    {
-        System.Console.WriteLine("Execute BeforeTestRun- RegisterPages");
-        Driver.StartBrowser(BrowserTypes.Chrome);
-        UnityContainerFactory.GetContainer().RegisterType<HomePage>(new ContainerControlledLifetimeManager());
-        UnityContainerFactory.GetContainer().RegisterType<KilowattHoursPage>(new ContainerControlledLifetimeManager());
-    }
-    [BeforeTestRun(Order = 2)]
-    public static void RegisterDriver()
-    {
-        System.Console.WriteLine("Execute BeforeTestRun- RegisterDriver");
-        UnityContainerFactory.GetContainer().RegisterInstance<IWebDriver>(Driver.Browser);
-    }
-    // Reuse browser for the whole run.
-    [AfterTestRun]
-    public static void AfterTestRun()
-    {
-        System.Console.WriteLine("Execute AfterTestRun- StopBrowser");
-        Driver.StopBrowser();
-    }
-    [BeforeFeature]
-    public static void BeforeFeature()
-    {
-    }
-    [AfterFeature]
-    public static void AfterFeature()
-    {
-    }
-    [BeforeScenario(Order = 2)]
-    public static void StartBrowser()
-    {
-        // New Browser Instance for each test.
-        ////Driver.StartBrowser(BrowserTypes.Chrome);
-        System.Console.WriteLine("Execute BeforeScenario- StartBrowser");
-    }
-    [BeforeScenario(Order = 1)]
-    public static void LoginUser()
-    {
-        System.Console.WriteLine("Execute BeforeScenario- LoginUser");
-        // Login to your site.
-    }
-    [AfterScenario(Order = 2)]
-    public static void CloseBrowser()
-    {
-        System.Console.WriteLine("Execute AfterScenario- CloseBrowser");
-        // New Browser Instance for each test.
-        ////Driver.StopBrowser();
-    }
-    [AfterScenario(Order = 1)]
-    public static void LogoutUser()
-    {
-        System.Console.WriteLine("Execute AfterScenario- LogoutUser");
-        // Logout the user
-    }
-    [BeforeStep]
-    public void BeforeStep()
-    {
-        System.Console.WriteLine("BeforeStep- Start Timer");
-    }
-    [AfterStep]
-    public static void AfterStep()
-    {
-        System.Console.WriteLine("BeforeStep- Log something in DB.");
-    }
-}
-```
-
-```csharp
-[AfterScenario(Order = 1)]
-[Scope(Tag = "hooksExample")]
-public static void LogoutUser()
-{
-    System.Console.WriteLine("Execute AfterScenario- LogoutUser");
-    // Logout the user
-}
-```
-
-```csharp
-[AfterScenario(Order = 1)]
-[AfterScenario("hooksExample")]
-public static void LogoutUser()
-{
-    System.Console.WriteLine("Execute AfterScenario- LogoutUser");
-    // Logout the user
-}
-
-```
-
-```csharp
-[BeforeScenario(Order = 2)]
-public static void StartBrowser()
-{
-    // Advanced tag filtering
-    if (!ScenarioContext.Current.ScenarioInfo.Tags.Contains("firefox"))
-    {
-        throw new ArgumentException("The browser is not specfied");
-    }
-    // New Browser Instance for each test.
-    ////Driver.StartBrowser(BrowserTypes.Chrome);
-    System.Console.WriteLine("Execute BeforeScenario- StartBrowser");
-}
-```
-
-```csharp
-[Binding]
-public sealed class OrderHooks
-{
-    // Reuse browser for the whole run.
-    [BeforeTestRun(Order = 1)]
-    public static void RegisterPages()
-    {
-        System.Console.WriteLine("BeforeTestRun");
-        Driver.StartBrowser(BrowserTypes.Chrome);
-        UnityContainerFactory.GetContainer().RegisterType<HomePage>(new ContainerControlledLifetimeManager());
-        UnityContainerFactory.GetContainer().RegisterType<KilowattHoursPage>(new ContainerControlledLifetimeManager());
-    }
-    [BeforeTestRun(Order = 2)]
-    public static void RegisterDriver()
-    {
-        System.Console.WriteLine("Execute BeforeTestRun- RegisterDriver");
-        UnityContainerFactory.GetContainer().RegisterInstance<IWebDriver>(Driver.Browser);
-    }
-    // Reuse browser for the whole run.
-    [AfterTestRun]
-    public static void AfterTestRun()
-    {
-        System.Console.WriteLine("AfterTestRun");
-        Driver.StopBrowser();
-    }
-    [BeforeFeature]
-    public static void BeforeFeature()
-    {
-        System.Console.WriteLine("BeforeFeature");
-    }
-    [AfterFeature]
-    public static void AfterFeature()
-    {
-        System.Console.WriteLine("AfterFeature");
-    }
-    [BeforeScenario]
-    public void LoginUser()
-    {
-        System.Console.WriteLine("BeforeScenario");
-    }
-    [AfterScenario(Order = 1)]
-    public void AfterScenario()
-    {
-        System.Console.WriteLine("AfterScenario");
-    }
-    [BeforeStep]
-    public void BeforeStep()
-    {
-        System.Console.WriteLine("BeforeStep");
-    }
-    [AfterStep]
-    public void AfterStep()
-    {
-        System.Console.WriteLine("AfterStep");
-    }
-}
-```
-
-## Getting Started with SpecFlow in 10 Minutes
-
-```csharp
-public partial class HomePage : BasePage
-{
-    public HomePage(IWebDriver driver) : base(driver)
+    public SearchEngineMainPage(IWebDriver driver) : base(driver)
     {
     }
     public override string Url
     {
         get
         {
-            return "http://www.metric-conversions.org/";
+            return @"searchEngineUrl";
         }
     }
-}
-public partial class HomePage
-{
-    public IWebElement EnergyAndPowerAnchor
-    {
-        get
-        {
-            return this.driver.FindElement(By.XPath("//a[contains(@title,'Energy Conversion')]"));
-        }
-    }
-    public IWebElement KilowattHours
-    {
-        get
-        {
-            return this.driver.FindElement(By.XPath("//a[contains(text(),'Kilowatt-hours')]"));
-        }
-    }
-}
-```
-
-```csharp
-public partial class KilowattHoursPage : BasePage
-{
-    public KilowattHoursPage(IWebDriver driver) : base(driver)
-    {
-    }
-    public override string Url
-    {
-        get
-        {
-            return "http://www.metric-conversions.org/temperature/celsius-to-fahrenheit.htm";
-        }
-    }
-    public void ConvertKilowattHoursToNewtonMeters(double kWh)
-    {
-        this.CelsiusInput.SendKeys(kWh.ToString());
-        this.driverWait.Until(drv => this.Answer != null);
-    }
-}
-```
-
-```csharp
-public partial class KilowattHoursPage
-{
-    public IWebElement CelsiusInput
-    {
-        get
-        {
-            return this.driver.FindElement(By.Id("argumentConv"));
-        }
-    }
-    public IWebElement Answer
-    {
-        get
-        {
-            return this.driver.FindElement(By.Id("answer"));
-        }
-    }
-    public IWebElement KilowatHoursToNewtonMetersAnchor
-    {
-        get
-        {
-            return this.driver.FindElement(By.XPath("//a[contains(text(),'Kilowatt-hours to Newton-meters')]"));
-        }
-    }
-}
-```
-
-```csharp
-public static class KilowattHoursPageAsserter
-{
-    public static void AssertFahrenheit(this KilowattHoursPage page, string expectedNewtonMeters)
-    {
-        Assert.IsTrue(page.Answer.Text.Contains(string.Format("{0}Nm", expectedNewtonMeters)));
-    }
-}
-```
-
-```csharp
-[Binding]
-public class ConvertMetricsForNuclearScienceStepsRegularExpressions
-{
-    [When(@"I navigate to Metric Conversions")]
-    public void WhenINavigateToMetricConversions_()
-    {
-        ScenarioContext.Current.Pending();
-    }
-    [When(@"navigate to Energy and power section")]
-    public void WhenNavigateToEnergyAndPowerSection()
-    {
-        ScenarioContext.Current.Pending();
-    }
-    [When(@"navigate to Kilowatt-hours")]
-    public void WhenNavigateToKilowatt_Hours()
-    {
-        ScenarioContext.Current.Pending();
-    }
-    [When(@"choose conversions to Newton-meters")]
-    public void WhenChooseConversionsToNewton_Meters()
-    {
-        ScenarioContext.Current.Pending();
-    }
-    [When(@"type (.*) kWh")]
-    public void WhenTypeKWh(int p0)
-    {
-        ScenarioContext.Current.Pending();
-    }
-    [Then(@"assert that (.*) Nm are displayed as answer")]
-    public void ThenAssertThatENmAreDisplayedAsAnswer(Decimal p0, int p1)
-    {
-        ScenarioContext.Current.Pending();
-    }
-}
-```
-
-```csharp
-[Binding]
-public class ConvertMetricsForNuclearScienceStepsMethodUnderscrores
-{
-    [When]
-    public void When_I_navigate_to_Metric_Conversions()
-    {
-        ScenarioContext.Current.Pending();
-    }
-    [When]
-    public void When_navigate_to_Energy_and_power_section()
-    {
-        ScenarioContext.Current.Pending();
-    }
-    [When]
-    public void When_navigate_to_Kilowatt_hours()
-    {
-        ScenarioContext.Current.Pending();
-    }
-    [When]
-    public void When_choose_conversions_to_Newton_meters()
-    {
-        ScenarioContext.Current.Pending();
-    }
-    [When]
-    public void When_type_P0_kWh(int p0)
-    {
-        ScenarioContext.Current.Pending();
-    }
-    [Then]
-    public void Then_assert_that_P0_Nm_are_displayed_as_answer(string p1)
-    {
-        ScenarioContext.Current.Pending();
-    }
-}
-```
-
-```csharp
-[Binding]
-public class ConvertMetricsForNuclearScienceSteps
-{
-    [When]
-    public void WhenINavigateToMetricConversions()
-    {
-        ScenarioContext.Current.Pending();
-    }
-    [When]
-    public void WhenNavigateToEnergyAndPowerSection()
-    {
-        ScenarioContext.Current.Pending();
-    }
-    [When]
-    public void WhenNavigateToKilowattHours()
-    {
-        ScenarioContext.Current.Pending();
-    }
-    [When]
-    public void WhenChooseConversionsToNewtonMeters()
-    {
-        ScenarioContext.Current.Pending();
-    }
-    [When]
-    public void WhenType_P0_KWh(int p0)
-    {
-        ScenarioContext.Current.Pending();
-    }
-    [Then]
-    public void ThenAssertThat_P0_NmAreDisplayedAsAnswer(string p0)
-    {
-        ScenarioContext.Current.Pending();
-    }
-}
-```
-
-```csharp
-[Binding]
-public class ConvertMetricsForNuclearScienceSteps
-{
-    private HomePage homePage;
-    private KilowattHoursPage kilowattHoursPage;
-    [Given(@"web browser is opened")]
-    public void GivenWebBrowserIsOpened()
-    {
-        Driver.StartBrowser(BrowserTypes.Chrome);
-    }
-    [Then(@"close web browser")]
-    public void ThenCloseWebBrowser()
-    {
-        Driver.StopBrowser();
-    }
-    [When(@"I navigate to Metric Conversions")]
-    public void WhenINavigateToMetricConversions_()
-    {
-        this.homePage = new HomePage(Driver.Browser);
-        this.homePage.Open();
-    }
-    [When(@"navigate to Energy and power section")]
-    public void WhenNavigateToEnergyAndPowerSection()
-    {
-        this.homePage.EnergyAndPowerAnchor.Click();
-    }
-    [When(@"navigate to Kilowatt-hours")]
-    public void WhenNavigateToKilowatt_Hours()
-    {
-        this.homePage.KilowattHours.Click();
-    }
-    [When(@"choose conversions to Newton-meters")]
-    public void WhenChooseConversionsToNewton_Meters()
-    {
-        this.kilowattHoursPage = new KilowattHoursPage(Driver.Browser);
-        this.kilowattHoursPage.KilowatHoursToNewtonMetersAnchor.Click();
-    }
-    [When(@"type (.*) kWh")]
-    public void WhenTypeKWh(double kWh)
-    {
-        this.kilowattHoursPage.ConvertKilowattHoursToNewtonMeters(kWh);
-    }
-    [Then(@"assert that (.*) Nm are displayed as answer")]
-    public void ThenAssertThatENmAreDisplayedAsAnswer(string expectedNewtonMeters)
-    {
-        this.kilowattHoursPage.AssertFahrenheit(expectedNewtonMeters);
-    }
-}
-```
-
-## Advanced Reuse Tactics for Grid Controls Automated Tests
-
-```csharp
-[TestMethod]
-public void OrderIdEqualToFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/frozen-columns");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var newItem = this.CreateNewItemInDb();
-    kendoGrid.Filter(
-    OrderIdColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.OrderId.ToString());
-    this.WaitForGridToLoad(1, kendoGrid);
-    var items = kendoGrid.GetItems<GridItem>();
-    Assert.AreEqual(1, items.Count);
-}
-```
-
-```csharp
-public interface IGridPage
-{
-    KendoGrid Grid { get; }
-    IWebElement PagerInfoLabel { get; set; }
-    IWebElement GoToNextPage { get; set; }
-    IWebElement GoToFirstPageButton { get; set; }
-    IWebElement GoToLastPage { get; set; }
-    IWebElement GoToPreviousPage { get; set; }
-    IWebElement NextMorePages { get; set; }
-    IWebElement PreviousMorePages { get; set; }
-    IWebElement PageOnFirstPositionButton { get; set; }
-    IWebElement PageOnSecondPositionButton { get; set; }
-    IWebElement PageOnTenthPositionButton { get; set; }
-    void NavigateTo();
-}
-```
-
-```csharp
-public class GridFilterPage : IGridPage
-{
-    public readonly string Url = @"http://demos.telerik.com/kendo-ui/grid/filter-row";
-    private readonly IWebDriver driver;
-    public GridFilterPage(IWebDriver driver)
-    {
-        this.driver = driver;
-        PageFactory.InitElements(driver, this);
-    }
-    public KendoGrid Grid
-    {
-        get
-        {
-            return new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-        }
-    }
-    [FindsBy(How = How.XPath, Using = "//*[@id='grid']/div[3]/span")]
-    public IWebElement PagerInfoLabel { get; set; }
-    [FindsBy(How = How.XPath, Using = "//*[@id='grid']/div[3]/a[3]")]
-    public IWebElement GoToNextPage { get; set; }
-    [FindsBy(How = How.XPath, Using = "//*[@id='grid']/div[3]/a[1]")]
-    public IWebElement GoToFirstPageButton { get; set; }
-    [FindsBy(How = How.XPath, Using = "//*[@id='grid']/div[3]/a[4]/span")]
-    public IWebElement GoToLastPage { get; set; }
-    [FindsBy(How = How.XPath, Using = "//*[@id='grid']/div[3]/a[2]/span")]
-    public IWebElement GoToPreviousPage { get; set; }
-    [FindsBy(How = How.XPath, Using = "//*[@id='grid']/div[3]/ul/li[12]/a")]
-    public IWebElement NextMorePages { get; set; }
-    [FindsBy(How = How.XPath, Using = "//*[@id='grid']/div[3]/ul/li[2]/a")]
-    public IWebElement PreviousMorePages { get; set; }
-    [FindsBy(How = How.XPath, Using = "//*[@id='grid']/div[3]/ul/li[2]/a")]
-    public IWebElement PageOnFirstPositionButton { get; set; }
-    [FindsBy(How = How.XPath, Using = "//*[@id='grid']/div[3]/ul/li[3]/a")]
-    public IWebElement PageOnSecondPositionButton { get; set; }
-    [FindsBy(How = How.XPath, Using = "//*[@id='grid']/div[3]/ul/li[11]/a")]
-    public IWebElement PageOnTenthPositionButton { get; set; }
-    public void NavigateTo()
-    {
-        this.driver.Navigate().GoToUrl(this.Url);
-    }
-}
-```
-
-```csharp
-public class GridColumnAsserter
-{
-    public GridColumnAsserter(IGridPage gridPage)
-    {
-        this.GridPage = gridPage;
-    }
-    protected IGridPage GridPage { get; set; }
-    protected void WaitForPageToLoad(int expectedPage, KendoGrid grid)
-    {
-        this.Until(() =>
-        {
-            int currentPage = grid.GetCurrentPageNumber();
-            return currentPage == expectedPage;
-        });
-    }
-    protected void WaitForGridToLoad(int expectedCount, KendoGrid grid)
-    {
-        this.Until(
-        () =>
-        {
-            var items = grid.GetItems<GridItem>();
-            return expectedCount == items.Count;
-        });
-    }
-    protected void WaitForGridToLoadAtLeast(int expectedCount, KendoGrid grid)
-    {
-        this.Until(
-        () =>
-        {
-            var items = grid.GetItems<GridItem>();
-            return items.Count >= expectedCount;
-        });
-    }
-    protected void Until(
-    Func<bool> condition,
-    int timeout = 10,
-    string exceptionMessage = "Timeout exceeded.",
-    int retryRateDelay = 50)
-    {
-        DateTime start = DateTime.Now;
-        while (!condition())
-        {
-            DateTime now = DateTime.Now;
-            double totalSeconds = (now - start).TotalSeconds;
-            if (totalSeconds >= timeout)
-            {
-                throw new TimeoutException(exceptionMessage);
-            }
-            Thread.Sleep(retryRateDelay);
-        }
-    }
-    protected List<Order> GetAllItemsFromDb()
-    {
-        // Create dummy orders. This logic should be replaced with service oriented call
-        // to your DB and get all items that are populated in the grid.
-        List<Order> orders = new List<Order>();
-        for (int i = 0; i < 10; i++)
-        {
-            orders.Add(new Order());
-        }
-        return orders;
-    }
-    protected Order CreateNewItemInDb(string shipName = null)
-    {
-        // Replace it with service oriented call to your DB. Create real enity in DB.
-        return new Order(shipName);
-    }
-    protected void UpdateItemInDb(Order order)
-    {
-        // Replace it with service oriented call to your DB. Update the enity in the DB.
-    }
-    protected int GetUniqueNumberValue()
-    {
-        var currentTime = DateTime.Now;
-        int result = currentTime.Year +
-        currentTime.Month +
-        currentTime.Hour +
-        currentTime.Minute +
-        currentTime.Second +
-        currentTime.Millisecond;
-        return result;
-    }
-}
-```
-
-```csharp
-public class OrderIdColumnAsserter : GridColumnAsserter
-{
-    public OrderIdColumnAsserter(IGridPage gridPage) : base(gridPage)
-    {
-    }
-    public void OrderIdEqualToFilter()
-    {
-        this.GridPage.NavigateTo();
-        var newItem = this.CreateNewItemInDb();
-        this.GridPage.Grid.Filter(
-        GridColumns.OrderID,
-        Enums.FilterOperator.EqualTo,
-        newItem.OrderId.ToString());
-        this.WaitForGridToLoad(1, this.GridPage.Grid);
-        var items = this.GridPage.Grid.GetItems<GridItem>();
-        Assert.AreEqual(1, items.Count);
-    }
-    public void OrderIdGreaterThanOrEqualToFilter()
-    {
-        this.GridPage.NavigateTo();
-        // Create new item with unique ship name;
-        var newItem = this.CreateNewItemInDb();
-        // Create second new item with the same unique shipping name
-        var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-        // When we filter by the second unique column ShippingName,
-        // only one item will be displayed. Once we apply the second
-        // not equal to filter the grid should be empty.
-        this.GridPage.Grid.Filter(
-        new GridFilter(
-        GridColumns.OrderID,
-        Enums.FilterOperator.GreaterThanOrEqualTo,
-        newItem.OrderId.ToString()),
-        new GridFilter(
-        GridColumns.ShipName,
-        Enums.FilterOperator.EqualTo,
-        newItem.ShipName));
-        this.WaitForGridToLoadAtLeast(2, this.GridPage.Grid);
-        var results = this.GridPage.Grid.GetItems<Order>();
-        Assert.AreEqual(
-        secondNewItem.OrderId,
-        results.FirstOrDefault(x => x.ShipName == secondNewItem.ShipName).OrderId);
-        Assert.AreEqual(
-        newItem.OrderId,
-        results.FirstOrDefault(x => x.ShipName == newItem.ShipName).OrderId);
-        Assert.IsTrue(results.Count() == 2);
-    }
-    public void OrderIdGreaterThanFilter()
-    {
-        this.GridPage.NavigateTo();
-        // Create new item with unique ship name;
-        var newItem = this.CreateNewItemInDb();
-        // Create second new item with the same unique shipping name
-        var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-        // Filter by the smaller orderId but also by the second unique
-        // column in this case shipping name
-        this.GridPage.Grid.Filter(
-        new GridFilter(
-        GridColumns.OrderID,
-        Enums.FilterOperator.GreaterThan,
-        newItem.OrderId.ToString()),
-        new GridFilter(
-        GridColumns.ShipName,
-        Enums.FilterOperator.EqualTo,
-        newItem.ShipName));
-        this.WaitForGridToLoadAtLeast(1, this.GridPage.Grid);
-        var results = this.GridPage.Grid.GetItems<Order>();
-        Assert.AreEqual(
-        secondNewItem.OrderId,
-        results.FirstOrDefault(x => x.ShipName == secondNewItem.ShipName).OrderId);
-        Assert.IsTrue(results.Count() == 1);
-    }
-    public void OrderIdLessThanOrEqualToFilter()
-    {
-        this.GridPage.NavigateTo();
-        // Create new item with unique ship name;
-        var newItem = this.CreateNewItemInDb();
-        // Create second new item with the same unique shipping name
-        var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-        // Filter by the larger orderId but also by the second unique
-        // column in this case shipping name
-        this.GridPage.Grid.Filter(
-        new GridFilter(
-        GridColumns.OrderID,
-        Enums.FilterOperator.LessThanOrEqualTo,
-        secondNewItem.OrderId.ToString()),
-        new GridFilter(
-        GridColumns.ShipName,
-        Enums.FilterOperator.EqualTo,
-        newItem.ShipName));
-        this.WaitForGridToLoadAtLeast(2, this.GridPage.Grid);
-        var results = this.GridPage.Grid.GetItems<Order>();
-        Assert.AreEqual(
-        newItem.OrderId,
-        results.FirstOrDefault(x => x.ShipName == newItem.ShipName).OrderId);
-        Assert.AreEqual(
-        secondNewItem.OrderId,
-        results.Last(x => x.ShipName == secondNewItem.ShipName).OrderId);
-        Assert.IsTrue(results.Count() == 2);
-    }
-    public void OrderIdLessThanFilter()
-    {
-        this.GridPage.NavigateTo();
-        // Create new item with unique ship name;
-        var newItem = this.CreateNewItemInDb();
-        // Create second new item with the same unique shipping name
-        var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-        // Filter by the larger orderId but also by the second unique
-        // column in this case shipping name
-        this.GridPage.Grid.Filter(
-        new GridFilter(
-        GridColumns.OrderID,
-        Enums.FilterOperator.LessThan,
-        secondNewItem.OrderId.ToString()),
-        new GridFilter(
-        GridColumns.ShipName,
-        Enums.FilterOperator.EqualTo,
-        secondNewItem.ShipName));
-        this.WaitForGridToLoadAtLeast(1, this.GridPage.Grid);
-        var results = this.GridPage.Grid.GetItems<Order>();
-        Assert.AreEqual(
-        newItem.OrderId,
-        results.FirstOrDefault(x => x.ShipName == newItem.ShipName).OrderId);
-        Assert.IsTrue(results.Count() == 1);
-    }
-    public void OrderIdNotEqualToFilter()
-    {
-        this.GridPage.NavigateTo();
-        // Create new item with unique ship name;
-        var newItem = this.CreateNewItemInDb();
-        // Create second new item with the same unique shipping name
-        var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-        // Filter by the larger orderId but also by the second unique
-        // column in this case shipping name
-        this.GridPage.Grid.Filter(
-        new GridFilter(
-        GridColumns.OrderID,
-        Enums.FilterOperator.NotEqualTo,
-        secondNewItem.OrderId.ToString()),
-        new GridFilter(
-        GridColumns.ShipName,
-        Enums.FilterOperator.EqualTo,
-        secondNewItem.ShipName));
-        this.WaitForGridToLoadAtLeast(1, this.GridPage.Grid);
-        var results = this.GridPage.Grid.GetItems<Order>();
-        Assert.AreEqual(
-        newItem.OrderId,
-        results.FirstOrDefault(x => x.ShipName == newItem.ShipName).OrderId);
-        Assert.IsTrue(results.Count() == 1);
-    }
-    public void OrderIdClearFilter()
-    {
-        this.GridPage.NavigateTo();
-        // Create new item with unique ship name;
-        var newItem = this.CreateNewItemInDb();
-        // Make sure that we have at least 2 items if the grid is empty.
-        // The tests are designed to run against empty DB.
-        this.CreateNewItemInDb(newItem.ShipName);
-        this.GridPage.Grid.Filter(
-        GridColumns.OrderID,
-        Enums.FilterOperator.EqualTo,
-        newItem.OrderId.ToString());
-        this.WaitForGridToLoad(1, this.GridPage.Grid);
-        this.GridPage.Grid.RemoveFilters();
-        this.WaitForGridToLoadAtLeast(1, this.GridPage.Grid);
-        var results = this.GridPage.Grid.GetItems<Order>();
-        Assert.IsTrue(results.Count() > 1);
-    }
-}
-```
-
-```csharp
-[TestClass]
-public class KendoGridAdvanceReuseTacticsAutomationTests
-{
-    private IWebDriver driver;
-    private IGridPage gridPage;
-    private FreightColumnAsserter freightColumnAsserter;
-    private OrderDateColumnAsserter orderDateColumnAsserter;
-    private OrderIdColumnAsserter orderIdColumnAsserter;
-    private ShipNameColumnAsserter shipNameColumnAsserter;
-    private GridPagerAsserter gridPagerAsserter;
-    [TestInitialize]
-    public void SetupTest()
-    {
-        this.driver = new FirefoxDriver();
-        this.driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(5));
-        this.gridPage = new GridFilterPage(this.driver);
-        this.freightColumnAsserter = new FreightColumnAsserter(this.gridPage);
-        this.orderDateColumnAsserter = new OrderDateColumnAsserter(this.gridPage);
-        this.orderIdColumnAsserter = new OrderIdColumnAsserter(this.gridPage);
-        this.shipNameColumnAsserter = new ShipNameColumnAsserter(this.gridPage);
-        this.gridPagerAsserter = new GridPagerAsserter(this.gridPage);
-    }
-    [TestCleanup]
-    public void TeardownTest()
-    {
-        this.driver.Quit();
-    }
-```
-
-```csharp
-#region OrderID Test Cases
-[TestMethod]
-public void OrderIdEqualToFilter()
-{
-    this.orderIdColumnAsserter.OrderIdEqualToFilter();
-}
-[TestMethod]
-public void OrderIdGreaterThanOrEqualToFilter()
-{
-    this.orderIdColumnAsserter.OrderIdGreaterThanOrEqualToFilter();
-}
-[TestMethod]
-public void OrderIdGreaterThanFilter()
-{
-    this.orderIdColumnAsserter.OrderIdGreaterThanFilter();
-}
-[TestMethod]
-public void OrderIdLessThanOrEqualToFilter()
-{
-    this.orderIdColumnAsserter.OrderIdLessThanOrEqualToFilter();
-}
-[TestMethod]
-public void OrderIdLessThanFilter()
-{
-    this.orderIdColumnAsserter.OrderIdLessThanFilter();
-}
-[TestMethod]
-public void OrderIdNotEqualToFilter()
-{
-    this.orderIdColumnAsserter.OrderIdNotEqualToFilter();
-}
-[TestMethod]
-public void OrderIdClearFilter()
-{
-    this.orderIdColumnAsserter.OrderIdClearFilter();
-}
-#endregion
-```
-
-## Design Grid Control Automated Tests Part 3
-
-```csharp
-private void InitializeInvoicesForPaging()
-{
-    int totalOrders = 11;
-    if (!string.IsNullOrEmpty(this.uniqueShippingName))
-    {
-        uniqueShippingName = Guid.NewGuid().ToString();
-    }
-    this.testPagingItems = new List<Order>();
-    for (int i = 0; i < totalOrders; i++)
-    {
-        var newOrder = this.CreateNewItemInDb(this.uniqueShippingName);
-        testPagingItems.Add(newOrder);
-    }
-}
-```
-
-```csharp
-private void NavigateToGridInitialPage(KendoGrid kendoGrid, int initialPageNumber)
-{
-    GridFilterPage gridFilterPage = new GridFilterPage(this.driver);
-    gridFilterPage.NavigateTo();
-    kendoGrid.Filter(ShipNameColumnName, Enums.FilterOperator.EqualTo, this.uniqueShippingName);
-    kendoGrid.ChangePageSize(1);
-    this.WaitForGridToLoad(1, kendoGrid);
-    kendoGrid.NavigateToPage(initialPageNumber);
-    WaitForPageToLoad(initialPageNumber, kendoGrid);
-    this.AssertPagerInfoLabel(gridFilterPage, initialPageNumber, initialPageNumber, this.testPagingItems.Count);
-}
-```
-
-```csharp
-[TestMethod]
-public void NavigateToFirstPage_GoToFirstPageButton()
-{
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    this.InitializeInvoicesForPaging();
-    this.NavigateToGridInitialPage(kendoGrid, 11);
-    int targetPage = 1;
-    GridFilterPage gridFilterPage = new GridFilterPage(this.driver);
-    gridFilterPage.GoToFirstPageButton.Click();
-    this.WaitForPageToLoad(targetPage, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.AreEqual(this.testPagingItems[targetPage - 1].OrderId, results.First().OrderId);
-    this.AssertPagerInfoLabel(gridFilterPage, targetPage, targetPage, this.testPagingItems.Count());
-}
-```
-
-```csharp
-[TestMethod]
-public void GoToFirstPageButtonDisabled_WhenFirstPageIsLoaded()
-{
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    this.InitializeInvoicesForPaging();
-    this.NavigateToGridInitialPage(kendoGrid, 11);
-    int targetPage = 1;
-    GridFilterPage gridFilterPage = new GridFilterPage(this.driver);
-    gridFilterPage.GoToFirstPageButton.Click();
-    this.WaitForPageToLoad(targetPage, kendoGrid);
-    Assert.IsFalse(gridFilterPage.GoToFirstPageButton.Enabled);
-}
-```
-
-```csharp
-[TestMethod]
-public void NavigateToLastPage_GoToLastPageButton()
-{
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    this.InitializeInvoicesForPaging();
-    this.NavigateToGridInitialPage(kendoGrid, 1);
-    int targetPage = 11;
-    GridFilterPage gridFilterPage = new GridFilterPage(this.driver);
-    gridFilterPage.GoToLastPage.Click();
-    this.WaitForPageToLoad(targetPage, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.AreEqual(this.testPagingItems.Last().OrderId, results.First().OrderId);
-    this.AssertPagerInfoLabel(gridFilterPage, targetPage, targetPage, this.testPagingItems.Count());
-}
-```
-
-```csharp
-[TestMethod]
-public void GoToLastPageButtonDisabled_WhenLastPageIsLoaded()
-{
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    this.InitializeInvoicesForPaging();
-    this.NavigateToGridInitialPage(kendoGrid, 1);
-    int targetPage = 11;
-    GridFilterPage gridFilterPage = new GridFilterPage(this.driver);
-    gridFilterPage.GoToLastPage.Click();
-    this.WaitForPageToLoad(targetPage, kendoGrid);
-    Assert.IsFalse(gridFilterPage.GoToLastPage.Enabled);
-}
-```
-
-```csharp
-[TestMethod]
-public void NavigateToPageNine_GoToPreviousPageButton()
-{
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    this.InitializeInvoicesForPaging();
-    this.NavigateToGridInitialPage(kendoGrid, 11);
-    int targetPage = 10;
-    GridFilterPage gridFilterPage = new GridFilterPage(this.driver);
-    gridFilterPage.GoToPreviousPage.Click();
-    this.WaitForPageToLoad(targetPage, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.AreEqual(this.testPagingItems[targetPage - 1].OrderId, results.First().OrderId);
-    this.AssertPagerInfoLabel(gridFilterPage, targetPage, targetPage, this.testPagingItems.Count());
-}
-```
-
-```csharp
-[TestMethod]
-public void GoToPreviousPageButtonDisabled_WhenFirstPageIsLoaded()
-{
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    this.InitializeInvoicesForPaging();
-    this.NavigateToGridInitialPage(kendoGrid, 11);
-    int targetPage = 1;
-    GridFilterPage gridFilterPage = new GridFilterPage(this.driver);
-    gridFilterPage.GoToFirstPageButton.Click();
-    this.WaitForPageToLoad(targetPage, kendoGrid);
-    Assert.IsFalse(gridFilterPage.GoToPreviousPage.Enabled);
-}
-```
-
-```csharp
-[TestMethod]
-public void NavigateToPageTwo_GoToNextPageButton()
-{
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    this.InitializeInvoicesForPaging();
-    this.NavigateToGridInitialPage(kendoGrid, 1);
-    int targetPage = 2;
-    GridFilterPage gridFilterPage = new GridFilterPage(this.driver);
-    gridFilterPage.GoToNextPage.Click();
-    this.WaitForPageToLoad(targetPage, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.AreEqual(this.testPagingItems[targetPage - 1].OrderId, results.First().OrderId);
-    this.AssertPagerInfoLabel(gridFilterPage, targetPage, targetPage, this.testPagingItems.Count());
-}
-```
-
-```csharp
-[TestMethod]
-public void GoToNextPageButtonDisabled_WhenLastPageIsLoaded()
-{
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    this.InitializeInvoicesForPaging();
-    this.NavigateToGridInitialPage(kendoGrid, 1);
-    int targetPage = 11;
-    GridFilterPage gridFilterPage = new GridFilterPage(this.driver);
-    gridFilterPage.GoToLastPage.Click();
-    this.WaitForPageToLoad(targetPage, kendoGrid);
-    Assert.IsFalse(gridFilterPage.GoToNextPage.Enabled);
-}
-```
-
-```csharp
-[TestMethod]
-public void NavigateToLastPage_MorePagesNextButton()
-{
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    this.InitializeInvoicesForPaging();
-    this.NavigateToGridInitialPage(kendoGrid, 1);
-    int targetPage = 11;
-    GridFilterPage gridFilterPage = new GridFilterPage(this.driver);
-    gridFilterPage.NextMorePages.Click();
-    this.WaitForPageToLoad(targetPage, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.AreEqual(this.testPagingItems[targetPage - 1].OrderId, results.First().OrderId);
-    this.AssertPagerInfoLabel(gridFilterPage, targetPage, targetPage, this.testPagingItems.Count());
-}
-```
-
-```csharp
-[TestMethod]
-public void NextMorePageButtonDisabled_WhenLastPageIsLoaded()
-{
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    this.InitializeInvoicesForPaging();
-    this.NavigateToGridInitialPage(kendoGrid, 1);
-    int targetPage = 11;
-    GridFilterPage gridFilterPage = new GridFilterPage(this.driver);
-    gridFilterPage.GoToLastPage.Click();
-    this.WaitForPageToLoad(targetPage, kendoGrid);
-    Assert.IsFalse(gridFilterPage.PreviousMorePages.Enabled);
-}
-```
-
-```csharp
-[TestMethod]
-public void NavigateToPage10_MorePagesPreviousButton()
-{
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    this.InitializeInvoicesForPaging();
-    this.NavigateToGridInitialPage(kendoGrid, 11);
-    int targetPage = 1;
-    GridFilterPage gridFilterPage = new GridFilterPage(this.driver);
-    gridFilterPage.PreviousMorePages.Click();
-    this.WaitForPageToLoad(targetPage, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.AreEqual(this.testPagingItems[targetPage - 1].OrderId, results.First().OrderId);
-    this.AssertPagerInfoLabel(gridFilterPage, targetPage, targetPage, this.testPagingItems.Count());
-}
-```
-
-```csharp
-[TestMethod]
-public void PreviousMorePagesButtonDisabled_WhenFirstPageIsLoaded()
-{
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    this.InitializeInvoicesForPaging();
-    this.NavigateToGridInitialPage(kendoGrid, 11);
-    int targetPage = 1;
-    GridFilterPage gridFilterPage = new GridFilterPage(this.driver);
-    gridFilterPage.GoToFirstPageButton.Click();
-    this.WaitForPageToLoad(targetPage, kendoGrid);
-    Assert.IsFalse(gridFilterPage.PreviousMorePages.Displayed);
-}
-```
-
-```csharp
-[TestMethod]
-public void NavigateToPageTwo_SecondPageButton()
-{
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    this.InitializeInvoicesForPaging();
-    this.NavigateToGridInitialPage(kendoGrid, 1);
-    int targetPage = 2;
-    GridFilterPage gridFilterPage = new GridFilterPage(this.driver);
-    gridFilterPage.PageOnSecondPositionButton.Click();
-    this.WaitForPageToLoad(targetPage, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.AreEqual(this.testPagingItems[targetPage - 1].OrderId, results.First().OrderId);
-    this.AssertPagerInfoLabel(gridFilterPage, targetPage, targetPage, this.testPagingItems.Count());
-}
-```
-
-## Design Grid Control Automated Tests Part 2
-
-```csharp
-private int GetUniqueNumberValue()
-{
-    var currentTime = DateTime.Now;
-    int result =
-    currentTime.Year +
-    currentTime.Month +
-    currentTime.Hour +
-    currentTime.Minute +
-    currentTime.Second +
-    currentTime.Millisecond;
-    return result;
-}
-```
-
-```csharp
-[TestMethod]
-public void FreightEqualToFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/filter-row");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var newItem = this.CreateNewItemInDb();
-    newItem.Freight = this.GetUniqueNumberValue();
-    this.UpdateItemInDb(newItem);
-    kendoGrid.Filter(
-    FreightColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.Freight.ToString());
-    this.WaitForGridToLoadAtLeast(1, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.IsTrue(results.Count() == 1);
-    Assert.AreEqual(newItem.Freight.ToString(), results[0].Freight);
-}
-```
-
-```csharp
-[TestMethod]
-public void FreightNotEqualToFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/filter-row");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var newItem = this.CreateNewItemInDb();
-    newItem.Freight = this.GetUniqueNumberValue();
-    this.UpdateItemInDb(newItem);
-    kendoGrid.Filter(
-    new GridFilter(
-    FreightColumnName,
-    Enums.FilterOperator.NotEqualTo,
-    newItem.Freight.ToString()),
-    new GridFilter(
-    OrderIdColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.OrderId.ToString()));
-    this.WaitForGridToLoad(0, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.IsTrue(results.Count() == 0);
-}
-```
-
-```csharp
-[TestMethod]
-public void FreightGreaterThanOrEqualToFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/filter-row");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var allItems = this.GetAllItemsFromDb().OrderBy(x => x.Freight);
-    var biggestFreight = allItems.Last().Freight;
-    var newItem = this.CreateNewItemInDb();
-    newItem.Freight = biggestFreight + this.GetUniqueNumberValue();
-    this.UpdateItemInDb(newItem);
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    secondNewItem.Freight = newItem.Freight + 1;
-    this.UpdateItemInDb(secondNewItem);
-    kendoGrid.Filter(
-    FreightColumnName,
-    Enums.FilterOperator.GreaterThanOrEqualTo,
-    newItem.Freight.ToString());
-    this.WaitForGridToLoadAtLeast(2, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.IsTrue(results.Count() == 2);
-    Assert.AreEqual(1, results.Count(x => x.Freight == secondNewItem.Freight));
-    Assert.AreEqual(1, results.Count(x => x.Freight == newItem.Freight));
-}
-```
-
-```csharp
-[TestMethod]
-public void FreightGreaterThanFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/filter-row");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var allItems = this.GetAllItemsFromDb().OrderBy(x => x.Freight);
-    var biggestFreight = allItems.Last().Freight;
-    var newItem = this.CreateNewItemInDb();
-    newItem.Freight = biggestFreight + this.GetUniqueNumberValue();
-    this.UpdateItemInDb(newItem);
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    secondNewItem.Freight = newItem.Freight + 1;
-    this.UpdateItemInDb(secondNewItem);
-    kendoGrid.Filter(
-    FreightColumnName,
-    Enums.FilterOperator.GreaterThan,
-    newItem.Freight.ToString());
-    this.WaitForGridToLoadAtLeast(1, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.IsTrue(results.Count() == 1);
-    Assert.AreEqual(1, results.Count(x => x.Freight == secondNewItem.Freight));
-}
-```
-
-```csharp
-[TestMethod]
-public void FreightLessThanOrEqualToFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/filter-row");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var allItems = this.GetAllItemsFromDb().OrderBy(x => x.Freight);
-    var smallestFreight = allItems.First().Freight;
-    var newItem = this.CreateNewItemInDb();
-    newItem.Freight = Math.Round(
-    smallestFreight - this.GetUniqueNumberValue(),
-    3,
-    MidpointRounding.AwayFromZero);
-    this.UpdateItemInDb(newItem);
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    secondNewItem.Freight = Math.Round(
-    (newItem.Freight - 0.01),
-    3,
-    MidpointRounding.AwayFromZero);
-    this.UpdateItemInDb(secondNewItem);
-    kendoGrid.Filter(
-    FreightColumnName,
-    Enums.FilterOperator.LessThanOrEqualTo,
-    newItem.Freight.ToString());
-    this.WaitForGridToLoadAtLeast(2, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.IsTrue(results.Count() == 2);
-    Assert.AreEqual(1, results.Count(x => x.Freight == secondNewItem.Freight));
-    Assert.AreEqual(1, results.Count(x => x.Freight == newItem.Freight));
-}
-```
-
-```csharp
-[TestMethod]
-public void FreightLessThanFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/filter-row");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var allItems = this.GetAllItemsFromDb().OrderBy(x => x.Freight);
-    var smallestFreight = allItems.First().Freight;
-    var newItem = this.CreateNewItemInDb();
-    newItem.Freight = Math.Round(
-    smallestFreight - this.GetUniqueNumberValue(),
-    3,
-    MidpointRounding.AwayFromZero);
-    this.UpdateItemInDb(newItem);
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    secondNewItem.Freight = Math.Round(
-    (newItem.Freight - 0.01),
-    3,
-    MidpointRounding.AwayFromZero);
-    this.UpdateItemInDb(secondNewItem);
-    kendoGrid.Filter(
-    FreightColumnName,
-    Enums.FilterOperator.LessThan,
-    newItem.Freight.ToString());
-    this.WaitForGridToLoadAtLeast(1, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.IsTrue(results.Count() == 1);
-    Assert.AreEqual(1, results.Count(x => x.Freight == secondNewItem.Freight));
-}
-```
-
-```csharp
-[TestMethod]
-public void FreightClearFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/filter-row");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var allItems = this.GetAllItemsFromDb().OrderBy(x => x.Freight);
-    var biggestFreight = allItems.Last().Freight;
-    var newItem = this.CreateNewItemInDb();
-    newItem.Freight = biggestFreight + this.GetUniqueNumberValue();
-    this.UpdateItemInDb(newItem);
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    secondNewItem.Freight = newItem.Freight + 1;
-    this.UpdateItemInDb(secondNewItem);
-    kendoGrid.Filter(
-    FreightColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.Freight.ToString());
-    this.WaitForGridToLoad(1, kendoGrid);
-    kendoGrid.RemoveFilters();
-    this.WaitForGridToLoadAtLeast(2, kendoGrid);
-}
-```
-
-```csharp
-[TestMethod]
-public void OrderDateEqualToFilter()
-{
-    this.driver.Navigate().GoToUrl(
-    @"http://demos.telerik.com/kendo-ui/grid/remote-data-binding");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var allItems = this.GetAllItemsFromDb().OrderBy(x => x.OrderId);
-    var lastOrderDate = allItems.Last().OrderDate;
-    var newItem = this.CreateNewItemInDb();
-    newItem.OrderDate = lastOrderDate.AddDays(1);
-    this.UpdateItemInDb(newItem);
-    kendoGrid.Filter(
-    OrderDateColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.OrderDate.ToString());
-    this.WaitForGridToLoadAtLeast(1, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.IsTrue(results.Count() == 1);
-    Assert.AreEqual(newItem.OrderDate.ToString(), results[0].OrderDate);
-}
-```
-
-```csharp
-[TestMethod]
-public void OrderDateNotEqualToFilter()
-{
-    this.driver.Navigate().GoToUrl(
-    @"http://demos.telerik.com/kendo-ui/grid/remote-data-binding");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var allItems = this.GetAllItemsFromDb().OrderBy(x => x.OrderDate);
-    var lastOrderDate = allItems.Last().OrderDate;
-    var newItem = this.CreateNewItemInDb();
-    newItem.OrderDate = lastOrderDate.AddDays(1);
-    this.UpdateItemInDb(newItem);
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    secondNewItem.OrderDate = lastOrderDate.AddDays(2);
-    this.UpdateItemInDb(secondNewItem);
-    kendoGrid.Filter(
-    new GridFilter(
-    OrderDateColumnName,
-    Enums.FilterOperator.NotEqualTo,
-    newItem.OrderDate.ToString()),
-    new GridFilter(
-    ShipNameColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.ShipName));
-    this.WaitForGridToLoadAtLeast(1, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.IsTrue(results.Count() == 1);
-    Assert.AreEqual(secondNewItem.ToString(), results[0].OrderDate);
-}
-```
-
-```csharp
-[TestMethod]
-public void OrderDateAfterFilter()
-{
-    this.driver.Navigate().GoToUrl(
-    @"http://demos.telerik.com/kendo-ui/grid/remote-data-binding");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var allItems = this.GetAllItemsFromDb().OrderBy(x => x.OrderDate);
-    var lastOrderDate = allItems.Last().OrderDate;
-    var newItem = this.CreateNewItemInDb();
-    newItem.OrderDate = lastOrderDate.AddDays(1);
-    this.UpdateItemInDb(newItem);
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    secondNewItem.OrderDate = lastOrderDate.AddDays(2);
-    this.UpdateItemInDb(secondNewItem);
-    kendoGrid.Filter(
-    new GridFilter(
-    OrderDateColumnName,
-    Enums.FilterOperator.IsAfter,
-    newItem.OrderDate.ToString()),
-    new GridFilter(
-    ShipNameColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.ShipName));
-    this.WaitForGridToLoadAtLeast(1, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.IsTrue(results.Count() == 1);
-    Assert.AreEqual(secondNewItem.ToString(), results[0].OrderDate);
-}
-```
-
-```csharp
-[TestMethod]
-public void OrderDateIsAfterOrEqualToFilter()
-{
-    this.driver.Navigate().GoToUrl(
-    @"http://demos.telerik.com/kendo-ui/grid/remote-data-binding");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var allItems = this.GetAllItemsFromDb().OrderBy(x => x.OrderDate);
-    var lastOrderDate = allItems.First().OrderDate;
-    var newItem = this.CreateNewItemInDb();
-    newItem.OrderDate = lastOrderDate.AddDays(1);
-    this.UpdateItemInDb(newItem);
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    secondNewItem.OrderDate = lastOrderDate.AddDays(2);
-    this.UpdateItemInDb(secondNewItem);
-    kendoGrid.Filter(
-    new GridFilter(
-    OrderDateColumnName,
-    Enums.FilterOperator.IsAfterOrEqualTo,
-    newItem.OrderDate.ToString()),
-    new GridFilter(
-    ShipNameColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.ShipName));
-    this.WaitForGridToLoadAtLeast(2, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.IsTrue(results.Count() == 2);
-    Assert.AreEqual(secondNewItem.ToString(), results[0].OrderDate);
-    Assert.AreEqual(newItem.ToString(), results[1].OrderDate);
-}
-```
-
-```csharp
-[TestMethod]
-public void OrderDateBeforeFilter()
-{
-    this.driver.Navigate().GoToUrl(
-    @"http://demos.telerik.com/kendo-ui/grid/remote-data-binding");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var allItems = this.GetAllItemsFromDb().OrderBy(x => x.OrderDate);
-    var lastOrderDate = allItems.First().OrderDate;
-    var newItem = this.CreateNewItemInDb();
-    newItem.OrderDate = lastOrderDate.AddDays(-1);
-    this.UpdateItemInDb(newItem);
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    secondNewItem.OrderDate = lastOrderDate.AddDays(-2);
-    this.UpdateItemInDb(secondNewItem);
-    kendoGrid.Filter(
-    new GridFilter(
-    OrderDateColumnName,
-    Enums.FilterOperator.IsBefore,
-    newItem.OrderDate.ToString()),
-    new GridFilter(
-    ShipNameColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.ShipName));
-    this.WaitForGridToLoadAtLeast(1, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.IsTrue(results.Count() == 1);
-    Assert.AreEqual(secondNewItem.ToString(), results[0].OrderDate);
-}
-```
-
-```csharp
-[TestMethod]
-public void OrderDateClearFilter()
-{
-    this.driver.Navigate().GoToUrl(
-    @"http://demos.telerik.com/kendo-ui/grid/remote-data-binding");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var newItem = this.CreateNewItemInDb();
-    kendoGrid.Filter(
-    OrderDateColumnName,
-    Enums.FilterOperator.IsAfter,
-    DateTime.MaxValue.ToString());
-    this.WaitForGridToLoad(0, kendoGrid);
-    kendoGrid.RemoveFilters();
-    this.WaitForGridToLoadAtLeast(1, kendoGrid);
-}
-```
-
-```csharp
-[TestMethod]
-public void OrderDateSortAsc()
-{
-    this.driver.Navigate().GoToUrl(
-    @"http://demos.telerik.com/kendo-ui/grid/remote-data-binding");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var allItems = this.GetAllItemsFromDb().OrderBy(x => x.OrderDate);
-    var lastOrderDate = allItems.First().OrderDate;
-    var newItem = this.CreateNewItemInDb();
-    newItem.OrderDate = lastOrderDate.AddDays(-1);
-    this.UpdateItemInDb(newItem);
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    secondNewItem.OrderDate = lastOrderDate.AddDays(-2);
-    this.UpdateItemInDb(secondNewItem);
-    kendoGrid.Filter(
-    ShipNameColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.ShipName);
-    this.WaitForGridToLoadAtLeast(2, kendoGrid);
-    kendoGrid.Sort(OrderDateColumnName, SortType.Asc);
-    Thread.Sleep(1000);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.IsTrue(results.Count() == 2);
-    Assert.AreEqual(secondNewItem.ToString(), results[0].OrderDate);
-    Assert.AreEqual(newItem.ToString(), results[1].OrderDate);
-}
-```
-
-```csharp
-[TestMethod]
-public void OrderDateSortDesc()
-{
-    this.driver.Navigate().GoToUrl(
-    @"http://demos.telerik.com/kendo-ui/grid/remote-data-binding");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var allItems = this.GetAllItemsFromDb().OrderBy(x => x.OrderDate);
-    var lastOrderDate = allItems.First().OrderDate;
-    var newItem = this.CreateNewItemInDb();
-    newItem.OrderDate = lastOrderDate.AddDays(-1);
-    this.UpdateItemInDb(newItem);
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    secondNewItem.OrderDate = lastOrderDate.AddDays(-2);
-    this.UpdateItemInDb(secondNewItem);
-    kendoGrid.Filter(
-    ShipNameColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.ShipName);
-    this.WaitForGridToLoadAtLeast(2, kendoGrid);
-    kendoGrid.Sort(OrderDateColumnName, SortType.Desc);
-    Thread.Sleep(1000);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.IsTrue(results.Count() == 2);
-    Assert.AreEqual(newItem.ToString(), results[0].OrderDate);
-    Assert.AreEqual(secondNewItem.ToString(), results[1].OrderDate);
-}
-```
-
-## Design Grid Control Automated Tests Part 1
-
-```csharp
-private void WaitForGridToLoad(int expectedCount, KendoGrid grid)
-{
-    this.Until(
-    () =>
-    {
-        var items = grid.GetItems<GridItem>();
-        return expectedCount == items.Count;
-    });
-}
-private void WaitForGridToLoadAtLeast(int expectedCount, KendoGrid grid)
-{
-    this.Until(
-    () =>
-    {
-        var items = grid.GetItems<GridItem>();
-        return items.Count >= expectedCount;
-    });
-}
-private void Until(
-Func<bool> condition,
-int timeout = 10,
-string exceptionMessage = "Timeout exceeded.",
-int retryRateDelay = 50)
-{
-    DateTime start = DateTime.Now;
-    while (!condition())
-    {
-        DateTime now = DateTime.Now;
-        double totalSeconds = (now - start).TotalSeconds;
-        if (totalSeconds >= timeout)
-        {
-            throw new TimeoutException(exceptionMessage);
-        }
-        Thread.Sleep(retryRateDelay);
-    }
-}
-```
-
-```csharp
-[TestMethod]
-public void OrderIdEqualToFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/frozen-columns");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var newItem = this.CreateNewItemInDb();
-    kendoGrid.Filter(
-    OrderIdColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.OrderId.ToString());
-    this.WaitForGridToLoad(1, kendoGrid);
-    var items = kendoGrid.GetItems<Order>();
-    Assert.AreEqual(1, items.Count);
-}
-```
-
-```csharp
-[TestMethod]
-public void OrderIdNotEqualToFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/frozen-columns");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var newItem = this.CreateNewItemInDb();
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    kendoGrid.Filter(
-    new GridFilter(
-    OrderIdColumnName,
-    Enums.FilterOperator.NotEqualTo,
-    secondNewItem.OrderId.ToString()),
-    new GridFilter(
-    ShipNameColumnName,
-    Enums.FilterOperator.EqualTo,
-    secondNewItem.ShipName));
-    this.WaitForGridToLoadAtLeast(1, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.AreEqual(newItem.OrderId,
-    results.FirstOrDefault(x => x.ShipName == newItem.ShipName).OrderId);
-    Assert.IsTrue(results.Count() == 1);
-}
-```
-
-```csharp
-[TestMethod]
-public void OrderIdGreaterThanOrEqualToFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/frozen-columns");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var newItem = this.CreateNewItemInDb();
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    kendoGrid.Filter(
-    new GridFilter(
-    OrderIdColumnName,
-    Enums.FilterOperator.GreaterThanOrEqualTo,
-    newItem.OrderId.ToString()),
-    new GridFilter(
-    ShipNameColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.ShipName));
-    this.WaitForGridToLoadAtLeast(2, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.AreEqual(secondNewItem.OrderId,
-    results.FirstOrDefault(x => x.ShipName == secondNewItem.ShipName).OrderId);
-    Assert.AreEqual(newItem.OrderId,
-    results.FirstOrDefault(x => x.ShipName == newItem.ShipName).OrderId);
-    Assert.IsTrue(results.Count() == 2);
-}
-```
-
-```csharp
-[TestMethod]
-public void OrderIdGreaterThanFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/frozen-columns");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var newItem = this.CreateNewItemInDb();
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    kendoGrid.Filter(
-    new GridFilter(
-    OrderIdColumnName,
-    Enums.FilterOperator.GreaterThan,
-    newItem.OrderId.ToString()),
-    new GridFilter(
-    ShipNameColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.ShipName));
-    this.WaitForGridToLoadAtLeast(1, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.AreEqual(secondNewItem.OrderId,
-    results.FirstOrDefault(x => x.ShipName == secondNewItem.ShipName).OrderId);
-    Assert.IsTrue(results.Count() == 1);
-}
-```
-
-```csharp
-[TestMethod]
-public void OrderIdLessThanOrEqualToFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/frozen-columns");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var newItem = this.CreateNewItemInDb();
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    kendoGrid.Filter(
-    new GridFilter(
-    OrderIdColumnName,
-    Enums.FilterOperator.LessThanOrEqualTo,
-    secondNewItem.OrderId.ToString()),
-    new GridFilter(
-    ShipNameColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.ShipName));
-    this.WaitForGridToLoadAtLeast(2, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.AreEqual(newItem.OrderId,
-    results.FirstOrDefault(x => x.ShipName == newItem.ShipName).OrderId);
-    Assert.AreEqual(secondNewItem.OrderId,
-    results.Last(x => x.ShipName == secondNewItem.ShipName).OrderId);
-    Assert.IsTrue(results.Count() == 2);
-}
-```
-
-```csharp
-[TestMethod]
-public void OrderIdLessThanFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/frozen-columns");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var newItem = this.CreateNewItemInDb();
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    kendoGrid.Filter(
-    new GridFilter(
-    OrderIdColumnName,
-    Enums.FilterOperator.LessThan,
-    secondNewItem.OrderId.ToString()),
-    new GridFilter(
-    ShipNameColumnName,
-    Enums.FilterOperator.EqualTo,
-    secondNewItem.ShipName));
-    this.WaitForGridToLoadAtLeast(1, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.AreEqual(newItem.OrderId,
-    results.FirstOrDefault(x => x.ShipName == newItem.ShipName).OrderId);
-    Assert.IsTrue(results.Count() == 1);
-}
-```
-
-```csharp
-[TestMethod]
-public void OrderIdClearFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/frozen-columns");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var newItem = this.CreateNewItemInDb();
-    var secondNewItem = this.CreateNewItemInDb(newItem.ShipName);
-    kendoGrid.Filter(
-    OrderIdColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.OrderId.ToString());
-    this.WaitForGridToLoad(1, kendoGrid);
-    kendoGrid.RemoveFilters();
-    this.WaitForGridToLoadAtLeast(1, kendoGrid);
-    var results = kendoGrid.GetItems<Order>();
-    Assert.IsTrue(results.Count() > 1);
-}
-```
-
-```csharp
-[TestMethod]
-public void ShipNameEqualToFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/filter-row");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var newItem = this.CreateNewItemInDb();
-    kendoGrid.Filter(ShipNameColumnName, Enums.FilterOperator.EqualTo, newItem.ShipName);
-    this.WaitForGridToLoad(1, kendoGrid);
-    var items = kendoGrid.GetItems<GridItem>();
-    Assert.AreEqual(1, items.Count);
-}
-```
-
-```csharp
-[TestMethod]
-public void ShipNameNotEqualToFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/filter-row");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    var newItem = this.CreateNewItemInDb();
-    kendoGrid.Filter(
-    new GridFilter(ShipNameColumnName, Enums.FilterOperator.NotEqualTo, newItem.ShipName),
-    new GridFilter(OrderIdColumnName, Enums.FilterOperator.EqualTo, newItem.OrderId));
-    this.WaitForGridToLoad(0, kendoGrid);
-    var items = kendoGrid.GetItems<GridItem>();
-    Assert.AreEqual(0, items.Count);
-}
-```
-
-```csharp
-[TestMethod]
-public void ShipNameContainsFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/filter-row");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    string shipName = Guid.NewGuid().ToString();
-    shipName = shipName.TrimStart(shipName.First()).TrimEnd(shipName.Last());
-    var newItem = this.CreateNewItemInDb(shipName);
-    kendoGrid.Filter(ShipNameColumnName, Enums.FilterOperator.Contains, newItem.ShipName);
-    this.WaitForGridToLoad(1, kendoGrid);
-    var items = kendoGrid.GetItems<GridItem>();
-    Assert.AreEqual(1, items.Count);
-}
-```
-
-```csharp
-[TestMethod]
-public void ShipNameNotContainsFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/filter-row");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    string shipName = Guid.NewGuid().ToString();
-    shipName = shipName.TrimStart(shipName.First()).TrimEnd(shipName.Last());
-    var newItem = this.CreateNewItemInDb(shipName);
-    kendoGrid.Filter(
-    new GridFilter(
-    ShipNameColumnName,
-    Enums.FilterOperator.NotContains,
-    newItem.ShipName),
-    new GridFilter(
-    OrderIdColumnName,
-    Enums.FilterOperator.EqualTo,
-    newItem.OrderId.ToString()));
-    this.WaitForGridToLoad(0, kendoGrid);
-    var items = kendoGrid.GetItems<GridItem>();
-    Assert.AreEqual(0, items.Count);
-}
-```
-
-```csharp
-[TestMethod]
-public void ShipNameStartsWithFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/filter-row");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    string shipName = Guid.NewGuid().ToString();
-    shipName = shipName.TrimEnd(shipName.Last());
-    var newItem = this.CreateNewItemInDb(shipName);
-    kendoGrid.Filter(ShipNameColumnName, Enums.FilterOperator.StartsWith, newItem.ShipName);
-    this.WaitForGridToLoad(1, kendoGrid);
-    var items = kendoGrid.GetItems<GridItem>();
-    Assert.AreEqual(1, items.Count);
-}
-```
-
-```csharp
-[TestMethod]
-public void ShipNameEndsWithFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/filter-row");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    string shipName = Guid.NewGuid().ToString();
-    shipName = shipName.TrimStart(shipName.First());
-    var newItem = this.CreateNewItemInDb(shipName);
-    kendoGrid.Filter(ShipNameColumnName, Enums.FilterOperator.EndsWith, newItem.ShipName);
-    this.WaitForGridToLoad(1, kendoGrid);
-    var items = kendoGrid.GetItems<GridItem>();
-    Assert.AreEqual(1, items.Count);
-}
-```
-
-```csharp
-[TestMethod]
-public void ShipNameClearFilter()
-{
-    this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/filter-row");
-    var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-    kendoGrid.Filter(
-    ShipNameColumnName,
-    Enums.FilterOperator.StartsWith,
-    Guid.NewGuid().ToString());
-    this.WaitForGridToLoad(0, kendoGrid);
-    kendoGrid.RemoveFilters();
-    WaitForGridToLoadAtLeast(1, kendoGrid);
-}
-```
-
-## 10 Advanced WebDriver Tips and Tricks Part 3
-
-```csharp
-FirefoxProfile profile = new FirefoxProfile();
-profile.AddExtension(@"C:extensionsLocationextension.xpi");
-IWebDriver driver = new FirefoxDriver(profile);
-```
-
-```csharp
-ChromeOptions options = new ChromeOptions();
-var proxy = new Proxy();
-proxy.Kind = ProxyKind.Manual;
-proxy.IsAutoDetect = false;
-proxy.HttpProxy =
-proxy.SslProxy = "127.0.0.1:3239";
-options.Proxy = proxy;
-options.AddArgument("ignore-certificate-errors");
-IWebDriver driver = new ChromeDriver(options);
-```
-
-```csharp
-ChromeOptions options = new ChromeOptions();
-var proxy = new Proxy();
-proxy.Kind = ProxyKind.Manual;
-proxy.IsAutoDetect = false;
-proxy.HttpProxy =
-proxy.SslProxy = "127.0.0.1:3239";
-options.Proxy = proxy;
-options.AddArguments("--proxy-server=http://user:password@127.0.0.1:3239");
-options.AddArgument("ignore-certificate-errors");
-IWebDriver driver = new ChromeDriver(options);
-```
-
-```csharp
-ChromeOptions options = new ChromeOptions();
-options.AddArguments("load-extension=/pathTo/extension");
-DesiredCapabilities capabilities = new DesiredCapabilities();
-capabilities.SetCapability(ChromeOptions.Capability, options);
-DesiredCapabilities dc = DesiredCapabilities.Chrome();
-dc.SetCapability(ChromeOptions.Capability, options);
-IWebDriver driver = new RemoteWebDriver(dc);
-```
-
-```csharp
-ChromeOptions options = new ChromeOptions();
-options.AddExtension(Path.GetFullPath("local/path/to/extension.crx"));
-DesiredCapabilities capabilities = new DesiredCapabilities();
-capabilities.SetCapability(ChromeOptions.Capability, options);
-DesiredCapabilities dc = DesiredCapabilities.Chrome();
-dc.SetCapability(ChromeOptions.Capability, options);
-IWebDriver driver = new RemoteWebDriver(dc);
-```
-
-```csharp
-[TestMethod]
-public void AssertButtonEnabledDisabled()
-{
-    this.driver.Navigate().GoToUrl(@"http://www.w3schools.com/tags/tryit.asp?filename=tryhtml_button_disabled");
-    this.driver.SwitchTo().Frame("iframeResult");
-    IWebElement button = driver.FindElement(By.XPath("/html/body/button"));
-    Assert.IsFalse(button.Enabled);
-}
-```
-
-```csharp
-[TestMethod]
-public void SetHiddenField()
-{
-    ////<input type="hidden" name="country" value="Bulgaria"/>
-    IWebElement theHiddenElem = driver.FindElement(By.Name("country"));
-    string hiddenFieldValue = theHiddenElem.GetAttribute("value");
-    Assert.AreEqual("Bulgaria", hiddenFieldValue);
-    ((IJavaScriptExecutor)driver).ExecuteScript(
-    "arguments[0].value='Germany';",
-    theHiddenElem);
-    hiddenFieldValue = theHiddenElem.GetAttribute("value");
-    Assert.AreEqual("Germany", hiddenFieldValue);
-}
-```
-
-```csharp
-[TestMethod]
-public void VerifyFileDownloadChrome()
-{
-    string expectedFilePath = @"c:tempTesting_Framework_2015_3_1314_2_Free.exe";
-    try
-    {
-        String downloadFolderPath = @"c:temp";
-        var options = new ChromeOptions();
-        options.AddUserProfilePreference("download.default_directory", downloadFolderPath);
-        driver = new ChromeDriver(options);
-        driver.Navigate().GoToUrl("https://www.telerik.com/download-trial-file/v2/telerik-testing-framework");
-        WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-        wait.Until((x) =>
-        {
-            return File.Exists(expectedFilePath);
-        });
-        FileInfo fileInfo = new FileInfo(expectedFilePath);
-        long fileSize = fileInfo.Length;
-        Assert.AreEqual(4326192, fileSize);
-    }
-    finally
-    {
-        if (File.Exists(expectedFilePath))
-        {
-            File.Delete(expectedFilePath);
-        }
-    }
-}
-```
-
-```csharp
-[TestMethod]
-public void VerifyFileDownloadFirefox()
-{
-    string expectedFilePath = @"c:tempTesting_Framework_2015_3_1314_2_Free.exe";
-    try
-    {
-        String downloadFolderPath = @"c:temp";
-        FirefoxProfile profile = new FirefoxProfile();
-        profile.SetPreference("browser.download.folderList", 2);
-        profile.SetPreference("browser.download.dir", downloadFolderPath);
-        profile.SetPreference("browser.download.manager.alertOnEXEOpen", false);
-        profile.SetPreference("browser.helperApps.neverAsk.saveToDisk", "application/msword, application/binary, application/ris, text/csv, image/png, application/pdf, text/html, text/plain, application/zip, application/x-zip, application/x-zip-compressed, application/download, application/octet-stream");
-        this.driver = new FirefoxDriver(profile);
-        driver.Navigate().GoToUrl("https://www.telerik.com/download-trial-file/v2/telerik-testing-framework");
-        WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-        wait.Until((x) =>
-        {
-            return File.Exists(expectedFilePath);
-        });
-        FileInfo fileInfo = new FileInfo(expectedFilePath);
-        long fileSize = fileInfo.Length;
-        Assert.AreEqual(4326192, fileSize);
-    }
-    finally
-    {
-        if (File.Exists(expectedFilePath))
-        {
-            File.Delete(expectedFilePath);
-        }
-    }
-}
-public void WaitForAjaxComplete(int maxSeconds)
-{
-    bool isAjaxCallComplete = false;
-    for (int i = 1; i <= maxSeconds; i++)
-    {
-        isAjaxCallComplete = (bool)((IJavaScriptExecutor)driver).
-        ExecuteScript("return window.jQuery != undefined && jQuery.active == 0");
-        if (isAjaxCallComplete)
-        {
-            return;
-        }
-        Thread.Sleep(1000);
-    }
-    throw new Exception(string.Format("Timed out after {0} seconds", maxSeconds));
-}
-```
-
-## 10 Advanced WebDriver Tips and Tricks Part 2
-
-```csharp
-[TestMethod]
-public void DragAndDrop()
-{
-    this.driver.Navigate().GoToUrl(@"http://loopj.com/jquery-simple-slider/");
-    IWebElement element = driver.FindElement(By.XPath("//*[@id='project']/p[1]/div/div[2]"));
-    Actions move = new Actions(driver);
-    move.DragAndDropToOffset(element, 30, 0).Perform();
-}
-```
-
-```csharp
-[TestMethod]
-public void FileUpload()
-{
-    this.driver.Navigate().GoToUrl(
-    @"https://demos.telerik.com/aspnet-ajax/ajaxpanel/application-scenarios/file-upload/defaultcs.aspx");
-    IWebElement element =
-    driver.FindElement(By.Id("ctl00_ContentPlaceholder1_RadUpload1file0"));
-    String filePath =
-    @"D:ProjectsPatternsInAutomation.TestsWebDriver.Series.TestsbinDebugWebDriver.xml";
-    element.SendKeys(filePath);
-}
-```
-
-```csharp
-[TestMethod]
-public void JavaScripPopUps()
-{
-    this.driver.Navigate().GoToUrl(
-    @"http://www.w3schools.com/js/tryit.asp?filename=tryjs_confirm");
-    this.driver.SwitchTo().Frame("iframeResult");
-    IWebElement button = driver.FindElement(By.XPath("/html/body/button"));
-    button.Click();
-    IAlert a = driver.SwitchTo().Alert();
-    if (a.Text.Equals("Press a button!"))
-    {
-        a.Accept();
-    }
-    else
-    {
-        a.Dismiss();
-    }
-}
-```
-
-```csharp
-[TestMethod]
-public void MovingBetweenTabs()
-{
-    this.driver.Navigate().GoToUrl(@"http://automatetheplanet.com/compelling-sunday-14022016/");
-    driver.FindElement(By.LinkText("10 Advanced WebDriver Tips and Tricks Part 1")).Click();
-    driver.FindElement(By.LinkText("The Ultimate Guide To Unit Testing in ASP.NET MVC")).Click();
-    ReadOnlyCollection<String> windowHandles = driver.WindowHandles;
-    String firstTab = windowHandles.First();
-    String lastTab = windowHandles.Last();
-    driver.SwitchTo().Window(lastTab);
-    Assert.AreEqual<string>("The Ultimate Guide To Unit Testing in ASP.NET MVC", driver.Title);
-    driver.SwitchTo().Window(firstTab);
-    Assert.AreEqual<string>("Compelling Sunday – 19 Posts on Programming and Quality Assurance", driver.Title);
-}
-```
-
-```csharp
-[TestMethod]
-public void NavigationHistory()
-{
-    this.driver.Navigate().GoToUrl(
-    @"http://www.codeproject.com/Articles/1078541/Advanced-WebDriver-Tips-and-Tricks-Part");
-    this.driver.Navigate().GoToUrl(
-    @"http://www.codeproject.com/Articles/1017816/Speed-up-Selenium-Tests-through-RAM-Facts-and-Myth");
-    driver.Navigate().Back();
-    Assert.AreEqual<string>(
-    "10 Advanced WebDriver Tips and Tricks - Part 1 - CodeProject",
-    driver.Title);
-    driver.Navigate().Refresh();
-    Assert.AreEqual<string>(
-    "10 Advanced WebDriver Tips and Tricks - Part 1 - CodeProject",
-    driver.Title);
-    driver.Navigate().Forward();
-    Assert.AreEqual<string>(
-    "Speed up Selenium Tests through RAM Facts and Myths - CodeProject",
-    driver.Title);
-}
-```
-
-```csharp
-FirefoxProfileManager profileManager = new FirefoxProfileManager();
-FirefoxProfile profile = new FirefoxProfile();
-profile.SetPreference(
-"general.useragent.override",
-"Mozilla/5.0 (BlackBerry; U; BlackBerry 9900; en) AppleWebKit/534.11+ (KHTML, like Gecko) Version/7.1.0.346 Mobile Safari/534.11+");
-this.driver = new FirefoxDriver(profile);
-```
-
-```csharp
-FirefoxProfile firefoxProfile = new FirefoxProfile();
-firefoxProfile.SetPreference("network.proxy.type", 1);
-firefoxProfile.SetPreference("network.proxy.http", "myproxy.com");
-firefoxProfile.SetPreference("network.proxy.http_port", 3239);
-driver = new FirefoxDriver(firefoxProfile);
-```
-
-```csharp
-FirefoxProfile firefoxProfile = new FirefoxProfile();
-firefoxProfile.AcceptUntrustedCertificates = true;
-firefoxProfile.AssumeUntrustedCertificateIssuer = false;
-driver = new FirefoxDriver(firefoxProfile);
-```
-
-```csharp
-DesiredCapabilities capability = DesiredCapabilities.Chrome();
-Environment.SetEnvironmentVariable("webdriver.chrome.driver", "C:PathToChromeDriver.exe");
-capability.SetCapability(CapabilityType.AcceptSslCertificates, true);
-driver = new RemoteWebDriver(capability);
-```
-
-```csharp
-DesiredCapabilities capability = DesiredCapabilities.InternetExplorer();
-Environment.SetEnvironmentVariable("webdriver.ie.driver", "C:PathToIEDriver.exe");
-capability.SetCapability(CapabilityType.AcceptSslCertificates, true);
-driver = new RemoteWebDriver(capability);
-```
-
-```csharp
-[TestMethod]
-public void ScrollFocusToControl()
-{
-    this.driver.Navigate().GoToUrl(@"http://automatetheplanet.com/compelling-sunday-14022016/");
-    IWebElement link = driver.FindElement(By.PartialLinkText("Previous post"));
-    string jsToBeExecuted = string.Format("window.scroll(0, {0});", link.Location.Y);
-    ((IJavaScriptExecutor)driver).ExecuteScript(jsToBeExecuted);
-    link.Click();
-    Assert.AreEqual<string>("10 Advanced WebDriver Tips and Tricks - Part 1", driver.Title);
-}
-```
-
-```csharp
-[TestMethod]
-public void FocusOnControl()
-{
-    this.driver.Navigate().GoToUrl(
-    @"http://automatetheplanet.com/compelling-sunday-14022016/");
-    IWebElement link = driver.FindElement(By.PartialLinkText("Previous post"));
-    // 9.1. Option 1.
-    link.SendKeys(string.Empty);
-    // 9.1. Option 2.
-    ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].focus();", link);
-}
-```
-
-## 10 Advanced WebDriver Tips and Tricks Part 1
-
-```csharp
-public void TakeFullScreenshot(IWebDriver driver, String filename)
-{
-    Screenshot screenshot = ((ITakesScreenshot)driver).GetScreenshot();
-    screenshot.SaveAsFile(filename, ImageFormat.Png);
-}
-Sometimes you may need to take a screenshot of a single element.
-
-public void TakeScreenshotOfElement(IWebDriver driver, By by, string fileName)
-{
-    // 1. Make screenshot of all screen
-    var screenshotDriver = driver as ITakesScreenshot;
-    Screenshot screenshot = screenshotDriver.GetScreenshot();
-    var bmpScreen = new Bitmap(new MemoryStream(screenshot.AsByteArray));
-    // 2. Get screenshot of specific element
-    IWebElement element = driver.FindElement(by);
-    var cropArea = new Rectangle(element.Location, element.Size);
-    var bitmap = bmpScreen.Clone(cropArea, bmpScreen.PixelFormat);
-    bitmap.Save(fileName);
-}
-```
-
-```csharp
-[TestMethod]
-public void WebDriverAdvancedUsage_TakingFullScrenenScreenshot()
-{
-    this.driver.Navigate().GoToUrl(@"http://automatetheplanet.com");
-    this.WaitUntilLoaded();
-    string tempFilePath = Path.GetTempFileName().Replace(".tmp", ".png");
-    this.TakeFullScreenshot(this.driver, tempFilePath);
-}
-[TestMethod]
-public void WebDriverAdvancedUsage_TakingElementScreenshot()
-{
-    this.driver.Navigate().GoToUrl(@"http://automatetheplanet.com");
-    this.WaitUntilLoaded();
-    string tempFilePath = Path.GetTempFileName().Replace(".tmp", ".png");
-    this.TakeScreenshotOfElement(this.driver,
-    By.XPath("//*[@id='tve_editor']/div[2]/div[2]/div/div"), tempFilePath);
-}
-
-```
-
-```csharp
-[TestMethod]
-public void GetHtmlSourceOfWebElement()
-{
-    this.driver.Navigate().GoToUrl(@"http://automatetheplanet.com");
-    this.WaitUntilLoaded();
-    var element =
-    this.driver.FindElement(By.XPath("//*[@id='tve_editor']/div[2]/div[3]/div/div"));
-    string sourceHtml = element.GetAttribute("innerHTML");
-    Debug.WriteLine(sourceHtml);
-}
-```
-
-```csharp
-[TestMethod]
-public void ExecuteJavaScript()
-{
-    this.driver.Navigate().GoToUrl(@"http://automatetheplanet.com");
-    this.WaitUntilLoaded();
-    IJavaScriptExecutor js = driver as IJavaScriptExecutor;
-    string title = (string)js.ExecuteScript("return document.title");
-    Debug.WriteLine(title);
-}
-```
-
-```csharp
-this.driver.Manage().Timeouts().SetPageLoadTimeout(new TimeSpan(0, 0, 10));
-You can wait until the page is completely loaded via JavaScript.
-
-private void WaitUntilLoaded()
-{
-    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-    wait.Until((x) =>
-    {
-        return ((IJavaScriptExecutor)this.driver)
-    .ExecuteScript("return document.readyState").Equals("complete");
-    });
-}
-```
-
-```csharp
-WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
-wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(
-By.XPath("//*[@id='tve_editor']/div[2]/div[2]/div/div")));
-```
-
-```csharp
-[TestMethod]
-public void ExecuteInHeadlessBrowser()
-{
-    this.driver = new PhantomJSDriver(
-    @"D:ProjectsPatternsInAutomation.TestsWebDriver.Series.TestsDrivers");
-    this.driver.Navigate().GoToUrl(@"http://automatetheplanet.com");
-    this.WaitUntilLoaded();
-    IJavaScriptExecutor js = driver as IJavaScriptExecutor;
-    string title = (string)js.ExecuteScript("return document.title");
-    Debug.WriteLine(title);
-}
-```
-
-```csharp
-[TestMethod]
-public void CheckIfElementIsVisible()
-{
-    this.driver.Navigate().GoToUrl(@"http://automatetheplanet.com");
-    Assert.IsTrue(driver.FindElement(
-    By.XPath("//*[@id='tve_editor']/div[2]/div[2]/div/div")).Displayed);
-}
-```
-
-```csharp
-FirefoxProfileManager profileManager = new FirefoxProfileManager();
-FirefoxProfile profile = profileManager.GetProfile("YourProfileName");
-this.driver = new FirefoxDriver(profile);
-```
-
-```csharp
-ChromeOptions options = new ChromeOptions();
-// set some options
-DesiredCapabilities dc = DesiredCapabilities.Chrome();
-dc.SetCapability(ChromeOptions.Capability, options);
-IWebDriver driver = new RemoteWebDriver(dc);
-
-```
-
-```csharp
-FirefoxProfileManager profileManager = new FirefoxProfileManager();
-FirefoxProfile profile = profileManager.GetProfile("HARDDISKUSER");
-profile.SetPreference("javascript.enabled", false);
-this.driver = new FirefoxDriver(profile);
-```
-
-```csharp
-Cookie cookie = new Cookie("key", "value");
-this.driver.Manage().Cookies.AddCookie(cookie);
-```
-
-```csharp
-var cookies = this.driver.Manage().Cookies.AllCookies;
-foreach (var currentCookie in cookies)
-{
-    Debug.WriteLine(currentCookie.Value);
-}
-```
-
-```csharp
-this.driver.Manage().Cookies.DeleteCookieNamed("CookieName");
-```
-
-```csharp
-this.driver.Manage().Cookies.DeleteAllCookies();
-
-```
-
-```csharp
-var myCookie = this.driver.Manage().Cookies.GetCookieNamed("CookieName");
-Debug.WriteLine(myCookie.Value);
-```
-
-```csharp
-[TestMethod]
-public void MaximizeWindow()
-{
-    this.driver.Navigate().GoToUrl(@"http://automatetheplanet.com");
-    this.driver.Manage().Window.Maximize();
-}
-```
-
-## Create Custom Selenium IDE Export to WebDriver
-
-```javascript
-function parse(testCase, source) {
-  var doc = source;
-  var commands = [];
-  while (doc.length > 0) {
-    var line = /(.*)(\r\n|[\r\n])?/.exec(doc);
-    var array = line[1].split(/,/);
-    if (array.length >= 3) {
-      var command = new Command();
-      command.command = array[0];
-      command.target = array[1];
-      command.value = array[2];
-      commands.push(command);
-    }
-    doc = doc.substr(line[0].length);
-  }
-  testCase.setCommands(commands);
-}
-```
-
-```javascript
-function format(testCase, name) {
-  var result = "";
-  var commands = testCase.commands;
-  for (var i = 0; i < commands.length; i++) {
-    var command = commands[i];
-    if (command.type == "command") {
-      result +=
-        command.command + "," + command.target + "," + command.value + "\n";
-    }
-  }
-  return result;
-}
-```
-
-```csharp
-public class BaseWebDriverTest
-{
-    private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-    public void TestInit(IWebDriver driver, string baseUrl, int timeOut)
-    {
-        this.Driver = driver;
-        this.BaseUrl = baseUrl;
-        this.Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOut));
-        this.TimeOut = timeOut;
-    }
-
-    public IWebDriver Driver { get; set; }
-
-    public string BaseUrl { get; set; }
-
-    public WebDriverWait Wait { get; set; }
-
-    public int TimeOut { get; set; }
-
-    public IWebElement GetElement(By by)
-    {
-        IWebElement result = null;
-        try
-        {
-            result = this.Wait.Until(x => x.FindElement(by));
-        }
-        catch (TimeoutException ex)
-        {
-            log.Error(ex.Message);
-            throw new NoSuchElementException(by, this, ex);
-        }
-
-        return result;
-    }
-
-    public bool IsElementPresent(By by)
+    public void Search(string textToType)
     {
-        try
-        {
-            this.Driver.FindElement(by);
-            return true;
-        }
-        catch (NoSuchElementException ex)
-        {
-            log.Error(ex.Message);
-            return false;
-        }
+        this.SearchBox.Clear();
+        this.SearchBox.SendKeys(textToType);
+        this.GoButton.Click();
     }
-
-    public void WaitForElementPresent(By by)
+    public int GetResultsCount()
     {
-        this.GetElement(by);
+        int resultsCount = default(int);
+        resultsCount = int.Parse(this.ResultsCountDiv.Text);
+        return resultsCount;
     }
 }
-```
-
-```csharp
-this.configForm = '<description>Variable for Selenium instance</description>' +
-                  '<textbox id="options_receiver" value="this.Browser"/>' +
-                  '<description>MethodName</description>' +
-                  '<textbox id="options_methodName" value="TESTMETHODNAME" />' +
-                  '<description>Base URL</description>' +
-                  '<textbox id="options_baseUrl" value="http://home.telerik.com"/>';
 ```
 
 ```csharp
@@ -13726,7 +13147,6 @@ public partial class SearchEngineMainPage : BasePage
             return this.driver.FindElement(By.Id("sb_form_q"));
         }
     }
-
     public IWebElement GoButton
     {
         get
@@ -13734,7 +13154,6 @@ public partial class SearchEngineMainPage : BasePage
             return this.driver.FindElement(By.Id("sb_form_go"));
         }
     }
-
     public IWebElement ResultsCountDiv
     {
         get
@@ -13745,927 +13164,1299 @@ public partial class SearchEngineMainPage : BasePage
 }
 ```
 
-```javascript
-var doc = "";
-var index = 1;
-var tab = "\t";
-
-this.configForm =
-  "<description>Variable for Selenium instance</description>" +
-  '<textbox id="options_receiver" value="this.driver"/>' +
-  "<description>ClassName</description>" +
-  '<textbox id="options_className" value="PageName" />';
-
-this.name = "C# Anton (Driver)";
-this.testcaseExtension = ".cs";
-this.suiteExtension = ".cs";
-this.driver = true;
-
-this.options = {
-  receiver: "this.driver",
-  className: "PageName",
-  header: "public partial class Page : BasePage\n{\n",
-  footer: "}\n" + "\n" + "\n",
-  defaultExtension: "cs",
-};
-
-function parse(testCase, source) {
-  doc = source;
-
-  var commands = [];
-  var sep = {
-    comma: ",",
-    tab: "\t",
-  };
-  var count = 0;
-  while (doc.length > 0) {
-    var line = /(.*)(\r\n|[\r\n])?/.exec(doc);
-    count++;
-    var array = line[1].split(sep);
-    if (array.length >= 3) {
-      var command = new Command();
-      command.command = array[0];
-      command.target = array[1];
-      command.value = array[2];
-      commands.push(command);
-    }
-    doc = doc.substr(line[0].length);
-  }
-  testCase.setCommands(commands);
-}
-
-function format(testCase, name) {
-  return formatCommands(testCase.commands);
-}
-
-function formatCommands(commands) {
-  var result = "";
-  result += this.options["header"];
-
-  for (var i = 0; i < commands.length; i++) {
-    var command = commands[i];
-    if (command.type == "command") {
-      var currentResult = "";
-      currentResult = setCommand(command);
-      result += currentResult;
-    }
-  }
-  result += this.options["footer"];
-
-  return result;
-}
-
-setCommand = function (command) {
-  var startPropElement =
-    tab +
-    "public IWebElement Element" +
-    index++ +
-    "\n" +
-    tab +
-    "{" +
-    "\n" +
-    tab +
-    tab +
-    "get" +
-    "\n" +
-    tab +
-    tab +
-    "{" +
-    "\n" +
-    tab +
-    tab +
-    tab;
-  var endPropElement = "\n" + tab + tab + "}" + "\n" + tab + "}" + "\n";
-  var result = tab;
-
-  switch (command.command.toString()) {
-    case "clickAndWait":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "click":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "type":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "assertTextPresent":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "verifyTextPresent":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "verifyText":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "assertText":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "waitForElementPresent":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "verifyElementPresent":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "verifyElementNotPresent":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "waitForElementNotPresent":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "waitForTextPresent":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "waitForTextNotPresent":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "waitForChecked":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "waitForNotChecked":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "storeValue":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "storeAttribute":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    case "select":
-      result =
-        startPropElement +
-        searchContext(command.target.toString()) +
-        endPropElement;
-      break;
-    default:
-  }
-
-  result += "\n";
-  return result;
-};
-
-searchContext = function (locator) {
-  if (locator.startsWith("xpath")) {
-    return (
-      'return this.driver.FindElement(By.XPath("' +
-      locator.substring("xpath=".length) +
-      '"));'
-    );
-  } else if (locator.startsWith("//")) {
-    return 'return this.driver.FindElement(By.XPath("' + locator + '"));';
-  } else if (locator.startsWith("css")) {
-    return (
-      'return this.driver.FindElement(By.CssSelector("' +
-      locator.substring("css=".length) +
-      '"));'
-    );
-  } else if (locator.startsWith("link")) {
-    return (
-      'return this.driver.FindElement(By.LinkText("' +
-      locator.substring("link=".length) +
-      '"));'
-    );
-  } else if (locator.startsWith("name")) {
-    return (
-      'return this.driver.FindElement(By.Name("' +
-      locator.substring("name=".length) +
-      '"));'
-    );
-  } else if (locator.startsWith("tag_name")) {
-    return (
-      'return this.driver.FindElement(By.TagName("' +
-      locator.substring("tag_name=".length) +
-      '"));'
-    );
-  } else if (locator.startsWith("partialID")) {
-    return (
-      'return this.driver.FindElement(By.XPath("' +
-      "//*[contains(@id,'" +
-      locator.substring("partialID=".length) +
-      "')]" +
-      '"));'
-    );
-  } else if (locator.startsWith("id")) {
-    return (
-      'return this.driver.FindElement(By.Id("' +
-      locator.substring("id=".length) +
-      '"));'
-    );
-  } else {
-    return 'return this.driver.FindElement(By.Id("' + locator + '"));';
-  }
-};
-```
-
-## Automate Telerik Kendo Grid with WebDriver and JavaScript
-
 ```csharp
-public class KendoGrid
+public partial class SearchEngineMainPage
 {
-    private readonly string gridId;
-    private readonly IJavaScriptExecutor driver;
-
-    public KendoGrid(IWebDriver driver, IWebElement gridDiv)
+    public void AssertResultsCountIsAsExpected(int expectedCount)
     {
-        this.gridId = gridDiv.GetAttribute("id");
-        this.driver = (IJavaScriptExecutor)driver;
-    }
-
-    public void NavigateToPage(int pageNumber)
-    {
-        string jsToBeExecuted = this.GetGridReference();
-        jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.page(", pageNumber, ");");
-        this.driver.ExecuteScript(jsToBeExecuted);
-    }
-
-    private string GetGridReference()
-    {
-        string initializeKendoGrid = string.Format("var grid = $('#{0}').data('kendoGrid');", this.gridId);
-
-        return initializeKendoGrid;
+        Assert.AreEqual(this.ResultsCountDiv.Text, expectedCount, "The results count is not as expected.");
     }
 }
 ```
 
 ```csharp
-var grid = $("#grid").data("kendoGrid");
-
-```
-
-```csharp
-grid.dataSource.page("5");
-
-```
-
-```csharp
-public void Sort(string columnName, SortType sortType)
+public static class SearchEngineMainPageAsserter
 {
-    string jsToBeExecuted = this.GetGridReference();
-    jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.sort({field: '", columnName, "', dir: '", sortType.ToString().ToLower(), "'});");
-    this.driver.ExecuteScript(jsToBeExecuted);
+    public static void AssertResultsCountIsAsExpected(this SearchEngineMainPage page, int expectedCount)
+    {
+        Assert.AreEqual(page.ResultsCountDiv.Text, expectedCount, "The results count is not as expected.");
+    }
+}
+```
+
+```xml
+<VSTemplate Version="3.0.0"
+	xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+	<TemplateData>
+		<DefaultName>SystemTestingFrameworkPage.cs</DefaultName>
+		<Name>SystemTestingFrameworkPage</Name>
+		<Description>Creates system testing framework's page, element map and asserter</Description>
+		<ProjectType>CSharp</ProjectType>
+		<SortOrder>10</SortOrder>
+		<Icon>__TemplateIcon.png</Icon>
+		<PreviewImage>__PreviewImage.png</PreviewImage>
+	</TemplateData>
+	<TemplateContent>
+		<References />
+		<ProjectItem SubType="" TargetFileName="$fileinputname$.cs" ReplaceParameters="true">TestPage.cs</ProjectItem>
+	</TemplateContent>
+</VSTemplate>
+```
+
+```csharp
+// <copyright file="$safeitemname$.cs" company="Automate The Planet Ltd.">
+// Copyright 2016 Automate The Planet Ltd.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// </copyright>
+// <author>Anton Angelov</author>
+// <site>https://automatetheplanet.com/</site>
+using System;
+using OpenQA.Selenium;
+namespace $rootnamespace$
+{
+public partial class $safeitemname$
+{
+private IWebDriver driver;
+public $safeitemname$(IWebDriver driver) : base(driver)
+{
+this.asserter = asserter;
+}
+public void SampleAction()
+{
+}
+}
 }
 ```
 
 ```csharp
-public void ChangePageSize(int newSize)
+// <copyright file="$safeitemname$.Map.cs" company="Automate The Planet Ltd.">
+// Copyright 2016 Automate The Planet Ltd.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// </copyright>
+// <author>Anton Angelov</author>
+// <site>https://automatetheplanet.com/</site>
+using OpenQA.Selenium;
+namespace $rootnamespace$
 {
-    string jsToBeExecuted = this.GetGridReference();
-    jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.pageSize(", newSize, ");");
-    this.driver.ExecuteScript(jsToBeExecuted);
+public partial class $safeitemname$
+{
+/*
+public IWebElement SuccessMessage
+{
+get
+{
+return this.driver.FindElement(By.Id("lblSuccessMessage"));
+}
+}
+*/
+}
 }
 ```
 
 ```csharp
-public List<T> GetItems<T>() where T : class
+// <copyright file="$safeitemname$.Asserter.cs" company="Automate The Planet Ltd.">
+// Copyright 2016 Automate The Planet Ltd.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// </copyright>
+// <author>Anton Angelov</author>
+// <site>https://automatetheplanet.com/</site>
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+namespace $rootnamespace$
 {
-    string jsToBeExecuted = this.GetGridReference();
-    jsToBeExecuted = string.Concat(jsToBeExecuted, "return JSON.stringify(grid.dataSource.data());");
-    var jsResults = this.driver.ExecuteScript(jsToBeExecuted);
-    var items = JsonConvert.DeserializeObject<List<T>>(jsResults.ToString());
-    return items;
+public partial class $safeitemname$
+{
+public void AssertSomething()
+{
+    Assert.IsTrue(true);
+}
+}
+}
+```
+
+```xml
+<VSTemplate Version="3.0.0"
+	xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+	<TemplateData>
+		<DefaultName>SystemTestingFrameworkPage.cs</DefaultName>
+		<Name>SystemTestingFrameworkPage</Name>
+		<Description>Creates system testing framework's page, element map and asserter</Description>
+		<ProjectType>CSharp</ProjectType>
+		<SortOrder>10</SortOrder>
+		<Icon>__TemplateIcon.png</Icon>
+		<PreviewImage>__PreviewImage.png</PreviewImage>
+	</TemplateData>
+	<TemplateContent>
+		<References />
+		<ProjectItem SubType="" TargetFileName="$fileinputname$.cs" ReplaceParameters="true">TestPage.cs</ProjectItem>
+		<ProjectItem SubType="" TargetFileName="$fileinputname$.Map.cs" ReplaceParameters="true">TestPage.Map.cs</ProjectItem>
+		<ProjectItem SubType="" TargetFileName="$fileinputname$.Asserter.cs" ReplaceParameters="true">TestPage.Asserter.cs</ProjectItem>
+	</TemplateContent>
+</VSTemplate>
+```
+
+## Standardize Page Objects with Visual Studio Item Templates
+
+```csharp
+public class SearchEngineMainPage
+{
+    private readonly IWebDriver driver;
+    private readonly string url = @"searchEngineUrl";
+    public SearchEngineMainPage(IWebDriver browser)
+    {
+        this.driver = browser;
+        PageFactory.InitElements(browser, this);
+    }
+    [FindsBy(How = How.Id, Using = "sb_form_q")]
+    public IWebElement SearchBox { get; set; }
+    [FindsBy(How = How.Id, Using = "sb_form_go")]
+    public IWebElement GoButton { get; set; }
+    [FindsBy(How = How.Id, Using = "b_tween")]
+    public IWebElement ResultsCountDiv { get; set; }
+    public void Navigate()
+    {
+        this.driver.Navigate().GoToUrl(this.url);
+    }
+    public void Search(string textToType)
+    {
+        this.SearchBox.Clear();
+        this.SearchBox.SendKeys(textToType);
+        this.GoButton.Click();
+    }
+    public void ValidateResultsCount(string expectedCount)
+    {
+        Assert.IsTrue(this.ResultsCountDiv.Text.Contains(expectedCount), "The results DIV doesn't contains the specified text.");
+    }
 }
 ```
 
 ```csharp
-public void Filter(string columnName, FilterOperator filterOperator, string filterValue)
+// <copyright file="PageTemplate.cs" company="Automate The Planet Ltd.">
+// Copyright 2016 Automate The Planet Ltd.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// </copyright>
+// <author>Anton Angelov</author>
+// <site>https://automatetheplanet.com/</site>
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
+namespace PageObjectPattern.Selenium.SearchEngine.Pages
 {
-    this.Filter(new GridFilter(columnName, filterOperator, filterValue));
-}
-
-public void Filter(params GridFilter[] gridFilters)
-{
-    string jsToBeExecuted = this.GetGridReference();
-    StringBuilder sb = new StringBuilder();
-    sb.Append(jsToBeExecuted);
-    sb.Append("grid.dataSource.filter({ logic: \"and\", filters: [");
-    foreach (var currentFilter in gridFilters)
+    public class PageTemplate
     {
-        DateTime filterDateTime;
-        bool isFilterDateTime = DateTime.TryParse(currentFilter.FilterValue, out filterDateTime);
-        string filterValueToBeApplied =
-                                        isFilterDateTime ? string.Format("new Date({0}, {1}, {2})", filterDateTime.Year, filterDateTime.Month - 1, filterDateTime.Day) :
-                                        string.Format("\"{0}\"", currentFilter.FilterValue);
-        string kendoFilterOperator = this.ConvertFilterOperatorToKendoOperator(currentFilter.FilterOperator);
-        sb.Append(string.Concat("{ field: \"", currentFilter.ColumnName, "\", operator: \"", kendoFilterOperator, "\", value: ", filterValueToBeApplied, " },"));
-    }
-    sb.Append("] });");
-    jsToBeExecuted = sb.ToString().Replace(",]", "]");
-    this.driver.ExecuteScript(jsToBeExecuted);
-}
-
-private string ConvertFilterOperatorToKendoOperator(FilterOperator filterOperator)
-{
-    string kendoFilterOperator = string.Empty;
-    switch (filterOperator)
-    {
-        case FilterOperator.EqualTo:
-            kendoFilterOperator = "eq";
-            break;
-        case FilterOperator.NotEqualTo:
-            kendoFilterOperator = "neq";
-            break;
-        case FilterOperator.LessThan:
-            kendoFilterOperator = "lt";
-            break;
-        case FilterOperator.LessThanOrEqualTo:
-            kendoFilterOperator = "lte";
-            break;
-        case FilterOperator.GreaterThan:
-            kendoFilterOperator = "gt";
-            break;
-        case FilterOperator.GreaterThanOrEqualTo:
-            kendoFilterOperator = "gte";
-            break;
-        case FilterOperator.StartsWith:
-            kendoFilterOperator = "startswith";
-            break;
-        case FilterOperator.EndsWith:
-            kendoFilterOperator = "endswith";
-            break;
-        case FilterOperator.Contains:
-            kendoFilterOperator = "contains";
-            break;
-        case FilterOperator.NotContains:
-            kendoFilterOperator = "doesnotcontain";
-            break;
-        case FilterOperator.IsAfter:
-            kendoFilterOperator = "gt";
-            break;
-        case FilterOperator.IsAfterOrEqualTo:
-            kendoFilterOperator = "gte";
-            break;
-        case FilterOperator.IsBefore:
-            kendoFilterOperator = "lt";
-            break;
-        case FilterOperator.IsBeforeOrEqualTo:
-            kendoFilterOperator = "lte";
-            break;
-        default:
-            throw new ArgumentException("The specified filter operator is not supported.");
-    }
-
-    return kendoFilterOperator;
-}
-```
-
-```csharp
-public enum FilterOperator
-{
-    EqualTo,
-    NotEqualTo,
-    LessThan,
-    LessThanOrEqualTo,
-    GreaterThan,
-    GreaterThanOrEqualTo,
-    StartsWith,
-    EndsWith,
-    Contains,
-    NotContains,
-    IsAfter,
-    IsAfterOrEqualTo,
-    IsBefore,
-    IsBeforeOrEqualTo
-}
-```
-
-```csharp
-public class KendoGrid
-{
-    private readonly string gridId;
-    private readonly IJavaScriptExecutor driver;
-
-    public KendoGrid(IWebDriver driver, IWebElement gridDiv)
-    {
-        this.gridId = gridDiv.GetAttribute("id");
-        this.driver = (IJavaScriptExecutor)driver;
-    }
-
-    public void RemoveFilters()
-    {
-        string jsToBeExecuted = this.GetGridReference();
-        jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.filter([]);");
-        this.driver.ExecuteScript(jsToBeExecuted);
-    }
-
-    public int TotalNumberRows()
-    {
-        string jsToBeExecuted = this.GetGridReference();
-        jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.total();");
-        var jsResult = this.driver.ExecuteScript(jsToBeExecuted);
-        return int.Parse(jsResult.ToString());
-    }
-
-    public void Reload()
-    {
-        string jsToBeExecuted = this.GetGridReference();
-        jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.read();");
-        this.driver.ExecuteScript(jsToBeExecuted);
-    }
-
-    public int GetPageSize()
-    {
-        string jsToBeExecuted = this.GetGridReference();
-        jsToBeExecuted = string.Concat(jsToBeExecuted, "return grid.dataSource.pageSize();");
-        var currentResponse = this.driver.ExecuteScript(jsToBeExecuted);
-        int pageSize = int.Parse(currentResponse.ToString());
-        return pageSize;
-    }
-
-    public void ChangePageSize(int newSize)
-    {
-        string jsToBeExecuted = this.GetGridReference();
-        jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.pageSize(", newSize, ");");
-        this.driver.ExecuteScript(jsToBeExecuted);
-    }
-
-    public void NavigateToPage(int pageNumber)
-    {
-        string jsToBeExecuted = this.GetGridReference();
-        jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.page(", pageNumber, ");");
-        this.driver.ExecuteScript(jsToBeExecuted);
-    }
-
-    public void Sort(string columnName, SortType sortType)
-    {
-        string jsToBeExecuted = this.GetGridReference();
-        jsToBeExecuted = string.Concat(jsToBeExecuted, "grid.dataSource.sort({field: '", columnName, "', dir: '", sortType.ToString().ToLower(), "'});");
-        this.driver.ExecuteScript(jsToBeExecuted);
-    }
-
-    public List<T> GetItems<T>() where T : class
-    {
-        string jsToBeExecuted = this.GetGridReference();
-        jsToBeExecuted = string.Concat(jsToBeExecuted, "return JSON.stringify(grid.dataSource.data());");
-        var jsResults = this.driver.ExecuteScript(jsToBeExecuted);
-        var items = JsonConvert.DeserializeObject<List<T>>(jsResults.ToString());
-        return items;
-    }
-
-    public void Filter(string columnName, FilterOperator filterOperator, string filterValue)
-    {
-        this.Filter(new GridFilter(columnName, filterOperator, filterValue));
-    }
-
-    public void Filter(params GridFilter[] gridFilters)
-    {
-        string jsToBeExecuted = this.GetGridReference();
-        StringBuilder sb = new StringBuilder();
-        sb.Append(jsToBeExecuted);
-        sb.Append("grid.dataSource.filter({ logic: \"and\", filters: [");
-        foreach (var currentFilter in gridFilters)
+        private readonly IWebDriver driver;
+        private readonly string url = @"searchEngineUrl";
+        public PageTemplate(IWebDriver browser)
         {
-            DateTime filterDateTime;
-            bool isFilterDateTime = DateTime.TryParse(currentFilter.FilterValue, out filterDateTime);
-            string filterValueToBeApplied =
-                                            isFilterDateTime ? string.Format("new Date({0}, {1}, {2})", filterDateTime.Year, filterDateTime.Month - 1, filterDateTime.Day) :
-                                            string.Format("\"{0}\"", currentFilter.FilterValue);
-            string kendoFilterOperator = this.ConvertFilterOperatorToKendoOperator(currentFilter.FilterOperator);
-            sb.Append(string.Concat("{ field: \"", currentFilter.ColumnName, "\", operator: \"", kendoFilterOperator, "\", value: ", filterValueToBeApplied, " },"));
+            this.driver = browser;
+            PageFactory.InitElements(browser, this);
         }
-        sb.Append("] });");
-        jsToBeExecuted = sb.ToString().Replace(",]", "]");
-        this.driver.ExecuteScript(jsToBeExecuted);
-    }
-
-    public int GetCurrentPageNumber()
-    {
-        string jsToBeExecuted = this.GetGridReference();
-        jsToBeExecuted = string.Concat(jsToBeExecuted, "return grid.dataSource.page();");
-        var result = this.driver.ExecuteScript(jsToBeExecuted);
-        int pageNumber = int.Parse(result.ToString());
-        return pageNumber;
-    }
-
-    private string GetGridReference()
-    {
-        string initializeKendoGrid = string.Format("var grid = $('#{0}').data('kendoGrid');", this.gridId);
-
-        return initializeKendoGrid;
-    }
-
-    private string ConvertFilterOperatorToKendoOperator(FilterOperator filterOperator)
-    {
-        string kendoFilterOperator = string.Empty;
-        switch (filterOperator)
+        [FindsBy(How = How.Id, Using = "sb_form_q")]
+        public IWebElement SampleElement { get; set; }
+        public void Navigate()
         {
-            case FilterOperator.EqualTo:
-                kendoFilterOperator = "eq";
-                break;
-            case FilterOperator.NotEqualTo:
-                kendoFilterOperator = "neq";
-                break;
-            case FilterOperator.LessThan:
-                kendoFilterOperator = "lt";
-                break;
-            case FilterOperator.LessThanOrEqualTo:
-                kendoFilterOperator = "lte";
-                break;
-            case FilterOperator.GreaterThan:
-                kendoFilterOperator = "gt";
-                break;
-            case FilterOperator.GreaterThanOrEqualTo:
-                kendoFilterOperator = "gte";
-                break;
-            case FilterOperator.StartsWith:
-                kendoFilterOperator = "startswith";
-                break;
-            case FilterOperator.EndsWith:
-                kendoFilterOperator = "endswith";
-                break;
-            case FilterOperator.Contains:
-                kendoFilterOperator = "contains";
-                break;
-            case FilterOperator.NotContains:
-                kendoFilterOperator = "doesnotcontain";
-                break;
-            case FilterOperator.IsAfter:
-                kendoFilterOperator = "gt";
-                break;
-            case FilterOperator.IsAfterOrEqualTo:
-                kendoFilterOperator = "gte";
-                break;
-            case FilterOperator.IsBefore:
-                kendoFilterOperator = "lt";
-                break;
-            case FilterOperator.IsBeforeOrEqualTo:
-                kendoFilterOperator = "lte";
-                break;
-            default:
-                throw new ArgumentException("The specified filter operator is not supported.");
+            this.driver.Navigate().GoToUrl(this.url);
         }
-
-        return kendoFilterOperator;
+        public void SampleAction()
+        {
+        }
+        public void AssertIsTrue(bool expectedCondition = true)
+        {
+            Assert.IsTrue(expectedCondition);
+        }
     }
 }
 ```
 
 ```csharp
-[TestClass]
-public class KendoGridTests
+// <copyright file="MyNewPage.cs" company="Automate The Planet Ltd.">
+// Copyright 2016 Automate The Planet Ltd.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// </copyright>
+// <author>Anton Angelov</author>
+// <site>https://automatetheplanet.com/</site>
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
+namespace PageObjectPattern
 {
-    private IWebDriver driver;
-
-    [TestInitialize]
-    public void SetupTest()
+    public class MyNewPage
     {
-        this.driver = new FirefoxDriver();
-        this.driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(5));
-    }
-
-    [TestCleanup]
-    public void TeardownTest()
-    {
-        this.driver.Quit();
-    }
-
-    [TestMethod]
-    public void FilterContactName()
-    {
-        this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/index");
-        var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-        kendoGrid.Filter("ContactName", Enums.FilterOperator.Contains, "Thomas");
-        var items = kendoGrid.GetItems<GridItem>();
-        Assert.AreEqual(1, items.Count);
-    }
-
-    [TestMethod]
-    public void SortContactTitleDesc()
-    {
-        this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/index");
-        var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-        kendoGrid.Sort("ContactTitle", SortType.Desc);
-        var items = kendoGrid.GetItems<GridItem>();
-        Assert.AreEqual("Sales Representative", items[0]);
-        Assert.AreEqual("Sales Representative", items[1]);
-    }
-
-    [TestMethod]
-    public void TestCurrentPage()
-    {
-        this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/index");
-        var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-        var pageNumber = kendoGrid.GetCurrentPageNumber();
-        Assert.AreEqual(1, pageNumber);
-    }
-
-    [TestMethod]
-    public void GetPageSize()
-    {
-        this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/index");
-        var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-        var pageNumber = kendoGrid.GetPageSize();
-        Assert.AreEqual(20, pageNumber);
-    }
-
-    [TestMethod]
-    public void GetAllItems()
-    {
-        this.driver.Navigate().GoToUrl(@"http://demos.telerik.com/kendo-ui/grid/index");
-        var kendoGrid = new KendoGrid(this.driver, this.driver.FindElement(By.Id("grid")));
-
-        var items = kendoGrid.GetItems<GridItem>();
-        Assert.AreEqual(91, items.Count);
+        private readonly IWebDriver driver;
+        private readonly string url = @"searchEngineUrl";
+        public MyNewPage(IWebDriver browser)
+        {
+            this.driver = browser;
+            PageFactory.InitElements(browser, this);
+        }
+        [FindsBy(How = How.Id, Using = "sb_form_q")]
+        public IWebElement SampleElement { get; set; }
+        public void Navigate()
+        {
+            this.driver.Navigate().GoToUrl(this.url);
+        }
+        public void SampleAction()
+        {
+        }
+        public void AssertIsTrue(bool expectedCondition = true)
+        {
+            Assert.IsTrue(expectedCondition);
+        }
     }
 }
 ```
 
-## Test URL Redirects with WebDriver and HttpWebRequest
+```xml
+<VSTemplate Version="3.0.0"
+	xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+	<TemplateData>
+		<DefaultName>WebDriverPageObjectItemTemplate.cs</DefaultName>
+		<Name>WebDriverPageObjecttemTemplate</Name>
+		<Description>Creates a WebDriver Page Object</Description>
+		<ProjectType>CSharp</ProjectType>
+		<SortOrder>10</SortOrder>
+		<Icon>__TemplateIcon.png</Icon>
+		<PreviewImage>__PreviewImage.png</PreviewImage>
+	</TemplateData>
+	<TemplateContent>
+		<References />
+		<ProjectItem SubType="" TargetFileName="$fileinputname$.cs" ReplaceParameters="true">PageTemplate.cs</ProjectItem>
+	</TemplateContent>
+</VSTemplate>
+```
+
+## CodeProject Statistics Calculator Using WebDriver
+
+```csharp
+public partial class ArticlesPage : BasePage
+{
+    private string viewsRegex = @".*Views: (?<Views>[0-9,]{1,})";
+    private string publishDateRegex = @".*Posted: (?<PublishDate>[0-9,A-Za-z ]{1,})";
+    private readonly int profileId;
+    public ArticlesPage(IWebDriver driver, int profileId) : base(driver)
+    {
+        this.profileId = profileId;
+    }
+    public override string Url
+    {
+        get
+        {
+            return string.Format("https://www.codeproject.com/script/Articles/MemberArticles.aspx?amid={0}", this.profileId);
+        }
+    }
+    public void Navigate(string part)
+    {
+        base.Open(part);
+    }
+    public List<Article> GetArticlesByUrl(string sectionPart)
+    {
+        this.Navigate(sectionPart);
+        var articlesInfos = new List<Article>();
+        foreach (var articleRow in this.ArticlesRows.ToList())
+        {
+            if (!articleRow.Displayed)
+            {
+                continue;
+            }
+            var article = new Article();
+            var articleTitleElement = this.GetArticleTitleElement(articleRow);
+            article.Title = articleTitleElement.GetAttribute("innerHTML");
+            article.Url = articleTitleElement.GetAttribute("href");
+            var articleStatisticsElement = this.GetArticleStatisticsElement(articleRow);
+            string articleStatisticsElementSource = articleStatisticsElement.GetAttribute("innerHTML");
+            if (!string.IsNullOrEmpty(articleStatisticsElementSource))
+            {
+                article.Views = this.GetViewsCount(articleStatisticsElementSource);
+                article.PublishDate = this.GetPublishDate(articleStatisticsElementSource);
+            }
+            articlesInfos.Add(article);
+        }
+        return articlesInfos;
+    }
+    private double GetViewsCount(string articleStatisticsElementSource)
+    {
+        var regexViews = new Regex(viewsRegex, RegexOptions.Singleline);
+        Match currentMatch = regexViews.Match(articleStatisticsElementSource);
+        if (!currentMatch.Success)
+        {
+            throw new ArgumentException("No content for the current statistics element.");
+        }
+        return double.Parse(currentMatch.Groups["Views"].Value);
+    }
+    private DateTime GetPublishDate(string articleStatisticsElementSource)
+    {
+        var regexPublishDate = new Regex(publishDateRegex, RegexOptions.IgnorePatternWhitespace);
+        Match currentMatch = currentMatch = regexPublishDate.Match(articleStatisticsElementSource);
+        if (!currentMatch.Success)
+        {
+            throw new ArgumentException("No content for the current statistics element.");
+        }
+        return DateTime.Parse(currentMatch.Groups["PublishDate"].Value);
+    }
+}
+```
+
+```csharp
+public ReadOnlyCollection<IWebElement> ArticlesRows
+{
+    get
+    {
+        return this.driver.FindElements(By.XPath("//tr[contains(@id,'CAR_MainArticleRow')]"));
+    }
+}
+```
+
+```csharp
+public IWebElement GetArticleStatisticsElement(IWebElement articleRow)
+{
+    return articleRow.FindElement(By.CssSelector("div[id$='CAR_SbD']"));
+}
+```
+
+```csharp
+private string viewsRegex = @".*Views: (?<Views>[0-9,]{1,})";
+private string publishDateRegex = @".*Posted: (?<PublishDate>[0-9,A-Za-z ]{1,})";
+private double GetViewsCount(string articleStatisticsElementSource)
+{
+    var regexViews = new Regex(viewsRegex, RegexOptions.Singleline);
+    Match currentMatch = regexViews.Match(articleStatisticsElementSource);
+    if (!currentMatch.Success)
+    {
+        throw new ArgumentException("No content for the current statistics element.");
+    }
+    return double.Parse(currentMatch.Groups["Views"].Value);
+}
+private DateTime GetPublishDate(string articleStatisticsElementSource)
+{
+    var regexPublishDate = new Regex(publishDateRegex, RegexOptions.IgnorePatternWhitespace);
+    Match currentMatch = currentMatch = regexPublishDate.Match(articleStatisticsElementSource);
+    if (!currentMatch.Success)
+    {
+        throw new ArgumentException("No content for the current statistics element.");
+    }
+    return DateTime.Parse(currentMatch.Groups["PublishDate"].Value);
+}
+```
+
+```csharp
+class Program
+{
+    private static string filePath = string.Empty;
+    private static string yearInput = string.Empty;
+    private static int year = -1;
+    private static int profileId = 0;
+    private static string profileIdInput = string.Empty;
+    private static List<Article> articlesInfos;
+    static void Main(string[] args)
+    {
+        var commandLineParser = new FluentCommandLineParser();
+        commandLineParser.Setup<string>('p', "path").Callback(s => filePath = s);
+        commandLineParser.Setup<string>('y', "year").Callback(y => yearInput = y);
+        commandLineParser.Setup<string>('i', "profileId").Callback(p => profileIdInput = p);
+        commandLineParser.Parse(args);
+        bool isProfileIdCorrect = int.TryParse(profileIdInput, out profileId);
+        if (string.IsNullOrEmpty(profileIdInput) || !isProfileIdCorrect)
+        {
+            Console.WriteLine("Please specify a correct profileId.");
+            return;
+        }
+        if (string.IsNullOrEmpty(filePath))
+        {
+            Console.WriteLine("Please specify a correct file path.");
+            return;
+        }
+        if (!string.IsNullOrEmpty(yearInput))
+        {
+            bool isYearCorrect = int.TryParse(yearInput, out year);
+            if (!isYearCorrect)
+            {
+                Console.WriteLine("Please specify a correct year!");
+                return;
+            }
+        }
+        articlesInfos = GetAllArticlesInfos();
+        if (year == -1)
+        {
+            CreateReportAllTime();
+        }
+        else
+        {
+            CreateReportYear();
+        }
+        Console.WriteLine("Total VIEWS: {0}", articlesInfos.Sum(x => x.Views));
+        Console.ReadLine();
+    }
+    private static void CreateReportAllTime()
+    {
+        TextWriter textWriter = new StreamWriter(filePath);
+        var csv = new CsvWriter(textWriter);
+        csv.WriteRecords(articlesInfos.OrderByDescending(x => x.Views));
+    }
+    private static void CreateReportYear()
+    {
+        TextWriter currentYearTextWriter = new StreamWriter(filePath);
+        var csv = new CsvWriter(currentYearTextWriter);
+        csv.WriteRecords(articlesInfos.Where(x => x.PublishDate.Year.Equals(year)).OrderByDescending(x => x.Views));
+    }
+    private static List<Article> GetAllArticlesInfos()
+    {
+        var articlesInfos = new List<Article>();
+        using (var driver = new ChromeDriver())
+        {
+            var articlePage = new ArticlesPage(driver, profileId);
+            articlesInfos.AddRange(articlePage.GetArticlesByUrl("#Articles"));
+        }
+        using (var driver = new ChromeDriver())
+        {
+            var articlePage = new ArticlesPage(driver, profileId);
+            articlesInfos.AddRange(articlePage.GetArticlesByUrl("#TechnicalBlog"));
+        }
+        using (var driver = new ChromeDriver())
+        {
+            var articlePage = new ArticlesPage(driver, profileId);
+            articlesInfos.AddRange(articlePage.GetArticlesByUrl("#Tip"));
+        }
+        return articlesInfos;
+    }
+}
+```
+
+```csharp
+var commandLineParser = new FluentCommandLineParser();
+commandLineParser.Setup<string>('p', "path").Callback(s => filePath = s);
+commandLineParser.Setup<string>('y', "year").Callback(y => yearInput = y);
+commandLineParser.Setup<string>('i', "profileId").Callback(p => profileIdInput = p);
+commandLineParser.Parse(args);
+```
+
+```csharp
+private static void CreateReportAllTime()
+{
+    TextWriter textWriter = new StreamWriter(filePath);
+    var csv = new CsvWriter(textWriter);
+    csv.WriteRecords(articlesInfos.OrderByDescending(x => x.Views));
+}
+```
+
+## How Visual Studio Code Snippets Can Speed up Tests’ Writing
+
+```csharp
+for (int i = 0; i < length; i++)
+{
+}
+```
+
+```csharp
+public int MyProperty { get; set; }
+```
+
+```csharp
+public partial class SearchEngineMainPage
+{
+    public ISearch SearchBox
+    {
+        get
+        {
+            return this.ElementFinder.Find<ISearch>(By.Id("sb_form_q"));
+        }
+    }
+    public IInputSubmit GoButton
+    {
+        get
+        {
+            return this.ElementFinder.Find<IInputSubmit>(By.Id("sb_form_go"));
+        }
+    }
+    public IDiv ResultsCountDiv
+    {
+        get
+        {
+            return this.ElementFinder.Find<IDiv>(By.Id("b_tween"));
+        }
+    }
+}
+```
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
-<sites>
-  <site url="http://automatetheplanet.com/" name="AutomateThePlanet">
-    <redirects>
-      <redirect from="http://automatetheplanet.com/singleton-design-pattern-design-patterns-in-automation-testing/" to="/singleton-design-pattern/" />
-      <redirect from="/advanced-strategy-design-pattern-design-patterns-in-automation-testing/" to="/advanced-strategy-design-pattern/" />
-    </redirects>
-  </site>
-</sites>
+<CodeSnippets
+	xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>anchor</Title>
+			<Shortcut>eanchor</Shortcut>
+			<Description>Code snippet for 'anchor' element</Description>
+			<Author>Automate The Planet Ltd.</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>name</ID>
+					<Default>MyAnchor</Default>
+					<ToolTip>The name of the anchor element</ToolTip>
+				</Literal>
+				<Literal>
+					<ID>locatorType</ID>
+					<Default>Id</Default>
+					<ToolTip>The type of the element locator</ToolTip>
+				</Literal>
+				<Literal>
+					<ID>locator</ID>
+					<Default>myUniqueId</Default>
+					<ToolTip>The actual locator for the element</ToolTip>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp">
+				<![CDATA[public IAnchor $name$
+{
+get
+{
+return this.ElementFinder.Find<IAnchor>(By.$locatorType$("$locator$"));
+}
+}]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
 ```
 
 ```csharp
-[XmlRoot(ElementName = "sites")]
-public class Sites
+public IAnchor MyAnchor
 {
-    [XmlElement(ElementName = "site")]
-    public List<Site> Site { get; set; }
+    get
+    {
+        return this.ElementFinder.Find<IAnchor>(By.Id("myUniqueId"));
+    }
 }
+```
 
-[XmlRoot(ElementName = "site")]
-public class Site
+```xml
+<Declarations>
+	<Literal>
+		<ID>name</ID>
+		<Default>MyAnchor</Default>
+		<ToolTip>The name of the anchor element</ToolTip>
+	</Literal>
+	<Literal>
+		<ID>locatorType</ID>
+		<Default>Id</Default>
+		<ToolTip>The type of the element locator</ToolTip>
+	</Literal>
+	<Literal>
+		<ID>locator</ID>
+		<Default>myUniqueId</Default>
+		<ToolTip>The actual locator for the element</ToolTip>
+	</Literal>
+</Declarations>
+```
+
+```xml
+
+<Code Language="csharp">
+	<![CDATA[public IAnchor $name$
 {
-    [XmlElement(ElementName = "redirects")]
-    public Redirects Redirects { get; set; }
-
-    [XmlAttribute(AttributeName = "url")]
-    public string Url { get; set; }
-
-    [XmlAttribute(AttributeName = "name")]
-    public string Name { get; set; }
+get
+{
+return this.ElementFinder.Find<IAnchor>(By.$locatorType$("$locator$"));
 }
+}]]>
+</Code>
+```
 
-[XmlRoot(ElementName = "redirects")]
-public class Redirects
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets
+	xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>anyelement</Title>
+			<Shortcut>anyelement</Shortcut>
+			<Description>Code snippet for any element</Description>
+			<Author>Automate The Planet Ltd.</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>elementType</ID>
+					<Default>IElement</Default>
+					<ToolTip>The type of the element</ToolTip>
+				</Literal>
+				<Literal>
+					<ID>name</ID>
+					<Default>MyElement</Default>
+					<ToolTip>The name of the element</ToolTip>
+				</Literal>
+				<Literal>
+					<ID>locatorType</ID>
+					<Default>Id</Default>
+					<ToolTip>The type of the element locator</ToolTip>
+				</Literal>
+				<Literal>
+					<ID>locator</ID>
+					<Default>myUniqueId</Default>
+					<ToolTip>The actual locator for the element</ToolTip>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp">
+				<![CDATA[public $elementType$ $name$
 {
-    [XmlElement(ElementName = "redirect")]
-    public List<Redirect> Redirect { get; set; }
+get
+{
+return this.ElementFinder.Find<$elementType$>(By.$locatorType$("$locator$"));
 }
+}]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
+```
 
-[XmlRoot(ElementName = "redirect")]
-public class Redirect
+```csharp
+public IElement MyElement
 {
-    [XmlAttribute(AttributeName = "from")]
-    public string From { get; set; }
-
-    [XmlAttribute(AttributeName = "to")]
-    public string To { get; set; }
+    get
+    {
+        return this.ElementFinder.Find<IElement>(By.Id("myUniqueId"));
+    }
 }
 ```
 
 ```csharp
-public class RedirectService : IDisposable
+var myPage = this.Container.Resolve<MyPage>();
+```
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets
+	xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>resolvepage</Title>
+			<Shortcut>rpage</Shortcut>
+			<Description>Code snippet for resolving page</Description>
+			<Author>Automate The Planet Ltd.</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>pageName</ID>
+					<Default>myPage</Default>
+					<ToolTip>The name of the resolved page.</ToolTip>
+				</Literal>
+				<Literal>
+					<ID>pageType</ID>
+					<Default>MyPage</Default>
+					<ToolTip>The type of the resolved page.</ToolTip>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp">
+				<![CDATA[var $pageName$ = this.Container.Resolve<$pageType$>();]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
+```
+
+## Jenkins C# API Library for Triggering Builds
+
+```csharp
+public class HttpAdapter : IHttpAdapter
 {
-    readonly IRedirectStrategy redirectEngine;
-    private Sites sites;
-
-    public RedirectService(IRedirectStrategy redirectEngine)
+    public string Get(string url)
     {
-        this.redirectEngine = redirectEngine;
-        this.redirectEngine.Initialize();
-        this.InitializeRedirectUrls();
-    }
-
-    public void TestRedirects()
-    {
-        bool shouldFail = false;
-
-        foreach (var currentSite in this.sites.Site)
-        {
-            Uri baseUri = new Uri(currentSite.Url);
-
-            foreach (var currentRedirect in currentSite.Redirects.Redirect)
-            {
-                Uri currentFromUrl = new Uri(baseUri, currentRedirect.From);
-                Uri currentToUrl = new Uri(baseUri, currentRedirect.To);
-
-                string currentSitesUrl = this.redirectEngine.NavigateToFromUrl(currentFromUrl.AbsoluteUri);
-                try
-                {
-                    Assert.AreEqual<string>(currentToUrl.AbsoluteUri, currentSitesUrl);
-                    Console.WriteLine(string.Format("{0} \n OK", currentFromUrl));
-                }
-                catch (Exception)
-                {
-                    shouldFail = true;
-                    Console.WriteLine(string.Format("{0} \n was NOT redirected to \n {1}", currentFromUrl, currentToUrl));
-                }
-            }
-        }
-        if (shouldFail)
-        {
-            throw new Exception("There were incorrect redirects!");
-        }
-    }
-
-    public void Dispose()
-    {
-        redirectEngine.Dispose();
-    }
-
-    private void InitializeRedirectUrls()
-    {
-        XmlSerializer deserializer = new XmlSerializer(typeof(Sites));
-        TextReader reader = new StreamReader(@"redirect-URLs.xml");
-        this.sites = (Sites)deserializer.Deserialize(reader);
+        string responseString = string.Empty;
+        var request = (HttpWebRequest)WebRequest.Create(url);
+        var httpResponse = (HttpWebResponse)request.GetResponse();
+        Stream resStream = httpResponse.GetResponseStream();
+        var reader = new StreamReader(resStream);
+        responseString = reader.ReadToEnd();
+        resStream.Close();
         reader.Close();
+        return responseString;
+    }
+    public string Post(string url, string postData)
+    {
+        WebRequest request = WebRequest.Create(url);
+        request.Method = "POST";
+        byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+        request.ContentType = "application/x-www-form-urlencoded";
+        request.ContentLength = byteArray.Length;
+        Stream dataStream = request.GetRequestStream();
+        dataStream.Write(byteArray, 0, byteArray.Length);
+        dataStream.Close();
+        WebResponse response = request.GetResponse();
+        dataStream = response.GetResponseStream();
+        var reader = new StreamReader(dataStream);
+        string responseFromServer = reader.ReadToEnd();
+        reader.Close();
+        dataStream.Close();
+        response.Close();
+        return responseFromServer;
     }
 }
 ```
 
 ```csharp
-public interface IRedirectStrategy : IDisposable
+public string TriggerBuild(string tfsBuildNumber)
 {
-    void Initialize();
-
-    string NavigateToFromUrl(string fromUrl);
-
-    void Dispose();
+    string response = this.httpAdapter.Post(
+    this.parameterizedQueueBuildUrl,
+    string.Concat("TfsBuildNumber=", tfsBuildNumber));
+    return response;
 }
 ```
 
 ```csharp
-public class WebDriverRedirectStrategy : IRedirectStrategy
+internal string GenerateParameterizedQueueBuildUrl(
+string jenkinsServerUrl,
+string projectName)
 {
-    private IWebDriver driver;
-
-    public void Initialize()
+    string resultUrl = string.Empty;
+    Uri result = default(Uri);
+    if (Uri.TryCreate(
+    string.Concat(jenkinsServerUrl, "/job/", projectName, "/buildWithParameters"),
+    UriKind.Absolute,
+    out result))
     {
-        this.driver = new FirefoxDriver();
+        resultUrl = result.AbsoluteUri;
     }
-
-    public void Dispose()
+    else
     {
-        this.driver.Quit();
+        throw new ArgumentException(
+        "The Parameterized Queue Build Url was not created correctly.");
     }
-
-    public string NavigateToFromUrl(string fromUrl)
-    {
-        this.driver.Navigate().GoToUrl(fromUrl);
-        string currentSitesUrl = this.driver.Url;
-
-        return currentSitesUrl;
-    }
+    return resultUrl;
 }
 ```
 
 ```csharp
-public class WebRequestRedirectStrategy : IRedirectStrategy
+internal string GenerateBuildStatusUrl(string jenkinsServerUrl, string projectName)
 {
-    public void Initialize()
+    string resultUrl = string.Empty;
+    Uri result = default(Uri);
+    if (Uri.TryCreate(
+    string.Concat(jenkinsServerUrl, "/job/", projectName, "/api/xml"),
+    UriKind.Absolute,
+    out result))
     {
+        resultUrl = result.AbsoluteUri;
     }
-
-    public string NavigateToFromUrl(string fromUrl)
+    else
     {
-        HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(fromUrl);
-        request.Method = "HEAD";
-        request.Timeout = (int)TimeSpan.FromHours(1).TotalMilliseconds;
-        string currentSitesUrl = string.Empty;
-        try
+        throw new ArgumentException(
+        "The Build status Url was not created correctly.");
+    }
+    return resultUrl;
+}
+```
+
+```xml
+<freeStyleProject>
+	<action>
+		<parameterDefinition>
+			<defaultParameterValue>
+				<value/>
+			</defaultParameterValue>
+			<description/>
+			<name>TfsBuildNumber</name>
+			<type>StringParameterDefinition</type>
+		</parameterDefinition>
+	</action>
+	<action/>
+	<description/>
+	<displayName>Jenkins-CSharp-Api.Parameterized</displayName>
+	<name>Jenkins-CSharp-Api.Parameterized</name>
+	<url>
+http://jenkins.aangelov.com/job/Jenkins-CSharp-Api.Parameterized/
+</url>
+	<buildable>true</buildable>
+	<build>
+		<number>5</number>
+		<url>
+http://jenkins.aangelov.com/job/Jenkins-CSharp-Api.Parameterized/5/
+</url>
+	</build>
+	<build>
+		<number>4</number>
+		<url>
+http://jenkins.aangelov.com/job/Jenkins-CSharp-Api.Parameterized/4/
+</url>
+	</build>
+	<build>
+		<number>3</number>
+		<url>
+http://jenkins.aangelov.com/job/Jenkins-CSharp-Api.Parameterized/3/
+</url>
+	</build>
+	<build>
+		<number>2</number>
+		<url>
+http://jenkins.aangelov.com/job/Jenkins-CSharp-Api.Parameterized/2/
+</url>
+	</build>
+	<build>
+		<number>1</number>
+		<url>
+http://jenkins.aangelov.com/job/Jenkins-CSharp-Api.Parameterized/1/
+</url>
+	</build>
+	<color>blue</color>
+	<firstBuild>
+		<number>1</number>
+		<url>
+http://jenkins.aangelov.com/job/Jenkins-CSharp-Api.Parameterized/1/
+</url>
+	</firstBuild>
+	<healthReport>
+		<description>Build stability: No recent builds failed.</description>
+		<iconClassName>icon-health-80plus</iconClassName>
+		<iconUrl>health-80plus.png</iconUrl>
+		<score>100</score>
+	</healthReport>
+	<inQueue>false</inQueue>
+	<keepDependencies>false</keepDependencies>
+	<lastBuild>
+		<number>5</number>
+		<url>
+http://jenkins.aangelov.com/job/Jenkins-CSharp-Api.Parameterized/5/
+</url>
+	</lastBuild>
+	<lastCompletedBuild>
+		<number>5</number>
+		<url>
+http://jenkins.aangelov.com/job/Jenkins-CSharp-Api.Parameterized/5/
+</url>
+	</lastCompletedBuild>
+	<lastStableBuild>
+		<number>5</number>
+		<url>
+http://jenkins.aangelov.com/job/Jenkins-CSharp-Api.Parameterized/5/
+</url>
+	</lastStableBuild>
+	<lastSuccessfulBuild>
+		<number>5</number>
+		<url>
+http://jenkins.aangelov.com/job/Jenkins-CSharp-Api.Parameterized/5/
+</url>
+	</lastSuccessfulBuild>
+	<nextBuildNumber>6</nextBuildNumber>
+	<property>
+		<parameterDefinition>
+			<defaultParameterValue>
+				<name>TfsBuildNumber</name>
+				<value/>
+			</defaultParameterValue>
+			<description/>
+			<name>TfsBuildNumber</name>
+			<type>StringParameterDefinition</type>
+		</parameterDefinition>
+	</property>
+	<concurrentBuild>false</concurrentBuild>
+	<scm/>
+</freeStyleProject>
+```
+
+```csharp
+internal string GenerateSpecificBuildNumberStatusUrl(
+string buildNumber,
+string jenkinsServerUrl,
+string projectName)
+{
+    string generatedUrl = string.Empty;
+    Uri result = default(Uri);
+    if (Uri.TryCreate(
+    string.Concat(jenkinsServerUrl, "/job/", projectName, "/", buildNumber, "/api/xml"),
+    UriKind.Absolute,
+    out result))
+    {
+        generatedUrl = result.AbsoluteUri;
+    }
+    else
+    {
+        throw new ArgumentException(
+        "The Specific Build Number Url was not created correctly.");
+    }
+    return generatedUrl;
+}
+```
+
+```csharp
+internal string GetXmlNodeValue(string xmlContent, string xmlNodeName)
+{
+    IEnumerable<XElement> foundElemenets =
+    this.GetAllElementsWithNodeName(xmlContent, xmlNodeName);
+    if (foundElemenets.Count() == 0)
+    {
+        throw new Exception(
+        string.Format("No elements were found for node {0}", xmlNodeName));
+    }
+    string elementValue = foundElemenets.First().Value;
+    return elementValue;
+}
+internal IEnumerable<XElement> GetAllElementsWithNodeName(
+string xmlContent,
+string xmlNodeName)
+{
+    XDocument document = XDocument.Parse(xmlContent);
+    XElement root = document.Root;
+    IEnumerable<XElement> foundElemenets =
+    from element in root.Descendants(xmlNodeName)
+    select element;
+    return foundElemenets;
+}
+```
+
+```csharp
+public int GetQueuedBuildNumber(string xmlContent, string queuedBuildName)
+{
+    IEnumerable<XElement> buildElements =
+    this.GetAllElementsWithNodeName(xmlContent, "build");
+    string nextBuildNumberStr = string.Empty;
+    int nextBuildNumber = -1;
+    foreach (XElement currentElement in buildElements)
+    {
+        nextBuildNumberStr = currentElement.Element("number").Value;
+        string currentBuildSpecificUrl =
+        this.GenerateSpecificBuildNumberStatusUrl(
+        nextBuildNumberStr,
+        this.jenkinsServerUrl,
+        this.projectName);
+        string newBuildStatus = this.httpAdapter.Get(currentBuildSpecificUrl);
+        string currentBuildName = this.GetBuildTfsBuildNumber(newBuildStatus);
+        if (queuedBuildName.Equals(currentBuildName))
         {
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            {
-                currentSitesUrl = response.ResponseUri.ToString();
-            }
+            nextBuildNumber = int.Parse(nextBuildNumberStr);
+            Debug.WriteLine("The real build number is {0}", nextBuildNumber);
+            break;
         }
-        catch (WebException)
-        {
-            currentSitesUrl = null;
-        }
-
-        return currentSitesUrl;
     }
-    public void Dispose()
+    if (nextBuildNumber == -1)
     {
+        throw new Exception(
+        string.Format(
+        "Build with name {0} was not find in the queued builds.",
+        queuedBuildName));
     }
+    return nextBuildNumber;
 }
-```
-
-```csharp
-[TestClass]
-public class RedirectsTester
+public string GetBuildTfsBuildNumber(string xmlContent)
 {
-    [TestMethod]
-    public void TestRedirects()
+    IEnumerable<XElement> foundElements =
+    from el in this.GetAllElementsWithNodeName(xmlContent, "parameter").Elements()
+    where el.Value == "TfsBuildNumber"
+    select el;
+    if (foundElements.Count() == 0)
     {
-        var redirectService = new RedirectService(new WebRequestRedirectStrategy());
-        using (redirectService)
+        throw new ArgumentException("The TfsBuildNumber was not set!");
+    }
+    string tfsBuildNumber =
+    foundElements.First().NodesAfterSelf().OfType<XElement>().First().Value;
+    return tfsBuildNumber;
+}
+public bool IsProjectBuilding(string xmlContent)
+{
+    bool isBuilding = false;
+    string isBuildingStr = this.GetXmlNodeValue(xmlContent, "building");
+    isBuilding = bool.Parse(isBuildingStr);
+    return isBuilding;
+}
+public string GetBuildResult(string xmlContent)
+{
+    string buildResult = this.GetXmlNodeValue(xmlContent, "result");
+    return buildResult;
+}
+public string GetNextBuildNumber(string xmlContent)
+{
+    string nextBuildNumber = this.GetXmlNodeValue(xmlContent, "nextBuildNumber");
+    return nextBuildNumber;
+}
+public string GetUserName(string xmlContent)
+{
+    string userName = this.GetXmlNodeValue(xmlContent, "userName");
+    return userName;
+}
+```
+
+```csharp
+public string Run(string tfsBuildNumber)
+{
+    if (string.IsNullOrEmpty(tfsBuildNumber))
+    {
+        tfsBuildNumber = Guid.NewGuid().ToString();
+    }
+    string nextBuildNumber = this.GetNextBuildNumber();
+    this.TriggerBuild(tfsBuildNumber, nextBuildNumber);
+    this.WaitUntilBuildStarts(nextBuildNumber);
+    string realBuildNumber = this.GetRealBuildNumber(tfsBuildNumber);
+    this.buildAdapter.InitializeSpecificBuildUrl(realBuildNumber);
+    this.WaitUntilBuildFinish(realBuildNumber);
+    string buildResult = this.GetBuildStatus(realBuildNumber);
+    return buildResult;
+}
+```
+
+```csharp
+internal string TriggerBuild(string tfsBuildNumber, string nextBuildNumber)
+{
+    string buildStatus = string.Empty;
+    bool isAlreadyBuildTriggered = false;
+    try
+    {
+        buildStatus = this.buildAdapter.GetSpecificBuildStatusXml(nextBuildNumber);
+        Debug.WriteLine(buildStatus);
+    }
+    catch (WebException ex)
+    {
+        if (!ex.Message.Equals("The remote server returned an error: (404) Not Found."))
         {
-            redirectService.TestRedirects();
+            isAlreadyBuildTriggered = true;
         }
+    }
+    if (isAlreadyBuildTriggered)
+    {
+        throw new Exception("Another build with the same build number is already triggered.");
+    }
+    string response = this.buildAdapter.TriggerBuild(tfsBuildNumber);
+    return response;
+}
+```
+
+```csharp
+internal void WaitUntilBuildFinish(string realBuildNumber)
+{
+    bool shouldContinue = false;
+    string buildStatus = string.Empty;
+    do
+    {
+        buildStatus = this.buildAdapter.GetSpecificBuildStatusXml(realBuildNumber);
+        bool isProjectBuilding = this.buildAdapter.IsProjectBuilding(buildStatus);
+        if (!isProjectBuilding)
+        {
+            shouldContinue = true;
+        }
+        Debug.WriteLine("Waits 5 seconds before the new check if the build is completed...");
+        Thread.Sleep(5000);
+    }
+    while (!shouldContinue);
+}
+```
+
+## Jenkins Get Source Code By Specific TFS Changeset
+
+```powershell
+%TFS% workspaces -format:brief -server:{your-tfs-team-project-collection-url}
+%TFS% workspace -new Hudson-%JOB_NAME%-MASTER;{your-domain-user-name} -noprompt -server:{your-tfs-team-project-collection-url}
+%TFS% workfold -map $/{tfs-path-to-your-sln} C:\Jenkins\jobs\%JOB_NAME%\workspace\ -workspace:Hudson-%JOB_NAME%-MASTER -server:{your-tfs-team-project-collection-url}
+%TFS% get $/{tfs-path-to-your-sln} -force -recursive -version:%ChangesetNumber% -noprompt
+%TFS% history $/{tfs-path-to-your-sln} -recursive -stopafter:1 -noprompt -version:%ChangesetNumber% -format:brief -server:{your-tfs-team-project-collection-url}
+
+```
+
+```powershell
+
+%TFS% workspaces -format:brief -server:{your-tfs-team-project-collection-url}
+%TFS% workspace -new Hudson-%JOB_NAME%-MASTER;{your-domain-user-name} -noprompt -server:{your-tfs-team-project-collection-url}
+%TFS% workfold -map $/{tfs-path-to-your-sln} C:\Jenkins\jobs\%JOB_NAME%\workspace\ -workspace:Hudson-%JOB_NAME%-MASTER -server:{your-tfs-team-project-collection-url}
+%TFS% get $/{tfs-path-to-your-sln} -force -recursive -noprompt
+%TFS% history $/{tfs-path-to-your-sln} -recursive -stopafter:1 -noprompt -format:brief -server:{your-tfs-team-project-collection-url}
+```
+
+```powershell
+IF "%ChangesetNumber%" == "" (
+%TFS% workspaces -format:brief -server:{your-tfs-team-project-collection-url}
+%TFS% workspace -new Hudson-%JOB_NAME%-MASTER;{your-domain-user-name} -noprompt -server:{your-tfs-team-project-collection-url}
+%TFS% workfold -map $/{tfs-path-to-your-sln} C:\Jenkins\jobs\%JOB_NAME%\workspace\ -workspace:Hudson-%JOB_NAME%-MASTER -server:{your-tfs-team-project-collection-url}
+%TFS% get $/{tfs-path-to-your-sln} -force -recursive -noprompt
+%TFS% history $/{tfs-path-to-your-sln} -recursive -stopafter:1 -noprompt -format:brief -server:{your-tfs-team-project-collection-url}
+) ELSE (
+%TFS% workspaces -format:brief -server:{your-tfs-team-project-collection-url}
+%TFS% workspace -new Hudson-%JOB_NAME%-MASTER;{your-domain-user-name} -noprompt -server:{your-tfs-team-project-collection-url}
+%TFS% workfold -map $/{tfs-path-to-your-sln} C:\Jenkins\jobs\%JOB_NAME%\workspace\ -workspace:Hudson-%JOB_NAME%-MASTER -server:{your-tfs-team-project-collection-url}
+%TFS% get $/{tfs-path-to-your-sln} -force -recursive -version:%ChangesetNumber% -noprompt
+%TFS% history $/{tfs-path-to-your-sln} -recursive -stopafter:1 -noprompt -version:%ChangesetNumber% -format:brief -server:{your-tfs-team-project-collection-url}
+)
+```
+
+## Output MSTest Tests Logs To Jenkins Console Log
+
+```csharp
+public static class Log
+{
+    public static void Write(string msg)
+    {
+        Console.WriteLine(msg);
+    }
+
+    public static void WriteFormat(string msgFormat, params object[] args)
+    {
+        string formattedString = string.Format(msgFormat, args);
+        Console.WriteLine(formattedString);
+    }
+
+    public static void WriteLineFormat(string msgFormat, params object[] args)
+    {
+        string formattedString = string.Format(msgFormat, args);
+        Console.WriteLine(formattedString);
+        Console.WriteLine();
+    }
+
+    public static void WriteStringLine()
+    {
+        Console.WriteLine(new string('-', 30));
+    }
+
+    public static void WriteLine()
+    {
+        Console.WriteLine();
     }
 }
 ```
 
-## Getting Started with WebDriver C# in 10 Minutes
-
 ```csharp
-IWebDriver firefoxDriver = new FirefoxDriver();
-IWebDriver ieDriver = new InternetExlorerDriver();
-IWebDriver edgeDriver = new EdgeDriver();
-IWebDriver chromeDriver = new ChromeDriver();
+[TestMethod]
+public void TestShiftByteArrayLeftNormalCase()
+{
+    byte[] inputByteArray = { 0, 1, 0, 3, 4 };
+    int size = 5;
+
+    byte[] expected = { 1, 0, 3, 4, 0 };
+    byte[] actual = Encryptor.ShiftByteArrayLeft(inputByteArray, size);
+
+    CollectionAssert.AreEqual(expected, actual, "There was a problem in shifting bytes left!");
+    Log.WriteStringLine();
+    Log.Write("There was a problem in shifting bytes left!");
+    Log.WriteLine();
+    Log.WriteFormat("Test args {0} and {1}", "#first#", "#second#");
+    Log.WriteLineFormat("Test args {0} and {1}", "#first#", "#second#");
+}
 ```
 
-```csharp
-new DriverManager().SetUpDriver(new ChromeConfig());
-new DriverManager().SetUpDriver(new FirefoxConfig());
-new DriverManager().SetUpDriver(new EdgeConfig());
-new DriverManager().SetUpDriver(new OperaConfig());
-```
-
-```csharp
-driverOne.Navigate().GoToUrl("http://automatetheplanet.com/");
+```powershell
+"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\mstest.exe" /resultsfile:"%WORKSPACE%\AutomationTestAssistant\Results.trx" /testcontainer:"%WORKSPACE%\AutomationTestAssistant\TestEncryption\bin\Release\TestEncryption.dll" /nologo /detail:stdout
 
 ```
 
-```csharp
-// By ID
-IWebElement element = driverOne.FindElement(By.Id("myUniqueId"));
-// By Class (Find more than one element on the page)
-IList<IWebElement> elements = driverOne.FindElements(By.ClassName("green"));
-// By Tag Name
-IWebElement frame = driverOne.FindElement(By.TagName("iframe"));
-// By Name
-IWebElement cheese = driverOne.FindElement(By.Name("goran"));
-// By Link Text
-IWebElement link = driverOne.FindElement(By.LinkText("best features"));
-// By XPath
-IList<IWebElement> inputs = driverOne.FindElements(By.XPath("//input"));
-// By CSS Selector
-IWebElement css = driverOne.FindElement(By.CssSelector("#green span.dairy.baged"));
-```
+# Free Tools
+
+## UI Performance Analysis via Selenium WebDriver
 
 ```csharp
-IWebElement hardToFind = this.driverOne.FindElement(By.ClassName(“firstElementTable")).FindElement(By.Id(“secondElement"));
+using DevTools = OpenQA.Selenium.DevTools.V91;
 ```
 
-```csharp
-IWebElement element = driverOne.FindElement(By.Name("search"));
-element.Clear();
-element.SendKeys("Automate The Planet!");
+## Healenium: Self-Healing Library for Selenium-based Automated Tests
+
+```bash
+docker-compose up -d
 ```
 
-```csharp
-SelectElement selectElement = new SelectElement(driver.FindElement(By.XPath("/html/body/select")));
-selectElement.SelectByText("Planet");
+## Test Automation Reporting with ReportPortal in .NET Projects
+
+```bash
+curl https://raw.githubusercontent.com/reportportal/reportportal/master/docker-compose.yml -o docker-compose.yml
+```
+
+```bash
+docker-compose -p reportportal up -d --force-recreate
+```
+
+```bash
+dotnet vstest Bellatrix.Web.Tests.dll --testcasefilter:TestCategory=CI --logger:ReportPortal
+```
+
+## Test Automation Reporting with Allure in .NET Projects
+
+```json
+{
+  "allure": {
+    "directory": "allure-results",
+    "links": [
+      "https://github.com/AutomateThePlanet/Meissa/issues/{issue}",
+      "https://github.com/AutomateThePlanet/Meissa/projects/2#card-{tms}",
+      "{link}"
+    ]
+  }
+}
+```
+
+```json
+[
+  {
+    "name": "Ignored tests",
+    "matchedStatuses": ["skipped"]
+  },
+  {
+    "name": "Product Bug",
+    "matchedStatuses": ["broken", "failed"],
+    "messageRegex": ".*AssertionException.*"
+  },
+  {
+    "name": "Calculator Problem",
+    "matchedStatuses": ["failed"],
+    "traceRegex": ".*DivideByZeroException.*"
+  }
+]
+```
+
+```xml
+<ItemGroup>
+    <Categories Include="categories.json" />
+</ItemGroup>
+<Target Name="CopyCategoriesToAllureFolder">
+    <Copy SourceFiles="@(Categories)" DestinationFolder="$(OutputPath)allure-results" />
+</Target>
+<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <CallTarget Targets="CopyCategoriesToAllureFolder" />
+</Target>
+```
+
+```bash
+allure generate "allure-results-directory" --clean
+```
+
+```bash
+allure open "allure-report-directory"
 ```
