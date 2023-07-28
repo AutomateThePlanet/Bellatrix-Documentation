@@ -8,325 +8,158 @@ permalink: /customcode/
 
 ## Bellatrix Test Automation Framework
 
-## Testing for Developers- Isolation Frameworks Fundamentals
+## Testing for Developers- Unit Testing Fundamentals
 
 ```csharp
-public List<string> GeneratePiesNamesByCurrentYear()
+public void ClearCart()
 {
-    var brandedPiesNames = new List<string>();
-    foreach (var pie in _originalPiesNames)
+var cartItems = _appDbContext
+.ShoppingCartItems
+.Where(cart => cart.ShoppingCartId == ShoppingCartId);
+_appDbContext.ShoppingCartItems.RemoveRange(cartItems);
+_appDbContext.SaveChanges();
+}
+```
+
+```csharp
+public void ClearCart()
+{
+    var cartItems = _appDbContext
+    .ShoppingCartItems
+    .Where(cart => cart.ShoppingCartId == ShoppingCartId);
+    _appDbContext.ShoppingCartItems.RemoveRange(cartItems);
+    _appDbContext.SaveChanges();
+}
+```
+
+```csharp
+public List<ShoppingCartItem> GetShoppingCartItems()
+{
+    return ShoppingCartItems ??
+    (ShoppingCartItems =
+    _appDbContext.ShoppingCartItems
+    .Where(c => c.ShoppingCartId == ShoppingCartId)
+    .Include(s => s.Pie)
+    .ToList());
+}
+```
+
+```csharp
+private string _shoppingCartId;
+public static ShoppingCartService GetCart(IServiceProvider services)
+{
+    ISession session = services.GetRequiredService<IHttpContextAccessor>()?
+    .HttpContext.Session;
+    var context = services.GetService<AppDbContext>();
+    string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
+    session.SetString("CartId", cartId);
+    return new ShoppingCartService(context) { _shoppingCartId = cartId };
+}
+```
+
+```csharp
+[HttpGet("{id}")]
+public async Task<IActionResult> GetPie(int id)
+{
+    try
     {
-        brandedPiesNames.Add($"{DateTime.Now.Year} {pie}");
+        return Ok(pieDto);
     }
-    return brandedPiesNames;
-}
-```
-
-```csharp
-public interface IDateTimeFacade
-{
-    DateTime GetCurrentDateTime();
-}
-```
-
-```csharp
-public List<string> GeneratePiesNamesByCurrentYear()
-{
-    var brandedPiesNames = new List<string>();
-    foreach (var pie in _originalPiesNames)
+    catch (Exception ex)
     {
-        brandedPiesNames.Add($"{_dateTimeFacade.GetCurrentDateTime().Year} {pie}");
-    }
-    return brandedPiesNames;
-}
-```
-
-```csharp
-public class AlwaysValidFakeExtensionManager : IExtensionManager
-{
-    public bool IsValid(string fileName)
-    {
-        return true;
-    }
-}
-```
-
-```csharp
-private readonly ILogger<TestCaseRunsController> _logger;
-private readonly MeissaRepository _meissaRepository;
-public TestCaseRunsController(ILogger<TestCaseRunsController> logger, MeissaRepository repository)
-{
-    _logger = logger;
-    _meissaRepository = repository;
-}
-```
-
-```csharp
-public TestCaseRunsController(ILogger<TestCaseRunsController> logger, MeissaRepository repository)
-{
-    _logger = logger;
-}
-public MeissaRepository MeissaRepository { get; set; }
-```
-
-```csharp
-public async Task SetAllActiveAgentsToVerifyTheirStatusAsync(IServiceClient<TestAgentDto> testAgentRepository, string tag)
-{
-    var testAgents = await GetAllActiveTestAgentsByTagAsync(tag);
-    if (testAgents.Count > 0)
-    {
-        await UpdateAgentsStatusAsync(testAgents, TestAgentStatus.RequestActiveConfirmation);
+        _logger.LogCritical($"Exception while ... id {id}.", ex);
+        return StatusCode(500, "A problem happened.");
     }
 }
+
 ```
 
 ```csharp
-public async Task SetAllActiveAgentsToVerifyTheirStatusAsync(string tag)
+[TestMethod]
+public void ReturnCorrectDate_When_OneItemPresent()
 {
-    var repo = CreateTestAgentRepo();
-    var testAgents = await repo.GetAllActiveTestAgentsByTagAsync(tag);
-    if (testAgents.Count > 0)
+    var shoppingCartService = new ShoppingCartService();
+    shoppingCartService.AddToCart(new Pie(), 100);
+    var item = shoppingCartService.GetShoppingCartItems().First();
+    Assert.AreEqual(item.Created.Minute, DateTime.Now.Minute);
+}
+```
+
+```csharp
+[TestMethod]
+public void ReturnCorrectDate_When_OneItemPresent()
+{
+    var shoppingCartService = new ShoppingCartService();
+    shoppingCartService.AddToCart(new Pie(), 100);
+    var item = shoppingCartService.GetShoppingCartItems().First();
+    Assert.AreEqual(item.Created.Minute, DateTime.Now.Minute);
+}
+```
+
+```csharp
+[TestMethod]
+public void AddPieToCart()
+{
+    var shoppingCartService = new ShoppingCartService();
+    shoppingCartService.AddToCart(new Pie(), 100);
+}
+[TestMethod]
+public void ReturnCorrectDate_When_OneItemPresent()
+{
+    var shoppingCartService = new ShoppingCartService();
+    var item = shoppingCartService.GetShoppingCartItems().First();
+    Assert.AreEqual(item.Created.Minute, DateTime.Now.Minute);
+}
+```
+
+```csharp
+[TestMethod]
+public void ReturnCorrectDate_When_OneItemPresent()
+{
+    var shoppingCartService = new ShoppingCartService(new AppDbContext());
+    shoppingCartService.AddToCart(new Pie(), 100);
+    var item = shoppingCartService.GetShoppingCartItems().First();
+    Assert.AreEqual(item.Created.Minute, DateTime.Now.Minute);
+}
+```
+
+```csharp
+public decimal GetShoppingCartTotal()
+{
+    var total = _appDbContext.ShoppingCartItems.Where(c => c.ShoppingCartId == ShoppingCartId)
+    .Select(c => c.Pie.Price * c.Amount).Sum();
+    return total;
+}
+```
+
+```csharp
+public static ShoppingCartService GetCart(IServiceProvider services)
+{
+    ISession session = services.GetRequiredService<IHttpContextAccessor>()?
+    .HttpContext.Session;
+    var context = services.GetService<AppDbContext>();
+    string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
+    session.SetString("CartId", cartId);
+    return new ShoppingCartService(context);
+}
+```
+
+```csharp
+public string ShoppingCartId { get; set; }
+public List<ShoppingCartItem> ShoppingCartItems { get; set; }
+```
+
+```csharp
+public string ShortDescription
+{
+    get => _shortDescription;
+    set
     {
-        await UpdateAgentsStatusAsync(testAgents, TestAgentStatus.RequestActiveConfirmation);
+        if (value.Length > 50)
+        {
+            throw new ArgumentException("Description should be less than 50 chars.");
+        }
+        _shortDescription = value;
     }
 }
-private IServiceClient<TestAgentDto> CreateTestAgentRepo() => new TestAgentServiceClient();
-
-```
-
-```csharp
-public class TestAgentRepoFactory : ITestAgentRepoFactory
-{
-    public IServiceClient<TestAgentDto> CreateTestAgentRepo()
-    {
-        return new TestAgentServiceClient();
-    }
-}
-```
-
-```csharp
-internal class FakeExtensionManager : IExtensionManager
-{
-    public bool WillBeValid = false;
-    public bool IsValid(string fileName)
-    {
-        return WillBeValid;
-    }
-}
-public class LogAnalyzer
-{
-    private IExtensionManager manager;
-    public LogAnalyzer(IExtensionManager mgr)
-    {
-        manager = mgr;
-    }
-    public bool IsValidLogFileName(string fileName)
-    {
-        return manager.IsValid(fileName);
-    }
-}
-public interface IExtensionManager
-{
-    bool IsValid(string fileName);
-}
-[Test]
-public void IsValidFileName_NameSupportedExtension_ReturnsTrue()
-{
-    FakeExtensionManager myFakeManager = new FakeExtensionManager();
-    myFakeManager.WillBeValid = true;
-    LogAnalyzer log = new LogAnalyzer(myFakeManager);
-    bool result = log.IsValidLogFileName("short.ext");
-    Assert.True(result);
-}
-```
-
-```csharp
-public class LogAnalyzer
-{
-    private IExtensionManager manager;
-    public LogAnalyzer()
-    {
-        manager = new FileExtensionManager();
-    }
-    public IExtensionManager ExtensionManager
-    {
-        get { return manager; }
-        set { manager = value; }
-    }
-    public bool IsValidLogFileName(string fileName)
-    {
-        return manager.IsValid(fileName);
-    }
-}
-[Test]
-public void IsValidFileName_SupportedExtension_ReturnsTrue()
-{
-    //set up the stub to use, make sure it returns true
-    // ...
-    //create analyzer and inject stub
-    LogAnalyzer log = new LogAnalyzer();
-    log.ExtensionManager = someFakeManagerCreatedEarlier;
-    //Assert logic assuming extension is supported
-    //...
-}
-```
-
-```csharp
-public class DateTimeProvider : IDateTimeProvider
-{
-    public DateTime GetCurrentTime() => DateTime.Now;
-}
-```
-
-```csharp
-public class LogAnalyzer
-{
-    //...
-    internal LogAnalyzer(IExtensionManager extentionMgr)
-    {
-        manager = extentionMgr;
-    }
-    //...
-}
-using System.Runtime.CompilerServices;
-[assembly:
-InternalsVisibleTo("Meissa.Infrastructure")]
-```
-
-```csharp
-[Conditional("DEBUG")]
-public string GetRunningAssemblyPath()
-{
-    string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-    var uri = new UriBuilder(codeBase);
-    string path = Uri.UnescapeDataString(uri.Path);
-    return Path.GetDirectoryName(path);
-}
-```
-
-```csharp
-#if DEBUG
-public LogAnalyzer (IExtensionManager extensionMgr)
-{
-manager = extensionMgr;
-}
-#endif
-```
-
-```csharp
-[Test]
-public async Task InsertCurrentTestAgent_When_TestAgentForCurrentMachineIsNotExistingInDatabase()
-{
-    // Arrange
-    var testAgents = TestAgentFactory.CreateWithoutCurrentMachineName(TestAgentStatus.Inactive);
-    var insertedTestAgent = default(Task<TestAgentDto>);
-    _testAgentRepositoryMock.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(testAgents));
-    _testAgentRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<TestAgentDto>())).
-    Returns((Task<TestAgentDto> a) => insertedTestAgent = a);
-    // Act
-    await _testAgentStateSwitcher.SetTestAgentAsActiveAsync(testAgents.First().AgentTag);
-    // Assert
-    // ...
-}
-```
-
-```csharp
-Assert.That(insertedTestAgent.Result.TestAgentId, Is.Not.Null);
-Assert.That(insertedTestAgent.Result.AgentTag, Is.EqualTo(testAgents.First().AgentTag));
-Assert.That(insertedTestAgent.Result.MachineName, Is.EqualTo(Environment.MachineName));
-Assert.That(insertedTestAgent.Status, Is.EqualTo(TestAgentStatus.Active));
-```
-
-```csharp
-_testRunRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<int>(),
-It.Is<TestRunDto>(i => i.TestRunId == _testRunId && i.Status == status)), Times.Once);
-_testRunRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<int>(),
-It.IsAny<TestRunDto>()), Times.Once);
-```
-
-```csharp
-private Mock<IServiceClient<TestAgentDto>> _testAgentRepositoryMock;
-private ITestAgentsService _testAgentsService;
-[SetUp]
-public void TestInit()
-{
-    _testAgentRepositoryMock = new Mock<IServiceClient<TestAgentDto>>();
-    _testAgentsService = new TestAgentsService(_testAgentRepositoryMock.Object);
-}
-
-```
-
-```csharp
-_directoryProvider.Setup(x => x.DoesDirectoryExists(It.IsAny<string>())).Returns(true);
-_dateTimeProvider.Setup(x => x.GetCurrentTime()).Returns(DateTime.Now);
-
-```
-
-```csharp
-var logs = LogFactory.CreateEmpty();
-_logRepositoryMock.Setup(x => x.GetAllAsync()).Returns(Task.FromResult(logs));
-```
-
-```csharp
-_pathProvider.Setup(x => x.Combine(It.IsAny<string>(), It.IsAny<string>())).
-Returns((string path1, string filePath) => Path.Combine(path1, filePath));
-_fileProvider.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).
-Callback((string filePath, string content) => File.WriteAllText(filePath, content));
-
-```
-
-```csharp
-Mock<IFileConnection> fileConnection = new Mock<IFileConnection>();
-fileConnection.Setup(item => item.Get(It.IsAny<string>, It.IsAny<string>))
-.Throws(new IOException());
-```
-
-```csharp
-var mockHeater = new Mock<IHeater>();
-var mockThermostat = new Mock<IThermostat>();
-mockThermostat.Setup(m => m.StartAsyncSelfCheck()).Raises(
-m => m.HealthCheckComplete += null, new ThermoEventArgs { OK = false });
-var controller = new Services.HeatingController(mockHeater.Object, mockThermostat.Object);
-// Act
-controller.PerformHealthChecks();
-// Assert
-mockHeater.Verify(m => m.SwitchOff());
-```
-
-```csharp
-[Test]
-public void EventFiringManual()
-{
-    bool loadFired = false;
-    SomeView view = new SomeView();
-    view.Load += delegate
-    {
-        loadFired = true;
-    };
-    view.DoSomethingThatEventuallyFiresThisEvent();
-    Assert.IsTrue(loadFired);
-}
-```
-
-```csharp
-// Arrange
-var mockHeater = new Mock<IHeater>();
-var mockThermostat = new Mock<IThermostat>();
-mockThermostat.Setup(m => m.StartAsyncSelfCheck()).Raises(
-m => m.HealthCheckComplete += null, new ThermoEventArgs { OK = false });
-var controller = new Services.HeatingController(mockHeater.Object, mockThermostat.Object);
-// Act
-controller.PerformHealthChecks();
-// Assert
-mockHeater.Verify(m => m.SwitchOff());
-// Arrange
-var mockHeater = new Mock<IHeater>();
-var mockThermostat = new Mock<IThermostat>();
-mockThermostat.Setup(m => m.StartAsyncSelfCheck()).Raises(
-m => m.HealthCheckComplete += null, new ThermoEventArgs { OK = true });
-var controller = new Services.HeatingController(mockHeater.Object, mockThermostat.Object);
-// Act
-controller.PerformHealthChecks();
-// Assert
-mockHeater.Verify(m => m.SwitchOff(), Times.Never());
 ```
