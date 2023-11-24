@@ -55,145 +55,175 @@ public class CalculatorTests {
 }
 ```
 
-```csharp
-public void ClearCart()
-{
-    var cartItems = _appDbContext
-    .ShoppingCartItems
-    .Where(cart => cart.ShoppingCartId == ShoppingCartId);
-    _appDbContext.ShoppingCartItems.RemoveRange(cartItems);
-    _appDbContext.SaveChanges();
-}
-```
-
-```csharp
-public List<ShoppingCartItem> GetShoppingCartItems()
-{
-    return ShoppingCartItems ??
-    (ShoppingCartItems =
-    _appDbContext.ShoppingCartItems
-    .Where(c => c.ShoppingCartId == ShoppingCartId)
-    .Include(s => s.Pie)
-    .ToList());
-}
-```
-
-```csharp
-private string _shoppingCartId;
-public static ShoppingCartService GetCart(IServiceProvider services)
-{
-    ISession session = services.GetRequiredService<IHttpContextAccessor>()?
-    .HttpContext.Session;
-    var context = services.GetService<AppDbContext>();
-    string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
-    session.SetString("CartId", cartId);
-    return new ShoppingCartService(context) { _shoppingCartId = cartId };
-}
-```
-
-```csharp
-[HttpGet("{id}")]
-public async Task<IActionResult> GetPie(int id)
-{
-    try
-    {
-        return Ok(pieDto);
+```java
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
     }
-    catch (Exception ex)
-    {
-        _logger.LogCritical($"Exception while ... id {id}.", ex);
-        return StatusCode(500, "A problem happened.");
+
+    public int divide(int a, int b) {
+        if (b == 0)
+            throw new ArithmeticException("/ by zero");
+        return a/b;
     }
 }
-
 ```
 
-```csharp
-[TestMethod]
-public void ReturnCorrectDate_When_OneItemPresent()
-{
-    var shoppingCartService = new ShoppingCartService();
-    shoppingCartService.AddToCart(new Pie(), 100);
-    var item = shoppingCartService.GetShoppingCartItems().First();
-    Assert.AreEqual(item.Created.Minute, DateTime.Now.Minute);
+```java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+@Tag("nightlyRun")
+@Test
+public @interface NightlyRunTest {
 }
 ```
 
-```csharp
-[TestMethod]
-public void ReturnCorrectDate_When_OneItemPresent()
-{
-    var shoppingCartService = new ShoppingCartService();
-    shoppingCartService.AddToCart(new Pie(), 100);
-    var item = shoppingCartService.GetShoppingCartItems().First();
-    Assert.AreEqual(item.Created.Minute, DateTime.Now.Minute);
-}
-```
+```java
+public class FirstSeleniumTests {
+    private WebDriver driver;
 
-```csharp
-[TestMethod]
-public void AddPieToCart()
-{
-    var shoppingCartService = new ShoppingCartService();
-    shoppingCartService.AddToCart(new Pie(), 100);
-}
-[TestMethod]
-public void ReturnCorrectDate_When_OneItemPresent()
-{
-    var shoppingCartService = new ShoppingCartService();
-    var item = shoppingCartService.GetShoppingCartItems().First();
-    Assert.AreEqual(item.Created.Minute, DateTime.Now.Minute);
-}
-```
+    @BeforeAll
+    public static void setUpClass() {
+        WebDriverManager.chromedriver().setup();
+    }
 
-```csharp
-[TestMethod]
-public void ReturnCorrectDate_When_OneItemPresent()
-{
-    var shoppingCartService = new ShoppingCartService(new AppDbContext());
-    shoppingCartService.AddToCart(new Pie(), 100);
-    var item = shoppingCartService.GetShoppingCartItems().First();
-    Assert.AreEqual(item.Created.Minute, DateTime.Now.Minute);
-}
-```
+    @BeforeEach
+    public void setUp() {
+        driver = new ChromeDriver();
+    }
 
-```csharp
-public decimal GetShoppingCartTotal()
-{
-    var total = _appDbContext.ShoppingCartItems.Where(c => c.ShoppingCartId == ShoppingCartId)
-    .Select(c => c.Pie.Price * c.Amount).Sum();
-    return total;
-}
-```
+    @Test
+    public void properCheckboxSelected() throws Exception {
+        driver.navigate().to("https://lambdatest.github.io/sample-todo-app/");
 
-```csharp
-public static ShoppingCartService GetCart(IServiceProvider services)
-{
-    ISession session = services.GetRequiredService<IHttpContextAccessor>()?
-    .HttpContext.Session;
-    var context = services.GetService<AppDbContext>();
-    string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
-    session.SetString("CartId", cartId);
-    return new ShoppingCartService(context);
-}
-```
+        LocalDate birthDay = LocalDate.of(1990, 10, 20);
+        // us 10/20/1990
+        DateTimeFormatter usDateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String dateToType = usDateFormat.format(birthDay);
 
-```csharp
-public string ShoppingCartId { get; set; }
-public List<ShoppingCartItem> ShoppingCartItems { get; set; }
-```
+        WebElement todoInput = driver.findElement(By.id("sampletodotext"));
+        todoInput.sendKeys(dateToType);
 
-```csharp
-public string ShortDescription
-{
-    get => _shortDescription;
-    set
-    {
-        if (value.Length > 50)
-        {
-            throw new ArgumentException("Description should be less than 50 chars.");
+        var addButton = driver.findElement(By.id("addbutton"));
+        addButton.click();
+
+        var todoCheckboxes = driver.findElements(By.xpath("//li[@ng-repeat]/input"));
+
+        todoCheckboxes.get(2).click();
+
+        var todoInfos = driver.findElements(By.xpath("//li[@ng-repeat]/span"));
+
+        Assertions.assertEquals("20-10-1990", todoInfos.get(5).getText());
+
+        String expectedUrl = "https://lambdatest.github.io/sample-todo-app/";
+        Assertions.assertTrue(expectedUrl.equals(driver.getCurrentUrl()), "URL does not match");
+
+        String notExpectedUrl = "https://www.lambdatest.com/";
+        Assertions.assertFalse(notExpectedUrl.equals(driver.getCurrentUrl()), "URL match");
+
+        var expectedItems = new String[] {
+            "First Item",
+            "Second Item",
+            "Third Item",
+            "Fourth Item",
+            "Fifth Item",
+            "20-10-1990"
+        };
+        var actualToDoInfos = todoInfos.stream().map(e - > e.getText()).toArray();
+        Assertions.assertArrayEquals(expectedItems, actualToDoInfos);
+
+        Exception exception = Assertions.assertThrows(ArithmeticException.class, () - > new Calculator().divide(1, 0));
+
+        Assertions.assertEquals("/ by zero", exception.getMessage());
+
+        Assertions.assertTimeout(ofMinutes(2), () - > {
+            // perform your tasks
+        });
+
+        Assertions.assertAll(
+            () - > Assertions.assertTrue(expectedUrl.equals(driver.getCurrentUrl()), "URL does not match"),
+            () - > Assertions.assertFalse(notExpectedUrl.equals(driver.getCurrentUrl()), "URL match"),
+            () - > Assertions.assertArrayEquals(expectedItems, actualToDoInfos)
+        );
+
+        double actualDoubleValue = 2.999;
+        double expectedDoubleValue = 3.000;
+
+        Assertions.assertEquals(expectedDoubleValue, actualDoubleValue, 0.001);
+
+        var currentTime = LocalDateTime.now();
+        var currentTimeInPast = LocalDateTime.now().minusMinutes(3);
+
+        DateTimeAssert.assertEquals(currentTime, currentTimeInPast, DateTimeDeltaType.MINUTES, 4);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
         }
-        _shortDescription = value;
+    }
+}
+```
+
+```java
+Assertions.assertEquals("20-10-1990", todoInfos.get(5).getText());
+```
+
+```java
+Assertions.assertTrue(expectedUrl.equals(driver.getCurrentUrl()), "URL does not match");
+```
+
+```java
+Assertions.assertFalse(notExpectedUrl.equals(driver.getCurrentUrl()), "URL match");
+```
+
+```java
+Assertions.assertArrayEquals(expectedItems, actualToDoInfos);
+```
+
+```java
+Exception exception = Assertions.assertThrows(ArithmeticException.class, () - > new Calculator().divide(1, 0));
+Assertions.assertEquals("/ by zero", exception.getMessage());
+```
+
+```java
+public class DateTimeAssert {
+    public static void assertEquals(LocalDateTime expectedDate, LocalDateTime actualDate, DateTimeDeltaType deltaType, int count) throws Exception {
+        if (((expectedDate == null) && (actualDate == null))) {
+            return;
+        }
+        else if ((expectedDate == null)) {
+            throw new NullPointerException("The expected date was null");
+        }
+        else if ((actualDate == null)) {
+            throw new NullPointerException("The actual date was null");
+        }
+
+        Duration expectedDelta = DateTimeAssert.getTimeSpanDeltaByType(deltaType, count);
+
+        double totalSecondsDifference = Math.abs((actualDate.until(expectedDate, ChronoUnit.SECONDS)));
+
+        if ((totalSecondsDifference > expectedDelta.getSeconds())) {
+            var exceptionMessage =String.format("Expected Date: {0}, Actual Date: {1} \nExpected Delta: {2}, Actual Delta in seconds- {3} (Delta Type: " +
+                    "{4})", expectedDate, actualDate, expectedDelta, totalSecondsDifference, deltaType);
+            throw new Exception(exceptionMessage);
+        }
+    }
+
+    private static Duration getTimeSpanDeltaByType(DateTimeDeltaType type, int count) {
+        Duration result;
+        switch (type) {
+            case DAYS:
+                result = Duration.ofDays(count);
+                break;
+            case MINUTES:
+                result = Duration.ofMinutes(count);
+                break;
+            default:
+                throw new NotImplementedException("The delta type is not implemented.");
+        }
+        return result;
     }
 }
 ```
