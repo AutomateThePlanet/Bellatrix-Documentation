@@ -61,8 +61,8 @@ Users can access the specific releases directly from our GitHub repository's Rel
 Integrating BELLATRIX as a Submodule in Your Project
 --------
 To leverage a specific version of BELLATRIX in your project, you can add it as a Git submodule. This allows you to keep your copy of BELLATRIX up to date or locked to a specific version, depending on your project's needs.
-1.  **Navigate to Your Project Directory:** Open a terminal and change to the directory where your project is located.
-2.  **Add BELLATRIX as a Submodule:** Use the following Git command to add BELLATRIX as a submodule to your project:
+**Navigate to Your Project Directory:** Open a terminal and change to the directory where your project is located.
+**Add BELLATRIX as a Submodule:** Use the following Git command to add BELLATRIX as a submodule to your project:
 ```
 git submodule add https://github.com/BELLATRIX-Library/BELLATRIX.git path/to/submodule
 ``` 
