@@ -51,14 +51,14 @@ navigation:
     "general-information":
         title: General Information
         submenu:
+            "usage":
+                title: BELLATRIX Usage
             "system-requirements":
                 title: System Requirements
-            "installation":
-                title: Installation
-            "update":
-                title: Update
             "how-to-use-starter-kits":
                 title: How to Use Starter Kits?
+            "contributing":
+                title: Contributing
     "web-automation":
         title: Web
         submenu:
