@@ -54,6 +54,7 @@ Our project uses [Semantic Versioning](https://semver.org/) (SemVer) for clear a
 -   **Tags:** We create Git tags for each release to mark specific points in the project's history, making it easier for users to switch between versions.
 -   **Release Notes:** Detailed notes accompany [each release](https://bellatrix.solutions/roadmap/release-3-9-0-0-lyra/), highlighting new features, bug fixes, and any breaking changes.
 
+
 **Accessing Releases**
 
 Users can access the specific releases directly from our GitHub repository's Releases page or BELLATRIX website's roadmap section. Each release includes a tag, a summary of changes, and assets (if applicable).
