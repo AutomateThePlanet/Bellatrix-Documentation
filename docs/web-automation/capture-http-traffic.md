@@ -9,6 +9,7 @@ anchors:
   example: Example
   explanations: Explanations
   configuration: Configuration
+  playwright: Playwright
 ---
 Example
 -------
@@ -140,3 +141,7 @@ Configuration
   "pathToSslCertificate": "path",
 ```
 To turn it on you need to edit the **testFrameworkSettings.json** file and set **shouldCaptureHttpTraffic** to true.
+
+Playwright
+------------
+Every method is available in the Playwright module, the only difference is the inner logic. As Playwright has built-in methods for http traffic, this service utilizes them and exposes them in a more convenient for the user manner.

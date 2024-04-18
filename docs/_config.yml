@@ -31,7 +31,7 @@ kramdown:
   input: GFM
   syntax_highlighter: rouge
 # theme: minima
-plugins:
+# plugins:
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
@@ -146,6 +146,10 @@ navigation:
                 title: Extensibility- Add New Element Wait Methods
             "folder-and-file-structure":
                 title: Folder and File Structure
+            "playwright":
+                title: Playwright
+            "selenium-vs-playwright":
+                title: Selenium vs Playwright
     "android-automation":
         title: Android
         submenu:

@@ -9,6 +9,7 @@ anchors:
   example: Example
   explanations: Explanations
   configuration: Configuration
+  playwright: Playwright
 ---
 Example
 -------
@@ -96,3 +97,7 @@ If you don't use the attribute, the default configuration under the executionSet
 }
 ```
 Check out the Azure Key Vault integration for information on safely storing secrets such as usernames and passwords. [**Learn more**](/product-integrations/azure-key-vault/)
+
+Playwright
+-------------
+Playwright supports only Chrome for Selenium Grid execution. Also, in the **ExecuteAttribute**, you cannot add **PlatformType**.

@@ -8,6 +8,7 @@ permalink: /web-automation/interactions-service/
 anchors:
   example: Example
   explanations: Explanations
+  playwright: Playwright
 ---
 Example
 -------
@@ -65,3 +66,7 @@ All Available Interaction Methods
 - DragAndDrop
 - MoveToElement
 - MoveByOffset
+
+Playwright
+------------
+When using **KeyUp**, or **KeyDown** methods, you pass the key as a string.

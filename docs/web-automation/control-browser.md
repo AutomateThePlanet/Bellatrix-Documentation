@@ -10,6 +10,7 @@ anchors:
   explanations: Explanations
   drivers-browsers-processes-cleanup: Drivers Browsers Processes Cleanup
   configuration: Configuration
+  playwright: Playwright
 ---
 Overview
 --------
@@ -53,7 +54,7 @@ This is the main attribute that you need to mark each class that contains MSTest
 [Browser(BrowserType.Firefox, Lifecycle.ReuseIfStarted)]
 ```
 This is the attribute for automatic start/control of WebDriver browsers by BELLATRIX. If you have to do it manually properly, you will need thousands of lines of code. 
-**BrowserType** controls which browser is used. Available options are:
+**BrowserType** controls which browser is used. Available options for Bellatrix.Web are:
 - Chrome
 - Firefox
 - Edge
@@ -65,9 +66,9 @@ This is the attribute for automatic start/control of WebDriver browsers by BELLA
 The **Lifecycle** enum controls when the browser is started and stopped. This can drastically increase or decrease the tests execution time, depending on your needs. However you need to be careful because in case of tests failures the browser may need to be restarted.
 
 Available options:
-- **RestartEveryTime**- for each test a separate WebDriver instance is created and the previous browser is closed. The new browser comes with new cookies and cache.
+- **RestartEveryTime**- for each test, a separate WebDriver instance is created and the previous browser is closed. The new browser comes with new cookies and cache.
 - **RestartOnFail**- the browser is only restarted if the previous test failed or if the previous test's browser was different.
-- **ReuseIfStarted**- the browser is only restarted if the previous test's browser was different. 
+- **ReuseIfStarted**- the browser is restarted only if the previous test's browser was different. 
 
 **Note**: *Use last option with caution since if a test failure occurs all subsequent tests may also fail.*
 
@@ -135,3 +136,24 @@ If you don't use the attribute, the default information from the configuration w
   ]
 }
 ```
+
+Playwright
+------------
+Available options for **BrowserTypes** (equivalent to **BrowserType** in selenium module) are:
+- Chromium
+- Chrome
+- Edge
+- Firefox
+- WebKit
+- Chromium in headless mode
+- Chrome in headless mode
+- Edge in headless mode
+- Firefox in headless mode
+- WebKit in headless mode
+
+Available options for **Lifecycle**:
+- **RestartEveryTime**- for each test, a separate **Playwright**, **Browser**, **BrowserContext**, and **Page** instance are created and the previous ones are closed.
+- **RestartOnFail**- the browser is only restarted if the previous test failed or if the previous test's browser was different.
+- **ReuseIfStarted**- the **BrowserContext** and **Page** are closed and new ones are opened. The whole browser is restarted only if the previous test's browser was different.
+
+Be mindful that **BrowserContext** holds information like cookies and session. To restart the **BrowserContext** is equivalent to clear the cookies in Selenium and much more.

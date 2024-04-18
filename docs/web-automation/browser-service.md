@@ -8,6 +8,7 @@ permalink: /web-automation/browser-service/
 anchors:
   example: Example
   explanations: Explanations
+  playwright: Playwright
 ---
 Example
 -------
@@ -116,3 +117,9 @@ To work with elements inside a frame, you should switch to it first. Search for 
 App.Browser.SwitchToDefault();
 ```
 To continue searching in the whole page, you need to switch to default again. It is the same process as how you work with WebDriver.
+
+Playwright
+------------
+**Maximize** and **Minimize** don't work for Playwright.
+
+**SwitchToDefault** and **SwitchToFrame** are not necessary, because Bellatrix.Playwright treats iframes as any other element. You have to use **Frame** component.
