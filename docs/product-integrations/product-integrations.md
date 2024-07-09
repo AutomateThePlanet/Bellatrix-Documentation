@@ -50,3 +50,19 @@ Azure Computer Vision cognitive service support for validation text in PDFs and 
 ### Google Lighthouse Analysis ###
 Runs a series of audits to measure the web application under test on the following: performance, accessibility, SEO, best practices, PWA.
 [**Learn more**](/lighthouse.md)
+
+### Jira Zephyr Integration ###
+BELLATRIX offers integration with Jira Zephyr for logging tests' results.
+[**Learn more**](jira-zephyr)
+
+### Twilio Integration ###
+BELLATRIX offers integration with Twilio for SMS testing.
+[**Learn more**](twilio)
+
+### Visual Regression Tracker Integration ###
+BELLATRIX offers integration with Visual Regression Tracker to analyze and compare to a specified baseline the UI of any software product at any specific point during testing.
+[**Learn more**](visual-regression-tracker)
+
+### Healenium Integration ###
+BELLATRIX offers integration with Healenium to self-heal Selenium locators for your web tests.
+[**Learn more**](healenium)
