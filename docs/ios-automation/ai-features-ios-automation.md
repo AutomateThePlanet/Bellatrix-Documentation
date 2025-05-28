@@ -84,9 +84,11 @@ When a locator fails (due to changes in UI structure, accessibility, or text):
 3. The new locator is tried only for this run (it’s not written permanently).
 4. The self-healing process and result are fully logged.
 
+
 **Trigger conditions:**
 - `enableSelfHealing` is `true` in the settings.
 - A locator fails due to text, name, or layout change.
+
 
 **Scenarios:**
 - Accessibility identifiers or button texts change after an app update.

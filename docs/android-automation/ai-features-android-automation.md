@@ -55,9 +55,9 @@ new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelecto
 
 **How the locator is generated:**
 - The AI takes your intent (e.g. “find the checkbox under the disabled button”) and the visible view hierarchy.
-- It generates the simplest and most robust UiAutomator string—using `.text()`, `.description()`, `.resourceId()` etc.
+- It generates the simplest and most robust UiAutomator string using `.text()`, `.description()`, `.resourceId()` etc.
 - If scrolling is needed, it wraps it with `UiScrollable(...).scrollIntoView(...)`.
-- All this is handled automatically—no need to write scroll code or use XPath.
+- All this is handled automatically, no need to write scroll code or use XPath.
 
 **Advanced prompt-to-locator logic includes:**
 - Using combinations of `.textContains()`, `.descriptionContains()`, `.className()` for best match.
@@ -91,9 +91,11 @@ If a locator breaks (e.g., after an app update or UI refactor):
 3. The framework retries the action with the new locator (only for this run, not stored).
 4. The whole healing process and outcome is logged for transparency.
 
+
 **Trigger conditions:**
 - `enableSelfHealing` is `true` in your settings.
 - A locator throws (e.g., element not found, text/ID changed, moved, etc.)
+
 
 **Scenarios:**
 - Controls get new resource IDs, text, or change position.
@@ -166,6 +168,7 @@ All main AI features are controlled in **testFrameworkSettings.Debug.json** unde
 - The file is in the root directory of your project.
 - For cloud: set endpoints and keys as environment variables.
 
+
 **Docker Compose for Qdrant and local cache:**
 ```bash
 docker-compose -f docker-compose.local_cache_postgres.yml up -d
@@ -173,6 +176,7 @@ docker-compose -f docker-compose.local_cache_postgres.yml up -d
 
 - The compose file is in your repo.
 - For cloud, deploy Qdrant and update config.
+
 
 
 **DB caching:**
