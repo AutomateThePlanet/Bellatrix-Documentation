@@ -152,7 +152,7 @@ navigation:
                 title: Selenium vs Playwright
             "shadow-dom":
                 title: Shadow DOM Automation
-            "ai-features-web-automation":
+            "ai-features":
                 title: AI-powered Features
     "android-automation":
         title: Android
@@ -359,6 +359,8 @@ navigation:
                 title: Extensibility- Add New Element Wait Methods
             "folder-and-file-structure":
                 title: Folder and File Structure
+            "ai-features":
+                title: AI-powered Features
     "api-automation":
         title: API
         submenu:
