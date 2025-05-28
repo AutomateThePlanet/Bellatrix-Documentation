@@ -1,11 +1,10 @@
-
 ---
-layout: default  
-title:  "AI Features in Web Automation"  
-excerpt: "Documentation for AI-powered features in BELLATRIX – element finding by prompt, assertions, self-healing, and smart failure analysis."  
-date:   2025-05-28 17:00:00 +0300  
-parent: web-automation  
-permalink: /web-automation/ai-features/  
+layout: default
+title:  "AI Features in Web Automation"
+excerpt: "Learn how to use the advanced LLM-powered BELLTRIX features such as element finding by prompt, assertions, self-healing, and smart failure analysis."
+date:   2025-05-28 17:00:00 +0300
+parent: web-automation
+permalink: /web-automation/ai-features/
 anchors:  
   overview: Overview  
   element-finding: Element Finding by Prompt  
@@ -53,9 +52,9 @@ If you enable `shouldIndexPageObjects` in the settings, all POMs are indexed in 
 
 ```json
 "largeLanguageModelsSettings": {
-  ...
+  //...
   "shouldIndexPageObjects": true,
-  "pageObjectFilesPath": "40. Prompts Support\Pages"
+  "pageObjectFilesPath": "40. Prompts Support\\Pages"
 }
 ```
 
@@ -98,20 +97,22 @@ When a locator fails (due to UI or DOM changes), BELLATRIX automatically:
 3. Retries the action with the healed locator (the fallback is **not** saved permanently, only used for the current run).
 4. Logs the attempted healing process and result.
 
+
 **Trigger conditions:**  
 - `enableSelfHealing` is set to `true` in `largeLanguageModelsSettings`.
 - A locator throws due to element not found or changed attributes/structure.
+
 
 **Typical scenarios:**
 - IDs or attributes are renamed (e.g., `emailUpdated` → `email`).
 - Elements are removed, moved, or have missing labels.
 - Buttons/texts are changed (e.g., "Proceed to checkout" → "Checkout").
 
+
 **Example test trigger:**  
 See test: `FillCheckoutFormAndSubmit_SelfHealingEnabled` in `AutoHealingTests.cs`.
 
-**Self-Healing Process Placeholder Image**  
-*![self-healing-output](self-healing-output.jpeg)*
+*![self-healing-output](images/self-healing-output.jpeg)*
 
 Smart AI Analysis via LLM
 --------
@@ -129,10 +130,8 @@ On every failure (or optionally every run), BELLATRIX performs a comprehensive A
 - Explains which element or locator failed, why, and what changed.
 - Suggests both test and application fixes.
 
-**Smart AI Analysis Placeholder Image**  
-
-*![smart-ai-analysis-demo-website](smart-ai-analysis-demo-website.jpeg)*
-*![smart-ai-analysis](smart-ai-analysis.jpeg)*
+*![smart-ai-analysis-demo-website](images/smart-ai-analysis-demo-website.jpeg)*
+*![smart-ai-analysis](images/smart-ai-analysis.jpeg)*
 
 **Example output:**
 ```
@@ -160,7 +159,7 @@ The failure is due to a change in the application’s DOM structure...
 
 Configuration and Settings
 --------
-All main AI features are controlled in `testFrameworkSettings.Debug.json` under the section `largeLanguageModelsSettings`.
+All main AI features are controlled in **`testFrameworkSettings.Debug.json`** under the section **`largeLanguageModelsSettings`**.
 
 **Sample settings:**
 ```json
@@ -194,7 +193,7 @@ All main AI features are controlled in `testFrameworkSettings.Debug.json` under 
 ```
 
 **Where to set up:**  
-- The configuration file is found in your test project’s root folder.
+- The configuration file is found in **Bellatrix.LLM** project’s root folder.
 - If you run in Docker, set your model endpoints and keys as environmental variables.
 
 **Initial Docker Compose for Local Qdrant and PostgreSQL cache:**
@@ -202,7 +201,7 @@ All main AI features are controlled in `testFrameworkSettings.Debug.json` under 
 docker-compose -f docker-compose.local_cache_postgres.yml up -d
 ```
 
-- You can find the compose file in the repo under `/docker`.
+- You can find the compose file in the root folder of the **Bellatrix.LLM** project.
 - In the cloud, deploy your own Qdrant instance and set the connection string and endpoint in your config/environment variables.
 - Environmental variables required:  
   - `AZURE_OPENAI_ENDPOINT`  
@@ -238,10 +237,3 @@ BELLATRIX fully supports Shadow DOM automation, including:
 - You can use `FindElementByPrompt` to locate any element, even in deeply nested Shadow DOM scenarios.
 
 Refer to [shadow-dom.md](/web-automation/shadow-dom/) for deep technical details.
-
----
-
-**Add your own screenshots in the placeholder sections above for production documentation.**  
-**For any advanced troubleshooting, see log outputs and check the Smart AI Analysis recommendation block.**
-
----
