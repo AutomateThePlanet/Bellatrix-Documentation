@@ -229,6 +229,8 @@ navigation:
                 title: Extensibility- Add New Element Wait Methods
             "folder-and-file-structure":
                 title: Folder and File Structure
+            "ai-features":
+                title: AI-powered Features
     "ios-automation":
         title: iOS
         submenu:
@@ -300,6 +302,8 @@ navigation:
                 title: Extensibility- Add New Element Wait Methods
             "folder-and-file-structure":
                 title: Folder and File Structure
+            "ai-features":
+                title: AI-powered Features
     "desktop-automation":
         title: Desktop
         submenu:

@@ -177,6 +177,7 @@ docker-compose -f docker-compose.local_cache_postgres.yml up -d
 - The compose file is in the main folder of your project.
 - For cloud, deploy your own Qdrant instance and update config accordingly.
 
+
 **DB caching:**
 - All resolved locators for prompts are cached and reused for future tests.
 - The cache can be reset per project via `localCacheProjectName`.
