@@ -152,6 +152,8 @@ navigation:
                 title: Selenium vs Playwright
             "shadow-dom":
                 title: Shadow DOM Automation
+            "ai-features-web-automation":
+                title: AI-powered Features
     "android-automation":
         title: Android
         submenu:
