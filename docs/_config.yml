@@ -59,6 +59,9 @@ navigation:
                 title: How to Use Starter Kits?
             "contributing":
                 title: Contributing
+    "use-with-ai-agents":
+        title: Use with AI Agents
+        submenu:
     "web-automation":
         title: Web
         submenu:
