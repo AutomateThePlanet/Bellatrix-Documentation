@@ -1,0 +1,24 @@
+/* Header menu additions copied from https://bellatrix.solutions/css/site.css (2026-10-28) so the docs' menu matches the site. */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
+}
+#menu .menu-download > a.button, #menu .menu-download label.button { background-color: #e0302a; }
+#menu .menu-search :focus-visible { outline: 3px solid #274492; outline-offset: 2px; }
+/* header menu: compact GET search form in place of the old "Search" link */
+#menu .menu-search-form { display: flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.5rem; }
+#menu .menu-search-form input {
+  width: 11rem; margin: 0; padding: 0.25rem 0; border: 0; border-bottom: 2px solid #61687c; border-radius: 0;
+  background: transparent; color: #14234c; font-family: Nunito, sans-serif; font-size: 1.125rem; line-height: 1.5rem;
+}
+#menu .menu-search-form input::placeholder { color: #274492; opacity: 1; }
+#menu .menu-search-form button {
+  display: flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; padding: 0;
+  border: 0; background: none; color: #274492; cursor: pointer;
+}
+
+/* Download dropdown: live sets no arrow image (its ATP arrow_drop_down.svg source is 410 Gone) */
+#menu .collapsible label::after { background-image: none; }

@@ -4,3 +4,5 @@ _site
 .jekyll-cache
 .jekyll-metadata
 vendor
+# self-hosted theme vendor libs (not bundler's vendor/)
+!docs/assets/theme/vendor/

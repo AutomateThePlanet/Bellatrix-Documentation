@@ -19,14 +19,15 @@
   <title>{% if page.title %}{{ page.title }} - {% endif %}Bellatrix</title>
 
   <link rel="stylesheet" id="theme-base-css"
-    href="https://bellatrix.solutions/themes/bellatrix-parent/assets/css/base.css?ver=4.0.2" type="text/css"
+    href="{{ '/assets/theme/css/base.css' | relative_url }}" type="text/css"
     media="all">
   <link rel="stylesheet" id="theme-css"
-    href="https://bellatrix.solutions/themes/bellatrix/assets/css/bellatrix.css?ver=4.0.2" type="text/css" media="all">
+    href="{{ '/assets/theme/css/bellatrix.css' | relative_url }}" type="text/css" media="all">
+  <link rel="stylesheet" id="site-nav-css" href="{{ '/assets/theme/css/site-nav.css' | relative_url }}" type="text/css" media="all">
   <script type="text/javascript"
-    src="https://bellatrix.solutions/wp-includes/js/jquery/jquery.js?ver=1.12.4-wp"></script>
+    src="{{ '/assets/theme/vendor/jquery/jquery.js' | relative_url }}"></script>
   <script type="text/javascript"
-    src="https://bellatrix.solutions/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1"></script>
+    src="{{ '/assets/theme/vendor/jquery/jquery-migrate.min.js' | relative_url }}"></script>
 
   <meta name="Description" content="{% if page.excerpt %}{{ page.excerpt }}{% endif %}">
 
@@ -194,20 +195,21 @@
 
     <nav id="menu" class="tat-f-1-1 tat-c tat-top tat-left">
       <ul id="menu-main" class="tat-c tat-top">
-        <!-- Same menu as bellatrix.solutions (BELLATRIX-07): blog / videos / webinars / learning resources retired;
-             company pages, trainings, services and the blog live on Automate The Planet. -->
+        <!-- Same menu as https://bellatrix.solutions/ -->
         <li id="menu-item-613" class="menu-item menu-item-type-post_type menu-item-object-features menu-item-613"><a href="https://bellatrix.solutions/features/web/">Features</a></li>
-        <li id="menu-item-720" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-720"><a href="https://docs.bellatrix.solutions/overview/">Learning and Support</a>
+        <li id="menu-item-720" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-720"><a href="https://bellatrix.solutions/learning-resources/">Learning and Support</a>
           <ul class="sub-menu">
+            <li id="menu-item-3370" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3370"><a href="https://bellatrix.solutions/learning-resources/">All Resources</a></li>
             <li id="menu-item-153" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-153"><a href="https://docs.bellatrix.solutions/overview/">CSharp Documentation</a></li>
             <li id="menu-item-4633" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4633"><a href="https://docs.java.bellatrix.solutions/web-automation/">Java Documentation</a></li>
             <li id="menu-item-4701" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4701"><a href="https://docs.javascript.bellatrix.solutions/">JavaScript Documentation</a></li>
-            <li id="menu-item-agent" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-agent"><a href="https://bellatrix.solutions/agent/">AI Agent Documentation</a></li>
-            <li id="menu-item-2637" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2637"><a href="https://www.automatetheplanet.com/blog/">Blog</a></li>
+            <li id="menu-item-2637" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-2637"><a href="https://bellatrix.solutions/category/blog/">Blog</a></li>
+            <li id="menu-item-2630" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-2630"><a href="https://bellatrix.solutions/category/videos/">Videos</a></li>
+            <li id="menu-item-3366" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-3366"><a href="https://bellatrix.solutions/category/webinars/">Webinars</a></li>
           </ul>
         </li>
-        <li id="menu-item-3253" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3253"><a href="https://www.automatetheplanet.com/services/private-training/">Trainings</a></li>
-        <li id="menu-item-3672" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3672"><a href="https://www.automatetheplanet.com/services/">Services</a></li>
+        <li id="menu-item-3253" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3253"><a href="https://www.automatetheplanet.com/services/private-training/">Trainings</a></li>
+        <li id="menu-item-3672" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3672"><a href="https://www.automatetheplanet.com/services/">Services</a></li>
         <li id="menu-item-1520" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1520"><a href="#">Company</a>
           <ul class="sub-menu">
             <li id="menu-item-4709" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4709"><a href="https://www.automatetheplanet.com/about-us/">About Us</a></li>
@@ -215,8 +217,21 @@
           </ul>
         </li>
         <li id="menu-item-4750" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4750"><a href="https://www.automatetheplanet.com/contact-us/">Contact Us</a></li>
-        <li id="menu-item-2689" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2689"><a href="https://bellatrix.solutions/search/">Search</a></li>
-        <li class="menu-download menu-item small"><a class="button" href="https://github.com/AutomateThePlanet/BELLATRIX" target="_blank" rel="noopener">Download</a></li>
+        <li id="menu-item-2689" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2689 menu-search">
+          <form role="search" method="get" action="https://bellatrix.solutions/search/" class="menu-search-form">
+            <label for="menu-search-q" class="sr-only">Search BELLATRIX</label>
+            <input type="search" id="menu-search-q" name="q" placeholder="Search" autocomplete="off" enterkeyhint="search">
+            <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg></button>
+          </form>
+        </li>
+        <li class="menu-download menu-item small">
+          <div class="collapsible"> <label class="button" style="padding-right: 4rem !important;">Download</label></div>
+          <ul class="sub-menu">
+            <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3370"><a href="https://github.com/AutomateThePlanet/BELLATRIX" target="_blank" rel="noopener">CSharp</a></li>
+            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-153"><a href="https://github.com/AutomateThePlanet/BELLATRIX-Java" target="_blank" rel="noopener">Java</a></li>
+            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4633"><a href="https://github.com/AutomateThePlanet/BELLATRIX-JavaScript" target="_blank" rel="noopener">JavaScript</a></li>
+          </ul>
+        </li>
       </ul>
     </nav>
 
