@@ -17,7 +17,7 @@ Overview
 --------
 BELLATRIX is not a single thing, it contains multiple framework libraries, extensions and tools. The tool is built to be cross-platform, however some of the features can be used under Windows since they are written for Visual Studio.
 
-> Before proceeding with the installation, please read the [**system requirements**](system-requirements.md) system requirements and **install all prerequisites**!
+> Before proceeding with the installation, please read the [**system requirements**](../system-requirements/) system requirements and **install all prerequisites**!
 
 Simple Installation
 --------
@@ -25,12 +25,12 @@ Simple Installation
 2. Unzip it. Open BellatrixTestFramework.sln in Visual Studio.
 3. Open one of the preconfigured projects. It works for both MSTest and NUnit without additional configuration.
 
-![Bellatrix Preconfigured Web Project](images/bellatrix-web-preconfigured.PNG)
+![Bellatrix Preconfigured Web Project](../images/bellatrix-web-preconfigured.PNG)
 
 4. Run the sample tests.
 5. You can try to write a simple test yourself.
 6. For an in-depth revision of all framework features you can open the getting started projects.
-![Starter Kits](images/starter-kits.PNG)
+![Starter Kits](../images/starter-kits.PNG)
 
 How to use starter kits?
 --------
@@ -42,7 +42,7 @@ The starter kits are one of the greatest features of BELLATRIX. For each module;
 5. Run the sample tests.
 6. You can try to write a simple test yourself.
 
-![Starter Kits](images/starter-kits.PNG)
+![Starter Kits](../images/starter-kits.PNG)
 
 Release Strategy
 --------

@@ -32,7 +32,7 @@ Once you have everything in place you need to add the info to the BELLATRIX conf
 Usage
 ------------------
 You can access the **ComputerVision** service directly from the App class. Using the **ExtractOCRTextFromLocalFile** method, you can get a list of all text snippets in your document. You can use the **ValidateText** method to check whether a particular text sequence appears in your document under specific order.
-![Sample Invoice](images/sampleinvoice.png)
+![Sample Invoice](../images/sampleinvoice.png)
 ```csharp
 [Test]
 public void MakeTextExtractionFromPDF()
@@ -53,7 +53,7 @@ public void MakeTextExtractionFromPDF()
 }
 ```
 You are not limited to PDFs only. You can use the same feature for extracting text from complex images. Similar to the one below.
-![Graph Image](images/devPortalGraph1.png)
+![Graph Image](../images/devPortalGraph1.png)
 You can use the following code snippet to verify the info.
 ```csharp
 [Test]
@@ -103,7 +103,7 @@ public void AssertCellsText()
 }
 ```
 The feature is so well integrated into the framework that you can apply the same capabilities against HTML tables, grids, or even mobile and desktop components. Internally, the framework captures a screenshot of the specified element and then analyzes it through the Azure AI.
-![HTML Table](images/html-table-example.png)
+![HTML Table](../images/html-table-example.png)
 ```csharp
 [Test]
 public void AssertTableComponentCellsText()

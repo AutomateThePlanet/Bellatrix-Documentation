@@ -112,7 +112,7 @@ When a locator fails (due to UI or DOM changes), BELLATRIX automatically:
 **Example test trigger:**  
 See test: `FillCheckoutFormAndSubmit_SelfHealingEnabled` in `AutoHealingTests.cs`.
 
-*![self-healing-output](images/self-healing-output.jpeg)*
+*![self-healing-output](../images/self-healing-output.jpeg)*
 
 Smart AI Analysis via LLM
 --------
@@ -130,8 +130,8 @@ On every failure (or optionally every run), BELLATRIX performs a comprehensive A
 - Explains which element or locator failed, why, and what changed.
 - Suggests both test and application fixes.
 
-*![smart-ai-analysis-demo-website](images/smart-ai-analysis-demo-website.jpeg)*
-*![smart-ai-analysis](images/smart-ai-analysis.jpeg)*
+*![smart-ai-analysis-demo-website](../images/smart-ai-analysis-demo-website.jpeg)*
+*![smart-ai-analysis](../images/smart-ai-analysis.jpeg)*
 
 **Example output:**
 ```

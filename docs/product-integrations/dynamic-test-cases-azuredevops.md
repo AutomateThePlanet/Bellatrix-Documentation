@@ -14,19 +14,19 @@ What Is a Dynamic Test Case?
 Dynamic test cases are a unique feature in BELLATRIX, where the framework automatically generates test cases in a popular test case management system based on your automated tests. It will populate the title, description, and other necessary properties automatically. Moreover, it will generate human-readable steps and expected results. The most significant benefit is that it will keep up to date your auto-generated test cases over time, no matter what you change in your tests.
 It is an excellent functionality to allow non-technical people of your company to see what your tests are doing.
 
-![Bellatrix](images/dynamic-test-case-azure-devops.png)
+![Bellatrix](../images/dynamic-test-case-azure-devops.png)
 
 The test case is associated automatically to your automated test.
 
-![Bellatrix](images/dynamic-test-cases-azuredevops-associated-automation.png)
+![Bellatrix](../images/dynamic-test-cases-azuredevops-associated-automation.png)
 
 The requirements such as stories, epics, bugs are automatically linked.
 
-![Bellatrix](images/dynamic-test-cases-azuredevops-link-requirements.png)
+![Bellatrix](../images/dynamic-test-cases-azuredevops-link-requirements.png)
 
 The description and preconditions are populated too.
 
-![Bellatrix](images/dynamic-test-cases-azuredevops-description.png)
+![Bellatrix](../images/dynamic-test-cases-azuredevops-description.png)
 
 Configuration
 -------------

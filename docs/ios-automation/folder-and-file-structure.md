@@ -12,6 +12,7 @@ anchors:
   test-framework-settings: Test Framework Settings
   mobiletestsglobalinitialize: MobileTestsGlobalInitialize
   categories: Categories
+---
 Overview
 --------
 Find detailed information about what each empty project contains or should contain if you wish to create it manually.

@@ -16,4 +16,4 @@ The starter kits are one of the greatest features of BELLATRIX. For each module;
 5. Run the sample tests.
 6. You can try to write a simple test yourself.
 
-![Open csproj](images/open-csproj.png)
+![Open csproj](../images/open-csproj.png)

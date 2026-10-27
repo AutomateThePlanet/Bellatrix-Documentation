@@ -16,23 +16,23 @@ What is Allure?
 
 You can find a trend of the latest runs. If you have defined any test suites, you will see them and the associated tests count.
 
-![Bellatrix](images/allure-main-overview-suites.png)
+![Bellatrix](../images/allure-main-overview-suites.png)
 
 You can find a grouping of your tests by features.
 
-![Bellatrix](images/allure-features-stories.png)
+![Bellatrix](../images/allure-features-stories.png)
 
 In the Categories section- you can see your test failures analyzed and grouped by failure types.
 
-![Bellatrix](images/allure-failures-categories.png)
+![Bellatrix](../images/allure-failures-categories.png)
 
 In the Suite section- you can find all of your tests grouped by suites, locate their execution time and the suite total execution time. If there are any failed tests if you click on them, you will see the failed information in the right panel.
 
-![Bellatrix](images/allure-suites-grouping.png)
+![Bellatrix](../images/allure-suites-grouping.png)
 
 The tool also includes some informative summary charts.
 
-![Bellatrix](images/allure-charts.png)
+![Bellatrix](../images/allure-charts.png)
 
 Installation
 ------------

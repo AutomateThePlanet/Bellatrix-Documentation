@@ -13,56 +13,56 @@ The quality assurance practices such as automated tests usually do not consist o
 
 ### Allure ###
 Allure Framework is a flexible, lightweight multi-language test report tool that not only shows a very concise representation of what has been tested in a neat web report form. Allure reports shorten common defect lifecycle: test failures can be divided into bugs and broken tests, also logs, steps, fixtures, attachments, timings, history, and integrations with TMS and bug-tracking systems. 
-[**Learn more**](/allure-test-results.md)
+[**Learn more**](allure-test-results/)
 
 ### ReportPortal ###
 ReportPortal is a service, that provides increased capabilities to speed up results analysis and reporting through the use of built-in analytic features. ReportPortal is a great addition to the Continuous Integration and Continuous Testing process.
-[**Learn more**](/reportportal-test-results.md)
+[**Learn more**](reportportal-test-results/)
 
 ### Azure DevOps ###
 Azure DevOps offers one of the best CI on the market. Instead of using 3rd party tools or systems you can directly publish the results in Azure DevOps.
-[**Learn more**](/azuredevops-test-results.md)
+[**Learn more**](azuredevops-test-results/)
 
 ### Jira Bug Reporting ###
 The automatic bug reporting is a BELLATRIX feature that will create a bug automatically in Jira if some of your tests fail. The plugin will populate the description, attach a screenshot, video of the test. Moreover, it will generate human-readable steps to reproduce.
-[**Learn more**](/bug-reporting-jira.md)
+[**Learn more**](bug-reporting-jira/)
 
 ### Azure DevOps Bug Reporting ###
 The automatic bug reporting is a BELLATRIX feature that will create a bug automatically in Azure DevOps if some of your tests fail. The plugin will populate the description, attach a screenshot, video of the test. Moreover, it will generate human-readable steps to reproduce.
-[**Learn more**](/bug-reporting-azuredevops.md)
+[**Learn more**](bug-reporting-azuredevops/)
 
 ### Dynamic Test Cases qTest ###
 Dynamic test cases are a unique feature in BELLATRIX, where the framework automatically generates test cases in a qTest TCMS based on your automated tests. It will populate the title, description, and other necessary properties automatically. Moreover, it will generate human-readable steps and expected results.
-[**Learn more**](/dynamic-test-cases-qtest.md)
+[**Learn more**](dynamic-test-cases-qtest/)
 
 ### Dynamic Test Cases Azure DevOps ###
 Dynamic test cases are a unique feature in BELLATRIX, where the framework automatically generates test cases in a Azure DevOps TCMS based on your automated tests. It will populate the title, description, and other necessary properties automatically. Moreover, it will generate human-readable steps and expected results.
-[**Learn more**](/dynamic-test-cases-azuredevops.md)
+[**Learn more**](dynamic-test-cases-azuredevops/)
 
 ### Azure Key Vault ###
 Safeguard cryptographic keys and other secrets used by cloud apps and services.
-[**Learn more**](/azure-key-vault.md)
+[**Learn more**](azure-key-vault/)
 
 ### Computer Vision ###
 Azure Computer Vision cognitive service support for validation text in PDFs and images.
-[**Learn more**](/computer-vision.md)
+[**Learn more**](computer-vision/)
 
 ### Google Lighthouse Analysis ###
 Runs a series of audits to measure the web application under test on the following: performance, accessibility, SEO, best practices, PWA.
-[**Learn more**](/lighthouse.md)
+[**Learn more**](lighthouse/)
 
 ### Jira Zephyr Integration ###
 BELLATRIX offers integration with Jira Zephyr for logging tests' results.
-[**Learn more**](jira-zephyr)
+[**Learn more**](jira-zephyr/)
 
 ### Twilio Integration ###
 BELLATRIX offers integration with Twilio for SMS testing.
-[**Learn more**](twilio)
+[**Learn more**](twilio/)
 
 ### Visual Regression Tracker Integration ###
 BELLATRIX offers integration with Visual Regression Tracker to analyze and compare to a specified baseline the UI of any software product at any specific point during testing.
-[**Learn more**](visual-regression-tracker)
+[**Learn more**](visual-regression-tracker/)
 
 ### Healenium Integration ###
 BELLATRIX offers integration with Healenium to self-heal Selenium locators for your web tests.
-[**Learn more**](healenium)
+[**Learn more**](healenium/)

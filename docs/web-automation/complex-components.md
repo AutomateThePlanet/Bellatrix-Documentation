@@ -15,7 +15,7 @@ The difference between a table and grid is that usually, the grids are more comp
 
 Tables
 -------
-![HTML Table Example](images/html-table-example.png)
+![HTML Table Example](../images/html-table-example.png)
 ## Example ##
 ```csharp
 [TestFixture]
@@ -304,7 +304,7 @@ In order for **GetItems** to work you need to map the properties to headers thro
 Grids
 -------
 The difference between a table and grid is that usually, the grids are more complex than a regular HTML table. In them, you can have dynamic data. Moreover, inside the column, you can have other HTML elements such as buttons, text fields, selects, other tables. Or you can filter, sort the columns, and have paging for the grid. Instead of getting specific cells or rows by custom locators-we have created the Table and Grid controls, which ease the selection of cells/rows and assertion of the data. Moreover, in many cases there isn't a unique item which you can use to select the row/cell.
-![HTML Grid Example](images/grid-html-example.png)
+![HTML Grid Example](../images/grid-html-example.png)
 ## Example ##
 ```csharp
 [TestFixture]

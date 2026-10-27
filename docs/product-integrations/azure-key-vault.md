@@ -14,7 +14,7 @@ What is Azure Key Vault?
 ------------------
 **[Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/)** can be used to Securely store and tightly control access to tokens, passwords, certificates, API keys, and other secrets
 
-![Bellatrix](images/reportportal-filters.png)
+![Bellatrix](../images/reportportal-filters.png)
 
 Configuration
 ------------------

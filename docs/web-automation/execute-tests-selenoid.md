@@ -39,7 +39,7 @@ Introduction
 If you enable the video recording, you can search and watch the videos in Selenoid UI on http://127.0.0.1:8080/#/videos
 To check the current local Selenoid hub status navigate to http://127.0.0.1:4444/status
 
-![BELLATRIX UI Installer](images/selenoid-ui-videos.png)
+![BELLATRIX UI Installer](../images/selenoid-ui-videos.png)
 
 Example
 -------
