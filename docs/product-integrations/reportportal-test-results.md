@@ -16,27 +16,27 @@ What is ReportPortal?
 
 The tool gives you the capability to create custom dashboards. I have created a dashboard visualizing the data from our latest BELLATRIX test runs. The first one shows the passing rate of all tests. The next one displays overall statistics- how many tests were executed and various types of bugs after the investigation process. Bellow, you can find some trend charts between runs. Also, there are some nice widgets for making a comparison between the test runs duration. 
 
-![Bellatrix](images/reportportal-configurable-dashboards.png)
+![Bellatrix](../images/reportportal-configurable-dashboards.png)
 
 There are widgets that display the latest runs flaky tests and the tests that most failed. It is a neat feature for stabilizing these tests.
 
-![Bellatrix](images/reportportal-configurable-dashboards2.png)
+![Bellatrix](../images/reportportal-configurable-dashboards2.png)
 
 In the Launches section, you can see the latest runs and filter them.
 
-![Bellatrix](images/reportportal-all-launches.png)
+![Bellatrix](../images/reportportal-all-launches.png)
 
 When you open a failed tests it initially is set that it needs investigation after that you can mark it as Product Bug, Automation Bug or System issue like a problem in the test environment.
 
-![Bellatrix](images/report-portal-investigation.png)
+![Bellatrix](../images/report-portal-investigation.png)
 
 All test failure info is synced automatically and well displayed.
 
-![Bellatrix](images/report-portal-errors-visualisation.png)
+![Bellatrix](../images/report-portal-errors-visualisation.png)
 
 You can filter based on the bug type and check all of these tests.
 
-![Bellatrix](images/reportportal-filters.png)
+![Bellatrix](../images/reportportal-filters.png)
 
 
 Installation

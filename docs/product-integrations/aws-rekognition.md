@@ -15,7 +15,7 @@ What is AWS Rekognition?
 Usage
 ------------------
 You can access the **AWS.Rekognition** service directly from the App class. Using the **ExtractOCRTextFromLocalFile** method, you can get a list of all text snippets in your document. You can use the **ValidateText** method to check whether a particular text sequence appears in your document under specific order.
-![Sample Invoice](images/sampleinvoice.png)
+![Sample Invoice](../images/sampleinvoice.png)
 ```csharp
 [Test]
 public void MakeTextExtractionFromPDF()
@@ -36,7 +36,7 @@ public void MakeTextExtractionFromPDF()
 }
 ```
 You are not limited to PDFs only. You can use the same feature for extracting text from complex images. Similar to the one below.
-![Graph Image](images/devPortalGraph1.png)
+![Graph Image](../images/devPortalGraph1.png)
 You can use the following code snippet to verify the info.
 ```csharp
 [Test]

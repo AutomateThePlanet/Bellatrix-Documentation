@@ -14,7 +14,7 @@ What Is a Dynamic Test Case?
 Dynamic test cases are a unique feature in BELLATRIX, where the framework automatically generates test cases in a popular test case management system based on your automated tests. It will populate the title, description, and other necessary properties automatically. Moreover, it will generate human-readable steps and expected results. The most significant benefit is that it will keep up to date your auto-generated test cases over time, no matter what you change in your tests.
 It is an excellent functionality to allow non-technical people of your company to see what your tests are doing.
 
-![Bellatrix](images/qtest-dynamic-test-case.png)
+![Bellatrix](../images/qtest-dynamic-test-case.png)
 
 Configuration
 -------------

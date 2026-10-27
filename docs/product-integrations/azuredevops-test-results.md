@@ -15,19 +15,19 @@ What Is Azure DevOps CI?
 
 You can create fully customizable dashboards to visualize the tests results and the latest status of your builds.
 
-![Bellatrix](images/azure-devops-dashboard.png)
+![Bellatrix](../images/azure-devops-dashboard.png)
 
 It offers a well designed interface for filtering and checking the latest published test results.
 
-![Bellatrix](images/azure-devops-summary-results.png)
+![Bellatrix](../images/azure-devops-summary-results.png)
 
 Also, you can see a summary with some informative charts.
 
-![Bellatrix](images/azure-devops-test-results.png)
+![Bellatrix](../images/azure-devops-test-results.png)
 
 If you open a failed tests, you can find detailed information why your tests failed. As part of BELLATRIX integration, your screenshots and video recordings will be uploaded, and you will be able to check them on this screen.
 
-![Bellatrix](images/azure-devops-failed-test.png)
+![Bellatrix](../images/azure-devops-failed-test.png)
 
 Configuration
 -------------

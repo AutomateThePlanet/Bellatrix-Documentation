@@ -13,9 +13,9 @@ What Is Automatic Bug Reporting?
 -------
 The automatic bug reporting is a BELLATRIX feature that will create a bug automatically in various bug tracking software if some of your tests fail. The plugin will populate the description, attach a screenshot, video of the test. Moreover, it will generate human-readable steps to reproduce.
 
-![Bellatrix](images/bug-reporting-jira.png)
+![Bellatrix](../images/bug-reporting-jira.png)
 
-![Bellatrix](images/bug-reporting-jira-screenshots.png)
+![Bellatrix](../images/bug-reporting-jira-screenshots.png)
 
 Configuration
 -------------
